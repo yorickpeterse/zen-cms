@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <!-- Load all stylesheets -->
+    #{build_css}
+    
+    <title>#{@page_title}</title>
+  </head>
+
+  <body>
+    <!-- Top part of the admin panel that contains the logo/title and navigation -->
+    <div id="top">
+      <header class="container_12 clearfix">
+        
+        <div id="title_box" class="grid_4 prefix_4 suffix_4">
+          <h1>Zen Admin</h1>
+        </div>
+        
+      </header>
+    </div>
+    
+    <div id="container" class="container_12 clearfix">
+      <div id="left" class="grid_4 prefix_4 suffix_4">
+        #{@content}
+      </div>
+    </div>
+    
+    <footer class="container_12 clearfix">
+       <div class="grid_12">
+         <p>Zen v0.1</p>
+       </div>
+     </footer>
+    
+    <!-- Load our Javascripts -->
+    <script src="/admin/js/mootools/core.js"></script>
+    <script src="/admin/js/mootools/more.js"></script>
+    
+    <script>
+      Zen       = {};
+      Zen.Flash = #{flash.combined.to_json};
+    </script>
+    
+    #{build_js}
+  </body>
+</html>

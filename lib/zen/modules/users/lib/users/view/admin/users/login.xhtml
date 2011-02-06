@@ -1,0 +1,22 @@
+<article>
+  <header>
+    <h1>#{@page_title}</h1>
+  </header>
+  
+  <form method="post" action="#{@form_login_url}">
+    <p>
+      <label for="email">#{@users_lang.labels[:email]}</label>
+      <input type="text" name="email" id="email" />
+    </p>
+    <p>
+      <label for="password">#{@users_lang.labels[:password]}</label>
+      <input type="password" name="password" id="password" />
+    </p>
+    
+    <div class="clearfix">
+      <div class="button">
+        <input type="submit" value="#{@users_lang.buttons[:login]}" />
+      </div>
+    </div>
+  </form>
+</article>

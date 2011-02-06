@@ -1,0 +1,6 @@
+spec/zen/logs/*/*/*.log
+.DS_Store
+Gemfile.lock
+.yardoc
+doc
+!.gitkeep

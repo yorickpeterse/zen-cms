@@ -1,0 +1,118 @@
+/**
+ * Layout.css is the main stylesheet used to define where the main elements,
+ * such as the content area and the sidebar should be placed.
+ *
+ * @author  Yorick Peterse
+ * @since   0.1
+ * @license MIT License
+ * @link    http://ruby-zen.org/
+ */
+body
+{
+  background: url("../images/general/noise.jpg") repeat top left;
+}
+
+/* General elements */
+article
+{
+  background:    #fff;
+  border:        1px solid #444;
+  margin-bottom: 20px;
+  padding:       15px;
+}
+  article header h1
+  {
+    border-bottom: 2px solid #eee;
+  }
+
+/* Top part of the admin panel that contains the header, heading and search box */
+#top
+{
+  background:    #444;
+  border-bottom: 1px solid #B6CCDE;
+  height:        50px;
+  margin-bottom: 35px;
+}
+  #top header h1
+  {
+    color:       #fff;
+    margin-top:  5px;
+    text-shadow: 1px 1px #000;
+  }
+  #top header nav ul
+  {
+    float:      right;
+    margin-top: 10px;
+  }
+    #top header nav > ul > li
+    {
+      border:          1px solid #000;
+      float:           left;
+      margin-left:     10px;
+    }
+      #top header nav ul li a
+      {
+        background:      #666;
+        border-top:      1px solid #aaa;
+        color:           #fff;
+        cursor:          pointer;
+        display:         block;
+        min-width:       50px;
+        padding:         5px;
+        text-decoration: none;
+        text-align:      center;
+        text-shadow:     1px 1px #000;
+      }
+      #top header nav ul li a:hover
+      {
+        background:         #888;
+        border-top:         1px solid #ccc;
+      }
+      #top header nav > ul > li ul
+      {
+        border:      1px solid #000;
+        left:        -10000px;
+        margin:      0px 0px 0px -1px;
+        position:    absolute;
+      }
+      #top header nav > ul > li:hover ul
+      {
+        left: auto;
+      }
+        #top header nav > ul > li ul li
+        {
+          border-bottom: 1px solid #000;
+        }
+        #top header nav > ul > li ul li:last-child
+        {
+          border-bottom: none;
+        }
+          #top header nav > ul > li ul li a
+          {
+            color:            #fff;
+            display:          block;
+            min-width:        100px;
+            padding:          5px;
+            text-decoration:  none;
+            text-shadow:      1px 1px #000;
+            text-align:       left;
+          }
+
+/* Right part of the admin panel */
+#right #profile_box img
+{
+  border:       5px solid #eee;
+  float:        left;
+  margin-right: 15px;
+}
+#right #profile_box p
+{
+  margin-bottom: 5px;
+}
+
+/* Bottom part of the admin panel that contains the footer */
+footer
+{
+  margin-top: 20px;
+  text-align: center;
+}

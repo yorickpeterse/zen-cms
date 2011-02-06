@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <!-- Core Javascript files required by all classes -->
+    <script src="../../../lib/zen/public/admin/js/mootools/core.js"></script>
+    <script src="../js/namespace.js"></script>
+    
+    <!-- Widgets, etc -->
+    <script src="../../../lib/zen/public/admin/js/zen/tabs.js"></script>
+    <script src="../js/tabs.js"></script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/typography.css">
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <title>Zen &bull; Tabs</title>
+  </head>
+  <body>
+    <div id="container" class="container_12 clearfix">
+      <section>
+        
+        <!-- General tabs -->
+        <article class="grid_12">
+          <header>
+            <h1>General Tabs</h1>
+          </header>
+          
+          <p>Two tabs, the first should be selected by default. The content of these tabs is loaded from hidden elements that already exist on the page.</p>
+          
+          <ul class="tabs clearfix">
+            <li>
+              <a href="#tab_1">Tab 1</a>
+            </li>
+            <li>
+              <a href="#tab_2">Tab 2</a>
+            </li>
+          </ul>
+          
+          <div id="tab_1" class="tab_content">
+            <p>Content of the first tab, should be shown by default.</p>
+          </div>
+          <div id="tab_2" class="tab_content">
+            <p>Content of the second tab.</p>
+          </div>
+        </article>
+        
+        
+        <!-- Ajax tabs -->
+        <article class="grid_12">
+          <header>
+            <h1>Ajax Tabs</h1>
+          </header>
+          
+          <p>Two tabs, the first should be selected by default. The content of these tabs is loaded from hidden elements that already exist on the page.</p>
+          
+          <ul class="ajax_tabs clearfix">
+            <li>
+              <a href="tab_1.html">Tab 1</a>
+            </li>
+            <li>
+              <a href="tab_2.html">Tab 2</a>
+            </li>
+          </ul>
+        </article>
+        
+        
+      </section>
+    </div>
+  </body>
+</html>

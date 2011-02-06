@@ -1,0 +1,36 @@
+#{
+form_for(@category, :method => :post, :action => @form_save_url) do |f|
+  f.input_hidden :category_group_id, @category_group_id
+  f.input_hidden :id, @category.id
+  f.input_hidden :csrf_token, get_csrf_token
+  
+  f.g.div :id => 'general' do
+    f.input_text @categories_lang.labels[:name], :name
+    f.input_text @categories_lang.labels[:slug], :slug
+    
+    
+    # Generate the dropdown that contains all possible parent categories    
+    parent_categories = Categories::Models::Category.pk_hash(:name)
+    parent_categories.delete(@category.id)
+    parent_categories['--'] = '--'
+    
+    if !@category.parent_id.nil?
+      selected = @category.parent_id
+    else
+      selected = '--'
+    end
+    
+    if !parent_categories.empty?
+      f.select @categories_lang.labels[:parent], :parent_id, :values => parent_categories, :size => 1, :selected => selected
+    end
+    
+    f.textarea @categories_lang.labels[:description], :description, :rows => 8
+  end
+  
+  f.g.div :class => "clearfix" do
+    f.g.div :class => "button" do
+      f.g.input :type => 'submit', :value => @categories_lang.buttons[:save_category]
+    end
+  end
+end
+}

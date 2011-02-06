@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <!-- Load all stylesheets -->
+    #{build_css}
+    
+    <title>#{@page_title}</title>
+  </head>
+
+  <body>
+    <!-- Top part of the admin panel that contains the logo/title and navigation -->
+    <div id="top">
+      <header class="container_12 clearfix">
+        
+        <div id="title_box" class="grid_7">
+          <h1>Zen Admin</h1>
+        </div>
+        
+        <nav class="grid_5">
+          #{Zen::Extension.build_menu("clearfix")}
+        </nav>
+        
+      </header>
+    </div>
+    
+    <div id="container" class="container_12 clearfix">
+      <div id="left" class="grid_9">
+        #{@content}
+      </div>
+      
+      <div id="right" class="grid_3">
+        
+        <article>
+          <header>
+            <h1>#{session[:user].name}</h1>
+          </header>
+          
+          <img src="#{gravatar(session[:user].email, :size => 150)}" alt="Gravatar" width="150" />
+        </article>
+        
+      </div>
+    </div>
+    
+    <footer class="container_12 clearfix">
+      <div class="grid_12">
+        <p>Zen v0.1</p>
+      </div>
+    </footer>
+    
+    <!-- Load our Javascripts -->
+    <script src="/admin/js/mootools/core.js"></script>
+    <script src="/admin/js/mootools/more.js"></script>
+    
+    <script>
+      Zen       = {};
+      Zen.Flash = #{flash.combined.to_json};
+    </script>
+    
+    #{build_js}
+  </body>
+</html>

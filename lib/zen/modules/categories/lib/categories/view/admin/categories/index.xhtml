@@ -1,0 +1,70 @@
+<article>
+  <header>
+    <h1>#{get_breadcrumbs}</h1>
+  </header>
+  
+  <form method="post" action="#{@form_delete_url}">
+    <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <input type="hidden" name="category_group_id" value="#{@category_group_id}" />
+    
+    <?r if @categories and !@categories.empty? ?>
+    
+    <table class="table">
+      <thead>
+        <tr>
+          <?r if user_authorized?([:delete]) ?>
+          <th>
+            <input type="checkbox" />
+          </th>
+          <?r end ?>
+          
+          <th>#{@categories_lang.labels[:id]}</th>
+          <th>#{@categories_lang.labels[:name]}</th>
+          <th>#{@categories_lang.labels[:slug]}</th>
+          <th>#{@categories_lang.labels[:parent]}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?r @categories.each do |category| ?>
+        <tr>
+          <?r if user_authorized?([:delete]) ?>
+          <td>
+            <input type="checkbox" name="category_ids[]" value="#{category.id}" />
+          </td>
+          <?r end ?>
+          
+          <td>#{category.id}</td>
+          
+          <?r if user_authorized?([:update]) ?>
+          <td>#{anchor_to(category.name, "admin/categories/edit/#{@category_group_id}/#{category.id}")}</td>
+          <?r else ?>
+          <td>#{category.name}</td>
+          <?r end ?>
+          
+          <td>#{category.slug}</td>
+          <td>#{category.parent.name if category.parent.respond_to?(:name)}</td>
+        </tr>
+        <?r end ?>
+      </tbody>
+    </table>
+    
+    <?r else ?>
+    <p>#{@categories_lang.messages[:no_categories]}</p>
+    <?r end ?>
+    
+    <div class="clearfix">
+      <?r if user_authorized?([:create]) ?>
+      <div class="button">
+        #{anchor_to(@categories_lang.buttons[:new_category], "admin/categories/new/#{@category_group_id}")}
+      </div>
+      <?r end ?>
+      
+      <?r if user_authorized?([:delete]) and @categories and !@categories.empty? ?>
+      <div class="button">
+        <input type="submit" value="#{@categories_lang.buttons[:delete_categories]}" />
+      </div>
+      <?r end ?>
+      
+    </div>
+  </form>
+</article>

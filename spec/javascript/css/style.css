@@ -1,0 +1,204 @@
+#container
+{
+  margin-top: 20px;
+}
+article
+{
+  margin-bottom: 20px;
+}
+ul, ol
+{
+  margin-left: 0px;
+}
+  ul li, ol li
+  {
+    margin-left: 15px;    
+  }
+
+/* Style our tabs */
+.tabs, .ajax_tabs
+{
+  background:      #ddd;
+  border:          1px solid #aaa;
+  list-style-type: none;
+  margin:          0px;
+  padding:         10px 5px;
+}
+  .tabs li, .ajax_tabs li
+  {
+    border:  1px solid #bbb;
+    float:   left;
+    margin:  0px 5px;
+    padding: 0px;
+  }
+    .tabs li a, .ajax_tabs li a
+    {
+      background:      #eee;
+      border:          1px solid #fff;
+      color:           #000;
+      display:         block;
+      padding:         5px 8px;
+      text-decoration: none;
+    }
+    .tabs li a:hover, .ajax_tabs li a:hover, .tabs li.active a, .ajax_tabs li.active a
+    {
+      background: #fff;
+    }
+.tab_content
+{
+  background: #f2f2f2;
+  border:     1px solid #aaa;
+  border-top: 1px solid #fff;
+  padding:    10px;
+}
+
+/* Notifications */
+#notification_container
+{
+  position: absolute;
+  right:    10px;
+  top:      10px;
+}
+.notification
+{
+  background:    #000;
+  border-radius: 10px;
+  cursor:        pointer;
+  color:         #fff;
+  margin-bottom: 10px;
+  opacity:       0.7;
+  padding:       10px;
+  width:         230px;
+  
+  -moz-border-radius:    10px;
+  -webkit-border-radius: 10px;
+  -o-border-radius:      10px;
+  -khtml-border-radius:  10px;
+}
+  .notification .close
+  {
+    background: url("../images/close.png") no-repeat center left;
+    display:    none;
+    height:     30px;
+    left:       0px;
+    margin-top: -10px;
+    position:   absolute;
+    width:      30px;
+  }
+  .notification:hover .close
+  {
+    display: block;
+  }
+  .notification .image
+  {
+    float:        left;
+    margin-top:   5px;
+    margin-right: 10px;
+  }
+  .notification .title
+  {
+    font-size:     14px;
+    font-weight:   bold;
+    margin-bottom: 10px;
+  }
+  
+/* Styles for the visual editor */
+.editor_container
+{
+  background: #eee;
+  border:     1px solid #ccc;
+  padding:    5px;
+  width:      800px;
+}
+.editor_container .editor_toolbar
+{
+  height:    30px;
+}
+  .editor_container .editor_toolbar:after
+  {
+    clear:       both;
+    content:     ' ';
+    display:     block;
+    font-size:   0;
+    height:      0;
+    line-height: 0;
+    visibility:  hidden;
+    width:       0;
+  }
+    .editor_container .editor_toolbar ul
+    {
+      margin:  0px;
+      padding: 0px;
+    }
+      .editor_container .editor_toolbar ul li
+      {
+        border:          1px solid #ccc;
+        cursor:          pointer;
+        display:         block;
+        float:           left;
+        list-style-type: none;
+        height:          22px;
+        margin:          0px 5px 0px 0px;
+        padding:         3px 10px 0px 10px;
+      }
+      .editor_container .editor_toolbar ul li:hover
+      {
+        background: #ddd;
+      }
+.editor_container textarea
+{
+  border: 1px solid #ccc;
+  resize: both;
+  width:  793px;
+}
+
+/* Modal windows */
+#modal_background, #modal_container
+{
+  height:     100%;
+  left:       0px; 
+  position:   fixed;
+  top:        0px;
+  width:      100%;
+}
+#modal_container
+{
+  position:       absolute!important;
+}
+#modal_container:after
+{
+  clear:      both;
+  content:    '.';
+  display:    block;
+  height:     0;
+  visibility: hidden;
+}
+#modal_background
+{
+  background: #444;
+  opacity:    0.8;
+}
+  #modal_container #modal_window
+  {
+    background: #fff;
+    border:     1px solid #000;
+    margin:     5% auto 20px auto;
+    min-height: 50px;
+    padding:    20px 10px 10px 10px;
+    width:      50%;
+  }
+  #modal_container #modal_window.fullscreen
+  {
+    height:     90%;
+    margin-top: 2%;
+    width:      95%;
+  }
+    #modal_container #modal_window #modal_close
+    {
+      background: url("../images/close.png");
+      cursor:     pointer;
+      display:    block;
+      height:     30px;
+      margin:     -50px 0px 0px -20px;
+      width:      30px;
+    }

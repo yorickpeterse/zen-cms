@@ -1,0 +1,68 @@
+#{
+  form_for(@access_rule, :method => :post, :action => @form_save_url) do |f|
+    
+    users        = {}
+    groups       = {}
+    extensions   = {}
+    rule_applies = ''
+    
+    if !@access_rule.user_id.nil?
+      rule_applies = 'div_user_id'
+    else
+      rule_applies = 'div_user_group_id'
+    end
+    
+    Users::Models::User.select(:id, :name).each do |user|
+      users[user.id.to_s] = user.name
+    end
+    
+    Zen::Extension.extensions.each do |ident, ext|
+      extensions[ident] = ext.name
+    end
+    
+    Users::Models::UserGroup.select(:id, :name).each do |group|
+      groups[group.id.to_s] = group.name
+    end
+    
+    # ---------------------
+    
+    f.input_hidden :id, @access_rule.id
+    f.input_hidden :csrf_token, get_csrf_token
+    
+    f.input_radio @rules_lang.labels[:rule_applies], :rule_applies, rule_applies,
+      :values => @rules_lang.special[:rule_applies_hash]
+    
+    f.g.div :id => 'div_user_id' do
+      f.select @rules_lang.labels[:user], :user_id, :values => users,
+        :selected => @access_rule.user_id, :size => 1
+    end
+    
+    f.g.div :id => 'div_user_group_id' do
+      f.select @rules_lang.labels[:user_group], :user_group_id, :values => groups,
+        :selected => @access_rule.user_group_id, :size => 1
+    end
+      
+    # ---------------------
+    
+    f.select @rules_lang.labels[:extension], :extension, :values => extensions,
+      :selected => @access_rule.extension, :size => 1
+    
+    f.input_radio @rules_lang.labels[:create], :create_access, @access_rule.create_access,
+      :values => @rules_lang.special[:boolean_hash].invert
+      
+    f.input_radio @rules_lang.labels[:read], :read_access, @access_rule.read_access,
+      :values => @rules_lang.special[:boolean_hash].invert
+      
+    f.input_radio @rules_lang.labels[:update], :update_access, @access_rule.update_access,
+      :values => @rules_lang.special[:boolean_hash].invert
+    
+    f.input_radio @rules_lang.labels[:delete], :delete_access, @access_rule.delete_access,
+      :values => @rules_lang.special[:boolean_hash].invert
+    
+    f.g.div :class => 'clearfix' do
+      f.g.div :class => 'button' do
+        f.g.input :type => 'submit', :value => @rules_lang.buttons[:save]
+      end
+    end
+  end
+}

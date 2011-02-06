@@ -1,0 +1,31 @@
+#{
+  form_for(@comment, :method => :post, :action => @form_save_url) do |f|
+    f.input_hidden :csrf_token, get_csrf_token
+    f.input_hidden :id, @comment.id
+    
+    if !@comment.user_id
+      name    = @comment.name
+      website = @comment.website
+      email   = @comment.email
+    else
+      name    = @comment.user.name
+      website = @comment.user.website
+      email   = @comment.user.email
+    end
+    
+    f.input_text @comments_lang.labels[:name], :name, :value => name
+    f.input_text @comments_lang.labels[:website], :website, :value => website
+    f.input_text @comments_lang.labels[:email], :email, :value => email
+    
+    f.select @comments_lang.labels[:status], :status, :values => @comments_lang.special[:status_hash],
+      :selected => @comment.status, :size => 1
+    
+    f.textarea @comments_lang.labels[:comment], :comment, :rows => 10
+    
+    f.g.div :class => 'clearfix' do
+      f.g.div :class => 'button' do
+        f.g.input :type => 'submit', :value => @comments_lang.buttons[:save_comment]
+      end
+    end
+  end
+}

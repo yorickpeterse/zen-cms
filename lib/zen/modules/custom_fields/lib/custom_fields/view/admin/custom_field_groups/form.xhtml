@@ -1,0 +1,18 @@
+#{
+form_for(@field_group, :method => :post, :action => @form_save_url) do |f|
+  f.input_hidden :id, @field_group.id
+  f.input_hidden :csrf_token, get_csrf_token
+  
+  f.g.div :id => 'general' do
+    f.input_text @field_groups_lang.labels[:name], :name
+    
+    f.textarea @field_groups_lang.labels[:description], :description, :rows => 8
+  end
+  
+  f.g.div :class => "clearfix" do
+    f.g.div :class => "button" do
+      f.g.input :type => 'submit', :value => @field_groups_lang.buttons[:save_group]
+    end
+  end
+end
+}

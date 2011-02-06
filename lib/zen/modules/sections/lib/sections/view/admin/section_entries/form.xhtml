@@ -1,0 +1,147 @@
+<div class="tabs">
+  <ul>
+    <li>
+      <a href="#basic">#{@entries_lang.tabs[:basic]}</a>
+    </li>
+    <li>
+      <a href="#categories">#{@entries_lang.tabs[:categories]}</a>
+    </li>
+    
+    <?r if @entry.section.custom_field_groups and !@entry.section.custom_field_groups.empty? ?>
+    <?r @entry.section.custom_field_groups.each do |group| ?>
+    <li>
+      <a href="#group_#{group.id}">#{group.name}</a>
+    </li>
+    <?r end ?>
+    <?r end ?>
+  </ul>
+</div>
+
+#{
+  form_for(@entry, :method => :post, :action => @form_save_url) do |f|
+    f.input_hidden :csrf_token, get_csrf_token
+    f.input_hidden :section_id, @section_id
+    f.input_hidden :id, @entry.id
+    
+    f.g.div :id => :basic do
+      f.input_text @entries_lang.labels[:title], :title
+      f.input_text @entries_lang.labels[:slug], :slug
+      f.select @entries_lang.labels[:author], :user_id, :values => @users_hash
+      
+      f.select @entries_lang.labels[:status], :status, :values => @entries_lang.special[:status_hash],
+        :selected => @entry.status, :size => 1
+    end
+    
+    f.g.div :id => :categories do
+      if @entry.section.category_groups
+        @entry.section.category_groups.each do |group|
+          categories = {}
+          group.categories.each do |category|
+            categories[category.id] = category.name
+          end
+          
+          f.select group.name, :category_pks, :values => categories, :multiple => :multiple,
+            :selected => @entry.category_pks
+        end
+      else
+        f.g.p @entries_lang.messages[:no_categories]
+      end
+    end
+    
+    # Organize all field values by field ID
+    field_values_by_id = {}
+    @entry.custom_field_values.each do |value|
+      field_values_by_id[value.custom_field_id] = value
+    end
+
+    # Loop through all the custom field groups
+    if @entry.section.custom_field_groups and !@entry.section.custom_field_groups.empty?
+      @entry.section.custom_field_groups.each do |group|
+      
+        f.g.div :id => "group_#{group.id}" do
+          # Show each custom field
+          if group.custom_fields and !group.custom_fields.empty?
+            group.custom_fields.each do |field|
+              
+              # Generate some global variables for all fields
+              field_name            = "custom_field_values[#{field.id}]"
+              possible_values       = {}
+              field.possible_values = '' if field.possible_values.nil?
+              
+              field.possible_values.split("\n").each do |row|
+                if row.include? '|'
+                  row   = row.split('|')
+                  key   = row[0]
+                  value = row[1]
+                else
+                  key = value = row
+                end
+                
+                possible_values[key] = value
+              end
+              
+              if field.text_limit == 0
+                text_limit = nil
+              else
+                text_limit = field.text_limit
+              end
+            
+              # Get the current field's value
+              field_value = field_values_by_id[field.id].value rescue nil
+     
+              case field.type
+                when "textbox" then
+                  f.input_text field.name, field_name, :maxlength => text_limit,
+                    :value => field_value, :placeholder => field.description, :'data-format' => field.format
+                
+                when "textarea" then
+                  if field.visual_editor == true
+                    textarea_class = 'visual_editor'
+                  else
+                    textarea_class = nil
+                  end
+                  
+                  f.textarea field.name, field_name, :rows => field.textarea_rows, :maxlength => text_limit,
+                    :value => field_value, :class => textarea_class, :placeholder => field.description,
+                    :'data-format' => field.format
+                
+                when "radio" then
+                  f.input_radio field.name, field_name, field_value, :values => possible_values,
+                    :placeholder => field.description, :'data-format' => field.format
+                  
+                when "checkbox" then
+                  f.input_checkbox field.name, field_name, field_value, :values => possible_values,
+                    :placeholder => field.description, :'data-format' => field.format
+                
+                when "file" then
+                  f.file field.name, field_name, :placeholder => field.description, :'data-format' => field.format
+                
+                when "date" then
+                  f.input_text field.name, field_name, :value => field_value, :class => 'date',
+                    :placeholder => field.description, :'data-format' => field.format
+                
+                when "select" then
+                  possible_values = possible_values.invert
+                  f.select field.name, field_name, :values => possible_values, :selected => field_value,
+                    :size => 1, :placeholder => field.description, :'data-format' => field.format
+                
+                when "select_multiple" then
+                  possible_values = possible_values.invert
+                  f.select field.name, field_name, :values => possible_values, :selected => field_value,
+                    :multiple => :multiple, :placeholder => field.description, :'data-format' => field.format
+              end
+            
+            end
+          end
+        end
+        
+      end
+    end
+    
+    f.g.div :class => 'clearfix' do
+      f.g.div :class => 'button' do
+        f.g.input :type => 'submit', :value => @entries_lang.buttons[:save_entry]
+      end
+    end
+  end
+}
