@@ -21,6 +21,7 @@ h2. Requirements
 * RedCloth
 * RDiscount
 * Rake
+* Sequel Sluggable
 
 h2. Installation
 

@@ -68,6 +68,7 @@ module Sections
           result << render_all(@nodelist, context)
         end
         
+        result << render_all(@nodelist, context) if result.empty?
         return result
       end
     end

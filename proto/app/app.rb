@@ -1,5 +1,5 @@
 # Load the Zen gem
-require File.expand_path('../../zen/lib/zen', __FILE__)
+require 'zen'
 
 # Load the configuration files
 require __DIR__ 'config/config'

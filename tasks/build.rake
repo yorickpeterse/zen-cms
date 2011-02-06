@@ -34,7 +34,7 @@ namespace :build do
       end
     end
     
-    Rake::Task["build:normal"].invoke
+    Rake::Task["build:gem"].invoke
   end
 
   desc 'Build the MANIFEST file.'

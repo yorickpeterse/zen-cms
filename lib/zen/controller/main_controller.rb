@@ -39,7 +39,7 @@ module Zen
         
         # A theme is always required
         if settings[:theme].nil?
-          respond("Before using Zen you'll need to specify a theme to use.")
+          respond(@zen_general_lang.errors[:no_theme])
         end
         
         theme    = ::Zen::Package[settings[:theme]]

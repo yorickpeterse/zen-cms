@@ -1,2 +1,2 @@
 require File.expand_path('../app.rb', __FILE__)
-require __DIR__ '../zen/lib/zen/tasks.rb'
+require 'zen/tasks'

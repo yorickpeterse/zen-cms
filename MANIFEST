@@ -236,10 +236,10 @@ lib/zen/packages/users/lib/users/view/admin/users/new.xhtml
 lib/zen/packages/users/lib/users.rb
 lib/zen/packages/users/migrations/.gitkeep
 lib/zen/packages/users/migrations/1295281013_create_schema.rb
-lib/zen/public/admin/css/base.css
-lib/zen/public/admin/css/elements.css
+lib/zen/public/admin/css/boilerplate.css
+lib/zen/public/admin/css/general.css
+lib/zen/public/admin/css/grid.css
 lib/zen/public/admin/css/layout.css
-lib/zen/public/admin/css/typography.css
 lib/zen/public/admin/images/general/noise.jpg
 lib/zen/public/admin/images/icons/accept.png
 lib/zen/public/admin/images/icons/add.png

@@ -25,9 +25,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'bcrypt-ruby'
   s.add_dependency 'liquid'
   s.add_dependency 'json'
-  s.add_dependency 'redcloth'
+  s.add_dependency 'RedCloth'
   s.add_dependency 'rdiscount'
   s.add_dependency 'thor'
   s.add_dependency 'rake'
   s.add_dependency 'defensio'
+  s.add_dependency 'sequel_sluggable'
 end

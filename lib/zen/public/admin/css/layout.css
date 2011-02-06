@@ -32,6 +32,7 @@
         margin:           3px 10px;
         padding:          3px 3px 5px 3px;
         text-decoration:  none;
+        text-align:       center;
       }
       #top #main_nav ul li:hover, #top #main_nav ul li a:hover
       {
@@ -55,7 +56,7 @@
             background:    none;
             margin:        0px;
             padding:       5px;
-            width:         120px;
+            text-align:    left;
           }
           #top #main_nav ul li ul li a:hover
           {
@@ -91,6 +92,10 @@
   margin: 20px auto;
   width:  500px;
 }
+  #login #container
+  {
+    margin-top: 50px;
+  }
   
 /**
  * Bottom part of the admin panel containing the footer

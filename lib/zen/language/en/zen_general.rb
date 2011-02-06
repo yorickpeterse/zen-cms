@@ -14,7 +14,8 @@ Zen::Language.translation 'zen_general' do |item|
     :csrf            => "The specified request can't be executed without a valid CSRF token.",
     :not_authorized  => "You are not authorized to access the current page.",
     :website_offline => "This website is currently offline.",
-    :no_templates    => "No templates were found for the given action."
+    :no_templates    => "No templates were found for the given action.",
+    :no_theme        => "Before using Zen you'll need to specify a theme to use."
   }
   
 end
