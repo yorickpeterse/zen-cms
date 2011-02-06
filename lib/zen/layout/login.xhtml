@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="#{session[:settings][:language]}">
   <head>
     <meta charset="utf-8" />
     
@@ -9,31 +9,28 @@
     <title>#{@page_title}</title>
   </head>
 
-  <body>
-    <!-- Top part of the admin panel that contains the logo/title and navigation -->
-    <div id="top">
-      <header class="container_12 clearfix">
-        
-        <div id="title_box" class="grid_4 prefix_4 suffix_4">
-          <h1>Zen Admin</h1>
-        </div>
-        
-      </header>
-    </div>
-    
-    <div id="container" class="container_12 clearfix">
-      <div id="left" class="grid_4 prefix_4 suffix_4">
+  <body id="login">
+    <!--
+      Main area of the admin panel. The content stretches across the entire screen and there
+      are no silly sidebars.
+    -->
+    <div id="container" class="container">
+      <div id="content" class="grid_12">
         #{@content}
       </div>
     </div>
     
-    <footer class="container_12 clearfix">
-       <div class="grid_12">
-         <p>Zen v0.1</p>
-       </div>
-     </footer>
+    <footer id="main_footer" class="container">
+      <div class="grid_12">
+        <p>#{@zen_general_lang.labels[:zen_version]}</p>
+        <p>
+          <a href="http://zen-cms.com/">#{@zen_general_lang.labels[:zen_website]}</a> |
+          <a href="http://zen-cms.com/documentation">#{@zen_general_lang.labels[:zen_docs]}</a> |
+          <a href="https://github.com/zen-cms/">#{@zen_general_lang.labels[:zen_github]}</a>
+        </p>
+      </div>
+    </footer>
     
-    <!-- Load our Javascripts -->
     <script src="/admin/js/mootools/core.js"></script>
     <script src="/admin/js/mootools/more.js"></script>
     

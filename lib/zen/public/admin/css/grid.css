@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+/**
+ * Modified version of the CSS grid (aka 1140 CSS) that can be found at http://cssgrid.net
+ * 
+ * This modified version has some extra enhancements to make it a bit easier to work with
+ * the grid. Along with these minor fixes I also renamed all grid classes to the names
+ * used by the 960 grid system as I find "grid_6" easier to write than "sixcol".
+ *
+ * @author Yorick Peterse
+ * @since  0.1a
+ */
+
+/**
+ * Main container element in which all grid elements should be placed.
+ * This container stretches across the entire screen but has a padding of 20 pixels on both
+ * the left and the right side.
+ */
+.container
+{
+  margin:    0 2%;
+  overflow:  hidden;
+  width:     96%;
+}
+/* Clear the floats so background colors and other properties can be used properly */
+.container:after, .clearfix:after
+{
+  clear:      both;
+  content:    '.';
+  display:    block;
+  height:     0;
+  visibility: hidden;
+}
+
+.grid_1, .grid_2, .grid_3, .grid_4 , .grid_5, .grid_6,
+.grid_7, .grid_8, .grid_9, .grid_10, .grid_11
+{
+  float:        left;
+  margin-right: 3.8%;
+}
+
+.grid_1
+{
+  width: 4.85%;
+}
+
+.grid_2
+{
+  width: 13.5%;
+}
+
+.grid_3
+{
+  width: 22.15%;
+}
+
+.grid_4
+{
+  width: 30.8%;
+}
+
+.grid_5
+{
+  width: 39.45%;
+}
+
+.grid_6
+{
+  width: 48.1%;
+}
+
+.grid_7
+{
+  width: 56.75%;
+}
+
+.grid_8
+{
+  width: 65.4%;
+}
+
+.grid_9
+{
+  width: 74.05%;
+}
+
+.grid_10
+{
+  width: 82.7%;
+}
+
+.grid_11
+{
+  width: 91.35%;
+}
+
+.grid_12
+{
+  width: 100%;
+  float: left;
+}
+
+/**
+ * The last grid element shouldn't have a margin on the right side as that will cause
+ * the grid to break as the element will be pushed to a new row. If you require your website
+ * to be compatible with IE7/IE8 you can still use the class "last" on your elements.
+ */
+.container > *:last-child, .container .last
+{
+  margin-right: 0px;
+}
+
+/**
+ * Dynamically resize elements such as images, flash movies and embedded content.
+ */
+img, object, embed
+{
+  max-width: 100%;
+}

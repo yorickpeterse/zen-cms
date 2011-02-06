@@ -1,12 +1,78 @@
+@charset "UTF-8";
+
 /**
- * Elements.css is used to style various HTML elements such as tables, forms, etc.
- * 
- * @author  Yorick Peterse
- * @since   0.1
- * @license MIT License
- * @package Zen
- * @link    http://zen-cms.com/
+ * Stylesheet used for styling general elements such as tables and forms.
+ *
+ * @author Yorick Peterse
+ * @since  0.1a
  */
+
+/**
+ * General CSS rules such as those for the body background and font family.
+ */
+body
+{
+  background:  #eee;
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, sans-serif;
+}
+
+/* Headings */
+h1 
+{
+  font-size:25px;
+}
+h2 
+{
+  font-size:23px;
+}
+h3 
+{
+  font-size:21px;
+}
+h4 
+{
+  font-size:19px;
+}
+h5 
+{
+  font-size:17px;
+}
+h6 
+{
+  font-size:15px;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+  margin-bottom: 15px;
+}
+
+/* List elements */
+ol 
+{
+  list-style:decimal;
+}
+ul 
+{
+  list-style:disc;
+}
+li 
+{
+  margin-left:30px;
+}
+
+/* General */
+p,dl,hr,ol,ul,pre,table,address,fieldset 
+{
+  margin-bottom: 20px;
+}
+hr
+{
+  border:           0 #ccc solid;
+  border-top-width: 1px;
+  clear:            both;
+  height:           0;
+}
 
 /* Tables */
 table
@@ -63,7 +129,7 @@ table thead tr th, table tbody tr td
   {
     margin-top:  3px;
   }
-
+  
 /* Forms */
 form label
 {
@@ -95,8 +161,8 @@ input[type="text"], input[type="password"], textarea
 /* Radios and checkboxes */
 input[type="radio"], input[type="checkbox"]
 {
-  cursor:        pointer;
-  margin:        0px 5px 5px 0px;
+  cursor:      pointer;
+  margin:      0px 5px 5px 0px;
 }
 .radio_wrap, .checkbox_wrap
 {
@@ -148,6 +214,10 @@ select
     text-decoration: none;
     text-shadow:     1px 1px #fff;
     text-align:      center;
+  }
+  .button a
+  {
+    padding: 7px 5px 6px 5px;
   }
   .button input[type="submit"]
   {
@@ -242,8 +312,12 @@ select
 {
   position: absolute;
   right:    10px;
-  top:      10px;
+  top:      35px;
 }
+  #login #notification_container
+  {
+    top: 10px;
+  }
 .notification
 {
   background:    #000;

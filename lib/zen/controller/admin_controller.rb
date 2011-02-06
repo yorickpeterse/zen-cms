@@ -44,10 +44,11 @@ module Zen
         super
         
         # Load our CSS and Javascript files
-        require_css 'base', 'layout', 'elements', 'typography'
-        require_js 'zen/tabs', 'zen/notification', 'zen/modal', 'zen/editor/base',
+        require_css('boilerplate', 'grid', 'layout', 'general')
+        require_js('zen/tabs', 'zen/notification', 'zen/modal', 'zen/editor/base',
           'zen/editor/drivers/html', 'zen/editor/drivers/textile', 'zen/editor/drivers/markdown',
           'zen/init'
+        )
         
         # Only allow users to access admin/users/login when they aren't logged in
         if request.env['SCRIPT_NAME'] != 'admin/users/' and request.env['PATH_INFO'] != '/login'

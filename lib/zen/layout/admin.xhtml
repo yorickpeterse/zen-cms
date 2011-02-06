@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="#{session[:settings][:language]}">
   <head>
     <meta charset="utf-8" />
     
@@ -9,47 +9,56 @@
     <title>#{@page_title}</title>
   </head>
 
-  <body>
-    <!-- Top part of the admin panel that contains the logo/title and navigation -->
+  <body id="admin">
+    <!--
+      Top part of the admin panel that contains the navigation menu along with a small
+      gravatar of the user.
+    -->
     <div id="top">
-      <header class="container_12 clearfix">
-        
-        <div id="title_box" class="grid_7">
-          <h1>Zen Admin</h1>
-        </div>
-        
-        <nav class="grid_5">
-          #{Zen::Package.build_menu("clearfix")}
+      <header class="container">
+        <!--
+          Main navigation of the backend. Navigation items may be excluded if the user
+          doesn't have the required permissions for the extension that created it.
+        -->
+        <nav id="main_nav" class="grid_12">
+          #{Zen::Package.build_menu("left")}
+          
+          <ul class="right clearfix">
+            <li>
+              <a href="/admin/users/logout">#{@zen_general_lang.labels[:logout]}</a>
+            </li>
+            <li>
+              <a href="/admin/users/edit/#{session[:user].id}">#{@zen_general_lang.labels[:profile]}</a>
+            </li>
+            <li>
+              <a href="/">#{@zen_general_lang.labels[:view_website]}</a>
+            </li>
+          </ul>
         </nav>
-        
       </header>
     </div>
     
-    <div id="container" class="container_12 clearfix">
-      <div id="left" class="grid_9">
+    <!--
+      Main area of the admin panel. The content stretches across the entire screen and there
+      are no silly sidebars.
+    -->
+    <div id="container" class="container">
+      <div id="content" class="grid_12">
         #{@content}
-      </div>
-      
-      <div id="right" class="grid_3">
-        
-        <article>
-          <header>
-            <h1>#{session[:user].name}</h1>
-          </header>
-          
-          <img src="#{gravatar(session[:user].email, :size => 150)}" alt="Gravatar" width="150" />
-        </article>
-        
       </div>
     </div>
     
-    <footer class="container_12 clearfix">
+    <footer id="main_footer" class="container">
       <div class="grid_12">
-        <p>Zen v0.1</p>
+        <p>#{@zen_general_lang.labels[:zen_version]}</p>
+        <p>
+          <a href="http://zen-cms.com/">#{@zen_general_lang.labels[:zen_website]}</a> |
+          <a href="http://zen-cms.com/documentation">#{@zen_general_lang.labels[:zen_docs]}</a> |
+          <a href="https://github.com/zen-cms/">#{@zen_general_lang.labels[:zen_github]}</a>
+        </p>
       </div>
     </footer>
     
-    <!-- Load our Javascripts -->
     <script src="/admin/js/mootools/core.js"></script>
     <script src="/admin/js/mootools/more.js"></script>
     

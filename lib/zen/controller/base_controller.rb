@@ -32,7 +32,7 @@ module Zen
         
         # Override the language
         Zen.options.language = session[:settings][:language]
-        @zen_general_lang    = Zen::Language.load('general')
+        @zen_general_lang    = Zen::Language.load('zen_general')
       end
     end
   end
