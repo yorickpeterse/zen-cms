@@ -1,5 +1,5 @@
 
-Zen::Extension.add do |ext|
+Zen::Package.add do |ext|
   ext.name        = ''
   ext.author      = ''
   ext.url         = ''

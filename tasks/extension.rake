@@ -4,7 +4,7 @@ namespace :extension do
   
   desc "List all loaded extensions and their details"
   task :list do
-    Zen::Extension.extensions.each do |ident, ext|
+    Zen::Package.extensions.each do |ident, ext|
       puts "Name: #{ext.name}"
       puts "Author: #{ext.author}"
       puts "Identifier: #{ext.identifier}"
@@ -22,11 +22,11 @@ namespace :extension do
       version = version.to_i
     end
     
-    if Zen::Extension.extensions.nil? or Zen::Extension.extensions.empty?
+    if Zen::Package.extensions.nil? or Zen::Package.extensions.empty?
       abort "No extensions have been loaded. Be sure to add them to config/requires.rb"
     end
     
-    Zen::Extension.extensions.each do |ident, ext|
+    Zen::Package.extensions.each do |ident, ext|
       exts.push(ext)
     end
     

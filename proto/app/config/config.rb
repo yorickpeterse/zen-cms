@@ -13,6 +13,5 @@ Ramaze.options.mode = :dev
 
 # Configure sessions
 Ramaze.options.session.key   = 'zen.sid'
-Ramaze::Adapter.options.port = 7000
 
 Ramaze::View.options.cache   = false

@@ -4,7 +4,7 @@ namespace :db do
   
   desc "Install/update all extensions"
   task :migrate do
-    exts = Zen::Extension.extensions
+    exts = Zen::Package.extensions
 
     puts "Migrating..."
     exts.each do |ident, ext|
@@ -23,7 +23,7 @@ namespace :db do
   
   desc "Delete the database"
   task :delete do
-    exts = Zen::Extension.extensions.map { |ident, ext| [ident, ext] }
+    exts = Zen::Package.extensions.map { |ident, ext| [ident, ext] }
 
     exts.reverse.each do |ident, ext|
       dir   = ext.directory + '/../../migrations'

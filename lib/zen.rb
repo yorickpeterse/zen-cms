@@ -33,7 +33,7 @@ module Zen
   # Load all classes/modules provided by Zen itself.
   require __DIR__ 'zen/base/logger'
   require __DIR__ 'zen/base/database'
-  require __DIR__ 'zen/base/extensions'
+  require __DIR__ 'zen/base/package'
   require __DIR__ 'zen/base/language'
   
   # Load all the base controllers

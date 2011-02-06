@@ -24,7 +24,10 @@ module Zen
       #
       def index(*uri)
         settings = session[:settings]
-        @uri     = uri
+        @uri     = []
+        
+        # Clean the URI of nasty input
+        uri.each { |v| @uri.push(h(v)) }
         
         if !@uri[0] or @uri[0].empty?
           @uri[0] = settings[:default_section]
@@ -34,7 +37,12 @@ module Zen
           @uri[1] = 'index'
         end
         
-        theme    = settings[:theme]
+        # A theme is always required
+        if settings[:theme].nil?
+          respond("Before using Zen you'll need to specify a theme to use.")
+        end
+        
+        theme    = ::Zen::Package[settings[:theme]]
         group    = @uri[0]
         template = @uri[1]
         
@@ -48,34 +56,34 @@ module Zen
         end
         
         # Create the group, template and partial paths
-        theme_path    = Zen.options.root + "/public/themes/#{theme}"
-        group_path    = theme_path + "/view/#{group}"
-        template_path = theme_path + "/view/#{group}/#{template}.liquid"
+        theme_path    = theme.directory + '/templates'
+        group_path    = theme_path + "/#{group}"
+        template_path = theme_path + "/#{group}/#{template}.liquid"
         
         # Register our partial path
-        partial_path                   = theme_path + "/view/partials"
+        partial_path                   = theme_path + "/partials"
         ::Liquid::Template.file_system = ::Liquid::LocalFileSystem.new(partial_path)
         
         # Is the website down?
         if settings[:website_enabled] == '0'
-          offline_path = theme_path + "/view/offline.liquid"
+          offline_path = theme_path + "/offline.liquid"
           
           if File.exist?(offline_path)
             render_file offline_path
           else
-            respond("This website is currently offline")
+            respond(@zen_general_lang.errors[:website_offline])
           end
         else
           # Check if the group exists
           if File.directory?(group_path) and File.exists?(template_path)
             render_file template_path
           else
-            not_found = theme_path + "/view/404.liquid"
+            not_found = theme_path + "/404.liquid"
             
             if File.exist?(not_found)
               render_file not_found
             else
-              respond("No templates were found for the given action", 404)
+              respond(@zen_general_lang.errors[:no_templates], 404)
             end
           end
         end
