@@ -6,10 +6,9 @@ module Zen
     # displaying elements seperated by a comma and want to remove the last comma.
     #
     # @example
-    #
-    # {% strip end=", " %}
-    # Hello, world, 
-    # {% endstrip %}
+    #  {% strip end=", " %}
+    #    Hello, world, 
+    #  {% endstrip %}
     #
     # This tag has the following options:
     #
