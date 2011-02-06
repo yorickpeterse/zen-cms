@@ -1,6 +1,7 @@
 require File.expand_path '../../spec', __FILE__
 
 Zen::Package.add do |ext|
+  ext.type       = 'extension'
   ext.name       = "Spec"
   ext.author     = "Yorick Peterse"
   ext.version    = 1.0
