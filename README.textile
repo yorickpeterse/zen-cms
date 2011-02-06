@@ -16,10 +16,11 @@ h2. Requirements
 * BCrypt
 * JSON
 * Ruby 1.9.2
-
-Currently you'll need to build both Rack, Ramaze and possibily Innate manually as Zen
-uses various new features of these Gems that were recently introduced. This will no longer
-be required once a new version of Rack/Ramaze is released.
+* Defensio
+* Thor
+* RedCloth
+* RDiscount
+* Rake
 
 h2. Installation
 
@@ -30,7 +31,7 @@ $ zen app application_name
 
 If you like to hack with the core of Zen it's best to install it using Git:
 
-bc. $ git clone git://github.com/RubyZen/zen-core.git
+bc. $ git clone git://github.com/zen-cms/zen-core.git
 $ cd zen-core
 $ rake build:gem_clean
 

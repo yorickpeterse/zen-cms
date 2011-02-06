@@ -7,5 +7,5 @@ module Zen
   # @author Yorick Peterse
   # @since  0.1
   #
-  Version = '0.1.1'
+  Version = '0.1a'
 end

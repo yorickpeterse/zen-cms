@@ -159,8 +159,8 @@ Example:
   $ zen app blog
 
 Project Details:
-  * website: http://ruby-zen.org/
-  * github: https://github.com/rubyzen/
+  * website: http://zen-cms.com/
+  * github: https://github.com/zen-cms/
   * version: v#{Zen::Version}
 
 "
