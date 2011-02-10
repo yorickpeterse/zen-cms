@@ -1,77 +1,77 @@
 <article>
-  <header>
-    <h1>#{get_breadcrumbs}</h1>
-  </header>
-  
-  <form method="post" action="#{@form_delete_url}">
-    <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
     
-    <?r if @sections and !@sections.empty? ?>
-    
-    <table class="table">
-      <thead>
-        <tr>
-          <?r if user_authorized?([:delete]) ?>
-          <th>
-            <input type="checkbox" />
-          </th>
-          <?r end ?>
-          
-          <th>#{@sections_lang.labels[:id]}</th>
-          <th>#{@sections_lang.labels[:name]}</th>
-          <th>#{@sections_lang.labels[:slug]}</th>
-          <th>#{@sections_lang.labels[:comment_allow]}</th>
-          
-          <?r if user_authorized?([:create]) ?>
-          <th></th>
-          <?r end ?>
-        </tr>
-      </thead>
-      <tbody>
-        <?r @sections.each do |section| ?>
-        <tr>
-          <?r if user_authorized?([:delete]) ?>
-          <td>
-            <input type="checkbox" name="section_ids[]" value="#{section.id}" />
-          </td>
-          <?r end ?>
-          
-          <td>#{section.id}</td>
-          
-          <?r if user_authorized?([:update]) ?>
-          <td>#{anchor_to(section.name, "admin/edit/#{section.id}", :title => section.name)}</td>
-          <?r else ?>
-          <td>#{section.name}</td>
-          <?r end ?>
-          
-          <td>#{section.slug}</td>
-          <td>#{@sections_lang.special[:boolean_hash].invert[section.comment_allow]}</td>
-          
-          <?r if user_authorized?([:create]) ?>
-          <td>#{anchor_to(@sections_lang.labels[:manage_entries], "admin/section_entries/index/#{section.id}")}</td>
-          <?r end ?>
-        </tr>
+    <form method="post" action="#{@form_delete_url}">
+        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+        
+        <?r if @sections and !@sections.empty? ?>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <th>
+                        <input type="checkbox" />
+                    </th>
+                    <?r end ?>
+                    
+                    <th>#{@sections_lang.labels[:id]}</th>
+                    <th>#{@sections_lang.labels[:name]}</th>
+                    <th>#{@sections_lang.labels[:slug]}</th>
+                    <th>#{@sections_lang.labels[:comment_allow]}</th>
+                    
+                    <?r if user_authorized?([:create]) ?>
+                    <th></th>
+                    <?r end ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?r @sections.each do |section| ?>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <td>
+                        <input type="checkbox" name="section_ids[]" value="#{section.id}" />
+                    </td>
+                    <?r end ?>
+                    
+                    <td>#{section.id}</td>
+                    
+                    <?r if user_authorized?([:update]) ?>
+                    <td>#{anchor_to(section.name, "admin/edit/#{section.id}", :title => section.name)}</td>
+                    <?r else ?>
+                    <td>#{section.name}</td>
+                    <?r end ?>
+                    
+                    <td>#{section.slug}</td>
+                    <td>#{@sections_lang.special[:boolean_hash].invert[section.comment_allow]}</td>
+                    
+                    <?r if user_authorized?([:create]) ?>
+                    <td>#{anchor_to(@sections_lang.labels[:manage_entries], "admin/section_entries/index/#{section.id}")}</td>
+                    <?r end ?>
+                </tr>
+                <?r end ?>
+            </tbody>
+        </table>
+        
+        <?r else ?>
+        <p>#{@sections_lang.messages[:no_sections]}</p>
         <?r end ?>
-      </tbody>
-    </table>
-    
-    <?r else ?>
-    <p>#{@sections_lang.messages[:no_sections]}</p>
-    <?r end ?>
-    
-    <div class="clearfix">
-      <?r if user_authorized?([:create]) ?>
-      <div class="button">
-        #{anchor_to(@sections_lang.buttons[:new_section], "admin/new")}
-      </div>  
-      <?r end ?>
-      
-      <?r if user_authorized?([:delete]) and @sections and !@sections.empty? ?>
-      <div class="button">
-        <input type="submit" value="#{@sections_lang.buttons[:delete_sections]}" />
-      </div>
-      <?r end ?>
-    </div>
+        
+        <div class="clearfix">
+            <?r if user_authorized?([:create]) ?>
+            <div class="button">
+                #{anchor_to(@sections_lang.buttons[:new_section], "admin/new")}
+            </div>    
+            <?r end ?>
+            
+            <?r if user_authorized?([:delete]) and @sections and !@sections.empty? ?>
+            <div class="button">
+                <input type="submit" value="#{@sections_lang.buttons[:delete_sections]}" />
+            </div>
+            <?r end ?>
+        </div>
 
-  </form>
+    </form>
 </article>

@@ -1,74 +1,74 @@
 <article>
-  <header>
-    <h1>#{get_breadcrumbs}</h1>
-  </header>
-  
-  <form method="post" action="#{@form_delete_url}">
-    <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
     
-    <?r if @entries and !@entries.empty? ?>
-    
-    <table class="table">
-      <thead>
-        <tr>
-          <?r if user_authorized?([:delete]) ?>
-          <th>
-            <input type="checkbox" />
-          </th>
-          <?r end ?>
-          
-          <th>#{@entries_lang.labels[:id]}</th>
-          <th>#{@entries_lang.labels[:title]}</th>
-          <th>#{@entries_lang.labels[:slug]}</th>
-          <th>#{@entries_lang.labels[:status]}</th>
-          <th>#{@entries_lang.labels[:created]}</th>
-          <th>#{@entries_lang.labels[:updated]}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?r @entries.each do |entry| ?>
-        <tr>
-          <?r if user_authorized?([:delete]) ?>
-          <td>
-            <input type="checkbox" name="section_entry_ids[]" value="#{entry.id}" />
-          </td>
-          <?r end ?>
-          
-          <td>#{entry.id}</td>
-          
-          <?r if user_authorized?([:update]) ?>
-          <td>#{anchor_to(entry.title, "admin/section_entries/edit/#{@section_id}/#{entry.id}")}</td>
-          <?r else ?>
-          <td>#{entry.title}</td>
-          <?r end ?>
-          
-          <td>#{entry.slug}</td>
-          <td>#{@entries_lang.special[:status_hash][entry.status]}</td>
-          <td>#{entry.created_at}</td>
-          <td>#{entry.updated_at}</td>
-        </tr>
+    <form method="post" action="#{@form_delete_url}">
+        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+        
+        <?r if @entries and !@entries.empty? ?>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <th>
+                        <input type="checkbox" />
+                    </th>
+                    <?r end ?>
+                    
+                    <th>#{@entries_lang.labels[:id]}</th>
+                    <th>#{@entries_lang.labels[:title]}</th>
+                    <th>#{@entries_lang.labels[:slug]}</th>
+                    <th>#{@entries_lang.labels[:status]}</th>
+                    <th>#{@entries_lang.labels[:created]}</th>
+                    <th>#{@entries_lang.labels[:updated]}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?r @entries.each do |entry| ?>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <td>
+                        <input type="checkbox" name="section_entry_ids[]" value="#{entry.id}" />
+                    </td>
+                    <?r end ?>
+                    
+                    <td>#{entry.id}</td>
+                    
+                    <?r if user_authorized?([:update]) ?>
+                    <td>#{anchor_to(entry.title, "admin/section_entries/edit/#{@section_id}/#{entry.id}")}</td>
+                    <?r else ?>
+                    <td>#{entry.title}</td>
+                    <?r end ?>
+                    
+                    <td>#{entry.slug}</td>
+                    <td>#{@entries_lang.special[:status_hash][entry.status]}</td>
+                    <td>#{entry.created_at}</td>
+                    <td>#{entry.updated_at}</td>
+                </tr>
+                <?r end ?>
+            </tbody>
+        </table>
+        
+        <?r else ?>
+        <p>#{@entries_lang.messages[:no_entries]}</p>
         <?r end ?>
-      </tbody>
-    </table>
+        
+        <div class="clearfix">
+            
+            <?r if user_authorized?([:create]) ?>
+            <div class="button">
+                #{anchor_to(@entries_lang.buttons[:new_entry], "admin/section_entries/new/#{@section_id}")}
+            </div>
+            <?r end ?>
+            
+            <?r if user_authorized?([:delete]) and @entries and !@entries.empty? ?>
+            <div class="button">
+                <input type="submit" value="#{@entries_lang.buttons[:delete_entries]}" />
+            </div>
+            <?r end ?>
+        </div>
+    </form>
     
-    <?r else ?>
-    <p>#{@entries_lang.messages[:no_entries]}</p>
-    <?r end ?>
-    
-    <div class="clearfix">
-      
-      <?r if user_authorized?([:create]) ?>
-      <div class="button">
-        #{anchor_to(@entries_lang.buttons[:new_entry], "admin/section_entries/new/#{@section_id}")}
-      </div>
-      <?r end ?>
-      
-      <?r if user_authorized?([:delete]) and @entries and !@entries.empty? ?>
-      <div class="button">
-        <input type="submit" value="#{@entries_lang.buttons[:delete_entries]}" />
-      </div>
-      <?r end ?>
-    </div>
-  </form>
-  
 </article>

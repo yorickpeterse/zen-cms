@@ -85,7 +85,6 @@ module Zen
     class << self
       attr_reader :extensions
       attr_reader :themes
-      attr_accessor :classes
     end
     
     ##

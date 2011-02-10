@@ -69,19 +69,19 @@ module Zen
           offline_path = theme_path + "/offline.liquid"
           
           if File.exist?(offline_path)
-            render_file offline_path
+            render_file(offline_path)
           else
             respond(@zen_general_lang.errors[:website_offline])
           end
         else
           # Check if the group exists
           if File.directory?(group_path) and File.exists?(template_path)
-            render_file template_path
+            render_file(template_path)
           else
             not_found = theme_path + "/404.liquid"
             
             if File.exist?(not_found)
-              render_file not_found
+              render_file(not_found)
             else
               respond(@zen_general_lang.errors[:no_templates], 404)
             end

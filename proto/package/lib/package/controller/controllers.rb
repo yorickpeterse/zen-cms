@@ -6,9 +6,10 @@ module EXTENSION
     # @since
     #
     class CONTROLLER < Zen::Controllers::AdminController
-      map_extension "/admin/module"
-      
       include ::EXTENSION::Models
+
+      map "/admin/module"
+      trait :extension_identifier => ''
       
       before_all do
         csrf_protection :save, :delete do

@@ -1,69 +1,69 @@
 <article>
-  <header>
-    <h1>#{get_breadcrumbs}</h1>
-  </header>
-  
-  <form method="post" action="#{@form_delete_url}">
-    <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
     
-    <?r if @user_groups and !@user_groups.empty? ?>
-    
-    <table class="table">
-      <thead>
-        <tr>
-          <?r if user_authorized?([:delete]) ?>
-          <th>
-            <input type="checkbox" />
-          </th>
-          <?r end ?>
-          
-          <th>#{@groups_lang.labels[:id]}</th>
-          <th>#{@groups_lang.labels[:name]}</th>
-          <th>#{@groups_lang.labels[:slug]}</th>
-          <th>#{@groups_lang.labels[:super_group]}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?r @user_groups.each do |group| ?>
-        <tr>
-          <?r if user_authorized?([:delete]) ?>
-          <td>
-            <input type="checkbox" name="user_group_ids[]" value="#{group.id}" />
-          </td>
-          <?r end ?>
-          
-          <td>#{group.id}</td>
-          
-          <?r if user_authorized?([:update]) ?>
-          <td>#{anchor_to(group.name, "admin/user_groups/edit/#{group.id}")}</td>
-          <?r else ?>
-          <td>#{group.name}</td>
-          <?r end ?>
-          
-          <td>#{group.slug}</td>
-          <td>#{@groups_lang.special[:boolean_hash][group.super_group]}</td>
-        </tr>
+    <form method="post" action="#{@form_delete_url}">
+        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+        
+        <?r if @user_groups and !@user_groups.empty? ?>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <th>
+                        <input type="checkbox" />
+                    </th>
+                    <?r end ?>
+                    
+                    <th>#{@groups_lang.labels[:id]}</th>
+                    <th>#{@groups_lang.labels[:name]}</th>
+                    <th>#{@groups_lang.labels[:slug]}</th>
+                    <th>#{@groups_lang.labels[:super_group]}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?r @user_groups.each do |group| ?>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <td>
+                        <input type="checkbox" name="user_group_ids[]" value="#{group.id}" />
+                    </td>
+                    <?r end ?>
+                    
+                    <td>#{group.id}</td>
+                    
+                    <?r if user_authorized?([:update]) ?>
+                    <td>#{anchor_to(group.name, "admin/user_groups/edit/#{group.id}")}</td>
+                    <?r else ?>
+                    <td>#{group.name}</td>
+                    <?r end ?>
+                    
+                    <td>#{group.slug}</td>
+                    <td>#{@groups_lang.special[:boolean_hash][group.super_group]}</td>
+                </tr>
+                <?r end ?>
+            </tbody>
+        </table>
+        
+        <?r else ?>
+        <p>#{@groups_lang.messages[:no_user_groups]}</p>
         <?r end ?>
-      </tbody>
-    </table>
-    
-    <?r else ?>
-    <p>#{@groups_lang.messages[:no_user_groups]}</p>
-    <?r end ?>
-    
-    <div class="clearfix">
-      
-      <?r if user_authorized?([:create]) ?>
-      <div class="button">
-        #{anchor_to(@groups_lang.buttons[:new_group], "admin/user_groups/new")}
-      </div>
-      <?r end ?>
-      
-      <?r if user_authorized?([:delete]) and @user_groups and !@user_groups.empty? ?>
-      <div class="button">
-        <input type="submit" value="#{@groups_lang.buttons[:delete_groups]}" />
-      </div>
-      <?r end ?>
-    </div>
-  </form>
+        
+        <div class="clearfix">
+            
+            <?r if user_authorized?([:create]) ?>
+            <div class="button">
+                #{anchor_to(@groups_lang.buttons[:new_group], "admin/user_groups/new")}
+            </div>
+            <?r end ?>
+            
+            <?r if user_authorized?([:delete]) and @user_groups and !@user_groups.empty? ?>
+            <div class="button">
+                <input type="submit" value="#{@groups_lang.buttons[:delete_groups]}" />
+            </div>
+            <?r end ?>
+        </div>
+    </form>
 </article>

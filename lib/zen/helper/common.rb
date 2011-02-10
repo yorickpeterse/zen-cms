@@ -72,16 +72,17 @@ module Ramaze
       def anchor_to text, url, *attributes
         
         # Sanitize the text and URL
-        text = Rack::Utils.escape_html text
+        text = Rack::Utils.escape_html(text)
+        url  = url.to_s
 
         # Get the URL from the second parameter (either a string or a hash).
-        if url.class.to_s === 'Hash'
+        if url.class === Hash
           # Get the URL from the hash and delete it
           anchor_url   = url[:href].strip          
           url.delete(anchor_url)
           
           # Generate the query string based on the left over values in the URL hash
-          query_string = Rack::Utils.build_query url
+          query_string = Rack::Utils.build_query(url)
           
           # Create the full URL
           anchor_url = anchor_url + query_string 
@@ -91,14 +92,20 @@ module Ramaze
 
         # Got attributes?
         if !attributes or attributes.empty?
-          attributes = Hash.new
+          attributes = {}
         else
           attributes = attributes[0]
         end
 
         # Check to see if we're dealing with an internal or external URL
         if !anchor_url.include? '://' or !anchor_url.include? 'www.'
-           anchor_url = request.domain("/#{anchor_url}")
+          if anchor_url[0] == '/'
+            prefix = ''
+          else
+            prefix = '/'
+          end
+
+          anchor_url = request.domain("#{prefix}#{anchor_url}")
         end
         
         # Add the href attribute so it gets processed

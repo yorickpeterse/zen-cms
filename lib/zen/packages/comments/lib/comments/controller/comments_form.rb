@@ -16,7 +16,7 @@ module Comments
       
       before_all do
         csrf_protection :save do
-          respond(@zen_general_lang.errors[:csrf], 401)
+          respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
       

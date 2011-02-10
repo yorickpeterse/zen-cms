@@ -1,0 +1,34 @@
+#{
+  form_for(@menu_item, :method => :post, :action => @form_save_url) do |f|
+    f.input_hidden(:csrf_token, get_csrf_token)
+    f.input_hidden(:id        , @menu_item.id)
+    f.input_hidden(:menu_id   , @menu_id)
+
+    f.input_text(@menu_items_lang.labels[:name]     , :name)
+    f.input_text(@menu_items_lang.labels[:url]      , :url)
+    f.input_text(@menu_items_lang.labels[:order]    , :order)
+
+    # Generate the dropdown that contains all possible parent menu items    
+    parent_items = Menus::Models::MenuItem.pk_hash(:name)
+    parent_items.delete(@menu_item.id)
+    parent_items['--'] = '--'
+    
+    if !@menu_item.parent_id.nil?
+      selected = @menu_item.parent_id
+    else
+      selected = '--'
+        end
+
+   f.select(@menu_items_lang.labels[:parent_id], :parent_id, :values => parent_items, 
+     :selected => selected, :size => 1)
+
+    f.input_text(@menu_items_lang.labels[:css_class], :css_class)
+    f.input_text(@menu_items_lang.labels[:css_id]   , :css_id)
+
+    f.g.div(:class => :clearfix) do
+      f.g.div(:class => :button) do
+        f.g.input(:type => :submit, :value => @menu_items_lang.buttons[:save])
+      end
+    end
+  end
+}

@@ -1,24 +1,24 @@
 <article>
-  <header>
-    <h1>#{get_breadcrumbs}</h1>
-  </header>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
   
-  <div class="tabs">
-    <ul>
-      <?r @settings.each do |group, items| ?>
-      <?r
-        if @settings_lang.tabs.key?(group.to_sym)
-          group_label = @settings_lang.tabs[group.to_sym]
-        else
-          group_label = group
-        end
-      ?>
-      <li>
-        <a href="#group_#{group}">#{group_label}</a>
-      </li>
-      <?r end ?>
-    </ul>
-  </div>
+    <div class="tabs">
+        <ul>
+            <?r @settings.each do |group, items| ?>
+            <?r
+            if @settings_lang.tabs.key?(group.to_sym)
+              group_label = @settings_lang.tabs[group.to_sym]
+            else
+              group_label = group
+            end
+            ?>
+            <li>
+                <a href="#group_#{group}">#{group_label}</a>
+            </li>
+            <?r end ?>
+        </ul>
+    </div>
   
   #{
     form_for(@settings, :method => :post, :action => @form_save_url) do |f|

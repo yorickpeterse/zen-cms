@@ -1,0 +1,76 @@
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
+
+    <form method="post" action="#{@form_delete_url}">
+        <input name="csrf_token" type="hidden" value="#{get_csrf_token}" />
+
+        <?r if @menu_items and !@menu_items.empty? ?>
+        <table class="table">
+            <thead>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <th>
+                        <input type="checkbox" />
+                    </th>
+                    <?r end ?>
+
+                    <th>#{@menu_items_lang.labels[:id]}</th>
+                    <th>#{@menu_items_lang.labels[:name]}</th>
+                    <th>#{@menu_items_lang.labels[:url]}</th>
+                    <th>#{@menu_items_lang.labels[:parent_id]}</th>
+                    <th>#{@menu_items_lang.labels[:order]}</th>
+                    <th>#{@menu_items_lang.labels[:css_class]}</th>
+                    <th>#{@menu_items_lang.labels[:css_id]}</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <?r @menu_items.each do |item| ?>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <td>
+                        <input name="menu_item_ids[]" type="checkbox" value="#{item.id}" />
+                    </td>
+                    <?r end ?>
+
+                    <td>#{item.id}</td>
+
+                    <?r if user_authorized?([:edit]) ?>
+                    <td>#{anchor_to(item.name, Menus::Controllers::MenuItems.r(:edit, @menu_id, item.id))}</td>
+                    <?r else ?>
+                    <td>#{item.name}</td>
+                    <?r end ?>
+
+                    <td>#{anchor_to(item.url, item.url)}</td>
+                    <td>#{item.parent.name if item.parent}</td>
+                    <td>#{item.order}</td>
+                    <td>#{item.css_class}</td>
+                    <td>#{item.css_id}</td>
+                </tr>
+                <?r end ?>
+
+            </tbody>
+        </table>
+
+        <?r else ?>
+        <p>#{@menu_items_lang.messages[:no_items]}</p>
+        <?r end ?>
+
+        <div class="clearfix">
+            <?r if user_authorized?([:create, :read]) ?>
+            <div class="button">
+                #{anchor_to(@menu_items_lang.buttons[:new], Menus::Controllers::MenuItems.r(:new, @menu_id))}
+            </div>
+            <?r end ?>
+
+            <?r if user_authorized?([:delete]) ?>
+            <div class="button">
+                <input type="submit" value="#{@menu_items_lang.buttons[:delete]}" />
+            </div>
+            <?r end ?>
+        </div>
+    </form> 
+
+</article>

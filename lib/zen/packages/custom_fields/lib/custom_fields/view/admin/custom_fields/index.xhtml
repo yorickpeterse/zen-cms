@@ -1,75 +1,75 @@
 <article>
-  <header>
-    <h1>#{get_breadcrumbs}</h1>
-  </header>
-  
-  <form method="post" action="#{@form_delete_url}">
-    <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
-    <input type="hidden" name="custom_field_group_id" value="#{@custom_field_group_id}" />
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
     
-    <?r if @custom_fields and !@custom_fields.empty? ?>
-    
-    <table class="table">
-      <thead>
-        <tr>
-          <?r if user_authorized?([:delete]) ?>
-          <th>
-            <input type="checkbox" />
-          </th>
-          <?r end ?>
-          
-          <th>#{@fields_lang.labels[:id]}</th>
-          <th>#{@fields_lang.labels[:name]}</th>
-          <th>#{@fields_lang.labels[:slug]}</th>
-          <th>#{@fields_lang.labels[:type]}</th>
-          <th>#{@fields_lang.labels[:format]}</th>
-        </tr>
-      </thead>
-      
-      <tbody>
-        <?r @custom_fields.each do |field| ?>
-        <tr>
-          <?r if user_authorized?([:delete]) ?>
-          <td>
-            <input type="checkbox" name="custom_field_ids[]" value="#{field.id}" />
-          </td>
-          <?r end ?>
-          
-          <td>#{field.id}</td>
-          
-          <?r if user_authorized?([:update]) ?>
-          <td>#{anchor_to(field.name, "admin/custom_fields/edit/#{@custom_field_group_id}/#{field.id}", :title => field.name)}</td>
-          <?r else ?>
-          <td>#{field.name}</td>
-          <?r end ?>
-          
-          <td>#{field.slug}</td>
-          <td>#{@fields_lang.special[:type_hash][field.type]}</td>
-          <td>#{@fields_lang.special[:format_hash][field.format]}</td>
-        </tr>
+    <form method="post" action="#{@form_delete_url}">
+        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+        <input type="hidden" name="custom_field_group_id" value="#{@custom_field_group_id}" />
+        
+        <?r if @custom_fields and !@custom_fields.empty? ?>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <th>
+                        <input type="checkbox" />
+                    </th>
+                    <?r end ?>
+                    
+                    <th>#{@fields_lang.labels[:id]}</th>
+                    <th>#{@fields_lang.labels[:name]}</th>
+                    <th>#{@fields_lang.labels[:slug]}</th>
+                    <th>#{@fields_lang.labels[:type]}</th>
+                    <th>#{@fields_lang.labels[:format]}</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <?r @custom_fields.each do |field| ?>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <td>
+                        <input type="checkbox" name="custom_field_ids[]" value="#{field.id}" />
+                    </td>
+                    <?r end ?>
+                    
+                    <td>#{field.id}</td>
+                    
+                    <?r if user_authorized?([:update]) ?>
+                    <td>#{anchor_to(field.name, "admin/custom_fields/edit/#{@custom_field_group_id}/#{field.id}", :title => field.name)}</td>
+                    <?r else ?>
+                    <td>#{field.name}</td>
+                    <?r end ?>
+                    
+                    <td>#{field.slug}</td>
+                    <td>#{@fields_lang.special[:type_hash][field.type]}</td>
+                    <td>#{@fields_lang.special[:format_hash][field.format]}</td>
+                </tr>
+                <?r end ?>
+            </tbody>
+        </table>
+        
+        <?r else ?>
+        
+        <p>#{@fields_lang.messages[:no_fields]}</p>
+        
         <?r end ?>
-      </tbody>
-    </table>
-    
-    <?r else ?>
-    
-    <p>#{@fields_lang.messages[:no_fields]}</p>
-    
-    <?r end ?>
-    
-    <div class="clearfix">
-      <?r if user_authorized?([:create]) ?>
-      <div class="button">
-        #{anchor_to(@fields_lang.buttons[:new_field], "admin/custom_fields/new/#{@custom_field_group_id}")}
-      </div>
-      <?r end ?>
-      
-      <?r if user_authorized?([:delete]) and @custom_fields and !@custom_fields.empty? ?>
-      <div class="button">
-        <input type="submit" value="#{@fields_lang.buttons[:delete_fields]}" />
-      </div>
-      <?r end ?>
-      
-    </div>
-  </form>
+        
+        <div class="clearfix">
+            <?r if user_authorized?([:create]) ?>
+            <div class="button">
+                #{anchor_to(@fields_lang.buttons[:new_field], "admin/custom_fields/new/#{@custom_field_group_id}")}
+            </div>
+            <?r end ?>
+            
+            <?r if user_authorized?([:delete]) and @custom_fields and !@custom_fields.empty? ?>
+            <div class="button">
+                <input type="submit" value="#{@fields_lang.buttons[:delete_fields]}" />
+            </div>
+            <?r end ?>
+            
+        </div>
+    </form>
 </article>

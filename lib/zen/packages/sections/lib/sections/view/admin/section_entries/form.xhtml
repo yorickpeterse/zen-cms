@@ -1,20 +1,20 @@
 <div class="tabs">
-  <ul>
-    <li>
-      <a href="#basic">#{@entries_lang.tabs[:basic]}</a>
-    </li>
-    <li>
-      <a href="#categories">#{@entries_lang.tabs[:categories]}</a>
-    </li>
-    
-    <?r if @entry.section.custom_field_groups and !@entry.section.custom_field_groups.empty? ?>
-    <?r @entry.section.custom_field_groups.each do |group| ?>
-    <li>
-      <a href="#group_#{group.id}">#{group.name}</a>
-    </li>
-    <?r end ?>
-    <?r end ?>
-  </ul>
+    <ul>
+        <li>
+            <a href="#basic">#{@entries_lang.tabs[:basic]}</a>
+        </li>
+        <li>
+            <a href="#categories">#{@entries_lang.tabs[:categories]}</a>
+        </li>
+        
+        <?r if @entry.section.custom_field_groups and !@entry.section.custom_field_groups.empty? ?>
+        <?r @entry.section.custom_field_groups.each do |group| ?>
+        <li>
+            <a href="#group_#{group.id}">#{group.name}</a>
+        </li>
+        <?r end ?>
+        <?r end ?>
+    </ul>
 </div>
 
 #{

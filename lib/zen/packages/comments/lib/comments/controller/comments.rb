@@ -20,7 +20,7 @@ module Comments
       
       before_all do
         csrf_protection :save, :delete do
-          respond("The specified request can't be executed without a valid CSRF token", 401)
+          respond("The specified request can't be executed without a valid CSRF token", 403)
         end
       end
       

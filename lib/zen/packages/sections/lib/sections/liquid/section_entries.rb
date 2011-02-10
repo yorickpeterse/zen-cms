@@ -42,7 +42,6 @@ module Sections
     # * section_id: the ID of the section to which this entry belongs
     #
     # @example
-    #
     #  {% section_entries section="blog" limit="10" offset="20" %}
     #  <article>
     #    <header>
@@ -106,17 +105,8 @@ module Sections
       # @since  0.1
       #
       def render context
-        # Check if any of the given arguments in @arguments exist in our context.
-        if @args_parsed == false
-          @arguments.each do |k, v|
-            v = v.to_s
-            
-            if context.has_key?(v)
-              @arguments[k] = h(context[v])
-            end
-          end
-        end
-        
+        @arguments = merge_context(@arguments, context) if @args_parsed == false
+                
         @args_parsed = true
         result       = []
         entries      = []

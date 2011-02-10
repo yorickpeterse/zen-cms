@@ -1,0 +1,26 @@
+#{
+form_for(@menu, :method => :post, :action => @form_save_url) do |f| 
+  f.input_hidden(:csrf_token, get_csrf_token)
+  f.input_hidden(:id, @menu.id)
+
+  f.input_text(@menus_lang.labels[:name]     , :name, 
+    :placeholder => @menus_lang.placeholders[:name])
+
+  f.input_text(@menus_lang.labels[:slug     ], :slug, 
+    :placeholder => @menus_lang.placeholders[:slug])
+    
+  f.input_text(@menus_lang.labels[:css_class], :css_class, 
+    :placeholder => @menus_lang.placeholders[:css_class])
+
+  f.input_text(@menus_lang.labels[:css_id]   , :css_id, 
+    :placeholder => @menus_lang.placeholders[:css_id])
+
+  f.textarea(@menus_lang.labels[:description], :description, :rows => 8)
+  
+  f.g.div(:class => "clearfix") do
+    f.g.div(:class => "button") do
+      f.g.input(:type => :submit, :value => @menus_lang.buttons[:save])
+    end
+  end
+end
+}
