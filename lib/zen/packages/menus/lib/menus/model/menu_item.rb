@@ -2,6 +2,9 @@ module Menus
   module Models
     ##
     # Model used for managing individual menu items in a group.
+    # This model uses the following plugins:
+    #
+    # * tree
     #
     # @author Yorick Peterse
     # @since  0.2a
