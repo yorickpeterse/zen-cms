@@ -1,0 +1,72 @@
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
+    
+    <form method="post" action="#{@form_delete_url}">
+        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+        
+        <?r if @category_groups and !@category_groups.empty? ?>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <th>
+                        <input type="checkbox" />
+                    </th>
+                    <?r end ?>
+                    
+                    <th>#{@groups_lang.labels[:id]}</th>
+                    <th>#{@groups_lang.labels[:name]}</th>
+                    
+                    <?r if user_authorized?([:create]) ?>
+                    <th></th>
+                    <?r end ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?r @category_groups.each do |group| ?>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <td>
+                        <input type="checkbox" name="category_group_ids[]" value="#{group.id}" />
+                    </td>
+                    <?r end ?>
+                    
+                    <td>#{group.id}</td>
+                    
+                    <?r if user_authorized?([:update]) ?>
+                    <td>#{anchor_to(group.name, "admin/category_groups/edit/#{group.id}")}</td>
+                    <?r else ?>
+                    <td>#{group.name}</td>
+                    <?r end ?>
+                    
+                    <?r if user_authorized?([:create]) ?>
+                    <td>#{anchor_to(@groups_lang.labels[:manage_categories], "admin/categories/index/#{group.id}")}</td>
+                    <?r end ?>
+                    
+                </tr>
+                <?r end ?>
+            </tbody>
+        </table>
+        
+        <?r else ?>
+        <p>#{@groups_lang.messages[:no_groups]}</p>
+        <?r end ?>
+        
+        <div class="clearfix">
+            <?r if user_authorized?([:create]) ?>
+            <div class="button">
+                #{anchor_to(@groups_lang.buttons[:new_group], 'admin/category_groups/new')}
+            </div>
+            <?r end ?>
+            
+            <?r if user_authorized?([:delete]) and @category_groups and !@category_groups.empty? ?>
+            <div class="button">
+                <input type="submit" value="#{@groups_lang.buttons[:delete_groups]}" />
+            </div>
+            <?r end ?>
+        </div>
+    </form>
+</article>

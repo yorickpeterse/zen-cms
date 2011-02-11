@@ -1,0 +1,111 @@
+@charset "UTF-8";
+
+/**
+ * Main stylesheet used for the layout of the admin panel.
+ *
+ * @author Yorick Peterse
+ * @since  0.1a
+ */
+
+/**
+ * Top part of the admin panel that contains the user bar along with the main navigation menu.
+ */
+#top
+{
+  background:    #212121;
+  border-bottom: 1px solid #fff;
+  height:        30px;
+  width:         100%;
+}
+    #top #main_nav .left li
+    {
+      float:   left;
+    }
+    #top #main_nav .right li
+    {
+      float:   right;
+    }
+      #top #main_nav ul li a
+      {
+        color:            #fff;
+        display:          block;
+        margin:           3px 10px;
+        padding:          3px 3px 5px 3px;
+        text-decoration:  none;
+        text-align:       center;
+      }
+      #top #main_nav ul li:hover, #top #main_nav ul li a:hover
+      {
+        background:    #555;
+        text-shadow:   1px 1px #000;
+      }
+      #top #main_nav ul li ul
+      {
+        background: #555;
+        left:       -10000px;
+        margin-top: -4px;
+        position:   absolute;
+        padding:    7px;
+      }
+        #top #main_nav ul li ul li
+        {
+          float:      none!important;
+        }
+          #top #main_nav ul li ul li a
+          {
+            background:    none;
+            margin:        0px;
+            padding:       5px;
+            text-align:    left;
+          }
+          #top #main_nav ul li ul li a:hover
+          {
+            background:    #666;
+          }
+      #top #main_nav ul li:hover ul
+      {
+        left: auto;
+      }
+
+/**
+ * Main area of the admin panel. The content stretches across the entire screen and there
+ * are no silly sidebars.
+ */
+#container
+{
+  background:    #fff;
+  border-radius: 5px;
+  border:        5px solid #ddd;
+  margin-top:    20px;
+  min-height:    100px;
+  
+  -webkit-border-radius: 5px;
+  -moz-border-radius:    5px;
+}
+  #container article
+  {
+    padding: 15px;
+  }
+
+#login #container, #login #main_footer
+{
+  margin: 20px auto;
+  width:  500px;
+}
+  #login #container
+  {
+    margin-top: 50px;
+  }
+  
+/**
+ * Bottom part of the admin panel containing the footer
+ */
+#main_footer
+{
+  margin-top: 20px;
+  text-align: center;
+}
+  #main_footer p
+  {
+    margin-bottom: 8px;
+  }

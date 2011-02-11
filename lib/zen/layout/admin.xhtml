@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="#{session[:settings][:language]}">
+    <head>
+        <meta charset="utf-8" />
+        
+        <!-- Load all stylesheets -->
+        #{build_css}
+        
+        <title>#{@page_title}</title>
+    </head>
+
+    <body id="admin">
+        <!--
+        Top part of the admin panel that contains the navigation menu along with a small
+        gravatar of the user.
+        -->
+        <div id="top">
+            <header class="container">
+                <!--
+                Main navigation of the backend. Navigation items may be excluded if the user
+                doesn't have the required permissions for the extension that created it.
+                -->
+                <nav id="main_nav" class="grid_12">
+                    #{Zen::Package.build_menu("left")}
+                    
+                    <ul class="right clearfix">
+                        <li>
+                            <a href="/admin/users/logout">#{@zen_general_lang.labels[:logout]}</a>
+                        </li>
+                        <li>
+                            <a href="/admin/users/edit/#{session[:user].id}">#{@zen_general_lang.labels[:profile]}</a>
+                        </li>
+                        <li>
+                            <a href="/">#{@zen_general_lang.labels[:view_website]}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+        
+        <!--
+        Main area of the admin panel. The content stretches across the entire screen and there
+        are no silly sidebars.
+        -->
+        <div id="container" class="container">
+            <div id="content" class="grid_12">
+                #{@content}
+            </div>
+        </div>
+        
+        <footer id="main_footer" class="container">
+            <div class="grid_12">
+                <p>#{@zen_general_lang.labels[:zen_version]}</p>
+                <p>
+                    <a href="http://zen-cms.com/">#{@zen_general_lang.labels[:zen_website]}</a> |
+                    <a href="http://zen-cms.com/documentation">#{@zen_general_lang.labels[:zen_docs]}</a> |
+                    <a href="https://github.com/zen-cms/">#{@zen_general_lang.labels[:zen_github]}</a>
+                </p>
+            </div>
+        </footer>
+        
+        <script src="/admin/js/mootools/core.js"></script>
+        <script src="/admin/js/mootools/more.js"></script>
+        
+        <script>
+            Zen       = {};
+            Zen.Flash = #{flash.combined.to_json};
+        </script>
+        
+        #{build_js}
+    </body>
+</html>

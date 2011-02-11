@@ -1,0 +1,31 @@
+h1. About
+
+The Menus extension can be used to create navigation menus for the frontend of your website.
+Each menu item can have an infinite number of sub items which in turn can contain sub items
+as well. Once you have created your menus you can display them using the "menus" tag:
+
+bc. {% menu slug="main" %}
+
+The output of the menus tag can not be changed but then again it's a simple unordered list
+with a class of "menu" and an ID of "menu_SLUG". An example of this output would look
+like the following:
+
+bc. <ul class="menu" id="menu_main">
+  <li>
+    <a href="http://zen-cms.com/">Zen CMS</a>
+  </li>
+</ul>
+
+h2. Installation
+
+Require the package in your config/requires.rb file and run the migrations:
+
+bc. $ rake extension:migrate
+
+Once that's done you can start adding menu items in the backend. This extension can be
+found at /admin/menus.
+
+h2. License
+
+This extension is licensed under the MIT license. A copy of this license can be found
+in the file "LICENSE".

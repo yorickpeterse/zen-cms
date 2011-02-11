@@ -1,0 +1,73 @@
+<article>    
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
+    
+    <form method="post" action="#{@form_delete_url}">
+        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+        
+        <?r if @users and !@users.empty? ?>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <th>
+                        <input type="checkbox" />
+                    </th>
+                    <?r end ?>
+                    
+                    <th>#{@users_lang.labels[:id]}</th>
+                    <th>#{@users_lang.labels[:email]}</th>
+                    <th>#{@users_lang.labels[:status]}</th>
+                    <th>#{@users_lang.labels[:created_at]}</th>
+                    <th>#{@users_lang.labels[:updated_at]}</th>
+                    <th>#{@users_lang.labels[:last_login]}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?r @users.each do |user| ?>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <td>
+                        <input type="checkbox" name="user_ids[]" value="#{user.id}" />
+                    </td>
+                    <?r end ?>
+                    
+                    <td>#{user.id}</td>
+                    
+                    <?r if user_authorized?([:update]) ?>
+                    <td>#{anchor_to(user.email, "admin/users/edit/#{user.id}")}</td>
+                    <?r else ?>
+                    <td>#{user.email}</td>
+                    <?r end ?>
+                    
+                    <td>#{@users_lang.special[:status_hash][user.status]}</td>
+                    <td>#{user.created_at}</td>
+                    <td>#{user.updated_at}</td>
+                    <td>#{user.last_login}</td>
+                </tr>
+                <?r end ?>
+            </tbody>
+        </table>
+        
+        <?r else ?>
+        <p>#{@users_lang.messages[:no_users]}</p>
+        <?r end ?>
+        
+        <div class="clearfix">
+            
+            <?r if user_authorized?([:create]) ?>
+            <div class="button">
+                #{anchor_to(@users_lang.buttons[:new_user], "admin/users/new")}
+            </div>
+            <?r end ?>
+            
+            <?r if user_authorized?([:delete]) and @users and !@users.empty? ?>
+            <div class="button">
+                <input type="submit" value="#{@users_lang.buttons[:delete_users]}" />
+            </div>
+            <?r end ?>
+        </div>
+    </form>
+</article>

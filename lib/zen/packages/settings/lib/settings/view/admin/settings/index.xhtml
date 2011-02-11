@@ -1,0 +1,79 @@
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
+  
+    <div class="tabs">
+        <ul>
+            <?r @settings.each do |group, items| ?>
+            <?r
+            if @settings_lang.tabs.key?(group.to_sym)
+              group_label = @settings_lang.tabs[group.to_sym]
+            else
+              group_label = group
+            end
+            ?>
+            <li>
+                <a href="#group_#{group}">#{group_label}</a>
+            </li>
+            <?r end ?>
+        </ul>
+    </div>
+  
+  #{
+    form_for(@settings, :method => :post, :action => @form_save_url) do |f|
+      f.input_hidden :csrf_token, get_csrf_token
+      
+      @settings.each do |group, items|
+      
+        f.g.div :id => "group_#{group}" do
+          items.each do |s|
+            # Get the label from the language pack
+            name = s.key.to_sym
+            
+            if @settings_lang.labels.key?(s.key.to_sym)
+              label = @settings_lang.labels[s.key.to_sym]
+            else
+              label = s.key.to_s
+            end
+            
+            # Get the value from either the value or default getter
+            if s.value.nil?
+              value = s.default
+            else
+              value = s.value
+            end
+            
+            # Get all possible values for the current setting from the language pack
+            if @settings_lang.values.key?(name)
+              values = @settings_lang.values[name]
+            else
+              values = {}
+            end
+            
+            case s.type
+              when 'textbox'
+                f.input_text label, name, :value => value
+              when 'textarea'
+                f.textarea label, name, :value => value, :rows => 8
+              when 'radio'
+                f.input_radio label, name, value, :values => values
+              when 'checkbox'
+                f.input_checkbox label, name, value, :values => values
+              when 'select'
+                f.select label, name, :values => values, :size => 1, :selected => value
+            end
+          end
+        end
+
+      end
+    
+      f.g.div :class => 'clearfix' do
+        f.g.div :class => 'button' do
+          f.g.input :type => 'submit', :value => @settings_lang.buttons[:save]
+        end
+      end
+    end
+  }
+
+</article>

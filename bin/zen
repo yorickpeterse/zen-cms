@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+zen_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'zen'))
+
+require 'thor'
+
+require zen_path
+require zen_path + "/bin/zen_binary"
+
+Zen::Bin::Base.start

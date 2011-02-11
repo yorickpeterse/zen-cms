@@ -1,0 +1,18 @@
+<article>
+    <header>
+        <h1>#{@page_title}</h1>
+    </header>
+
+    #{
+    form_for(nil, :method => :post, :action => @form_login_url) do |f|
+      f.input_text(@users_lang.labels[:email]       , :email, :tabindex => 1)
+      f.input_password(@users_lang.labels[:password], :password, :tabindex => 2)
+
+      f.g.div(:class => "clearfix") do
+        f.g.div(:class => "button") do
+          f.g.input(:type => :submit, :value => @users_lang.buttons[:login])
+        end
+      end
+    end
+    }
+</article>
