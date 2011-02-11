@@ -110,10 +110,6 @@ module CustomFields
         
         post = request.params.dup
         
-        post.each do |key, value|
-          post.delete(key) if value.empty?
-        end
-        
         # Get or create a custom field group based on the ID from the hidden field.
         if post["id"] and !post["id"].empty?
           @field_group  = CustomFieldGroup[post["id"]]

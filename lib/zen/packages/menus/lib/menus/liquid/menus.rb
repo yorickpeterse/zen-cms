@@ -119,7 +119,7 @@ module Menus
         children           = item.children
 
         @g.li(attributes) do
-          if !item.url.nil?
+          if !item.url.nil? and !item.url.empty?
             @g.a(:href => item.url, :title => item.name) { item.name }
           else
             @g.span { item.name }

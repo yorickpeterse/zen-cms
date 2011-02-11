@@ -9,19 +9,25 @@ form_for(@category, :method => :post, :action => @form_save_url) do |f|
     f.input_text @categories_lang.labels[:slug], :slug
     
     
-    # Generate the dropdown that contains all possible parent categories    
-    parent_categories = Categories::Models::Category.pk_hash(:name)
-    parent_categories.delete(@category.id)
+    # Generate the dropdown that contains all possible parent categories
+    parent_categories = {}
+    Categories::Models::CategoryGroup[@category_group_id].categories.each do |c|
+      if c.id != @category.id
+        parent_categories[c.id] = c.name
+      end
+    end
+
     parent_categories['--'] = '--'
-    
-    if !@category.parent_id.nil?
-      selected = @category.parent_id
-    else
+
+    if @category.parent_id.nil?
       selected = '--'
+    else
+      selected = @category.parent_id
     end
     
     if !parent_categories.empty?
-      f.select @categories_lang.labels[:parent], :parent_id, :values => parent_categories, :size => 1, :selected => selected
+      f.select @categories_lang.labels[:parent], :parent_id, :values => parent_categories, 
+      :size => 1, :selected => selected
     end
     
     f.textarea @categories_lang.labels[:description], :description, :rows => 8

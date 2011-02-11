@@ -123,13 +123,8 @@ module Categories
         
         post              = request.params.dup
         category_group_id = post["category_group_id"]
-        
-        # Remove all empty values
-        post.each do |key, value|
-          post.delete(key) if value.empty?
-        end
-        
-        post.delete("parent_id") if post["parent_id"] == '--'
+
+        post['parent_id'] = nil if post['parent_id'] == '--'
         
         # Retrieve the category and set the notifications based on if the ID has
         # been specified or not.

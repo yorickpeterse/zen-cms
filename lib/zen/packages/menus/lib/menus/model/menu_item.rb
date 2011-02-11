@@ -20,7 +20,7 @@ module Menus
       # @since  0.2a
       #
       def validate
-        validates_presence [:name, :url]
+        validates_presence [:name]
         validates_integer [:order, :parent_id]
         
         # Prevent people from entering random crap for class and ID names

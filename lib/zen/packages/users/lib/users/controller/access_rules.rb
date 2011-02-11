@@ -112,10 +112,6 @@ module Users
         end
         
         post = request.params.dup
-       
-        post.each do |key, value|
-          post.delete(key) if value.empty?
-        end
 
         if post['rule_applies'] == 'div_user_id'
           post['user_group_id'] = nil

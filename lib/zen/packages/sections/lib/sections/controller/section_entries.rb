@@ -139,10 +139,6 @@ module Sections
         
         post.delete("custom_field_values")
         
-        post.each do |key, value|
-          post.delete(key) if value.empty?
-        end
-        
         if !post["category_pks"].nil?
           post["category_pks"].map! { |value| value.to_i }
         else

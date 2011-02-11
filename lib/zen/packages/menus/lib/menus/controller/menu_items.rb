@@ -31,6 +31,7 @@ module Menus
         @form_save_url   = MenuItems.r(:save)
         @form_delete_url = MenuItems.r(:delete)
         @menu_items_lang = Zen::Language.load('menu_items')
+        @menus_lang      = Zen::Language.load('menus')
 
         # Set the page title based on the current method
         if !action.method.nil?
@@ -58,7 +59,8 @@ module Menus
         end
 
         validate_menu(menu_id)
-        set_breadcrumbs(@menu_items_lang.titles[:index])
+        set_breadcrumbs(anchor_to(@menus_lang.titles[:index], 
+          ::Menus::Controllers::Menus.r(:index)), @menu_items_lang.titles[:index])
 
         @menu_id    = menu_id
         @menu_items = Menu[menu_id].menu_items
@@ -82,8 +84,10 @@ module Menus
         end
 
         validate_menu(menu_id)
-        set_breadcrumbs(anchor_to(@menu_items_lang.titles[:index], 
-          ::Menus::Controllers::MenuItems.r(:index, menu_id)), 
+        set_breadcrumbs(anchor_to(@menus_lang.titles[:index], 
+            ::Menus::Controllers::Menus.r(:index)),
+          anchor_to(@menu_items_lang.titles[:index], 
+            ::Menus::Controllers::MenuItems.r(:index, menu_id)), 
           @menu_items_lang.titles[:edit])
 
         @menu_id   = menu_id
@@ -108,8 +112,10 @@ module Menus
         end  
 
         validate_menu(menu_id)
-        set_breadcrumbs(anchor_to(@menu_items_lang.titles[:index], 
-          ::Menus::Controllers::MenuItems.r(:index, menu_id)), 
+        set_breadcrumbs(anchor_to(@menus_lang.titles[:index], 
+            ::Menus::Controllers::Menus.r(:index)),
+          anchor_to(@menu_items_lang.titles[:index], 
+            ::Menus::Controllers::MenuItems.r(:index, menu_id)), 
           @menu_items_lang.titles[:new])
 
         @menu_id   = menu_id
@@ -131,16 +137,16 @@ module Menus
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
 
-        post = request.params.dup
-        post.each { |k, v| post.delete(k) if v.empty? }  
+        post              = request.params.dup
+        post['parent_id'] = nil if post['parent_id'] == '--'
 
         # Determine if we're saving changes made to an existing menu item or if we're
         # going to create a new one.
-        if post['id']
-          @menu_item   = MenuItem[post['id'].to_i]
+        if !post['id'].empty?
+          @menu_item  = MenuItem[post['id'].to_i]
           save_action = :save
         else
-          @menu_item   = MenuItem.new
+          @menu_item  = MenuItem.new
           save_action = :new
         end
 

@@ -156,10 +156,6 @@ module Users
         
         post = request.params.dup
        
-        post.each do |key, value|
-          post.delete(key) if value.empty?
-        end
-
         if post["id"] and !post["id"].empty?
           @user       = User[post["id"]]
           save_action = :save

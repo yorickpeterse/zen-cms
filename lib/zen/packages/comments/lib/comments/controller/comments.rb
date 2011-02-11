@@ -94,13 +94,7 @@ module Comments
         end
         
         # Copy the POST data so we can work with it without messing things up
-        post = request.params.dup
-       
-        # Remove all empty fields
-        post.each do |key, value|
-          post.delete(key) if value.empty?
-        end
-
+        post     = request.params.dup
         @comment = Comment[post["id"]]
 
         begin

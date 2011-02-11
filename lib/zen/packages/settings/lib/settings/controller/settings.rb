@@ -86,11 +86,7 @@ module Settings
         
         post = request.params.dup
         post.delete('csrf_token')
-       
-        post.each do |key, value|
-          post.delete(key) if value.empty?
-        end
-        
+
         flash_success = @settings_lang.success[:save]
         flash_error   = @settings_lang.errors[:save]
         
