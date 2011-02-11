@@ -8,7 +8,14 @@
     f.input_text(@menu_items_lang.labels[:url]   , :url  , :placeholder => @menu_items_lang.placeholders[:url])
     f.input_text(@menu_items_lang.labels[:order] , :order, :placeholder => @menu_items_lang.placeholders[:order])
 
-    # Generate the dropdown that contains all possible parent menu items  
+    # Generate the dropdown that contains all possible parent menu items    
+    parent_items = {}
+    Menus::Models::Menu[@menu_id.to_i].menu_items.each do |i|
+      if i.id != @menu_item.id
+        parent_items[i.id] = i.name
+      end
+    end
+    
     if @menu_item.parent_id.nil?
       selected = '--'
     else
