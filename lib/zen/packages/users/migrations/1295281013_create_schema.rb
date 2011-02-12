@@ -8,7 +8,7 @@ Sequel.migration do
       String :name
       String :website
       String :password, :null      => false
-      Enum   :status,   :elements  => ['open', 'closed'], :default => 'closed'
+      String :status,   :default => 'closed'
       Time   :created_at
       Time   :updated_at
       Time   :last_login

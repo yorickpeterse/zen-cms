@@ -15,8 +15,8 @@ Sequel.migration do
       String    :slug,                :null => false, :unique => true
       String    :description,         :text => true
       Integer   :sort_order,          :null => false, :default  => 0
-      Enum      :type,                :null => false, :elements => ['textbox', 'textarea', 'radio', 'checkbox', 'date', 'select', 'select_multiple'], :default => 'textbox'
-      Enum      :format,              :null => false, :elements => ['plain', 'html', 'textile', 'markdown'], :default => 'plain'
+      String    :type,                :null => false, :default => 'textbox'
+      String    :format,              :null => false, :default => 'plain'
       String    :possible_values,     :text => true
       
       # Custom field settings
@@ -25,7 +25,8 @@ Sequel.migration do
       Integer   :textarea_rows,       :null => false, :default => 6
       Integer   :text_limit,          :null => false, :default => 255
       
-      foreign_key :custom_field_group_id, :custom_field_groups, :on_delete => :cascade, :on_update => :cascade, :key => :id
+      foreign_key :custom_field_group_id, :custom_field_groups, :on_delete => :cascade,
+        :on_update => :cascade, :key => :id
     end
     
     create_table :custom_field_groups_sections do

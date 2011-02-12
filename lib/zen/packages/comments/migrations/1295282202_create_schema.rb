@@ -8,12 +8,14 @@ Sequel.migration do
       String  :name
       String  :website
       String  :email
-      String  :comment,    :text => true
-      Enum    :status,     :elements => ['open', 'closed', 'spam'], :default => 'closed'
+      String  :comment,            :text => true
+      String  :defensio_signature, :null => true
+      String  :status,             :default => 'closed'
       Time    :created_at
       Time    :updated_at
       
-      foreign_key :section_entry_id, :section_entries, :on_delete => :cascade, :on_update => :cascade, :key => :id
+      foreign_key :section_entry_id, :section_entries, :on_delete => :cascade, 
+        :on_update => :cascade, :key => :id
     end
   end
   

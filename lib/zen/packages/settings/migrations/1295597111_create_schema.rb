@@ -7,7 +7,7 @@ Sequel.migration do
       String :key      , :null => false, :unique => true
       String :group_key, :null => false
       String :default  , :text => true
-      Enum   :type     , :elements => ['textbox', 'textarea', 'radio', 'checkbox', 'select']
+      String :type     , :default => 'textbox' 
       String :value    , :text => true
     end
     
