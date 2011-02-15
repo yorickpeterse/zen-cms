@@ -1,4 +1,5 @@
 Zen::Language.translation 'categories' do |item|
+
   item.titles = {
     :index => 'Categories',
     :edit  => 'Edit Category',
@@ -6,11 +7,16 @@ Zen::Language.translation 'categories' do |item|
   }
   
   item.labels = {
-    :id                => '#',
-    :name              => 'Name',
-    :description       => 'Description',
-    :parent            => 'Parent',
-    :slug              => 'Slug'
+    :id           => '#',
+    :name         => 'Name',
+    :description  => 'Description',
+    :parent       => 'Parent',
+    :slug         => 'Slug'
+  }
+
+  item.placeholders = {
+    :name    => 'The name of the category.',
+    :slug    => 'A URL friendly name of the category.'
   }
   
   item.messages = {
@@ -20,7 +26,7 @@ Zen::Language.translation 'categories' do |item|
   item.success = {
     :new    => 'The category has been created',
     :save   => 'The category has been saved',
-    :delete => 'The category with ID #%s has been deleted'
+    :delete => 'The selected categories have been deleted'
   }
   
   item.errors = {
@@ -35,4 +41,5 @@ Zen::Language.translation 'categories' do |item|
     :save_category     => 'Save category',
     :delete_categories => 'Delete selected categories'
   }
+
 end

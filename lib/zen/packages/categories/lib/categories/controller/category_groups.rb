@@ -10,14 +10,13 @@ module Categories
     # @since  0.1
     #
     class CategoryGroups < Zen::Controllers::AdminController
+      include ::Categories::Models
+
       map '/admin/category_groups'
-      
       trait :extension_identifier => 'com.zen.categories'
       
-      include ::Categories::Models
-      
       before_all do
-        csrf_protection :save, :delete do
+        csrf_protection(:save, :delete) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
@@ -26,15 +25,19 @@ module Categories
       # The constructor is used to set various options such as the form URLs and load
       # the language pack for the categories module.
       #
+      # The following language files are loaded:
+      #
+      # * category_groups
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def initialize
         super
         
-        @form_save_url   = '/admin/category_groups/save'
-        @form_delete_url = '/admin/category_groups/delete'
-        @groups_lang     = Zen::Language.load 'category_groups'
+        @form_save_url   = CategoryGroups.r(:save)
+        @form_delete_url = CategoryGroups.r(:delete)
+        @groups_lang     = Zen::Language.load('category_groups')
         
         # Set the page title
         if !action.method.nil?
@@ -50,6 +53,10 @@ module Categories
       # Show an overview of all existing category groups and allow the user
       # to create new category groups or manage individual categories.
       #
+      # This method requires the following permissions:
+      #
+      # * read
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
@@ -58,13 +65,17 @@ module Categories
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs @groups_lang.titles[:index]
+        set_breadcrumbs(@groups_lang.titles[:index])
         
         @category_groups = CategoryGroup.all
       end
       
       ##
       # Edit an existing category group based on the ID specified in the URL.
+      # This method requires the following permissions:
+      #
+      # * read
+      # * update
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -74,14 +85,21 @@ module Categories
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@groups_lang.titles[:index], "admin/category_groups"),
-          @groups_lang.titles[:edit]
+        set_breadcrumbs(anchor_to(@groups_lang.titles[:index], CategoryGroups.r(:index)),
+          @groups_lang.titles[:edit])
         
-        @category_group = CategoryGroup[id]
+        if flash[:form_data]
+          @category_group = flash[:form_data]
+        else
+          @category_group = CategoryGroup[id]
+        end
       end
       
       ##
-      # Create a new category group.
+      # Create a new category group. This method requires the following permissions:
+      #
+      # * create
+      # * read
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -91,14 +109,18 @@ module Categories
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@groups_lang.titles[:index], "admin/category_groups"),
-          @groups_lang.titles[:new ]
+        set_breadcrumbs(anchor_to(@groups_lang.titles[:index], CategoryGroups.r(:index)),
+          @groups_lang.titles[:new])
         
         @category_group = CategoryGroup.new
       end
 
       ##
       # Save or create a new category group based on the current POST data.
+      # This method requires the following permissions:
+      #
+      # * create
+      # * update
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -110,8 +132,8 @@ module Categories
         
         post = request.params.dup
         
-        if post["id"] and !post["id"].empty?
-          @category_group = CategoryGroup[post["id"]]
+        if post['id'] and !post['id'].empty?
+          @category_group = CategoryGroup[post['id'].to_i]
           save_action     = :save
         else
           @category_group = CategoryGroup.new
@@ -125,14 +147,16 @@ module Categories
           @category_group.update(post)
           notification(:success, @groups_lang.titles[:index], flash_success)
         rescue
-          notification(:error, @groups_lang.titles[:index], flash_error)
-          flash[:form_errors] = @groups_lang.errors
+          notification(:error  , @groups_lang.titles[:index], flash_error)
+
+          flash[:form_data]   = @category_group
+          flash[:form_errors] = @category_group.errors
         end
         
-        if @category_group.id
-          redirect "/admin/category_groups/edit/#{@category_group.id}"
+        if !@category_group.nil? and @category_group.id
+          redirect(CategoryGroups.r(:edit, @category_group.id))
         else  
-          redirect "/admin/cateogry_groups/new"
+          redirect(CategoryGroups.r(:new))
         end
       end
       
@@ -142,6 +166,10 @@ module Categories
       # is required. This array will contain all the primary values of each group that
       # has to be deleted.
       #
+      # This method requires the following permissions:
+      #
+      # * delete
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
@@ -149,24 +177,24 @@ module Categories
         if !user_authorized?([:delete])
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
+
+        post = request.params.dup
         
-        if !request.params["category_group_ids"] or request.params["category_group_ids"].empty?
+        if !post['category_group_ids'] or post['category_group_ids'].empty?
           notification(:error, @groups_lang.titles[:index], @groups_lang.errors[:no_delete])
-          redirect "/admin/category_groups"
+          redirect(CategoryGroups.r(:index))
         end
         
-        request.params["category_group_ids"].each do |id|
-          @category_group = CategoryGroup[id]
-          
+        post['category_group_ids'].each do |id|
           begin
-            @cateogry_group.delete
-            notification(:success, @groups_lang.titles[:index], @groups_lang.success[:delete] % id)
+            CategoryGroup[id.to_i].destroy
+            notification(:success, @groups_lang.titles[:index], @groups_lang.success[:delete])
           rescue
-            notification(:error, @groups_lang.titles[:index], @groups_lang.errors[:delete] % id)
+            notification(:error  , @groups_lang.titles[:index], @groups_lang.errors[:delete] % id)
           end
         end
         
-        redirect "/admin/category_groups"
+        redirect(CategoryGroups.r(:index))
       end
     end
   end

@@ -23,7 +23,6 @@ module Zen
       # @param  [Array] uri Array containing all arguments (thus the URI).
       #
       def index(*uri)
-        settings = session[:settings]
         @uri     = []
         
         # Clean the URI of nasty input
@@ -38,11 +37,11 @@ module Zen
         end
         
         # A theme is always required
-        if settings[:theme].nil?
+        if @settings[:theme].nil? or @settings[:theme].empty?
           respond(@zen_general_lang.errors[:no_theme])
         end
 
-        theme    = ::Zen::Package[settings[:theme]]
+        theme    = ::Zen::Package[@settings[:theme]]
         group    = @uri[0]
         template = @uri[1]
         
@@ -65,7 +64,7 @@ module Zen
         ::Liquid::Template.file_system = ::Liquid::LocalFileSystem.new(partial_path)
         
         # Is the website down?
-        if settings[:website_enabled] == '0'
+        if @settings[:website_enabled] == '0'
           offline_path = theme_path + "/offline.liquid"
           
           if File.exist?(offline_path)

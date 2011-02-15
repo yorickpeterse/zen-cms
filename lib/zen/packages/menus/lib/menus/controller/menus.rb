@@ -137,9 +137,9 @@ module Menus
         post = request.params.dup
 
         # Determine if we're creating a new group or modifying an existing one.
-        if post['id']
-          @menu       = Menu[post['id']]
-          save_action = :save  
+        if !post['id'].empty?
+          @menu       = Menu[post['id'].to_i]
+          save_action = :save
         else
           @menu       = Menu.new
           save_action = :new

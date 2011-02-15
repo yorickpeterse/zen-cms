@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="#{session[:settings][:language]}">
+<html lang="#{@settings[:language]}">
     <head>
         <meta charset="utf-8" />
         
@@ -10,10 +10,6 @@
     </head>
 
     <body id="admin">
-        <!--
-        Top part of the admin panel that contains the navigation menu along with a small
-        gravatar of the user.
-        -->
         <div id="top">
             <header class="container">
                 <!--

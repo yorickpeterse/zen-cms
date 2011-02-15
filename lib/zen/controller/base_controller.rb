@@ -26,12 +26,12 @@ module Zen
         self.trait :user_model => ::Users::Models::User
         
         # Get all settings
-        if !session[:settings]
-          session[:settings] = ::Settings::Models::Setting.get_settings
+        if !@settings
+          @settings = ::Settings::Models::Setting.get_settings
         end
         
         # Override the language
-        Zen.options.language = session[:settings][:language]
+        Zen.options.language = @settings[:language]
         @zen_general_lang    = Zen::Language.load('zen_general')
       end
     end

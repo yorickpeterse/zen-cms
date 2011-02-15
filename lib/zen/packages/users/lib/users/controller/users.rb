@@ -138,6 +138,7 @@ module Users
       #
       def logout
         user_logout
+        session.clear
         
         notification :success, @users_lang.titles[:index], @users_lang.success[:logout]
         redirect "admin/users/login"

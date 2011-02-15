@@ -12,20 +12,22 @@ module Comments
     # @since   0.1
     #
     class Comments < Zen::Controllers::AdminController
+      include ::Comments::Models
+
       map '/admin/comments'
-      
       trait :extension_identifier => 'com.zen.comments'
       
-      include ::Comments::Models
-      
       before_all do
-        csrf_protection :save, :delete do
-          respond("The specified request can't be executed without a valid CSRF token", 403)
+        csrf_protection(:save, :delete) do
+          respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
       
       ##
-      # Constructor method that pre-loads several variables.
+      # Constructor method that pre-loads several variables and language files.
+      # The following language files are loaded:
+      #
+      # * comments
       # 
       # @author Yorick Peterse
       # @since  0.1
@@ -33,9 +35,9 @@ module Comments
       def initialize
         super
         
-        @form_save_url   = '/admin/comments/save'
-        @form_delete_url = '/admin/comments/delete'
-        @comments_lang   = Zen::Language.load 'comments'
+        @form_save_url   = Comments.r(:save)
+        @form_delete_url = Comments.r(:delete)
+        @comments_lang   = Zen::Language.load('comments')
         
         # Set the page title
         if !action.method.nil?
@@ -50,6 +52,10 @@ module Comments
       ##
       # Shows an overview of all posted comments along with their status,
       # author and so on.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
       # 
       # @author Yorick Peterse
       # @since  0.1
@@ -59,7 +65,7 @@ module Comments
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs @comments_lang.titles[:index]
+        set_breadcrumbs(@comments_lang.titles[:index])
         
         @comments = Comment.all
       end

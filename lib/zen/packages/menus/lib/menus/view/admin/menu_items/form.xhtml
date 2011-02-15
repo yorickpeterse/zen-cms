@@ -15,17 +15,11 @@
         parent_items[i.id] = i.name
       end
     end
-    
-    if @menu_item.parent_id.nil?
-      selected = '--'
-    else
-      selected = @menu_item.parent_id
-    end
 
     parent_items = menu_item_tree(@menu_id.to_i)
     
     f.select(@menu_items_lang.labels[:parent_id], :parent_id, :values => parent_items, 
-      :selected => selected, :size => 1)
+      :selected => @menu_item.parent_id, :size => 1)
 
     f.input_text(@menu_items_lang.labels[:css_class], :css_class, :placeholder => @menu_items_lang.placeholders[:css_class])
     f.input_text(@menu_items_lang.labels[:css_id]   , :css_id, :placeholder => @menu_items_lang.placeholders[:css_id])

@@ -14,7 +14,7 @@ Sequel.migration do
       String    :name,                :null => false
       String    :slug,                :null => false, :unique => true
       String    :description,         :text => true
-      Integer   :sort_order,          :null => false, :default  => 0
+      Integer   :sort_order,          :default  => 0
       String    :type,                :null => false, :default => 'textbox'
       String    :format,              :null => false, :default => 'plain'
       String    :possible_values,     :text => true
@@ -22,8 +22,8 @@ Sequel.migration do
       # Custom field settings
       TrueClass :required,            :null => false, :default => false
       TrueClass :visual_editor,       :null => false, :default => true
-      Integer   :textarea_rows,       :null => false, :default => 6
-      Integer   :text_limit,          :null => false, :default => 255
+      Integer   :textarea_rows,       :default => 10
+      Integer   :text_limit,          :default => 1
       
       foreign_key :custom_field_group_id, :custom_field_groups, :on_delete => :cascade,
         :on_update => :cascade, :key => :id

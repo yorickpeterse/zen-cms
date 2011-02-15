@@ -69,13 +69,13 @@ module Sections
       # @param  [String] arguments All additional arguments passed as a string.
       # @param  [String] html The HTML inside the block.
       #
-      def initialize tag_name, arguments, html
+      def initialize(tag_name, arguments, html)
         super
-        
+
         @arguments = {
           'limit'   => nil,
           'offset'  => nil,
-          'section' => Zen::Controllers::FrontendController.session[:settings][:default_section],
+          'section' => '',
           'order'   => 'desc',
           'order_by'=> 'id'
         }.merge(parse_key_values(arguments))
@@ -121,7 +121,7 @@ module Sections
         
         else
           if @arguments['section'].empty?
-            raise ArgumentError, "You need to specify a section for which to retrieve all entries"
+            @arguments['section'] = ::Settings::Model::Setting.get_settings[:default_section]
           end
           
           section = ::Sections::Models::Section[:slug => @arguments['section']]

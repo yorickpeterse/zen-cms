@@ -23,7 +23,7 @@ module Categories
       one_to_one :category_groups
       many_to_one :parent, :class => self
       
-      plugin :sluggable, :source => :name, :freeze => false
+      plugin :sluggable, :source => :name, :frozen => false
       
       ##
       # Validation rules for our model.
@@ -32,10 +32,9 @@ module Categories
       # @since  0.1
       #
       def validate
-        validates_presence        [:name]
-        validates_presence        [:slug] unless new?
-        validates_max_length 255, [:name, :slug]
-        validates_unique          [:slug]
+        validates_presence    :name
+        validates_max_length  255, [:name, :slug]
+        validates_unique      :slug
       end
     end
   end

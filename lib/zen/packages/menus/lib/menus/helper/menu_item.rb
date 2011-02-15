@@ -42,7 +42,7 @@ module Ramaze
       #
       def menu_item_tree(menu_id)
         menu_items       = ::Menus::Models::MenuItem.filter(:menu_id => menu_id, :parent_id => nil)
-        @menu_items_hash = {'--' => '--'}
+        @menu_items_hash = {nil => '--'}
 
         menu_items.each do |item|
           @menu_items_hash[item.id] = item.name

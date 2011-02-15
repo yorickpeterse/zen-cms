@@ -9,7 +9,7 @@ Sequel.migration do
       String  :website
       String  :email
       String  :comment,            :text => true
-      String  :defensio_signature, :null => true
+      String  :defensio_signature
       String  :status,             :default => 'closed'
       Time    :created_at
       Time    :updated_at
