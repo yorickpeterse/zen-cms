@@ -38,7 +38,12 @@
                     <td>#{item.id}</td>
 
                     <?r if user_authorized?([:edit]) ?>
-                    <td>#{anchor_to(item.name, Menus::Controllers::MenuItems.r(:edit, @menu_id, item.id))}</td>
+                    <td>
+                        #{anchor_to(
+                          item.name, 
+                          Menus::Controllers::MenuItems.r(:edit, @menu_id, item.id)
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{item.name}</td>
                     <?r end ?>
@@ -61,7 +66,10 @@
         <div class="clearfix">
             <?r if user_authorized?([:create, :read]) ?>
             <div class="button">
-                #{anchor_to(@menu_items_lang.buttons[:new], Menus::Controllers::MenuItems.r(:new, @menu_id))}
+                #{anchor_to(
+                  @menu_items_lang.buttons[:new], 
+                  Menus::Controllers::MenuItems.r(:new, @menu_id)
+                )}
             </div>
             <?r end ?>
 

@@ -1,12 +1,27 @@
 #{
   form_for(@menu_item, :method => :post, :action => @form_save_url) do |f|
+
     f.input_hidden(:csrf_token, get_csrf_token)
     f.input_hidden(:id        , @menu_item.id)
     f.input_hidden(:menu_id   , @menu_id)
 
-    f.input_text(@menu_items_lang.labels[:name]  , :name , :placeholder => @menu_items_lang.placeholders[:name])
-    f.input_text(@menu_items_lang.labels[:url]   , :url  , :placeholder => @menu_items_lang.placeholders[:url])
-    f.input_text(@menu_items_lang.labels[:order] , :order, :placeholder => @menu_items_lang.placeholders[:order])
+    f.input_text(
+      @menu_items_lang.labels[:name], 
+      :name, 
+      :placeholder => @menu_items_lang.placeholders[:name]
+    )
+
+    f.input_text(
+      @menu_items_lang.labels[:url], 
+      :url, 
+      :placeholder => @menu_items_lang.placeholders[:url]
+    )
+   
+    f.input_text(
+      @menu_items_lang.labels[:order], 
+      :order, 
+      :placeholder => @menu_items_lang.placeholders[:order]
+    )
 
     # Generate the dropdown that contains all possible parent menu items    
     parent_items = {}
@@ -18,11 +33,24 @@
 
     parent_items = menu_item_tree(@menu_id.to_i)
     
-    f.select(@menu_items_lang.labels[:parent_id], :parent_id, :values => parent_items, 
-      :selected => @menu_item.parent_id, :size => 1)
+    f.select(
+      @menu_items_lang.labels[:parent_id], 
+      :parent_id, 
+      :values   => parent_items, 
+      :selected => @menu_item.parent_id, :size => 1
+    )
 
-    f.input_text(@menu_items_lang.labels[:css_class], :css_class, :placeholder => @menu_items_lang.placeholders[:css_class])
-    f.input_text(@menu_items_lang.labels[:css_id]   , :css_id, :placeholder => @menu_items_lang.placeholders[:css_id])
+    f.input_text(
+      @menu_items_lang.labels[:css_class], 
+      :css_class, 
+      :placeholder => @menu_items_lang.placeholders[:css_class]
+    )
+
+    f.input_text(
+      @menu_items_lang.labels[:css_id], 
+      :css_id, 
+      :placeholder => @menu_items_lang.placeholders[:css_id]
+    )
 
     f.g.div(:class => :clearfix) do
       f.g.div(:class => :button) do
@@ -30,4 +58,5 @@
       end
     end
   end
+
 }

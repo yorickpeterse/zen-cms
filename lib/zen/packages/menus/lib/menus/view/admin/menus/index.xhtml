@@ -41,7 +41,12 @@
                     <td>#{menu.id}</td>
 
                     <?r if user_authorized?([:edit]) ?>
-                    <td>#{anchor_to(menu.name, Menus::Controllers::Menus.r(:edit, menu.id))}</td>
+                    <td>
+                        #{anchor_to(
+                          menu.name, 
+                          Menus::Controllers::Menus.r(:edit, menu.id)
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{menu.name}</td>
                     <?r end ?>
@@ -51,7 +56,12 @@
                     <td>#{menu.css_id}</td>
 
                     <?r if user_authorized?([:create, :read]) ?>
-                    <td>#{anchor_to(@menus_lang.labels[:manage_items], Menus::Controllers::MenuItems.r(:index, menu.id))}</td>
+                    <td>
+                        #{anchor_to(
+                          @menus_lang.labels[:manage_items], 
+                          Menus::Controllers::MenuItems.r(:index, menu.id)
+                        )}
+                    </td>
                     <?r end ?>
                 </tr>
                 <?r end ?>
@@ -66,7 +76,10 @@
 
             <?r if user_authorized?([:create, :read]) ?>
             <div class="button">
-                #{anchor_to(@menus_lang.buttons[:new], Menus::Controllers::Menus.r(:new))}
+                #{anchor_to(
+                  @menus_lang.buttons[:new], 
+                  Menus::Controllers::Menus.r(:new) 
+                )}
             </div>
             <?r end ?>
 

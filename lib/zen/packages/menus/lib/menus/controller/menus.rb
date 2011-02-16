@@ -10,17 +10,21 @@ module Menus
     class Menus < Zen::Controllers::AdminController
       include ::Menus::Models
 
-      map "/admin/menus"
+      map   '/admin/menus'
       trait :extension_identifier => 'com.zen.menus'
       
       before_all do
-        csrf_protection :save, :delete do
+        csrf_protection(:save, :delete) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
       
       ##
       # Initializes the class and loads all required language packs.
+      #
+      # This method loads the following language files:
+      #
+      # * menus
       #
       # @author Yorick Peterse
       # @since  0.2a
@@ -83,11 +87,16 @@ module Menus
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
 
-        # Set our breadcrumbs
-        set_breadcrumbs(anchor_to(@menus_lang.titles[:index], Menus.r(:index)), @page_title)
+        set_breadcrumbs(
+          anchor_to(@menus_lang.titles[:index], Menus.r(:index)), 
+          @page_title
+        )
         
-        # Fetch the menu
-        @menu = Menu[id]
+        if flash[:form_data]
+          @menu = flash[:form_data]
+        else
+          @menu = Menu[id]
+        end
       end
       
       ##
@@ -108,9 +117,11 @@ module Menus
         end
 
         # Breadcrumbs, om nom nom!
-        set_breadcrumbs(anchor_to(@menus_lang.titles[:index], Menus.r(:index)), @page_title)
+        set_breadcrumbs(
+          anchor_to(@menus_lang.titles[:index], Menus.r(:index)), 
+          @page_title
+        )
 
-        # Create a blank menu
         @menu = Menu.new
       end
       
@@ -155,6 +166,8 @@ module Menus
           notification(:success, @menus_lang.titles[:index], flash_success)
         rescue
           notification(:error, @menus_lang.titles[:index], flash_error)
+
+          flash[:form_data]   = @menu
           flash[:form_errors] = @menu.errors
         end
 

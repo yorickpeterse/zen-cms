@@ -9,18 +9,23 @@ module Menus
     class MenuItems < ::Zen::Controllers::AdminController
       include ::Menus::Models
 
-      map "/admin/menu_items"
-      trait :extension_identifier => "com.zen.menus"
+      map    '/admin/menu_items'
+      trait  :extension_identifier => 'com.zen.menus'
       helper :menu_item
       
       before_all do
-        csrf_protection :save, :delete do
+        csrf_protection(:save, :delete) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
  
       ##
       # Initializes the class, loads all language packs and sets the form URLs.
+      #
+      # This method loads the following language files:
+      #
+      # * menus
+      # * menu_items
       #
       # @author Yorick Peterse
       # @since  0.2a
@@ -45,6 +50,7 @@ module Menus
 
       ##
       # Show an overview of all navigation items for the current navigation menu.
+      #
       # This method requires the following permissions:
       #
       # * read
@@ -59,15 +65,19 @@ module Menus
         end
 
         validate_menu(menu_id)
-        set_breadcrumbs(anchor_to(@menus_lang.titles[:index], 
-          ::Menus::Controllers::Menus.r(:index)), @menu_items_lang.titles[:index])
+
+        set_breadcrumbs(
+          anchor_to(@menus_lang.titles[:index], Menus.r(:index)), 
+          @menu_items_lang.titles[:index]
+        )
 
         @menu_id    = menu_id
-        @menu_items = Menu[menu_id].menu_items
+        @menu_items = Menu[menu_id.to_i].menu_items
       end
 
       ##
       # Allow the user to edit an existing navigation item.
+      #
       # This method requires the following permissions:
       #
       # * read
@@ -84,19 +94,25 @@ module Menus
         end
 
         validate_menu(menu_id)
-        set_breadcrumbs(anchor_to(@menus_lang.titles[:index], 
-            ::Menus::Controllers::Menus.r(:index)),
-          anchor_to(@menu_items_lang.titles[:index], 
-            ::Menus::Controllers::MenuItems.r(:index, menu_id)), 
-          @menu_items_lang.titles[:edit])
 
-        @menu_id   = menu_id
-        @menu_item = MenuItem[id]
+        set_breadcrumbs(
+          anchor_to(@menus_lang.titles[:index], Menus.r(:index)),
+          anchor_to(@menu_items_lang.titles[:index], MenuItems.r(:index, menu_id)), 
+          @menu_items_lang.titles[:edit]
+        )
 
+        @menu_id = menu_id
+
+        if flash[:form_data]
+          @menu_item = flash[:form_data]
+        else
+          @menu_item = MenuItem[id.to_i]
+        end
       end
 
       ##
       # Allow the user to create a new menu item for the current menu.
+      #
       # This method requires the following permissions:
       #
       # * read
@@ -112,11 +128,12 @@ module Menus
         end  
 
         validate_menu(menu_id)
-        set_breadcrumbs(anchor_to(@menus_lang.titles[:index], 
-            ::Menus::Controllers::Menus.r(:index)),
-          anchor_to(@menu_items_lang.titles[:index], 
-            ::Menus::Controllers::MenuItems.r(:index, menu_id)), 
-          @menu_items_lang.titles[:new])
+
+        set_breadcrumbs(
+          anchor_to(@menus_lang.titles[:index], Menus.r(:index)),
+          anchor_to(@menu_items_lang.titles[:index], MenuItems.r(:index, menu_id)), 
+          @menu_items_lang.titles[:new]
+        )
 
         @menu_id   = menu_id
         @menu_item = MenuItem.new
@@ -124,6 +141,7 @@ module Menus
 
       ##
       # Saves an existing menu iten or creates a new one using the supplied POST data. 
+      #
       # This method requires the following permissions:
       #
       # * create
@@ -138,7 +156,7 @@ module Menus
         end
 
         post = request.params.dup
-        if post['parent_id'] == '--' or post['parent_id'] == post['id']
+        if post['parent_id'].empty? or post['parent_id'] == post['id']
           post['parent_id'] = nil
         end
 
@@ -152,8 +170,6 @@ module Menus
           save_action = :new
         end
 
-        post['parent_id'] = nil if post['parent_id'] == '--'
-
         # Set our notifications
         flash_success = @menu_items_lang.success[save_action]
         flash_error   = @menu_items_lang.errors[save_action]
@@ -164,11 +180,13 @@ module Menus
           notification(:success, @menu_items_lang.titles[:index], flash_success)
         rescue
           notification(:error, @menu_items_lang.titles[:index], flash_error)
+
+          flash[:form_data]   = @menu_item
           flash[:form_errors] = @menu_item.errors
         end
 
         if @menu_item.id
-          redirect(::Menus::Controllers::MenuItems.r(:edit, @menu_item.menu_id, @menu_item.id))
+          redirect(MenuItems.r(:edit, @menu_item.menu_id, @menu_item.id))
         else
           redirect_referrer
         end
