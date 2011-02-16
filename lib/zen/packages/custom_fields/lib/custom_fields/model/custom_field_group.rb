@@ -24,8 +24,8 @@ module CustomFields
       # @since  0.1
       #
       def validate
-        validates_presence        [:name]
-        validates_max_length 255, [:name]
+        validates_presence        :name
+        validates_max_length 255, :name
       end
     end
   end

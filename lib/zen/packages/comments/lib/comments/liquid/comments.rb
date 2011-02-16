@@ -5,7 +5,6 @@ module Comments
     # or the slug of a section entry.
     #
     # @example
-    #
     #  {% comments section_entry="hello-world" limit="10" %}
     #    {{comment}}
     #  {% endcomments %}
@@ -33,7 +32,7 @@ module Comments
       # @param  [String] html The HTML inside the block.
       # @since  0.1
       #
-      def initialize tag_name, arguments, html
+      def initialize(tag_name = 'comments', arguments = '', html = '')
         super
         
         @arguments = {
@@ -44,7 +43,7 @@ module Comments
         @args_parsed = false
         
         if !@arguments.key?('section_entry') or @arguments['section_entry'].empty?
-          raise ArgumentError, "You need to specify a section entry's slug in order to retrieve a set of comments"
+          raise(ArgumentError, "You need to specify a section entry's slug in order to retrieve a set of comments")
         end
       end
       
@@ -56,13 +55,7 @@ module Comments
       #
       def render context
         if @args_parsed == false
-          @arguments.each do |k, v|
-            v = v.to_s
-            
-            if context.has_key?(v)
-              @arguments[k] = h(context[v])
-            end
-          end
+          @arguments = merge_context(@arguments, context)
         end
         
         @args_parsed = true
@@ -104,10 +97,10 @@ module Comments
             end
           end
           
-          result << render_all(@nodelist, context)
+          result.push(render_all(@nodelist, context))
         end
         
-        result << render_all(@nodelist, context) if result.empty?
+        result.push(render_all(@nodelist, context)) if result.empty?
         return result
       end
     end

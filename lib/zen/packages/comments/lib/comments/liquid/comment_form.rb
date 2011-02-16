@@ -3,12 +3,31 @@ require 'ramaze/gestalt'
 module Comments
   module Liquid
     ##
-    # Describe...
+    # Liquid tag that can be used to generate the required form elements for submitting
+    # comments. It's important to remember that you still need to define your own
+    # form fields such as those for the name and Email, this tag merely generates
+    # the form open/closing tags and a few hidden fields. The following field (names)
+    # are required when creating a comment form:
+    #
+    # * name
+    # * website
+    # * email
+    # * comment
+    #
+    # Basic usage of this tag is as following:
+    #
+    # bc. {% comment_form section_entry="hello-world" %}
+    #   <p>
+    #     <label for="name">Name</label>
+    #     <input type="text" name="name" id="name" />
+    #   </p>
+    #   <input type="submit" value="Submit comment" />
+    # {% endcomment_form %}
     #
     # The following arguments can be used:
     #
-    # * section_entry
-    # * section_entry_id
+    # * section_entry: the slug of the entry
+    # * section_entry_id: the ID of the entry
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -29,7 +48,7 @@ module Comments
       # @param  [String] html The HTML inside the block.
       # @since  0.1
       #
-      def initialize(tag_name, arguments, html)
+      def initialize(tag_name = 'comments_form', arguments = '', html = '')
         super
         
         @arguments   = parse_key_values(arguments)
@@ -57,9 +76,7 @@ module Comments
         g            = Ramaze::Gestalt.new
         user_html    = ''
         
-        super(context).each do |h|
-          user_html += h
-        end
+        super(context).each { |h| user_html += h }
         
         # Get our section to which this form belongs
         if @arguments.key?('section_entry')
@@ -82,10 +99,10 @@ module Comments
           user_id = nil
         end
         
-        g_html = form_for(nil, :method => :post, :action => "/comments_form/save") do |f|
-          f.input_hidden :csrf_token, get_csrf_token
-          f.input_hidden :section_entry, section_entry_id
-          f.input_hidden :user_id, user_id
+        g_html = form_for(nil, :method => :post, :action => Comments::Controllers::CommentsForm.r(:save)) do |f|
+          f.input_hidden(:csrf_token   , get_csrf_token)
+          f.input_hidden(:section_entry, section_entry_id)
+          f.input_hidden(:user_id      , user_id)
           
           user_html
         end

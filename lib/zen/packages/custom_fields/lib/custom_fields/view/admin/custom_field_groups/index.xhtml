@@ -39,14 +39,19 @@
                     <td>#{group.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to(group.name, "admin/custom_field_groups/edit/#{group.id}", :title => group.name)}</td>
+                    <td>
+                        #{anchor_to(
+                          group.name, 
+                          CustomFields::Controllers;:CustomFieldGroups.r(:edit, group.id), 
+                          :title => group.name
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{group.name}</td>
                     <?r end ?>
                     
                     <td>
-                        <?r sections = group.sections.map { |s| s.name } ?>
-                                        
+                        <?r sections = group.sections.map { |s| s.name } ?> 
                         <?r if !sections.empty? ?>
                             #{sections.join(', ')}
                         <?r else ?>
@@ -55,7 +60,13 @@
                     </td>
                     
                     <?r if user_authorized?([:create]) ?>
-                    <td>#{anchor_to(@field_groups_lang.labels[:manage_fields], "admin/custom_fields/index/#{group.id}", :title => @field_groups_lang.labels[:manage_fields])}</td>
+                    <td>
+                      #{anchor_to(
+                          @field_groups_lang.labels[:manage_fields], 
+                          CustomFields::Controllers::CustomFields.r(:index, group.id), 
+                          :title => @field_groups_lang.labels[:manage_fields]
+                        )}
+                    </td>
                     <?r end ?>
                     
                 </tr>
@@ -73,13 +84,16 @@
             
             <?r if user_authorized?([:create]) ?>
             <div class="button">
-                #{anchor_to(@field_groups_lang.buttons[:new_group], "admin/custom_field_groups/new")}
+                #{anchor_to(
+                  @field_groups_lang.buttons[:new_group], 
+                  CustomFields::Controllers::CustomFieldGroups.r(:new)
+                )}
             </div>
             <?r end ?>
             
             <?r if user_authorized?([:delete]) and @field_groups and !@field_groups.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@field_groups_lang.buttons[:delete_groups]}" />
+                <input type="submit" value="#{@field_groups_lang.buttons[:delete]}" />
             </div>
             <?r end ?>
         </div>

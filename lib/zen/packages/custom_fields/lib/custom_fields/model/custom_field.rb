@@ -28,13 +28,13 @@ module CustomFields
       # @since  0.1
       # 
       def validate
-        validates_presence         [:name, :type, :format, :required, :visual_editor]
-        validates_presence         :slug unless new?
-        validates_max_length 255 , [:name]
-        validates_type TrueClass , [:required, :visual_editor]
-        validates_integer [:sort_order, :textarea_rows, :text_limit]
+        validates_presence              [:name, :type, :format, :required, :visual_editor]
+        validates_max_length 255      , [:name]
+        validates_type       TrueClass, [:required, :visual_editor]
+        validates_integer               [:sort_order, :textarea_rows, :text_limit]
         
-        validates_unique :slug
+        validates_presence :slug unless new?
+        validates_unique   :slug
       end
     end
   end

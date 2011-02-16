@@ -35,7 +35,7 @@
                     <td>#{comment.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to("#{comment.comment[0, 15]}...", "admin/comments/edit/#{comment.id}")}</td>
+                    <td>#{anchor_to("#{comment.comment[0, 15]}...", Comments::Controllers::Comments.r(:edit, comment.id))}</td>
                     <?r else ?>
                     <td>#{comment.comment[0, 15]}...</td>
                     <?r end ?>

@@ -36,7 +36,7 @@
                     <td>#{category.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to(category.name, "admin/categories/edit/#{@category_group_id}/#{category.id}")}</td>
+                    <td>#{anchor_to(category.name, Categories::Controllers::Categories.r(:edit, @category_group_id, category.id))}</td>
                     <?r else ?>
                     <td>#{category.name}</td>
                     <?r end ?>
@@ -55,7 +55,7 @@
         <div class="clearfix">
             <?r if user_authorized?([:create]) ?>
             <div class="button">
-                #{anchor_to(@categories_lang.buttons[:new_category], "admin/categories/new/#{@category_group_id}")}
+                #{anchor_to(@categories_lang.buttons[:new_category], Categories::Controllers::Categories.r(:new, @category_group_id))}
             </div>
             <?r end ?>
             

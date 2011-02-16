@@ -1,50 +1,100 @@
-<div class="tabs">
+<div class='tabs'>
     <ul>
       <li>
-        <a href="#general" title="#{@fields_lang.tabs[:general]}">#{@fields_lang.tabs[:general]}</a>
+        <a href='#general' title='#{@fields_lang.tabs[:general]}'>#{@fields_lang.tabs[:general]}</a>
       </li>
       <li>
-        <a href="#settings" title="#{@fields_lang.tabs[:settings]}">#{@fields_lang.tabs[:settings]}</a>
+        <a href='#settings' title='#{@fields_lang.tabs[:settings]}'>#{@fields_lang.tabs[:settings]}</a>
       </li>
     </ul>
 </div>
 
 #{
 form_for(@custom_field, :method => :post, :action => @form_save_url) do |f|
-  f.input_hidden :id, @custom_field.id
-  f.input_hidden :custom_field_group_id, @custom_field_group_id
-  f.input_hidden :csrf_token, get_csrf_token
+  f.input_hidden(:id, @custom_field.id)
+  f.input_hidden(:custom_field_group_id, @custom_field_group_id)
+  f.input_hidden(:csrf_token, get_csrf_token)
   
-  f.g.div :id => 'general' do
-    f.input_text @fields_lang.labels[:name], :name
-    f.input_text @fields_lang.labels[:slug], :slug
+  f.g.div(:id => 'general') do
+
+    f.input_text(
+      @fields_lang.labels[:name], 
+      :name
+    )
+
+    f.input_text(
+      @fields_lang.labels[:slug], 
+      :slug
+    )
     
-    f.select @fields_lang.labels[:type], :type, :values => @fields_lang.special[:type_hash], :size => 1,
+    f.select(
+      @fields_lang.labels[:type], 
+      :type, 
+      :values   => @fields_lang.special[:type_hash], 
+      :size     => 1,
       :selected => @custom_field.type
+    )
     
-    f.select @fields_lang.labels[:format], :format, :values => @fields_lang.special[:format_hash], :size => 1,
+    f.select(
+      @fields_lang.labels[:format], 
+      :format, 
+      :values   => @fields_lang.special[:format_hash], 
+      :size     => 1,
       :selected => @custom_field.format
+    )
   
-    f.textarea @fields_lang.labels[:description]    , :description, :rows => 8
-    f.textarea @fields_lang.labels[:possible_values], :possible_values, :rows => 8
+    f.textarea(
+      @fields_lang.labels[:description], 
+      :description, 
+      :rows => 8
+    )
+
+    f.textarea(
+      @fields_lang.labels[:possible_values], 
+      :possible_values, 
+      :rows => 8
+    )
+   
   end
   
-  f.g.div :id => 'settings' do
-    f.input_radio @fields_lang.labels[:required], :required, @custom_field.required,
-      :values => @fields_lang.special[:boolean_hash]
+  f.g.div(:id => 'settings') do
+
+    f.input_radio(
+      @fields_lang.labels[:required], 
+      :required, 
+      @custom_field.required,
+      :values => @fields_lang.special[:boolean_hash] 
+    )
       
-    f.input_radio @fields_lang.labels[:visual_editor], :visual_editor, @custom_field.visual_editor,
+    f.input_radio(
+      @fields_lang.labels[:visual_editor], 
+      :visual_editor, 
+      @custom_field.visual_editor,
       :values => @fields_lang.special[:boolean_hash]
+    )
       
-    f.input_text @fields_lang.labels[:textarea_rows], :textarea_rows
-    f.input_text @fields_lang.labels[:text_limit], :text_limit
-    f.input_text @fields_lang.labels[:sort_order], :sort_order 
+    f.input_text(
+      @fields_lang.labels[:textarea_rows], 
+      :textarea_rows
+    )
+    
+    f.input_text(
+      @fields_lang.labels[:text_limit], 
+      :text_limit
+    )
+    
+    f.input_text(
+      @fields_lang.labels[:sort_order], 
+      :sort_order
+    )
+
   end
   
-  f.g.div :class => "clearfix" do
-    f.g.div :class => "button" do
-      f.g.input :type => 'submit', :value => @fields_lang.buttons[:save_field]
+  f.g.div(:class => 'clearfix') do
+    f.g.div(:class => 'button') do
+      f.g.input(:type => 'submit', :value => @fields_lang.buttons[:save_field])
     end
   end
+
 end
 }

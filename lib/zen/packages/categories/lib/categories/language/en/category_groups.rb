@@ -25,7 +25,7 @@ Zen::Language.translation 'category_groups' do |item|
   item.success = {
     :new      => 'The category group has been created',
     :save     => 'The category group has been saved',
-    :delete   => 'The category group with ID #%s has been deleted'
+    :delete   => 'The selected category groups have been deleted.'
   }
   
   item.errors = {

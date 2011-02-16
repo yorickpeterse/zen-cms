@@ -38,7 +38,13 @@
                     <td>#{field.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to(field.name, "admin/custom_fields/edit/#{@custom_field_group_id}/#{field.id}", :title => field.name)}</td>
+                    <td>
+                        #{anchor_to(
+                          field.name, 
+                          CustomFields::Controllers::CustomFields.r(:edit, @custom_field_group_id, field.id), 
+                          :title => field.name
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{field.name}</td>
                     <?r end ?>
@@ -60,13 +66,16 @@
         <div class="clearfix">
             <?r if user_authorized?([:create]) ?>
             <div class="button">
-                #{anchor_to(@fields_lang.buttons[:new_field], "admin/custom_fields/new/#{@custom_field_group_id}")}
+                #{anchor_to(
+                  @fields_lang.buttons[:new_field], 
+                  CustomFields::Controllers::CustomFields.r(:new, @custom_field_group_id)
+                )}
             </div>
             <?r end ?>
             
             <?r if user_authorized?([:delete]) and @custom_fields and !@custom_fields.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@fields_lang.buttons[:delete_fields]}" />
+                <input type="submit" value="#{@fields_lang.buttons[:delete]}" />
             </div>
             <?r end ?>
             

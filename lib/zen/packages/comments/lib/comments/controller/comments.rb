@@ -73,6 +73,11 @@ module Comments
       ##
       # Edits an existing comment based on the ID.
       #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * update
+      #
       # @author Yorick Peterse
       # @param  [Integer] id The ID of the comment to retrieve so that we can edit it.
       # @since  0.1
@@ -82,14 +87,25 @@ module Comments
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@comments_lang.titles[:index], "admin/comments"), @page_title
-        
-        @comment = Comment[id]
+        set_breadcrumbs(
+          anchor_to(@comments_lang.titles[:index], Comments.r(:index)), 
+          @page_title
+        )
+
+        if flash[:form_data]
+          @comment = flash[:form_data]
+        else
+          @comment = Comment[id.to_i]
+        end
       end
       
       ##
       # Saves a comment based on the current POST data. Note that this
       # method won't create a new comment as this can't be done using the backend.
+      #
+      # This method requires the following permissions:
+      #
+      # * update
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -101,7 +117,7 @@ module Comments
         
         # Copy the POST data so we can work with it without messing things up
         post     = request.params.dup
-        @comment = Comment[post["id"]]
+        @comment = Comment[post['id'].to_i]
 
         begin
           @comment.update(post)
@@ -110,11 +126,12 @@ module Comments
           notification(:error, @comments_lang.titles[:index], @comments_lang.errors[:save])
           
           flash[:form_errors] = @comment.errors
+          flash[:form_data]   = @comment
         end
         
         # Redirect the user to the proper page.
         if @comment.id
-          redirect "/admin/comments/edit/#{@comment.id}"
+          redirect(Comments.r(:edit, @comment.id))
         else
           redirect_referrer
         end
@@ -123,6 +140,10 @@ module Comments
       ##
       # Deletes a number of comments based on the comment IDs specified
       # in the POST array "comment_ids".
+      #
+      # This method requires the following permissions:
+      #
+      # * delete
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -133,18 +154,16 @@ module Comments
         end
         
         # Obviously we'll require some IDs
-        if !request.params["comment_ids"] or request.params["comment_ids"].empty?
+        if !request.params['comment_ids'] or request.params['comment_ids'].empty?
           notification(:error, @comments_lang.titles[:index], @comments_lang.errors[:no_delete])
           redirect_referrer
         end
         
         # Delete each section
-        request.params["comment_ids"].each do |id|
-          @comment = Comment[id]
-          
+        request.params['comment_ids'].each do |id|
           begin
-            @comment.delete
-            notification(:success, @comments_lang.titles[:index], @comments_lang.success[:delete] % id)
+            Comment[id.to_i].destroy
+            notification(:success, @comments_lang.titles[:index], @comments_lang.success[:delete])
           rescue
             notification(:error, @comments_lang.titles[:index], @comments_lang.errors[:delete] % id)
           end

@@ -15,7 +15,7 @@ module Comments
       trait :extension_identifier => 'com.zen.comments'
       
       before_all do
-        csrf_protection :save do
+        csrf_protection(:save) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
@@ -92,8 +92,8 @@ module Comments
           defensio         = ::Defensio.new(api_key)
           status, response = defensio.post_document(
             :content       => post['comment'],
-            :platform      => "zen",
-            :type          => "comment"
+            :platform      => 'zen',
+            :type          => 'comment'
           )
           
           if status != 200

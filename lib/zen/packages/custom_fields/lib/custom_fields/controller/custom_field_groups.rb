@@ -9,14 +9,13 @@ module CustomFields
     # @since   0.1
     #
     class CustomFieldGroups < Zen::Controllers::AdminController
-      map '/admin/custom_field_groups'
-      
-      trait :extension_identifier => 'com.zen.custom_fields'
-      
       include ::CustomFields::Models
+
+      map '/admin/custom_field_groups'
+      trait :extension_identifier => 'com.zen.custom_fields' 
       
       before_all do
-        csrf_protection :save, :delete do
+        csrf_protection(:save, :delete) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
@@ -25,15 +24,19 @@ module CustomFields
       # Constructor method, called upon initialization. It's used to set the
       # URL to which forms send their data and load the language pack.
       #
+      # This method loads the following language files:
+      #
+      # * custom_field_groups
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def initialize
         super
         
-        @form_save_url     = '/admin/custom_field_groups/save'
-        @form_delete_url   = '/admin/custom_field_groups/delete'
-        @field_groups_lang = Zen::Language.load 'custom_field_groups'
+        @form_save_url     = CustomFieldGroups.r(:save)
+        @form_delete_url   = CustomFieldGroups.r(:delete)
+        @field_groups_lang = Zen::Language.load('custom_field_groups')
         
         # Set the page title
         if !action.method.nil?
@@ -48,6 +51,10 @@ module CustomFields
       ##
       # Show an overview of all existing custom field groups. Using this overview a user
       # can manage an existing field group, delete it or create a new one.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
       # 
       # @author Yorick Peterse
       # @since  0.1
@@ -57,13 +64,18 @@ module CustomFields
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs @field_groups_lang.titles[:index]
+        set_breadcrumbs(@field_groups_lang.titles[:index])
         
         @field_groups = CustomFieldGroup.all
       end
       
       ##
       # Show a form that lets the user edit an existing custom field group.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * update
       #
       # @author Yorick Peterse
       # @param  [Integer] id The ID of the custom field group to retrieve so that we can edit it.
@@ -74,13 +86,25 @@ module CustomFields
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@field_groups_lang.titles[:index], "admin/custom_field_groups"), @page_title
+        set_breadcrumbs(
+          anchor_to(@field_groups_lang.titles[:index], CustomFieldGroups.r(:index)), 
+          @page_title
+        )
         
-        @field_group = CustomFieldGroup[id]
+        if flash[:form_data]
+          @field_group = flash[:form_data]
+        else
+          @field_group = CustomFieldGroup[id.to_i]
+        end
       end
       
       ##
       # Show a form that lets the user create a new custom field group.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * create
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -90,15 +114,23 @@ module CustomFields
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@field_groups_lang.titles[:index], "admin/custom_field_groups"), @page_title
+        set_breadcrumbs(
+          anchor_to(@field_groups_lang.titles[:index], CustomFieldgroups.r(:index)), 
+          @page_title
+        )
         
         @field_group = CustomFieldGroup.new
       end
       
       ##
       # Method used for processing the form data and redirecting the user back to
-      # the proper URL. Based on the value of a hidden field named "id" we'll determine
+      # the proper URL. Based on the value of a hidden field named 'id' we'll determine
       # if the data will be used to create a new group or to update an existing one.
+      #
+      # This method requires the following permissions:
+      #
+      # * create
+      # * update
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -111,8 +143,8 @@ module CustomFields
         post = request.params.dup
         
         # Get or create a custom field group based on the ID from the hidden field.
-        if post["id"] and !post["id"].empty?
-          @field_group  = CustomFieldGroup[post["id"]]
+        if post['id'] and !post['id'].empty?
+          @field_group  = CustomFieldGroup[post['id'].to_i]
           save_action   = :save
         else
           @field_group  = CustomFieldGroup.new
@@ -127,13 +159,15 @@ module CustomFields
           notification(:success, @field_groups_lang.titles[:index], flash_success)
         rescue
           notification(:error, @field_groups_lang.titles[:index], flash_error)
+
           flash[:form_errors] = @field_group.errors
+          flash[:form_data]   = @field_group
         end
         
-        if @field_group.id
-          redirect "/admin/custom_field_groups/edit/#{@field_group.id}"
+        if !@field_group.nil? and @field_group.id
+          redirect(CustomFieldGroups.r(:edit, @field_group.id))
         else
-          redirect "/admin/custom_field_groups/new"
+          redirect(CustomFieldGroups.r(:new))
         end
       end
       
@@ -141,8 +175,12 @@ module CustomFields
       # Delete an existing custom field group.
       #
       # In order to delete a custom field group you'll need to send a POST request that contains
-      # a field named "custom_field_group_ids[]". This field should contain the primary values of
+      # a field named 'custom_field_group_ids[]'. This field should contain the primary values of
       # each field group that has to be deleted.
+      #
+      # This method requires the following permissions:
+      #
+      # * delete
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -152,23 +190,21 @@ module CustomFields
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        if !request.params["custom_field_group_ids"] or request.params["custom_field_group_ids"].empty?
+        if !request.params['custom_field_group_ids'] or request.params['custom_field_group_ids'].empty?
           notification(:error, @field_groups_lang.titles[:index], @field_groups_lang.errors[:no_delete])
-          redirect "/admin/custom_field_groups"
+          redirect(CustomFieldGroups.r(:index))
         end
         
-        request.params["custom_field_group_ids"].each do |id|
-          @field_group = CustomFieldGroup[id]
-          
+        request.params['custom_field_group_ids'].each do |id|
           begin
-            @field_group.delete
-            notification(:success, @field_groups_lang.titles[:index], @field_groups_lang.success[:delete] % id)
+            CustomFieldGroup[id.to_i].destroy
+            notification(:success, @field_groups_lang.titles[:index], @field_groups_lang.success[:delete])
           rescue
             notification(:error, @field_groups_lang.titles[:index], @field_groups_lang.errors[:delete] % id)
           end
         end
         
-        redirect "/admin/custom_field_groups"
+        redirect_referrer
       end
     end
   end

@@ -37,13 +37,13 @@
                     <td>#{group.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to(group.name, "admin/category_groups/edit/#{group.id}")}</td>
+                    <td>#{anchor_to(group.name, Categories::Controllers::CategoryGroups.r(:edit, group.id))}</td>
                     <?r else ?>
                     <td>#{group.name}</td>
                     <?r end ?>
                     
                     <?r if user_authorized?([:create]) ?>
-                    <td>#{anchor_to(@groups_lang.labels[:manage_categories], "admin/categories/index/#{group.id}")}</td>
+                    <td>#{anchor_to(@groups_lang.labels[:manage_categories], Categories::Controllers::Categories.r(:index, group.id))}</td>
                     <?r end ?>
                     
                 </tr>
@@ -58,7 +58,7 @@
         <div class="clearfix">
             <?r if user_authorized?([:create]) ?>
             <div class="button">
-                #{anchor_to(@groups_lang.buttons[:new_group], 'admin/category_groups/new')}
+                #{anchor_to(@groups_lang.buttons[:new_group], Categories::Controllers::CategoryGroups.r(:new))}
             </div>
             <?r end ?>
             
