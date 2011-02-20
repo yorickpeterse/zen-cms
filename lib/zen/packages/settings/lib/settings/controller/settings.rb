@@ -8,13 +8,13 @@ module Settings
     # @since  0.1
     #
     class Settings < Zen::Controllers::AdminController
-      map "/admin/settings"
-      
-      trait :extension_identifier => 'com.zen.settings'
       include ::Settings::Models
+
+      map   "/admin/settings"
+      trait :extension_identifier => 'com.zen.settings'
       
       before_all do
-        csrf_protection :save, :delete do
+        csrf_protection(:save, :delete) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
@@ -22,14 +22,18 @@ module Settings
       ##
       # Load our language packs, set the form URLs and define our page title.
       #
+      # This method loads the following language files:
+      #
+      # * settings
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def initialize
         super
         
-        @form_save_url   = '/admin/settings/save'
-        @settings_lang   = Zen::Language.load 'settings'
+        @form_save_url   = Settings.r(:save)
+        @settings_lang   = Zen::Language.load('settings')
         
         # Set the page title
         if !action.method.nil?
@@ -46,6 +50,11 @@ module Settings
       # The values of each setting item are stored in the database,
       # the descriptions, names and possible values are stored in
       # the language packs that come with this module.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * update
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -75,6 +84,10 @@ module Settings
       # Saves the values of each setting. Since each setting
       # is a new row we'll have to loop through them and execute quite
       # a few queries.
+      #
+      # This method requires the following permissions:
+      #
+      # * update
       # 
       # @author Yorick Peterse
       # @since  0.1

@@ -8,14 +8,13 @@ module Sections
     # @since  0.1
     #
     class SectionEntries < Zen::Controllers::AdminController
-      map '/admin/section_entries'
+      include ::Sections::Models 
       
+      map   '/admin/section_entries' 
       trait :extension_identifier => 'com.zen.sections'
       
-      include ::Sections::Models
-      
       before_all do
-        csrf_protection :save, :delete do
+        csrf_protection(:save, :delete) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
@@ -24,17 +23,23 @@ module Sections
       # Constructor method, called upon initialization. It's used to set the
       # URL to which forms send their data and load the language pack.
       #
+      # This method loads the following language files:
+      #
+      # * sections
+      # * section_entries
+      # * zen_models
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def initialize
         super
         
-        @form_save_url   = '/admin/section_entries/save'
-        @form_delete_url = '/admin/section_entries/delete'
-        @entries_lang    = Zen::Language.load 'section_entries'
-        @sections_lang   = Zen::Language.load 'sections'
-        @models_lang     = Zen::Language.load 'zen_models'
+        @form_save_url   = SectionEntries.r(:save)
+        @form_delete_url = SectionEntries.r(:delete)
+        @entries_lang    = Zen::Language.load('section_entries')
+        @sections_lang   = Zen::Language.load('sections')
+        @models_lang     = Zen::Language.load('zen_models')
         
         # Set the page title
         if !action.method.nil?
@@ -47,21 +52,27 @@ module Sections
       end
       
       ##
-      # Show an overview of all entries for the current section
+      # Show an overview of all entries for the current section.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
       # 
       # @author Yorick Peterse
       # @param  [Integer] section_id The ID of the current section.
       # @since  0.1
       #
-      def index section_id
+      def index(section_id)
         if !user_authorized?([:read])
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@sections_lang.titles[:index], "admin"),
+        set_breadcrumbs(
+          anchor_to(@sections_lang.titles[:index], Sections.r(:index)),
           @entries_lang.titles[:index]
+        )
         
-        section     = Section[section_id]
+        section     = Section[section_id.to_i]
         @section_id = section_id
         @entries    = section.section_entries
       end
@@ -69,31 +80,47 @@ module Sections
       ##
       # Show a form that lets the user edit an existing section entry.
       #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * update
+      #
       # @author Yorick Peterse
       # @param  [Integer] section_id The ID of the current section.
       # @param  [Integer] entry_id The ID of the current section entry.
       # @since  0.1
       #
-      def edit section_id, entry_id
+      def edit(section_id, entry_id)
         if !user_authorized?([:read, :update])
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@sections_lang.titles[:index], "admin"),
-          anchor_to(@entries_lang.titles[:index], "admin/section_entries/index/#{section_id}"),
+        set_breadcrumbs(
+          anchor_to(@sections_lang.titles[:index], Sections.r(:index)),
+          anchor_to(@entries_lang.titles[:index], SectionEntries.r(:index, section_id)),
           @entries_lang.titles[:edit]
+        )
         
         @section_id = section_id
-        @entry      = SectionEntry[entry_id]
+
+        if flash[:form_data]
+          @entry = flash[:form_data]
+        else
+          @entry = SectionEntry[entry_id.to_i]
+        end
+
         @users_hash = {}
         
-        Users::Models::User.each do |u|
-          @users_hash[u.id] = u.name
-        end
+        Users::Models::User.each { |u| @users_hash[u.id] = u.name }
       end
       
       ##
       # Show a form that lets the user create a new section entry.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * create
       #
       # @author Yorick Peterse
       # @param  [Integer] section_id The ID of the current section.
@@ -104,23 +131,28 @@ module Sections
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@sections_lang.titles[:index], "admin"),
-          anchor_to(@entries_lang.titles[:index], "admin/section_entries/index/#{section_id}"),
+        set_breadcrumbs(
+          anchor_to(@sections_lang.titles[:index], Sections.r(:index)),
+          anchor_to(@entries_lang.titles[:index], SectionEntries.r(:index, section_id)),
           @entries_lang.titles[:new]
+        )
           
         @section_id = section_id
-        @entry      = SectionEntry.new :section_id => @section_id
+        @entry      = SectionEntry.new(:section_id => @section_id)
         @users_hash = {}
         
-        Users::Models::User.each do |u|
-          @users_hash[u.id] = u.name
-        end
+        Users::Models::User.each { |u| @users_hash[u.id] = u.name }
       end
       
       ##
       # Method used for processing the form data and redirecting the user back to
       # the proper URL. Based on the value of a hidden field named "id" we'll determine
       # if the data will be used to create a new section or to update an existing one.
+      #
+      # This method requires the following permissions:
+      #
+      # * create
+      # * save
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -133,20 +165,20 @@ module Sections
         end
         
         post                = request.params.dup
-        section_id          = post["section_id"]
-        field_values        = post["custom_field_values"]
+        section_id          = post['section_id']
+        field_values        = post['custom_field_values']
         custom_field_errors = {}
         
         post.delete("custom_field_values")
         
-        if !post["category_pks"].nil?
-          post["category_pks"].map! { |value| value.to_i }
+        if !post['category_pks'].nil?
+          post['category_pks'].map! { |value| value.to_i }
         else
-          post["category_pks"] = []
+          post['category_pks'] = []
         end
 
-        if post["id"] and !post["id"].empty?
-          @entry        = SectionEntry[post["id"]]
+        if post['id'] and !post['id'].empty?
+          @entry        = SectionEntry[post['id']]
           save_action   = :save
           
           # Section entries aren't considered to be updated whenever a custom field value
@@ -202,11 +234,13 @@ module Sections
           notification(:error, @entries_lang.titles[:index], flash_error)
             
           flash[:form_errors] = @entry.errors.merge(custom_field_errors)
+          flash[:form_data]   = @entry
+
           redirect_referrer
         end
         
         if @entry.id
-          redirect "/admin/section_entries/edit/#{section_id}/#{@entry.id}"
+          redirect(SectionEntires.r(:edit, section_id, @entry.id))
         else
           redirect_referrer
         end
@@ -216,6 +250,10 @@ module Sections
       # Delete a set of section entries based on the supplied POST
       # field "section_entry_ids".
       #
+      # This method requires the following permissions:
+      #
+      # * delete
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
@@ -224,17 +262,15 @@ module Sections
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        if !request.params["section_entry_ids"] or request.params["section_entry_ids"].empty?
+        if !request.params['section_entry_ids'] or request.params['section_entry_ids'].empty?
           notification(:error, @entries_lang.titles[:index], @entries_lang.errors[:no_delete])
           redirect_referrer
         end
         
-        request.params["section_entry_ids"].each do |id|
-          @entry = SectionEntry[id]
-          
+        request.params['section_entry_ids'].each do |id|
           begin
-            @entry.delete
-            notification(:success, @entries_lang.titles[:index], @entries_lang.success[:delete] % id)
+            SectionEntry[id.to_i].destroy
+            notification(:success, @entries_lang.titles[:index], @entries_lang.success[:delete])
           rescue
             notification(:error, @entries_lang.titles[:index], @entries_lang.errors[:delete] % id)
           end

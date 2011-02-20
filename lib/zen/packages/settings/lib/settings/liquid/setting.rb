@@ -26,7 +26,7 @@ module Settings
       # @param  [String] html The HTML inside the block.
       # @since  0.1
       #
-      def initialize tag_name, key, markup
+      def initialize(tag_name = 'setting', key = '', markup = '')
         super
         
         @key = key.gsub('"', '').gsub("'", '')

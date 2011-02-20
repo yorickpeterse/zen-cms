@@ -39,16 +39,28 @@
                     <td>#{section.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to(section.name, "admin/edit/#{section.id}", :title => section.name)}</td>
+                    <td>
+                        #{anchor_to(
+                          section.name, Sections::Controllers::Sections.r(:edit, section.id), 
+                            :title => section.name
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{section.name}</td>
                     <?r end ?>
                     
                     <td>#{section.slug}</td>
-                    <td>#{@sections_lang.special[:boolean_hash].invert[section.comment_allow]}</td>
+                    <td>
+                        #{@sections_lang.special[:boolean_hash].invert[section.comment_allow]}
+                    </td>
                     
                     <?r if user_authorized?([:create]) ?>
-                    <td>#{anchor_to(@sections_lang.labels[:manage_entries], "admin/section_entries/index/#{section.id}")}</td>
+                    <td>
+                        #{anchor_to(
+                          @sections_lang.labels[:manage_entries], 
+                          Sections::Controllers::SectionEntries.r(:index, section.id)
+                        )}
+                    </td>
                     <?r end ?>
                 </tr>
                 <?r end ?>
@@ -62,7 +74,9 @@
         <div class="clearfix">
             <?r if user_authorized?([:create]) ?>
             <div class="button">
-                #{anchor_to(@sections_lang.buttons[:new_section], "admin/new")}
+                #{anchor_to(
+                  @sections_lang.buttons[:new_section], Sections::Controllers::Sections.r(:new)
+                )}
             </div>    
             <?r end ?>
             

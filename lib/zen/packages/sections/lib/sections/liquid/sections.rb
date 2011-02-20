@@ -32,25 +32,24 @@ module Sections
       # @param  [String] html The HTML inside the block.
       # @since  0.1
       #
-      def initialize tag_name, arguments, html
+      def initialize(tag_name = 'sections', arguments = '', html = '')
         super
         
         @arguments = {
           'limit'   => nil,
           'offset'  => nil
-        }
-        
-        @arguments = @arguments.merge(parse_key_values(arguments))
+        }.merge(parse_key_values(arguments))
+
       end
       
       ##
-      # Renders the tag
+      # Renders the tag.
       #
       # @author Yorick Peterse
       # @param  [Object] context The Liquid context for the current tag.
       # @return [Array]
       #
-      def render context
+      def render(context)
         result = []
         
         if !@arguments.key?('section')

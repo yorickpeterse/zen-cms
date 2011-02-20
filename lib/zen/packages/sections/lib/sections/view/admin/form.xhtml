@@ -1,54 +1,107 @@
 <div class="tabs">
     <ul>
         <li>
-            <a href="#general" title="#{@sections_lang.tabs[:general]}">#{@sections_lang.tabs[:general]}</a>
+            <a href="#general" title="#{@sections_lang.tabs[:general]}">
+                #{@sections_lang.tabs[:general]}
+            </a>
         </li>
         <li>
-            <a href="#comments" title="#{@sections_lang.tabs[:comment_settings]}">#{@sections_lang.tabs[:comment_settings]}</a>
+            <a href="#comments" title="#{@sections_lang.tabs[:comment_settings]}">
+                #{@sections_lang.tabs[:comment_settings]}
+            </a>
         </li>
         <li>
-            <a href="#groups" title="#{@sections_lang.tabs[:group_assignments]}">#{@sections_lang.tabs[:group_assignments]}</a>
+            <a href="#groups" title="#{@sections_lang.tabs[:group_assignments]}">
+                #{@sections_lang.tabs[:group_assignments]}
+            </a>
         </li>
     </ul>
 </div>
   
 #{
 form_for(@section, :method => 'post', :action => @form_save_url) do |f|
-  f.input_hidden :id, @section.id
-  f.input_hidden :csrf_token, get_csrf_token
+
+  f.input_hidden(:id, @section.id)
+  f.input_hidden(:csrf_token, get_csrf_token)
   
-  f.g.div :id => 'general' do
-    f.input_text @sections_lang.labels[:name], :name
-    f.input_text @sections_lang.labels[:slug], :slug
-    f.textarea @sections_lang.labels[:description], :description, :rows => 8
+  f.g.div(:id => 'general') do
+
+    f.input_text(
+      @sections_lang.labels[:name], 
+      :name
+    )
+
+    f.input_text(
+      @sections_lang.labels[:slug], 
+      :slug
+    )
+
+    f.textarea(
+      @sections_lang.labels[:description], 
+      :description, 
+      :rows => 8
+    )
+
   end
   
-  f.g.div :id => 'comments' do
-    f.input_radio @sections_lang.labels[:comment_allow], :comment_allow, @section.comment_allow,
-      :values => @sections_lang.special[:boolean_hash]
+  f.g.div(:id => 'comments') do
+
+    f.input_radio(
+      @sections_lang.labels[:comment_allow], 
+      :comment_allow, 
+      @section.comment_allow,
+      :values => @sections_lang.special[:boolean_hash] 
+    )
     
-    f.input_radio @sections_lang.labels[:comment_require_account], :comment_require_account, @section.comment_require_account,
+    f.input_radio(
+      @sections_lang.labels[:comment_require_account], 
+      :comment_require_account, 
+      @section.comment_require_account,
       :values => @sections_lang.special[:boolean_hash]
+    )
       
-    f.input_radio @sections_lang.labels[:comment_moderate], :comment_moderate, @section.comment_moderate,
+    f.input_radio(
+      @sections_lang.labels[:comment_moderate], 
+      :comment_moderate, 
+      @section.comment_moderate,
       :values => @sections_lang.special[:boolean_hash]
+    )
       
-    f.select @sections_lang.labels[:comment_format], :comment_format,
-      :values => @sections_lang.special[:format_hash], :selected => @section.comment_format, :size => 1
+    f.select(
+      @sections_lang.labels[:comment_format], 
+      :comment_format,
+      :values   => @sections_lang.special[:format_hash], 
+      :selected => @section.comment_format, 
+      :size     => 1
+    )
+
   end
   
-  f.g.div :id => 'groups' do
-    f.select @sections_lang.labels[:custom_field_groups], :custom_field_group_pks, :values => @custom_field_group_pk_hash,
-      :multiple => :multiple, :selected => @section.custom_field_group_pks
+  f.g.div(:id => 'groups') do
+
+    f.select(
+      @sections_lang.labels[:custom_field_groups], 
+      :custom_field_group_pks, 
+      :values   => @custom_field_group_pk_hash,
+      :multiple => :multiple,
+      :selected => @section.custom_field_group_pks
+    )
     
-    f.select @sections_lang.labels[:category_groups], :category_group_pks, :values => @category_group_pk_hash,
-      :multiple => :multiple, :selected => @section.category_group_pks
+    f.select(
+      @sections_lang.labels[:category_groups], 
+      :category_group_pks, 
+      :values   => @category_group_pk_hash,
+      :multiple => :multiple, 
+      :selected => @section.category_group_pks
+    )
+
   end
   
-  f.g.div :class => 'clearfix' do
-    f.g.div :class => 'button' do
-      f.g.input :type => 'submit', :value => @sections_lang.buttons[:save_section]
+  f.g.div(:class => 'clearfix') do
+    f.g.div(:class => 'button') do
+      f.g.input(:type => 'submit', :value => @sections_lang.buttons[:save_section])
     end
   end
+
 end
 }

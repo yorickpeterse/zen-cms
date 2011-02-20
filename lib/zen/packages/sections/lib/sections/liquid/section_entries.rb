@@ -69,7 +69,7 @@ module Sections
       # @param  [String] arguments All additional arguments passed as a string.
       # @param  [String] html The HTML inside the block.
       #
-      def initialize(tag_name, arguments, html)
+      def initialize(tag_name ='section_entries', arguments = '', html = '')
         super
 
         @arguments = {
@@ -104,7 +104,7 @@ module Sections
       # @author Yorick Peterse
       # @since  0.1
       #
-      def render context
+      def render(context)
         @arguments = merge_context(@arguments, context) if @args_parsed == false
                 
         @args_parsed = true
