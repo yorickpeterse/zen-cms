@@ -1,4 +1,5 @@
 Zen::Language.translation 'user_groups' do |item|
+
   item.titles = {
     :index  => 'User Groups',
     :edit   => 'Edit User Group',
@@ -39,4 +40,5 @@ Zen::Language.translation 'user_groups' do |item|
     :delete_groups => 'Delete selected groups',
     :save_group    => 'Save group'
   }
+
 end

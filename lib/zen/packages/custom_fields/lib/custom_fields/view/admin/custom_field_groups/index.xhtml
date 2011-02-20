@@ -24,7 +24,6 @@
                     <?r if user_authorized?([:create]) ?>
                     <th></th>
                     <?r end ?>
-                    
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +41,7 @@
                     <td>
                         #{anchor_to(
                           group.name, 
-                          CustomFields::Controllers;:CustomFieldGroups.r(:edit, group.id), 
+                          CustomFields::Controllers::CustomFieldGroups.r(:edit, group.id), 
                           :title => group.name
                         )}
                     </td>

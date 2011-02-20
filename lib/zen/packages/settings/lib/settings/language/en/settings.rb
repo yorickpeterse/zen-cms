@@ -53,4 +53,5 @@ Zen::Language.translation 'settings' do |item|
     :default_section  => section_hash,
     :theme            => theme_hash
   }
+
 end

@@ -13,18 +13,18 @@ module Users
     # @since  0.1
     #
     class Users < Zen::Controllers::AdminController
-      map '/admin/users'
-      
-      trait :extension_identifier => 'com.zen.users'
       include ::Users::Models
+
+      map   '/admin/users'
+      trait :extension_identifier => 'com.zen.users'
       
       before_all do
-        csrf_protection :save, :delete do
+        csrf_protection(:save, :delete) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
       
-      # Every action should use the admin layout except the "login" method,
+      # Every action should use the admin layout except the 'login' method,
       # that one will use a trimmed down version of the admin layout.
       layout do |path, format|
         if path == 'login'
@@ -37,16 +37,20 @@ module Users
       ##
       # Load our language packs, set the form URLs and define our page title.
       #
+      # This method loads the following language files:
+      #
+      # * users
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def initialize
         super
         
-        @form_save_url   = '/admin/users/save'
-        @form_delete_url = '/admin/users/delete'
-        @form_login_url  = '/admin/users/login'
-        @users_lang      = Zen::Language.load 'users'
+        @form_save_url   = Users.r(:save)
+        @form_delete_url = Users.r(:delete)
+        @form_login_url  = Users.r(:login)
+        @users_lang      = Zen::Language.load('users')
         
         # Set the page title
         if !action.method.nil?
@@ -62,6 +66,10 @@ module Users
       # Show an overview of all users and allow the current user
       # to manage these users.
       #
+      # This method requires the following permissions:
+      #
+      # * read
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
@@ -70,7 +78,7 @@ module Users
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs @users_lang.titles[:index]
+        set_breadcrumbs(@users_lang.titles[:index])
         
         @users = User.all
       end
@@ -78,22 +86,41 @@ module Users
       ##
       # Edit an existing user based on the ID.
       #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * update
+      #
       # @author Yorick Peterse
+      # @param  [Integer] id The ID of the user to edit.
       # @since  0.1
       #
-      def edit id
+      def edit(id)
         if !user_authorized?([:read, :update])
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@users_lang.titles[:index], "admin/users"), @users_lang.titles[:edit]
+        set_breadcrumbs(
+          anchor_to(@users_lang.titles[:index], Users.r(:index)), 
+          @users_lang.titles[:edit]
+        )
         
-        @user           = User[id]
+        if flash[:form_data]
+          @user = flash[:form_data]
+        else
+          @user = User[id.to_i]
+        end
+
         @user_group_pks = UserGroup.pk_hash(:name)
       end
       
       ##
       # Create a new user.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * create
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -103,7 +130,10 @@ module Users
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@users_lang.titles[:index], "admin/users"), @users_lang.titles[:new]
+        set_breadcrumbs(
+          anchor_to(@users_lang.titles[:index], Users.r(:index)), 
+          @users_lang.titles[:new]
+        )
         
         @user           = User.new
         @user_group_pks = UserGroup.pk_hash(:name)
@@ -122,10 +152,10 @@ module Users
             # Update the last time the user logged in
             User[:email => request.params['email']].update(:last_login => Time.new)
             
-            notification :success, @users_lang.titles[:index], @users_lang.success[:login]
-            redirect "admin"
+            notification(:success, @users_lang.titles[:index], @users_lang.success[:login])
+            redirect(::Sections::Controllers::Sections.r(:index))
           else
-            notification :error, @users_lang.titles[:index], @users_lang.errors[:login]
+            notification(:error, @users_lang.titles[:index], @users_lang.errors[:login])
           end
         end
       end
@@ -140,12 +170,17 @@ module Users
         user_logout
         session.clear
         
-        notification :success, @users_lang.titles[:index], @users_lang.success[:logout]
-        redirect "admin/users/login"
+        notification(:success, @users_lang.titles[:index], @users_lang.success[:logout])
+        redirect(Users.r(:login))
       end
       
       ##
-      # Saves or creates a new user based on the POST data and a field named "id".
+      # Saves or creates a new user based on the POST data and a field named 'id'.
+      #
+      # This method requires the following permissions:
+      #
+      # * create
+      # * update
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -157,8 +192,8 @@ module Users
         
         post = request.params.dup
        
-        if post["id"] and !post["id"].empty?
-          @user       = User[post["id"]]
+        if post['id'] and !post['id'].empty?
+          @user       = User[post['id']]
           save_action = :save
         else
           @user       = User.new
@@ -172,16 +207,16 @@ module Users
           else
             post['password'] = post['new_password']
             
-            post.delete 'new_password'
-            post.delete 'confirm_password'
+            post.delete('new_password')
+            post.delete('confirm_password')
           end
         end
         
         # User group pks have to be integers
-        if !post["user_group_pks"].nil?
-          post["user_group_pks"].map! { |value| value.to_i }
+        if !post['user_group_pks'].nil?
+          post['user_group_pks'].map! { |value| value.to_i }
         else
-          post["user_group_pks"] = []
+          post['user_group_pks'] = []
         end
         
         flash_success = @users_lang.success[save_action]
@@ -193,11 +228,12 @@ module Users
         rescue
           notification(:error, @users_lang.titles[:index], flash_error)
           
+          flash[:form_data]   = @user
           flash[:form_errors] = @user.errors
         end
         
         if @user.id
-          redirect "/admin/users/edit/#{@user.id}"
+          redirect(Users.r(:edit, @user.id))
         else
           redirect_referrer
         end
@@ -205,6 +241,10 @@ module Users
       
       ##
       # Delete all specified users.
+      #
+      # This method requires the following permissions:
+      #
+      # * delete
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -214,17 +254,15 @@ module Users
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        if !request.params["user_ids"] or request.params["user_ids"].empty?
+        if !request.params['user_ids'] or request.params['user_ids'].empty?
           notification(:error, @users_lang.titles[:index], @users_lang.errors[:no_delete])
           redirect_referrer
         end
         
-        request.params["user_ids"].each do |id|
-          @user = User[id]
-          
+        request.params['user_ids'].each do |id|
           begin
-            @user.delete
-            notification(:success, @users_lang.titles[:index], @users_lang.success[:delete] % id)
+            User[id.to_i].destroy
+            notification(:success, @users_lang.titles[:index], @users_lang.success[:delete])
           rescue
             notification(:error, @users_lang.titles[:index], @users_lang.errors[:delete] % id)
           end

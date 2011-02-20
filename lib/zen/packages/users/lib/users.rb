@@ -13,6 +13,10 @@ require __DIR__('users/liquid/user')
 Liquid::Template.register_tag('users', Users::Liquid::Users)
 Liquid::Template.register_tag('user' , Users::Liquid::User)
 
+# The trait for the User helper has to be specified in the constructor as
+# our user model is loaded after this class is loaded (but before it's initialized)
+Zen::Controllers::BaseController.trait(:user_model => Users::Models::User)
+
 Zen::Package.add do |p|
   p.type        = 'extension'
   p.name        = 'Users'

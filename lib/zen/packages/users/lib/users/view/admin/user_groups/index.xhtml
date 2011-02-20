@@ -35,7 +35,11 @@
                     <td>#{group.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to(group.name, "admin/user_groups/edit/#{group.id}")}</td>
+                    <td>
+                        #{anchor_to(
+                          group.name, Users::Controllers::UserGroups.r(:edit, group.id)
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{group.name}</td>
                     <?r end ?>
@@ -55,7 +59,9 @@
             
             <?r if user_authorized?([:create]) ?>
             <div class="button">
-                #{anchor_to(@groups_lang.buttons[:new_group], "admin/user_groups/new")}
+                #{anchor_to(
+                  @groups_lang.buttons[:new_group], Users::Controllers::UserGroups.r(:new)
+                )}
             </div>
             <?r end ?>
             

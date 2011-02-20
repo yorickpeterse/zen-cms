@@ -10,13 +10,13 @@ module Users
     # @since  0.1
     #
     class UserGroups < Zen::Controllers::AdminController
-      map '/admin/user_groups'
-      
-      trait :extension_identifier => 'com.zen.users'
       include ::Users::Models
+
+      map   '/admin/user_groups'
+      trait :extension_identifier => 'com.zen.users'
       
       before_all do
-        csrf_protection :save, :delete do
+        csrf_protection(:save, :delete) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
@@ -24,15 +24,19 @@ module Users
       ##
       # Load our language packs, set the form URLs and define our page title.
       #
+      # This method loads the following language files:
+      #
+      # * user_groups
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def initialize
         super
         
-        @form_save_url   = '/admin/user_groups/save'
-        @form_delete_url = '/admin/user_groups/delete'
-        @groups_lang     = Zen::Language.load 'user_groups'
+        @form_save_url   = UserGroups.r(:save)
+        @form_delete_url = UserGroups.r(:delete)
+        @groups_lang     = Zen::Language.load('user_groups')
         
         # Set the page title
         if !action.method.nil?
@@ -48,6 +52,10 @@ module Users
       # Show an overview of all user groups and allow the current user
       # to manage these groups
       #
+      # This method requires the following permissions:
+      #
+      # * read
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
@@ -56,29 +64,47 @@ module Users
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs @groups_lang.titles[:index]
+        set_breadcrumbs(@groups_lang.titles[:index])
         
         @user_groups = UserGroup.all
       end
       
       ##
-      # Edit an existing user group
+      # Edit an existing user group.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * update
       #
       # @author Yorick Peterse
+      # @param  [Integer] id The ID of the user group to edit.
       # @since  0.1
       #
-      def edit id
+      def edit(id)
         if !user_authorized?([:read, :update])
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@groups_lang.titles[:index], "admin/user_groups"), @groups_lang.titles[:edit]
+        set_breadcrumbs(
+          anchor_to(@groups_lang.titles[:index], UserGroups.r(:index)), 
+          @groups_lang.titles[:edit]
+        )
         
-        @user_group = UserGroup[id]
+        if flash[:form_data]
+          @user_group = flash[:form_data]
+        else
+          @user_group = UserGroup[id.to_i]
+        end
       end
       
       ##
-      # Create a new user group
+      # Create a new user group.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * create
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -88,13 +114,21 @@ module Users
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@groups_lang.titles[:index], "admin/user_groups"), @groups_lang.titles[:new]
+        set_breadcrumbs(
+          anchor_to(@groups_lang.titles[:index], UserGroups.r(:index)), 
+          @groups_lang.titles[:new]
+        )
         
         @user_group = UserGroup.new
       end
       
       ##
-      # Saves or creates a new user group based on the POST data and a field named "id".
+      # Saves or creates a new user group based on the POST data and a field named 'id'.
+      # 
+      # This method requires the following permissions:
+      #
+      # * create
+      # * read
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -106,8 +140,8 @@ module Users
         
         post = request.params.dup
        
-        if post["id"] and !post["id"].empty?
-          @user_group = UserGroup[post["id"]]
+        if post['id'] and !post['id'].empty?
+          @user_group = UserGroup[post['id']]
           save_action = :save
         else
           @user_group = UserGroup.new
@@ -123,11 +157,12 @@ module Users
         rescue
           notification(:error, @groups_lang.titles[:index], flash_error)
           
-          flash[:form_errors] = @user.errors
+          flash[:form_data]   = @user_group
+          flash[:form_errors] = @user_group.errors
         end
         
         if @user_group.id
-          redirect "/admin/user_groups/edit/#{@user_group.id}"
+          redirect(UserGroups.r(:edit, @user_group.id))
         else
           redirect_referrer
         end
@@ -135,6 +170,10 @@ module Users
       
       ##
       # Delete all specified user groups.
+      #
+      # This method requires the following permissions:
+      #
+      # * delete
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -144,17 +183,15 @@ module Users
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        if !request.params["user_group_ids"] or request.params["user_group_ids"].empty?
+        if !request.params['user_group_ids'] or request.params['user_group_ids'].empty?
           notification(:error, @groups_lang.titles[:index], @groups_lang.errors[:no_delete])
           redirect_referrer
         end
         
-        request.params["user_group_ids"].each do |id|
-          @user_group = UserGroup[id]
-          
+        request.params['user_group_ids'].each do |id|
           begin
-            @user_group.delete
-            notification(:success, @groups_lang.titles[:index], @groups_lang.success[:delete] % id)
+            UserGroup[id.to_i].destroy
+            notification(:success, @groups_lang.titles[:index], @groups_lang.success[:delete])
           rescue
             notification(:error, @groups_lang.titles[:index], @groups_lang.errors[:delete] % id)
           end

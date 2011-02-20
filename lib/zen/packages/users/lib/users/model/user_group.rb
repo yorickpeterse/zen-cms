@@ -15,7 +15,7 @@ module Users
     # @since  0.1
     #
     class UserGroup < Sequel::Model
-      many_to_many :users, :class => "Users::Models::User"
+      many_to_many :users      , :class => "Users::Models::User"
       one_to_many :access_rules, :class => "Users::Models::AccessRule"
       
       plugin :sluggable , :source => :name, :freeze => false
@@ -30,7 +30,8 @@ module Users
       def validate
         validates_presence [:name, :super_group]
         validates_presence :slug unless new?
-        validates_unique :slug
+        validates_unique   :slug
+
         validates_type TrueClass, :super_group
       end
     end

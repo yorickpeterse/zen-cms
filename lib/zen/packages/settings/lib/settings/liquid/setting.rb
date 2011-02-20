@@ -38,7 +38,7 @@ module Settings
       # @author Yorick Peterse
       # @since  0.1
       #
-      def render context
+      def render(context)
         setting = ::Settings::Models::Setting[:key => @key]
 
         if !setting.nil?

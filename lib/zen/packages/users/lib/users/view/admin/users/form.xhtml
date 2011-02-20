@@ -1,24 +1,52 @@
 #{
   form_for(@user, :method => :post, :action => @form_save_url) do |f|
-    f.input_hidden :csrf_token, get_csrf_token
-    f.input_hidden :id, @user.id
+    f.input_hidden(:csrf_token, get_csrf_token)
+    f.input_hidden(:id, @user.id)
     
-    f.input_text @users_lang.labels[:name], :name
-    f.input_text @users_lang.labels[:email], :email
-    f.input_text @users_lang.labels[:website], :website
+    f.input_text(
+      @users_lang.labels[:name], 
+      :name
+    )
+
+    f.input_text(
+      @users_lang.labels[:email], 
+      :email
+    )
+
+    f.input_text(
+      @users_lang.labels[:website], 
+      :website
+    )
       
-    f.input_password @users_lang.labels[:new_password], :new_password
-    f.input_password @users_lang.labels[:confirm_password], :confirm_password
+    f.input_password(
+      @users_lang.labels[:new_password], 
+      :new_password
+    )
+
+    f.input_password(
+      @users_lang.labels[:confirm_password], 
+      :confirm_password
+    )
     
-    f.select @users_lang.labels[:status], :status, :values => @users_lang.special[:status_hash],
-      :selected => @user.status, :size => 1
+    f.select(
+      @users_lang.labels[:status], 
+      :status, 
+      :values   => @users_lang.special[:status_hash],
+      :selected => @user.status, 
+      :size     => 1
+    )
       
-    f.select @users_lang.labels[:user_groups], :user_group_pks, :values => @user_group_pks,
-      :selected => @user.user_group_pks, :multiple => :multiple
+    f.select(
+      @users_lang.labels[:user_groups], 
+      :user_group_pks, 
+      :values   => @user_group_pks,
+      :selected => @user.user_group_pks, 
+      :multiple => :multiple
+    )
       
-    f.g.div :class => 'clearfix' do
-      f.g.div :class => 'button' do
-        f.g.input :type => 'submit', :value => @users_lang.buttons[:save_user]
+    f.g.div(:class => 'clearfix') do
+      f.g.div(:class => 'button') do
+        f.g.input(:type => 'submit', :value => @users_lang.buttons[:save_user])
       end
     end
   end

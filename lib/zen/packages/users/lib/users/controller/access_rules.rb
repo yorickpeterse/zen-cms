@@ -15,13 +15,13 @@ module Users
     # @since  0.1
     #
     class AccessRules < Zen::Controllers::AdminController
-      map '/admin/access_rules'
-      
-      trait :extension_identifier => 'com.zen.users'
       include ::Users::Models
+
+      map   '/admin/access_rules'
+      trait :extension_identifier => 'com.zen.users'
       
       before_all do
-        csrf_protection :save, :delete do
+        csrf_protection(:save, :delete) do
           respond(@zen_general_lang.errors[:csrf], 403)
         end
       end
@@ -29,15 +29,19 @@ module Users
       ##
       # Load our language packs, set the form URLs and define our page title.
       #
+      # This method loads the following language files:
+      #
+      # * access_rules
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def initialize
         super
         
-        @form_save_url   = '/admin/access_rules/save'
-        @form_delete_url = '/admin/access_rules/delete'
-        @rules_lang      = Zen::Language.load 'access_rules'
+        @form_save_url   = AccessRules.r(:save)
+        @form_delete_url = AccessRules.r(:delete)
+        @rules_lang      = Zen::Language.load('access_rules')
         
         # Set the page title
         if !action.method.nil?
@@ -55,6 +59,10 @@ module Users
       # Show an overview of all access rules and allow the current user
       # to manage these groups.
       #
+      # This method requires the following permissions:
+      #
+      # * read
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
@@ -63,7 +71,7 @@ module Users
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs @rules_lang.titles[:index]
+        set_breadcrumbs(@rules_lang.titles[:index])
         
         @access_rules = AccessRule.all
       end
@@ -71,21 +79,39 @@ module Users
       ##
       # Edit an existing access rule.
       #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * update
+      #
       # @author Yorick Peterse
+      # @param  [Integer] id The ID of the access rule to edit.
       # @since  0.1
       #
-      def edit id
+      def edit(id)
         if !user_authorized?([:read, :update])
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@rules_lang.titles[:index], "admin/access_rules"), @rules_lang.titles[:edit]
+        set_breadcrumbs(
+          anchor_to(@rules_lang.titles[:index], AccessRules.r(:index)), 
+          @rules_lang.titles[:edit]
+        )
         
-        @access_rule = AccessRule[id]
+        if flash[:form_data]
+          @access_rule = flash[:form_data]
+        else
+          @access_rule = AccessRule[id]
+        end
       end
       
       ##
       # Create a new access rule.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
+      # * create§
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -95,13 +121,21 @@ module Users
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        set_breadcrumbs anchor_to(@rules_lang.titles[:index], "admin/access_rules"), @rules_lang.titles[:new]
+        set_breadcrumbs(
+          anchor_to(@rules_lang.titles[:index], AccessRules.r(:index)), 
+          @rules_lang.titles[:new]
+        )
         
         @access_rule = AccessRule.new
       end
       
       ##
-      # Saves or creates a new access rule based on the POST data and a field named "id".
+      # Saves or creates a new access rule based on the POST data and a field named 'id'.
+      #
+      # This method requires the following permissions:
+      #
+      # * create
+      # * update
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -121,8 +155,8 @@ module Users
         
         post.delete('rule_applies')
 
-        if post["id"] and !post["id"].empty?
-          @access_rule = AccessRule[post["id"]]
+        if post['id'] and !post['id'].empty?
+          @access_rule = AccessRule[post['id']]
           save_action = :save
         else
           @access_rule = AccessRule.new
@@ -138,11 +172,12 @@ module Users
         rescue
           notification(:error, @rules_lang.titles[:index], flash_error)
           
+          flash[:form_data]   = @access_rule
           flash[:form_errors] = @access_rule.errors
         end
         
         if @access_rule.id
-          redirect "/admin/access_rules/edit/#{@access_rule.id}"
+          redirect(AccessRules.r(:edit, @access_rule.id))
         else
           redirect_referrer
         end
@@ -150,6 +185,10 @@ module Users
       
       ##
       # Delete all specified access rules.
+      #
+      # This method requires the following permissions:
+      #
+      # * delete
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -159,17 +198,17 @@ module Users
           respond(@zen_general_lang.errors[:not_authorized], 403)
         end
         
-        if !request.params["access_rule_ids"] or request.params["access_rule_ids"].empty?
+        if !request.params['access_rule_ids'] or request.params['access_rule_ids'].empty?
           notification(:error, @rules_lang.titles[:index], @rules_lang.errors[:no_delete])
           redirect_referrer
         end
         
-        request.params["access_rule_ids"].each do |id|
+        request.params['access_rule_ids'].each do |id|
           @access_rule = AccessRule[id]
           
           begin
             @access_rule.delete
-            notification(:success, @rules_lang.titles[:index], @rules_lang.success[:delete] % id)
+            notification(:success, @rules_lang.titles[:index], @rules_lang.success[:delete])
           rescue
             notification(:error, @rules_lang.titles[:index], @rules_lang.errors[:delete] % id)
           end

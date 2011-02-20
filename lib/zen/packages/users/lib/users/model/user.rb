@@ -47,7 +47,7 @@ module Users
         user = self[:email => email]
 
         if !user.nil? and user.password == password and user.status == 'open'
-          Ramaze::Controller.session[:user] = user
+          ::Zen::Controllers::BaseController.session[:user] = user
           return user
         else
           return false

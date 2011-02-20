@@ -22,11 +22,12 @@
   
   #{
     form_for(@settings, :method => :post, :action => @form_save_url) do |f|
-      f.input_hidden :csrf_token, get_csrf_token
+      f.input_hidden(:csrf_token, get_csrf_token)
       
       @settings.each do |group, items|
       
-        f.g.div :id => "group_#{group}" do
+        f.g.div(:id => "group_#{group}") do
+
           items.each do |s|
             # Get the label from the language pack
             name = s.key.to_sym
@@ -53,24 +54,55 @@
             
             case s.type
               when 'textbox'
-                f.input_text label, name, :value => value
+                f.input_text(
+                  label, 
+                  name, 
+                  :value => value
+                )
+
               when 'textarea'
-                f.textarea label, name, :value => value, :rows => 8
+                f.textarea(
+                  label, 
+                  name, 
+                  :value => value, 
+                  :rows  => 8
+                )
+
               when 'radio'
-                f.input_radio label, name, value, :values => values
+                f.input_radio(
+                  label, 
+                  name, 
+                  value, 
+                  :values => values
+                )
+
               when 'checkbox'
-                f.input_checkbox label, name, value, :values => values
+                f.input_checkbox(
+                  label, 
+                  name, 
+                  value, 
+                  :values => values
+                )
+
               when 'select'
-                f.select label, name, :values => values, :size => 1, :selected => value
+                f.select(
+                  label, 
+                  name, 
+                  :values   => values, 
+                  :size     => 1, 
+                  :selected => value
+                ) 
+
             end
           end
+
         end
 
       end
     
-      f.g.div :class => 'clearfix' do
-        f.g.div :class => 'button' do
-          f.g.input :type => 'submit', :value => @settings_lang.buttons[:save]
+      f.g.div(:class => 'clearfix') do
+        f.g.div(:class => 'button') do
+          f.g.input(:type => 'submit', :value => @settings_lang.buttons[:save])
         end
       end
     end

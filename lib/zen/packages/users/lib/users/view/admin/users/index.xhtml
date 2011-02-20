@@ -37,7 +37,12 @@
                     <td>#{user.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to(user.email, "admin/users/edit/#{user.id}")}</td>
+                    <td>
+                        #{anchor_to(
+                          user.email, 
+                          Users::Controllers::Users.r(:edit, user.id)
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{user.email}</td>
                     <?r end ?>
@@ -59,7 +64,10 @@
             
             <?r if user_authorized?([:create]) ?>
             <div class="button">
-                #{anchor_to(@users_lang.buttons[:new_user], "admin/users/new")}
+                #{anchor_to(
+                  @users_lang.buttons[:new_user], 
+                  Users::Controllers::Users.r(:new)
+                )}
             </div>
             <?r end ?>
             

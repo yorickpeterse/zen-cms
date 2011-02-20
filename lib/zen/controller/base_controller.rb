@@ -21,10 +21,6 @@ module Zen
       def initialize
         super
         
-        # The trait for the User helper has to be specified in the constructor as
-        # our user model is loaded after this class is loaded (but before it's initialized)
-        self.trait :user_model => ::Users::Models::User
-        
         # Get all settings
         if !@settings
           @settings = ::Settings::Models::Setting.get_settings

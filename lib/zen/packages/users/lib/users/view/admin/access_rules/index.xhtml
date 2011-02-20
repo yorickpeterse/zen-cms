@@ -39,7 +39,12 @@
                     <td>#{rule.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to(rule.extension, "admin/access_rules/edit/#{rule.id}")}</td>
+                    <td>
+                        #{anchor_to(
+                          rule.extension, 
+                          Users::Controllers::AccessRules.r(:edit, rule.id)
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{rule.extension}</td>
                     <?r end ?>
@@ -71,7 +76,10 @@
             
             <?r if user_authorized?([:create]) ?>
             <div class="button">
-                #{anchor_to(@rules_lang.buttons[:new], "admin/access_rules/new")}
+                #{anchor_to(
+                  @rules_lang.buttons[:new], 
+                  Users::Controllers::AccessRules.r(:new)
+                )}
             </div>
             <?r end ?>
             
