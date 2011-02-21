@@ -11,8 +11,8 @@ module Categories
     # and should be no longer than 255 characters.
     #
     class CategoryGroup < Sequel::Model
-      one_to_many :categories
-      many_to_many :sections
+      one_to_many  :categories, :class => "Categories::Models::Category"
+      many_to_many :sections  , :class => "Sections::Models::Section"
       
       ##
       # Validation rules for our model.

@@ -1,8 +1,7 @@
 module Categories
   module Models
     ##
-    # Model that represents a single category. This model has
-    # the following relations:
+    # Model that represents a single category. This model has the following relations:
     #
     # * category groups (one to one)
     # * self (many to one)
@@ -20,8 +19,8 @@ module Categories
     # @since  0.1
     #
     class Category < Sequel::Model
-      one_to_one :category_groups
-      many_to_one :parent, :class => self
+      many_to_one :category_group , :class => "Categories::Models::CategoryGroup"
+      many_to_one :parent         , :class => self
       
       plugin :sluggable, :source => :name, :frozen => false
       

@@ -16,6 +16,7 @@ module Sections
     # * section_entry: the slug of the section entry to select
     # * order: the sort order type
     # * order_by: the name of the column to sort on
+    # * category: retrieves all entries that are using the specified category
     #
     # These arguments can be specified as following:
     #
@@ -73,20 +74,21 @@ module Sections
         super
 
         @arguments = {
-          'limit'   => nil,
-          'offset'  => nil,
-          'section' => '',
-          'order'   => 'desc',
-          'order_by'=> 'id'
+          'limit'    => 10,
+          'offset'   => 0,
+          'section'  => '',
+          'order'    => 'desc',
+          'order_by' => 'id',
+          'category' => ''
         }.merge(parse_key_values(arguments))
         
         @args_parsed = false
       end
       
       ##
-      # Processes that arguments, retrieves all data and renders the tag block.
-      # When outputting data inside the tag block you can always use the following
-      # variables:
+      # Processes the arguments set in the constructor, retrieves all data and renders 
+      # the tag block. When outputting data inside the tag block you can always use the 
+      # following variables regardless on whether there are any section entries:
       #
       # * total_rows: the amount of rows retrieved
       # * index: the current index
@@ -112,13 +114,31 @@ module Sections
         entries      = []
         filter_hash  = {:status => 'published'}
         
+        # ------
+        # Filter by a section entry's slug
         if @arguments.key?('section_entry')
           if @arguments['section_entry'].empty?
-            raise ArgumentError, "You need to specify a section entry to retrieve"
+            raise(ArgumentError, "You need to specify a section entry to retrieve")
           end
           
           filter_hash[:slug] = @arguments['section_entry']
+
+        # ------
+        # Filter by a category's slug
+        elsif @arguments.key?('category') and !@arguments['category'].empty?
+          category = ::Categories::Models::Category[:slug => @arguments['category']]
+
+          # Bail out of the category doesn't exist
+          return result if category.nil?
+    
+          # Retrieve the category group
+          group = category.category_group
+
+          # Now it's time to retrieve all section IDs
+          filter_hash[:section_id] = group.sections.map { |s| s.id }
         
+        # ------
+        # Filter by a section's slug
         else
           if @arguments['section'].empty?
             @arguments['section'] = ::Settings::Model::Setting.get_settings[:default_section]
@@ -127,6 +147,7 @@ module Sections
           section = ::Sections::Models::Section[:slug => @arguments['section']]
           
           return result if section.nil?
+
           filter_hash[:section_id] = section.id
         end
         
@@ -139,9 +160,7 @@ module Sections
         context['total_rows'] = entries.count
         
         entries.each_with_index do |entry, index|
-          entry.values.each do |k, v|
-            context[k.to_s] = v
-          end
+          entry.values.each { |k, v| context[k.to_s] = v }
           
           context['index']      = index
           context['categories'] = []
@@ -188,10 +207,11 @@ module Sections
             context[name.to_s] = value
           end
           
-          result << render_all(@nodelist, context)
+          result.push(render_all(@nodelist, context))
         end
         
-        result << render_all(@nodelist, context) if result.empty?
+        result.push(render_all(@nodelist, context)) if result.empty?
+
         return result
       end
     end

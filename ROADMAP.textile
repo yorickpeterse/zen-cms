@@ -19,6 +19,7 @@ h3. 0.3 - June 2011
 An example of a plugin would be something that allows the use of Akismet for comments
 rather than Defensio.
 * Website completely up and running. (!)
+* Translation system for the Javascript used in the backend
 
 h3. 0.2 - March 2011
 

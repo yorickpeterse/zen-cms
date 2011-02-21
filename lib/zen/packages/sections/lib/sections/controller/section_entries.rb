@@ -240,7 +240,7 @@ module Sections
         end
         
         if @entry.id
-          redirect(SectionEntires.r(:edit, section_id, @entry.id))
+          redirect(SectionEntries.r(:edit, section_id, @entry.id))
         else
           redirect_referrer
         end
