@@ -49,6 +49,13 @@ module Sections
             @page_title = @entries_lang.titles[method]
           end
         end
+
+        # Load our datepicker that ships with Zen itself
+        require_js(
+          'vendor/datepicker/Locale.en-US.DatePicker', 'vendor/datepicker/Picker',
+          'vendor/datepicker/Picker.Attach'          , 'vendor/datepicker/Picker.Date'
+        )
+        require_css('datepicker')
       end
       
       ##

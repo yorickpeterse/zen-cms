@@ -7,9 +7,6 @@
  * @since  0.1a
  */
 
-/**
- * General CSS rules such as those for the body background and font family.
- */
 body
 {
   background:  #eee;
@@ -74,7 +71,12 @@ hr
   height:           0;
 }
 
-/* Tables */
+/**
+ * Tables
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
 table
 {
   border:          1px solid #aaa;
@@ -130,7 +132,12 @@ table thead tr th, table tbody tr td
     margin-top:  3px;
   }
   
-/* Forms */
+/**  
+ * Forms
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
 form label
 {
   display:       block;
@@ -147,7 +154,7 @@ form label
 input[type="text"], input[type="password"], textarea, input[type="email"]
 {
   border:      1px solid #ccc;
-	font-family: 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
+    font-family: 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
   font-size:   14px;
   padding:     5px;
   min-width:   400px;
@@ -185,7 +192,12 @@ select
   margin-right: 10px;
 }
 
-/* Form buttons */
+/**
+ * Buttons (such as those used for saving forms).
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
 .button
 {
   border:       1px solid #bbb;
@@ -194,7 +206,7 @@ select
 }
   .button a, .button input[type="submit"], .button button
   {
-		background:      #ddd;
+        background:      #ddd;
     background:      #ddd -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#eee));
     background:      #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
     border:          none;
@@ -225,24 +237,12 @@ select
     background:      #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
   }
 
-/* Form errors */
-#success
-{
-  background: #B3D760 url("../images/icons/success.png") no-repeat 5px center;
-  border:     1px solid #599929;
-}
-#error
-{
-  background: #F57E62 url("../images/icons/error.png") no-repeat 5px center;
-  border:     1px solid #FF3100;
-}
-#notice
-{
-  background: #FFF58C url("../images/icons/info.png") no-repeat 5px center;
-  border:     1px solid #FFDA05;
-}
-
-/* Small icons */
+/**
+ * Icons and other re-usable images.
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
 .icon_edit,.icon_delete,.icon_add, .icon_success, .icon_error, .icon_info, .icon_view
 {
   margin-right: 10px;
@@ -256,7 +256,12 @@ select
 .icon_info   { background: url("../images/icons/info.png") no-repeat center left;    }
 .icon_view   { background: url("../images/icons/view.png") no-repeat center left;    }
 
-/* Tab navigation */
+/**
+ * Tab navigation.
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
 .tabs
 {
   border:        1px solid #aaa;
@@ -303,7 +308,29 @@ select
         text-shadow:     0px 1px #fff;
       }
 
-/* Notifications */
+
+/**
+ * Notifications, errors, etc.
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
+#success
+{
+  background: #B3D760 url("../images/icons/success.png") no-repeat 5px center;
+  border:     1px solid #599929;
+}
+#error
+{
+  background: #F57E62 url("../images/icons/error.png") no-repeat 5px center;
+  border:     1px solid #FF3100;
+}
+#notice
+{
+  background: #FFF58C url("../images/icons/info.png") no-repeat 5px center;
+  border:     1px solid #FFDA05;
+}
+
 #notification_container
 {
   position: absolute;
@@ -321,7 +348,7 @@ select
   cursor:        pointer;
   color:         #fff;
   margin-bottom: 10px;
-	min-height:    55px;
+    min-height:    55px;
   padding:       10px;
   width:         230px;
   
@@ -357,7 +384,12 @@ select
     margin-bottom: 10px;
   }
   
-/* Modal windows */
+/**
+ * Modal windows.
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
 #modal_background, #modal_container
 {
   height:     100%;
@@ -408,7 +440,12 @@ select
       width:      30px;
     }
 
-/* Style our visual editors */
+/**
+ * Text editor (supports Textile, Markdown, etc).
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
 .editor_container
 {
   background: #eee;
