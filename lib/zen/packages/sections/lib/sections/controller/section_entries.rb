@@ -52,9 +52,10 @@ module Sections
 
         # Load our datepicker that ships with Zen itself
         require_js(
-          'vendor/datepicker/Locale.en-US.DatePicker', 'vendor/datepicker/Picker',
-          'vendor/datepicker/Picker.Attach'          , 'vendor/datepicker/Picker.Date'
+          'vendor/datepicker/Picker', 'vendor/datepicker/Picker.Attach', 
+          'vendor/datepicker/Picker.Date', 'vendor/datepicker/locale'
         )
+
         require_css('datepicker')
       end
       

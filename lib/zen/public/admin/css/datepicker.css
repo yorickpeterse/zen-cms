@@ -105,6 +105,12 @@
             text-decoration: underline;
         }
 
+        .datepicker .body .days .selected
+        {
+            border:     1px solid #ccc;
+            margin:     1px;
+        }
+
         .datepicker .body .days .day:hover, .datepicker .body .months .month:hover,
         .datepicker .body .years .year:hover
         {
