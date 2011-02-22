@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+/**  
+ * Forms
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
+form label
+{
+    display:       block;
+    margin-bottom: 10px;
+}
+
+    form label .error
+    {
+        background:   url("../images/icons/error.png") no-repeat center left;
+        color:        #eb5e4a;
+        display:      block;
+        margin-top:   8px;
+        padding-left: 25px;
+    }
+
+input[type="text"], input[type="password"], textarea, input[type="email"]
+{
+    border:      1px solid #ccc;
+    font-family: 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
+    font-size:   14px;
+    padding:     5px;
+    min-width:   400px;
+}
+
+/* Radios and checkboxes */
+input[type="radio"], input[type="checkbox"]
+{
+    cursor:      pointer;
+    margin:      0px 5px 5px 0px;
+}
+
+.radio_wrap, .checkbox_wrap
+{
+    margin-right:  10px;
+}
+
+/* Text fields and password fields */
+input[type="text"], input[type="password"]
+{
+    padding: 5px;
+}
+
+textarea
+{
+    width: 600px;
+}
+
+select
+{
+    cursor:    pointer;
+    font-size: 12px;
+    min-width: 100px;
+    width:     auto;
+}
+
+.input_wrapper
+{
+    margin-right: 10px;
+}
+

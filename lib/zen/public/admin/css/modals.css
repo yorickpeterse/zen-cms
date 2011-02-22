@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+/**
+ * Modal windows.
+ *
+ * @author Yorick Peterse
+ * @since  0.1
+ */
+#modal_background, #modal_container
+{
+    height:     100%;
+    left:       0px; 
+    position:   fixed;
+    top:        0px;
+    width:      100%;
+}
+
+#modal_container
+{
+    position:       absolute!important;
+}
+
+#modal_container:after
+{
+    clear:      both;
+    content:    '.';
+    display:    block;
+    height:     0;
+    visibility: hidden;
+}
+
+#modal_background
+{
+    background: #444;
+    opacity:    0.8;
+}
+    
+    #modal_container #modal_window
+    {
+        background: #fff;
+        border:     1px solid #000;
+        margin:     5% auto 20px auto;
+        min-height: 50px;
+        padding:    20px 10px 10px 10px;
+        width:      50%;
+    }
+    
+    #modal_container #modal_window.fullscreen
+    {
+        height:     90%;
+        margin-top: 2%;
+        width:      95%;
+    }
+
+        #modal_container #modal_window #modal_close
+        {
+            background: url("../images/icons/close.png");
+            cursor:     pointer;
+            display:    block;
+            height:     30px;
+            margin:     -50px 0px 0px -20px;
+            width:      30px;
+        }

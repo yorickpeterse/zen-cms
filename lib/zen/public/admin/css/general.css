@@ -9,233 +9,75 @@
 
 body
 {
-  background:  #eee;
-  font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, sans-serif;
+    background:  #eee;
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, sans-serif;
 }
 
 /* Headings */
 h1 
 {
-  font-size:25px;
+    font-size:25px;
 }
+
 h2 
 {
-  font-size:23px;
+    font-size:23px;
 }
+
 h3 
 {
-  font-size:21px;
+    font-size:21px;
 }
+
 h4 
 {
-  font-size:19px;
+    font-size:19px;
 }
+
 h5 
 {
-  font-size:17px;
+    font-size:17px;
 }
+
 h6 
 {
-  font-size:15px;
+    font-size:15px;
 }
 
 h1, h2, h3, h4, h5, h6
 {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 /* List elements */
 ol 
 {
-  list-style:decimal;
+    list-style:decimal;
 }
+
 ul 
 {
-  list-style:disc;
+    list-style:disc;
 }
+
 li 
 {
-  margin-left:30px;
+    margin-left:30px;
 }
 
 /* General */
 p,dl,hr,ol,ul,pre,table,address,fieldset 
 {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
+
 hr
 {
-  border:           0 #ccc solid;
-  border-top-width: 1px;
-  clear:            both;
-  height:           0;
+    border:           0 #ccc solid;
+    border-top-width: 1px;
+    clear:            both;
+    height:           0;
 }
-
-/**
- * Tables
- *
- * @author Yorick Peterse
- * @since  0.1
- */
-table
-{
-  border:          1px solid #aaa;
-  border-collapse: separate;
-  width:           100%;
-  text-align:      left;
-}
-  table thead
-  {
-    background:      #ddd;
-  }
-    table thead tr th
-    {
-      background:    #ddd -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#eee));
-      background:    #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
-      border-top:    1px solid #fff;
-      border-right:  1px solid #aaa;
-      border-bottom: 1px solid #aaa;
-      text-shadow:   1px 1px #fff;
-    }
-  table tr.odd
-  {
-    background:    #f2f2f2;
-  }
-  table tbody tr:hover
-  {
-    background: #f2f2f2;
-  }
-    table tbody tr td
-    {
-      border-right:  1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-    }
-table thead tr th:last-child, table tbody tr td:last-child
-{
-  border-right:  none;
-}
-table tbody tr:last-child td
-{
-  border-bottom: none;
-}
-table thead tr th, table tbody tr td
-{
-  padding:       5px 10px 5px 10px;
-}
-
-.table thead tr th:first-child, .table tbody tr td:first-child
-{
-  width:         15px;
-}
-  .table thead tr th:first-child input[type="checkbox"], .table tbody tr td:first-child input[type="checkbox"]
-  {
-    margin-top:  3px;
-  }
-  
-/**  
- * Forms
- *
- * @author Yorick Peterse
- * @since  0.1
- */
-form label
-{
-  display:       block;
-  margin-bottom: 10px;
-}
-  form label .error
-  {
-    background:   url("../images/icons/error.png") no-repeat center left;
-    color:        #eb5e4a;
-    display:      block;
-    margin-top:   8px;
-    padding-left: 25px;
-  }
-input[type="text"], input[type="password"], textarea, input[type="email"]
-{
-  border:      1px solid #ccc;
-    font-family: 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
-  font-size:   14px;
-  padding:     5px;
-  min-width:   400px;
-}
-
-/* Radios and checkboxes */
-input[type="radio"], input[type="checkbox"]
-{
-  cursor:      pointer;
-  margin:      0px 5px 5px 0px;
-}
-.radio_wrap, .checkbox_wrap
-{
-  margin-right:  10px;
-}
-
-/* Text fields and password fields */
-input[type="text"], input[type="password"]
-{
-  padding: 5px;
-}
-textarea
-{
-  width: 600px;
-}
-select
-{
-  cursor:    pointer;
-  font-size: 12px;
-  min-width: 100px;
-  width:     auto;
-}
-.input_wrapper
-{
-  margin-right: 10px;
-}
-
-/**
- * Buttons (such as those used for saving forms).
- *
- * @author Yorick Peterse
- * @since  0.1
- */
-.button
-{
-  border:       1px solid #bbb;
-  float:        left;
-  margin-right: 10px;
-}
-  .button a, .button input[type="submit"], .button button
-  {
-        background:      #ddd;
-    background:      #ddd -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#eee));
-    background:      #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
-    border:          none;
-    border-top:      1px solid #fff;
-    color:           #000;
-    cursor:          pointer;
-    display:         block;
-    font-size:       13px;
-    font-family:     'Helvetica Neue', Helvetica, Arial,'Liberation Sans',FreeSans,sans-serif;
-    margin:          0px;
-    min-width:       80px;
-    padding:         5px;
-    text-decoration: none;
-    text-shadow:     1px 1px #fff;
-    text-align:      center;
-  }
-  .button a
-  {
-    padding: 7px 5px 6px 5px;
-  }
-  .button input[type="submit"]
-  {
-    padding:         7px 5px;
-  }
-  .button a:active, .button input[type="submit"]:active, .button button:active
-  {
-    background:      #eee -webkit-gradient(linear, left bottom, left top, from(#eee), to(#ddd));
-    background:      #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
-  }
 
 /**
  * Icons and other re-usable images.
@@ -245,9 +87,10 @@ select
  */
 .icon_edit,.icon_delete,.icon_add, .icon_success, .icon_error, .icon_info, .icon_view
 {
-  margin-right: 10px;
-  padding:      5px 3px 5px 25px;
+    margin-right: 10px;
+    padding:      5px 3px 5px 25px;
 }
+
 .icon_edit   { background: url("../images/icons/edit.png") no-repeat center left;    }
 .icon_delete { background: url("../images/icons/delete.png") no-repeat center left;  }
 .icon_add    { background: url("../images/icons/add.png") no-repeat center left;     }
@@ -255,265 +98,3 @@ select
 .icon_error  { background: url("../images/icons/error.png") no-repeat center left;   }
 .icon_info   { background: url("../images/icons/info.png") no-repeat center left;    }
 .icon_view   { background: url("../images/icons/view.png") no-repeat center left;    }
-
-/**
- * Tab navigation.
- *
- * @author Yorick Peterse
- * @since  0.1
- */
-.tabs
-{
-  border:        1px solid #aaa;
-  height:        40px;
-  margin-bottom: 20px;
-}
-  .tabs ul
-  {
-    background:      #ddd -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#eee));
-    background:      #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
-    border-top:      1px solid #fff;
-    height:          39px;
-    list-style-type: none;
-    margin:          0px;
-  }
-  .tabs ul:after
-  {
-    clear:     both;
-    content:   '.';
-    display:   block;
-    height:    0;
-    visibility:hidden;
-  }
-    .tabs ul li
-    {
-      border-right: 1px solid #aaa;
-      float:        left;
-      margin:       0px;
-    }
-    .tabs ul li.active a
-    {
-      background:      #eee -webkit-gradient(linear, left bottom, left top, from(#eee), to(#ddd));
-      background:      #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
-      border-bottom:   1px solid #aaa;
-      height:          29px;
-    }
-      .tabs ul li a
-      {
-        color:           #000;
-        display:         block;
-        height:          30px;
-        padding:         10px 15px 0px 15px;
-        text-decoration: none;
-        text-shadow:     0px 1px #fff;
-      }
-
-
-/**
- * Notifications, errors, etc.
- *
- * @author Yorick Peterse
- * @since  0.1
- */
-#success
-{
-  background: #B3D760 url("../images/icons/success.png") no-repeat 5px center;
-  border:     1px solid #599929;
-}
-#error
-{
-  background: #F57E62 url("../images/icons/error.png") no-repeat 5px center;
-  border:     1px solid #FF3100;
-}
-#notice
-{
-  background: #FFF58C url("../images/icons/info.png") no-repeat 5px center;
-  border:     1px solid #FFDA05;
-}
-
-#notification_container
-{
-  position: absolute;
-  right:    10px;
-  top:      35px;
-}
-  #login #notification_container
-  {
-    top: 10px;
-  }
-.notification
-{
-  background:    #000;
-  border-radius: 10px;
-  cursor:        pointer;
-  color:         #fff;
-  margin-bottom: 10px;
-    min-height:    55px;
-  padding:       10px;
-  width:         230px;
-  
-  -moz-border-radius:    10px;
-  -webkit-border-radius: 10px;
-  -o-border-radius:      10px;
-  -khtml-border-radius:  10px;
-}
-  .notification .close
-  {
-    background: url("../images/icons/close.png") no-repeat center left;
-    display:    none;
-    height:     33px;
-    left:       0px;
-    margin-top: -13px;
-    position:   absolute;
-    width:      33px;
-  }
-  .notification:hover .close
-  {
-    display: block;
-  }
-  .notification .image
-  {
-    float:        left;
-    margin-top:   3px;
-    margin-right: 10px;
-  }
-  .notification .title
-  {
-    font-size:     14px;
-    font-weight:   bold;
-    margin-bottom: 10px;
-  }
-  
-/**
- * Modal windows.
- *
- * @author Yorick Peterse
- * @since  0.1
- */
-#modal_background, #modal_container
-{
-  height:     100%;
-  left:       0px; 
-  position:   fixed;
-  top:        0px;
-  width:      100%;
-}
-#modal_container
-{
-  position:       absolute!important;
-}
-#modal_container:after
-{
-  clear:      both;
-  content:    '.';
-  display:    block;
-  height:     0;
-  visibility: hidden;
-}
-#modal_background
-{
-  background: #444;
-  opacity:    0.8;
-}
-  #modal_container #modal_window
-  {
-    background: #fff;
-    border:     1px solid #000;
-    margin:     5% auto 20px auto;
-    min-height: 50px;
-    padding:    20px 10px 10px 10px;
-    width:      50%;
-  }
-  #modal_container #modal_window.fullscreen
-  {
-    height:     90%;
-    margin-top: 2%;
-    width:      95%;
-  }
-    #modal_container #modal_window #modal_close
-    {
-      background: url("../images/icons/close.png");
-      cursor:     pointer;
-      display:    block;
-      height:     30px;
-      margin:     -50px 0px 0px -20px;
-      width:      30px;
-    }
-
-/**
- * Text editor (supports Textile, Markdown, etc).
- *
- * @author Yorick Peterse
- * @since  0.1
- */
-.editor_container
-{
-  background: #eee;
-  border:     1px solid #aaa;
-  padding:    5px;
-  width:      98%;
-}
-.editor_container .editor_toolbar
-{
-  height:        30px;
-  margin-bottom: 2px;
-}
-  .editor_container .editor_toolbar:after
-  {
-    clear:       both;
-    content:     ' ';
-    display:     block;
-    font-size:   0;
-    height:      0;
-    line-height: 0;
-    visibility:  hidden;
-    width:       0;
-  }
-    .editor_container .editor_toolbar ul
-    {
-      margin:  0px;
-      padding: 0px;
-    }
-      .editor_container .editor_toolbar ul li
-      {
-        border:          1px solid #ccc;
-        cursor:          pointer;
-        display:         block;
-        float:           left;
-        list-style-type: none;
-        height:          22px;
-        margin:          0px 5px 0px 0px;
-        padding:         3px 15px 3px 15px;
-        text-indent:     -10000px;
-        white-space:     nowrap;
-      }
-      .editor_container .editor_toolbar ul li.bold
-      {
-        background: url("../images/icons/bold.png") no-repeat 6px 5px;
-      }
-      .editor_container .editor_toolbar ul li.italic
-      {
-        background: url("../images/icons/italic.png") no-repeat 6px 5px;
-      }
-      .editor_container .editor_toolbar ul li.link
-      {
-        background: url("../images/icons/link.png") no-repeat 7px 5px;
-      }
-      .editor_container .editor_toolbar ul li.ul
-      {
-        background: url("../images/icons/ul.png") no-repeat 6px 5px;
-      }
-      .editor_container .editor_toolbar ul li.ol
-      {
-        background: url("../images/icons/ol.png") no-repeat 6px 5px;
-      }
-      .editor_container .editor_toolbar ul li:hover
-      {
-        background-color: #ddd;
-      }
-.editor_container textarea
-{
-  border: 1px solid #ccc;
-  resize: both;
-  width:  99%;
-}

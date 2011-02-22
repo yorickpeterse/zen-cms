@@ -18,86 +18,86 @@
  */
 .container
 {
-  margin:    0 2%;
-  overflow:  hidden;
-  width:     96%;
+    margin:    0 2%;
+    overflow:  hidden;
+    width:     96%;
 }
 /* Clear the floats so background colors and other properties can be used properly */
 .container:after, .clearfix:after
 {
-  clear:      both;
-  content:    '.';
-  display:    block;
-  height:     0;
-  visibility: hidden;
+    clear:      both;
+    content:    '.';
+    display:    block;
+    height:     0;
+    visibility: hidden;
 }
 
 .grid_1, .grid_2, .grid_3, .grid_4 , .grid_5, .grid_6,
 .grid_7, .grid_8, .grid_9, .grid_10, .grid_11
 {
-  float:        left;
-  margin-right: 3.8%;
+    float:        left;
+    margin-right: 3.8%;
 }
 
 .grid_1
 {
-  width: 4.85%;
+    width: 4.85%;
 }
 
 .grid_2
 {
-  width: 13.5%;
+    width: 13.5%;
 }
 
 .grid_3
 {
-  width: 22.15%;
+    width: 22.15%;
 }
 
 .grid_4
 {
-  width: 30.8%;
+    width: 30.8%;
 }
 
 .grid_5
 {
-  width: 39.45%;
+    width: 39.45%;
 }
 
 .grid_6
 {
-  width: 48.1%;
+    width: 48.1%;
 }
 
 .grid_7
 {
-  width: 56.75%;
+    width: 56.75%;
 }
 
 .grid_8
 {
-  width: 65.4%;
+    width: 65.4%;
 }
 
 .grid_9
 {
-  width: 74.05%;
+    width: 74.05%;
 }
 
 .grid_10
 {
-  width: 82.7%;
+    width: 82.7%;
 }
 
 .grid_11
 {
-  width: 91.35%;
+    width: 91.35%;
 }
 
 .grid_12
 {
-  width: 100%;
-  float: left;
+    width: 100%;
+    float: left;
 }
 
 /**
@@ -107,7 +107,7 @@
  */
 .container > *:last-child, .container .last
 {
-  margin-right: 0px;
+    margin-right: 0px;
 }
 
 /**
@@ -115,5 +115,5 @@
  */
 img, object, embed
 {
-  max-width: 100%;
+    max-width: 100%;
 }

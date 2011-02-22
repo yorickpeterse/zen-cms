@@ -44,7 +44,11 @@ module Zen
         super
         
         # Load our CSS and Javascript files
-        require_css('boilerplate', 'grid', 'layout', 'general')
+        require_css(
+          'boilerplate', 'grid', 'layout', 'general', 'forms', 'tables', 'buttons',
+          'tabs', 'notifications', 'editor'
+        )
+
         require_js('zen/tabs', 'zen/notification', 'zen/modal', 'zen/editor/base',
           'zen/editor/drivers/html', 'zen/editor/drivers/textile', 'zen/editor/drivers/markdown',
           'zen/init'
