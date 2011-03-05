@@ -129,6 +129,11 @@ module Zen
       if !Ramaze.options.roots.include?(package.directory)
         Ramaze.options.roots.push(package.directory)
       end
+
+      # Update the language directory
+      if !Zen::Language.options.paths.include?(package.directory)
+        Zen::Language.options.paths.push(package.directory)
+      end
       
       # Themes and extensions each have a different accessor
       if package.type.to_s == 'theme'

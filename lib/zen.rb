@@ -14,18 +14,18 @@ module Zen
   require 'redcloth'
   require 'rdiscount'
   require 'defensio'
+  require 'yaml'
   require __DIR__('zen/base/version')
   
   include Innate::Optioned
   
   # Update several paths so we can load helpers/layouts from the Zen gem
-  Innate::HelpersHelper.options.paths << __DIR__('zen')
-  Ramaze.options.roots << __DIR__('zen')
+  Innate::HelpersHelper.options.paths.push(__DIR__('zen'))
+  Ramaze.options.roots.push(__DIR__('zen'))
   
   options.dsl do
     # General configuration options
     o 'The character encoding to use when dealing with data',   :encoding,       'utf8'
-    o 'The system language',                                    :language,       'en'
     o 'The date format to use for log files and such.',         :date_format,    '%d-%m-%Y'
     o 'The base directory of Zen.',                             :root,           ''
   end
@@ -53,7 +53,7 @@ module Zen
   end
   
   # Update the language paths
-  Zen::Language.language_paths << __DIR__('zen')
+  Zen::Language.options.paths.push(__DIR__('zen'))
   
   # Register our Liquid tags
   ::Liquid::Template.register_tag('strip'   , Liquid::Strip)

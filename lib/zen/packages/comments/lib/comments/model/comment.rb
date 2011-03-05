@@ -14,6 +14,8 @@ module Comments
     # @since  0.1
     #
     class Comment < Sequel::Model
+      include ::Zen::Language
+
       many_to_one :section_entry, :class => "Sections::Models::SectionEntry"
       many_to_one :user,          :class => "Users::Models::User"
       
@@ -28,6 +30,26 @@ module Comments
       def validate
         validates_presence :comment
         validates_presence :email
+      end
+
+      ##
+      # Returns a hash containing all available statuses for each comment.
+      #
+      # @example
+      #  Comments::Models::Comment.status_hash
+      #
+      # @author Yorick Peterse
+      # @since  0.2
+      # @return [Hash]
+      #
+      def self.status_hash
+        ::Zen::Language.load('comments')
+
+        return {
+          'open'   => lang('comments.labels.open'),
+          'closed' => lang('comments.labels.closed'),
+          'spam'   => lang('comments.labels.spam') 
+        }
       end
     end
   end

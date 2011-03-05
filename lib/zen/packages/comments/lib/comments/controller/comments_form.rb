@@ -16,7 +16,7 @@ module Comments
       
       before_all do
         csrf_protection(:save) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
       end
       
@@ -28,7 +28,7 @@ module Comments
       # @since  0.1
       #
       def save
-        comments_lang = Zen::Language.load('comments')
+        Zen::Language.load('comments')
 
         comment = Comment.new
         post    = request.params.dup
@@ -56,7 +56,7 @@ module Comments
         
         # Validate the section entry
         if entry.nil?
-          flash[:error] = comments_lang.errors[:invalid_entry]
+          flash[:error] = lang('comments.errors.invalid_entry')
           redirect_referrer
         end
         
@@ -64,13 +64,13 @@ module Comments
         
         # Comments allowed?
         if section.comment_allow == false
-          flash[:error] = comments_lang.errors[:comments_not_allowed]
+          flash[:error] = lang('comments.errors.comments_not_allowed')
           redirect_referrer
         end
         
         # Comments require an account?
         if section.comment_require_account == true and session[:user].nil?
-          flash[:error] = comments_lang.errors[:comments_require_account]
+          flash[:error] = lang('comments.errors.comments_require_account')
           redirect_referrer
         end
         
@@ -85,7 +85,7 @@ module Comments
           api_key = session[:settings][:defensio_key]
           
           if api_key.nil?
-            flash[:error] = comments_lang.errors[:no_api_key]
+            flash[:error] = lang('comments.errors.no_api_key')
             redirect_referrer
           end
           
@@ -97,7 +97,7 @@ module Comments
           )
           
           if status != 200
-            flash[:error] = comments_lang.errors[:defensio_status]
+            flash[:error] = lang('comments.errors.defensio_status')
             redirect_referrer
           end
           
@@ -120,12 +120,12 @@ module Comments
           comment.save
           
           if section.comment_moderate == true
-            flash[:success] = comments_lang.success[:moderate]
+            flash[:success] = lang('comments.success.moderate')
           else
-            flash[:success] = comments_lang.success[:new]
+            flash[:success] = lang('comments.success.new')
           end
         rescue
-          flash[:error]   = comments_lang.errors[:new]
+          flash[:error]     = lang('comments.errors.new')
         end
         
         redirect_referrer

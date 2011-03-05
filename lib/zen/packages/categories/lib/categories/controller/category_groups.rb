@@ -17,7 +17,7 @@ module Categories
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -37,15 +37,13 @@ module Categories
         
         @form_save_url   = CategoryGroups.r(:save)
         @form_delete_url = CategoryGroups.r(:delete)
-        @groups_lang     = Zen::Language.load('category_groups')
+        
+        Zen::Language.load('category_groups')
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @groups_lang.titles.key? method
-            @page_title = @groups_lang.titles[method]
-          end
+          method      = action.method.to_s
+          @page_title = lang("category_groups.titles.#{method}") rescue nil
         end
       end
       
@@ -62,10 +60,10 @@ module Categories
       #
       def index
         if !user_authorized?([:read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        set_breadcrumbs(@groups_lang.titles[:index])
+        set_breadcrumbs(lang('category_groups.titles.index'))
         
         @category_groups = CategoryGroup.all
       end
@@ -82,11 +80,13 @@ module Categories
       #
       def edit id
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        set_breadcrumbs(anchor_to(@groups_lang.titles[:index], CategoryGroups.r(:index)),
-          @groups_lang.titles[:edit])
+        set_breadcrumbs(
+          anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
+          lang('category_groups.titles.edit')
+        )
         
         if flash[:form_data]
           @category_group = flash[:form_data]
@@ -106,11 +106,13 @@ module Categories
       #
       def new
         if !user_authorized?([:create, :read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        set_breadcrumbs(anchor_to(@groups_lang.titles[:index], CategoryGroups.r(:index)),
-          @groups_lang.titles[:new])
+        set_breadcrumbs(
+          anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
+          lang('category_groups.titles.new')
+        )
         
         @category_group = CategoryGroup.new
       end
@@ -127,7 +129,7 @@ module Categories
       #    
       def save
         if !user_authorized?([:create, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         post = request.params.dup
@@ -140,14 +142,14 @@ module Categories
           save_action     = :new
         end
         
-        flash_success = @groups_lang.success[save_action]
-        flash_error   = @groups_lang.errors[save_action]
+        flash_success = lang("category_groups.success.#{save_action}")
+        flash_error   = lang("category_groups.errors.#{save_action}")
         
         begin
           @category_group.update(post)
-          notification(:success, @groups_lang.titles[:index], flash_success)
+          notification(:success, lang('category_groups.titles.index'), flash_success)
         rescue
-          notification(:error  , @groups_lang.titles[:index], flash_error)
+          notification(:error, lang('category_groups.titles.index'), flash_error)
 
           flash[:form_data]   = @category_group
           flash[:form_errors] = @category_group.errors
@@ -175,22 +177,22 @@ module Categories
       #
       def delete
         if !user_authorized?([:delete])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
         post = request.params.dup
         
         if !post['category_group_ids'] or post['category_group_ids'].empty?
-          notification(:error, @groups_lang.titles[:index], @groups_lang.errors[:no_delete])
+          notification(:error, lang('category_groups.titles.index'), lang('category_groups.errors.no_delete'))
           redirect(CategoryGroups.r(:index))
         end
         
         post['category_group_ids'].each do |id|
           begin
             CategoryGroup[id.to_i].destroy
-            notification(:success, @groups_lang.titles[:index], @groups_lang.success[:delete])
+            notification(:success, lang('category_groups.titles.index'), lang('category_groups.success.delete'))
           rescue
-            notification(:error  , @groups_lang.titles[:index], @groups_lang.errors[:delete] % id)
+            notification(:error, lang('category_groups.titles.index'), lang('category_groups.errors.delete') % id)
           end
         end
         

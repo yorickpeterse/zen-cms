@@ -1,0 +1,31 @@
+titles:
+  index: 'Custom Field Groups'
+  edit: 'Edit Custom Field Group'
+  new: 'Add Custom Field Group'
+
+labels:
+  id            : '#'
+  name          : 'Name'
+  description   : 'Description'
+  sections      : 'Sections'
+  manage_fields : 'Manage custom fields'
+  none          : 'None'
+
+messages:
+  no_groups : 'No custom field groups have been created yet.'
+
+errors:
+  new       : 'Failed to create a new custom field group.'
+  save      : 'Failed to modify the custom field group.'
+  delete    : 'Failed to delete the custom field group with ID #%s'
+  no_delete : "You haven't specified any custom field groups to delete"
+
+success:
+  new    : 'The custom field group has been created.'
+  save   : 'The custom field group has been modified.'
+  delete : 'The selected custom field groups have been deleted.'
+
+buttons:
+  new    : 'Add group'
+  delete : 'Delete selected groups'
+  save   : 'Save group'

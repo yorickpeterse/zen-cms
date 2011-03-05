@@ -1,0 +1,42 @@
+---
+titles:
+  index : 'Comments'
+  edit  : 'Edit Comment'
+
+labels:
+  id                 : '#'
+  website            : 'Website'
+  entry              : 'Section Entry'
+  email              : 'Email'
+  status             : 'Status'
+  comment            : 'Comment'
+  name               : 'Name'
+  created_at         : 'Created'
+  updated_at         : 'Updated'
+  defensio_signature : 'Defensio Signature'
+  open               : 'Open'
+  closed             : 'Closed'
+  spam               : 'Spam'
+
+messages:
+  no_comments: 'No comments have been added yet.'
+
+success:
+  new      : 'The new comment has been created.'
+  save     : 'The comment has been modified.'
+  delete   : 'All selected comments have been deleted.'
+  moderate : "The comment has been posted but mush be approved by an administrator before it's displayed."
+
+errors:
+  new                  : 'Failed to create the new comment.'
+  save                 : 'Failed to modify the comment.'
+  delete               : 'Failed to delete the comment with ID #%s.'
+  no_delete            : "You haven't specified any comments to delete."
+  invalid_entry        : 'The specified section entry is invalid.'
+  comments_not_allowed : "Comments aren't allowed for this section."
+  no_api_key           : 'You need to specify an API key for the Defensio system in your settings panel.'
+  defensio_status      : 'The comment could not be saved due to a problem with the Defensio server.'
+
+buttons:
+  delete : 'Delete selected comments'
+  save   : 'Save comment'

@@ -1,0 +1,32 @@
+---
+titles:
+  index : 'Category Groups'
+  edit  : 'Edit Category Group'
+  new   : 'Add Category Group'
+
+labels:
+  id          : '#'
+  name        : 'Name'
+  description : 'Description'
+  manage      : 'Manage Categories'
+
+placeholders:
+  name : 'The name of the category group'
+
+messages:
+  no_groups : 'No category groups have been created yet.'
+
+success:
+  new    : 'The category group has been created.'
+  save   : 'The category group has been modified.'
+  delete : 'The category group has been deleted.'
+
+errors:
+  new    : 'Failed to add a new category group.'
+  save   : 'Failed to modify the category group.'
+  delete : 'Failed to delete the category group with ID #%s.'
+
+buttons:
+  new    : 'Add group'
+  save   : 'Save group'
+  delete : 'Delete selected groups'

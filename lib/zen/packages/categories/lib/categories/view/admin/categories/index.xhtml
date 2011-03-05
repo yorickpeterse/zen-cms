@@ -18,10 +18,10 @@
                     </th>
                     <?r end ?>
                     
-                    <th>#{@categories_lang.labels[:id]}</th>
-                    <th>#{@categories_lang.labels[:name]}</th>
-                    <th>#{@categories_lang.labels[:slug]}</th>
-                    <th>#{@categories_lang.labels[:parent]}</th>
+                    <th>#{lang('categories.labels.id')}</th>
+                    <th>#{lang('categories.labels.name')}</th>
+                    <th>#{lang('categories.labels.slug')}</th>
+                    <th>#{lang('categories.labels.parent')}</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,12 @@
                     <td>#{category.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to(category.name, Categories::Controllers::Categories.r(:edit, @category_group_id, category.id))}</td>
+                    <td>
+                        #{anchor_to(
+                          category.name, 
+                          Categories::Controllers::Categories.r(:edit, @category_group_id, category.id)
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{category.name}</td>
                     <?r end ?>
@@ -49,19 +54,22 @@
         </table>
         
         <?r else ?>
-        <p>#{@categories_lang.messages[:no_categories]}</p>
+        <p>#{lang('categories.messages.no_categories')}</p>
         <?r end ?>
         
         <div class="clearfix">
             <?r if user_authorized?([:create]) ?>
             <div class="button">
-                #{anchor_to(@categories_lang.buttons[:new_category], Categories::Controllers::Categories.r(:new, @category_group_id))}
+                #{anchor_to(
+                  lang('categories.buttons.new'), 
+                  Categories::Controllers::Categories.r(:new, @category_group_id)
+                )}
             </div>
             <?r end ?>
             
             <?r if user_authorized?([:delete]) and @categories and !@categories.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@categories_lang.buttons[:delete_categories]}" />
+                <input type="submit" value="#{lang('categories.buttons.delete')}" />
             </div>
             <?r end ?>
             

@@ -16,7 +16,7 @@ module CustomFields
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -36,15 +36,13 @@ module CustomFields
         
         @form_save_url     = CustomFieldGroups.r(:save)
         @form_delete_url   = CustomFieldGroups.r(:delete)
-        @field_groups_lang = Zen::Language.load('custom_field_groups')
+
+        Zen::Language.load('custom_field_groups')
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @field_groups_lang.titles.key? method
-            @page_title = @field_groups_lang.titles[method]
-          end
+          method      = action.method.to_sym
+          @page_title = lang("custom_field_groups.titles.#{method}") rescue nil
         end
       end
       

@@ -9,6 +9,8 @@ module Zen
     # @since  0.1
     #
     class BaseController < Ramaze::Controller
+      include ::Zen::Language
+
       helper :csrf, :cgi
       
       ##
@@ -27,8 +29,8 @@ module Zen
         end
         
         # Override the language
-        Zen.options.language = @settings[:language]
-        @zen_general_lang    = Zen::Language.load('zen_general')
+        ::Zen::Language.options.language = @settings[:language]
+        ::Zen::Language.load('zen_general')
       end
     end
   end

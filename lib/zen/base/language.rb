@@ -1,132 +1,213 @@
-require 'ostruct'
-
 module Zen
   ##
-  # The Language module enables developers to create multi-lingual applications/extensions using
-  # nothing more than Ruby. While Ramaze already ships with multi-language support it relies on YAML
-  # for it's language files. While YAML is nice for config/language files my aim is to keep everything in Ruby
-  # as much as possible. Another problem with the language class provided by Ramaze is that at the time of writing
-  # (October 2011) it was completely undocumented and didn't make much sense.
+  # The language module is used for writing and using text translations. Translations are
+  # stored in a simple YAML file inside a directory called "language" followed by a directory
+  # who's name matches the language code for which it's translations should be used.
+  # Say we wanted to translate "Login" and "Register" into different languages our YAML
+  # file would look like the following:
   #
-  # h2. Usage
+  # bc. ---
+  # login: "Login"
+  # register: "Register"
   #
-  # Using the language system provided by Zen is fairly straight forward. Create a directory named "language"
-  # and create a sub directory for each language. For example, if you're adding an English language pack this directory would be named "en".
-  # Language files can be named whatever you like as long as they contain the following block:
+  # If we save this file under parent_directory/language/en/tutorial.yml we could then
+  # load that file as following:
   #
-  # bc. Zen::Language.translation 'translation_name' do |item|
-  #   # ...
-  # end
+  # bc. Zen::Language.load('tutorial')
   #
-  # Inside this block you'll define your language items. For example, if we want a localized username and password we could
-  # do something like the following:
+  # h2. Loading Translations
   #
-  # bc. Zen::Language.translation 'example' do |item|
-  #   item.username = 'Username'
-  #   item.passowrd = 'Password'
-  # end
+  # The load() method will look for a YAML file of which the name matches the given string
+  # and can be found in the directory for the current language. This means that if we were
+  # to switch our language without creating a translation file for that language we wouldn't
+  # be able to use it (makes sense right?).
   #
-  # This language file can then be loaded as following (assuming it's named "example.rb"):
-  # 
-  # bc. lang = Zen::Language.load 'example'
-  # # We can now access our translation items from the lang variable
-  # lang.username
-  # lang.password
+  # Once your translation file is in place and it's loaded it can be used using the lang()
+  # method. Example:
   #
-  # Zen will use the setting Zen.options.language to determine what language should be loaded.
+  # bc. lang('tutorial.login') # => "Login"
   #
-  # h2. Sub Items
+  # h2. Directory Structure
   #
-  # Since language files are nothing more than Ruby blocks you can do everything you normally can. This makes
-  # it extremely easy to retrieve dynamic data for your language files (a list of installed extensions for example).
-  # Sub items are generally specified as a hash:
+  # As mentioned earlier language files are saved in a certain directory. The structure
+  # of this directory looks like the following:
   #
-  # bc. item.sub_items = {:name => 'Name'}
+  # bc. parent directory
+  #   |
+  #   |__ language
+  #      |
+  #      |__ language key (e.g. "en")
+  #         |
+  #         |__ filename.yml
   #
-  # Note that Zen won't convert the keys from format A to B, if you specify a symbol it will stay a symbol.
+  # When loading a language file this module will loop through a certain number of paths.
+  # The array containing all base directories to loop through can be updated as following:
+  #
+  # bc. Zen::Language.options.paths.push('/path/to/directory')
+  #
+  # It's important that you _don't_ add a /language segment to the path, this will be done
+  # automatically.
+  #
+  # h2. Options
+  #
+  # * language: Small string that defines the current language (e.g. "en").
+  # * paths: Array of paths to look for a language file
   #
   # @author Yorick Peterse
-  # @since  0.1
+  # @since  0.2 
   #
   module Language
-    @language_keys  = {}
-    @language_paths = []
-    
+    include Ramaze::Optioned
+
+    options.dsl do
+      o 'Small string that defines the current language (e.g. "en").', :language, 'en'
+      o 'Array of paths to look for a language file'                 , :paths   , [] 
+    end
+
     class << self
-      attr_accessor :language_keys
-      attr_accessor :language_paths
+      attr_reader :translations
     end
     
     ##
-    # Tries to load the specified language file from each directory specified in Ramaze.options.roots.
-    # After a language file has been loaded the OpenStruct object will be stored in a hash and returned
-    # in case the same language file is loaded multiple times.
-    # 
+    # Tries to load a language file for the given name. If no language files were found
+    # based on the name and the current language an exception will be raised. 
+    #
     # @example
-    #  @user_lang = Zen::Language.load 'user'
-    #  @user_lang.username
+    #  Zen::Language.load('user')
     #
     # @author Yorick Peterse
-    # @param  [String] lang_name The name of the language file to load. This name should match both
-    # the filename and the name defined in Zen::Language.translation().
-    # @return [Object] An OpenStruct object containing all the language keys and their values.
+    # @since  0.1
+    # @param  [String] lang_name The name of the language file to load. 
     # 
-    def self.load lang_name
-      # Each language file is stored in the hash using a key with the following format:
-      # language-name_language-file
-      hash_key = Zen.options.language + '_' + lang_name
-      hash_key = hash_key.to_sym
+    def self.load(lang_name)
+      @translations ||= {}
+      @translations[self.options.language.to_s] ||= {}
 
-      # Let's see if the language file is already loaded
-      if @language_keys.key?(hash_key)
-        return @language_keys[hash_key]
+      if @translations[self.options.language.to_s][lang_name.to_s]
+        return
+      end
+
+      self.options.paths.each do |path|
+        path += "/language/#{self.options.language}/#{lang_name}.yml"
+
+        # Load the file and save it
+        if File.exist?(path)
+          translation = YAML.load_file(path)
+
+          # Conver the hash to a dot based hash. This means that {:person => {:age => 18}}
+          # would result in {'person.age' => 18}.
+          translation = self.to_dotted_hash({lang_name.to_s => translation})
+          
+          @translations[self.options.language.to_s] ||= {}
+          @translations[self.options.language.to_s].merge!(translation)
+          
+          # Prevents the exception from being raised
+          return
+        end        
+      end
+
+      raise "No language file could be found for \"#{lang_name}\""
+    end
+
+    ##
+    # Method for retrieving the correct language item based on the given string.
+    # If you want to retrieve sub-items you can separate each level with a dot:
+    #
+    # bc. lang('tutorial.main.sub')
+    #
+    # This would require our YAML file to look something like the following:
+    #
+    # bc. ---
+    # main:
+    #   sub: "Something!"
+    #
+    # It's important to remember that your key should always include the name of the
+    # language file since once a file is loaded it will be kept in memory to reduce
+    # disk usage.
+    #
+    # @example
+    #  lang('username')
+    #
+    # @author Yorick Peterse
+    # @since  0.2
+    # @param  [String] key The language key to select.
+    # @return [Mixed]
+    #
+    def lang(key)
+      lang          = ::Zen::Language.options.language.to_s
+      groups        = []
+      translations  = ::Zen::Language.translations
+
+      if !translations or !translations.key?(lang)
+        raise "No translation files have been added for the language code \"#{lang}\""
+      end
+
+      if translations[lang][key]
+        return translations[lang][key]
       end
       
-      # Time to load the file
-      paths = @language_paths + Ramaze.options.roots
-      
-      paths.each do |dir|
-        lang_path = "#{dir}/language/#{Zen.options.language}/#{lang_name}.rb"
+      raise "The specified language item \"#{key}\" does not exist"
+    end
 
-        # Load the file if it exists
-        if File.exist?(lang_path)
-          require lang_path  
-          return @language_keys[hash_key]
+    private
+
+    ##
+    # Method that takes a hash or an array and converts it to a dot-based hash. For example,
+    # the following hash:
+    #
+    # bc. {:name => 'Name', :location => {:street => 'Street', :address => 'Address'}}
+    #
+    # would result in the following:
+    #
+    # bc. {'name' => 'Name', 'location.street' => 'Street', 'location.address' => 'Address'}
+    #
+    # Using arrays would result in the following:
+    #
+    # bc. to_dotted_hash(["Hello", "World"]) # => {'1' => 'Hello', '2' => 'World'}
+    #
+    # While it looks a bit goofy this allows you to do the following:
+    #
+    # bc. lang('1') # => 'Hello'
+    #
+    # @example
+    #  self.to_dotted_hash({:name => "Yorick"}) # => {'name' => 'Yorick'}
+    #
+    # The code for this method was mostly taken from a comment on Stack Overflow.
+    # This comment can be found here: http://bit.ly/dHTjVR
+    #
+    # @author Yorick Peterse
+    # @since  0.2
+    # @param  [Hash/Array] source The hash or array to conver to a dot-based hash.
+    # @param  [Hash] target The hash to store the new key/values in.
+    # @param  [String] namespace The namespace for the key (e.g. "user.location").
+    # @return [Hash] The converted hash where the keys are dot-based strings instead of
+    # regular strings/symbols with sub hashes.
+    #
+    def self.to_dotted_hash(source, target = {}, namespace = nil)
+      if namespace and !namespace.nil?
+        prefix = "#{namespace}."
+      else
+        prefix = ""
+      end
+
+      case source
+      when Hash
+        source.each do |k, v|
+          self.to_dotted_hash(v, target, "#{prefix}#{k}")
+        end
+      when Array
+        source.each_with_index do |v, i|
+          self.to_dotted_hash(v, target, "#{prefix}#{i}") 
+        end
+      else
+        if !namespace.nil?
+          target[namespace] = source
+        else
+          target = source
         end
       end
-      
-      # No language file found
-      return false
-    end
-    
-    ##
-    # Given a block this method will store all the keys in the language_keys instance variable.
-    # Using Zen::Language.load these variables will be returned as an OpenStruct object.
-    #
-    # @example
-    #  Zen::Language.translation 'example' do |lang|
-    #    lang.username = 'Username'
-    #    lang.password = 'Password'
-    #  end
-    #
-    # @author Yorick Peterse
-    # @param  [Block] Block containing all the language items.
-    #
-    def self.translation lang_name, &block
-      # Each language file is stored in the hash using a key with the following format:
-      # language-name_language-file
-      hash_key = Zen.options.language + '_' + lang_name
-      hash_key = hash_key.to_sym
-      
-      # Does the language key already exist?
-      if @language_keys.key?(hash_key)
-        raise "There already is a language file named \"#{lang_name}\" for the language \"#{Zen.options.language}\"."
-      end
-      
-      # Process the language file
-      @language_keys[hash_key] = OpenStruct.new
-      
-      yield @language_keys[hash_key]
+
+      return target
     end
   end
 end

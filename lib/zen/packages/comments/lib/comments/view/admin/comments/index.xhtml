@@ -14,16 +14,16 @@
                     <input type="checkbox" />
                 </th>
                 <?r end ?>
-                <th>#{@comments_lang.labels[:id]}</th>
-                <th>#{@comments_lang.labels[:comment]}</th>
-                <th>#{@comments_lang.labels[:entry]}</th>
-                <th>#{@comments_lang.labels[:status]}</th>
-                <th>#{@comments_lang.labels[:name]}</th>
-                <th>#{@comments_lang.labels[:email]}</th>
-                <th>#{@comments_lang.labels[:website]}</th>
-                <th>#{@comments_lang.labels[:defensio_signature]}</th>
+                <th>#{lang('comments.labels.id')}</th>
+                <th>#{lang('comments.labels.comment')}</th>
+                <th>#{lang('comments.labels.entry')}</th>
+                <th>#{lang('comments.labels.status')}</th>
+                <th>#{lang('comments.labels.name')}</th>
+                <th>#{lang('comments.labels.email')}</th>
+                <th>#{lang('comments.labels.website')}</th>
+                <th>#{lang('comments.labels.defensio_signature')}</th>
              </thead>
-            <tbody>
+            <tbody> 
                 <?r @comments.each do |comment| ?>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
@@ -35,13 +35,18 @@
                     <td>#{comment.id}</td>
                     
                     <?r if user_authorized?([:update]) ?>
-                    <td>#{anchor_to("#{comment.comment[0, 15]}...", Comments::Controllers::Comments.r(:edit, comment.id))}</td>
+                    <td>
+                        #{anchor_to(
+                          "#{comment.comment[0, 15]}...", 
+                          Comments::Controllers::Comments.r(:edit, comment.id)
+                        )}
+                    </td>
                     <?r else ?>
                     <td>#{comment.comment[0, 15]}...</td>
                     <?r end ?>
                     
                     <td>#{comment.section_entry.title}</td>
-                    <td>#{@comments_lang.special[:status_hash][comment.status]}</td>
+                    <td>#{Comments::Models::Comment.status_hash[comment.status]}</td>
                     
                     <?r if !comment.user_id ?>
                     <td>#{comment.name}</td>
@@ -59,13 +64,13 @@
             </tbody>
         </table>
         <?r else ?>
-        <p>#{@comments_lang.messages[:no_comments]}</p>
+        <p>#{lang('comments.messages.no_comments')}</p>
         <?r end ?>
         
         <?r if user_authorized?([:delete]) and @comments and !@comments.empty? ?>
         <div class="clearfix">
             <div class="button">
-                <input type="submit" value="#{@comments_lang.buttons[:delete_comments]}" />
+                <input type="submit" value="#{lang('comments.buttons.delete')}" />
             </div>
         </div>
         <?r end ?>

@@ -1,0 +1,13 @@
+---
+exact_length : 'This field is not exactly %s characters long.'
+format       : "This field's format is invalid."
+includes     : "This field's value is not in the range or set of %s."
+integer      : "This field's value is not an integer."
+length_range : "This field's value is either too long or too short."
+max_length   : "This field's value may not be longer than %s characters."
+min_length   : "This field's value may not be shorter than %s characters."
+not_string   : "This field's value is not a string."
+numeric      : "This field's value is not numeric."
+type         : "This field's value is not a %s."
+presence     : "This field's value is required."
+unique       : "This field's value is already taken."

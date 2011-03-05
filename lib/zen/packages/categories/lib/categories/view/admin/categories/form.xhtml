@@ -2,22 +2,22 @@
 form_for(@category, :method => :post, :action => @form_save_url) do |f|
 
   f.input_hidden(:category_group_id, @category_group_id)
-  f.input_hidden(:id, @category.id)
-  f.input_hidden(:csrf_token, get_csrf_token)
+  f.input_hidden(:id               , @category.id)
+  f.input_hidden(:csrf_token       , get_csrf_token)
   
   f.g.div(:id => 'general') do
     f.input_text(
-      @categories_lang.labels[:name], 
+      lang('categories.labels.name'), 
       :name, 
-      :placeholder => @categories_lang.placeholders[:name], 
+      :placeholder => lang('categories.placeholders.name'), 
       :required    => :required, 
       :maxlength   => 255
     )
 
     f.input_text(
-      @categories_lang.labels[:slug],
+      lang('categories.labels.slug'),
       :slug, 
-      :placeholder => @categories_lang.placeholders[:slug]
+      :placeholder => lang('categories.placeholders.slug')
     )
     
     # Generate the dropdown that contains all possible parent categories
@@ -32,7 +32,7 @@ form_for(@category, :method => :post, :action => @form_save_url) do |f|
     
     if !parent_categories.empty?
       f.select(
-        @categories_lang.labels[:parent], 
+        lang('categories.labels.parent'), 
         :parent_id, 
         :values   => parent_categories, 
         :size     => 1, 
@@ -41,7 +41,7 @@ form_for(@category, :method => :post, :action => @form_save_url) do |f|
     end
     
     f.textarea(
-      @categories_lang.labels[:description], 
+      lang('categories.labels.description'), 
       :description, 
       :rows => 8
     )
@@ -49,7 +49,7 @@ form_for(@category, :method => :post, :action => @form_save_url) do |f|
   
   f.g.div(:class => "clearfix") do
     f.g.div(:class => "button") do
-      f.g.input(:type => 'submit', :value => @categories_lang.buttons[:save_category])
+      f.g.input(:type => 'submit', :value => lang('categories.buttons.save'))
     end
   end
 

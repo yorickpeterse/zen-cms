@@ -19,7 +19,7 @@ module Comments
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -37,15 +37,13 @@ module Comments
         
         @form_save_url   = Comments.r(:save)
         @form_delete_url = Comments.r(:delete)
-        @comments_lang   = Zen::Language.load('comments')
+        
+        Zen::Language.load('comments')
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-
-          if @comments_lang.titles.key? method 
-            @page_title = @comments_lang.titles[method]
-          end
+          method      = action.method.to_s
+          @page_title = lang("comments.titles.#{method}") rescue nil
         end
       end
     
@@ -62,10 +60,10 @@ module Comments
       #
       def index
         if !user_authorized?([:read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        set_breadcrumbs(@comments_lang.titles[:index])
+        set_breadcrumbs(lang('comments.titles.index'))
         
         @comments = Comment.all
       end
@@ -84,11 +82,11 @@ module Comments
       #
       def edit id
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@comments_lang.titles[:index], Comments.r(:index)), 
+          anchor_to(lang('comments.titles.index'), Comments.r(:index)), 
           @page_title
         )
 
@@ -112,7 +110,7 @@ module Comments
       #
       def save
         if !user_authorized?([:update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         # Copy the POST data so we can work with it without messing things up
@@ -121,9 +119,9 @@ module Comments
 
         begin
           @comment.update(post)
-          notification(:success, @comments_lang.titles[:index], @comments_lang.success[:save])
+          notification(:success, lang('comments.titles.index'), lang('comments.success.save'))
         rescue
-          notification(:error, @comments_lang.titles[:index], @comments_lang.errors[:save])
+          notification(:error, lang('comments.titles.index'), lang('comments.errors.save'))
           
           flash[:form_errors] = @comment.errors
           flash[:form_data]   = @comment
@@ -150,12 +148,12 @@ module Comments
       #
       def delete
         if !user_authorized?([:delete])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         # Obviously we'll require some IDs
         if !request.params['comment_ids'] or request.params['comment_ids'].empty?
-          notification(:error, @comments_lang.titles[:index], @comments_lang.errors[:no_delete])
+          notification(:error, lang('comments.titles.index'), lang('comments.errors.no_delete'))
           redirect_referrer
         end
         
@@ -163,9 +161,9 @@ module Comments
         request.params['comment_ids'].each do |id|
           begin
             Comment[id.to_i].destroy
-            notification(:success, @comments_lang.titles[:index], @comments_lang.success[:delete])
+            notification(:success, lang('comments.titles.index'), lang('comments.success.delete'))
           rescue
-            notification(:error, @comments_lang.titles[:index], @comments_lang.errors[:delete] % id)
+            notification(:error, lang('comments.titles.index'), lang('comments.errors.delete') % id)
           end
         end
         

@@ -5,23 +5,23 @@ form_for(@category_group, :method => :post, :action => @form_save_url) do |f|
   f.input_hidden(:csrf_token, get_csrf_token)
   
   f.input_text(
-    @groups_lang.labels[:name], 
+    lang('category_groups.labels.name'), 
     :name, 
-    :placeholder => @groups_lang.placeholders[:name], 
+    :placeholder => lang('category_groups.placeholders.name'), 
     :required    => :required,
     :maxlength   => 255
   )
 
   f.textarea(
-    @groups_lang.labels[:description], 
+    lang('category_groups.labels.description'), 
     :description, 
     :rows        => 8,
-    :placeholder => @groups_lang.placeholders[:description]
+    :placeholder => lang('category_groups.placeholders.description')
   )
   
   f.g.div(:class => "clearfix") do
     f.g.div(:class => "button") do
-      f.g.input(:type => 'submit', :value => @groups_lang.buttons[:save_group])
+      f.g.input(:type => 'submit', :value => lang('category_groups.buttons.save'))
     end
   end
 
