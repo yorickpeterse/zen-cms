@@ -15,7 +15,7 @@ module Sections
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -37,17 +37,14 @@ module Sections
         
         @form_save_url   = SectionEntries.r(:save)
         @form_delete_url = SectionEntries.r(:delete)
-        @entries_lang    = Zen::Language.load('section_entries')
-        @sections_lang   = Zen::Language.load('sections')
-        @models_lang     = Zen::Language.load('zen_models')
+        
+        Zen::Language.load('section_entries')
+        Zen::Language.load('sections')
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @entries_lang.titles.key? method
-            @page_title = @entries_lang.titles[method]
-          end
+          method      = action.method.to_sym
+          @page_title = lang("section_entries.titles.#{method}") rescue nil
         end
 
         # Load our datepicker that ships with Zen itself
@@ -72,12 +69,12 @@ module Sections
       #
       def index(section_id)
         if !user_authorized?([:read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@sections_lang.titles[:index], Sections.r(:index)),
-          @entries_lang.titles[:index]
+          anchor_to(lang('sections.titles.index'), Sections.r(:index)),
+          lang('section_entries.titles.index')
         )
         
         section     = Section[section_id.to_i]
@@ -100,13 +97,13 @@ module Sections
       #
       def edit(section_id, entry_id)
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@sections_lang.titles[:index], Sections.r(:index)),
-          anchor_to(@entries_lang.titles[:index], SectionEntries.r(:index, section_id)),
-          @entries_lang.titles[:edit]
+          anchor_to(lang('sections.titles.index'), Sections.r(:index)),
+          anchor_to(lang('section_entries.titles.index'), SectionEntries.r(:index, section_id)),
+          lang('section_entries.titles.edit')
         )
         
         @section_id = section_id
@@ -136,13 +133,13 @@ module Sections
       #
       def new section_id
         if !user_authorized?([:read, :create])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@sections_lang.titles[:index], Sections.r(:index)),
-          anchor_to(@entries_lang.titles[:index], SectionEntries.r(:index, section_id)),
-          @entries_lang.titles[:new]
+          anchor_to(lang('sections.titlex.index'), Sections.r(:index)),
+          anchor_to(lang('section_entries.titles.index'), SectionEntries.r(:index, section_id)),
+          lang('section_entries.titles.new')
         )
           
         @section_id = section_id
@@ -169,7 +166,7 @@ module Sections
       #
       def save
         if !user_authorized?([:create, :save])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         post                = request.params.dup
@@ -197,8 +194,8 @@ module Sections
           save_action   = :new
         end
         
-        flash_success = @entries_lang.success[save_action]
-        flash_error   = @entries_lang.errors[save_action]
+        flash_success = lang("section_entries.success.#{save_action}")
+        flash_error   = lang("section_entries.errors.#{save_action}")
         
         # Transactions ahoy!
         begin
@@ -239,7 +236,7 @@ module Sections
         # 2. Any custom field marked as required didn't have a value
         # 3. Something else went wrong, god knows what.
         rescue
-          notification(:error, @entries_lang.titles[:index], flash_error)
+          notification(:error, lang('section_entries.titles.index'), flash_error)
             
           flash[:form_errors] = @entry.errors.merge(custom_field_errors)
           flash[:form_data]   = @entry
@@ -267,20 +264,20 @@ module Sections
       #
       def delete
         if !user_authorized?([:delete])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         if !request.params['section_entry_ids'] or request.params['section_entry_ids'].empty?
-          notification(:error, @entries_lang.titles[:index], @entries_lang.errors[:no_delete])
+          notification(:error, lang('section_entries.titles.index'), lang('section_entries.errors.no_delete'))
           redirect_referrer
         end
         
         request.params['section_entry_ids'].each do |id|
           begin
             SectionEntry[id.to_i].destroy
-            notification(:success, @entries_lang.titles[:index], @entries_lang.success[:delete])
+            notification(:success, lang('section_entries.titles.index'), lang('section_entries.success.delete'))
           rescue
-            notification(:error, @entries_lang.titles[:index], @entries_lang.errors[:delete] % id)
+            notification(:error, lang('section_entries.titles.index'), lang('section_entries.errors.delete') % id)
           end
         end
         

@@ -17,11 +17,11 @@
                     </th>
                     <?r end ?>
 
-                    <th>#{@menus_lang.labels[:id]}</th>
-                    <th>#{@menus_lang.labels[:name]}</th>
-                    <th>#{@menus_lang.labels[:slug]}</th>
-                    <th>#{@menus_lang.labels[:css_class]}</th>
-                    <th>#{@menus_lang.labels[:css_id]}</th>
+                    <th>#{lang('menus.labels.id')}</th>
+                    <th>#{lang('menus.labels.name')}</th>
+                    <th>#{lang('menus.labels.slug')}</th>
+                    <th>#{lang('menus.labels.css_class')}</th>
+                    <th>#{lang('menus.labels.css_id')}</th>
 
                     <?r if user_authorized?([:create, :read]) ?>
                     <th></th>
@@ -58,7 +58,7 @@
                     <?r if user_authorized?([:create, :read]) ?>
                     <td>
                         #{anchor_to(
-                          @menus_lang.labels[:manage_items], 
+                          lang('menus.labels.manage_items'), 
                           Menus::Controllers::MenuItems.r(:index, menu.id)
                         )}
                     </td>
@@ -69,7 +69,7 @@
         </table>
 
         <?r else ?>
-        <p>#{@menus_lang.messages[:no_menus]}</p>
+        <p>#{lang('menus.messages.no_menus')}</p>
         <?r end ?>
 
         <div class="clearfix">
@@ -77,7 +77,7 @@
             <?r if user_authorized?([:create, :read]) ?>
             <div class="button">
                 #{anchor_to(
-                  @menus_lang.buttons[:new], 
+                  lang('menus.buttons.new'), 
                   Menus::Controllers::Menus.r(:new) 
                 )}
             </div>
@@ -85,7 +85,7 @@
 
             <?r if user_authorized?([:delete]) ?>
             <div class="button">
-                <input type="submit" value="#{@menus_lang.buttons[:delete]}" />
+                <input type="submit" value="#{lang('menus.buttons.delete')}" />
             </div>
             <?r end ?>
 

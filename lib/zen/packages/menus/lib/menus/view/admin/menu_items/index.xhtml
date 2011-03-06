@@ -16,13 +16,13 @@
                     </th>
                     <?r end ?>
 
-                    <th>#{@menu_items_lang.labels[:id]}</th>
-                    <th>#{@menu_items_lang.labels[:name]}</th>
-                    <th>#{@menu_items_lang.labels[:url]}</th>
-                    <th>#{@menu_items_lang.labels[:parent_id]}</th>
-                    <th>#{@menu_items_lang.labels[:order]}</th>
-                    <th>#{@menu_items_lang.labels[:css_class]}</th>
-                    <th>#{@menu_items_lang.labels[:css_id]}</th>
+                    <th>#{lang('menu_items.labels.id')}</th>
+                    <th>#{lang('menu_items.labels.name')}</th>
+                    <th>#{lang('menu_items.labels.url')}</th>
+                    <th>#{lang('menu_items.labels.parent_id')}</th>
+                    <th>#{lang('menu_items.labels.order')}</th>
+                    <th>#{lang('menu_items.labels.css_class')}</th>
+                    <th>#{lang('menu_items.labels.css_id')}</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,14 +60,14 @@
         </table>
 
         <?r else ?>
-        <p>#{@menu_items_lang.messages[:no_items]}</p>
+        <p>#{alng('menu_items.messages.no_items')}</p>
         <?r end ?>
 
         <div class="clearfix">
             <?r if user_authorized?([:create, :read]) ?>
             <div class="button">
                 #{anchor_to(
-                  @menu_items_lang.buttons[:new], 
+                  lang('menu_items.buttons.new'), 
                   Menus::Controllers::MenuItems.r(:new, @menu_id)
                 )}
             </div>
@@ -75,7 +75,7 @@
 
             <?r if user_authorized?([:delete]) ?>
             <div class="button">
-                <input type="submit" value="#{@menu_items_lang.buttons[:delete]}" />
+                <input type="submit" value="#{lang('menu_items.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>

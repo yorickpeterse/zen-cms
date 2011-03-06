@@ -6,21 +6,21 @@
     f.input_hidden(:menu_id   , @menu_id)
 
     f.input_text(
-      @menu_items_lang.labels[:name], 
+      lang('menu_items.labels.name'), 
       :name, 
-      :placeholder => @menu_items_lang.placeholders[:name]
+      :placeholder => lang('menu_items.placeholders.name')
     )
 
     f.input_text(
-      @menu_items_lang.labels[:url], 
+      lang('menu_items.labels.url'),
       :url, 
-      :placeholder => @menu_items_lang.placeholders[:url]
+      :placeholder => lang('menu_items.placeholders.url')
     )
    
     f.input_text(
-      @menu_items_lang.labels[:order], 
+      lang('menu_items.labels.order'),
       :order, 
-      :placeholder => @menu_items_lang.placeholders[:order]
+      :placeholder => lang('menu_items.placeholders.order')
     )
 
     # Generate the dropdown that contains all possible parent menu items    
@@ -34,29 +34,31 @@
     parent_items = menu_item_tree(@menu_id.to_i)
     
     f.select(
-      @menu_items_lang.labels[:parent_id], 
+      lang('menu_items.labels.parent_id'),
       :parent_id, 
       :values   => parent_items, 
-      :selected => @menu_item.parent_id, :size => 1
+      :selected => @menu_item.parent_id, 
+      :size     => 1
     )
 
     f.input_text(
-      @menu_items_lang.labels[:css_class], 
+      lang('menu_items.labels.css_class'), 
       :css_class, 
-      :placeholder => @menu_items_lang.placeholders[:css_class]
+      :placeholder => lang('menu_items.placeholders.css_class')
     )
 
     f.input_text(
-      @menu_items_lang.labels[:css_id], 
+      lang('menu_items.labels.css_id'), 
       :css_id, 
-      :placeholder => @menu_items_lang.placeholders[:css_id]
+      :placeholder => lang('menu_items.placeholders.css_id')
     )
 
     f.g.div(:class => :clearfix) do
       f.g.div(:class => :button) do
-        f.g.input(:type => :submit, :value => @menu_items_lang.buttons[:save])
+        f.g.input(:type => :submit, :value => lang('menu_items.buttons.save'))
       end
     end
+
   end
 
 }

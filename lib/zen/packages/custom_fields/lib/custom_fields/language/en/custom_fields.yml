@@ -1,3 +1,4 @@
+---
 titles:
   index  : 'Custom Fields'
   edit   : 'Edit Custom Field'
@@ -36,11 +37,6 @@ success:
   delete  : 'The selected custom fields have been deleted.'
 
 special:
-  format_hash:
-    html      : 'HTML'
-    textile   : 'Textile'
-    markdown  : 'Markdown'
-    plain     : 'Plain'
   type_hash:
     textbox          : 'Textbox'
     textarea         : 'Textarea'
@@ -49,9 +45,6 @@ special:
     date             : 'Date'
     select           : 'Select dropdown'
     select_multiple  : 'Multi select'
-  boolean_hash:
-    'Yes'  : true
-    'No'   : false
 
 buttons:
   new     : 'Add custom field'

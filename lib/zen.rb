@@ -50,6 +50,8 @@ module Zen
   
   class << self
     attr_accessor :logger
+    attr_reader   :format_hash
+    attr_reader   :boolean_hash
   end
   
   # Update the language paths
@@ -73,5 +75,20 @@ module Zen
     
     # Initialize the logger
     @logger = Zen::Logger.new("#{Zen.options.root}/logs/common")
+
+    Zen::Language.load('zen_general')
+
+    # Hash containing all available formats for input fields
+    @format_hash = {
+      'html'     => lang('zen_general.special.format_hash.html'),
+      'textile'  => lang('zen_general.special.format_hash.textile'),
+      'markdown' => lang('zen_general.special.format_hash.markdown'),
+      'plain'    => lang('zen_general.special.format_hash.plain')
+    }
+
+    @boolean_hash = {
+      true  => lang('zen_general.special.boolean_hash.true'),
+      false => lang('zen_general.special.boolean_hash.false')
+    }.invert
   end
 end

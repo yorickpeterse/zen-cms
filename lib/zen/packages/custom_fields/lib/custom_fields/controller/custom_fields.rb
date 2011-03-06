@@ -13,12 +13,12 @@ module CustomFields
     class CustomFields < Zen::Controllers::AdminController
       include ::CustomFields::Models
 
-      map '/admin/custom_fields'
+      map   '/admin/custom_fields'
       trait :extension_identifier => 'com.zen.custom_fields'
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -39,17 +39,26 @@ module CustomFields
         
         @form_save_url     = CustomFields.r(:save)
         @form_delete_url   = CustomFields.r(:delete)
-        @fields_lang       = Zen::Language.load('custom_fields')
-        @field_groups_lang = Zen::Language.load('custom_field_groups')
+        
+        Zen::Language.load('custom_fields')
+        Zen::Language.load('custom_field_groups')
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @fields_lang.titles.key? method
-            @page_title = @fields_lang.titles[method]
-          end
+          method      = action.method.to_sym
+          @page_title = lang("custom_fields.titles.#{method}") rescue nil
         end
+
+        # Build our array containing all custom field formats
+        @field_type_hash = {
+          'textbox'          => lang('custom_fields.special.type_hash.textbox')
+          'textarea'         => lang('custom_fields.special.type_hash.textarea')
+          'radio'            => lang('custom_fields.special.type_hash.radio')
+          'checkbox'         => lang('custom_fields.special.type_hash.checkbox')
+          'date'             => lang('custom_fields.special.type_hash.date')
+          'select'           => lang('custom_fields.special.type_hash.select')
+          'select_multiple'  => lang('custom_fields.special.type_hash.select_multiple')
+        }
       end
       
       ##
@@ -66,12 +75,12 @@ module CustomFields
       #
       def index custom_field_group_id
         if !user_authorized?([:read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@field_groups_lang.titles[:index], CustomFieldGroups.r(:index)),
-          @fields_lang.titles[:index]
+          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldGroups.r(:index)),
+          lang('custom_fields.titles.index')
         )
         
         @custom_field_group_id  = custom_field_group_id.to_i
@@ -93,13 +102,13 @@ module CustomFields
       #
       def edit custom_field_group_id, id
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@field_groups_lang.titles[:index], CustomFieldGroups.r(:index)),
-          anchor_to(@fields_lang.titles[:index], CustomFields.r(:index, custom_field_group_id)),
-          @fields_lang.titles[:edit]
+          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldGroups.r(:index)),
+          anchor_to(lang('custom_fields.titles.index'), CustomFields.r(:index, custom_field_group_id)),
+          lang('custom_fields.titles.edit')
         )
           
         @custom_field_group_id = custom_field_group_id
@@ -125,13 +134,13 @@ module CustomFields
       #
       def new custom_field_group_id
         if !user_authorized?([:read, :create])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@field_groups_lang.titles[:index], CustomFieldGroups.r(:index)),
-          anchor_to(@fields_lang.titles[:index], CustomFields.r(:index, custom_field_group_id)),
-          @fields_lang.titles[:index]
+          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldGroups.r(:index)),
+          anchor_to(lang('custom_fields.titles.index'), CustomFields.r(:index, custom_field_group_id)),
+          lang('custom_fields.titles.index')
         )
         
         @custom_field_group_id = custom_field_group_id
@@ -153,7 +162,7 @@ module CustomFields
       #
       def save
         if !user_authorized?([:create, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         post                  = request.params.dup
@@ -170,14 +179,14 @@ module CustomFields
           save_action   = :new
         end
         
-        flash_success = @fields_lang.success[save_action]
-        flash_error   = @fields_lang.errors[save_action]
+        flash_success = lang("custom_fields.success.#{save_action}")
+        flash_error   = lang("custom_fields.errors.#{save_action}")
 
         begin
           @custom_field.update(post)
-          notification(:success, @fields_lang.titles[:index], flash_success)
+          notification(:success, lang('custom_fields.titles.index'), flash_success)
         rescue
-          notification(:error, @fields_lang.titles[:index], flash_error)
+          notification(:error, lang('custom_fields.titles.index'), flash_error)
 
           flash[:form_data]   = @custom_field
           flash[:form_errors] = @custom_field.errors
@@ -206,22 +215,22 @@ module CustomFields
       #
       def delete
         if !user_authorized?([:delete])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
         post = request.params.dup
         
         if !request.params['custom_field_ids'] or request.params['custom_field_ids'].empty?
-          notification(:error, @fields_lang.titles[:index], @fields_lang.errors[:no_delete])
+          notification(:error, lang('custom_fields.titles.index'), lang('custom_fields.errors.no_delete'))
           redirect(CustomFields.r(:index, post['custom_field_group_id']))
         end
         
         request.params['custom_field_ids'].each do |id|
           begin
             CustomField[id.to_i].destroy
-            notification(:success, @fields_lang.titles[:index], @fields_lang.success[:delete])
+            notification(:success, lang('custom_fields.titles.index'), lang('custom_fields.success.delete'))
           rescue
-            notification(:error, @fields_lang.titles[:index], @fields_lang.errors[:delete] % id)
+            notification(:error, lang('custom_fields.titles.index'), lang('custom_fields.errors.delete') % id)
           end
         end
         

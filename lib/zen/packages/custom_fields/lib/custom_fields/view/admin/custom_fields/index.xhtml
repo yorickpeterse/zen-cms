@@ -18,11 +18,11 @@
                     </th>
                     <?r end ?>
                     
-                    <th>#{@fields_lang.labels[:id]}</th>
-                    <th>#{@fields_lang.labels[:name]}</th>
-                    <th>#{@fields_lang.labels[:slug]}</th>
-                    <th>#{@fields_lang.labels[:type]}</th>
-                    <th>#{@fields_lang.labels[:format]}</th>
+                    <th>#{lang('custom_fields.labels.id')}</th>
+                    <th>#{lang('custom_fields.labels.name')}</th>
+                    <th>#{lang('custom_fields.labels.slug')}</th>
+                    <th>#{lang('custom_fields.labels.type')}</th>
+                    <th>#{lang('custom_fields.labels.format')}</th>
                 </tr>
             </thead>
             
@@ -50,8 +50,8 @@
                     <?r end ?>
                     
                     <td>#{field.slug}</td>
-                    <td>#{@fields_lang.special[:type_hash][field.type]}</td>
-                    <td>#{@fields_lang.special[:format_hash][field.format]}</td>
+                    <td>#{lang("custom_fields.special.type_hash.#{field.type}")}</td>
+                    <td>#{Zen.format_hash[field.format]}</td>
                 </tr>
                 <?r end ?>
             </tbody>
@@ -59,7 +59,7 @@
         
         <?r else ?>
         
-        <p>#{@fields_lang.messages[:no_fields]}</p>
+        <p>#{lang('custom_fields.messages.no_fields')}</p>
         
         <?r end ?>
         
@@ -67,7 +67,7 @@
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  @fields_lang.buttons[:new_field], 
+                  lang('custom_fields.buttons.new'),
                   CustomFields::Controllers::CustomFields.r(:new, @custom_field_group_id)
                 )}
             </div>
@@ -75,7 +75,7 @@
             
             <?r if user_authorized?([:delete]) and @custom_fields and !@custom_fields.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@fields_lang.buttons[:delete]}" />
+                <input type="submit" value="#{lang('custom_fields.buttons.delete')}" />
             </div>
             <?r end ?>
             

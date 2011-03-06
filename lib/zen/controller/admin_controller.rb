@@ -58,6 +58,7 @@ module Zen
         if request.env['SCRIPT_NAME'] != 'admin/users/' and request.env['PATH_INFO'] != '/login'
           redirect '/admin/users/login' unless logged_in?
         end
+
       end
     end
   end

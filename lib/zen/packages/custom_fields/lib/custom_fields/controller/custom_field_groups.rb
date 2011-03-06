@@ -11,7 +11,7 @@ module CustomFields
     class CustomFieldGroups < Zen::Controllers::AdminController
       include ::CustomFields::Models
 
-      map '/admin/custom_field_groups'
+      map   '/admin/custom_field_groups'
       trait :extension_identifier => 'com.zen.custom_fields' 
       
       before_all do
@@ -59,10 +59,10 @@ module CustomFields
       #
       def index
         if !user_authorized?([:read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        set_breadcrumbs(@field_groups_lang.titles[:index])
+        set_breadcrumbs(lang('custom_field_groups.titles.index'))
         
         @field_groups = CustomFieldGroup.all
       end
@@ -81,11 +81,11 @@ module CustomFields
       #
       def edit id
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@field_groups_lang.titles[:index], CustomFieldGroups.r(:index)), 
+          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldGroups.r(:index)), 
           @page_title
         )
         
@@ -109,11 +109,11 @@ module CustomFields
       #
       def new
         if !user_authorized?([:read, :create])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@field_groups_lang.titles[:index], CustomFieldgroups.r(:index)), 
+          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldgroups.r(:index)), 
           @page_title
         )
         
@@ -135,7 +135,7 @@ module CustomFields
       #
       def save
         if !user_authorized?([:create, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         post = request.params.dup
@@ -149,14 +149,14 @@ module CustomFields
           save_action   = :new
         end
         
-        flash_success = @field_groups_lang.success[save_action]
-        flash_error   = @field_groups_lang.errors[save_action]
+        flash_success = lang("custom_field_groups.success.#{save_action}")
+        flash_error   = lang("custom_field_groups.errors.#{save_action}")
         
         begin
           @field_group.update(post)
-          notification(:success, @field_groups_lang.titles[:index], flash_success)
+          notification(:success, lang("custom_field_groups.titles.index"), flash_success)
         rescue
-          notification(:error, @field_groups_lang.titles[:index], flash_error)
+          notification(:error, lang("custom_field_groups.titles.index"), flash_error)
 
           flash[:form_errors] = @field_group.errors
           flash[:form_data]   = @field_group
@@ -185,20 +185,20 @@ module CustomFields
       #
       def delete
         if !user_authorized?([:delete])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         if !request.params['custom_field_group_ids'] or request.params['custom_field_group_ids'].empty?
-          notification(:error, @field_groups_lang.titles[:index], @field_groups_lang.errors[:no_delete])
+          notification(:error, lang('custom_field_groups.titles.index'), lang('custom_field_groups.errors.no_delete'))
           redirect(CustomFieldGroups.r(:index))
         end
         
         request.params['custom_field_group_ids'].each do |id|
           begin
             CustomFieldGroup[id.to_i].destroy
-            notification(:success, @field_groups_lang.titles[:index], @field_groups_lang.success[:delete])
+            notification(:success, lang('custom_field_groups.titles.index'), lang('custom_field_groups.success.delete'))
           rescue
-            notification(:error, @field_groups_lang.titles[:index], @field_groups_lang.errors[:delete] % id)
+            notification(:error, lang('custom_field_groups.titles.index'), lang('custom_field_groups.errors.delete') % id)
           end
         end
         

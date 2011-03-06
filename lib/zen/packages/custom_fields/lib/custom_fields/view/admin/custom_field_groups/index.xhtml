@@ -17,9 +17,9 @@
                     </th>
                     <?r end ?>
                     
-                    <th>#{@field_groups_lang.labels[:id]}</th>
-                    <th>#{@field_groups_lang.labels[:name]}</th>
-                    <th>#{@field_groups_lang.labels[:sections]}</th>
+                    <th>#{lang('custom_field_groups.labels.id')}</th>
+                    <th>#{lang('custom_field_groups.labels.name')}</th>
+                    <th>#{lang('custom_field_groups.labels.sections')}</th>
                     
                     <?r if user_authorized?([:create]) ?>
                     <th></th>
@@ -54,16 +54,15 @@
                         <?r if !sections.empty? ?>
                             #{sections.join(', ')}
                         <?r else ?>
-                            #{@field_groups_lang.labels[:none]}
+                            #{lang('custom_field_groups.labels.none')}
                         <?r end ?> 
                     </td>
                     
                     <?r if user_authorized?([:create]) ?>
                     <td>
                       #{anchor_to(
-                          @field_groups_lang.labels[:manage_fields], 
-                          CustomFields::Controllers::CustomFields.r(:index, group.id), 
-                          :title => @field_groups_lang.labels[:manage_fields]
+                          lang('custom_field_groups.labels.manage_fields'), 
+                          CustomFields::Controllers::CustomFields.r(:index, group.id) 
                         )}
                     </td>
                     <?r end ?>
@@ -75,7 +74,7 @@
         
         <?r else ?>
         
-        <p>#{@field_groups_lang.messages[:no_groups]}</p>
+        <p>#{lang('custom_field_groups.messages.no_groups')}</p>
         
         <?r end ?>
         
@@ -84,7 +83,7 @@
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  @field_groups_lang.buttons[:new_group], 
+                  lang('custom_field_groups.buttons.new'), 
                   CustomFields::Controllers::CustomFieldGroups.r(:new)
                 )}
             </div>
@@ -92,7 +91,7 @@
             
             <?r if user_authorized?([:delete]) and @field_groups and !@field_groups.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@field_groups_lang.buttons[:delete]}" />
+                <input type="submit" value="#{lang('custom_field_groups.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>

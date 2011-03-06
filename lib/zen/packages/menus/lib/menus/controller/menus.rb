@@ -15,7 +15,7 @@ module Menus
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -32,17 +32,15 @@ module Menus
       def initialize
         super
         
-        @form_save_url     = Menus.r(:save)
-        @form_delete_url   = Menus.r(:delete)
-        @menus_lang        = Zen::Language.load('menus')
+        @form_save_url   = Menus.r(:save)
+        @form_delete_url = Menus.r(:delete)
+        
+        Zen::Language.load('menus')
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @menus_lang.titles.key? method 
-            @page_title = @menus_lang.titles[method]
-          end
+          method      = action.method.to_sym
+          @page_title = lang("menus.titles.#{method}")
         end
       end
       
@@ -59,11 +57,11 @@ module Menus
       #
       def index
         if !user_authorized?([:read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
         # Set our breadcrumbs
-        set_breadcrumbs(@menus_lang.titles[:index])
+        set_breadcrumbs(lang('menus.titles.index'))
 
         # Get all menus
         @menus = Menu.all
@@ -84,11 +82,11 @@ module Menus
       #
       def edit(id)
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
         set_breadcrumbs(
-          anchor_to(@menus_lang.titles[:index], Menus.r(:index)), 
+          anchor_to(lang('menus.titles.index'), Menus.r(:index)), 
           @page_title
         )
         
@@ -113,12 +111,12 @@ module Menus
       #
       def new
         if !user_authorized?([:create, :read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
         # Breadcrumbs, om nom nom!
         set_breadcrumbs(
-          anchor_to(@menus_lang.titles[:index], Menus.r(:index)), 
+          anchor_to(lang('menus.titles.index'), Menus.r(:index)), 
           @page_title
         )
 
@@ -141,7 +139,7 @@ module Menus
       #      
       def save
         if !user_authorized?([:create, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
         # Fetch the POST data and store it in a variable so it's a bit easier to work with
@@ -157,15 +155,15 @@ module Menus
         end
 
         # Set our notifications
-        flash_success = @menus_lang.success[save_action]
-        flash_error   = @menus_lang.errors[save_action]
+        flash_success = lang("menus.success.#{save_action}")
+        flash_error   = lang("menus.errors.#{save_action}")
 
         # Let's see if we can insert/update the data
         begin
           @menu.update(post)
-          notification(:success, @menus_lang.titles[:index], flash_success)
+          notification(:success, lang('menus.titles.index'), flash_success)
         rescue
-          notification(:error, @menus_lang.titles[:index], flash_error)
+          notification(:error, lang('menus.titles.index'), flash_error)
 
           flash[:form_data]   = @menu
           flash[:form_errors] = @menu.errors
@@ -192,14 +190,14 @@ module Menus
       #      
       def delete
         if !user_authorized?([:delete])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
         post = request.params.dup
 
         # We always require a set of IDs
         if !post['menu_ids'] or post['menu_ids'].empty?
-          notification(:error, @menus_lang.titles[:index], @menus_lang.errors[:no_delete])
+          notification(:error, lang('menus.titles.index'), lang('menus.errors.no_delete'))
           redirect_referrer
         end
 
@@ -208,12 +206,12 @@ module Menus
           begin
             Menu[id.to_i].destroy
           rescue
-            notification(:error, @menus_lang.titles[:index], @menus_lang.errors[:delete] % id)
+            notification(:error, lang('menus.titles.index'), lang('menus.errors.delete') % id)
             redirect_referrer
           end
         end
 
-        notification(:success, @menus_lang.titles[:index], @menus_lang.success[:delete])
+        notification(:success, lang('menus.titles.index'), lang('menus.success.delete'))
         redirect_referrer
       end
     end

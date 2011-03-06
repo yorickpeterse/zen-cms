@@ -4,38 +4,38 @@ form_for(@menu, :method => :post, :action => @form_save_url) do |f|
   f.input_hidden(:id        , @menu.id)
 
   f.input_text(
-    @menus_lang.labels[:name], 
+    lang('menus.labels.name'), 
     :name, 
-    :placeholder => @menus_lang.placeholders[:name] 
+    :placeholder => lang('menus.placeholders.name') 
   )
 
   f.input_text(
-    @menus_lang.labels[:slug], 
+    lang('menus.labels.slug'), 
     :slug, 
-    :placeholder => @menus_lang.placeholders[:slug]
+    :placeholder => lang('menus.placeholders.slug')
   )
     
   f.input_text(
-    @menus_lang.labels[:css_class], 
+    lang('menus.labels.css_class'), 
     :css_class, 
-    :placeholder => @menus_lang.placeholders[:css_class]
+    :placeholder => lang('menus.placeholders.css_class')
   )
 
   f.input_text(
-    @menus_lang.labels[:css_id], 
+    lang('menus.labels.css_id'), 
     :css_id, 
-    :placeholder => @menus_lang.placeholders[:css_id]
+    :placeholder => lang('menus.placeholders.css_id')
   )
 
   f.textarea(
-    @menus_lang.labels[:description], 
+    lang('menus.labels.description'), 
     :description, 
     :rows => 8
   )
   
   f.g.div(:class => "clearfix") do
     f.g.div(:class => "button") do
-      f.g.input(:type => :submit, :value => @menus_lang.buttons[:save])
+      f.g.input(:type => :submit, :value => lang('menus.buttons.save'))
     end
   end
 end
