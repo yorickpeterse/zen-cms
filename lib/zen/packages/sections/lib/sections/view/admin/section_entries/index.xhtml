@@ -17,12 +17,12 @@
                     </th>
                     <?r end ?>
                     
-                    <th>#{@entries_lang.labels[:id]}</th>
-                    <th>#{@entries_lang.labels[:title]}</th>
-                    <th>#{@entries_lang.labels[:slug]}</th>
-                    <th>#{@entries_lang.labels[:status]}</th>
-                    <th>#{@entries_lang.labels[:created]}</th>
-                    <th>#{@entries_lang.labels[:updated]}</th>
+                    <th>#{lang('section_entries.labels.id')}</th>
+                    <th>#{lang('section_entries.labels.title')}</th>
+                    <th>#{lang('section_entries.labels.slug')}</th>
+                    <th>#{lang('section_entries.labels.status')}</th>
+                    <th>#{lang('section_entries.labels.created')}</th>
+                    <th>#{lang('section_entries.labels.updated')}</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,7 +48,7 @@
                     <?r end ?>
                     
                     <td>#{entry.slug}</td>
-                    <td>#{@entries_lang.special[:status_hash][entry.status]}</td>
+                    <td>#{@status_hash[entry.status]}</td>
                     <td>#{entry.created_at}</td>
                     <td>#{entry.updated_at}</td>
                 </tr>
@@ -57,7 +57,7 @@
         </table>
         
         <?r else ?>
-        <p>#{@entries_lang.messages[:no_entries]}</p>
+        <p>#{lang('section_entries.messages.no_entries')}</p>
         <?r end ?>
         
         <div class="clearfix">
@@ -65,7 +65,7 @@
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  @entries_lang.buttons[:new_entry], 
+                  lang('section_entries.buttons.new'), 
                   Sections::Controllers::SectionEntries.r(:new, @section_id)
                 )}
             </div>
@@ -73,7 +73,7 @@
             
             <?r if user_authorized?([:delete]) and @entries and !@entries.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@entries_lang.buttons[:delete_entries]}" />
+                <input type="submit" value="#{lang('section_entries.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>

@@ -1,52 +1,43 @@
-Zen::Language.translation 'section_entries' do |item|
+---
+titles:
+  index  : 'Entries'
+  edit   : 'EditEntry'
+  new    : 'AddEntry'
 
-  item.titles = {
-    :index  => 'Entries',
-    :edit   => 'Edit Entry',
-    :new    => 'Add Entry'
-  }
-  
-  item.labels = {
-    :id         => '#',
-    :title      => 'Title',
-    :slug       => 'Slug',
-    :status     => 'Status',
-    :created    => 'Created at',
-    :updated    => 'Updated at',
-    :author     => 'Author'
-  }
-  
-  item.special = {
-    :status_hash => {'draft' => 'Draft', 'published' => 'Published'},
-  }
-  
-  item.tabs = {
-    :basic      => 'Basic',
-    :categories => 'Categories'
-  }
+labels:
+  id      : '#'
+  title   : 'Title'
+  slug    : 'Slug'
+  status  : 'Status'
+  created : 'Created at'
+  updated : 'Updated at'
+  author  : 'Author'
 
-  item.messages = {
-    :no_entries    => 'No section entries have been created yet.',
-    :no_categories => 'No categories have been assigned to the current section.'
-  }
-  
-  item.errors = {
-    :new        => 'Failed to create a new entry.',
-    :save       => 'Failed to save the entry.',
-    :delete     => 'Failed to delete the entry with ID #%s',
-    :no_delete  => 'You haven\'t specified any entries to delete.'
-  }
-  
-  item.success = {
-    :new    => 'The new entry has been created.',
-    :save   => 'The entry has been modified.',
-    :delete => 'All selected entries have been deleted.'
-  }
-  
-  item.buttons = {
-    :new_entry      => 'New entry',
-    :delete_entries => 'Delete selected entries',
-    :save_entry     => 'Save entry'
-  }
+special:
+  status_hash:
+    draft      : 'Draft'
+    published  : 'Published'
 
-end
+tabs:
+  basic       : 'Basic'
+  categories  : 'Categories'
+
+messages:
+  no_entries     : 'No section entries have been created.'
+  no_categories  : 'No categories have been assigned to the current section.'
+
+errors:
+  new        : 'Failed to create a new section entry.'
+  save       : 'Failed to save the section entry.'
+  delete     : 'Failed to delete the section entry with ID#%s'
+  no_delete  : "You haven't specified any section entries to delete."
+
+success:
+  new     : 'The new section entry has been created.'
+  save    : 'The section entry has been modified.'
+  delete  : 'All selected entries have been deleted.'
+
+buttons:
+  new_entry       : 'Add section entry'
+  delete_entries  : 'Delete selected entries'
+  save_entry      : 'Save entry'

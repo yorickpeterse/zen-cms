@@ -15,7 +15,7 @@ module Settings
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -32,16 +32,14 @@ module Settings
       def initialize
         super
         
-        @form_save_url   = Settings.r(:save)
-        @settings_lang   = Zen::Language.load('settings')
+        @form_save_url = Settings.r(:save)
+
+        Zen::Language.load('settings')
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @settings_lang.titles.key? method 
-            @page_title = @settings_lang.titles[method]
-          end
+          method      = action.method.to_sym
+          @page_title = lang("settings.titles.#{method}")
         end
       end
       
@@ -61,10 +59,10 @@ module Settings
       #
       def index
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        set_breadcrumbs @settings_lang.titles[:index]
+        set_breadcrumbs(lang('settings.titles.index'))
         
         settings  = Setting.all
         @settings = {}
@@ -94,23 +92,23 @@ module Settings
       #      
       def save
         if !user_authorized?([:update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         post = request.params.dup
         post.delete('csrf_token')
 
-        flash_success = @settings_lang.success[:save]
-        flash_error   = @settings_lang.errors[:save]
+        flash_success = lang('settings.success.save')
+        flash_error   = lang('settings.errors.save')
         
         begin
           post.each do |key, value|
             @setting = Setting[:key => key].update(:value => value)  
           end
           
-          notification(:success, @settings_lang.titles[:index], flash_success)
+          notification(:success, lang('settings.titles.index'), flash_success)
         rescue
-          notification(:error, @settings_lang.titles[:index], flash_error)
+          notification(:error, lang('settings.titles.index'), flash_error)
           
           flash[:form_errors] = @setting.errors
         end

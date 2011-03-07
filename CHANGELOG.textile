@@ -1,5 +1,0 @@
-h1. Changelog
-
-h2. 0.1a - 5 February 2011
-
-First public alpha release. Many things are still missing at this point. 

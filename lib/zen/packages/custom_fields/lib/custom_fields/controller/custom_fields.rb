@@ -51,12 +51,12 @@ module CustomFields
 
         # Build our array containing all custom field formats
         @field_type_hash = {
-          'textbox'          => lang('custom_fields.special.type_hash.textbox')
-          'textarea'         => lang('custom_fields.special.type_hash.textarea')
-          'radio'            => lang('custom_fields.special.type_hash.radio')
-          'checkbox'         => lang('custom_fields.special.type_hash.checkbox')
-          'date'             => lang('custom_fields.special.type_hash.date')
-          'select'           => lang('custom_fields.special.type_hash.select')
+          'textbox'          => lang('custom_fields.special.type_hash.textbox'),
+          'textarea'         => lang('custom_fields.special.type_hash.textarea'),
+          'radio'            => lang('custom_fields.special.type_hash.radio'),
+          'checkbox'         => lang('custom_fields.special.type_hash.checkbox'),
+          'date'             => lang('custom_fields.special.type_hash.date'),
+          'select'           => lang('custom_fields.special.type_hash.select'),
           'select_multiple'  => lang('custom_fields.special.type_hash.select_multiple')
         }
       end

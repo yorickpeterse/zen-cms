@@ -17,10 +17,10 @@
                     </th>
                     <?r end ?>
                     
-                    <th>#{@sections_lang.labels[:id]}</th>
-                    <th>#{@sections_lang.labels[:name]}</th>
-                    <th>#{@sections_lang.labels[:slug]}</th>
-                    <th>#{@sections_lang.labels[:comment_allow]}</th>
+                    <th>#{lang('sections.labels.id')}</th>
+                    <th>#{lang('sections.labels.name')}</th>
+                    <th>#{lang('sections.labels.slug')}</th>
+                    <th>#{lang('sections.labels.comment_allow')}</th>
                     
                     <?r if user_authorized?([:create]) ?>
                     <th></th>
@@ -41,8 +41,9 @@
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{anchor_to(
-                          section.name, Sections::Controllers::Sections.r(:edit, section.id), 
-                            :title => section.name
+                          section.name, 
+                          Sections::Controllers::Sections.r(:edit, section.id), 
+                          :title => section.name
                         )}
                     </td>
                     <?r else ?>
@@ -51,13 +52,13 @@
                     
                     <td>#{section.slug}</td>
                     <td>
-                        #{@sections_lang.special[:boolean_hash].invert[section.comment_allow]}
+                        #{@boolean_hash.invert[section.comment_allow]}
                     </td>
                     
                     <?r if user_authorized?([:create]) ?>
                     <td>
                         #{anchor_to(
-                          @sections_lang.labels[:manage_entries], 
+                          lang('sections.labels.manage_entries'), 
                           Sections::Controllers::SectionEntries.r(:index, section.id)
                         )}
                     </td>
@@ -68,21 +69,22 @@
         </table>
         
         <?r else ?>
-        <p>#{@sections_lang.messages[:no_sections]}</p>
+        <p>#{lang('sections.messages.no_sections')}</p>
         <?r end ?>
         
         <div class="clearfix">
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  @sections_lang.buttons[:new_section], Sections::Controllers::Sections.r(:new)
+                  lang('sections.buttons.new'),
+                  Sections::Controllers::Sections.r(:new)
                 )}
             </div>    
             <?r end ?>
             
             <?r if user_authorized?([:delete]) and @sections and !@sections.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@sections_lang.buttons[:delete_sections]}" />
+                <input type="submit" value="#{lang('sections.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>

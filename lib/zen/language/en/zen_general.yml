@@ -21,7 +21,11 @@ special:
     textile   : 'Textile'
     markdown  : 'Markdown'
     plain     : 'Plain'
+
   boolean_hash:
     'true'    : 'Yes'
     'false'   : 'No'
+
+  language_hash:
+    en  : 'English'
 

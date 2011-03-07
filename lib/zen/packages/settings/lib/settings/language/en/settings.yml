@@ -1,0 +1,26 @@
+---
+titles:
+  index: 'Settings'
+
+labels:
+  website_name         : 'Website name'
+  website_description  : 'Website description'
+  website_enabled      : 'Website enabled'
+  language             : 'Language'
+  default_section      : 'Default section'
+  theme                : 'Theme'
+  enable_antispam      : 'Enable anti-spam'
+  defensio_key         : 'Defensio API key'
+
+tabs:
+  general   : 'General'
+  security  : 'Security'
+
+buttons:
+  save: 'Save'
+
+success:
+  save: 'The settings have been saved.'
+
+errors:
+  save: 'The settings could not be saved.'

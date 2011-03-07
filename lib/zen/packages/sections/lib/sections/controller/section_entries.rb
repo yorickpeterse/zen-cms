@@ -54,6 +54,11 @@ module Sections
         )
 
         require_css('datepicker')
+
+        @status_hash = {
+          'draft'     => lang('section_entries.special.status_hash.draft'),
+          'published' => lang('section_entries.special.status_hash.published')
+        }
       end
       
       ##

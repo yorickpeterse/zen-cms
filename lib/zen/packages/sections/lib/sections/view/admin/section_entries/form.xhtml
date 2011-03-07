@@ -1,16 +1,22 @@
 <div class="tabs">
     <ul>
         <li>
-            <a href="#basic">#{@entries_lang.tabs[:basic]}</a>
+            <a href="#basic" title="#{lang('section_entries.tabs.basic')}">
+                #{lang('section_entries.tabs.basic')}
+            </a>
         </li>
         <li>
-            <a href="#categories">#{@entries_lang.tabs[:categories]}</a>
+            <a href="#categories" title="#{lang('section_entries.tabs.categories')}">
+                #{lang('section_entries.tabs.categories')}
+            </a>
         </li>
         
         <?r if @entry.section.custom_field_groups and !@entry.section.custom_field_groups.empty? ?>
         <?r @entry.section.custom_field_groups.each do |group| ?>
         <li>
-            <a href="#group_#{group.id}">#{group.name}</a>
+            <a href="#group_#{group.id}" title="#{group.name}">
+                #{group.name}
+            </a>
         </li>
         <?r end ?>
         <?r end ?>
@@ -26,34 +32,34 @@
     f.g.div(:id => :basic) do
 
       f.input_text(
-        @entries_lang.labels[:title], 
+        lang('section_entries.labels.title'), 
         :title
       )
 
       f.input_text(
-        @entries_lang.labels[:slug], 
+        lang('section_entries.labels.slug'), 
         :slug
       )
 
       # Only show the date field when modifying an existing entry
       if !@entry.nil?
         f.input_text(
-          @entries_lang.labels[:created_at],
+          lang('section_entries.labels.created_at'),
           :created_at,
           :class => 'date'
         )
       end
     
       f.select(
-        @entries_lang.labels[:author], 
+        lang('section_entries.labels.author'), 
         :user_id, 
         :values => @users_hash
       )
       
       f.select(
-        @entries_lang.labels[:status], 
+        lang('section_entries.labels.status'), 
         :status, 
-        :values   => @entries_lang.special[:status_hash],
+        :values   => @status_hash,
         :selected => @entry.status, 
         :size     => 1
       )
@@ -79,7 +85,7 @@
           )
         end
       else
-        f.g.p(@entries_lang.messages[:no_categories])
+        f.g.p(lang('section_entries.messages.no_categories'))
       end
 
     end
@@ -218,7 +224,7 @@
     
     f.g.div(:class => 'clearfix') do
       f.g.div(:class => 'button') do
-        f.g.input(:type => 'submit', :value => @entries_lang.buttons[:save_entry])
+        f.g.input(:type => 'submit', :value => lang('section_entries.buttons.save'))
       end
     end
   end

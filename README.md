@@ -1,4 +1,4 @@
-h1. About
+# README
 
 Zen is a modular CMS written on top of the awesome Ramaze framework.
 Zen was built out of the frustration with Expression Engine, a popular CMS built on top of
@@ -8,7 +8,7 @@ So I set out to write a system that's loosely based on ExpressionEngine but fits
 Because of this certain features may seem similar to those provided by EE and while at
 certain points there are similarities there are also pretty big differences.
 
-h2. Requirements
+## Requirements
 
 * Ramaze
 * Sequel
@@ -23,20 +23,20 @@ h2. Requirements
 * Rake
 * Sequel Sluggable
 
-h2. Installation
+## Installation
 
 Installing Zen using Rubygems is probably the easiest way:
 
-bc. $ gem install zen
-$ zen app application_name
+    $ gem install zen
+    $ zen app application_name
 
 If you like to hack with the core of Zen it's best to install it using Git:
 
-bc. $ git clone git://github.com/zen-cms/zen-core.git
-$ cd zen-core
-$ rake build:gem_clean
+    $ git clone git://github.com/zen-cms/zen-core.git
+    $ cd zen-core
+    $ rake build:gem_clean
 
-h2. License
+## License
 
 Zen is licensed under the MIT license. For more information about this license open
-the file "LICENSE". Basically this license allows you to do pretty much whatever you want.
+the file "license.txt".

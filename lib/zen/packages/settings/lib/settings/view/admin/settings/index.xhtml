@@ -19,7 +19,7 @@
             <?r end ?>
         </ul>
     </div>
-  
+
   #{
     form_for(@settings, :method => :post, :action => @form_save_url) do |f|
       f.input_hidden(:csrf_token, get_csrf_token)
@@ -31,11 +31,11 @@
           items.each do |s|
             # Get the label from the language pack
             name = s.key.to_sym
-            
-            if @settings_lang.labels.key?(s.key.to_sym)
-              label = @settings_lang.labels[s.key.to_sym]
-            else
-              label = s.key.to_s
+
+            begin
+              label = lang(s.language_key)
+            rescue
+              label = s.key
             end
             
             # Get the value from either the value or default getter
@@ -46,9 +46,9 @@
             end
             
             # Get all possible values for the current setting from the language pack
-            if @settings_lang.values.key?(name)
-              values = @settings_lang.values[name]
-            else
+            begin
+              values = Setting.send("get_#{s.key}_values")
+            rescue
               values = {}
             end
             
@@ -102,7 +102,7 @@
     
       f.g.div(:class => 'clearfix') do
         f.g.div(:class => 'button') do
-          f.g.input(:type => 'submit', :value => @settings_lang.buttons[:save])
+          f.g.input(:type => 'submit', :value => lang('settings.buttons.save'))
         end
       end
     end

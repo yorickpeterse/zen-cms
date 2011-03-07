@@ -42,7 +42,7 @@ form_for(@custom_field, :method => :post, :action => @form_save_url) do |f|
     f.select(
       lang('custom_fields.labels.format'),
       :format, 
-      :values   => Zen.format_hash, 
+      :values   => @format_hash, 
       :size     => 1,
       :selected => @custom_field.format
     )
@@ -67,14 +67,14 @@ form_for(@custom_field, :method => :post, :action => @form_save_url) do |f|
       lang('custom_fields.labels.required'),
       :required, 
       @custom_field.required,
-      :values => Zen.boolean_hash 
+      :values => @boolean_hash 
     )
       
     f.input_radio(
       lang('custom_fields.labels.visual_editor'),
       :visual_editor, 
       @custom_field.visual_editor,
-      :values => Zen.boolean_hash
+      :values => @boolean_hash
     )
       
     f.input_text(

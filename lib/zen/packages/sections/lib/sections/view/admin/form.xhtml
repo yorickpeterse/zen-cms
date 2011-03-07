@@ -1,18 +1,18 @@
 <div class="tabs">
     <ul>
         <li>
-            <a href="#general" title="#{@sections_lang.tabs[:general]}">
-                #{@sections_lang.tabs[:general]}
+            <a href="#general" title="#{lang('sections.tabs.general')}">
+                #{lang('sections.tabs.general')}
             </a>
         </li>
         <li>
-            <a href="#comments" title="#{@sections_lang.tabs[:comment_settings]}">
-                #{@sections_lang.tabs[:comment_settings]}
+            <a href="#comments" title="#{lang('sections.tabs.comment_settings')}">
+                #{lang('sections.tabs.comment_settings')}
             </a>
         </li>
         <li>
-            <a href="#groups" title="#{@sections_lang.tabs[:group_assignments]}">
-                #{@sections_lang.tabs[:group_assignments]}
+            <a href="#groups" title="#{lang('sections.tabs.group_assignments')}">
+                #{lang('sections.tabs.group_assignments')}
             </a>
         </li>
     </ul>
@@ -27,17 +27,17 @@ form_for(@section, :method => 'post', :action => @form_save_url) do |f|
   f.g.div(:id => 'general') do
 
     f.input_text(
-      @sections_lang.labels[:name], 
+      lang('sections.labels.name'), 
       :name
     )
 
     f.input_text(
-      @sections_lang.labels[:slug], 
+      lang('sections.labels.slug'), 
       :slug
     )
 
     f.textarea(
-      @sections_lang.labels[:description], 
+      lang('sections.labels.description'), 
       :description, 
       :rows => 8
     )
@@ -47,30 +47,30 @@ form_for(@section, :method => 'post', :action => @form_save_url) do |f|
   f.g.div(:id => 'comments') do
 
     f.input_radio(
-      @sections_lang.labels[:comment_allow], 
+      lang('sections.labels.comment_allow'), 
       :comment_allow, 
       @section.comment_allow,
-      :values => @sections_lang.special[:boolean_hash] 
+      :values => @boolean_hash 
     )
     
     f.input_radio(
-      @sections_lang.labels[:comment_require_account], 
+      lang('sections.labels.comment_require_account'),
       :comment_require_account, 
       @section.comment_require_account,
-      :values => @sections_lang.special[:boolean_hash]
+      :values => @boolean_hash
     )
       
     f.input_radio(
-      @sections_lang.labels[:comment_moderate], 
+      lang('sections.labels.comment_moderate'), 
       :comment_moderate, 
       @section.comment_moderate,
-      :values => @sections_lang.special[:boolean_hash]
+      :values => @boolean_hash
     )
       
     f.select(
-      @sections_lang.labels[:comment_format], 
+      lang('sections.labels.comment_format'), 
       :comment_format,
-      :values   => @sections_lang.special[:format_hash], 
+      :values   => @format_hash, 
       :selected => @section.comment_format, 
       :size     => 1
     )
@@ -80,7 +80,7 @@ form_for(@section, :method => 'post', :action => @form_save_url) do |f|
   f.g.div(:id => 'groups') do
 
     f.select(
-      @sections_lang.labels[:custom_field_groups], 
+      lang('sections.labels.custom_field_groups'), 
       :custom_field_group_pks, 
       :values   => @custom_field_group_pk_hash,
       :multiple => :multiple,
@@ -88,7 +88,7 @@ form_for(@section, :method => 'post', :action => @form_save_url) do |f|
     )
     
     f.select(
-      @sections_lang.labels[:category_groups], 
+      lang('sections.labels.category_groups'), 
       :category_group_pks, 
       :values   => @category_group_pk_hash,
       :multiple => :multiple, 
@@ -99,7 +99,7 @@ form_for(@section, :method => 'post', :action => @form_save_url) do |f|
   
   f.g.div(:class => 'clearfix') do
     f.g.div(:class => 'button') do
-      f.g.input(:type => 'submit', :value => @sections_lang.buttons[:save_section])
+      f.g.input(:type => 'submit', :value => lang('sections.buttons.save'))
     end
   end
 

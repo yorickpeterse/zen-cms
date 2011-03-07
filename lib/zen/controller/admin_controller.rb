@@ -59,6 +59,19 @@ module Zen
           redirect '/admin/users/login' unless logged_in?
         end
 
+        # Hash containing all available formats for input fields
+        @format_hash = {
+          'html'     => lang('zen_general.special.format_hash.html'),
+          'textile'  => lang('zen_general.special.format_hash.textile'),
+          'markdown' => lang('zen_general.special.format_hash.markdown'),
+          'plain'    => lang('zen_general.special.format_hash.plain')
+        }
+
+        @boolean_hash = {
+          true  => lang('zen_general.special.boolean_hash.true'),
+          false => lang('zen_general.special.boolean_hash.false')
+        }.invert
+
       end
     end
   end
