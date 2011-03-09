@@ -11,8 +11,6 @@ module Zen
   require 'bcrypt'
   require 'liquid'
   require 'json'
-  require 'redcloth'
-  require 'rdiscount'
   require 'defensio'
   require 'yaml'
   require __DIR__('zen/base/version')
