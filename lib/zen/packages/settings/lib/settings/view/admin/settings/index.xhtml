@@ -7,9 +7,9 @@
         <ul>
             <?r @settings.each do |group, items| ?>
             <?r
-            if @settings_lang.tabs.key?(group.to_sym)
-              group_label = @settings_lang.tabs[group.to_sym]
-            else
+            begin
+              group_label = lang(items[0].language_group_key)
+            rescue
               group_label = group
             end
             ?>
@@ -23,7 +23,7 @@
   #{
     form_for(@settings, :method => :post, :action => @form_save_url) do |f|
       f.input_hidden(:csrf_token, get_csrf_token)
-      
+
       @settings.each do |group, items|
       
         f.g.div(:id => "group_#{group}") do
@@ -47,20 +47,20 @@
             
             # Get all possible values for the current setting from the language pack
             begin
-              values = Setting.send("get_#{s.key}_values")
+              values = Settings::Models::Setting.send("get_#{s.key}_values")
             rescue
               values = {}
             end
             
             case s.type
-              when 'textbox'
+              when 'textbox' then
                 f.input_text(
                   label, 
                   name, 
                   :value => value
                 )
 
-              when 'textarea'
+              when 'textarea' then
                 f.textarea(
                   label, 
                   name, 
@@ -68,7 +68,7 @@
                   :rows  => 8
                 )
 
-              when 'radio'
+              when 'radio' then
                 f.input_radio(
                   label, 
                   name, 
@@ -76,7 +76,7 @@
                   :values => values
                 )
 
-              when 'checkbox'
+              when 'checkbox' then
                 f.input_checkbox(
                   label, 
                   name, 
@@ -84,7 +84,7 @@
                   :values => values
                 )
 
-              when 'select'
+              when 'select' then
                 f.select(
                   label, 
                   name, 

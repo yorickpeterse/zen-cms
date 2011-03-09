@@ -60,7 +60,8 @@
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  lang('user_groups.buttons.new_group'), Users::Controllers::UserGroups.r(:new)
+                  lang('user_groups.buttons.new_group'), 
+                  Users::Controllers::UserGroups.r(:new)
                 )}
             </div>
             <?r end ?>

@@ -1,0 +1,31 @@
+---
+titles:
+  index : 'User Groups'
+  edit  : 'Edit User Group'
+  new   : 'Add User Group'
+
+labels:
+  id          : '#'
+  name        : 'Name'
+  slug        : 'Slug'
+  description : 'Description'
+  super_group : 'Super group'
+
+messages:
+  no_user_groups: 'No user groups have been added yet.'
+
+errors:
+  new       : 'Failed to create a new user group.'
+  save      : 'Failed to modify the user group.'
+  delete    : 'Failed to delete the user group with ID #%s.'
+  no_delete : 'You have to specify at least one group to delete.'
+  
+success:
+  new    : 'The new user group has been created.'
+  save   : 'The user group has been modified.'
+  delete : 'All selected user groups have been deleted.'
+
+buttons:
+  new   : 'New group'
+  delet : 'Delete selected groups'
+  save  : 'Save group'

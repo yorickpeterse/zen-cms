@@ -50,16 +50,19 @@ module Users
         @form_save_url   = Users.r(:save)
         @form_delete_url = Users.r(:delete)
         @form_login_url  = Users.r(:login)
-        @users_lang      = Zen::Language.load('users')
+
+        Zen::Language.load('users')
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @users_lang.titles.key? method 
-            @page_title = @users_lang.titles[method]
-          end
+          method      = action.method.to_sym
+          @page_title = lang("users.titles.#{method}")
         end
+
+        @status_hash = {
+          'open'   => lang('users.special.status_hash.open'),
+          'closed' => lang('users.special.status_hash.closed')
+        }
       end
       
       ##

@@ -39,7 +39,7 @@ module Settings
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
-          @page_title = lang("settings.titles.#{method}")
+          @page_title = lang("settings.titles.#{method}") rescue nil
         end
       end
       

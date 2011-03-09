@@ -21,13 +21,19 @@
                     
                     <ul class="right clearfix">
                         <li>
-                            <a href="/admin/users/logout">#{@zen_general_lang.labels[:logout]}</a>
+                            <a href="/admin/users/logout">
+                                #{lang('zen_general.labels.logout')}
+                            </a>
                         </li>
                         <li>
-                            <a href="/admin/users/edit/#{session[:user].id}">#{@zen_general_lang.labels[:profile]}</a>
+                            <a href="/admin/users/edit/#{session[:user].id}">
+                                #{lang('zen_general.labels.profile')}
+                            </a>
                         </li>
                         <li>
-                            <a href="/">#{@zen_general_lang.labels[:view_website]}</a>
+                            <a href="/">
+                                #{lang('zen_general.labels.view_website')}
+                            </a>
                         </li>
                     </ul>
                 </nav>
@@ -46,11 +52,17 @@
         
         <footer id="main_footer" class="container">
             <div class="grid_12">
-                <p>#{@zen_general_lang.labels[:zen_version]}</p>
+                <p>#{lang('zen_general.labels.zen_version') % Zen::Version}</p>
                 <p>
-                    <a href="http://zen-cms.com/">#{@zen_general_lang.labels[:zen_website]}</a> |
-                    <a href="http://zen-cms.com/documentation">#{@zen_general_lang.labels[:zen_docs]}</a> |
-                    <a href="https://github.com/zen-cms/">#{@zen_general_lang.labels[:zen_github]}</a>
+                    <a href="http://zen-cms.com/">
+                        #{lang('zen_general.labels.zen_website')}
+                    </a> |
+                    <a href="http://zen-cms.com/documentation">
+                        #{lang('zen_general.labels.zen_docs')}
+                    </a> |
+                    <a href="https://github.com/zen-cms/">
+                        #{lang('zen_general.labels.zen_github')}
+                    </a>
                 </p>
             </div>
         </footer>

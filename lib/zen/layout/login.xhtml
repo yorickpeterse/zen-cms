@@ -22,11 +22,17 @@
         
         <footer id="main_footer" class="container">
             <div class="grid_12">
-                <p>#{@zen_general_lang.labels[:zen_version]}</p>
+                <p>#{lang('zen_general.labels.zen_version') % Zen::Version}</p>
                 <p>
-                    <a href="http://zen-cms.com/">#{@zen_general_lang.labels[:zen_website]}</a> |
-                    <a href="http://zen-cms.com/documentation">#{@zen_general_lang.labels[:zen_docs]}</a> |
-                    <a href="https://github.com/zen-cms/">#{@zen_general_lang.labels[:zen_github]}</a>
+                    <a href="http://zen-cms.com/">
+                        #{lang('zen_general.labels.zen_website')}
+                    </a> |
+                    <a href="http://zen-cms.com/documentation">
+                        #{lang('zen_general.labels.zen_docs')}
+                    </a> |
+                    <a href="https://github.com/zen-cms/">
+                        #{lang('zen_general.labels.zen_github')}
+                    </a>
                 </p>
             </div>
         </footer>

@@ -36,15 +36,13 @@ module Users
         
         @form_save_url   = UserGroups.r(:save)
         @form_delete_url = UserGroups.r(:delete)
-        @groups_lang     = Zen::Language.load('user_groups')
+
+        Zen::Language.load('user_groups')
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @groups_lang.titles.key? method 
-            @page_title = @groups_lang.titles[method]
-          end
+          method      = action.method.to_sym
+          @page_title = lang("user_groups.titles.#{method}")
         end
       end
       
