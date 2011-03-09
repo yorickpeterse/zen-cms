@@ -64,10 +64,10 @@ module Sections
             context[k.to_s] =v
           end
           
-          result << render_all(@nodelist, context)
+          result.push(render_all(@nodelist, context))
         end
         
-        result << render_all(@nodelist, context) if result.empty?
+        result.push(render_all(@nodelist, context)) if result.empty?
         return result
       end
     end

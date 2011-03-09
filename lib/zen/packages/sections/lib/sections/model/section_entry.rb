@@ -18,15 +18,23 @@ module Sections
     # @since  0.1
     #
     class SectionEntry < Sequel::Model  
-      one_to_many :comments           , :class => "Comments::Models::Comment"
-      one_to_many :custom_field_values, :class => "CustomFields::Models::CustomFieldValue", :eager => [:custom_field]
+      one_to_many(
+        :comments, 
+        :class => "Comments::Models::Comment"
+      )
+
+      one_to_many(
+        :custom_field_values, 
+        :class => "CustomFields::Models::CustomFieldValue", 
+        :eager => [:custom_field]
+      )
       
-      many_to_one :user       , :class => "Users::Models::User"
-      many_to_many :categories, :class => "Categories::Models::Category"
-      many_to_one :section    , :class => "Sections::Models::Section"
+      many_to_one(:user       , :class => "Users::Models::User")
+      many_to_many(:categories, :class => "Categories::Models::Category")
+      many_to_one(:section    , :class => "Sections::Models::Section")
       
-      plugin :sluggable , :source => :title     , :freeze => false
-      plugin :timestamps, :create => :created_at, :update => false
+      plugin(:sluggable , :source => :title     , :freeze => false)
+      plugin(:timestamps, :create => :created_at, :update => false)
       
       ##
       # Specify our validation rules.
@@ -35,8 +43,8 @@ module Sections
       # @since  0.1
       # 
       def validate
-        validates_presence [:title, :status, :user_id]
-        validates_presence :slug unless new?
+        validates_presence([:title, :status, :user_id])
+        validates_presence(:slug) unless new?
       end
     end
   end

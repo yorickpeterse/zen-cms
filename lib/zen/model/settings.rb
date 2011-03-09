@@ -2,9 +2,9 @@ include Zen::Language
 
 Zen::Language.load('zen_models')
 
-# When passing a hash to update() or create() we'll ignore any keys that don't belong in the table.
-# This allows you to directly pass request.params to these methods without having to filter the hash
-# yourself.
+# When passing a hash to update() or create() we'll ignore any keys that don't belong 
+# in the table. This allows you to directly pass request.params to these methods 
+# without having to filter the hash yourself.
 Sequel::Model.strict_param_setting = false
 
 # Load all the required plugins
@@ -15,23 +15,23 @@ Sequel::Model.plugin :schema
 Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
 {
   :exact_length => {
-    :message => lambda do |length|
+    :message    => lambda do |length|
       lang('zen_models.exact_length') & length
     end
   },
 
-  :format => {
+  :format    => {
     :message => lang('zen_models.format')
   },
 
-  :includes => {
-    :message   => lambda do |arg|
+  :includes  => {
+    :message => lambda do |arg|
       lang('zen_models.includes') % arg.inspect
     end,
     :allow_nil => false
   },
 
-  :integer => {
+  :integer     => {
     :message   => lang('zen_models.integer'),
     :allow_nil => true
   },
@@ -42,37 +42,37 @@ Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
   },
 
   :max_length => {
-    :message   => lambda do |length|
+    :message  => lambda do |length|
       lang('zen_models.max_length') % length
     end,
     :allow_nil => true
   },
 
   :min_length => {
-    :message => lambda do |length|
+    :message  => lambda do |length|
       lang('zen_models.min_length') % length
     end
   },
 
   :not_string => {
-    :message => lang('zen_models.not_string')
+    :message  => lang('zen_models.not_string')
   },
 
-  :numeric => {
+  :numeric   => {
     :message => lang('zen_models.numeric')
   },
 
-  :type => {
+  :type      => {
     :message => lambda do |type|
       lang('zen_models.type') % type
     end
   },
 
-  :presence => {
+  :presence  => {
     :message => lang('zen_models.presence')
   },
 
-  :unique => {
+  :unique    => {
     :message => lang('zen_models.unique')
   }
 })

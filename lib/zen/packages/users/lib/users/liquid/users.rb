@@ -4,9 +4,9 @@ module Users
     # Block that can be used to retrieve a number of users and show their details.
     # Basic usage of this tag is as following:
     #
-    # bc. {% users limit="10" offset="5" %}
-    #   {{email}}
-    # {% endusers %}
+    #     {% users limit="10" offset="5" %}
+    #         {{email}}
+    #     {% endusers %}
     #
     # Note that this tag will retrieve a list of users, if you want to only retrieve
     # a single user it's best to use the tag "zen_user" defined under Users::Liquid::User.

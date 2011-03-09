@@ -10,7 +10,8 @@ module Ramaze
     # "extension_identifier" in your classes. Once this trait have been set you
     # can use the "user_authorized?" method to verify the permissions of the current user.
     # The first parameter is an array of required permissions,
-    # the second a boolean that indicates if either all or just a single permission must be set.
+    # the second a boolean that indicates if either all or just a single permission must 
+    # be set.
     #
     # For more information about the ACL system you should read the documentation
     # in the ACL controller, Users::Controllers::AccessRules().

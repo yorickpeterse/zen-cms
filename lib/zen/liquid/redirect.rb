@@ -8,7 +8,7 @@ module Zen
     #
     # Optionally you can redirect a user to a 404 page by doing the following:
     #
-    # bc. {% redirect "404" %}
+    #     {% redirect "404" %}
     #
     # This will render the 404 template but without changing the current URL.
     #

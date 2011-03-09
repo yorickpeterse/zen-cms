@@ -3,8 +3,8 @@ module Categories
     ##
     # Categories can be seen as "tags" for your section entries. They describe the
     # type of entry just like tags except that categories generally cover larger elements.
-    # When adding a new entry categories aren't required so you're free to ignore them if you
-    # don't need them.
+    # When adding a new entry categories aren't required so you're free to ignore 
+    # them if you don't need them.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -212,7 +212,12 @@ module Categories
         
         # Obviously we'll require some IDs
         if !request.params['category_ids'] or request.params['category_ids'].empty?
-          notification(:error, lang('categories.titles.index'), lang('categorieserrors.no_delete'))
+          notification(
+            :error, 
+            lang('categories.titles.index'), 
+            lang('categorieserrors.no_delete')
+          )
+
           redirect(Categories.r(:index, category_group_id))
         end
         
@@ -220,9 +225,19 @@ module Categories
         request.params['category_ids'].each do |id|
           begin
             Category[id.to_i].destroy
-            notification(:success, lang('categories.titles.index'), lang('categories.success.delete'))
+            notification(
+              :success, 
+              lang('categories.titles.index'), 
+              lang('categories.success.delete')
+            )
+
           rescue
-            notification(:error, lang('categories.titles.index'), lang('categories.errors.delete') % id)
+            notification(
+              :error, 
+              lang('categories.titles.index'), 
+              lang('categories.errors.delete') % id
+            )
+
           end
         end
         

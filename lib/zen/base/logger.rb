@@ -15,12 +15,14 @@ module Zen
     trait :format    => "[%time] %prefix  %text"
     
     ##
-    # Create a new instance of the logging class. The first parameter is the directory in which the log files 
-    # should be stored. Based on this paramater and the current mode (specified in Ramaze.options.mode) the 
-    # required directories will be created. When specifying a directory you should NOT add trailing slash.
+    # Create a new instance of the logging class. The first parameter is the directory 
+    # in which the log files should be stored. Based on this paramater and the current 
+    # mode (specified in Ramaze.options.mode) the required directories will be created. 
+    # When specifying a directory you should NOT add trailing slash.
     #
     # @example
-    #  # When running in :dev mode this will result in the log files being stored in logs/database/dev
+    #  # When running in :dev mode this will result in the log files being stored in 
+    #  # logs/database/dev
     #  Zen::Logger.new 'logs/database'
     # 
     # @author Yorick Peterse
@@ -41,7 +43,6 @@ module Zen
     
     ##
     # The write method is called whenever a log message has to be written to a file.
-    # Note that this method will only be used by webservers such as WEBRick. Sequel ignores this method.
     #
     # @author Yorick Peterse
     # @since  0.1

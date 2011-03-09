@@ -6,12 +6,12 @@ module Ramaze
     # In order to create a set of breadcrumbs we first need to call the set_breadcrumbs
     # method:
     #
-    # bc. set_breadcrumbs segment1, segment2, segment3, etc
+    #     set_breadcrumbs(segment1, segment2, segment3, etc)
     #
     # Each argument will be a segment of the breadcrumbs, separated by a custom character.
     # Retrieving the breadcrumbs is super easy:
     #
-    # bc. get_breadcrumbs
+    #     get_breadcrumbs
     #
     # This will generate the correct HTML and return it, all you have to do is output it.
     #
@@ -27,8 +27,8 @@ module Ramaze
       # @example
       #  set_breadcrumbs "Articles", "Edit"
       #
-      # Note that you'll have to manually specify anchor tags, this method won't automatically
-      # generate URLs.
+      # Note that you'll have to manually specify anchor tags, this method won't 
+      # automatically generate URLs.
       # 
       # @author Yorick Peterse
       # @param  [Array] args Array of segments for the breadcrumbs.
@@ -39,8 +39,8 @@ module Ramaze
       end
       
       ##
-      # Retrieves all breacrumbs and separates them either by "&raquo;" or a custom element
-      # set as the first argument of this method.
+      # Retrieves all breacrumbs and separates them either by "&raquo;" or a custom 
+      # element set as the first argument of this method.
       #
       # @example
       #  get_breadcrumbs # => "Articles &raquo; Edit"

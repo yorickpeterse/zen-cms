@@ -85,6 +85,8 @@ module Users
       #
       # @author Yorick Peterse
       # @since  0.1
+      # @todo   Email validation using regular expressions is bad, a DNS call would be
+      # much better.
       #
       def validate
         validates_presence [:email, :name]

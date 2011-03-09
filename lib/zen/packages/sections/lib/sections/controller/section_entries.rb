@@ -211,10 +211,16 @@ module Sections
             
             # Update the field values
             field_values.each do |field_id, value|
-              field_value = CustomFields::Models::CustomFieldValue[:custom_field_id => field_id, :section_entry_id => @entry.id]
+              field_value = CustomFields::Models::CustomFieldValue[
+                :custom_field_id  => field_id, 
+                :section_entry_id => @entry.id
+              ]
               
               if field_value.nil?
-                field_value = @entry.add_custom_field_value(:section_entry_id => @entry.id, :custom_field_id => field_id)
+                field_value = @entry.add_custom_field_value(
+                  :section_entry_id => @entry.id, 
+                  :custom_field_id  => field_id
+                )
               end
               
               # Get the custom field for the current value
@@ -273,16 +279,29 @@ module Sections
         end
         
         if !request.params['section_entry_ids'] or request.params['section_entry_ids'].empty?
-          notification(:error, lang('section_entries.titles.index'), lang('section_entries.errors.no_delete'))
+          notification(
+            :error, 
+            lang('section_entries.titles.index'), 
+            lang('section_entries.errors.no_delete')
+          )
+
           redirect_referrer
         end
         
         request.params['section_entry_ids'].each do |id|
           begin
             SectionEntry[id.to_i].destroy
-            notification(:success, lang('section_entries.titles.index'), lang('section_entries.success.delete'))
+            notification(
+              :success, 
+              lang('section_entries.titles.index'), 
+              lang('section_entries.success.delete')
+            )
           rescue
-            notification(:error, lang('section_entries.titles.index'), lang('section_entries.errors.delete') % id)
+            notification(
+              :error, 
+              lang('section_entries.titles.index'), 
+              lang('section_entries.errors.delete') % id
+            )
           end
         end
         

@@ -17,7 +17,10 @@ module CustomFields
     # @since  0.1
     #
     class CustomField < Sequel::Model
-      one_to_many :custom_field_values, :class => "CustomFields::Models::CustomFieldValue"
+      one_to_many(
+        :custom_field_values, 
+        :class => "CustomFields::Models::CustomFieldValue"
+      )
       
       plugin :sluggable, :source => :name, :freeze => false
       

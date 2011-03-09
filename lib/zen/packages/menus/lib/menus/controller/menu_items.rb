@@ -207,7 +207,12 @@ module Menus
         post = request.params.dup
 
         if !post['menu_item_ids'] or post['menu_item_ids'].empty?
-          notification(:error, lang('menu_items.titles.index'), lang('menu_items.errors.no_delete'))
+          notification(
+            :error, 
+            lang('menu_items.titles.index'), 
+            lang('menu_items.errors.no_delete')
+          )
+
           redirect_referrer
         end
 
@@ -215,12 +220,21 @@ module Menus
           begin
             MenuItem[id.to_i].destroy
           rescue
-            notification(:error, lang('menu_items.titles.index'), lang('menu_items.errors.delete') % id)
+            notification(
+              :error, 
+              lang('menu_items.titles.index'), 
+              lang('menu_items.errors.delete') % id
+            )
             redirect_referrer
           end
         end
 
-        notification(:success, lang('menu_items.titles.index'), lang('menu_items.success.delete'))
+        notification(
+          :success, 
+          lang('menu_items.titles.index'), 
+          lang('menu_items.success.delete')
+        )
+
         redirect_referrer
       end
     end

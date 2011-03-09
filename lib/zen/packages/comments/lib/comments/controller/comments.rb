@@ -119,9 +119,17 @@ module Comments
 
         begin
           @comment.update(post)
-          notification(:success, lang('comments.titles.index'), lang('comments.success.save'))
+          notification(
+            :success, 
+            lang('comments.titles.index'), 
+            lang('comments.success.save')
+          )
         rescue
-          notification(:error, lang('comments.titles.index'), lang('comments.errors.save'))
+          notification(
+            :error, 
+            lang('comments.titles.index'), 
+            lang('comments.errors.save')
+          )
           
           flash[:form_errors] = @comment.errors
           flash[:form_data]   = @comment
@@ -153,7 +161,12 @@ module Comments
         
         # Obviously we'll require some IDs
         if !request.params['comment_ids'] or request.params['comment_ids'].empty?
-          notification(:error, lang('comments.titles.index'), lang('comments.errors.no_delete'))
+          notification(
+            :error, 
+            lang('comments.titles.index'),
+            lang('comments.errors.no_delete')
+          )
+
           redirect_referrer
         end
         
@@ -161,9 +174,17 @@ module Comments
         request.params['comment_ids'].each do |id|
           begin
             Comment[id.to_i].destroy
-            notification(:success, lang('comments.titles.index'), lang('comments.success.delete'))
+            notification(
+              :success, 
+              lang('comments.titles.index'), 
+              lang('comments.success.delete')
+            )
           rescue
-            notification(:error, lang('comments.titles.index'), lang('comments.errors.delete') % id)
+            notification(
+              :error, 
+              lang('comments.titles.index'), 
+              lang('comments.errors.delete') % id
+            )
           end
         end
         

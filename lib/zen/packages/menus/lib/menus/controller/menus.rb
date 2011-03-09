@@ -40,7 +40,7 @@ module Menus
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
-          @page_title = lang("menus.titles.#{method}")
+          @page_title = lang("menus.titles.#{method}") rescue nil
         end
       end
       
@@ -197,7 +197,12 @@ module Menus
 
         # We always require a set of IDs
         if !post['menu_ids'] or post['menu_ids'].empty?
-          notification(:error, lang('menus.titles.index'), lang('menus.errors.no_delete'))
+          notification(
+            :error, 
+            lang('menus.titles.index'), 
+            lang('menus.errors.no_delete')
+          )
+
           redirect_referrer
         end
 
@@ -206,7 +211,12 @@ module Menus
           begin
             Menu[id.to_i].destroy
           rescue
-            notification(:error, lang('menus.titles.index'), lang('menus.errors.delete') % id)
+            notification(
+              :error, 
+              lang('menus.titles.index'), 
+              lang('menus.errors.delete') % id
+            )
+
             redirect_referrer
           end
         end

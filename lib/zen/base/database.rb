@@ -1,39 +1,44 @@
 module Zen
   ##
   # The database module is one of the most important classes in Zen (which is quite obvious).
-  # Without this module the application wouldn't exist. The database module is basically a small
-  # wrapper around the Sequel.connect method and allows developers to specify database
-  # settings for various environments (live, test, production, etc) using a simple block.
+  # Without this module the application wouldn't exist. The database module is 
+  # basically a small wrapper around the Sequel.connect method and allows developers 
+  # to specify database settings for various environments (live, test, production, etc) 
+  # using a simple block.
   #
-  # h2. Database Configuration
+  # ## Database Configuration
   #
   # Connecting to a database is fairly easy and only requires a single configuration file.
-  # In this file, called "database.rb" you'll define all your database environments (live, dev, test, etc).
+  # In this file, called "database.rb" you'll define all your database environments 
+  # (live, dev, test, etc).
   # 
-  # bc.. Zen::Database.mode :dev do |db|
-  #   db.adapter  = 'mysql'
-  #   db.host     = 'localhost'
+  #     Zen::Database.mode :dev do |db|
+  #       db.adapter  = 'mysql'
+  #       db.host     = 'localhost'
   #
-  #   db.username = 'root'
-  #   db.password = 'root'
-  #   db.database = 'database'
-  # end
+  #       db.username = 'root'
+  #       db.password = 'root'
+  #       db.database = 'database'
+  #     end
   #
-  # p. In this example we're connecting to "localhost" using the mysql adapter and selecting the database
-  # called "database". When placing multiple environments in the same file you don't have to worry about 
-  # them overriding eachother, Zen will only load the environment settings of the block that matches
+  # In this example we're connecting to "localhost" using the mysql adapter and 
+  # selecting the database called "database". When placing multiple environments in the 
+  # same file you don't have to worry about them overriding eachother, Zen will only 
+  # load the environment settings of the block that matches
   # the current environment set in Ramaze.options.mode.
   #
-  # h2. Database Interaction
+  # ## Database Interaction
   #
-  # Once your database configuration file has been loaded you can communicate with the database using 
-  # models. Each model should extend the base model provided by Sequel:
+  # Once your database configuration file has been loaded you can communicate with the 
+  # database using  models. Each model should extend the base model provided by Sequel:
   #
-  # bc. class Comment < Sequel::Model
-  # end
+  #     class Comment < Sequel::Model
+  #     
+  #     end
   #
-  # Models can be called like any other class and don't need to be initialized. For more information
-  # on how to use models using Sequel you should read Sequel's documentation: http://sequel.rubyforge.com/
+  # Models can be called like any other class and don't need to be initialized. For 
+  # more information on how to use models using Sequel you should read Sequel's 
+  # documentation: http://sequel.rubyforge.com/
   #
   # @author Yorick Peterse
   # @since  0.1
@@ -84,10 +89,10 @@ module Zen
     end
     
     ##
-    # Method that's used to provide the ability to use different database configurations for each
-    # mode. This method basically just sets the Zen.options.db parameters based on the provided variables
-    # in the block. If you don't want to use different database configurations you can just set the variables
-    # directly using Zen.options.db.
+    # Method that's used to provide the ability to use different database configurations 
+    # for each mode. This method basically just sets the Zen.options.db parameters based 
+    # on the provided variables in the block. If you don't want to use different database 
+    # configurations you can just set the variables directly using Zen.options.db.
     #
     # @author Yorick Peterse
     # @since  0.1

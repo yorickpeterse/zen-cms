@@ -183,16 +183,29 @@ module Categories
         post = request.params.dup
         
         if !post['category_group_ids'] or post['category_group_ids'].empty?
-          notification(:error, lang('category_groups.titles.index'), lang('category_groups.errors.no_delete'))
+          notification(
+            :error, 
+            lang('category_groups.titles.index'), 
+            lang('category_groups.errors.no_delete')
+          )
+
           redirect(CategoryGroups.r(:index))
         end
         
         post['category_group_ids'].each do |id|
           begin
             CategoryGroup[id.to_i].destroy
-            notification(:success, lang('category_groups.titles.index'), lang('category_groups.success.delete'))
+            notification(
+              :success, 
+              lang('category_groups.titles.index'), 
+              lang('category_groups.success.delete')
+            )
           rescue
-            notification(:error, lang('category_groups.titles.index'), lang('category_groups.errors.delete') % id)
+            notification(
+              :error, 
+              lang('category_groups.titles.index'), 
+              lang('category_groups.errors.delete') % id
+            )
           end
         end
         

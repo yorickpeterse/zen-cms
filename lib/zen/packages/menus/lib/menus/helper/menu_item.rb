@@ -18,7 +18,12 @@ module Ramaze
       #
       def validate_menu(menu_id = nil)
         if !menu_id or ::Menus::Models::Menu[menu_id].nil?
-          notification(:error, @menu_items_lang.titles[:index], @menu_items_lang.errors[:invalid_menu])
+          notification(
+            :error, 
+            @menu_items_lang.titles[:index], 
+            @menu_items_lang.errors[:invalid_menu]
+          )
+
           redirect(::Menus::Controllers::Menus.r(:index))
         end
       end
@@ -27,13 +32,13 @@ module Ramaze
       # Builds a hierarchy of navigation items and all their sub items. The generated
       # structure looks like the following:
       #
-      # bc. Root
-      #  |
-      #  |_ Sub
-      #  | |
-      #  | |_ Sub sub
-      #  |
-      #  |_ Sub 1
+      #     Root
+      #      |
+      #      |_ Sub
+      #      | |
+      #      | |_ Sub sub
+      #      |
+      #      |_ Sub 1
       # 
       # @author Yorick Peterse
       # @since  0.2a
@@ -41,7 +46,11 @@ module Ramaze
       # @return [Hash]
       #
       def menu_item_tree(menu_id)
-        menu_items       = ::Menus::Models::MenuItem.filter(:menu_id => menu_id, :parent_id => nil)
+        menu_items = ::Menus::Models::MenuItem.filter(
+          :menu_id   => menu_id, 
+          :parent_id => nil
+        )
+
         @menu_items_hash = {nil => '--'}
 
         menu_items.each do |item|

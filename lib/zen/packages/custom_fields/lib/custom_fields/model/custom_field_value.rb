@@ -13,8 +13,8 @@ module CustomFields
     # @since  0.1
     #
     class CustomFieldValue < Sequel::Model
-      many_to_one :custom_field , :class => "CustomFields::Models::CustomField"
-      many_to_one :section_entry, :class => "Sections::Models::SectionEntry"
+      many_to_one(:custom_field , :class => "CustomFields::Models::CustomField")
+      many_to_one(:section_entry, :class => "Sections::Models::SectionEntry")
     end
   end
 end

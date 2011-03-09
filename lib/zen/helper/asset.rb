@@ -9,7 +9,7 @@ module Ramaze
     # require_* method. For example, if we want to require a CSS file named
     # "reset" we'd do the following:
     #
-    # bc. register_css :reset
+    #     register_css('reset')
     #
     # Once you have your files required you can build the HTML by either calling
     # build_css or build_js.

@@ -17,7 +17,7 @@ module Zen
       # and turns it into a key/value hash. This makes it easier to
       # use tags with key/value variables such as the following:
       #
-      # bc. {% my_tag name="yorick" %}
+      #     {% my_tag name="yorick" %}
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -47,12 +47,12 @@ module Zen
       # If context was a hash (it's an object) this would result in something like the
       # following:
       #
-      # bc.. context = {'username' => 'YorickPeterse'}
-      # hash = {'selected_user' => 'username'}
+      #     context = {'username' => 'YorickPeterse'}
+      #     hash = {'selected_user' => 'username'}
       # 
-      # merge_context(hash, context) # => {'selected_user' => 'YorickPeterse'}
+      #     merge_context(hash, context) # => {'selected_user' => 'YorickPeterse'}
       #
-      # p. This method will also automatically escape all variables using the h() method
+      # This method will also automatically escape all variables using the h() method
       # so you don't have to worry about nasty input.
       #
       # @author Yorick Peterse

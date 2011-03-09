@@ -205,7 +205,12 @@ module Users
         
         if !post['new_password'].nil? and !post['new_password'].empty?
           if post['new_password'] != post['confirm_password']
-            notification :error, lang('users.titles.index'), lang('users.errors.no_password_match')
+            notification(
+              :error, 
+              lang('users.titles.index'), 
+              lang('users.errors.no_password_match')
+            )
+
             redirect_referrer
           else
             post['password'] = post['new_password']
@@ -258,16 +263,29 @@ module Users
         end
         
         if !request.params['user_ids'] or request.params['user_ids'].empty?
-          notification(:error, lang('users.titles.index'), lang('users.errors.no_delete'))
+          notification(
+            :error, 
+            lang('users.titles.index'), 
+            lang('users.errors.no_delete')
+          )
+
           redirect_referrer
         end
         
         request.params['user_ids'].each do |id|
           begin
             User[id.to_i].destroy
-            notification(:success, lang('users.titles.index'), lang('users.success.delete'))
+            notification(
+              :success, 
+              lang('users.titles.index'), 
+              lang('users.success.delete')
+            )
           rescue
-            notification(:error, lang('users.titles.index'), lang('users.errors.delete') % id)
+            notification(
+              :error, 
+              lang('users.titles.index'), 
+              lang('users.errors.delete') % id
+            )
           end
         end
         

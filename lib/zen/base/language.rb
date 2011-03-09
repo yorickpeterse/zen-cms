@@ -6,16 +6,16 @@ module Zen
   # Say we wanted to translate "Login" and "Register" into different languages our YAML
   # file would look like the following:
   #
-  # bc. ---
-  # login: "Login"
-  # register: "Register"
+  #     ---
+  #     login: "Login"
+  #     register: "Register"
   #
   # If we save this file under parent_directory/language/en/tutorial.yml we could then
   # load that file as following:
   #
-  # bc. Zen::Language.load('tutorial')
+  #     Zen::Language.load('tutorial')
   #
-  # h2. Loading Translations
+  # ## Loading Translations
   #
   # The load() method will look for a YAML file of which the name matches the given string
   # and can be found in the directory for the current language. This means that if we were
@@ -25,30 +25,30 @@ module Zen
   # Once your translation file is in place and it's loaded it can be used using the lang()
   # method. Example:
   #
-  # bc. lang('tutorial.login') # => "Login"
+  #     lang('tutorial.login') # => "Login"
   #
-  # h2. Directory Structure
+  # ## Directory Structure
   #
   # As mentioned earlier language files are saved in a certain directory. The structure
   # of this directory looks like the following:
   #
-  # bc. parent directory
-  #   |
-  #   |__ language
-  #      |
-  #      |__ language key (e.g. "en")
-  #         |
-  #         |__ filename.yml
+  #     parent directory
+  #       |
+  #       |__ language
+  #          |
+  #          |__ language key (e.g. "en")
+  #             |
+  #             |__ filename.yml
   #
   # When loading a language file this module will loop through a certain number of paths.
   # The array containing all base directories to loop through can be updated as following:
   #
-  # bc. Zen::Language.options.paths.push('/path/to/directory')
+  #     Zen::Language.options.paths.push('/path/to/directory')
   #
   # It's important that you _don't_ add a /language segment to the path, this will be done
   # automatically.
   #
-  # h2. Options
+  # ## Options
   #
   # * language: Small string that defines the current language (e.g. "en").
   # * paths: Array of paths to look for a language file
@@ -113,13 +113,13 @@ module Zen
     # Method for retrieving the correct language item based on the given string.
     # If you want to retrieve sub-items you can separate each level with a dot:
     #
-    # bc. lang('tutorial.main.sub')
+    #     lang('tutorial.main.sub')
     #
     # This would require our YAML file to look something like the following:
     #
-    # bc. ---
-    # main:
-    #   sub: "Something!"
+    #     ---
+    #     main:
+    #       sub: "Something!"
     #
     # It's important to remember that your key should always include the name of the
     # language file since once a file is loaded it will be kept in memory to reduce
@@ -155,25 +155,25 @@ module Zen
     # Method that takes a hash or an array and converts it to a dot-based hash. For example,
     # the following hash:
     #
-    # bc. {:name => 'Name', :location => {:street => 'Street', :address => 'Address'}}
+    #     {:name => 'Name', :location => {:street => 'Street', :address => 'Address'}}
     #
     # would result in the following:
     #
-    # bc. {'name' => 'Name', 'location.street' => 'Street', 'location.address' => 'Address'}
+    #     {'name' => 'Name', 'location.street' => 'Street', 'location.address' => 'Address'}
     #
     # Using arrays would result in the following:
     #
-    # bc. to_dotted_hash(["Hello", "World"]) # => {'1' => 'Hello', '2' => 'World'}
+    #     to_dotted_hash(["Hello", "World"]) # => {'1' => 'Hello', '2' => 'World'}
     #
     # While it looks a bit goofy this allows you to do the following:
     #
-    # bc. lang('1') # => 'Hello'
+    #     lang('1') # => 'Hello'
     #
     # @example
     #  self.to_dotted_hash({:name => "Yorick"}) # => {'name' => 'Yorick'}
     #
     # The code for this method was mostly taken from a comment on Stack Overflow.
-    # This comment can be found here: http://bit.ly/dHTjVR
+    # This comment can be found here: <http://bit.ly/dHTjVR>
     #
     # @author Yorick Peterse
     # @since  0.2

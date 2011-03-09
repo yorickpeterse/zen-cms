@@ -43,7 +43,10 @@ module Comments
         @args_parsed = false
         
         if !@arguments.key?('section_entry') or @arguments['section_entry'].empty?
-          raise(ArgumentError, "You need to specify a section entry's slug in order to retrieve a set of comments")
+          raise(
+            ArgumentError, 
+            "You need to specify a section entry's slug in order to retrieve a set of comments"
+          )
         end
       end
       

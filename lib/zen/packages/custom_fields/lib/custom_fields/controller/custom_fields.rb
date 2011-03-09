@@ -51,13 +51,13 @@ module CustomFields
 
         # Build our array containing all custom field formats
         @field_type_hash = {
-          'textbox'          => lang('custom_fields.special.type_hash.textbox'),
-          'textarea'         => lang('custom_fields.special.type_hash.textarea'),
-          'radio'            => lang('custom_fields.special.type_hash.radio'),
-          'checkbox'         => lang('custom_fields.special.type_hash.checkbox'),
-          'date'             => lang('custom_fields.special.type_hash.date'),
-          'select'           => lang('custom_fields.special.type_hash.select'),
-          'select_multiple'  => lang('custom_fields.special.type_hash.select_multiple')
+          'textbox'         => lang('custom_fields.special.type_hash.textbox'),
+          'textarea'        => lang('custom_fields.special.type_hash.textarea'),
+          'radio'           => lang('custom_fields.special.type_hash.radio'),
+          'checkbox'        => lang('custom_fields.special.type_hash.checkbox'),
+          'date'            => lang('custom_fields.special.type_hash.date'),
+          'select'          => lang('custom_fields.special.type_hash.select'),
+          'select_multiple' => lang('custom_fields.special.type_hash.select_multiple')
         }
       end
       
@@ -70,7 +70,8 @@ module CustomFields
       # * read
       # 
       # @author Yorick Peterse
-      # @param  [Integer] custom_field_group_id The ID of the custom field group to which all fields belong.
+      # @param  [Integer] custom_field_group_id The ID of the custom field group to 
+      # which all fields belong.
       # @since  0.1
       #
       def index custom_field_group_id
@@ -96,7 +97,8 @@ module CustomFields
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] custom_field_group_id The ID of the custom field group to which all fields belong.
+      # @param  [Integer] custom_field_group_id The ID of the custom field group to 
+      # which all fields belong.
       # @param  [Integer] id The ID of the custom field to retrieve so that we can edit it.
       # @since  0.1
       #
@@ -129,7 +131,8 @@ module CustomFields
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Integer] custom_field_group_id The ID of the custom field group to which all fields belong.
+      # @param  [Integer] custom_field_group_id The ID of the custom field group to 
+      # which all fields belong.
       # @since  0.1
       #
       def new custom_field_group_id
@@ -202,9 +205,9 @@ module CustomFields
       ##
       # Delete an existing custom field.
       #
-      # In order to delete a custom field group you'll need to send a POST request that contains
-      # a field named 'custom_field_ids[]'. This field should contain the primary values of
-      # each field that has to be deleted.
+      # In order to delete a custom field group you'll need to send a POST request that 
+      # contains a field named 'custom_field_ids[]'. This field should contain the 
+      # primary values of each field that has to be deleted.
       #
       # This method requires the following permissions:
       #
@@ -221,16 +224,29 @@ module CustomFields
         post = request.params.dup
         
         if !request.params['custom_field_ids'] or request.params['custom_field_ids'].empty?
-          notification(:error, lang('custom_fields.titles.index'), lang('custom_fields.errors.no_delete'))
+          notification(
+            :error, 
+            lang('custom_fields.titles.index'), 
+            lang('custom_fields.errors.no_delete')
+          )
+
           redirect(CustomFields.r(:index, post['custom_field_group_id']))
         end
         
         request.params['custom_field_ids'].each do |id|
           begin
             CustomField[id.to_i].destroy
-            notification(:success, lang('custom_fields.titles.index'), lang('custom_fields.success.delete'))
+            notification(
+              :success, 
+              lang('custom_fields.titles.index'), 
+              lang('custom_fields.success.delete')
+            )
           rescue
-            notification(:error, lang('custom_fields.titles.index'), lang('custom_fields.errors.delete') % id)
+            notification(
+              :error, 
+              lang('custom_fields.titles.index'), 
+              lang('custom_fields.errors.delete') % id
+            )
           end
         end
         

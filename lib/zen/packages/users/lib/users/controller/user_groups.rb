@@ -42,7 +42,7 @@ module Users
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
-          @page_title = lang("user_groups.titles.#{method}")
+          @page_title = lang("user_groups.titles.#{method}") rescue nil
         end
       end
       
@@ -182,16 +182,29 @@ module Users
         end
         
         if !request.params['user_group_ids'] or request.params['user_group_ids'].empty?
-          notification(:error, lang('user_groups.titles.index'), lang('user_groups.errors.no_delete'))
+          notification(
+            :error, 
+            lang('user_groups.titles.index'), 
+            lang('user_groups.errors.no_delete')
+          )
+
           redirect_referrer
         end
         
         request.params['user_group_ids'].each do |id|
           begin
             UserGroup[id.to_i].destroy
-            notification(:success, lang('user_groups.titles.index'), lang('user_groups.success.delete'))
+            notification(
+              :success, 
+              lang('user_groups.titles.index'), 
+              lang('user_groups.success.delete')
+            )
           rescue
-            notification(:error, lang('user_groups.titles.index'), lang('user_groups.errors.delete') % id)
+            notification(
+              :error, 
+              lang('user_groups.titles.index'), 
+              lang('user_groups.errors.delete') % id
+            )
           end
         end
         

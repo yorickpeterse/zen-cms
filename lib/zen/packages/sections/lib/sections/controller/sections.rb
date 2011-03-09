@@ -215,16 +215,29 @@ module Sections
         end
         
         if !request.params['section_ids'] or request.params['section_ids'].empty?
-          notification(:error, lang('sections.titles.index'), lang('sections.errors.no_delete'))
+          notification(
+            :error, 
+            lang('sections.titles.index'), 
+            lang('sections.errors.no_delete')
+          )
+
           redirect_referrer
         end
         
         request.params['section_ids'].each do |id|
           begin
             Section[id.to_i].destroy
-            notification(:success, lang('sections.titles.index'), lang('sections.success.delete'))
+            notification(
+              :success, 
+              lang('sections.titles.index'), 
+              lang('sections.success.delete')
+            )
           rescue
-            notification(:error, lang('sections.titles.index'), lang('sections.errors.delete') % id)
+            notification(
+              :error, 
+              lang('sections.titles.index'), 
+              lang('sections.errors.delete') % id
+            )
           end
         end
         

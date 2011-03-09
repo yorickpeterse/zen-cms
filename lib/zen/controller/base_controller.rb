@@ -1,9 +1,9 @@
 module Zen
   module Controllers
     ##
-    # The BaseController is extended by both the FrontendController and the BackendController.
-    # This controller is mostly used to set and retrieve data that's used in both the
-    # backend and the frontend.
+    # The BaseController is extended by both the FrontendController and the 
+    # BackendController. This controller is mostly used to set and retrieve data that's 
+    # used in both the backend and the frontend.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -14,8 +14,8 @@ module Zen
       helper :csrf, :cgi
       
       ##
-      # The initialize method is called upon class initalization and is used to process several
-      # items before loading the controller(s) for the current module.
+      # The initialize method is called upon class initalization and is used to 
+      # process several items before loading the controller(s) for the current module.
       #
       # @author Yorick Peterse
       # @since  1.0

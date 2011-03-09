@@ -6,15 +6,15 @@ module Menus
     # The menus tag can be used to display all menu items for a given menu slug or ID.
     # Basic usage of this tag is as following:
     #
-    # bc. {% menus slug="main" %}
+    #     {% menus slug="main" %}
     #
     # Given we had a menu of which the slug is "main" the output would look like the this:
     #
-    # bc. <ul>
-    #   <li>
-    #     <a href="http://zen-cms.com/" title="Zen CMS">Zen CMS</a>
-    #   </li>
-    # </ul>
+    #     <ul>
+    #         <li>
+    #             <a href="http://zen-cms.com/" title="Zen CMS">Zen CMS</a>
+    #         </li>
+    #     </ul>
     #
     # This tag takes the following arguments: 
     #
@@ -76,7 +76,10 @@ module Menus
           menu = ::Menus::Models::Menu[:slug => @arguments['slug']]
 
         else
-          raise ArgumentError, "You need to specify either the ID or the slug in order to retrieve a menu."
+          raise(
+            ArgumentError, 
+            "You need to specify either the ID or the slug in order to retrieve a menu."
+          )
         end
 
         return if menu.nil?
@@ -105,8 +108,8 @@ module Menus
       end
 
       ##
-      # Helper method used for generating a <li> and <a> tag for the current navigation item.
-      # If the item has any sub items those will be generated as well.
+      # Helper method used for generating a <li> and <a> tag for the current navigation 
+      # item. If the item has any sub items those will be generated as well.
       #
       # @author Yorick Peterse
       # @since  0.2a

@@ -46,7 +46,7 @@ module Users
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
-          @page_title = lang('access_rules.titles.#{method}')
+          @page_title = lang('access_rules.titles.#{method}') rescue nil
         end
         
         require_js 'users/access_rules'
@@ -201,7 +201,12 @@ module Users
         end
         
         if !request.params['access_rule_ids'] or request.params['access_rule_ids'].empty?
-          notification(:error, lang('access_rules.titles.index'), lang('access_rules.errors.no_delete'))
+          notification(
+            :error, 
+            lang('access_rules.titles.index'), 
+            lang('access_rules.errors.no_delete')
+          )
+
           redirect_referrer
         end
         
@@ -210,9 +215,17 @@ module Users
           
           begin
             @access_rule.delete
-            notification(:success, lang('access_rules.titles.index'), lang('access_rules.success.delete'))
+            notification(
+              :success, 
+              lang('access_rules.titles.index'), 
+              lang('access_rules.success.delete')
+            )
           rescue
-            notification(:error, lang('access_rules.titles.index'), lang('access_rules.errors.delete') % id)
+            notification(
+              :error, 
+              lang('access_rules.titles.index'), 
+              lang('access_rules.errors.delete') % id
+            )
           end
         end
         

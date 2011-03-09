@@ -4,9 +4,9 @@ module Sections
     # The SectionEntries tag can be used to retrieve all section entries
     # for the given section. A basic example of this looks like the following:
     #
-    # bc. {% section_entries section="blog" %}
-    # Do something in here
-    # {% endsection_entries %}
+    #     {% section_entries section="blog" %}
+    #         Do something in here
+    #     {% endsection_entries %}
     #
     # When using this tag you can specify the following optionally arguments:
     #
@@ -20,17 +20,17 @@ module Sections
     #
     # These arguments can be specified as following:
     #
-    # bc. {% section_entries section="blog" limit="10" offset="20" %}
-    # Do something in here
-    # {% endsection_entries %}
+    #     {% section_entries section="blog" limit="10" offset="20" %}
+    #         Do something in here
+    #     {% endsection_entries %}
     #
     # Inside this block you can output the values of your custom fields by
     # calling the variable tag containing the name of the custom field. For example,
     # if you have a field called "body" you can output it for each entry as following:
     #
-    # bc. {% section_entries section="blog" limit="10" offset="20" %}
-    # {{body}}
-    # {% endsection_entries %}
+    #     {% section_entries section="blog" limit="10" offset="20" %}
+    #         {{body}}
+    #     {% endsection_entries %}
     #
     # The following variables are available by default:
     #
@@ -45,11 +45,11 @@ module Sections
     # @example
     #  {% section_entries section="blog" limit="10" offset="20" %}
     #  <article>
-    #    <header>
-    #      <h1>{{title}}</h1>
-    #    </header>
+    #      <header>
+    #         <h1>{{title}}</h1>
+    #      </header>
     #
-    #    {{body}}
+    #      {{body}}
     #  </article>
     #  {% endsection_entries %}
     #

@@ -76,7 +76,8 @@ module CustomFields
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the custom field group to retrieve so that we can edit it.
+      # @param  [Integer] id The ID of the custom field group to retrieve so that we 
+      # can edit it.
       # @since  0.1
       #
       def edit id
@@ -172,9 +173,9 @@ module CustomFields
       ##
       # Delete an existing custom field group.
       #
-      # In order to delete a custom field group you'll need to send a POST request that contains
-      # a field named 'custom_field_group_ids[]'. This field should contain the primary values of
-      # each field group that has to be deleted.
+      # In order to delete a custom field group you'll need to send a POST request 
+      # that contains a field named 'custom_field_group_ids[]'. This field should 
+      # contain the primary values of each field group that has to be deleted.
       #
       # This method requires the following permissions:
       #
@@ -189,16 +190,28 @@ module CustomFields
         end
         
         if !request.params['custom_field_group_ids'] or request.params['custom_field_group_ids'].empty?
-          notification(:error, lang('custom_field_groups.titles.index'), lang('custom_field_groups.errors.no_delete'))
+          notification(
+            :error, 
+            lang('custom_field_groups.titles.index'), 
+            lang('custom_field_groups.errors.no_delete')
+          )
           redirect(CustomFieldGroups.r(:index))
         end
         
         request.params['custom_field_group_ids'].each do |id|
           begin
             CustomFieldGroup[id.to_i].destroy
-            notification(:success, lang('custom_field_groups.titles.index'), lang('custom_field_groups.success.delete'))
+            notification(
+              :success, 
+              lang('custom_field_groups.titles.index'), 
+              lang('custom_field_groups.success.delete')
+            )
           rescue
-            notification(:error, lang('custom_field_groups.titles.index'), lang('custom_field_groups.errors.delete') % id)
+            notification(
+              :error, 
+              lang('custom_field_groups.titles.index'), 
+              lang('custom_field_groups.errors.delete') % id
+            )
           end
         end
         

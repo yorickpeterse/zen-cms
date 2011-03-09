@@ -2,18 +2,18 @@ module Zen
   module Controllers
     ##
     # The admin controller is a base controller that should be extended by all controllers
-    # for the backend of Zen. This controller will automatically check to see if the user is
-    # logged in and perform several other tasks such as loading all Javascript and CSS stylesheet
-    # along with our helpers and so on.
+    # for the backend of Zen. This controller will automatically check to see if the 
+    # user is logged in and perform several other tasks such as loading all Javascript 
+    # and CSS stylesheet along with our helpers and so on.
     #
-    # h2. Authentication
+    # ## Authentication
     #
-    # It's important to remember that any controller that extends this one will require the
-    # user to be logged in. The only exception for this is the login method for the Users
-    # controller, mapped to /admin/users/login. If a user isn't logged in he/she will be redirected
-    # to the login page.
+    # It's important to remember that any controller that extends this one will require 
+    # the user to be logged in. The only exception for this is the login method for the 
+    # Users controller, mapped to /admin/users/login. If a user isn't logged in he/she 
+    # will be redirected to the login page.
     #
-    # h2. Helpers
+    # ## Helpers
     #
     # The admin controller loads the following helpers:
     #

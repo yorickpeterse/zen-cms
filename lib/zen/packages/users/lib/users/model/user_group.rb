@@ -15,8 +15,8 @@ module Users
     # @since  0.1
     #
     class UserGroup < Sequel::Model
-      many_to_many :users      , :class => "Users::Models::User"
-      one_to_many :access_rules, :class => "Users::Models::AccessRule"
+      many_to_many(:users      , :class => "Users::Models::User")
+      one_to_many(:access_rules, :class => "Users::Models::AccessRule")
       
       plugin :sluggable , :source => :name, :freeze => false
       

@@ -16,13 +16,16 @@ module Comments
     #
     # Basic usage of this tag is as following:
     #
-    # bc. {% comment_form section_entry="hello-world" %}
-    #   <p>
-    #     <label for="name">Name</label>
-    #     <input type="text" name="name" id="name" />
-    #   </p>
-    #   <input type="submit" value="Submit comment" />
-    # {% endcomment_form %}
+    #     {% comment_form section_entry="hello-world" %}
+    #
+    #       <p>
+    #           <label for="name">Name</label>
+    #           <input type="text" name="name" id="name" />
+    #       </p>
+    #
+    #       <input type="submit" value="Submit comment" />
+    #
+    #     {% endcomment_form %}
     #
     # The following arguments can be used:
     #
@@ -80,9 +83,13 @@ module Comments
         
         # Get our section to which this form belongs
         if @arguments.key?('section_entry')
-          section_entry = ::Sections::Models::SectionEntry[:slug => @arguments['section_entry']]
+          section_entry = ::Sections::Models::SectionEntry[
+            :slug => @arguments['section_entry']
+          ]
         else
-          section_entry = ::Sections::Models::SectionEntry[@arguments['section_entry_id'].to_i]
+          section_entry = ::Sections::Models::SectionEntry[
+            @arguments['section_entry_id'].to_i
+          ]
         end
         
         # Get the section entry's ID
@@ -99,7 +106,11 @@ module Comments
           user_id = nil
         end
         
-        g_html = form_for(nil, :method => :post, :action => Comments::Controllers::CommentsForm.r(:save)) do |f|
+        g_html = form_for(
+          nil, 
+          :method => :post, 
+          :action => Comments::Controllers::CommentsForm.r(:save)
+        ) do |f|
           f.input_hidden(:csrf_token   , get_csrf_token)
           f.input_hidden(:section_entry, section_entry_id)
           f.input_hidden(:user_id      , user_id)

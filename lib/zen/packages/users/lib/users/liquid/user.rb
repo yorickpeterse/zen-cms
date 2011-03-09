@@ -6,15 +6,15 @@ module Users
     # will result in multiple WHERE/AND clauses. In order to retrieve a user with
     # the Email address "me@awesome.com" you'd do the following:
     #
-    # bc. {% user email="me@awesome.com" %}
-    #   {{name}}
-    # {% enduser %}
+    #     {% user email="me@awesome.com" %}
+    #         {{name}}
+    #     {% enduser %}
     #
     # If you want to add an extra condition simply do the following:
     #
-    # bc. {% user email="me@awesome.com" status="open" %}
-    #   {{name}}
-    # {% enduser %}
+    #     {% user email="me@awesome.com" status="open" %}
+    #         {{name}}
+    #     {% enduser %}
     #
     # Note that this class is a Liquid block, not a tag. This means that you'll have to
     # specify the closing tag. The reason for this is that there are multiple columns

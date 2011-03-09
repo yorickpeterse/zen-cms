@@ -17,9 +17,10 @@ module Ramaze
       # @param  [Symbol] type The type of notification to generate (error, notice, etc).
       # @param  [String] title The title of the notification.
       # @param  [String] message The message to display in the notification.
-      # @param  [String] image An optional path to a custom image to use. If no image is specified
-      # the type of notification will be used for the image. For example, an error message would
-      # result in an image named "error.png" (.png is used for all default icons).
+      # @param  [String] image An optional path to a custom image to use. If no image 
+      # is specified the type of notification will be used for the image. For example, 
+      # an error message would result in an image named "error.png" (.png is used for 
+      # all default icons).
       # @param  [Boolean] sticky Boolean that indicates that the notification shouldn't
       # be automatically removed after a certain period of time.
       # @since  0.1
@@ -54,10 +55,15 @@ module Ramaze
       #
       # @example
       #  # Rather verbose isn't it?
-      #  anchor_to 'Google Search', {:href => 'http://google.com', :q => 'Search term' }, :class => 'anchor_class', :title => 'Google Search Results :D' 
+      #  anchor_to(
+      #    'Google Search', 
+      #    {:href => 'http://google.com', :q => 'Search term' }, 
+      #    :class => 'anchor_class', 
+      #    :title => 'Google Search Results :D'
+      #  )
       #
       #  # This is also perfectly fine
-      #  anchor_to 'Dashboard', 'dashboard'
+      #  anchor_to('Dashboard', 'dashboard')
       #
       # @author Yorick Peterse
       # @since  0.1

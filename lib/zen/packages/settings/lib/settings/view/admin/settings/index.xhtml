@@ -53,14 +53,14 @@
             end
             
             case s.type
-              when 'textbox' then
+              when 'textbox'
                 f.input_text(
                   label, 
                   name, 
                   :value => value
                 )
 
-              when 'textarea' then
+              when 'textarea'
                 f.textarea(
                   label, 
                   name, 
@@ -68,7 +68,7 @@
                   :rows  => 8
                 )
 
-              when 'radio' then
+              when 'radio'
                 f.input_radio(
                   label, 
                   name, 
@@ -76,7 +76,7 @@
                   :values => values
                 )
 
-              when 'checkbox' then
+              when 'checkbox'
                 f.input_checkbox(
                   label, 
                   name, 
@@ -84,7 +84,7 @@
                   :values => values
                 )
 
-              when 'select' then
+              when 'select'
                 f.select(
                   label, 
                   name, 

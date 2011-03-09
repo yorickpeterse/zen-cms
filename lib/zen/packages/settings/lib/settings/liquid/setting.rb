@@ -4,7 +4,7 @@ module Settings
     # Tag that can be used to retrieve the values of the given setting.
     # Using this tag couldn't be easier:
     #
-    # bc. {% settings "website_name" %}
+    #     {% settings "website_name" %}
     #
     # It's not required to specify quotes as setting keys don't contain
     # spaces but it's generally considered a good practice to do so anyway.
