@@ -20,7 +20,7 @@ module Users
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -75,10 +75,10 @@ module Users
       #
       def index
         if !user_authorized?([:read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        set_breadcrumbs(@users_lang.titles[:index])
+        set_breadcrumbs(lang('users.titles.index'))
         
         @users = User.all
       end
@@ -97,12 +97,12 @@ module Users
       #
       def edit(id)
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@users_lang.titles[:index], Users.r(:index)), 
-          @users_lang.titles[:edit]
+          anchor_to(lang('users.titles.index'), Users.r(:index)), 
+          lang('users.titles.edit')
         )
         
         if flash[:form_data]
@@ -127,12 +127,12 @@ module Users
       #
       def new
         if !user_authorized?([:read, :create])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@users_lang.titles[:index], Users.r(:index)), 
-          @users_lang.titles[:new]
+          anchor_to(lang('users.titles.index'), Users.r(:index)), 
+          lang('users.titles.new')
         )
         
         @user           = User.new
@@ -152,10 +152,10 @@ module Users
             # Update the last time the user logged in
             User[:email => request.params['email']].update(:last_login => Time.new)
             
-            notification(:success, @users_lang.titles[:index], @users_lang.success[:login])
+            notification(:success, lang('users.titles.index'), lang('users.success.login'))
             redirect(::Sections::Controllers::Sections.r(:index))
           else
-            notification(:error, @users_lang.titles[:index], @users_lang.errors[:login])
+            notification(:error, lang('users.titles.index'), lang('users.errors.login'))
           end
         end
       end
@@ -170,7 +170,7 @@ module Users
         user_logout
         session.clear
         
-        notification(:success, @users_lang.titles[:index], @users_lang.success[:logout])
+        notification(:success, lang('users.titles.index'), lang('users.success.logout'))
         redirect(Users.r(:login))
       end
       
@@ -187,7 +187,7 @@ module Users
       #
       def save
         if !user_authorized?([:update, :create])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         post = request.params.dup
@@ -202,7 +202,7 @@ module Users
         
         if !post['new_password'].nil? and !post['new_password'].empty?
           if post['new_password'] != post['confirm_password']
-            notification :error, @users_lang.titles[:index], @users_lang.errors[:no_password_match]
+            notification :error, lang('users.titles.index'), lang('users.errors.no_password_match')
             redirect_referrer
           else
             post['password'] = post['new_password']
@@ -219,14 +219,14 @@ module Users
           post['user_group_pks'] = []
         end
         
-        flash_success = @users_lang.success[save_action]
-        flash_error   = @users_lang.errors[save_action]
+        flash_success = lang("users.success.#{save_action}")
+        flash_error   = lang("users.errors.#{save_action}")
 
         begin
           @user.update(post)
-          notification(:success, @users_lang.titles[:index], flash_success)
+          notification(:success, lang('users.titles.index'), flash_success)
         rescue
-          notification(:error, @users_lang.titles[:index], flash_error)
+          notification(:error, lang('users.titles.index'), flash_error)
           
           flash[:form_data]   = @user
           flash[:form_errors] = @user.errors
@@ -251,20 +251,20 @@ module Users
       #
       def delete
         if !user_authorized?([:delete])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         if !request.params['user_ids'] or request.params['user_ids'].empty?
-          notification(:error, @users_lang.titles[:index], @users_lang.errors[:no_delete])
+          notification(:error, lang('users.titles.index'), lang('users.errors.no_delete'))
           redirect_referrer
         end
         
         request.params['user_ids'].each do |id|
           begin
             User[id.to_i].destroy
-            notification(:success, @users_lang.titles[:index], @users_lang.success[:delete])
+            notification(:success, lang('users.titles.index'), lang('users.success.delete'))
           rescue
-            notification(:error, @users_lang.titles[:index], @users_lang.errors[:delete] % id)
+            notification(:error, lang('users.titles.index'), lang('users.errors.delete') % id)
           end
         end
         

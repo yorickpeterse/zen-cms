@@ -17,7 +17,7 @@ module Users
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -61,10 +61,10 @@ module Users
       #
       def index
         if !user_authorized?([:read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        set_breadcrumbs(@groups_lang.titles[:index])
+        set_breadcrumbs(lang('user_groups.titles.index'))
         
         @user_groups = UserGroup.all
       end
@@ -83,12 +83,12 @@ module Users
       #
       def edit(id)
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@groups_lang.titles[:index], UserGroups.r(:index)), 
-          @groups_lang.titles[:edit]
+          anchor_to(lang('user_groups.titles.index'), UserGroups.r(:index)), 
+          lang('user_groups.titles.edit')
         )
         
         if flash[:form_data]
@@ -111,12 +111,12 @@ module Users
       #
       def new
         if !user_authorized?([:read, :create])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@groups_lang.titles[:index], UserGroups.r(:index)), 
-          @groups_lang.titles[:new]
+          anchor_to(lang('user_groups.titles.index'), UserGroups.r(:index)), 
+          lang('user_groups.titles.new')
         )
         
         @user_group = UserGroup.new
@@ -135,7 +135,7 @@ module Users
       #
       def save
         if !user_authorized?([:create, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         post = request.params.dup
@@ -148,14 +148,14 @@ module Users
           save_action = :new
         end
         
-        flash_success = @groups_lang.success[save_action]
-        flash_error   = @groups_lang.errors[save_action]
+        flash_success = lang("user_groups.success.#{save_action}")
+        flash_error   = lang("user_groups.errors.#{save_action}")
         
         begin
           @user_group.update(post)
-          notification(:success, @groups_lang.titles[:index], flash_success)
+          notification(:success, lang('user_groups.titles.index'), flash_success)
         rescue
-          notification(:error, @groups_lang.titles[:index], flash_error)
+          notification(:error, lang('user_groups.titles.index'), flash_error)
           
           flash[:form_data]   = @user_group
           flash[:form_errors] = @user_group.errors
@@ -180,20 +180,20 @@ module Users
       #
       def delete
         if !user_authorized?([:delete])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         if !request.params['user_group_ids'] or request.params['user_group_ids'].empty?
-          notification(:error, @groups_lang.titles[:index], @groups_lang.errors[:no_delete])
+          notification(:error, lang('user_groups.titles.index'), lang('user_groups.errors.no_delete'))
           redirect_referrer
         end
         
         request.params['user_group_ids'].each do |id|
           begin
             UserGroup[id.to_i].destroy
-            notification(:success, @groups_lang.titles[:index], @groups_lang.success[:delete])
+            notification(:success, lang('user_groups.titles.index'), lang('user_groups.success.delete'))
           rescue
-            notification(:error, @groups_lang.titles[:index], @groups_lang.errors[:delete] % id)
+            notification(:error, lang('user_groups.titles.index'), lang('user_groups.errors.delete') % id)
           end
         end
         

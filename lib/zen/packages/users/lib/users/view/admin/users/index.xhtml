@@ -17,12 +17,12 @@
                     </th>
                     <?r end ?>
                     
-                    <th>#{@users_lang.labels[:id]}</th>
-                    <th>#{@users_lang.labels[:email]}</th>
-                    <th>#{@users_lang.labels[:status]}</th>
-                    <th>#{@users_lang.labels[:created_at]}</th>
-                    <th>#{@users_lang.labels[:updated_at]}</th>
-                    <th>#{@users_lang.labels[:last_login]}</th>
+                    <th>#{lang('users.labels.id')}</th>
+                    <th>#{lang('users.labels.email')}</th>
+                    <th>#{lang('users.labels.status')}</th>
+                    <th>#{lang('users.labels.created_at')}</th>
+                    <th>#{lang('users.labels.updated_at')}</th>
+                    <th>#{lang('users.labels.last_login')}</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@
                     <td>#{user.email}</td>
                     <?r end ?>
                     
-                    <td>#{@users_lang.special[:status_hash][user.status]}</td>
+                    <td>#{lang('users.special.status_hash')[user.status]}</td>
                     <td>#{user.created_at}</td>
                     <td>#{user.updated_at}</td>
                     <td>#{user.last_login}</td>
@@ -57,7 +57,7 @@
         </table>
         
         <?r else ?>
-        <p>#{@users_lang.messages[:no_users]}</p>
+        <p>#{lang('users.messages.no_users')}</p>
         <?r end ?>
         
         <div class="clearfix">
@@ -65,7 +65,7 @@
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  @users_lang.buttons[:new_user], 
+                  lang('users.buttons.new_user'), 
                   Users::Controllers::Users.r(:new)
                 )}
             </div>
@@ -73,7 +73,7 @@
             
             <?r if user_authorized?([:delete]) and @users and !@users.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@users_lang.buttons[:delete_users]}" />
+                <input type="submit" value="#{lang('users.buttons.delete_users')}" />
             </div>
             <?r end ?>
         </div>

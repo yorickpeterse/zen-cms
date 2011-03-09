@@ -17,10 +17,10 @@
                     </th>
                     <?r end ?>
                     
-                    <th>#{@groups_lang.labels[:id]}</th>
-                    <th>#{@groups_lang.labels[:name]}</th>
-                    <th>#{@groups_lang.labels[:slug]}</th>
-                    <th>#{@groups_lang.labels[:super_group]}</th>
+                    <th>#{lang('user_groups.labels.id')}</th>
+                    <th>#{lang('user_groups.labels.name')}</th>
+                    <th>#{lang('user_groups.labels.slug')}</th>
+                    <th>#{lang('user_groups.labels.super_group')}</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,14 +45,14 @@
                     <?r end ?>
                     
                     <td>#{group.slug}</td>
-                    <td>#{@groups_lang.special[:boolean_hash][group.super_group]}</td>
+                    <td>#{lang('user_groups.special.boolean_hash')[group.super_group]}</td>
                 </tr>
                 <?r end ?>
             </tbody>
         </table>
         
         <?r else ?>
-        <p>#{@groups_lang.messages[:no_user_groups]}</p>
+        <p>#{lang('user_groups.messages.no_user_groups')}</p>
         <?r end ?>
         
         <div class="clearfix">
@@ -60,14 +60,14 @@
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  @groups_lang.buttons[:new_group], Users::Controllers::UserGroups.r(:new)
+                  lang('user_groups.buttons.new_group'), Users::Controllers::UserGroups.r(:new)
                 )}
             </div>
             <?r end ?>
             
             <?r if user_authorized?([:delete]) and @user_groups and !@user_groups.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@groups_lang.buttons[:delete_groups]}" />
+                <input type="submit" value="#{lang('user_groups.buttons.delete_groups')}" />
             </div>
             <?r end ?>
         </div>

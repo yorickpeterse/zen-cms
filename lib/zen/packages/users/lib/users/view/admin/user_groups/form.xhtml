@@ -4,32 +4,32 @@
     f.input_hidden(:csrf_token, get_csrf_token)
   
     f.input_text(
-      @groups_lang.labels[:name], 
+      lang('user_groups.labels.name'), 
       :name
     )
 
     f.input_text(
-      @groups_lang.labels[:slug], 
+      lang('user_groups.labels.slug'), 
       :slug
     )
 
     f.select(
-      @groups_lang.labels[:super_group], 
+      lang('user_groups.labels.super_group'), 
       :super_group, 
-      :values   => @groups_lang.special[:boolean_hash],
+      :values   => lang('user_groups.special.boolean_hash'),
       :selected => @user_group.super_group, 
       :size     => 1
     )
       
     f.textarea(
-      @groups_lang.labels[:description], 
+      lang('user_groups.labels.description'), 
       :description, 
       :rows => 10
     )
     
     f.g.div(:class => 'clearfix') do
       f.g.div(:class => 'button') do
-        f.g.input(:type => 'submit', :value => @groups_lang.buttons[:save_group])
+        f.g.input(:type => 'submit', :value => lang('user_groups.buttons.save_group'))
       end
     end
   end

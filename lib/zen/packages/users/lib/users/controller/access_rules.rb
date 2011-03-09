@@ -22,7 +22,7 @@ module Users
       
       before_all do
         csrf_protection(:save, :delete) do
-          respond(@zen_general_lang.errors[:csrf], 403)
+          respond(lang('zen_general.errors.csrf'), 403)
         end
       end
       
@@ -45,14 +45,16 @@ module Users
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @rules_lang.titles.key? method 
-            @page_title = @rules_lang.titles[method]
-          end
+          method      = action.method.to_sym
+          @page_title = lang('access_rules.titles.#{method}')
         end
         
         require_js 'users/access_rules'
+
+        @rule_applies_hash = {
+          lang('access_rules.labels.user')       => 'div_user_id', 
+          lang('access_rules.labels.user_group') => 'div_user_group_id'
+        }
       end
       
       ##
@@ -68,10 +70,10 @@ module Users
       #
       def index
         if !user_authorized?([:read])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        set_breadcrumbs(@rules_lang.titles[:index])
+        set_breadcrumbs(lang('access_rules.titles.index'))
         
         @access_rules = AccessRule.all
       end
@@ -90,12 +92,12 @@ module Users
       #
       def edit(id)
         if !user_authorized?([:read, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@rules_lang.titles[:index], AccessRules.r(:index)), 
-          @rules_lang.titles[:edit]
+          anchor_to(lang('access_rules.titles.index'), AccessRules.r(:index)), 
+          lang('access_rules.titles.edit')
         )
         
         if flash[:form_data]
@@ -118,12 +120,12 @@ module Users
       #
       def new
         if !user_authorized?([:read, :create])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(@rules_lang.titles[:index], AccessRules.r(:index)), 
-          @rules_lang.titles[:new]
+          anchor_to(lang('access_rules.titles.index'), AccessRules.r(:index)), 
+          lang('access_rules.titles.new')
         )
         
         @access_rule = AccessRule.new
@@ -142,7 +144,7 @@ module Users
       #
       def save
         if !user_authorized?([:create, :update])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         post = request.params.dup
@@ -163,14 +165,14 @@ module Users
           save_action = :new
         end
         
-        flash_success = @rules_lang.success[save_action]
-        flash_error   = @rules_lang.errors[save_action]
+        flash_success = lang("access_rules.success.#{save_action}")
+        flash_error   = lang("access_rules.errors.#{save_action}")
         
         begin
           @access_rule.update(post)
-          notification(:success, @rules_lang.titles[:index], flash_success)
+          notification(:success, lang('access_rules.titles.index'), flash_success)
         rescue
-          notification(:error, @rules_lang.titles[:index], flash_error)
+          notification(:error, lang('access_rules.titles.index'), flash_error)
           
           flash[:form_data]   = @access_rule
           flash[:form_errors] = @access_rule.errors
@@ -195,11 +197,11 @@ module Users
       #
       def delete
         if !user_authorized?([:delete])
-          respond(@zen_general_lang.errors[:not_authorized], 403)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         if !request.params['access_rule_ids'] or request.params['access_rule_ids'].empty?
-          notification(:error, @rules_lang.titles[:index], @rules_lang.errors[:no_delete])
+          notification(:error, lang('access_rules.titles.index'), lang('access_rules.errors.no_delete'))
           redirect_referrer
         end
         
@@ -208,9 +210,9 @@ module Users
           
           begin
             @access_rule.delete
-            notification(:success, @rules_lang.titles[:index], @rules_lang.success[:delete])
+            notification(:success, lang('access_rules.titles.index'), lang('access_rules.success.delete'))
           rescue
-            notification(:error, @rules_lang.titles[:index], @rules_lang.errors[:delete] % id)
+            notification(:error, lang('access_rules.titles.index'), lang('access_rules.errors.delete') % id)
           end
         end
         

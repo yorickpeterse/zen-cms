@@ -30,16 +30,16 @@
     f.input_hidden(:csrf_token, get_csrf_token)
     
     f.input_radio(
-      @rules_lang.labels[:rule_applies], 
+      lang('access_rules.labels.rule_applies'), 
       :rule_applies, 
       rule_applies,
-      :values => @rules_lang.special[:rule_applies_hash]
+      :values => @rule_applies_hash
     )
     
     f.g.div(:id => 'div_user_id') do
 
       f.select(
-        @rules_lang.labels[:user], 
+        lang('access_rules.labels.user'), 
         :user_id, 
         :values   => users,
         :selected => @access_rule.user_id, 
@@ -51,7 +51,7 @@
     f.g.div(:id => 'div_user_group_id') do
     
       f.select(
-        @rules_lang.labels[:user_group], 
+        lang('access_rules.labels.user_group'), 
         :user_group_id, 
         :values   => groups,
         :selected => @access_rule.user_group_id, 
@@ -61,7 +61,7 @@
     end
       
     f.select(
-      @rules_lang.labels[:extension], 
+      lang('access_rules.labels.extension'), 
       :extension, 
       :values   => extensions,
       :selected => @access_rule.extension, 
@@ -69,36 +69,36 @@
     )
 
     f.input_radio(
-      @rules_lang.labels[:create], 
+      lang('access_rules.labels.create'), 
       :create_access, 
       @access_rule.create_access,
-      :values => @rules_lang.special[:boolean_hash].invert
+      :values => @boolean_hash.invert
     )
   
     f.input_radio(
-      @rules_lang.labels[:read], 
+      lang('access_rules.labels.read'), 
       :read_access, 
       @access_rule.read_access,
-      :values => @rules_lang.special[:boolean_hash].invert
+      :values => @boolean_hash.invert
     )
   
     f.input_radio(
-      @rules_lang.labels[:update], 
+      lang('access_rules.labels.update'), 
       :update_access, 
       @access_rule.update_access,
-      :values => @rules_lang.special[:boolean_hash].invert
+      :values => @boolean_hash.invert
     )
 
     f.input_radio(
-      @rules_lang.labels[:delete], 
+      lang('access_rules.labels.delete'), 
       :delete_access, 
       @access_rule.delete_access,
-      :values => @rules_lang.special[:boolean_hash].invert
+      :values => @boolean_hash.invert
     )
     
     f.g.div(:class => 'clearfix') do
       f.g.div(:class => 'button') do
-        f.g.input(:type => 'submit', :value => @rules_lang.buttons[:save])
+        f.g.input(:type => 'submit', :value => lang('access_rules.buttons.save'))
       end
     end
 

@@ -4,40 +4,40 @@
     f.input_hidden(:id, @user.id)
     
     f.input_text(
-      @users_lang.labels[:name], 
+      lang('users.labels.name'), 
       :name
     )
 
     f.input_text(
-      @users_lang.labels[:email], 
+      lang('users.labels.email'), 
       :email
     )
 
     f.input_text(
-      @users_lang.labels[:website], 
+      lang('users.labels.website'), 
       :website
     )
       
     f.input_password(
-      @users_lang.labels[:new_password], 
+      lang('users.labels.new_password'), 
       :new_password
     )
 
     f.input_password(
-      @users_lang.labels[:confirm_password], 
+      lang('users.labels.confirm_password'), 
       :confirm_password
     )
     
     f.select(
-      @users_lang.labels[:status], 
+      lang('users.labels.status'), 
       :status, 
-      :values   => @users_lang.special[:status_hash],
+      :values   => lang('users.special.status_hash'),
       :selected => @user.status, 
       :size     => 1
     )
       
     f.select(
-      @users_lang.labels[:user_groups], 
+      lang('users.labels.user_groups'), 
       :user_group_pks, 
       :values   => @user_group_pks,
       :selected => @user.user_group_pks, 
@@ -46,7 +46,7 @@
       
     f.g.div(:class => 'clearfix') do
       f.g.div(:class => 'button') do
-        f.g.input(:type => 'submit', :value => @users_lang.buttons[:save_user])
+        f.g.input(:type => 'submit', :value => lang('users.buttons.save_user'))
       end
     end
   end

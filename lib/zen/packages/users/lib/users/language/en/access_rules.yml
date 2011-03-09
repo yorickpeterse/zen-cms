@@ -1,0 +1,35 @@
+---
+titles:
+  index : 'Access Rules'
+  edit  : 'Edit Access Rule'
+  new   : 'Add Access Rule'
+
+labels:
+  id           : '#'
+  extension    : 'Extension'
+  rule_applies : 'Rule applies to'
+  create       : 'Create'
+  read         : 'Read'
+  update       : 'Update'
+  delete       : 'Delete'
+  user         : 'User'
+  user_group   : 'User group'
+
+messages:
+  no_rules: 'No access rules have been added yet.'
+
+errors:
+  new       : 'Failed to create a new access rule.'
+  save      : 'Failed to save the access rule.'
+  delete    : 'Failed to delete the access rule with ID #%s.'
+  no_delete : 'You have to specify at least one rule to delete.'
+  
+success: 
+  new    : 'The access rule has been created.'
+  save   : 'The access rule has been modified.'
+  delete : 'The access rule with ID #%s has been deleted.'
+  
+buttons:
+  new    : 'New rule'
+  delete : 'Delete selected rules'
+  save   : 'Save rule'

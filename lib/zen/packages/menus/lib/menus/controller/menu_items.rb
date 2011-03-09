@@ -200,7 +200,7 @@ module Menus
       # @since  0.2a
       #
       def delete
-        if !user_authorized([:delete])
+        if !user_authorized?([:delete])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
 

@@ -17,14 +17,14 @@
                     </th>
                     <?r end ?>
                     
-                    <th>#{@rules_lang.labels[:id]}</th>
-                    <th>#{@rules_lang.labels[:extension]}</th>
-                    <th>#{@rules_lang.labels[:create]}</th>
-                    <th>#{@rules_lang.labels[:read]}</th>
-                    <th>#{@rules_lang.labels[:update]}</th>
-                    <th>#{@rules_lang.labels[:delete]}</th>
-                    <th>#{@rules_lang.labels[:user]}</th>
-                    <th>#{@rules_lang.labels[:user_group]}</th>
+                    <th>#{lang('access_rules.labels.id')}</th>
+                    <th>#{lang('access_rules.labels.extension')}</th>
+                    <th>#{lang('access_rules.labels.create')}</th>
+                    <th>#{lang('access_rules.labels.read')}</th>
+                    <th>#{lang('access_rules.labels.update')}</th>
+                    <th>#{lang('access_rules.labels.delete')}</th>
+                    <th>#{lang('access_rules.labels.user')}</th>
+                    <th>#{lang('access_rules.labels.user_group')}</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,10 +49,10 @@
                     <td>#{rule.extension}</td>
                     <?r end ?>
                     
-                    <td>#{@rules_lang.special[:boolean_hash][rule.create_access]}</td>
-                    <td>#{@rules_lang.special[:boolean_hash][rule.read_access]}</td>
-                    <td>#{@rules_lang.special[:boolean_hash][rule.update_access]}</td>
-                    <td>#{@rules_lang.special[:boolean_hash][rule.delete_access]}</td>
+                    <td>#{lang('access_rules.special.boolean_hash')[rule.create_access]}</td>
+                    <td>#{lang('access_rules.special.boolean_hash')[rule.read_access]}</td>
+                    <td>#{lang('access_rules.special.boolean_hash')[rule.update_access]}</td>
+                    <td>#{lang('access_rules.special.boolean_hash')[rule.delete_access]}</td>
                     <td>
                         <?r if !rule.user_id.nil? ?>
                         #{rule.user.name}
@@ -69,7 +69,7 @@
         </table>
         
         <?r else ?>
-        <p>#{@rules_lang.messages[:no_rules]}</p>
+        <p>#{lang('access_rules.messages.no_rules')}</p>
         <?r end ?>
         
         <div class="clearfix">
@@ -77,7 +77,7 @@
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  @rules_lang.buttons[:new], 
+                  lang('access_rules.buttons.new'), 
                   Users::Controllers::AccessRules.r(:new)
                 )}
             </div>
@@ -85,7 +85,7 @@
             
             <?r if user_authorized?([:delete]) and @access_rules and !@access_rules.empty? ?>
             <div class="button">
-                <input type="submit" value="#{@rules_lang.buttons[:delete]}" />
+                <input type="submit" value="#{lang('access_rules.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>
