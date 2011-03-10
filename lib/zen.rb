@@ -47,8 +47,7 @@ module Zen
   require __DIR__ 'zen/liquid/strip'
   
   class << self
-    attr_accessor :logger
-    attr_reader   :languages
+    attr_reader :languages
   end
   
   # Update the language paths
@@ -72,8 +71,6 @@ module Zen
     require __DIR__ 'zen/model/settings'
     require __DIR__ 'zen/model/methods'
     
-    # Initialize the logger
-    @logger    = Zen::Logger.new("#{Zen.options.root}/logs/common")
     @languages = {
       'en' => lang('zen_general.special.language_hash.en')
     }

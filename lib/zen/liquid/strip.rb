@@ -31,7 +31,7 @@ module Zen
       # @param  [String] html The HTML inside the block.
       # @since  0.1
       #
-      def initialize tag_name, arguments, html
+      def initialize(tag_name = 'strip', arguments = '', html = '')
         super
         
         @arguments = {'start' => '', 'end' => ''}

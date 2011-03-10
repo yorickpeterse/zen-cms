@@ -25,7 +25,7 @@ module Ramaze
       # be automatically removed after a certain period of time.
       # @since  0.1
       #
-      def notification type, title, message, image = nil, sticky = false
+      def notification(type, title, message, image = nil, sticky = false)
         if image.nil?
           image = "/admin/images/icons/large/#{type.to_s}.png"
         end
@@ -75,7 +75,7 @@ module Ramaze
       # @param  [Array] attributes Optional HTML attributes to add to the anchor tag.
       # @return [String]
       #
-      def anchor_to text, url, *attributes
+      def anchor_to(text, url, *attributes)
         
         # Sanitize the text and URL
         text = Rack::Utils.escape_html(text)
@@ -145,7 +145,7 @@ module Ramaze
       # @param  [Array] args All words to cycle through.
       # @return [String]
       #
-      def cycle *args
+      def cycle(*args)
         if @@cycle_counter.nil?
           @@cycle_counter = 0
         end

@@ -177,7 +177,7 @@ module Zen
     # main UL element.
     # @since  0.1
     #
-    def self.build_menu css_class = ''
+    def self.build_menu(css_class = '')
       @g         = Ramaze::Gestalt.new
       menu_items = []
       

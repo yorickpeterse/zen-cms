@@ -1,5 +1,3 @@
-require 'enumerator'
-
 module Zen
   module Liquid
     ##
@@ -64,7 +62,10 @@ module Zen
       #
       def merge_context(hash, context)
         if hash.class != Hash
-          raise TypeError, "The first argument of this method should be a hash instead of \"#{hash.class}\""
+          raise(
+            TypeError, 
+            "The first argument of this method should be a hash instead of \"#{hash.class}\""
+          )
         end
 
         hash.each do |k, v|
@@ -72,8 +73,14 @@ module Zen
 
           # Check if the Liquid context has a matching key and extract the value of that key
           # if this is the case.
-          if context.has_key?(k)
-            hash[k] = h(context[v])
+          if context.respond_to?('key?')
+            if context.key?(v)
+              hash[k] = h(context[v])
+            end
+          else
+            if context.has_key?(v)
+              hash[k] = h(context[v])
+            end
           end
         end
 

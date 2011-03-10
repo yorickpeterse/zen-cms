@@ -2,15 +2,9 @@
 #
 # File that can be used to start the application as following:
 #
-# bc. $ ramaze start
-#
-# or
-#
-# bc. $ ruby start.rb
-#
-# or
-#
-# bc. ./start.rb
+#     $ ramaze start
+#     $ ruby start.rb
+#     $ ./start.rb
 # 
 require File.expand_path('../app', __FILE__)
 
@@ -20,3 +14,4 @@ Ramaze.start(
   :adapter => Ramaze::Adapter.options.handler,
   :port    => Ramaze::Adapter.options.port
 )
+

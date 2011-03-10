@@ -30,7 +30,9 @@ module Zen
       # @param  [String] arguments All additional arguments passed as a string.
       # @param  [String] tokens All tokens (HTML mostly) inside the tag block.
       #
-      def initialize(tag_name, arguments, tokens)
+      def initialize(tag_name = 'redirect', arguments = '', tokens = '')
+        super
+
         @url = arguments.gsub('"', '').gsub("'", '').strip
       end
       
@@ -44,7 +46,7 @@ module Zen
       # 
       def render(context)
         if @url.nil? or @url.empty?
-          raise ArgumentError, "You need to specify a URL in order to redirect a user"
+          raise(ArgumentError, "You need to specify a URL in order to redirect a user")
         end
         
         # 404 URLs are treated differently than other URLs

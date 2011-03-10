@@ -29,7 +29,7 @@ module Ramaze
       # @param  [Symbol] files Paths to the CSS files to require.
       # @since  0.1
       #
-      def require_css *files
+      def require_css(*files)
         if @css.nil?
           @css = []
         end
@@ -50,7 +50,7 @@ module Ramaze
       # @param  [Symbol] files Paths to the Javascript files to require.
       # @since  0.1
       #
-      def require_js *files
+      def require_js(*files)
         if @js.nil?
           @js = []
         end

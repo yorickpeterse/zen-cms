@@ -20,8 +20,8 @@ Gem::Specification.new do |s|
   s.executables = ['zen']
   
   # The following gems are always required  
-  s.add_dependency 'sequel'
-  s.add_dependency 'ramaze'
+  s.add_dependency 'sequel', ['>= 3.20.0']
+  s.add_dependency 'ramaze', ['>= 2011.01.30']
   s.add_dependency 'bcrypt-ruby'
   s.add_dependency 'liquid'
   s.add_dependency 'json'
@@ -30,4 +30,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'defensio'
   s.add_dependency 'sequel_sluggable'
   s.add_dependency 'ruby-extensions'
+
+  s.add_development_dependency 'rdiscount'
+  s.add_development_dependency 'rspec', ['>= 2.0']
+  s.add_development_dependency 'yard'
 end

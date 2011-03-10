@@ -78,7 +78,7 @@ module Zen
         :database => self.options.database, 
         :username => self.options.username, 
         :password => self.options.password, 
-        :logger   => Zen::Logger.new("#{Zen.options.root}/logs/database"),
+        :logger   => Zen::Logger.new("#{Zen.options.root}/log/database"),
         :test     => true, 
         :encoding => Zen.options.encoding)
       

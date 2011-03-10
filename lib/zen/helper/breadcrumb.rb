@@ -34,7 +34,7 @@ module Ramaze
       # @param  [Array] args Array of segments for the breadcrumbs.
       # @since  0.1
       #
-      def set_breadcrumbs *args
+      def set_breadcrumbs(*args)
         @breadcrumbs = args
       end
       
@@ -52,7 +52,7 @@ module Ramaze
       # @param  [String] separator The HTML character to use for separating each segment.
       # @return [String]
       # 
-      def get_breadcrumbs separator = "&raquo;"
+      def get_breadcrumbs(separator = "&raquo;")
         if !@breadcrumbs or @breadcrumbs.empty?
           return
         end
