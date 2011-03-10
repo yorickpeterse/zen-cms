@@ -7,8 +7,10 @@
 * Added a datepicker for date fields.
 * Improved several existing Liquid tags.
 * Form data is no longer lost in case of an error. 
-* Several minor improvements
 * Converted all markup from Textile to Markdown
+* Replaced Bacon by RSpec 2 and Webrat.
+* Replaced Rake by Thor.
+* Cleaned up a lot of code.
 
 ## 0.1a - February, 5th 2011
 
