@@ -29,7 +29,7 @@ module Zen
       # @param  [String] name The name of the new application
       # @since  0.1
       #
-      def app name
+      def app(name)
         # Do we have an application name?
         if name.nil?
           abort "You need to specify a name for your application"
@@ -83,7 +83,7 @@ module Zen
       # @see    Thor.help()
       # @since  0.1
       # 
-      def help task = nil, subcommand = false
+      def help(task = nil, subcommand = false)
         if task.nil?
           puts "Zen is a modular CMS written using Ramaze.
 

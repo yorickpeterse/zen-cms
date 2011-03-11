@@ -12,7 +12,7 @@ Zen::Package.add do |p|
   p.name        = 'Categories'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'
-  p.version     = '0.1'
+  p.version     = '1.0'
   p.about       = "Module for managing categories. Categories can be used to organize section entries."
   p.identifier  = 'com.zen.categories'
   p.directory   = __DIR__('categories')
