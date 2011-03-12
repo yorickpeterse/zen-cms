@@ -5,11 +5,6 @@ time to time. List items that contain a "(!)" are considered to be important and
 be solved/added before any of the other items. Items containing "(?)" are considered
 to be unverified/undecided and might not be added/completed at all.
 
-## Future Releases
-
-* 0.5: November/December 2011 (?)
-* 0.4: August 2011 (?)
-
 ## Planned Releases
 
 ### 0.3 - June 2011

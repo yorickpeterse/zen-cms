@@ -18,12 +18,14 @@ module Zen
       # Migrates the entire database to the latest version.
       #
       # @author Yorick Peterse
+      # @param  [Boolean] show_output When set to false no output will be shown.
       # @since  0.2
       #
-      def migrate
+      def migrate(show_output = true)
         exts = Zen::Package.extensions
 
-        puts "Migrating..."
+        puts "Migrating..." if show_output === true
+
         exts.each do |ident, ext|
           dir   = ext.directory + '/../../migrations'
           table = ext.identifier.gsub('.', '_').to_sym
@@ -32,7 +34,7 @@ module Zen
             Zen::Database.handle.transaction do
               Sequel::Migrator.run(Zen::Database.handle, dir, :table => table)
             
-              puts "Successfully migrated \"#{ext.name}\""
+              puts "Successfully migrated \"#{ext.name}\"" if show_output === true
             end
           end
         end
@@ -87,16 +89,20 @@ module Zen
         group = Users::Models::UserGroup[:slug => 'administrators']
         
         if group.nil?
-          group = Users::Models::UserGroup.new(:name => 'Administrators',
-            :slug => 'administrators', :super_group => true).save
+          group = Users::Models::UserGroup.new(
+            :name => 'Administrators',
+            :slug => 'administrators', :super_group => true
+          ).save
         end
         
         if !user.nil?
           abort "The default user has already been inserted."
         end
         
-        user = Users::Models::User.new(:email => 'admin@website.tld', :name => 'Administrator',
-          :password => password, :status => 'open').save
+        user = Users::Models::User.new(
+          :email => 'admin@website.tld', :name => 'Administrator',
+          :password => password, :status => 'open'
+        ).save
         
         user.user_group_pks = [group.id]
         

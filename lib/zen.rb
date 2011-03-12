@@ -12,6 +12,8 @@ module Zen
   require 'liquid'
   require 'json'
   require 'defensio'
+  require 'thor'
+  require 'sequel_sluggable'
   require 'yaml'
   require __DIR__('zen/base/version')
   

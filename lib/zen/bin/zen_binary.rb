@@ -52,7 +52,7 @@ module Zen
 1. edit the following configuration files:
   * config/database.rb
   * config/config.rb
-2. run rake db:migrate to install all extensions and create a default user
+2. run thor db:migrate to install all extensions and create a default user
 3. have fun!"
         rescue => e
           abort "Failed to generate the application: #{e}"
