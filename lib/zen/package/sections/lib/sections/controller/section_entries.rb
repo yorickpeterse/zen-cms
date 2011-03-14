@@ -142,7 +142,7 @@ module Sections
         end
         
         set_breadcrumbs(
-          anchor_to(lang('sections.titlex.index'), Sections.r(:index)),
+          anchor_to(lang('sections.titles.index'), Sections.r(:index)),
           anchor_to(lang('section_entries.titles.index'), SectionEntries.r(:index, section_id)),
           lang('section_entries.titles.new')
         )
@@ -180,6 +180,7 @@ module Sections
         custom_field_errors = {}
         
         post.delete("custom_field_values")
+        post.delete('slug') if post['slug'].empty?
         
         if !post['category_pks'].nil?
           post['category_pks'].map! { |value| value.to_i }
@@ -207,7 +208,7 @@ module Sections
           Zen::Database.handle.transaction do
             # Update the entry itself
             @entry.update(post)
-            notification(:success, @entries_lang.titles[:index], flash_success)
+            notification(:success, lang('section_entries.titles.index'), flash_success)
             
             # Update the field values
             field_values.each do |field_id, value|
@@ -227,7 +228,7 @@ module Sections
               custom_field = field_value.custom_field
               
               if custom_field.required and value.empty?
-                custom_field_errors[:"custom_field_values[#{field_id}]"] = @models_lang.presence
+                custom_field_errors[:"custom_field_values[#{field_id}]"] = lang('zen_models.presence')
               end
               
               # Validate the entry

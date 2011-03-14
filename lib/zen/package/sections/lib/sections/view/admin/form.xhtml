@@ -19,7 +19,7 @@
 </div>
   
 #{
-form_for(@section, :method => 'post', :action => @form_save_url) do |f|
+form_for(@section, :method => 'post', :action => @form_save_url, :id => :section_form) do |f|
 
   f.input_hidden(:id, @section.id)
   f.input_hidden(:csrf_token, get_csrf_token)

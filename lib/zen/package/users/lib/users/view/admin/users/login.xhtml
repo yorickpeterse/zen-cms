@@ -4,7 +4,7 @@
     </header>
 
     #{
-    form_for(nil, :method => :post, :action => @form_login_url) do |f|
+    form_for(nil, :method => :post, :action => @form_login_url, :id => 'login_form') do |f|
       f.input_text(
         lang('users.labels.email'), 
         :email, 

@@ -172,6 +172,9 @@ module Sections
         else
           post['category_group_pks'] = [] 
         end
+
+        # Auto generate the slug if it's empty
+        post.delete('slug') if post['slug'].empty?
         
         begin
           @section.update(post)

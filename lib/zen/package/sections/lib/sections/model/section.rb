@@ -42,8 +42,7 @@ module Sections
       #
       def validate
         validates_presence([
-          :name, :comment_allow, :comment_require_account, :comment_moderate, 
-          :comment_antispam, :comment_format
+          :name, :comment_allow, :comment_require_account, :comment_moderate, :comment_format
         ])
 
         validates_presence(:slug) unless new?
@@ -51,7 +50,7 @@ module Sections
         
         validates_type(
           TrueClass, 
-          [:comment_allow, :comment_require_account, :comment_moderate, :comment_antispam]
+          [:comment_allow, :comment_require_account, :comment_moderate]
         )
         
         validates_unique(:slug)

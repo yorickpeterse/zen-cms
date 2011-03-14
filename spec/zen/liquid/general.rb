@@ -1,5 +1,5 @@
 require 'rdiscount'
-require File.expand_path('../../../spec', __FILE__)
+require_relative('../../helper')
 
 describe "Zen::Liquid::General" do
   include Zen::Liquid::General

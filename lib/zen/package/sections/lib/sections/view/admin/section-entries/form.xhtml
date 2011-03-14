@@ -24,7 +24,9 @@
 </div>
 
 #{
-  form_for(@entry, :method => :post, :action => @form_save_url) do |f|
+  form_for(
+    @entry, :method => :post, :action => @form_save_url, :id => :section_entry_form
+  ) do |f|
     f.input_hidden(:csrf_token, get_csrf_token)
     f.input_hidden(:section_id, @section_id)
     f.input_hidden(:id, @entry.id)

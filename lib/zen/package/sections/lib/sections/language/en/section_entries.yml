@@ -5,13 +5,13 @@ titles:
   new    : 'AddEntry'
 
 labels:
-  id      : '#'
-  title   : 'Title'
-  slug    : 'Slug'
-  status  : 'Status'
-  created : 'Created at'
-  updated : 'Updated at'
-  author  : 'Author'
+  id         : '#'
+  title      : 'Title'
+  slug       : 'Slug'
+  status     : 'Status'
+  created_at : 'Created at'
+  updated_at : 'Updated at'
+  author     : 'Author'
 
 special:
   status_hash:
@@ -38,6 +38,6 @@ success:
   delete  : 'All selected entries have been deleted.'
 
 buttons:
-  new_entry       : 'Add section entry'
-  delete_entries  : 'Delete selected entries'
-  save_entry      : 'Save entry'
+  new     : 'Add section entry'
+  delete  : 'Delete selected entries'
+  save    : 'Save entry'

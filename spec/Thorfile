@@ -1,0 +1,21 @@
+require File.expand_path('../spec', __FILE__)
+require __DIR__('../../lib/zen/task/db')
+
+# Add an extra task for inserting a test user
+class Zen::Task::DB
+  desc 'test_user', 'Creates a test user'
+  def test_user
+    # Create a default user and group
+    group = Users::Models::UserGroup.new(
+      :name => 'Administrators',
+      :slug => 'administrators', :super_group => true
+    ).save
+
+    user = Users::Models::User.new(
+      :email    => 'spec@domain.tld', :name   => 'Spec',
+      :password => 'spec'           , :status => 'open'
+    ).save
+
+    user.user_group_pks = [group.id]
+  end
+end

@@ -1,4 +1,5 @@
-spec/zen/logs/*/*/*.log
+spec/log/*
+spec/resources/database.db
 .DS_Store
 Gemfile.lock
 .yardoc

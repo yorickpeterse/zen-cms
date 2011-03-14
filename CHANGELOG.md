@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2 - March 14th, 2011
+## 0.2 - March 18th, 2011
 
 * Added a package for managing navigation items.
 * Introduced a new language system using YAML files instead of Ruby files.

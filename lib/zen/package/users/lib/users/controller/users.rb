@@ -56,7 +56,7 @@ module Users
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
-          @page_title = lang("users.titles.#{method}")
+          @page_title = lang("users.titles.#{method}") rescue nil
         end
 
         @status_hash = {
