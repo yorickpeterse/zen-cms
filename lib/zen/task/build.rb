@@ -111,8 +111,12 @@ module Zen
       #
       def doc
         zen_path = File.expand_path('../../../../', __FILE__)
+        command  = "yard doc #{zen_path}/lib -m markdown -M rdiscount -o #{zen_path}/doc "
+        command += "-r #{zen_path}/README.md --private --protected "
+        command += "--files #{zen_path}/license.txt,#{zen_path}/CHANGELOG.md,"
+        command += "#{zen_path}/ROADMAP.md"
 
-        run("yard doc #{zen_path}/lib -m markdown -M rdiscount -o #{zen_path}/doc -r #{zen_path}/README.md --private --protected")
+        run(command)
       end 
     end
   end
