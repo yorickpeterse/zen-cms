@@ -1,4 +1,6 @@
+#:nodoc:
 module Menus
+  #:nodoc:
   module Controllers
     ##
     # Controller for managing individual navigation items that belong to a menu. 

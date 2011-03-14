@@ -1,4 +1,6 @@
+#:nodoc:
 module Categories
+  #:nodoc:
   module Models
     ##
     # Model that represents a single category group. Each category group

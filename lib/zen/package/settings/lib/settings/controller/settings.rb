@@ -1,4 +1,6 @@
+#:nodoc:
 module Settings
+  #:nodoc:
   module Controllers
     ##
     # Controller for managing settings. Each setting is saved as a separate

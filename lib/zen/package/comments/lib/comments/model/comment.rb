@@ -1,4 +1,6 @@
+#:nodoc:
 module Comments
+  #:nodoc:
   module Models
     ##
     # Model that represents a single comment. This model has the following relations:

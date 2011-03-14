@@ -1,6 +1,8 @@
 require 'ramaze/gestalt'
 
+#:nodoc:
 module Comments
+  #:nodoc:
   module Liquid
     ##
     # Liquid tag that can be used to generate the required form elements for submitting

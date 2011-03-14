@@ -1,3 +1,4 @@
+#:nodoc:
 module Zen
   ##
   # The language module is used for writing and using text translations. Translations are

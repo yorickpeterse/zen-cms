@@ -1,4 +1,6 @@
+#:nodoc:
 module Settings
+  #:nodoc:
   module Liquid
     ##
     # Tag that can be used to retrieve the values of the given setting.

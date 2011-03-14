@@ -1,4 +1,6 @@
+#:nodoc:
 module Zen
+  #:nodoc:
   module Liquid
     ##
     # Tag block that can be used to strip leading and trailing characters from

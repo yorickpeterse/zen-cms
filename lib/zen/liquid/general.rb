@@ -1,4 +1,6 @@
+#:nodoc:
 module Zen
+  #:nodoc:
   module Liquid
     ##
     # Module that provides several methods that can be used to ease the process of

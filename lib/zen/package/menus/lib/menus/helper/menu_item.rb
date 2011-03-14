@@ -1,4 +1,6 @@
+#:nodoc:
 module Ramaze
+  #:nodoc:
   module Helper
     ##
     # Small helper for the Menus package mainly used to reduce the amount of code

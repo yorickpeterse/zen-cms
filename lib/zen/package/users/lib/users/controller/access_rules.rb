@@ -1,4 +1,6 @@
+#:nodoc:
 module Users
+  #:nodoc:
   module Controllers
     ##
     # Controller for managing access rules. Each access rule can be used

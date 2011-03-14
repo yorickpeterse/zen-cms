@@ -1,4 +1,6 @@
+#:nodoc:
 module Sections
+  #:nodoc:
   module Liquid
     ##
     # The SectionEntries tag can be used to retrieve all section entries

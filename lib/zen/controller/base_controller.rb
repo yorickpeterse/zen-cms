@@ -1,4 +1,6 @@
+#:nodoc:
 module Zen
+  #:nodoc:
   module Controllers
     ##
     # The BaseController is extended by both the FrontendController and the 

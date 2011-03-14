@@ -1,4 +1,6 @@
+#:nodoc:
 module Sections
+  #:nodoc:
   module Controllers
     ##
     # Section entries can be seen as blog entries, products, all sorts of things.

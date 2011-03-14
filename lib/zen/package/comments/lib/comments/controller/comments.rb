@@ -1,4 +1,6 @@
+#:nodoc:
 module Comments
+  #:nodoc:
   module Controllers
     ##
     # Controller used for managing comments. Administrations can't actually

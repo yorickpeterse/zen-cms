@@ -1,4 +1,6 @@
+#:nodoc:
 module Zen
+  #:nodoc:
   module Liquid
     ##
     # Module that can be used to allow Liquid tags to use data that would otherwise

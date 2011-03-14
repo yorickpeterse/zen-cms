@@ -1,4 +1,6 @@
+#:nodoc:
 module Zen
+  #:nodoc:
   module Controllers
     ##
     # The MainController controller is used to load the correct template files based

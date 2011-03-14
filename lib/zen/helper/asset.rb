@@ -1,6 +1,8 @@
 require 'ramaze/gestalt'
 
+#:nodoc:
 module Ramaze
+  #:nodoc:
   module Helper
     ##
     # The Asset helper can be used to load Javascript and CSS files without

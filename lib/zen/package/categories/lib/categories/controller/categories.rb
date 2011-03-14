@@ -1,4 +1,6 @@
-module Categories
+#:nodoc:
+module Categories 
+  #:nodoc:
   module Controllers
     ##
     # Categories can be seen as "tags" for your section entries. They describe the

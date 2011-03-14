@@ -1,3 +1,4 @@
+#:nodoc:
 module Zen
   ##
   # Defines the current version of Zen as a string. This constant

@@ -2,7 +2,9 @@ require 'fileutils'
 require 'ruby-extensions'
 require File.expand_path('', __FILE__)
 
+#:nodoc:
 module Zen
+  #:nodoc:
   module Bin
     ##
     # Main binary class that contains a few methods that can be used

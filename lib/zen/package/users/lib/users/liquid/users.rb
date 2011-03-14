@@ -1,4 +1,6 @@
+#:nodoc:
 module Users
+  #:nodoc:
   module Liquid
     ##
     # Block that can be used to retrieve a number of users and show their details.

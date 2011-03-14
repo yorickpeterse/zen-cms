@@ -1,4 +1,6 @@
+#:nodoc:
 module Comments
+  #:nodoc:
   module Liquid
     ##
     # Tag that can be used to display a number of comments based on the section entry ID

@@ -1,4 +1,6 @@
+#:nodoc:
 module Sections
+  #:nodoc:
   module Models
     ##
     # Model that represents a singe section entry. This model has the following

@@ -1,6 +1,8 @@
 require 'ramaze/gestalt'
 
+#:nodoc:
 module Menus
+  #:nodoc:
   module Liquid
     ##
     # The menus tag can be used to display all menu items for a given menu slug or ID.

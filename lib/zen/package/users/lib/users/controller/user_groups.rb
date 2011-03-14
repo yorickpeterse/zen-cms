@@ -1,4 +1,6 @@
+#:nodoc:
 module Users
+  #:nodoc:
   module Controllers
     ##
     # Controller for managing all user groups. It's not

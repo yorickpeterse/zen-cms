@@ -1,4 +1,6 @@
+#:nodoc:
 module Zen
+  #:nodoc:
   module Liquid
     ##
     # The Redirect tag can be used to redirect a user from one URL to another. 

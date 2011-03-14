@@ -1,4 +1,6 @@
+#:nodoc:
 module Categories
+  #:nodoc:
   module Models
     ##
     # Model that represents a single category. This model has the following relations:

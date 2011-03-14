@@ -1,5 +1,6 @@
 require 'ramaze/gestalt'
 
+#:nodoc:
 module Zen
   ##
   # Module used for registering extensions and themes, setting their details and the 

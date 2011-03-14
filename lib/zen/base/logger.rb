@@ -1,5 +1,6 @@
 require 'ramaze/log/rotatinginformer'
 
+#:nodoc:
 module Zen
   ##
   # The Logger class acts as a small wrapper around the RotatingInformer class provided

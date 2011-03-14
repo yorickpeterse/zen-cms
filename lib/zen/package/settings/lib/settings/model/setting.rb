@@ -1,4 +1,6 @@
+#:nodoc:
 module Settings
+  #:nodoc:
   module Models
     ##
     # Model that represents a single setting. This model is also used to retrieve

@@ -1,4 +1,6 @@
+#:nodoc:
 module Categories
+  #:nodoc:
   module Liquid
     ##
     #

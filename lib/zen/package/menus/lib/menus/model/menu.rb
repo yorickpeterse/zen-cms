@@ -1,4 +1,6 @@
+#:nodoc:
 module Menus
+  #:nodoc:
   module Models
     ##
     # Model used for managing groups of menu items. This model uses the following

@@ -1,4 +1,6 @@
+#:nodoc:
 module Zen
+  #:nodoc:
   module Controllers
     ##
     # Controller that should be extended by other controllers that can be accessed from

@@ -1,3 +1,4 @@
+#:nodoc:
 module Zen
   ##
   # The database module is one of the most important classes in Zen (which is quite obvious).

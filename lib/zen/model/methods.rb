@@ -1,4 +1,6 @@
+#:nodoc:
 module Sequel
+  #:nodoc:
   class Model
     ##
     # Retrieves all primary values and an optional column and returns the results as 

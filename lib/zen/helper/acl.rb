@@ -1,4 +1,6 @@
+#:nodoc:
 module Ramaze
+  #:nodoc:
   module Helper
     ##
     # This helper provides an easy way of working with the ACL system that

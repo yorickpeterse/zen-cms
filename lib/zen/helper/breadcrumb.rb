@@ -1,4 +1,6 @@
+#:nodoc:
 module Ramaze
+  #:nodoc:
   module Helper
     ##
     # Helper that can be used to quickly generate breadcrumbs without having

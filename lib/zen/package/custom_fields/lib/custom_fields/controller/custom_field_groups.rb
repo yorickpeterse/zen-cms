@@ -1,4 +1,6 @@
+#:nodoc:
 module CustomFields
+  #:nodoc:
   module Controllers
     ##
     # Controller for managing custom field groups. These groups are used

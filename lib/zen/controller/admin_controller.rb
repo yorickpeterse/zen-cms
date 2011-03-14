@@ -1,4 +1,6 @@
+#:nodoc:
 module Zen
+  #:nodoc:
   module Controllers
     ##
     # The admin controller is a base controller that should be extended by all controllers

@@ -1,4 +1,6 @@
+#:nodoc:
 module Ramaze
+  #:nodoc:
   module Helper
     ##
     # Helper that contains several common methods for which creating their

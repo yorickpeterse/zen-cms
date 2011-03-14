@@ -1,4 +1,6 @@
+#:nodoc:
 module Sections
+  #:nodoc:
   module Controllers
     ##
     # Sections can be seen as mini applications inside your website.

@@ -1,4 +1,6 @@
+#:nodoc:
 module CustomFields
+  #:nodoc:
   module Models
     ##
     # Model that represents a single custom field group. This model has

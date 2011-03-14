@@ -1,4 +1,6 @@
+#:nodoc:
 module Comments
+  #:nodoc:
   module Controllers
     ##
     # Frontend controller for the comments system used for saving user-submitted comments.

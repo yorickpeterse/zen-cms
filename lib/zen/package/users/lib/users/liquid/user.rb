@@ -1,4 +1,6 @@
+#:nodoc:
 module Users
+  #:nodoc:
   module Liquid
     ##
     # Tag that can be used to retrieve details about a single user. When using this

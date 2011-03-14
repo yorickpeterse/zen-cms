@@ -1,4 +1,6 @@
+#:nodoc:
 module Sections
+  #:nodoc:
   module Liquid
     ##
     # Tag that can be used to retrieve a number of sections. By default

@@ -1,4 +1,6 @@
+#:nodoc:
 module Users
+  #:nodoc:
   module Models
     ##
     # Model that represents a single access rule. This model has the following

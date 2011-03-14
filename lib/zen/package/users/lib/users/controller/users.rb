@@ -1,4 +1,6 @@
+#:nodoc:
 module Users
+  #:nodoc:
   module Controllers
     ##
     # Controller for managing users. Users in this case are people
