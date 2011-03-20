@@ -1,5 +1,7 @@
 #{
-  form_for(@access_rule, :method => :post, :action => @form_save_url) do |f|
+  form_for(
+    @access_rule, :method => :post, :action => @form_save_url, :id => :access_rule_form
+  ) do |f|
     
     users        = {}
     groups       = {}

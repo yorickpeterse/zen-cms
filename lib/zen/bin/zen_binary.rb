@@ -1,6 +1,5 @@
 require 'fileutils'
 require 'ruby-extensions'
-require File.expand_path('', __FILE__)
 
 #:nodoc:
 module Zen

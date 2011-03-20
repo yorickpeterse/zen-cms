@@ -1,5 +1,7 @@
 #{
-form_for(@category, :method => :post, :action => @form_save_url) do |f|
+form_for(
+  @category, :method => :post, :action => @form_save_url, :id => :category_form
+) do |f|
 
   f.input_hidden(:category_group_id, @category_group_id)
   f.input_hidden(:id               , @category.id)

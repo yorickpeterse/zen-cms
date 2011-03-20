@@ -47,7 +47,7 @@
                     <td>#{user.email}</td>
                     <?r end ?>
                     
-                    <td>#{lang('users.special.status_hash')[user.status]}</td>
+                    <td>#{lang("users.special.status_hash.#{user.status}")}</td>
                     <td>#{user.created_at}</td>
                     <td>#{user.updated_at}</td>
                     <td>#{user.last_login}</td>
@@ -65,7 +65,7 @@
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  lang('users.buttons.new_user'), 
+                  lang('users.buttons.new'), 
                   Users::Controllers::Users.r(:new)
                 )}
             </div>
@@ -73,7 +73,7 @@
             
             <?r if user_authorized?([:delete]) and @users and !@users.empty? ?>
             <div class="button">
-                <input type="submit" value="#{lang('users.buttons.delete_users')}" />
+                <input type="submit" value="#{lang('users.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>

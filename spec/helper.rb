@@ -33,9 +33,11 @@ Zen.init
 require __DIR__('../lib/zen/package/all')
 
 # Configure Capybara
-Capybara.default_driver = :rack_test
-Capybara.default_host   = 'localhost'
-Capybara.app            = Ramaze
+Capybara.configure do |config|
+  config.default_driver = :rack_test
+  config.default_host   = 'localhost'
+  config.app            = Ramaze  
+end
 
 # Start ramaze
 Ramaze.start(

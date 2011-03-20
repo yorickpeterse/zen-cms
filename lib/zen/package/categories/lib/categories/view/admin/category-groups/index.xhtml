@@ -50,7 +50,7 @@
                     <?r if user_authorized?([:create]) ?>
                     <td>
                         #{anchor_to(
-                          lang('category_groups.labels.manage_categories'), 
+                          lang('category_groups.labels.manage'), 
                           Categories::Controllers::Categories.r(:index, group.id)
                         )}
                     </td>

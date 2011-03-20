@@ -12,7 +12,7 @@ labels:
   super_group : 'Super group'
 
 messages:
-  no_user_groups: 'No user groups have been added yet.'
+  no_groups: 'No user groups have been added yet.'
 
 errors:
   new       : 'Failed to create a new user group.'
@@ -26,6 +26,6 @@ success:
   delete : 'All selected user groups have been deleted.'
 
 buttons:
-  new   : 'New group'
-  delet : 'Delete selected groups'
-  save  : 'Save group'
+  new    : 'New group'
+  delete : 'Delete selected groups'
+  save   : 'Save group'

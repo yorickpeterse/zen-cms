@@ -1,5 +1,7 @@
 #{
-  form_for(@user_group, :method => :post, :action => @form_save_url) do |f|
+  form_for(
+    @user_group, :method => :post, :action => @form_save_url, :id => :user_group_form
+  ) do |f|
     f.input_hidden(:id, @user_group.id)
     f.input_hidden(:csrf_token, get_csrf_token)
   
@@ -13,12 +15,11 @@
       :slug
     )
 
-    f.select(
+    f.input_radio(
       lang('user_groups.labels.super_group'), 
       :super_group, 
-      :values   => lang('user_groups.special.boolean_hash'),
-      :selected => @user_group.super_group, 
-      :size     => 1
+      @user_group.super_group,
+      :values => @boolean_hash,
     )
       
     f.textarea(
@@ -29,7 +30,7 @@
     
     f.g.div(:class => 'clearfix') do
       f.g.div(:class => 'button') do
-        f.g.input(:type => 'submit', :value => lang('user_groups.buttons.save_group'))
+        f.g.input(:type => 'submit', :value => lang('user_groups.buttons.save'))
       end
     end
   end

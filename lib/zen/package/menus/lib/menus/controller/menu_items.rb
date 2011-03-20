@@ -44,7 +44,7 @@ module Menus
         # Set the page title based on the current method
         if !action.method.nil?
           method      = action.method.to_sym
-          @page_title = lang("menu_items.titles.#{method}")
+          @page_title = lang("menu_items.titles.#{method}") rescue nil
         end
       end
 

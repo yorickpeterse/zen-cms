@@ -19,6 +19,9 @@ placeholders:
   css_class  : 'Specify a class to use in stylesheets.'
   css_id     : 'Specify an ID to use in stylesheets.'
 
+messages:
+  no_menus: 'No menus have been added yet.'
+
 buttons:
   new     : 'Add menu'
   save    : 'Save menu'

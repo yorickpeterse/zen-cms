@@ -1,5 +1,7 @@
 #{
-  form_for(@comment, :method => :post, :action => @form_save_url) do |f|
+  form_for(
+    @comment, :method => :post, :action => @form_save_url, :id => :comment_form
+  ) do |f|
     f.input_hidden(:csrf_token, get_csrf_token)
     f.input_hidden(:id        , @comment.id)
     

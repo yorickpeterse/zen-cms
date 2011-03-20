@@ -45,14 +45,14 @@
                     <?r end ?>
                     
                     <td>#{group.slug}</td>
-                    <td>#{lang('user_groups.special.boolean_hash')[group.super_group]}</td>
+                    <td>#{@boolean_hash[group.super_group]}</td>
                 </tr>
                 <?r end ?>
             </tbody>
         </table>
         
         <?r else ?>
-        <p>#{lang('user_groups.messages.no_user_groups')}</p>
+        <p>#{lang('user_groups.messages.no_groups')}</p>
         <?r end ?>
         
         <div class="clearfix">
@@ -60,7 +60,7 @@
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  lang('user_groups.buttons.new_group'), 
+                  lang('user_groups.buttons.new'), 
                   Users::Controllers::UserGroups.r(:new)
                 )}
             </div>
@@ -68,7 +68,7 @@
             
             <?r if user_authorized?([:delete]) and @user_groups and !@user_groups.empty? ?>
             <div class="button">
-                <input type="submit" value="#{lang('user_groups.buttons.delete_groups')}" />
+                <input type="submit" value="#{lang('user_groups.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>

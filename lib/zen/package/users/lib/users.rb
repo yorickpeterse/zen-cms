@@ -32,8 +32,8 @@ Zen::Package.add do |p|
     :title    => "Users",
     :url      => "admin/users",
     :children => [
-      {:title => "User Groups" , :url => "admin/user_groups"},
-      {:title => "Access Rules", :url => "admin/access_rules"}
+      {:title => "User Groups" , :url => "admin/user-groups" },
+      {:title => "Access Rules", :url => "admin/access-rules"}
     ]
   }]
 end
