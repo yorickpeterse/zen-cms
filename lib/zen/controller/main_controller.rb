@@ -40,7 +40,7 @@ module Zen
         
         # A theme is always required
         if @settings[:theme].nil? or @settings[:theme].empty?
-          respond(@zen_general_lang.errors[:no_theme])
+          respond(lang('zen_general.errors.no_theme'))
         end
 
         theme    = ::Zen::Package[@settings[:theme]]
@@ -72,7 +72,7 @@ module Zen
           if File.exist?(offline_path)
             render_file(offline_path)
           else
-            respond(@zen_general_lang.errors[:website_offline])
+            respond(lang('zen_general.errors.website_offline'))
           end
         else
           # Check if the group exists
@@ -84,7 +84,7 @@ module Zen
             if File.exist?(not_found)
               render_file(not_found)
             else
-              respond(@zen_general_lang.errors[:no_templates], 404)
+              respond(lang('zen_general.errors.no_templates'), 404)
             end
           end
         end

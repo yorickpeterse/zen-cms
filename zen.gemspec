@@ -9,7 +9,7 @@ manifest = manifest.split "\n"
 Gem::Specification.new do |s|
   s.name        = 'zen'
   s.version     = Zen::Version
-  s.date        = '14-03-2011'
+  s.date        = '20-03-2011'
   s.authors     = ['Yorick Peterse']
   s.email       = 'info@yorickpeterse.com'
   s.summary     = 'Zen is a fully modular CMS written using Ramaze.'
