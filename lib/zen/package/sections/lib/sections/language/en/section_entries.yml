@@ -1,8 +1,8 @@
 ---
 titles:
   index  : 'Entries'
-  edit   : 'EditEntry'
-  new    : 'AddEntry'
+  edit   : 'Edit Entry'
+  new    : 'Add Entry'
 
 labels:
   id         : '#'

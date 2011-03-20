@@ -1,5 +1,4 @@
-require 'rubygems'
-require File.expand_path('../lib/zen/base/version', __FILE__)
+require_relative('../lib/zen/base/version')
 
 # Get all the files from the manifest
 manifest = File.open './MANIFEST', 'r'
@@ -19,19 +18,24 @@ Gem::Specification.new do |s|
   s.has_rdoc    = 'yard'
   s.executables = ['zen']
   
-  # The following gems are always required  
-  s.add_dependency 'sequel', ['>= 3.20.0']
-  s.add_dependency 'ramaze', ['>= 2011.01.30']
-  s.add_dependency 'bcrypt-ruby'
-  s.add_dependency 'liquid'
-  s.add_dependency 'json'
-  s.add_dependency 'thor'
-  s.add_dependency 'defensio'
-  s.add_dependency 'sequel_sluggable'
-  s.add_dependency 'ruby-extensions'
+  ##
+  # The following gems are *always* required 
+  #
+  s.add_dependency('sequel'           , ['>= 3.20.0'])
+  s.add_dependency('ramaze'           , ['>= 2011.01.30'])
+  s.add_dependency('bcrypt-ruby'      , ['>= 2.1.4'])
+  s.add_dependency('liquid'           , ['>= 2.2.2'])
+  s.add_dependency('json'             , ['>= 1.5.1'])
+  s.add_dependency('thor'             , ['>= 0.14.6'])
+  s.add_dependency('defensio'         , ['>= 0.9.1'])
+  s.add_dependency('sequel_sluggable' , ['>= 0.0.6'])
+  s.add_dependency('ruby-extensions'  , ['>= 1.0'])
 
-  s.add_development_dependency 'rdiscount'
-  s.add_development_dependency 'rspec', ['>= 2.0']
-  s.add_development_dependency 'yard'
-  s.add_development_dependency 'capybara'
+  ##
+  # These gems are only required when hacking the Zen core or when running tests.
+  #
+  s.add_development_dependency('rdiscount', ['>= 1.6.8'])
+  s.add_development_dependency('rspec'    , ['>= 2.5.0'])
+  s.add_development_dependency('yard'     , ['>= 0.6.5'])
+  s.add_development_dependency('capybara' , ['>= 0.4.1.2'])
 end
