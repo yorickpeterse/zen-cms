@@ -103,6 +103,7 @@
     margin: 20px auto;
     width:  500px;
 }
+
     #login #container
     {
         margin-top: 50px;
@@ -116,7 +117,23 @@
     margin-top: 20px;
     text-align: center;
 }
+
     #main_footer p
     {
       margin-bottom: 8px;
+      margin:        0 auto 8px auto;
+      width:         300px;
     }
+    
+    #main_footer ul
+    {
+        list-style-type: none;
+        margin:          0 auto;
+        width:           300px;
+    }
+        #main_footer ul li
+        {
+            float:      left;
+            margin:     0px 8px;
+            text-align: center;
+        }

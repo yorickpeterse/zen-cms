@@ -50,7 +50,10 @@ Ramaze.middleware! :dev do |m|
   # Automatically sets the ETag header on all string bodies. Etags can be useful for
   # checking if a certain page has been modified or not.
   #
-  m.use Rack::ETag, 'public'
+  # IMPORTANT: Prior to Rack 1.2.2 Rack::ETag required the second argument of use() to
+  # be set to 'public'. Newer versions no longer require this.
+  #
+  m.use Rack::ETag
   
   ##
   # Allows HEAD requests. HEAD requests are identical to GET requests but shouldn't
