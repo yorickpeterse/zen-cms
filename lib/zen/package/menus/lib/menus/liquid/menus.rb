@@ -119,9 +119,16 @@ module Menus
       #
       def menu_item(item)
         attributes         = {}
-        attributes[:class] = item.css_class if !item.css_class.nil?
-        attributes[:id]    = item.css_id if !item.css_id.nil?
-        children           = item.children
+        
+        if !item.css_class.nil? and !item.css_class.empty?
+          attributes[:class] = item.css_class
+        end
+
+        if !item.css_id.nil? and !item.css_id.empty?
+          attributes[:id] = item.css_id
+        end
+
+        children = item.children
 
         @g.li(attributes) do
           if !item.url.nil? and !item.url.empty?
