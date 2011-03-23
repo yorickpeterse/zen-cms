@@ -84,12 +84,18 @@ module Ramaze
       # should have ALL specified permissios. Setting this to false causes
       # this method to return true if any of the permissions are set for the
       # current user.
+      # @param  [String] identifier A custom identifier to use for validating the user's 
+      # permissions instead of using a class trait.
       # @return [Boolean]
       #
-      def user_authorized?(reqs, require_all = true)
-        identifier = ancestral_trait.values_at(:extension_identifier)
-        identifier = identifier[0]
-        
+      def user_authorized?(reqs, require_all = true, identifier = nil)
+        # Retrieve the identifier from the class trait if we didn't already have one
+        if identifier.nil?
+          identifier = ancestral_trait.values_at(:extension_identifier)
+          identifier = identifier[0]
+        end
+
+        # Still don't have an identifier?
         if identifier.nil?
           raise "You need to specify an extension identifier"
         end
@@ -122,6 +128,7 @@ module Ramaze
         
         return true
       end
+
     end
   end
 end

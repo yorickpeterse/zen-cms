@@ -27,7 +27,7 @@ describe "Zen::Package" do
   end
 
   it "Create a navigation menu of all packages" do
-    menu = Zen::Package.build_menu
+    menu = Zen::Package.build_menu('', {}, true)
 
     menu.include?('admin/spec').should == true
     menu.include?('Spec').should == true

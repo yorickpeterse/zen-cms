@@ -1,4 +1,6 @@
 require 'ramaze/gestalt'
+require 'zen/helper/acl'
+require 'zen/liquid/controller_behavior'
 
 #:nodoc:
 module Zen
@@ -82,6 +84,7 @@ module Zen
   #
   # @author Yorick Peterse
   # @since  0.1
+  # @attr_reader [Array] packages Array containing the instances of all packages.
   #
   module Package
     class << self
@@ -110,9 +113,9 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.1
-    # @param  [Block] block Block containing information about the package.
+    # @yield  [package] Object containing all setters and getters for each package.
     #
-    def self.add(&block)
+    def self.add
       package = Struct.new(
         :name, :author, :version, :about, :url, :identifier, :directory, :menu
       ).new
@@ -160,18 +163,32 @@ module Zen
     # of which each list item can contain N sub items.
     #
     # @author Yorick Peterse
-    # @param  [String] css_class A string of CSS classes to apply to the
-    # main UL element.
+    # @param  [String]  css_class A string of CSS classes to apply to the main UL element.
+    # @param  [Hash]    permissions Hash containing the permissions as returned by
+    # Ramaze::Helper::ACL#extension_permissions
+    # @param  [Boolean] all When set to true all elements will be displayed opposed to 
+    # only those the user is allowed to see.
     # @since  0.1
     #
-    def self.build_menu(css_class = '')
-      @g         = Ramaze::Gestalt.new
-      menu_items = []
+    def self.build_menu(css_class = '', permissions = {}, all = false)
+      @g          = Ramaze::Gestalt.new
+      menu_items  = []
+      identifiers = []
+
+      # Build a list of all allowed extensions
+      permissions.each do |ident, rules|
+        if rules.include?(:read)
+          identifiers.push(ident)
+        end
+      end
       
       @packages.each do |ident, ext|
+        # Got a menu for us?
         if !ext.menu.nil?
-          ext.menu.each do |m|
-            menu_items.push(m)
+          if identifiers.include?(ext.identifier) or all == true
+            ext.menu.each do |m|
+              menu_items.push(m)
+            end
           end
         end
       end
@@ -221,6 +238,6 @@ module Zen
         end
       end
     end
-    
+
   end
 end
