@@ -8,7 +8,6 @@ require __DIR__ 'custom_fields/controller/custom_field_groups'
 require __DIR__ 'custom_fields/controller/custom_fields'
 
 Zen::Package.add do |p|
-  p.type        = 'extension'
   p.name        = 'Custom Fields'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'

@@ -10,7 +10,6 @@ Liquid::Template.register_tag('comments'    , Comments::Liquid::Comments)
 Liquid::Template.register_tag('comment_form', Comments::Liquid::CommentForm)
 
 Zen::Package.add do |p|
-  p.type        = 'extension'
   p.name        = 'Comments'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'

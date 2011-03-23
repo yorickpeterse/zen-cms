@@ -17,9 +17,6 @@ Liquid::Template.register_tag('menus', Menus::Liquid::Menus)
 
 # Describe the package
 Zen::Package.add do |p|
-  # The type of extension. Can either be "theme" or "extension".
-  p.type        = 'extension'
-
   # The name of the package
   p.name        = 'Menus' 
 

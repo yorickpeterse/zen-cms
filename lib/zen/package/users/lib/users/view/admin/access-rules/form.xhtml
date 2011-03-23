@@ -18,7 +18,7 @@
       users[user.id.to_s] = user.name
     end
     
-    Zen::Package.extensions.each do |ident, ext|
+    Zen::Package.packages.each do |ident, ext|
       extensions[ident] = ext.name
     end
     

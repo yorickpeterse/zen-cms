@@ -8,7 +8,8 @@ module Zen
   # actually be installed using either Rubygems or by storing them in a custom directory. 
   # As long as you require the correct file you're good to go.
   #
-  # Packages are added or "described" using a simple block and the add() method as following:
+  # Packages are added or "described" using a simple block and the add() method as 
+  # following:
   #
   #     Zen::Package.add do |ext|
   #       # ....
@@ -16,7 +17,6 @@ module Zen
   #
   # When using this block you're required to set the following attributes:
   #
-  # * type: the type of package, can either be "theme" or "extension"
   # * name: the name of the package
   # * author: the name of the person who made the package
   # * version: the current version, either a string or a numeric value
@@ -69,9 +69,7 @@ module Zen
   # ## Themes
   #
   # Themes are essentially packages like the sections or comments module except that they
-  # have a few limitations and work a bit different. First of all themes can't add 
-  # navigation items to the backend and second they should _always_ have the following 
-  # directories:
+  # *always* require the following directories:
   #
   # * theme/lib/theme/templates
   # * theme/lib/theme/public
@@ -79,15 +77,15 @@ module Zen
   # The templates directory is used to store all Liquid templates and template groups, 
   # the public directory is used for CSS files, images and so on. Themes can have 
   # migrations just like extensions which makes it relatively easy to share a theme 
-  # with somebody else.
+  # with somebody else. Optionally you can add Liquid partials, these should be stored
+  # in a directory called "partials" in your templates directory.
   #
   # @author Yorick Peterse
   # @since  0.1
   #
   module Package
     class << self
-      attr_reader :extensions
-      attr_reader :themes
+      attr_reader :packages
     end
     
     ##
@@ -102,7 +100,6 @@ module Zen
     #
     # When adding a new extension the following setters are required:
     #
-    # * type
     # * name
     # * author
     # * version
@@ -113,12 +110,14 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.1
-    # @param  [Block] block Block containing information about the extension.
+    # @param  [Block] block Block containing information about the package.
     #
     def self.add(&block)
-      package  = Struct.new(:type, :name, :author, :version, :about, :url,
-        :identifier, :directory, :menu).new
-      required = [:type, :name, :author, :version, :about, :url, :identifier, :directory]
+      package = Struct.new(
+        :name, :author, :version, :about, :url, :identifier, :directory, :menu
+      ).new
+
+      required = [:name, :author, :version, :about, :url, :identifier, :directory]
       
       yield package
       
@@ -138,17 +137,8 @@ module Zen
         Zen::Language.options.paths.push(package.directory)
       end
       
-      # Themes and extensions each have a different accessor
-      if package.type.to_s == 'theme'
-        # Remove the navigation menu
-        package.menu = nil if !package.menu.nil?
-        
-        @themes                          = {} if @themes.nil?
-        @themes[package.identifier.to_s] = package
-      else
-        @extensions                          = {} if @extensions.nil?
-        @extensions[package.identifier.to_s] = package
-      end
+      @packages                          = {} if @packages.nil?
+      @packages[package.identifier.to_s] = package 
     end
     
     ##
@@ -160,11 +150,7 @@ module Zen
     # @return [Object]
     #
     def self.[](ident)
-      if ident.include?('.themes.')
-        @themes[ident]
-      else
-        @extensions[ident]
-      end
+      @packages[ident.to_s]
     end
     
     ##
@@ -182,7 +168,7 @@ module Zen
       @g         = Ramaze::Gestalt.new
       menu_items = []
       
-      @extensions.each do |ident, ext|
+      @packages.each do |ident, ext|
         if !ext.menu.nil?
           ext.menu.each do |m|
             menu_items.push(m)

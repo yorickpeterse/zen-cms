@@ -18,7 +18,6 @@ Liquid::Template.register_tag('user' , Users::Liquid::User)
 Zen::Controllers::BaseController.trait(:user_model => Users::Models::User)
 
 Zen::Package.add do |p|
-  p.type        = 'extension'
   p.name        = 'Users'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'

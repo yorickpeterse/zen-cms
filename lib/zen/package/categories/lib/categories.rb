@@ -8,7 +8,6 @@ require __DIR__ 'categories/controller/categories'
 
 # Describe what this package is all about
 Zen::Package.add do |p|
-  p.type        = 'extension'
   p.name        = 'Categories'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'

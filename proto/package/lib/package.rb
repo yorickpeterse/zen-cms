@@ -1,8 +1,5 @@
 
 Zen::Package.add do |p|
-  # The type of extension. Can either be "theme" or "extension".
-  p.type        = ''
-
   # The name of the package
   p.name        = '' 
 

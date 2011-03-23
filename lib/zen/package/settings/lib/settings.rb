@@ -6,7 +6,6 @@ require __DIR__ 'settings/liquid/setting'
 Liquid::Template.register_tag('setting', Settings::Liquid::Setting)
 
 Zen::Package.add do |p|
-  p.type        = 'extension'
   p.name        = 'Settings'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'
