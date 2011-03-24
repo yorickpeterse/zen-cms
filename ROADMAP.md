@@ -9,9 +9,6 @@ to be unverified/undecided and might not be added/completed at all.
 
 ### 0.3 - June 2011
 
-* A working (although probably rough) plugin system to extend the inner parts of Zen. 
-An example of a plugin would be something that allows the use of Akismet for comments
-rather than Defensio.
 * Website completely up and running. (!)
 * Translation system for the Javascript used in the backend
 * Documentation/Userguide online
@@ -20,6 +17,9 @@ rather than Defensio.
 
 * Liquid tags work when caching is enabled.
 * Compatibility with 1.9 and 1.9.1. (?)
+* A working (although probably rough) plugin system to extend the inner parts of Zen. 
+An example of a plugin would be something that allows the use of Akismet for comments
+rather than Defensio.
 
 ### 0.2 - March 2011
 

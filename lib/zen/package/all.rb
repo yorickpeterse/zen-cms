@@ -1,3 +1,8 @@
+##
+# Loads all core packages that ship with Zen. Note that it's important to load these
+# packages in the correct order as otherwise migrations that create foreign keys might
+# not work.
+#
 require __DIR__('users/lib/users')
 require __DIR__('sections/lib/sections')
 require __DIR__('settings/lib/settings')

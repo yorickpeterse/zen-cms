@@ -43,6 +43,7 @@ module Zen
   #
   # @author Yorick Peterse
   # @since  0.1
+  # @attr_reader [Object] handle The Sequel database handle to use for all models.
   #
   module Database
     include Innate::Optioned
@@ -98,9 +99,9 @@ module Zen
     # @author Yorick Peterse
     # @since  0.1
     # @param  [Symbol] mode The development mode for which the database settings should be used.
-    # @param  [Block] &block Block containing all database settings.
+    # @yield  [config] Object containing all the options to set for the current mode.
     #
-    def self.mode mode, &block
+    def self.mode(mode)
       mode = mode.to_sym
       
       if mode == Ramaze.options.mode

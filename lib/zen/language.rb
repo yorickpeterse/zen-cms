@@ -1,3 +1,5 @@
+require __DIR__('error/language_error')
+
 #:nodoc:
 module Zen
   ##
@@ -107,7 +109,7 @@ module Zen
         end        
       end
 
-      raise "No language file could be found for \"#{lang_name}\""
+      raise(Zen::LanguageError, "No language file could be found for \"#{lang_name}\"")
     end
 
     ##
@@ -140,14 +142,20 @@ module Zen
       translations  = ::Zen::Language.translations
 
       if !translations or !translations.key?(lang)
-        raise "No translation files have been added for the language code \"#{lang}\""
+        raise(
+          Zen::LanguageError, 
+          "No translation files have been added for the language code \"#{lang}\""
+        )
       end
 
       if translations[lang][key]
         return translations[lang][key]
       end
       
-      raise "The specified language item \"#{key}\" does not exist"
+      raise(
+        Zen::LanguageError,
+        "The specified language item \"#{key}\" does not exist"
+      )
     end
 
     private

@@ -9,7 +9,7 @@ lib/zen/base/language.rb
 lib/zen/base/logger.rb
 lib/zen/base/package.rb
 lib/zen/base/version.rb
-lib/zen/bin/zen_binary.rb
+lib/zen/bin/base.rb
 lib/zen/controller/admin_controller.rb
 lib/zen/controller/base_controller.rb
 lib/zen/controller/frontend_controller.rb
@@ -215,14 +215,12 @@ proto/app/config/database.rb
 proto/app/config/middlewares.rb
 proto/app/config/requires.rb
 proto/app/config.ru
-proto/app/logs/.gitkeep
+proto/app/log/.gitkeep
 proto/app/public/.gitkeep
 proto/app/start.rb
 proto/app/vendor/.gitkeep
 proto/app/vendor/themes/.gitkeep
 proto/migration.rb
-proto/package/LICENSE
-proto/package/README.textile
 proto/package/lib/package/controller/controllers.rb
 proto/package/lib/package/language/en/languages.rb
 proto/package/lib/package/model/model.rb

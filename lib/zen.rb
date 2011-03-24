@@ -4,6 +4,8 @@
 #
 # @author Yorick Peterse
 # @since  0.1
+# @attr_reader [Array] languages An array containing all the currently loaded language
+# files stored as hashes.
 #
 module Zen
   require 'sequel'
@@ -12,29 +14,34 @@ module Zen
   require 'liquid'
   require 'json'
   require 'defensio'
-  require 'thor'
   require 'sequel_sluggable'
   require 'yaml'
-  require __DIR__('zen/base/version')
+  require __DIR__('zen/version')
   
   include Innate::Optioned
+
+  class << self
+    attr_reader :languages
+  end
   
   # Update several paths so we can load helpers/layouts from the Zen gem
   Innate::HelpersHelper.options.paths.push(__DIR__('zen'))
   Ramaze.options.roots.push(__DIR__('zen'))
   
   options.dsl do
-    # General configuration options
-    o 'The character encoding to use when dealing with data',   :encoding,       'utf8'
-    o 'The date format to use for log files and such.',         :date_format,    '%d-%m-%Y'
-    o 'The base directory of Zen.',                             :root,           ''
+    o 'The character encoding to use when dealing with data', :encoding,     'utf8'
+    o 'The date format to use for log files and such.',       :date_format,  '%d-%m-%Y'
+    o 'The base directory of Zen.',                           :root,         ''
   end
   
   # Load all classes/modules provided by Zen itself.
-  require __DIR__ 'zen/base/logger'
-  require __DIR__ 'zen/base/database'
-  require __DIR__ 'zen/base/package'
-  require __DIR__ 'zen/base/language'
+  require __DIR__ 'zen/strict_struct'
+  require __DIR__ 'zen/logger'
+  require __DIR__ 'zen/database'
+  require __DIR__ 'zen/package'
+  require __DIR__ 'zen/language'
+  require __DIR__ 'zen/plugin'
+  require __DIR__ 'zen/theme'
   
   # Load all the base controllers
   require __DIR__ 'zen/controller/base_controller'
@@ -47,10 +54,6 @@ module Zen
   require __DIR__ 'zen/liquid/controller_behavior'
   require __DIR__ 'zen/liquid/redirect'
   require __DIR__ 'zen/liquid/strip'
-  
-  class << self
-    attr_reader :languages
-  end
   
   # Update the language paths
   Zen::Language.options.paths.push(__DIR__('zen'))

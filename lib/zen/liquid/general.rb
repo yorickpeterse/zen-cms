@@ -48,7 +48,7 @@ module Zen
       # following:
       #
       #     context = {'username' => 'YorickPeterse'}
-      #     hash = {'selected_user' => 'username'}
+      #     hash    = {'selected_user' => 'username'}
       # 
       #     merge_context(hash, context) # => {'selected_user' => 'YorickPeterse'}
       #

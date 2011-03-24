@@ -43,7 +43,7 @@ module Zen
           respond(lang('zen_general.errors.no_theme'))
         end
 
-        theme    = ::Zen::Package[@settings[:theme]]
+        theme    = ::Zen::Theme[@settings[:theme]]
         group    = @uri[0]
         template = @uri[1]
         
@@ -57,13 +57,16 @@ module Zen
         end
         
         # Create the group, template and partial paths
-        theme_path    = theme.directory + '/templates'
+        theme_path    = theme.template_dir
         group_path    = theme_path + "/#{group}"
         template_path = theme_path + "/#{group}/#{template}.liquid"
         
         # Register our partial path
-        partial_path                   = theme_path + "/partials"
-        ::Liquid::Template.file_system = ::Liquid::LocalFileSystem.new(partial_path)
+        if theme.respond_to?(:partial_dir) and !theme.partial_dir.nil?
+          ::Liquid::Template.file_system = ::Liquid::LocalFileSystem.new(
+            theme.partial_dir
+          )
+        end
         
         # Is the website down?
         if @settings[:website_enabled] == '0'

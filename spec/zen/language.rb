@@ -1,4 +1,4 @@
-require_relative('../../helper')
+require_relative('../helper')
 
 describe "Zen::Language" do
   include Zen::Language

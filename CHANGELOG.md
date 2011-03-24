@@ -3,9 +3,12 @@
 ## 0.2.4 - March 27th, 2011
 
 * Fix an issue that would prevent migrations from being executed in the correct order.
-* Fixed a small translation bug in the section entries translation file
-* Restyled the footer in the admin panel
-* Removed the requirement of having to specify the type of package/extension
+* Fixed a small translation bug in the section entries translation file.
+* Restyled the footer in the admin panel.
+* Removed the requirement of having to specify the type of package/extension.
+* Navigation items will now be hidden according to the user's permissions.
+* Split packages into packages, themes and plugins. This makes it much easier to extend
+small features such as the markup generator and the comment validation system
 
 ## 0.2 - March 20th, 2011
 

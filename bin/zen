@@ -2,8 +2,7 @@
 zen_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'zen'))
 
 require 'thor'
-
 require zen_path
-require zen_path + "/bin/zen_binary"
+require zen_path + "/bin/base"
 
 Zen::Bin::Base.start
