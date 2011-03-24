@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
   # These gems are only required when hacking the Zen core or when running tests.
   #
   s.add_development_dependency('rdiscount', ['>= 1.6.8'])
+  s.add_development_dependency('redcloth' , ['>= 4.2.7'])
   s.add_development_dependency('rspec'    , ['>= 2.5.0'])
   s.add_development_dependency('yard'     , ['>= 0.6.5'])
   s.add_development_dependency('capybara' , ['>= 0.4.1.2'])

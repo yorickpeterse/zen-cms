@@ -1,4 +1,4 @@
-require_relative('../../helper')
+require File.expand_path('../../../helper', __FILE__)
 
 describe "Ramaze::Helper::Breadcrumb" do
   include Ramaze::Helper::Breadcrumb

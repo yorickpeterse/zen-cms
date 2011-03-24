@@ -21,7 +21,6 @@ Zen::Package.add do |p|
   p.name        = 'Users'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'
-  p.version     = '1.0'
   p.about       = "Module for managing users along with handling authentication and authorization."
   
   p.identifier  = 'com.zen.users'

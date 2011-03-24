@@ -196,7 +196,12 @@ module Sections
               end
             end
             
-            values['comment'] = markup_to_html(values['comment'], entry.section.comment_format)
+            values['comment'] = Zen::Plugin.call(
+              'com.zen.plugin.markup', 
+              entry.section.comment_format.to_sym, 
+              values['comment']
+            )
+
             context['comments'].push(values)
           end
           
@@ -204,7 +209,9 @@ module Sections
           entry.custom_field_values.each do |field_value|
             field = field_value.custom_field
             name  = field.slug
-            value = markup_to_html(field_value.value, field.format.to_sym)
+            value = ::Zen::Plugin.call(
+              'com.zen.plugin.markup', field.format.to_sym, field_value.value
+            )
             
             context[name.to_s] = value
           end

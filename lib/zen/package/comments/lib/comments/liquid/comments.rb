@@ -94,7 +94,9 @@ module Comments
           comment.values.each { |k, v| context[k.to_s] = v }
           
           # Convert the comment body into HTML
-          context['comment'] = markup_to_html(context['comment'], format)
+          context['comment'] = Zen::Plugin.call(
+            'com.zen.plugin.markup', format.to_sym, context['comment']
+          )
           
           ['email', 'name', 'website'].each do |c|
             if context[c].nil? or context[c].empty?

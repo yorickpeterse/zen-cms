@@ -26,9 +26,6 @@ Zen::Package.add do |p|
   # A URL to a page about the package
   p.url         = 'http://zen-cms.com/userguide/menus'
 
-  # The version number of the package
-  p.version     = '1.0'
-
   # Describe what your theme or extension does.
   p.about       = 'The Menus extension allows you to easily create navigation menus 
 for the frontend.'

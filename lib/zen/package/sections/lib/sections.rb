@@ -17,7 +17,6 @@ Zen::Package.add do |p|
   p.name        = 'Sections'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'
-  p.version     = 1.0
   p.about       = "The sections module allows users to create and manage sections. 
 Sections can be seen as small web applications that live inside the CMS. 
 For example, you could have a section for your blog and for your pages."

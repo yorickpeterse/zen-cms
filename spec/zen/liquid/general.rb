@@ -1,5 +1,5 @@
 require 'rdiscount'
-require_relative('../../helper')
+require File.expand_path('../../../helper', __FILE__)
 
 describe "Zen::Liquid::General" do
   include Zen::Liquid::General
@@ -7,7 +7,6 @@ describe "Zen::Liquid::General" do
   it "All methods should be present" do
     respond_to?('parse_key_values').should === true
     respond_to?('merge_context').should === true
-    respond_to?('markup_to_html').should === true
   end
 
   it "Parse a key/value string and return it as a Hash" do
@@ -25,10 +24,4 @@ describe "Zen::Liquid::General" do
     hash['selected_user'].should === 'YorickPeterse'
   end
 
-  it "Convert Markdown markup to HTML" do
-    markup = "Hello **world**"
-    html   = markup_to_html(markup, :markdown).strip
-
-    html.should === '<p>Hello <strong>world</strong></p>'
-  end
 end

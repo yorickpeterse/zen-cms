@@ -29,6 +29,8 @@ module Zen
   #       end
   #     }
   #
+  # Note that you don't *have to* use lambda's, anything that responds to call() will do.
+  # 
   # Because the actions method contains just a hash you can easily add functionality to
   # existing plugins as following:
   #
@@ -91,9 +93,9 @@ module Zen
     #
     def self.add
       @plugins ||= {}
-      required   = [:name, :author, :version, :about, :identifier, :actions]
+      required   = [:name, :author, :about, :identifier, :actions]
       plugin     = Zen::StrictStruct.new(
-        :name, :author, :version, :about, :url, :identifier, :actions
+        :name, :author, :about, :url, :identifier, :actions
       ).new
 
       yield plugin

@@ -13,7 +13,6 @@ Zen::Package.add do |p|
   p.name        = 'Comments'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'
-  p.version     = '1.0'
   p.about       = "Allow users to post comments on any given section entry (as long as the section allows it)."
   p.identifier  = 'com.zen.comments'
   p.directory   = __DIR__('comments')

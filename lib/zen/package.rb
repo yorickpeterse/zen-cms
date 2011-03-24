@@ -22,7 +22,6 @@ module Zen
   #
   # * name: the name of the package
   # * author: the name of the person who made the package
-  # * version: the current version, either a string or a numeric value
   # * about: a small description of the package
   # * url: the URL to the package's website
   # * identifier: unique identifier for the package. The format is com.AUTHOR.NAME for
@@ -115,10 +114,10 @@ module Zen
     #
     def self.add
       package = Zen::StrictStruct.new(
-        :name, :author, :version, :about, :url, :identifier, :directory, :menu
+        :name, :author, :about, :url, :identifier, :directory, :menu
       ).new
 
-      required = [:name, :author, :version, :about, :identifier, :directory]
+      required = [:name, :author, :about, :identifier, :directory]
       
       yield package
       

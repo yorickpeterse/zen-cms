@@ -1,4 +1,4 @@
-require_relative('../helper')
+require File.expand_path('../../helper', __FILE__)
 
 describe "Zen::Package" do
 
@@ -6,7 +6,6 @@ describe "Zen::Package" do
     Zen::Package.add do |p|
       p.name       = 'spec'
       p.author     = 'Yorick Peterse'
-      p.version    = 1.0
       p.about      = 'A spec extension'
       p.url        = 'http://zen-cms.com/'
       p.identifier = 'com.zen.spec'

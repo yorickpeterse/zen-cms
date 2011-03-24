@@ -27,7 +27,6 @@ module Zen
   #     Zen::Theme.add do |theme|
   #       theme.author     = 'Yorick Peterse'
   #       theme.name       = 'Default'
-  #       theme.version    = '0.1'
   #       theme.identifier = 'com.yorickpeterse.theme.default'
   #     end
   #
@@ -64,9 +63,9 @@ module Zen
     def self.add
       @themes ||= {}
 
-      required = [:name, :author, :version, :about, :identifier, :template_dir]
+      required = [:name, :author, :about, :identifier, :template_dir]
       theme    = Zen::StrictStruct.new(
-        :name, :author, :version, :about, :url, :identifier, :template_dir, :partial_dir,
+        :name, :author, :about, :url, :identifier, :template_dir, :partial_dir,
         :public_dir, :migration_dir
       ).new
 

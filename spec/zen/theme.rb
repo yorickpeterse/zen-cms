@@ -1,4 +1,4 @@
-require_relative('../helper')
+require File.expand_path('../../helper', __FILE__)
 
 describe("Zen::Theme") do
   
@@ -10,7 +10,6 @@ describe("Zen::Theme") do
     Zen::Theme.add do |t|
       t.name         = 'Spec'
       t.author       = 'Yorick Peterse'
-      t.version      = '0.1'
       t.about        = 'An example theme'
       t.identifier   = 'com.zen.theme.spec'
       t.template_dir = __DIR__

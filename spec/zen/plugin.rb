@@ -1,4 +1,4 @@
-require_relative('../helper')
+require File.expand_path('../../helper', __FILE__)
 require 'rdiscount'
 
 describe("Zen::Plugin") do
@@ -11,7 +11,6 @@ describe("Zen::Plugin") do
     Zen::Plugin.add do |plugin|
       plugin.name       = 'Spec'
       plugin.author     = 'Yorick Peterse'
-      plugin.version    = 0.1
       plugin.about      = 'A simple spec plugin'
       plugin.url        = 'http://zen-cms.com/'
       plugin.identifier = 'com.zen.plugin.spec'
