@@ -108,13 +108,16 @@ module Zen
     # * identifier
     # * directory
     #
+    # You can also set "migration_dir" to a directory with all migrations. By default
+    # Zen will assume that it's 2 levels above your root directory.
+    #
     # @author Yorick Peterse
     # @since  0.1
     # @yield  [package] Object containing all setters and getters for each package.
     #
     def self.add
       package = Zen::StrictStruct.new(
-        :name, :author, :about, :url, :identifier, :directory, :menu
+        :name, :author, :about, :url, :identifier, :directory, :menu, :migration_dir
       ).new
 
       required = [:name, :author, :about, :identifier, :directory]
@@ -133,6 +136,15 @@ module Zen
       # Update the language directory
       if !Zen::Language.options.paths.include?(package.directory)
         Zen::Language.options.paths.push(package.directory)
+      end
+
+      # Validate the directories
+      [:directory, :migration_dir].each do |k|
+        if package.respond_to?(k) and !package.send(k).nil?
+          if !File.exist?(package.send(k))
+            raise(PackageError, "The directory #{package.send(k)} does not exist.")
+          end
+        end
       end
       
       @packages                          = {} if @packages.nil?

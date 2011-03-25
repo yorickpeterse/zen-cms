@@ -18,13 +18,14 @@ Liquid::Template.register_tag('user' , Users::Liquid::User)
 Zen::Controllers::BaseController.trait(:user_model => Users::Models::User)
 
 Zen::Package.add do |p|
-  p.name        = 'Users'
-  p.author      = 'Yorick Peterse'
-  p.url         = 'http://yorickpeterse.com/'
-  p.about       = "Module for managing users along with handling authentication and authorization."
+  p.name          = 'Users'
+  p.author        = 'Yorick Peterse'
+  p.url           = 'http://yorickpeterse.com/'
+  p.about         = "Module for managing users along with handling authentication and authorization."
   
-  p.identifier  = 'com.zen.users'
-  p.directory   = __DIR__('users')
+  p.identifier    = 'com.zen.users'
+  p.directory     = __DIR__('users')
+  p.migration_dir = __DIR__('../migrations')
   
   p.menu = [{
     :title    => "Users",

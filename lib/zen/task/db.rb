@@ -22,12 +22,17 @@ module Zen
       # @since  0.2
       #
       def migrate(show_output = true)
-        exts = Zen::Package.extensions
+        exts = Zen::Package.packages
 
         puts "Migrating..." if show_output === true
 
         exts.each do |ident, ext|
-          dir   = ext.directory + '/../../migrations'
+          if ext.respond_to?(:migration_dir) and !ext.migration_dir.nil?
+            dir = ext.migration_dir
+          else
+            dir = ext.directory + '/../../migrations'
+          end
+          
           table = ext.identifier.gsub('.', '_').to_sym
             
           if File.directory?(dir)
@@ -49,10 +54,15 @@ module Zen
       # @since  0.2
       #
       def delete
-        exts = Zen::Package.extensions.map { |ident, ext| [ident, ext] }
+        exts = Zen::Package.packages.map { |ident, ext| [ident, ext] }
 
         exts.reverse.each do |ident, ext|
-          dir   = ext.directory + '/../../migrations'
+          if ext.respond_to?(:migration_dir) and !ext.migration_dir.nil?
+            dir = ext.migration_dir
+          else
+            dir = ext.directory + '/../../migrations'
+          end
+
           table = ext.identifier.gsub('.', '_').to_sym
             
           if File.directory?(dir)

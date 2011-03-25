@@ -44,6 +44,11 @@ for the frontend.'
   # Path to the directory containing the controllers, models, etc.
   #
   p.directory   = __DIR__('menus')
+
+  ##
+  # Path to the directory containing all migrations for this package.
+  #
+  p.migration_dir = __DIR__('../migrations')
   
   # Note that themes can not have menu items (they'll be ignored).
   p.menu = [{

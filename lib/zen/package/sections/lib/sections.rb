@@ -21,8 +21,9 @@ Zen::Package.add do |p|
 Sections can be seen as small web applications that live inside the CMS. 
 For example, you could have a section for your blog and for your pages."
   
-  p.identifier  = 'com.zen.sections'
-  p.directory   = __DIR__('sections')
+  p.identifier    = 'com.zen.sections'
+  p.directory     = __DIR__('sections')
+  p.migration_dir = __DIR__('../migrations')
   
   p.menu = [{
     :title => "Sections",
