@@ -17,6 +17,18 @@ module CustomFields
     class CustomFieldValue < Sequel::Model
       many_to_one(:custom_field , :class => "CustomFields::Models::CustomField")
       many_to_one(:section_entry, :class => "Sections::Models::SectionEntry")
+
+      ##
+      # Hook that is executed before saving a field's value. This hook is used to clean
+      # up all values making it easier to process them at a later stage.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.4
+      #
+      def before_save
+        # T-t-t-t-that's all folks!
+        self.value.gsub!(/\r\n/, "\n")
+      end
     end
   end
 end

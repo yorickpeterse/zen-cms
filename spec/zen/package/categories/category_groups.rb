@@ -3,7 +3,7 @@ require File.expand_path('../../../../helper', __FILE__)
 Zen::Language.load('category_groups')
 
 describe(
-  "CategoryGroups", :type => :acceptance, :auto_login => true
+  "Categories::Controllers::CategoryGroups", :type => :acceptance, :auto_login => true
 ) do
   include Categories::Controllers
   include Categories::Models

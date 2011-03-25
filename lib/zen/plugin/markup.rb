@@ -12,6 +12,7 @@ Zen::Plugin.add do |plugin|
 
     # Converts the given markup to plain text by escaping all HTML
     :plain => lambda do |markup|
+      include Ramaze::Helper::CGI
       h(markup)
     end,
 

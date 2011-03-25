@@ -127,7 +127,7 @@ module Comments
             flash[:success] = lang('comments.success.new')
           end
         rescue
-          flash[:error]     = lang('comments.errors.new')
+          flash[:error] = lang('comments.errors.new')
         end
         
         redirect_referrer
