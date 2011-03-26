@@ -27,7 +27,9 @@ module CustomFields
       #
       def before_save
         # T-t-t-t-that's all folks!
-        self.value.gsub!(/\r\n/, "\n")
+        if !self.value.nil?
+          self.value.gsub!(/\r\n/, "\n")
+        end
       end
     end
   end
