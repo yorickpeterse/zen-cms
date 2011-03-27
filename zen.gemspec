@@ -1,4 +1,4 @@
-require_relative('../lib/zen/base/version')
+require File.expand_path('../lib/zen/version', __FILE__)
 
 # Get all the files from the manifest
 manifest = File.open './MANIFEST', 'r'
@@ -8,7 +8,7 @@ manifest = manifest.split "\n"
 Gem::Specification.new do |s|
   s.name        = 'zen'
   s.version     = Zen::Version
-  s.date        = '20-03-2011'
+  s.date        = '27-03-2011'
   s.authors     = ['Yorick Peterse']
   s.email       = 'info@yorickpeterse.com'
   s.summary     = 'Zen is a fully modular CMS written using Ramaze.'
