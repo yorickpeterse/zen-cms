@@ -97,12 +97,12 @@ to read code in terminals or when using split view modes.
 * Mailing list
 
 Zen does not have it's own IRC channel at this time but you can usually find me in any
-of the following channels on Freenode (all are prefixed with a hash sign):
+of the following channels on Freenode:
 
-* forrst-chat
-* ramaze
-* codeigniter
-* mootools
+* \#forrst-chat
+* \#ramaze
+* \#codeigniter
+* \#mootools
 
 ## License
 
@@ -110,5 +110,5 @@ Zen is licensed under the MIT license. For more information about this license o
 the file "license.txt".
 
 [zen website]: http://zen-cms.com/
-[zen documentation]: http://zen-cms.com/documentation/
+[zen documentation]: http://zen-cms.com/userguide/
 [nvie branch model]: http://nvie.com/posts/a-successful-git-branching-model/

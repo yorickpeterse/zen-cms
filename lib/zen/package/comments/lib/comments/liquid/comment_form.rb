@@ -111,7 +111,7 @@ module Comments
         g_html = form_for(
           nil, 
           :method => :post, 
-          :action => Comments::Controllers::CommentsForm.r(:save)
+          :action => ::Comments::Controllers::CommentsForm.r(:save)
         ) do |f|
           f.input_hidden(:csrf_token   , get_csrf_token)
           f.input_hidden(:section_entry, section_entry_id)
