@@ -23,7 +23,7 @@ Sequel.migration do
       TrueClass :required,            :null => false, :default => false
       TrueClass :visual_editor,       :null => false, :default => true
       Integer   :textarea_rows,       :default => 10
-      Integer   :text_limit,          :default => 1
+      Integer   :text_limit
       
       foreign_key :custom_field_group_id, :custom_field_groups, :on_delete => :cascade,
         :on_update => :cascade, :key => :id

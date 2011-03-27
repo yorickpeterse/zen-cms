@@ -1,4 +1,4 @@
-require_relative('../lib/zen/base/version')
+require File.expand_path('../lib/zen/version', __FILE__)
 
 # Get all the files from the manifest
 manifest = File.open './MANIFEST', 'r'
