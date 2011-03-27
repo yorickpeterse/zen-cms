@@ -102,7 +102,7 @@ module Settings
       def self.get_theme_values
         theme_hash = {}
 
-        Zen::Package.themes.each do |ident, theme|
+        Zen::Theme.themes.each do |ident, theme|
           theme_hash[ident] = theme.name
         end
 
