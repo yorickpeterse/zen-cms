@@ -12,6 +12,8 @@ to be unverified/undecided and might not be added/completed at all.
 * Website completely up and running. (!)
 * Translation system for the Javascript used in the backend
 * Documentation/Userguide online
+* Replaced Liquid with something more developer and designer friendly. Liquid has several
+issues of which most are described in "LIQUID.md".
 
 ### 0.2.4 - March 2011
 
