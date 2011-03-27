@@ -25,7 +25,6 @@ Ramaze.options.mode  = :dev
 Ramaze.options.session.key = 'zen.sid'
 
 ##
-# View caching, currently disabled due to Liquid causing a few errors when this is
-# turned on.
+# View caching.
 #
 Ramaze::View.options.cache = false

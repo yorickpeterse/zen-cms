@@ -8,12 +8,12 @@ module EXTENSION
     class CONTROLLER < Zen::Controllers::AdminController
       include ::EXTENSION::Models
 
-      map "/admin/module"
+      map   "/admin/module"
       trait :extension_identifier => ''
       
       before_all do
         csrf_protection :save, :delete do
-          respond(@zen_general_lang.errors[:csrf], 401)
+          respond(lang('zen_general.errors.csrf'), 401)
         end
       end
       
@@ -25,16 +25,12 @@ module EXTENSION
       def initialize
         super
         
-        @form_save_url = ''
-        @lang = Zen::Language.load ''
+        Zen::Language.load 'language'
         
         # Set the page title
         if !action.method.nil?
-          method = action.method.to_sym
-        
-          if @lang.titles.key? method 
-            @page_title = @lang.titles[method]
-          end
+          method      = action.method.to_sym
+          @page_title = lang("language.titles.#{method}") rescue nil
         end
       end
       
