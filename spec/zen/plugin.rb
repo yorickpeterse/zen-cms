@@ -1,4 +1,5 @@
 require File.expand_path('../../helper', __FILE__)
+require File.expand_path('../../resources/plugin/spec', __FILE__)
 require 'rdiscount'
 
 describe("Zen::Plugin") do
@@ -14,11 +15,7 @@ describe("Zen::Plugin") do
       plugin.about      = 'A simple spec plugin'
       plugin.url        = 'http://zen-cms.com/'
       plugin.identifier = 'com.zen.plugin.spec'
-      plugin.actions    = {
-        :upcase => lambda do |string|
-          string.upcase
-        end
-      }
+      plugin.plugin     = SpecPlugin
     end
 
     Zen::Plugin.plugins.nil?.should                === false
@@ -36,18 +33,6 @@ describe("Zen::Plugin") do
     response = Zen::Plugin.call('com.zen.plugin.spec', :upcase, 'hello world')
 
     response.should === 'HELLO WORLD'
-  end
-
-  it("Extend the plugin's features") do
-    plugin = Zen::Plugin['com.zen.plugin.spec']
-
-    plugin.actions[:downcase] = lambda do |string|
-      string.downcase
-    end
-
-    response = Zen::Plugin.call('com.zen.plugin.spec', :downcase, 'HELLO WORLD')
-    
-    response.should === 'hello world'
   end
 
 end

@@ -2,7 +2,7 @@ require File.expand_path('../../../helper', __FILE__)
 require 'rdiscount'
 require 'redcloth'
 
-describe("Markup Plugin") do
+describe("Zen::Plugin::Markup") do
 
   it("Convert Markdown to HTML") do
     html = Zen::Plugin.call('com.zen.plugin.markup', :markdown, 'hello **world**').strip

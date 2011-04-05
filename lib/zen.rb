@@ -44,7 +44,7 @@ module Zen
   require __DIR__ 'zen/theme'
 
   # Load all required plugins
-  require __DIR__ 'zen/plugin/markup'
+  require __DIR__ 'zen/plugin/markup/lib/markup'
   
   # Load all the base controllers
   require __DIR__ 'zen/controller/base_controller'

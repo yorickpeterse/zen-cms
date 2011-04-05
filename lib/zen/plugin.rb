@@ -5,51 +5,50 @@ module Zen
   ##
   # Plugins in Zen are quite similar to packages except for a few differences. The biggest
   # difference is that plugins won't update any Ramaze root directories or language
-  # direactories. This means that they can't have controllers, models and so on. On top
-  # of that they're nothing more than lambda's. Plugins are useful for supporting multiple
-  # markup formats (Markdown, Textile, etc) and other small tasks such as replacing Email
-  # addresses and so on.
+  # directories. This means that they can't have controllers, models and so on. 
+  # Plugins are useful for supporting multiple markup formats (Markdown, Textile, etc) 
+  # and other small tasks such as replacing Email addresses and so on.
   #
   # ## Creating Plugins
   #
   # Creating plugins works in a similar way as creating packages. Plugins are added by
   # calling Zen::Plugin#add and passing a block to it with details such as the name of
-  # the plugin, the author, the identifier and a list of actions. The last two are very
-  # important as the plugin won't work without them.
+  # the plugin, the author, the identifier and a class constant to use. The last two are 
+  # very important as the plugin won't work without them. This looks something like the 
+  # following:
   #
-  # ### Actions
-  #
-  # Each plugin has a getter/setter called "actions", this is just a simple key/value
-  # hash where the keys are the names of the actions and the values lambda's. The keys
-  # should always be symbols. Example:
-  #
-  #     actions = {
-  #       :downcase => lambda do |string|
-  #         string.downcase
-  #       end
-  #     }
-  #
-  # Note that you don't *have to* use lambda's, anything that responds to call() will do.
-  # 
-  # Because the actions method contains just a hash you can easily add functionality to
-  # existing plugins as following:
-  #
-  #     # First retrieve our plugin
-  #     plugin = Zen::Plugin['com.something.plugin.name']
-  #     plugin.actions[:my_action] = lamda do
-  #       # Do something....
+  #     Zen::Plugin.add do |p|
+  #       p.name       = 'My Plugin'
+  #       p.author     = 'Yorick Peterse'
+  #       p.about      = 'A simple plugin that does something useful.'
+  #       p.identifier = 'com.zen.plugin.my_plugin'
+  #       p.plugin     = MyPlugin
   #     end
   #
-  # This can be very useful for extending plugins such as the markup plugin that's used to
-  # convert Markdown or Textile to HTML. By default this plugin only converts Markdown and
-  # Textile or HTML (it escapes all HTML) but by modifying the actions hash we can easily
-  # add new markup engines such as RDoc or even Latex.
+  # One of the most important parts is the `p.plugin = MyPlugin` part. That line tells Zen
+  # what class it should use when the plugin is called. Each plugin class should have the
+  # following basic structure:
+  #
+  #     class MyPlugin
+  #       def initialize
+  #
+  #       end
+  #
+  #       def call
+  #
+  #       end
+  #     end
+  #
+  # When a plugin is called all the data passed to the call() method is sent to the class'
+  # construct method (so be sure to accept any arguments). Once an instance has been
+  # created the call method will be invoked. For a good example on how a plugin looks like
+  # take a look at Zen::Plugin::Markup.
   #
   # ## Calling Plugins
   #
   # Plugins can be called using Zen::Plugin#call, this method requires you to specify the
-  # plugin identifier, the action to call and optionally any data to send to the plugin.
-  # An example of calling a plugin would look like the following:
+  # plugin identifier and optionally any data to send to the plugin. An example of 
+  # calling a plugin would look like the following:
   #
   #     Zen::Plugin.call('com.zen.plugin.markup', :markdown, 'hello **world**')
   #
@@ -75,16 +74,6 @@ module Zen
     ##
     # Adds a new plugin with the given details.
     #
-    # @example
-    #  Zen::Plugin.add do |p|
-    #    p.name    = 'Markup'
-    #    p.author  = 'Yorick Peterse'
-    #    p.actions = {
-    #      :markdown => lambda do |markup|
-    #        RDiscount.new(markup).to_html
-    #      end 
-    #  end
-    #
     # @author Yorick Peterse
     # @since  0.2.4
     # @yield  [plugin] Struct object containing all the details of a plugin.
@@ -93,9 +82,9 @@ module Zen
     #
     def self.add
       @plugins ||= {}
-      required   = [:name, :author, :about, :identifier, :actions]
+      required   = [:name, :author, :about, :identifier, :plugin]
       plugin     = Zen::StrictStruct.new(
-        :name, :author, :about, :url, :identifier, :actions
+        :name, :author, :about, :url, :identifier, :plugin
       ).new
 
       yield plugin
@@ -103,11 +92,6 @@ module Zen
       # Check if all the required keys have been set
       plugin.validate(required) do |k|
         raise(Zen::PluginError, "The following plugin key is missing: #{k}")
-      end
-
-      # The actions getter should be a hash
-      if plugin.actions.class != Hash
-        raise(Zen::PluginError, "The actions setter/getter should be an instance of Hash.")
       end
 
       # Add our plugin
@@ -156,16 +140,8 @@ module Zen
     # @param  [Array] data Any data to pass to the plugin's action (a lambda).
     # @return [Mixed]
     #
-    def self.call(ident, action, *data)
-      plugin = self[ident]
-      action = action.to_sym
-
-      if !plugin.actions[action]
-        raise(Zen::PluginError, "The action #{action} doesn't exist for #{ident}.")
-      end
-
-      # Call the plugin and return it's value
-      return plugin.actions[action].call(*data)
+    def self.call(ident, *data)
+      return self[ident].plugin.new(*data).call
     end
 
   end

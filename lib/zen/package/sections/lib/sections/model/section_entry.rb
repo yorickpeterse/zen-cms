@@ -20,6 +20,7 @@ module Sections
     # @since  0.1
     #
     class SectionEntry < Sequel::Model  
+
       one_to_many(
         :comments, 
         :class => "Comments::Models::Comment"
@@ -48,6 +49,7 @@ module Sections
         validates_presence([:title, :status, :user_id])
         validates_presence(:slug) unless new?
       end
+
     end
   end
 end
