@@ -82,11 +82,11 @@ module Comments
         
         # Get our section to which this form belongs
         if @arguments.key?('section_entry')
-          section_entry = ::Sections::Models::SectionEntry[
+          section_entry = ::Sections::Model::SectionEntry[
             :slug => @arguments['section_entry']
           ]
         else
-          section_entry = ::Sections::Models::SectionEntry[
+          section_entry = ::Sections::Model::SectionEntry[
             @arguments['section_entry_id'].to_i
           ]
         end
@@ -109,7 +109,7 @@ module Comments
         g_html = form_for(
           nil, 
           :method => :post, 
-          :action => ::Comments::Controllers::CommentsForm.r(:save)
+          :action => ::Comments::Controller::CommentsForm.r(:save)
         ) do |f|
           f.input_hidden(:csrf_token   , get_csrf_token)
           f.input_hidden(:section_entry, section_entry_id)

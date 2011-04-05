@@ -1,7 +1,7 @@
 #:nodoc:
 module Comments
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a single comment. This model has the following relations:
     #
@@ -18,8 +18,8 @@ module Comments
     class Comment < Sequel::Model
       include ::Zen::Language
 
-      many_to_one :section_entry, :class => "Sections::Models::SectionEntry"
-      many_to_one :user,          :class => "Users::Models::User"
+      many_to_one :section_entry, :class => "Sections::Model::SectionEntry"
+      many_to_one :user,          :class => "Users::Model::User"
       
       plugin :timestamps, :create => :created_at, :update => :updated_at
       
@@ -38,7 +38,7 @@ module Comments
       # Returns a hash containing all available statuses for each comment.
       #
       # @example
-      #  Comments::Models::Comment.status_hash
+      #  Comments::Model::Comment.status_hash
       #
       # @author Yorick Peterse
       # @since  0.2

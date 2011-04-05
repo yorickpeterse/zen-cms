@@ -1,7 +1,7 @@
 #:nodoc:
 module Settings
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller for managing settings. Each setting is saved as a separate
     # row in the database, making management and retrieving them easier.
@@ -9,8 +9,8 @@ module Settings
     # @author Yorick Peterse
     # @since  0.1
     #
-    class Settings < Zen::Controllers::AdminController
-      include ::Settings::Models
+    class Settings < Zen::Controller::AdminController
+      include ::Settings::Model
 
       map   "/admin/settings"
       trait :extension_identifier => 'com.zen.settings'

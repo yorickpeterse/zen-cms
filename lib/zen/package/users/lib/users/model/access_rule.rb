@@ -1,7 +1,7 @@
 #:nodoc:
 module Users
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a single access rule. This model has the following
     # relations:
@@ -13,8 +13,8 @@ module Users
     # @since  0.1
     #
     class AccessRule < Sequel::Model
-      many_to_one :user      , :class => "Users::Models::User"
-      many_to_one :user_group, :class => "Users::Models::UserGroup"
+      many_to_one :user      , :class => "Users::Model::User"
+      many_to_one :user_group, :class => "Users::Model::UserGroup"
       
       ##
       # Validation rules used when creating or updating an access rule.

@@ -1,7 +1,7 @@
 #:nodoc:
 module Comments
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller used for managing comments. Administrations can't actually
     # add new comments using the backend controller but can edit or delete them.
@@ -13,8 +13,8 @@ module Comments
     # @author  Yorick Peterse
     # @since   0.1
     #
-    class Comments < Zen::Controllers::AdminController
-      include ::Comments::Models
+    class Comments < Zen::Controller::AdminController
+      include ::Comments::Model
 
       map '/admin/comments'
       trait :extension_identifier => 'com.zen.comments'

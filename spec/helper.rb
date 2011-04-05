@@ -55,8 +55,8 @@ RSpec.configure do |c|
 
   # Automatically log the spec user in
   c.before(:auto_login => true) do
-    login_url     = ::Users::Controllers::Users.r(:login).to_s
-    dashboard_url = ::Sections::Controllers::Sections.r(:index).to_s
+    login_url     = ::Users::Controller::Users.r(:login).to_s
+    dashboard_url = ::Sections::Controller::Sections.r(:index).to_s
 
     visit(login_url)
     ::Ramaze::Log.loggers.clear

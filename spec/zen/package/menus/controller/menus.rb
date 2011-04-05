@@ -2,9 +2,9 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('menus')
 
-describe("Menus::Controllers::Menus", :type => :acceptance, :auto_login => true) do
-  include Menus::Controllers
-  include Menus::Models
+describe("Menus::Controller::Menus", :type => :acceptance, :auto_login => true) do
+  include Menus::Controller
+  include Menus::Model
 
   it("No menus should exist") do
     index_url = Menus.r(:index).to_s

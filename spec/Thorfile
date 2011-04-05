@@ -6,12 +6,12 @@ class Zen::Task::DB
   desc 'test_user', 'Creates a test user'
   def test_user
     # Create a default user and group
-    group = Users::Models::UserGroup.new(
+    group = Users::Model::UserGroup.new(
       :name => 'Administrators',
       :slug => 'administrators', :super_group => true
     ).save
 
-    user = Users::Models::User.new(
+    user = Users::Model::User.new(
       :email    => 'spec@domain.tld', :name   => 'Spec',
       :password => 'spec'           , :status => 'open'
     ).save

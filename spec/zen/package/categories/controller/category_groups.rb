@@ -3,10 +3,10 @@ require File.expand_path('../../../../../helper', __FILE__)
 Zen::Language.load('category_groups')
 
 describe(
-  "Categories::Controllers::CategoryGroups", :type => :acceptance, :auto_login => true
+  "Categories::Controller::CategoryGroups", :type => :acceptance, :auto_login => true
 ) do
-  include Categories::Controllers
-  include Categories::Models
+  include Categories::Controller
+  include Categories::Model
 
   it("No category groups should exist") do
     index_url  = CategoryGroups.r(:index).to_s

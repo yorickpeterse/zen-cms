@@ -2,8 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('users')
 
-describe("Users::Controllers::Users", :type => :acceptance) do
-  include Users::Controllers
+describe("Users::Controller::Users", :type => :acceptance) do
+  include Users::Controller
 
   it 'Show the login form' do
     login_url = Users.r(:login).to_s
@@ -19,7 +19,7 @@ describe("Users::Controllers::Users", :type => :acceptance) do
 
   it('Log in') do
     login_url     = Users.r(:login).to_s
-    dashboard_url = Sections::Controllers::Sections.r(:index).to_s
+    dashboard_url = Sections::Controller::Sections.r(:index).to_s
 
     visit(login_url)
 

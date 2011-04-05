@@ -1,7 +1,7 @@
 #:nodoc:
 module Users
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents the very important user. This model
     # can be used for both CRUD actions as well as authenticating a user.
@@ -22,8 +22,8 @@ module Users
     class User < Sequel::Model
       plugin :timestamps, :create => :created_at, :update => :updated_at
       
-      many_to_many :user_groups, :class => "Users::Models::UserGroup", :eager => [:access_rules]
-      one_to_many :access_rules, :class => "Users::Models::AccessRule"
+      many_to_many :user_groups, :class => "Users::Model::UserGroup", :eager => [:access_rules]
+      one_to_many :access_rules, :class => "Users::Model::AccessRule"
       
       ##
       # Try to authenticate the user based on the specified credentials.
@@ -49,7 +49,7 @@ module Users
         user = self[:email => email]
 
         if !user.nil? and user.password == password and user.status == 'open'
-          ::Zen::Controllers::BaseController.session[:user] = user
+          ::Zen::Controller::BaseController.session[:user] = user
           return user
         else
           return false

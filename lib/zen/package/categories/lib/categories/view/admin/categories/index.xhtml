@@ -39,7 +39,7 @@
                     <td>
                         #{anchor_to(
                           category.name, 
-                          Categories::Controllers::Categories.r(:edit, @category_group_id, category.id)
+                          Categories::Controller::Categories.r(:edit, @category_group_id, category.id)
                         )}
                     </td>
                     <?r else ?>
@@ -62,7 +62,7 @@
             <div class="button">
                 #{anchor_to(
                   lang('categories.buttons.new'), 
-                  Categories::Controllers::Categories.r(:new, @category_group_id)
+                  Categories::Controller::Categories.r(:new, @category_group_id)
                 )}
             </div>
             <?r end ?>

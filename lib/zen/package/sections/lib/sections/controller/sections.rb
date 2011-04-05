@@ -1,7 +1,7 @@
 #:nodoc:
 module Sections
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Sections can be seen as mini applications inside your website.
     # Examples of sections can be a blog, pages, a products listing, etc.
@@ -14,8 +14,8 @@ module Sections
     # @author  Yorick Peterse
     # @since   0.1
     #
-    class Sections < Zen::Controllers::AdminController
-      include ::Sections::Models
+    class Sections < Zen::Controller::AdminController
+      include ::Sections::Model
 
       map   '/admin'
       trait :extension_identifier => 'com.zen.sections'
@@ -95,8 +95,8 @@ module Sections
           @page_title
         )
         
-        @custom_field_group_pk_hash = CustomFields::Models::CustomFieldGroup.pk_hash(:name)
-        @category_group_pk_hash     = Categories::Models::CategoryGroup.pk_hash(:name)
+        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup.pk_hash(:name)
+        @category_group_pk_hash     = Categories::Model::CategoryGroup.pk_hash(:name)
 
         if flash[:form_data]
           @section = flash[:form_data]
@@ -126,8 +126,8 @@ module Sections
           @page_title
         )
         
-        @custom_field_group_pk_hash = CustomFields::Models::CustomFieldGroup.pk_hash(:name)
-        @category_group_pk_hash     = Categories::Models::CategoryGroup.pk_hash(:name)
+        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup.pk_hash(:name)
+        @category_group_pk_hash     = Categories::Model::CategoryGroup.pk_hash(:name)
         @section                    = Section.new
       end
       

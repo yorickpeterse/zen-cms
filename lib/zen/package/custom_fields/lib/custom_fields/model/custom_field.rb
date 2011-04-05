@@ -1,7 +1,7 @@
 #:nodoc:
 module CustomFields
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a single custom field. This model has the following
     # relations:
@@ -21,7 +21,7 @@ module CustomFields
     class CustomField < Sequel::Model
       one_to_many(
         :custom_field_values, 
-        :class => "CustomFields::Models::CustomFieldValue"
+        :class => "CustomFields::Model::CustomFieldValue"
       )
       
       plugin :sluggable, :source => :name, :freeze => false

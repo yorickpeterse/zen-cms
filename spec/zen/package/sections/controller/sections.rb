@@ -2,10 +2,10 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('sections')
 
-describe("Sections::Controllers::Sections", :type => :acceptance, :auto_login => true) do
+describe("Sections::Controller::Sections", :type => :acceptance, :auto_login => true) do
   
   it("No sections should exist") do
-    section_url = Sections::Controllers::Sections.r(:index).to_s
+    section_url = Sections::Controller::Sections.r(:index).to_s
     message     = lang('sections.messages.no_sections')
 
     current_path.should == section_url
@@ -14,8 +14,8 @@ describe("Sections::Controllers::Sections", :type => :acceptance, :auto_login =>
   end
 
   it("Create a new section") do
-    new_url        = Sections::Controllers::Sections.r(:new).to_s
-    edit_url       = Sections::Controllers::Sections.r(:edit).to_s
+    new_url        = Sections::Controller::Sections.r(:new).to_s
+    edit_url       = Sections::Controller::Sections.r(:edit).to_s
     new_button     = lang('sections.buttons.new')
     select_plain   = lang('zen_general.special.format_hash.plain')
     submit_button  = lang('sections.buttons.save')
@@ -46,8 +46,8 @@ describe("Sections::Controllers::Sections", :type => :acceptance, :auto_login =>
   end
 
   it("Edit an existing section") do 
-    index_url  = Sections::Controllers::Sections.r(:index).to_s
-    edit_url   = Sections::Controllers::Sections.r(:edit).to_s
+    index_url  = Sections::Controller::Sections.r(:index).to_s
+    edit_url   = Sections::Controller::Sections.r(:edit).to_s
     submit     = lang('sections.buttons.save')
 
     visit(index_url)
@@ -65,7 +65,7 @@ describe("Sections::Controllers::Sections", :type => :acceptance, :auto_login =>
   end
 
   it("Delete an existing section") do
-    index_url     = Sections::Controllers::Sections.r(:index).to_s
+    index_url     = Sections::Controller::Sections.r(:index).to_s
     delete_button = lang('sections.buttons.delete')
 
     visit(index_url)

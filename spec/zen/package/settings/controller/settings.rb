@@ -2,8 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('settings')
 
-describe("Settings::Controllers::Settings", :type => :acceptance, :auto_login => true) do
-  include Settings::Controllers
+describe("Settings::Controller::Settings", :type => :acceptance, :auto_login => true) do
+  include Settings::Controller
 
   it("Update a set of settings") do
     index_url   = Settings.r(:index).to_s

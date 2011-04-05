@@ -1,5 +1,5 @@
 module Categories
-  module Controllers
+  module Controller
     ##
     # Category groups can be used to group a number of categories into a single container.
     # These groups are assigned to a section (rather than individual categories). It's
@@ -9,8 +9,8 @@ module Categories
     # @author Yorick Peterse
     # @since  0.1
     #
-    class CategoryGroups < Zen::Controllers::AdminController
-      include ::Categories::Models
+    class CategoryGroups < Zen::Controller::AdminController
+      include ::Categories::Model
 
       map '/admin/category-groups'
       trait :extension_identifier => 'com.zen.categories'

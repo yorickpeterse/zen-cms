@@ -1,7 +1,7 @@
 #:nodoc:
 module Menus
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller for managing menu groups. Individual navigation items are managed using
     # the menu items controller, simply named "menu_items".
@@ -9,8 +9,8 @@ module Menus
     # @author Yorick Peterse
     # @since  0.2a
     #
-    class Menus < Zen::Controllers::AdminController
-      include ::Menus::Models
+    class Menus < Zen::Controller::AdminController
+      include ::Menus::Model
 
       map   '/admin/menus'
       trait :extension_identifier => 'com.zen.menus'

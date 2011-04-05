@@ -37,7 +37,7 @@
     f.select(
       lang('comments.labels.status'), 
       :status, 
-      :values   => Comments::Models::Comment.status_hash,
+      :values   => Comments::Model::Comment.status_hash,
       :selected => @comment.status, 
       :size     => 1
     )

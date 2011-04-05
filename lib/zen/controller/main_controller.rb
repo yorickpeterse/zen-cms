@@ -1,7 +1,7 @@
 #:nodoc:
 module Zen
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # The MainController controller is used to load the correct template files based
     # on the current URI. If no section is specified the default section will be retrieved
@@ -10,7 +10,7 @@ module Zen
     # @author Yorick Peterse
     # @since  0.1
     #
-    class MainController < Zen::Controllers::FrontendController
+    class MainController < Zen::Controller::FrontendController
       map '/'
       
       ##

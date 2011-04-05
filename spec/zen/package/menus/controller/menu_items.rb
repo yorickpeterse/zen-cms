@@ -3,9 +3,9 @@ require File.expand_path('../../../../../helper', __FILE__)
 Zen::Language.load('menu_items')
 MenuItemsTest = {}
 
-describe("Menus::Controllers::MenuItems", :type => :acceptance, :auto_login => true) do
-  include Menus::Controllers
-  include Menus::Models
+describe("Menus::Controller::MenuItems", :type => :acceptance, :auto_login => true) do
+  include Menus::Controller
+  include Menus::Model
 
   it("Create the required test data") do
     MenuItemsTest[:menu] = Menu.new(:name => 'Spec menu')

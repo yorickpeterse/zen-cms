@@ -14,7 +14,7 @@
       rule_applies = 'div_user_group_id'
     end
     
-    Users::Models::User.select(:id, :name).each do |user|
+    Users::Model::User.select(:id, :name).each do |user|
       users[user.id.to_s] = user.name
     end
     
@@ -22,7 +22,7 @@
       extensions[ident] = ext.name
     end
     
-    Users::Models::UserGroup.select(:id, :name).each do |group|
+    Users::Model::UserGroup.select(:id, :name).each do |group|
       groups[group.id.to_s] = group.name
     end
     

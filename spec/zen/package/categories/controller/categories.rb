@@ -4,10 +4,10 @@ Zen::Language.load('categories')
 CategoriesTest = {}
 
 describe(
-  "Categories::Controllers::Categories", :type => :acceptance, :auto_login => true
+  "Categories::Controller::Categories", :type => :acceptance, :auto_login => true
 ) do
-  include Categories::Controllers
-  include Categories::Models
+  include Categories::Controller
+  include Categories::Model
 
   it("Create the test data") do
     CategoriesTest[:group] = CategoryGroup.new(:name => 'Spec group')

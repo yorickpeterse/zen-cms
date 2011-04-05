@@ -1,7 +1,7 @@
 #:nodoc:
 module Menus
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model used for managing groups of menu items. This model uses the following
     # Sequel plugins:
@@ -15,7 +15,7 @@ module Menus
       plugin :sluggable, :source => :name, :freeze => false
 
       # Define our relations
-      one_to_many :menu_items, :class => "Menus::Models::MenuItem"
+      one_to_many :menu_items, :class => "Menus::Model::MenuItem"
 
       ##
       # Specifies all validates rules used when creating or updating a menu.

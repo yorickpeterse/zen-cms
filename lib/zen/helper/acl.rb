@@ -16,11 +16,11 @@ module Ramaze
     # be set.
     #
     # For more information about the ACL system you should read the documentation
-    # in the ACL controller, Users::Controllers::AccessRules().
+    # in the ACL controller, Users::Controller::AccessRules().
     #
     # @author Yorick Peterse
     # @since  0.1
-    # @see    Users::Controllers::AccessRules()
+    # @see    Users::Controller::AccessRules()
     #
     module ACL
       ##

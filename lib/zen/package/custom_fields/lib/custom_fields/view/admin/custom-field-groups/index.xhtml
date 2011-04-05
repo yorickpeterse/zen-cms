@@ -41,7 +41,7 @@
                     <td>
                         #{anchor_to(
                           group.name, 
-                          CustomFields::Controllers::CustomFieldGroups.r(:edit, group.id), 
+                          CustomFields::Controller::CustomFieldGroups.r(:edit, group.id), 
                           :title => group.name
                         )}
                     </td>
@@ -62,7 +62,7 @@
                     <td>
                       #{anchor_to(
                           lang('custom_field_groups.labels.manage_fields'), 
-                          CustomFields::Controllers::CustomFields.r(:index, group.id) 
+                          CustomFields::Controller::CustomFields.r(:index, group.id) 
                         )}
                     </td>
                     <?r end ?>
@@ -84,7 +84,7 @@
             <div class="button">
                 #{anchor_to(
                   lang('custom_field_groups.buttons.new'), 
-                  CustomFields::Controllers::CustomFieldGroups.r(:new)
+                  CustomFields::Controller::CustomFieldGroups.r(:new)
                 )}
             </div>
             <?r end ?>

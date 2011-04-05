@@ -55,9 +55,9 @@ module Sections
         result = []
         
         if !@arguments.key?('section')
-          sections = ::Sections::Models::Section.limit(@arguments['limit'], @arguments['offset'])
+          sections = ::Sections::Model::Section.limit(@arguments['limit'], @arguments['offset'])
         else
-          sections = ::Sections::Models::Section.filter(:slug => @arguments['section'])
+          sections = ::Sections::Model::Section.filter(:slug => @arguments['section'])
             .limit(@arguments['limit'], @arguments['offset'])
         end
         

@@ -1,7 +1,7 @@
 #:nodoc:
 module CustomFields
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a single custom field group. This model has
     # the following relations:
@@ -18,13 +18,13 @@ module CustomFields
     class CustomFieldGroup < Sequel::Model
       one_to_many(
         :custom_fields, 
-        :class => "CustomFields::Models::CustomField", 
+        :class => "CustomFields::Model::CustomField", 
         :order => :sort_order
       )
 
       many_to_many(
         :sections, 
-        :class => "Sections::Models::Section"
+        :class => "Sections::Model::Section"
       )
       
       ##

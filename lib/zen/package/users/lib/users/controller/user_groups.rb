@@ -1,7 +1,7 @@
 #:nodoc:
 module Users
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller for managing all user groups. It's not
     # required to add a user to a group but it can certainly
@@ -11,8 +11,8 @@ module Users
     # @author Yorick Peterse
     # @since  0.1
     #
-    class UserGroups < Zen::Controllers::AdminController
-      include ::Users::Models
+    class UserGroups < Zen::Controller::AdminController
+      include ::Users::Model
 
       map   '/admin/user-groups'
       trait :extension_identifier => 'com.zen.users'

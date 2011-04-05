@@ -1,7 +1,7 @@
 #:nodoc:
 module Comments
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Frontend controller for the comments system used for saving user-submitted comments.
     # When the anti-spam system is enabled Zen will use Defensio to check if the comment is
@@ -10,8 +10,8 @@ module Comments
     # @author Yorick Peterse
     # @since  0.1
     # 
-    class CommentsForm < Zen::Controllers::FrontendController
-      include ::Comments::Models
+    class CommentsForm < Zen::Controller::FrontendController
+      include ::Comments::Model
       
       map '/comments_form'
       trait :extension_identifier => 'com.zen.comments'
@@ -34,7 +34,7 @@ module Comments
 
         comment = Comment.new
         post    = request.params.dup
-        entry   = ::Sections::Models::SectionEntry[h(post['section_entry']).to_i]
+        entry   = ::Sections::Model::SectionEntry[h(post['section_entry']).to_i]
         
         # Remove empty values
         post.each { |k, v| post.delete(k) if v.empty? }

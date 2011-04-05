@@ -1,7 +1,7 @@
 #:nodoc:
 module CustomFields
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a single custom field value. This model
     # has the following relations:
@@ -15,8 +15,8 @@ module CustomFields
     # @since  0.1
     #
     class CustomFieldValue < Sequel::Model
-      many_to_one(:custom_field , :class => "CustomFields::Models::CustomField")
-      many_to_one(:section_entry, :class => "Sections::Models::SectionEntry")
+      many_to_one(:custom_field , :class => "CustomFields::Model::CustomField")
+      many_to_one(:section_entry, :class => "Sections::Model::SectionEntry")
 
       ##
       # Hook that is executed before saving a field's value. This hook is used to clean

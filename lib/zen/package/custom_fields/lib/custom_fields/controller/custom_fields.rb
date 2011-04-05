@@ -1,7 +1,7 @@
 #:nodoc:
 module CustomFields
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller for managing custom fields. Custom fields are one of
     # the most important elements in Zen. Custom fields can be used to
@@ -12,8 +12,8 @@ module CustomFields
     # @author  Yorick Peterse
     # @since   0.1
     #
-    class CustomFields < Zen::Controllers::AdminController
-      include ::CustomFields::Models
+    class CustomFields < Zen::Controller::AdminController
+      include ::CustomFields::Model
 
       map   '/admin/custom-fields'
       trait :extension_identifier => 'com.zen.custom_fields'

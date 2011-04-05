@@ -1,7 +1,7 @@
 #:nodoc:
 module Users
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller for managing users. Users in this case are people
     # that have access to the backend. However, users might be able
@@ -14,8 +14,8 @@ module Users
     # @author Yorick Peterse
     # @since  0.1
     #
-    class Users < Zen::Controllers::AdminController
-      include ::Users::Models
+    class Users < Zen::Controller::AdminController
+      include ::Users::Model
 
       map   '/admin/users'
       trait :extension_identifier => 'com.zen.users'
@@ -158,7 +158,7 @@ module Users
             User[:email => request.params['email']].update(:last_login => Time.new)
             
             notification(:success, lang('users.titles.index'), lang('users.success.login'))
-            redirect(::Sections::Controllers::Sections.r(:index))
+            redirect(::Sections::Controller::Sections.r(:index))
           else
             notification(:error, lang('users.titles.index'), lang('users.errors.login'))
           end

@@ -1,7 +1,7 @@
 #:nodoc:
 module Categories
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a single category group. Each category group
     # has the following relations to other models:
@@ -13,8 +13,8 @@ module Categories
     # and should be no longer than 255 characters.
     #
     class CategoryGroup < Sequel::Model
-      one_to_many  :categories, :class => "Categories::Models::Category"
-      many_to_many :sections  , :class => "Sections::Models::Section"
+      one_to_many  :categories, :class => "Categories::Model::Category"
+      many_to_many :sections  , :class => "Sections::Model::Section"
       
       ##
       # Validation rules for our model.

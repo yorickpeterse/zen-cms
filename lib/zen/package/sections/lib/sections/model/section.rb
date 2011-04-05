@@ -1,7 +1,7 @@
 #:nodoc:
 module Sections
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a single section. This model has the following
     # relations:
@@ -20,18 +20,18 @@ module Sections
     class Section < Sequel::Model
       one_to_many(
         :section_entries, 
-        :class => "Sections::Models::SectionEntry", 
+        :class => "Sections::Model::SectionEntry", 
         :eager => [:custom_field_values]
       )
       
       many_to_many(
         :custom_field_groups, 
-        :class => "CustomFields::Models::CustomFieldGroup"
+        :class => "CustomFields::Model::CustomFieldGroup"
       )
 
       many_to_many(
         :category_groups,
-        :class => "Categories::Models::CategoryGroup"
+        :class => "Categories::Model::CategoryGroup"
       )
 
       plugin(:sluggable, :source => :name, :freeze => false)

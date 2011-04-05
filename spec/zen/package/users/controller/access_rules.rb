@@ -2,8 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('access_rules')
 
-describe("Users::Controllers::AccessRules", :type => :acceptance, :auto_login => true) do
-  include Users::Controllers
+describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => true) do
+  include Users::Controller
 
   it("No access rules should exist") do
     index_url = AccessRules.r(:index).to_s

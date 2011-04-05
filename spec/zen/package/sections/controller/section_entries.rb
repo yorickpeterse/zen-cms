@@ -3,19 +3,19 @@ require File.expand_path('../../../../../helper', __FILE__)
 SectionsTest = {}
 
 # Run the actual test
-describe("Sections::Controllers::SectionEntries", :type => :acceptance, :auto_login => true) do
+describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_login => true) do
   
   it("Create the test data") do
-    SectionsTest[:section] = Sections::Models::Section.new(
+    SectionsTest[:section] = Sections::Model::Section.new(
       :name => 'Spec section', :comment_allow => true, :comment_require_account => true,
       :comment_moderate => true, :comment_format => 'plain'
     )
     SectionsTest[:section].save
 
-    SectionsTest[:group] = CustomFields::Models::CustomFieldGroup.new(:name => 'Spec fields')
+    SectionsTest[:group] = CustomFields::Model::CustomFieldGroup.new(:name => 'Spec fields')
     SectionsTest[:group].save
 
-    SectionsTest[:field] = CustomFields::Models::CustomField.new(
+    SectionsTest[:field] = CustomFields::Model::CustomField.new(
       :name => 'Spec field', :sort_order => 0, :type => 'textbox', :format => 'markdown',
       :required => true, :visual_editor => false, 
       :custom_field_group_id => SectionsTest[:group].id
@@ -29,7 +29,7 @@ describe("Sections::Controllers::SectionEntries", :type => :acceptance, :auto_lo
   end
 
   it("No section entries should exist") do
-    index_url = Sections::Controllers::SectionEntries.r(
+    index_url = Sections::Controller::SectionEntries.r(
       :index, SectionsTest[:section].id
     ).to_s
 
@@ -42,13 +42,13 @@ describe("Sections::Controllers::SectionEntries", :type => :acceptance, :auto_lo
   end
 
   it("Create a new section entry") do
-    index_url = Sections::Controllers::SectionEntries.r(
+    index_url = Sections::Controller::SectionEntries.r(
       :index, SectionsTest[:section].id
     ).to_s
-    new_url   = Sections::Controllers::SectionEntries.r(
+    new_url   = Sections::Controller::SectionEntries.r(
       :new, SectionsTest[:section].id
     ).to_s
-    edit_url  = Sections::Controllers::SectionEntries.r(
+    edit_url  = Sections::Controller::SectionEntries.r(
       :edit, SectionsTest[:section].id
     ).to_s
 
@@ -77,10 +77,10 @@ describe("Sections::Controllers::SectionEntries", :type => :acceptance, :auto_lo
   end
 
   it("Edit an existing section entry") do
-    index_url = Sections::Controllers::SectionEntries.r(
+    index_url = Sections::Controller::SectionEntries.r(
       :index, SectionsTest[:section].id
     ).to_s
-    edit_url  = Sections::Controllers::SectionEntries.r(
+    edit_url  = Sections::Controller::SectionEntries.r(
       :edit, SectionsTest[:section].id
     ).to_s
 
@@ -104,7 +104,7 @@ describe("Sections::Controllers::SectionEntries", :type => :acceptance, :auto_lo
   end
 
   it("Delete an existing section entry") do
-    index_url = Sections::Controllers::SectionEntries.r(
+    index_url = Sections::Controller::SectionEntries.r(
       :index, SectionsTest[:section].id
     ).to_s
 

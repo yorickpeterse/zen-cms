@@ -3,13 +3,13 @@ require File.expand_path('../../../../../helper', __FILE__)
 Zen::Language.load('custom_field_groups')
 
 describe(
-  "CustomFields::Controllers::CustomFieldGroups", 
+  "CustomFields::Controller::CustomFieldGroups", 
   :type       => :acceptance, 
   :auto_login => true
 ) do
 
   it("No custom field groups should exist") do
-    index_url = CustomFields::Controllers::CustomFieldGroups.r(:index).to_s
+    index_url = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
     message   = lang('custom_field_groups.messages.no_groups')
 
     visit(index_url)
@@ -20,9 +20,9 @@ describe(
   end
 
   it("Create a new group") do
-    index_url   = CustomFields::Controllers::CustomFieldGroups.r(:index).to_s
-    new_url     = CustomFields::Controllers::CustomFieldGroups.r(:new).to_s
-    edit_url    = CustomFields::Controllers::CustomFieldGroups.r(:edit).to_s
+    index_url   = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
+    new_url     = CustomFields::Controller::CustomFieldGroups.r(:new).to_s
+    edit_url    = CustomFields::Controller::CustomFieldGroups.r(:edit).to_s
     add_button  = lang('custom_field_groups.buttons.new')
     save_button = lang('custom_field_groups.buttons.save')
 
@@ -43,8 +43,8 @@ describe(
   end
 
   it("Edit an existing group") do
-    index_url   = CustomFields::Controllers::CustomFieldGroups.r(:index).to_s
-    edit_url    = CustomFields::Controllers::CustomFieldGroups.r(:edit).to_s
+    index_url   = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
+    edit_url    = CustomFields::Controller::CustomFieldGroups.r(:edit).to_s
     save_button = lang('custom_field_groups.buttons.save')
 
     visit(index_url)
@@ -64,7 +64,7 @@ describe(
   end
 
   it("Delete an existing group") do
-    index_url     = CustomFields::Controllers::CustomFieldGroups.r(:index).to_s
+    index_url     = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
     delete_button = lang('custom_field_groups.buttons.delete')
     message       = lang('custom_field_groups.messages.no_groups')
 

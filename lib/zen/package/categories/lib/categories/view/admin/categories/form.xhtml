@@ -24,7 +24,7 @@ form_for(
     
     # Generate the dropdown that contains all possible parent categories
     parent_categories = {}
-    Categories::Models::CategoryGroup[@category_group_id].categories.each do |c|
+    Categories::Model::CategoryGroup[@category_group_id].categories.each do |c|
       if c.id != @category.id
         parent_categories[c.id] = c.name
       end

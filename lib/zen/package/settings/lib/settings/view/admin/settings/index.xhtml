@@ -47,7 +47,7 @@
             
             # Get all possible values for the current setting from the language pack
             begin
-              values = Settings::Models::Setting.send("get_#{s.key}_values")
+              values = Settings::Model::Setting.send("get_#{s.key}_values")
             rescue
               values = {}
             end

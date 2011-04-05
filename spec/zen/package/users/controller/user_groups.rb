@@ -2,8 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('user_groups')
 
-describe("Users::Controllers::UserGroups", :type => :acceptance, :auto_login => true) do
-  include Users::Controllers
+describe("Users::Controller::UserGroups", :type => :acceptance, :auto_login => true) do
+  include Users::Controller
 
   it("A single user group should exist") do
     index_url = UserGroups.r(:index).to_s

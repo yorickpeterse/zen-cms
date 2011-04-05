@@ -41,7 +41,7 @@ module Settings
       # @since  0.1
       #
       def render(context)
-        setting = ::Settings::Models::Setting[:key => @key]
+        setting = ::Settings::Model::Setting[:key => @key]
 
         if !setting.nil?
           if setting.value.nil? or setting.value.empty?

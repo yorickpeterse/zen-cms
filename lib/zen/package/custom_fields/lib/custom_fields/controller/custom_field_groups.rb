@@ -1,7 +1,7 @@
 #:nodoc:
 module CustomFields
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller for managing custom field groups. These groups are used
     # to organize individual fields into a larger group which in turn will
@@ -10,8 +10,8 @@ module CustomFields
     # @author  Yorick Peterse
     # @since   0.1
     #
-    class CustomFieldGroups < Zen::Controllers::AdminController
-      include ::CustomFields::Models
+    class CustomFieldGroups < Zen::Controller::AdminController
+      include ::CustomFields::Model
 
       map   '/admin/custom-field-groups'
       trait :extension_identifier => 'com.zen.custom_fields' 

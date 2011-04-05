@@ -128,7 +128,7 @@ module Sections
         # ------
         # Filter by a category's slug
         elsif @arguments.key?('category') and !@arguments['category'].empty?
-          category = ::Categories::Models::Category[:slug => @arguments['category']]
+          category = ::Categories::Model::Category[:slug => @arguments['category']]
 
           # Bail out of the category doesn't exist
           return result if category.nil?
@@ -146,7 +146,7 @@ module Sections
             @arguments['section'] = ::Settings::Model::Setting.get_settings[:default_section]
           end
           
-          section = ::Sections::Models::Section[:slug => @arguments['section']]
+          section = ::Sections::Model::Section[:slug => @arguments['section']]
           
           return result if section.nil?
 
@@ -154,7 +154,7 @@ module Sections
         end
         
         # Get all entries
-        entries = ::Sections::Models::SectionEntry
+        entries = ::Sections::Model::SectionEntry
           .eager(:custom_field_values, :categories, :comments, :section, :user)
           .filter(filter_hash)
           .order(@arguments['order_by'].to_sym.send(@arguments['order']))

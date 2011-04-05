@@ -1,7 +1,7 @@
 #:nodoc:
 module Zen
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # The BaseController is extended by both the FrontendController and the 
     # BackendController. This controller is mostly used to set and retrieve data that's 
@@ -27,7 +27,7 @@ module Zen
         
         # Get all settings
         if !@settings
-          @settings = ::Settings::Models::Setting.get_settings
+          @settings = ::Settings::Model::Setting.get_settings
         end
         
         # Override the language

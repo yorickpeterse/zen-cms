@@ -44,7 +44,7 @@
                     <td>
                         #{anchor_to(
                           menu.name, 
-                          Menus::Controllers::Menus.r(:edit, menu.id)
+                          Menus::Controller::Menus.r(:edit, menu.id)
                         )}
                     </td>
                     <?r else ?>
@@ -59,7 +59,7 @@
                     <td>
                         #{anchor_to(
                           lang('menus.labels.manage_items'), 
-                          Menus::Controllers::MenuItems.r(:index, menu.id)
+                          Menus::Controller::MenuItems.r(:index, menu.id)
                         )}
                     </td>
                     <?r end ?>
@@ -78,7 +78,7 @@
             <div class="button">
                 #{anchor_to(
                   lang('menus.buttons.new'), 
-                  Menus::Controllers::Menus.r(:new) 
+                  Menus::Controller::Menus.r(:new) 
                 )}
             </div>
             <?r end ?>

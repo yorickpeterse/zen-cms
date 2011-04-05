@@ -1,7 +1,7 @@
 #:nodoc:
 module Menus
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model used for managing individual menu items in a group.
     # This model uses the following plugins:

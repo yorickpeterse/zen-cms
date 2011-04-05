@@ -9,7 +9,7 @@ module Sequel
     # elements using the BlueForm helper.
     #
     # @example
-    #  Sections::Models::Section.pk_hash(:name) # => {1 => 'Blog', 2 => 'General'}
+    #  Sections::Model::Section.pk_hash(:name) # => {1 => 'Blog', 2 => 'General'}
     #
     # @author Yorick Peterse
     # @param  [Symbol] column The name of the optional column to select.

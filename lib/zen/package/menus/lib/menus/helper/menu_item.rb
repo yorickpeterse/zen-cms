@@ -19,14 +19,14 @@ module Ramaze
       # @param  [Integer] menu_id The ID of the menu to validate.
       #
       def validate_menu(menu_id = nil)
-        if !menu_id or ::Menus::Models::Menu[menu_id].nil?
+        if !menu_id or ::Menus::Model::Menu[menu_id].nil?
           notification(
             :error, 
             @menu_items_lang.titles[:index], 
             @menu_items_lang.errors[:invalid_menu]
           )
 
-          redirect(::Menus::Controllers::Menus.r(:index))
+          redirect(::Menus::Controller::Menus.r(:index))
         end
       end
 
@@ -48,7 +48,7 @@ module Ramaze
       # @return [Hash]
       #
       def menu_item_tree(menu_id)
-        menu_items = ::Menus::Models::MenuItem.filter(
+        menu_items = ::Menus::Model::MenuItem.filter(
           :menu_id   => menu_id, 
           :parent_id => nil
         )
@@ -71,7 +71,7 @@ module Ramaze
       #
       # @author Yorick Peterse
       # @since  0.2a
-      # @param  [Menus::Models::MenuItem] item A MenuItem instance
+      # @param  [Menus::Model::MenuItem] item A MenuItem instance
       # @param  [Integer] spaces The amount of unbreakable spaces to use.
       #
       def descendant_items(item, spaces)

@@ -1,7 +1,7 @@
 #:nodoc:
 module Zen
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller that should be extended by other controllers that can be accessed from
     # the web without having to log in. Frontend controllers don't have a layout and
@@ -10,7 +10,7 @@ module Zen
     # @author Yorick Peterse
     # @since  0.1
     #
-    class FrontendController < Zen::Controllers::BaseController
+    class FrontendController < Zen::Controller::BaseController
       engine :liquid
       layout :none
     end

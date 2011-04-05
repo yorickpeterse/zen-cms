@@ -3,10 +3,10 @@ require File.expand_path('../../../../../helper', __FILE__)
 Zen::Language.load('comments')
 CommentsTest = {}
 
-describe("Comments::Controllers::Comments", :type => :acceptance, :auto_login => true) do
-  include Comments::Controllers
-  include Comments::Models
-  include Sections::Models
+describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => true) do
+  include Comments::Controller
+  include Comments::Model
+  include Sections::Model
 
   it("Create all test data") do
     CommentsTest[:section] = Section.new(

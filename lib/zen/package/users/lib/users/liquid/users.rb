@@ -43,7 +43,7 @@ module Users
         
         @arguments = @arguments.merge(parse_key_values(arguments))
         @users     = []
-        users      = ::Users::Models::User.limit(@arguments['limit'], @arguments['offset'])
+        users      = ::Users::Model::User.limit(@arguments['limit'], @arguments['offset'])
         
         users.each do |u|
           hash = {}

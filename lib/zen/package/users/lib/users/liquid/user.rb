@@ -49,7 +49,7 @@ module Users
         end
         
         @user = {}
-        user  = ::Users::Models::User[@arguments]
+        user  = ::Users::Model::User[@arguments]
         
         if !user.nil?
           user.values.each do |k, v|

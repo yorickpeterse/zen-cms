@@ -1,7 +1,7 @@
 #:nodoc:
 module Categories 
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Categories can be seen as "tags" for your section entries. They describe the
     # type of entry just like tags except that categories generally cover larger elements.
@@ -11,8 +11,8 @@ module Categories
     # @author Yorick Peterse
     # @since  0.1
     #
-    class Categories < Zen::Controllers::AdminController
-      include ::Categories::Models
+    class Categories < Zen::Controller::AdminController
+      include ::Categories::Model
       
       map '/admin/categories'
       trait :extension_identifier => 'com.zen.categories'

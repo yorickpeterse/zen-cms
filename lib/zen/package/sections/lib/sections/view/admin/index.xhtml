@@ -42,7 +42,7 @@
                     <td>
                         #{anchor_to(
                           section.name, 
-                          Sections::Controllers::Sections.r(:edit, section.id), 
+                          Sections::Controller::Sections.r(:edit, section.id), 
                           :title => section.name
                         )}
                     </td>
@@ -59,7 +59,7 @@
                     <td>
                         #{anchor_to(
                           lang('sections.labels.manage_entries'), 
-                          Sections::Controllers::SectionEntries.r(:index, section.id)
+                          Sections::Controller::SectionEntries.r(:index, section.id)
                         )}
                     </td>
                     <?r end ?>
@@ -77,7 +77,7 @@
             <div class="button">
                 #{anchor_to(
                   lang('sections.buttons.new'),
-                  Sections::Controllers::Sections.r(:new)
+                  Sections::Controller::Sections.r(:new)
                 )}
             </div>    
             <?r end ?>

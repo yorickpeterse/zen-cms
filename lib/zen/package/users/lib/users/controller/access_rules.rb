@@ -1,7 +1,7 @@
 #:nodoc:
 module Users
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller for managing access rules. Each access rule can be used
     # to specify whether or not a user can edit or create something.
@@ -16,8 +16,8 @@ module Users
     # @author Yorick Peterse
     # @since  0.1
     #
-    class AccessRules < Zen::Controllers::AdminController
-      include ::Users::Models
+    class AccessRules < Zen::Controller::AdminController
+      include ::Users::Model
 
       map   '/admin/access-rules'
       trait :extension_identifier => 'com.zen.users'

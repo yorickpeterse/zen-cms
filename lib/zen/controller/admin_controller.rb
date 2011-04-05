@@ -1,7 +1,7 @@
 #:nodoc:
 module Zen
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # The admin controller is a base controller that should be extended by all controllers
     # for the backend of Zen. This controller will automatically check to see if the 
@@ -30,7 +30,7 @@ module Zen
     # @author Yorick Peterse
     # @since  0.1
     #
-    class AdminController < Zen::Controllers::BaseController
+    class AdminController < Zen::Controller::BaseController
       layout :admin
       engine :etanni
       helper :blue_form, :common, :breadcrumb, :user, :acl, :asset

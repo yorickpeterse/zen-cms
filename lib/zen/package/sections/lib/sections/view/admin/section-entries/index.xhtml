@@ -40,7 +40,7 @@
                     <td>
                         #{anchor_to(
                           entry.title, 
-                          Sections::Controllers::SectionEntries.r(:edit, @section_id, entry.id)
+                          Sections::Controller::SectionEntries.r(:edit, @section_id, entry.id)
                         )}
                     </td>
                     <?r else ?>
@@ -66,7 +66,7 @@
             <div class="button">
                 #{anchor_to(
                   lang('section_entries.buttons.new'), 
-                  Sections::Controllers::SectionEntries.r(:new, @section_id)
+                  Sections::Controller::SectionEntries.r(:new, @section_id)
                 )}
             </div>
             <?r end ?>

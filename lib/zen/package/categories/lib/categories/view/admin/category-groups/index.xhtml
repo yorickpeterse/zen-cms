@@ -40,7 +40,7 @@
                     <td>
                         #{anchor_to(
                           group.name, 
-                          Categories::Controllers::CategoryGroups.r(:edit, group.id)
+                          Categories::Controller::CategoryGroups.r(:edit, group.id)
                         )}
                     </td>
                     <?r else ?>
@@ -51,7 +51,7 @@
                     <td>
                         #{anchor_to(
                           lang('category_groups.labels.manage'), 
-                          Categories::Controllers::Categories.r(:index, group.id)
+                          Categories::Controller::Categories.r(:index, group.id)
                         )}
                     </td>
                     <?r end ?>
@@ -70,7 +70,7 @@
             <div class="button">
                 #{anchor_to(
                   lang('category_groups.buttons.new'), 
-                  Categories::Controllers::CategoryGroups.r(:new)
+                  Categories::Controller::CategoryGroups.r(:new)
                 )}
             </div>
             <?r end ?>

@@ -72,10 +72,10 @@ module Menus
         menu_items   = []
         
         if @arguments.key?('id')
-          menu = ::Menus::Models::Menu[@arguments['slug'].to_i]
+          menu = ::Menus::Model::Menu[@arguments['slug'].to_i]
 
         elsif @arguments.key?('slug')
-          menu = ::Menus::Models::Menu[:slug => @arguments['slug']]
+          menu = ::Menus::Model::Menu[:slug => @arguments['slug']]
 
         else
           raise(
@@ -86,7 +86,7 @@ module Menus
 
         return if menu.nil?
 
-        menu_items = ::Menus::Models::MenuItem.filter(:menu_id => menu.id)
+        menu_items = ::Menus::Model::MenuItem.filter(:menu_id => menu.id)
           .order(:order.send(@arguments['order']))
         
         # Build the navigation menu

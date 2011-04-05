@@ -95,11 +95,11 @@ module Zen
         end.join
       
         # Only insert the user if it isn't there yet.
-        user  = Users::Models::User[:email => 'admin@website.tld']
-        group = Users::Models::UserGroup[:slug => 'administrators']
+        user  = Users::Model::User[:email => 'admin@website.tld']
+        group = Users::Model::UserGroup[:slug => 'administrators']
         
         if group.nil?
-          group = Users::Models::UserGroup.new(
+          group = Users::Model::UserGroup.new(
             :name => 'Administrators',
             :slug => 'administrators', :super_group => true
           ).save
@@ -109,7 +109,7 @@ module Zen
           abort "The default user has already been inserted."
         end
         
-        user = Users::Models::User.new(
+        user = Users::Model::User.new(
           :email => 'admin@website.tld', :name => 'Administrator',
           :password => password, :status => 'open'
         ).save

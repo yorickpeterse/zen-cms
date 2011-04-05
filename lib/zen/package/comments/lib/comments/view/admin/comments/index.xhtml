@@ -38,7 +38,7 @@
                     <td>
                         #{anchor_to(
                           "#{comment.comment[0, 15]}...", 
-                          Comments::Controllers::Comments.r(:edit, comment.id)
+                          Comments::Controller::Comments.r(:edit, comment.id)
                         )}
                     </td>
                     <?r else ?>
@@ -46,7 +46,7 @@
                     <?r end ?>
                     
                     <td>#{comment.section_entry.title}</td>
-                    <td>#{Comments::Models::Comment.status_hash[comment.status]}</td>
+                    <td>#{Comments::Model::Comment.status_hash[comment.status]}</td>
                     
                     <?r if !comment.user_id ?>
                     <td>#{comment.name}</td>

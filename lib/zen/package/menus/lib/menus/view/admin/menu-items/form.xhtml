@@ -27,7 +27,7 @@ form_for(
 
   # Generate the dropdown that contains all possible parent menu items    
   parent_items = {}
-  Menus::Models::Menu[@menu_id.to_i].menu_items.each do |i|
+  Menus::Model::Menu[@menu_id.to_i].menu_items.each do |i|
     if i.id != @menu_item.id
       parent_items[i.id] = i.name
     end

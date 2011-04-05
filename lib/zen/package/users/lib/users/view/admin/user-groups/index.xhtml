@@ -37,7 +37,7 @@
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{anchor_to(
-                          group.name, Users::Controllers::UserGroups.r(:edit, group.id)
+                          group.name, Users::Controller::UserGroups.r(:edit, group.id)
                         )}
                     </td>
                     <?r else ?>
@@ -61,7 +61,7 @@
             <div class="button">
                 #{anchor_to(
                   lang('user_groups.buttons.new'), 
-                  Users::Controllers::UserGroups.r(:new)
+                  Users::Controller::UserGroups.r(:new)
                 )}
             </div>
             <?r end ?>

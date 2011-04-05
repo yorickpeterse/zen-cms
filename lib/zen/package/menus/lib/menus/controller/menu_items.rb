@@ -1,15 +1,15 @@
 #:nodoc:
 module Menus
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Controller for managing individual navigation items that belong to a menu. 
     #
     # @author Yorick Peterse
     # @since  0.2a
     #
-    class MenuItems < ::Zen::Controllers::AdminController
-      include ::Menus::Models
+    class MenuItems < ::Zen::Controller::AdminController
+      include ::Menus::Model
 
       map    '/admin/menu-items'
       trait  :extension_identifier => 'com.zen.menus'

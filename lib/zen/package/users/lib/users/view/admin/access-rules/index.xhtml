@@ -42,7 +42,7 @@
                     <td>
                         #{anchor_to(
                           rule.extension, 
-                          Users::Controllers::AccessRules.r(:edit, rule.id)
+                          Users::Controller::AccessRules.r(:edit, rule.id)
                         )}
                     </td>
                     <?r else ?>
@@ -78,7 +78,7 @@
             <div class="button">
                 #{anchor_to(
                   lang('access_rules.buttons.new'), 
-                  Users::Controllers::AccessRules.r(:new)
+                  Users::Controller::AccessRules.r(:new)
                 )}
             </div>
             <?r end ?>

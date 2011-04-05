@@ -71,14 +71,14 @@ module Comments
         
         # Did the developer specify a section entry for which to retrieve all comments?
         if @arguments.key?('section_entry')
-          entry = ::Sections::Models::SectionEntry[:slug => @arguments['section_entry']]
+          entry = ::Sections::Model::SectionEntry[:slug => @arguments['section_entry']]
           
           return if entry.nil?
           filter_hash[:section_entry_id] = entry.id
         end
     
         # Get the comments from the database
-        comments = ::Comments::Models::Comment
+        comments = ::Comments::Model::Comment
           .eager(:user, :section_entry)
           .filter(filter_hash)
           .limit(@arguments['limit'], @arguments['offset'])

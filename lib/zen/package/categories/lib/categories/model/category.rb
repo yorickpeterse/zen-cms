@@ -1,7 +1,7 @@
 #:nodoc:
 module Categories
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a single category. This model has the following relations:
     #
@@ -21,7 +21,7 @@ module Categories
     # @since  0.1
     #
     class Category < Sequel::Model
-      many_to_one :category_group , :class => "Categories::Models::CategoryGroup"
+      many_to_one :category_group , :class => "Categories::Model::CategoryGroup"
       many_to_one :parent         , :class => self
       
       plugin :sluggable, :source => :name, :frozen => false

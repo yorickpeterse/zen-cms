@@ -1,7 +1,7 @@
 #:nodoc:
 module Sections
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a singe section entry. This model has the following
     # relations:
@@ -23,18 +23,18 @@ module Sections
 
       one_to_many(
         :comments, 
-        :class => "Comments::Models::Comment"
+        :class => "Comments::Model::Comment"
       )
 
       one_to_many(
         :custom_field_values, 
-        :class => "CustomFields::Models::CustomFieldValue", 
+        :class => "CustomFields::Model::CustomFieldValue", 
         :eager => [:custom_field]
       )
       
-      many_to_one(:user       , :class => "Users::Models::User")
-      many_to_many(:categories, :class => "Categories::Models::Category")
-      many_to_one(:section    , :class => "Sections::Models::Section")
+      many_to_one(:user       , :class => "Users::Model::User")
+      many_to_many(:categories, :class => "Categories::Model::Category")
+      many_to_one(:section    , :class => "Sections::Model::Section")
       
       plugin(:sluggable , :source => :title     , :freeze => false)
       plugin(:timestamps, :create => :created_at, :update => false)

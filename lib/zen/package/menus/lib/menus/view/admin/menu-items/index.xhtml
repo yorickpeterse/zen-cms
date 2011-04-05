@@ -41,7 +41,7 @@
                     <td>
                         #{anchor_to(
                           item.name, 
-                          Menus::Controllers::MenuItems.r(:edit, @menu_id, item.id)
+                          Menus::Controller::MenuItems.r(:edit, @menu_id, item.id)
                         )}
                     </td>
                     <?r else ?>
@@ -68,7 +68,7 @@
             <div class="button">
                 #{anchor_to(
                   lang('menu_items.buttons.new'), 
-                  Menus::Controllers::MenuItems.r(:new, @menu_id)
+                  Menus::Controller::MenuItems.r(:new, @menu_id)
                 )}
             </div>
             <?r end ?>

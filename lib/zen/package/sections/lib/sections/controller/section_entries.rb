@@ -1,7 +1,7 @@
 #:nodoc:
 module Sections
   #:nodoc:
-  module Controllers
+  module Controller
     ##
     # Section entries can be seen as blog entries, products, all sorts of things.
     # Each section belongs to a section and can't be created without one.
@@ -9,8 +9,8 @@ module Sections
     # @author Yorick Peterse
     # @since  0.1
     #
-    class SectionEntries < Zen::Controllers::AdminController
-      include ::Sections::Models 
+    class SectionEntries < Zen::Controller::AdminController
+      include ::Sections::Model 
       
       map   '/admin/section-entries' 
       trait :extension_identifier => 'com.zen.sections'
@@ -123,7 +123,7 @@ module Sections
 
         @users_hash = {}
         
-        Users::Models::User.each { |u| @users_hash[u.id] = u.name }
+        Users::Model::User.each { |u| @users_hash[u.id] = u.name }
       end
       
       ##
@@ -153,7 +153,7 @@ module Sections
         @entry      = SectionEntry.new(:section_id => @section_id)
         @users_hash = {}
         
-        Users::Models::User.each { |u| @users_hash[u.id] = u.name }
+        Users::Model::User.each { |u| @users_hash[u.id] = u.name }
       end
       
       ##
@@ -214,7 +214,7 @@ module Sections
             
             # Update the field values
             field_values.each do |field_id, value|
-              field_value = CustomFields::Models::CustomFieldValue[
+              field_value = CustomFields::Model::CustomFieldValue[
                 :custom_field_id  => field_id, 
                 :section_entry_id => @entry.id
               ]

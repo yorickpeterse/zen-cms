@@ -1,12 +1,12 @@
 #:nodoc:
 module Settings
   #:nodoc:
-  module Models
+  module Model
     ##
     # Model that represents a single setting. This model is also used to retrieve
     # all possible values for a certain settngs. This is done by calling a method
     # that matches the format get_SETTING-NAME_values. For example, a setting named "theme"
-    # would result in a call to Settings::Models::Setting#get_theme_values.
+    # would result in a call to Settings::Model::Setting#get_theme_values.
     #
     # In order to add new method you'll have to monkey patch this model as following:
     #
@@ -85,7 +85,7 @@ module Settings
       def self.get_default_section_values 
         section_hash = {}
 
-        ::Sections::Models::Section.select(:name, :slug).each do |s|
+        ::Sections::Model::Section.select(:name, :slug).each do |s|
           section_hash[s.slug] = s.name
         end
 
