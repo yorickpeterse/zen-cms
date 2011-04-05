@@ -45,7 +45,7 @@ form_for(
     f.select(
       lang('custom_fields.labels.format'),
       :format, 
-      :values   => @format_hash, 
+      :values   => Zen::Plugin::Markup::Engines, 
       :size     => 1,
       :selected => @custom_field.format
     )

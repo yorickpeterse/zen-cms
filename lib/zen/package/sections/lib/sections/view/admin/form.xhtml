@@ -70,7 +70,7 @@ form_for(@section, :method => 'post', :action => @form_save_url, :id => :section
     f.select(
       lang('sections.labels.comment_format'), 
       :comment_format,
-      :values   => @format_hash, 
+      :values   => Zen::Plugin::Markup::Engines, 
       :selected => @section.comment_format, 
       :size     => 1
     )

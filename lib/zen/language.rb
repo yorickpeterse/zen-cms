@@ -54,7 +54,9 @@ module Zen
   # ## Options
   #
   # * language: Small string that defines the current language (e.g. "en").
-  # * paths: Array of paths to look for a language file
+  # * paths: Array of paths to look for a language directory. Note that this should be
+  # the parent directory of the directory called "language", not the actual directory
+  # itself.
   #
   # @author Yorick Peterse
   # @since  0.2 
@@ -64,7 +66,7 @@ module Zen
 
     options.dsl do
       o 'Small string that defines the current language (e.g. "en").', :language, 'en'
-      o 'Array of paths to look for a language file'                 , :paths   , [] 
+      o 'Array of paths to look for the language files'              , :paths   , [] 
     end
 
     class << self
@@ -83,7 +85,7 @@ module Zen
     # @param  [String] lang_name The name of the language file to load. 
     # 
     def self.load(lang_name)
-      @translations ||= {}
+      @translations                             ||= {}
       @translations[self.options.language.to_s] ||= {}
 
       if @translations[self.options.language.to_s][lang_name.to_s]

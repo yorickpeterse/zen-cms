@@ -27,8 +27,7 @@ Zen::Package.add do |p|
   p.url         = 'http://zen-cms.com/userguide/menus'
 
   # Describe what your theme or extension does.
-  p.about       = 'The Menus extension allows you to easily create navigation menus 
-for the frontend.'
+  p.about       = 'The Menus extension allows you to easily create navigation menus for the frontend.'
 
   ## 
   # An identifier is a unique string for your package in the following format: 
