@@ -61,20 +61,17 @@ module Comments
       end
       
       ##
-      # Renders the tag block.
+      # Renders the comment form along with all the custom HTML found inside it.
+      # This method will also take care of inserting the CSRF tokens so you don't have to
+      # worry about this yourself.
       # 
       # @author Yorick Peterse
       # @since  0.1
+      # @return [String] The HTML for the comment form.
       #
       def render(context)
         if @args_parsed == false
-          @arguments.each do |k, v|
-            v = v.to_s
-            
-            if context.has_key?(v)
-              @arguments[k] = h(context[v])
-            end
-          end
+          @arguments = merge_context(@arguments, context)
         end
         
         @args_parsed = true
@@ -108,6 +105,7 @@ module Comments
           user_id = nil
         end
         
+        # Build the form using Gestalt
         g_html = form_for(
           nil, 
           :method => :post, 

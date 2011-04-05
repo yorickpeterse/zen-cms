@@ -6,7 +6,7 @@ describe "Zen::Liquid::Strip" do
     template = File.read(__DIR__('../../resources/liquid/strip.html'))
     template = Liquid::Template.parse(template).render.strip
 
-    template.should === '<p>hello world</p>'
+    template.should === '<p>hello world - hello world</p>'
   end
 
 end

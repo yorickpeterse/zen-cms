@@ -110,7 +110,7 @@ module Sections
       #
       def render(context)
         @arguments = merge_context(@arguments, context) if @args_parsed == false
-                
+        
         @args_parsed = true
         result       = []
         entries      = []
@@ -153,6 +153,7 @@ module Sections
           filter_hash[:section_id] = section.id
         end
         
+        # Get all entries
         entries = ::Sections::Models::SectionEntry
           .eager(:custom_field_values, :categories, :comments, :section, :user)
           .filter(filter_hash)
@@ -161,6 +162,7 @@ module Sections
         
         context['total_rows'] = entries.count
         
+        # Loop through each entry and make all the variables available
         entries.each_with_index do |entry, index|
           entry.values.each { |k, v| context[k.to_s] = v }
           
@@ -188,8 +190,8 @@ module Sections
             
             c.values.each { |k, v| values[k.to_s] = v }
             
-            # Pull the Email, name and website fields from the user table in case the comment
-            # was posted by somebody who was logged in to the backend.
+            # Pull the Email, name and website fields from the user table in case the 
+            # comment was posted by somebody who was logged in to the backend.
             ['email', 'name', 'website'].each do |m|
               if values[m].nil? or values[m].empty?
                 values[m] = c.user.send(m)
@@ -219,7 +221,10 @@ module Sections
           result.push(render_all(@nodelist, context))
         end
         
-        result.push(render_all(@nodelist, context)) if result.empty?
+        # Render the default HTML inside the tag
+        if result.empty?
+          result.push(render_all(@nodelist, context))
+        end
 
         return result
       end

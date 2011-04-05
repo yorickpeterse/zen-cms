@@ -28,10 +28,10 @@ module Zen
       # all additional arguments and the HTML to the constructor method.
       #
       # @author Yorick Peterse
+      # @since  0.1
       # @param  [String] tag_name The name of the tag that was called.
       # @param  [String] arguments All additional arguments passed as a string.
       # @param  [String] html The HTML inside the block.
-      # @since  0.1
       #
       def initialize(tag_name = 'strip', arguments = '', html = '')
         super
@@ -47,11 +47,16 @@ module Zen
       # @author Yorick Peterse
       # @since  0.1
       # @param  [Object] context The Liquid context for the current tag
+      # @return [String] The content of the block with it's starting and ending characters
+      # chopped off.
       #
-      def render context
+      def render(context)
         html = super
         html = html.join
-        html = html.gsub(/^#{@arguments['start']}/, '').gsub(/#{@arguments['end']}$/, '')
+        
+        # Chop off the specified characters
+        html.gsub!(/^#{@arguments['start']}/, '')
+        html.gsub!(/#{@arguments['end']}$/  , '')
         
         return html
       end

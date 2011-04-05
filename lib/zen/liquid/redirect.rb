@@ -53,8 +53,8 @@ module Zen
         
         # 404 URLs are treated differently than other URLs
         if @url == '404'
-          theme      = ::Zen::Package[session[:settings][:theme]]
-          not_found  = theme.directory + "/templates/404.liquid"
+          theme      = ::Zen::Theme[session[:settings][:theme]]
+          not_found  = theme.template_dir + "/404.liquid"
 
           if File.exist?(not_found)
             respond(action.instance.render_file(not_found), 404)

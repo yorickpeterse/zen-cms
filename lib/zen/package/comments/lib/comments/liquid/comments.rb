@@ -69,6 +69,7 @@ module Comments
         comments     = []
         format       = nil
         
+        # Did the developer specify a section entry for which to retrieve all comments?
         if @arguments.key?('section_entry')
           entry = ::Sections::Models::SectionEntry[:slug => @arguments['section_entry']]
           
@@ -76,6 +77,7 @@ module Comments
           filter_hash[:section_entry_id] = entry.id
         end
     
+        # Get the comments from the database
         comments = ::Comments::Models::Comment
           .eager(:user, :section_entry)
           .filter(filter_hash)
@@ -83,14 +85,17 @@ module Comments
           
         context['total_rows'] = comments.count
         
+        # Loop through all comments and render the HTML inside the tag
         comments.each_with_index do |comment, index|
           context['index'] = index
           
+          # Extract the format of all comments
           if format.nil?
             section = comment.section_entry.section
             format  = section.comment_format
           end
           
+          # Add all the fields to the context
           comment.values.each { |k, v| context[k.to_s] = v }
           
           # Convert the comment body into HTML
@@ -98,16 +103,21 @@ module Comments
             'com.zen.plugin.markup', format.to_sym, context['comment']
           )
           
+          # Extract these fields from the comment's user account if the comment was made
+          # by somebody that was logged in.
           ['email', 'name', 'website'].each do |c|
             if context[c].nil? or context[c].empty?
               context[c] = comment.user.send(c)
             end
           end
           
+          # Render the data
           result.push(render_all(@nodelist, context))
         end
         
+        # Render the default HTML in case no comments were found
         result.push(render_all(@nodelist, context)) if result.empty?
+
         return result
       end
     end
