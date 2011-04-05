@@ -1,4 +1,4 @@
-require File.expand_path('../../../../helper', __FILE__)
+require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('custom_field_groups')
 
