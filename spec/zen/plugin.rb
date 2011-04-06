@@ -2,6 +2,8 @@ require File.expand_path('../../helper', __FILE__)
 require File.expand_path('../../resources/plugin/spec', __FILE__)
 require 'rdiscount'
 
+include ::Zen::Plugin
+  
 describe("Zen::Plugin") do
   
   it("No plugins should be added") do
@@ -33,6 +35,10 @@ describe("Zen::Plugin") do
     response = Zen::Plugin.call('com.zen.plugin.spec', :upcase, 'hello world')
 
     response.should === 'HELLO WORLD'
+  end
+
+  it("Validate the type of a variable") do
+    lambda { validate_type(10, :number, String) }.should raise_error(TypeError)
   end
 
 end
