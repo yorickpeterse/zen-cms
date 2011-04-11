@@ -1,19 +1,17 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('menu_items')
-MenuItemsTest = {}
 
 describe("Menus::Controller::MenuItems", :type => :acceptance, :auto_login => true) do
   include Menus::Controller
   include Menus::Model
 
   it("Create the required test data") do
-    MenuItemsTest[:menu] = Menu.new(:name => 'Spec menu')
-    MenuItemsTest[:menu].save
+    Testdata[:menu] = Menu.new(:name => 'Spec menu').save
   end
 
   it("No menu items should exist") do
-    menu_id   = MenuItemsTest[:menu].id
+    menu_id   = Testdata[:menu].id
     index_url = MenuItems.r(:index, menu_id).to_s
     message   = lang('menu_items.messages.no_items')
     
@@ -24,7 +22,7 @@ describe("Menus::Controller::MenuItems", :type => :acceptance, :auto_login => tr
   end
 
   it("Create a new menu item") do
-    menu_id     = MenuItemsTest[:menu].id
+    menu_id     = Testdata[:menu].id
     index_url   = MenuItems.r(:index, menu_id).to_s
     edit_url    = MenuItems.r(:edit, menu_id).to_s
     new_button  = lang('menu_items.buttons.new')
@@ -44,7 +42,7 @@ describe("Menus::Controller::MenuItems", :type => :acceptance, :auto_login => tr
   end
 
   it("Edit an existing menu item") do
-    menu_id     = MenuItemsTest[:menu].id
+    menu_id     = Testdata[:menu].id
     index_url   = MenuItems.r(:index, menu_id).to_s
     save_button = lang('menu_items.buttons.save')
 
@@ -60,7 +58,7 @@ describe("Menus::Controller::MenuItems", :type => :acceptance, :auto_login => tr
   end
 
   it("Delete an existing menu item") do
-    menu_id       = MenuItemsTest[:menu].id
+    menu_id       = Testdata[:menu].id
     index_url     = MenuItems.r(:index, menu_id).to_s
     message       = lang('menu_items.messages.no_items')
     delete_button = lang('menu_items.buttons.delete')
@@ -74,7 +72,7 @@ describe("Menus::Controller::MenuItems", :type => :acceptance, :auto_login => tr
   end
 
   it("Remove all test data") do
-    MenuItemsTest[:menu].destroy
+    Testdata[:menu].destroy
   end
 
 end

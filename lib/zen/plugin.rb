@@ -138,43 +138,12 @@ module Zen
     # @param  [String] ident The plugin identifier.
     # @param  [Symbol] action The plugin action to call.
     # @param  [Array] data Any data to pass to the plugin's action (a lambda).
+    # @param  [Proc] block A block that should be passed to the plugin instead of this
+    # method.
     # @return [Mixed]
     #
-    def self.call(ident, *data)
-      return self[ident].plugin.new(*data).call
-    end
-
-    ##
-    # Method that can be used to validate the class of a given variable. If the class
-    # isn't included in the whitelist an error will be triggered explaining the error.
-    #
-    # @example
-    #  username = 10
-    #  validate_type(username, :username, [String]) # => TypeError: "\"username\" can only
-    #  be an instance of String but got Integer."
-    #
-    # @author Yorick Peterse
-    # @since  0.2.5
-    # @param  [Mixed] variable The variable to validate.
-    # @param  [Symbol/String] name The name of the variable to validate.
-    # @param  [Array] whitelist Whitelist of the allowed classes.
-    # @raise  TypeError Raised whenever the variable's class wasn't allowed.
-    #
-    def validate_type(variable, name, whitelist)
-      if whitelist.class != Array
-        whitelist = [whitelist]
-      end
-
-      name    = name.to_s
-      classes = whitelist.join(' or ').to_s
-
-      if !whitelist.include?(variable.class)
-        raise(
-          TypeError, 
-          "\"#{name}\" can only be an instance of #{classes} but got #{variable.class}"
-        )
-      end
-
+    def self.call(ident, *data, &block)
+      return self[ident].plugin.new(*data, &block).call
     end
 
   end

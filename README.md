@@ -10,24 +10,11 @@ certain points there are similarities there are also pretty big differences.
 
 ## Requirements
 
-The following Gems are always required:
-
-* Ramaze
-* Sequel
-* Liquid
-* BCrypt
-* JSON
-* Ruby 1.9
-* Defensio
-* Thor
-* Sequel Sluggable
-
-These Gems are only required when developing/hacking Zen itself:
-
-* RDiscount
-* YARD
-* RSpec 2
-* Webrat
+* Ramaze 2011.01.30 or newer 
+* Ruby 1.9 or newer
+* A Defensio API key (for the comments system)
+* A database (MySQL, PostgreSQL, etc)
+* A HDD with some space left, mostly for the log files
 
 ## Installation
 

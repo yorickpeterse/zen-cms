@@ -14,6 +14,9 @@ module Menus
     class MenuItem < Sequel::Model
       plugin :tree, :order => :order
 
+      many_to_one :menu  , :class => 'Menus::Model::Menu'
+      many_to_one :parent, :class => self
+
       ##
       # Specifies all validation rules that will be used when creating or updating a 
       # menu item.

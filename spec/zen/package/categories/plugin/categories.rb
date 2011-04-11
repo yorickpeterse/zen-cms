@@ -1,17 +1,17 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-CategoryTest = {}
+Testdata = {}
 
 describe("Categories::Plugin::Categories") do
   include Categories::Model
   
   it("Create the test data") do
-    CategoryTest[:group]      = CategoryGroup.new(:name => 'Spec').save
-    CategoryTest[:category_1] = Category.new(
-      :category_group_id => CategoryTest[:group].id, :name => 'Spec'
+    Testdata[:group]      = CategoryGroup.new(:name => 'Spec').save
+    Testdata[:category_1] = Category.new(
+      :category_group_id => Testdata[:group].id, :name => 'Spec'
     ).save
-    CategoryTest[:category_2] = Category.new(
-      :category_group_id => CategoryTest[:group].id, :name => 'Spec 1'
+    Testdata[:category_2] = Category.new(
+      :category_group_id => Testdata[:group].id, :name => 'Spec 1'
     ).save
   end
 
@@ -52,9 +52,9 @@ describe("Categories::Plugin::Categories") do
   end
 
   it("Delete the test data") do
-    CategoryTest[:category_1].delete
-    CategoryTest[:category_2].delete
-    CategoryTest[:group].delete
+    Testdata[:category_1].destroy
+    Testdata[:category_2].destroy
+    Testdata[:group].destroy
   end
 
 end

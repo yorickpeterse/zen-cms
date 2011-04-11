@@ -20,7 +20,7 @@ module Comments
     # @since  0.2.5
     #
     class Comments
-      include ::Zen::Plugin
+      include ::Zen::Plugin::Helper
       include ::Sections::Model
       include ::Comments::Model
       
@@ -71,8 +71,8 @@ module Comments
         # Now that we have the entry and the section we can start retrieving all the 
         # comments.
         comments = Comment.filter(:section_entry_id => entry.id)
-                          .limit(@options[:limit], @options[:offset])
-                          .all
+          .limit(@options[:limit], @options[:offset])
+          .all
 
         # Don't bother with all code below this if/end if we don't want to convert the
         # markup of each comment.

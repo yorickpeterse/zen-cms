@@ -1,8 +1,6 @@
 require File.expand_path('../../../../../helper', __FILE__)
 require 'rdiscount'
 
-TestData = {}
-
 describe("Comments::Plugin::Comments") do
   include Sections::Model
   include Comments::Model
@@ -11,29 +9,29 @@ describe("Comments::Plugin::Comments") do
   it("Create the test data") do
     user = User[:email => 'spec@domain.tld']
 
-    TestData[:section] = Section.new(
+    Testdata[:section] = Section.new(
       :name => 'Spec', :comment_allow => true, :comment_require_account => false, 
       :comment_moderate => false, :comment_format => 'markdown'
     ).save
 
-    TestData[:entry] = SectionEntry.new(
-      :title   => 'Spec', :status => 'published', :section_id => TestData[:section].id,
+    Testdata[:entry] = SectionEntry.new(
+      :title   => 'Spec', :status => 'published', :section_id => Testdata[:section].id,
       :user_id => user.id
     ).save
 
-    TestData[:comment_1] = Comment.new(
+    Testdata[:comment_1] = Comment.new(
       :user_id => user.id, :comment => 'Spec comment', :status => 'open', 
-      :section_entry_id => TestData[:entry].id, :email => user.email
+      :section_entry_id => Testdata[:entry].id, :email => user.email
     ).save
 
-    TestData[:comment_2] = Comment.new(
+    Testdata[:comment_2] = Comment.new(
       :user_id => user.id, :comment => 'Spec comment 1', :status => 'open', 
-      :section_entry_id => TestData[:entry].id, :email => user.email
+      :section_entry_id => Testdata[:entry].id, :email => user.email
     ).save
   end
 
   it("Retrieve all comments for an ID") do
-    comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => TestData[:entry].slug)
+    comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => Testdata[:entry].slug)
     
     comments.count.should                                 === 2
     comments[0].comment.include?('Spec comment').should   === true
@@ -41,16 +39,24 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Retrieve all comments for a slug") do
-    comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => TestData[:entry].id)
+    comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => Testdata[:entry].id)
     
     comments.count.should                                 === 2
     comments[0].comment.include?('Spec comment').should   === true
     comments[1].comment.include?('Spec comment 1').should === true 
   end
 
+  it("Retrieve all comments and check the markup") do
+    comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => Testdata[:entry].id)
+    
+    comments.count.should            === 2
+    comments[0].comment.strip.should === '<p>Spec comment</p>'
+    comments[1].comment.strip.should === '<p>Spec comment 1</p>' 
+  end
+
   it("Retrieve a single comment") do
     comments = Zen::Plugin.call(
-      'com.zen.plugin.comments', :entry => TestData[:entry].id, :limit => 1
+      'com.zen.plugin.comments', :entry => Testdata[:entry].id, :limit => 1
     )
 
     comments.count.should                               === 1
@@ -59,7 +65,7 @@ describe("Comments::Plugin::Comments") do
 
   it("Retrieve a single comment with an offset") do
     comments = Zen::Plugin.call(
-      'com.zen.plugin.comments', :entry => TestData[:entry].id, :limit => 1, :offset => 1
+      'com.zen.plugin.comments', :entry => Testdata[:entry].id, :limit => 1, :offset => 1
     )
 
     comments.count.should                                 === 1
@@ -67,10 +73,10 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Remove the test data") do
-    TestData[:comment_2].delete
-    TestData[:comment_1].delete
-    TestData[:entry].delete
-    TestData[:section].delete
+    Testdata[:comment_2].destroy
+    Testdata[:comment_1].destroy
+    Testdata[:entry].destroy
+    Testdata[:section].destroy
   end
 
 end

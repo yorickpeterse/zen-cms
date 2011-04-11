@@ -1,7 +1,6 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('comments')
-CommentsTest = {}
 
 describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => true) do
   include Comments::Controller
@@ -9,17 +8,17 @@ describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => 
   include Sections::Model
 
   it("Create all test data") do
-    CommentsTest[:section] = Section.new(
+    Testdata[:section] = Section.new(
       :name => 'Spec section', :comment_allow => true, 
       :comment_require_account => false, :comment_moderate => false, 
       :comment_format          => 'markdown'
     )
-    CommentsTest[:section].save
+    Testdata[:section].save
 
-    CommentsTest[:entry] = SectionEntry.new(
+    Testdata[:entry] = SectionEntry.new(
       :title => 'Spec entry', :status => 'published', :user_id => 1
     )
-    CommentsTest[:entry].save
+    Testdata[:entry].save
   end
 
   it("No comments should exist") do
@@ -34,7 +33,7 @@ describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => 
 
   it("Create a new comment") do
     comment = Comment.new(
-      :user_id => 1, :section_entry_id => CommentsTest[:entry].id, 
+      :user_id => 1, :section_entry_id => Testdata[:entry].id, 
       :email   => 'spec@domain.tld', :comment => 'Spec comment' 
     )
     comment.save
@@ -81,8 +80,8 @@ describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => 
   end
 
   it("Delete all test data") do
-    CommentsTest[:entry].destroy
-    CommentsTest[:section].destroy
+    Testdata[:entry].destroy
+    Testdata[:section].destroy
   end
 
 end

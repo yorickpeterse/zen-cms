@@ -137,7 +137,7 @@ module Menus
             @g.span { item.name }
           end
           
-          if !children.empty?
+          if !children.empty? 
             @g.ul(:class => :children) do
               item.children.each do |i| 
                 self.menu_item(i)

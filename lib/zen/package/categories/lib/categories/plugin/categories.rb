@@ -21,7 +21,7 @@ module Categories
     #
     class Categories
       include ::Categories::Model
-      include ::Zen::Plugin
+      include ::Zen::Plugin::Helper
 
       ##
       # Creates a new instance of the plugin and stores the configuration options.
@@ -101,8 +101,8 @@ module Categories
           # Get all the categories according to our specified configuration options
           # and the category group that was retrieved earlier on.
           categories = Category.filter(:category_group_id => category_group.id)
-                               .limit(@options[:limit], @options[:offset])
-                               .all
+            .limit(@options[:limit], @options[:offset])
+            .all
           
         # Retrieve the category for the specified ID or slug
         else

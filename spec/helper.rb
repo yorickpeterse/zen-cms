@@ -5,7 +5,7 @@ require 'rack/test'
 require 'capybara'
 require 'capybara/rspec'
 
-# Load all tasks
+# Load the database task, used for migrating the spec database.
 require __DIR__('../lib/zen/task/db')
 
 # Configure all middlewares
@@ -48,12 +48,12 @@ Ramaze.start(
 
 # Configure RSpec
 RSpec.configure do |c|
-  # Clear all logging done by Ramaze
+  # Clear all logging done by Ramaze as this makes reading the RSpec output a bit hard
   c.after do
     ::Ramaze::Log.loggers.clear
   end
 
-  # Automatically log the spec user in
+  # Automatically log the user in
   c.before(:auto_login => true) do
     login_url     = ::Users::Controller::Users.r(:login).to_s
     dashboard_url = ::Sections::Controller::Sections.r(:index).to_s
@@ -68,3 +68,6 @@ RSpec.configure do |c|
     end
   end
 end
+
+# Hash that can be used to store test data for certain specifications
+Testdata = {}

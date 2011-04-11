@@ -1,7 +1,6 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('categories')
-CategoriesTest = {}
 
 describe(
   "Categories::Controller::Categories", :type => :acceptance, :auto_login => true
@@ -10,12 +9,11 @@ describe(
   include Categories::Model
 
   it("Create the test data") do
-    CategoriesTest[:group] = CategoryGroup.new(:name => 'Spec group')
-    CategoriesTest[:group].save
+    Testdata[:group] = CategoryGroup.new(:name => 'Spec group').save
   end
 
   it("No categories should exist") do
-    index_url = Categories.r(:index, CategoriesTest[:group].id).to_s
+    index_url = Categories.r(:index, Testdata[:group].id).to_s
     message   = lang('categories.messages.no_categories')
 
     visit(index_url)
@@ -26,8 +24,8 @@ describe(
   end
 
   it("Create a new category") do
-    index_url   = Categories.r(:index, CategoriesTest[:group].id).to_s
-    edit_url    = Categories.r(:edit , CategoriesTest[:group].id).to_s
+    index_url   = Categories.r(:index, Testdata[:group].id).to_s
+    edit_url    = Categories.r(:edit , Testdata[:group].id).to_s
     new_button  = lang('categories.buttons.new')
     save_button = lang('categories.buttons.save')
 
@@ -43,8 +41,8 @@ describe(
   end
 
   it("Edit an existing category") do
-    index_url   = Categories.r(:index, CategoriesTest[:group].id).to_s
-    edit_url    = Categories.r(:edit , CategoriesTest[:group].id).to_s
+    index_url   = Categories.r(:index, Testdata[:group].id).to_s
+    edit_url    = Categories.r(:edit , Testdata[:group].id).to_s
     save_button = lang('categories.buttons.save')
 
     visit(index_url)
@@ -61,7 +59,7 @@ describe(
   end
 
   it("Delete an existing category") do
-    index_url     = Categories.r(:index, CategoriesTest[:group].id).to_s
+    index_url     = Categories.r(:index, Testdata[:group].id).to_s
     message       = lang('categories.messages.no_categories')
     delete_button = lang('categories.buttons.delete')
 
@@ -74,7 +72,7 @@ describe(
   end
 
   it("Delete the test data") do
-    CategoriesTest[:group].destroy
+    Testdata[:group].destroy
   end
 
 end

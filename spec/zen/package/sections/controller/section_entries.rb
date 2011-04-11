@@ -1,36 +1,34 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-SectionsTest = {}
-
 # Run the actual test
 describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_login => true) do
   
   it("Create the test data") do
-    SectionsTest[:section] = Sections::Model::Section.new(
+    Testdata[:section] = Sections::Model::Section.new(
       :name => 'Spec section', :comment_allow => true, :comment_require_account => true,
       :comment_moderate => true, :comment_format => 'plain'
     )
-    SectionsTest[:section].save
+    Testdata[:section].save
 
-    SectionsTest[:group] = CustomFields::Model::CustomFieldGroup.new(:name => 'Spec fields')
-    SectionsTest[:group].save
+    Testdata[:group] = CustomFields::Model::CustomFieldGroup.new(:name => 'Spec fields')
+    Testdata[:group].save
 
-    SectionsTest[:field] = CustomFields::Model::CustomField.new(
+    Testdata[:field] = CustomFields::Model::CustomField.new(
       :name => 'Spec field', :sort_order => 0, :type => 'textbox', :format => 'markdown',
       :required => true, :visual_editor => false, 
-      :custom_field_group_id => SectionsTest[:group].id
+      :custom_field_group_id => Testdata[:group].id
     )
-    SectionsTest[:field].save
+    Testdata[:field].save
 
     # Link the custom field group and the section
-    SectionsTest[:section].custom_field_group_pks = [SectionsTest[:group].id]
+    Testdata[:section].custom_field_group_pks = [Testdata[:group].id]
 
     Zen::Language.load('section_entries')
   end
 
   it("No section entries should exist") do
     index_url = Sections::Controller::SectionEntries.r(
-      :index, SectionsTest[:section].id
+      :index, Testdata[:section].id
     ).to_s
 
     message = lang('section_entries.messages.no_entries')
@@ -43,16 +41,16 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
 
   it("Create a new section entry") do
     index_url = Sections::Controller::SectionEntries.r(
-      :index, SectionsTest[:section].id
+      :index, Testdata[:section].id
     ).to_s
     new_url   = Sections::Controller::SectionEntries.r(
-      :new, SectionsTest[:section].id
+      :new, Testdata[:section].id
     ).to_s
     edit_url  = Sections::Controller::SectionEntries.r(
-      :edit, SectionsTest[:section].id
+      :edit, Testdata[:section].id
     ).to_s
 
-    field_id     = SectionsTest[:field].id
+    field_id     = Testdata[:field].id
     new_entry    = lang('section_entries.buttons.new')
     save_entry   = lang('section_entries.buttons.save')
     title_field  = lang('section_entries.labels.title')
@@ -78,10 +76,10 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
 
   it("Edit an existing section entry") do
     index_url = Sections::Controller::SectionEntries.r(
-      :index, SectionsTest[:section].id
+      :index, Testdata[:section].id
     ).to_s
     edit_url  = Sections::Controller::SectionEntries.r(
-      :edit, SectionsTest[:section].id
+      :edit, Testdata[:section].id
     ).to_s
 
     title_field = lang('section_entries.labels.title')
@@ -105,7 +103,7 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
 
   it("Delete an existing section entry") do
     index_url = Sections::Controller::SectionEntries.r(
-      :index, SectionsTest[:section].id
+      :index, Testdata[:section].id
     ).to_s
 
     delete_button = lang('section_entries.buttons.delete')
@@ -120,9 +118,9 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
   end
 
   it("Delete the test data") do
-    SectionsTest[:field].destroy
-    SectionsTest[:group].destroy
-    SectionsTest[:section].destroy
+    Testdata[:field].destroy
+    Testdata[:group].destroy
+    Testdata[:section].destroy
   end
 
 end

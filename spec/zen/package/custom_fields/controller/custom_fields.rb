@@ -1,21 +1,20 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('custom_fields')
-CustomFieldsTest = {}
 
 describe(
   "CustomFields::Controller::CustomFields", :type => :acceptance, :auto_login => true
 ) do
 
   it("Create the test data") do
-    CustomFieldsTest[:group] = CustomFields::Model::CustomFieldGroup.new(
+    Testdata[:group] = CustomFields::Model::CustomFieldGroup.new(
       :name => 'Spec field group' 
     )
-    CustomFieldsTest[:group].save
+    Testdata[:group].save
   end
 
   it("No custom fields should exist") do
-    group_id  = CustomFieldsTest[:group].id
+    group_id  = Testdata[:group].id
     index_url = CustomFields::Controller::CustomFields.r(:index,  group_id).to_s
     message   = lang('custom_fields.messages.no_fields')
 
@@ -26,7 +25,7 @@ describe(
   end
 
   it("Create a new custom field") do
-    group_id      = CustomFieldsTest[:group].id
+    group_id      = Testdata[:group].id
     index_url     = CustomFields::Controller::CustomFields.r(:index, group_id).to_s
     edit_url      = CustomFields::Controller::CustomFields.r(:edit , group_id).to_s
     new_button    = lang('custom_fields.buttons.new')
@@ -50,7 +49,7 @@ describe(
   end
 
   it("Edit an existing custom field") do
-    group_id    = CustomFieldsTest[:group].id
+    group_id    = Testdata[:group].id
     index_url   = CustomFields::Controller::CustomFields.r(:index, group_id).to_s
     save_button = lang('custom_fields.buttons.save')
 
@@ -66,7 +65,7 @@ describe(
   end
 
   it("Delete an existing custom field") do
-    group_id      = CustomFieldsTest[:group].id
+    group_id      = Testdata[:group].id
     index_url     = CustomFields::Controller::CustomFields.r(:index, group_id).to_s
     delete_button = lang('custom_fields.buttons.delete')
     message       = lang('custom_fields.messages.no_fields')
@@ -80,7 +79,7 @@ describe(
   end
 
   it("Delete all the test data") do
-    CustomFieldsTest[:group].destroy
+    Testdata[:group].destroy
   end
 
 end

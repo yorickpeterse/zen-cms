@@ -15,6 +15,8 @@ require __DIR__('menus/liquid/menus')
 
 Liquid::Template.register_tag('menus', Menus::Liquid::Menus)
 
+require __DIR__('menus/plugin/menus')
+
 # Describe the package
 Zen::Package.add do |p|
   # The name of the package
@@ -54,4 +56,13 @@ Zen::Package.add do |p|
     :title => "Menus",
     :url   => "/admin/menus"
   }]
+end
+
+Zen::Plugin.add do |p|
+  p.name       = 'Menus'
+  p.author     = 'Yorick Peterse'
+  p.url        = 'http://yorickpeterse.com/'
+  p.about      = 'Plugin that can be used to display a navigation menu.'
+  p.identifier = 'com.zen.plugin.menus'
+  p.plugin     = Menus::Plugin::Menus
 end

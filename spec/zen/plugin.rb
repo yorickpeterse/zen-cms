@@ -37,8 +37,4 @@ describe("Zen::Plugin") do
     response.should === 'HELLO WORLD'
   end
 
-  it("Validate the type of a variable") do
-    lambda { validate_type(10, :number, String) }.should raise_error(TypeError)
-  end
-
 end

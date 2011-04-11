@@ -1,7 +1,23 @@
+##
+# Ignore the log files and the database used for all spec files
+#
 spec/log/*
 spec/resources/database.db
+
+##
+# Ignore common dotfiles
+#
 .DS_Store
-Gemfile.lock
 .yardoc
+
+##
+# Ignore the YARD documentation, this can be generated manually as following:
+#
+#     $ thor build:doc
+#
 doc
+
+##
+# Keep the .gitkeep files.
+#
 !.gitkeep

@@ -13,6 +13,11 @@ to be unverified/undecided and might not be added/completed at all.
 * Translation system for the Javascript used in the backend
 * Documentation/Userguide online
 
+### 0.2.5 - April 2011
+
+* Replaced Liquid by a combination of Etanni and a set of plugins
+* Allow developers to register and load Javascript and CSS files globally
+
 ### 0.2.4 - March 2011
 
 * Liquid tags work when caching is enabled.
