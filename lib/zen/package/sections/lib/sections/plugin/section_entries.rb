@@ -25,12 +25,13 @@ module Sections
       #
       def initialize(options = {})
         @options = {
-          :limit    => 20,
-          :offset   => 0,
-          :section  => nil,
-          :entry    => nil,
-          :markup   => true,
-          :comments => false
+          :limit          => 20,
+          :offset         => 0,
+          :section        => nil,
+          :entry          => nil,
+          :markup         => true,
+          :comments       => true,
+          :comment_markup => true
         }.merge(options)
 
         validate_type(@options[:limit]   , :limit   , [Fixnum, Integer])
@@ -55,6 +56,13 @@ module Sections
       # @return [Array/Sections::Model::SectionEntry]
       #
       def call
+        # Create the list with models to load using eager()
+        eager_models = [:custom_field_values, :categories, :section, :user]
+
+        if @options[:comments] === true
+          eager_models.push(:comments)
+        end
+
         # Retrieve multiple entries
         if !@options[:section].nil?
           # Retrieve the section by it's slug
@@ -65,6 +73,7 @@ module Sections
           end
 
           entries = SectionEntry.filter(:section_id => section_id)
+            .eager(*eager_models)
             .limit(@options[:limit], @options[:offset])
             .all
 
@@ -72,15 +81,78 @@ module Sections
         else
           # Retrieve it by it's slug
           if @options[:entry].class == String
-            entries = SectionEntry.filter(:slug => @options[:entry]).all
+            entries = SectionEntry.filter(:slug => @options[:entry])
+              .eager(*eager_models)
+              .all
           # Retrieve the entry by it's ID
           else
-            entries = SectionEntry.filter(@options[:entry]).all
+            entries = SectionEntry.filter(:id => @options[:entry])
+              .eager(*eager_models)
+              .all
           end
         end
 
-        # Loop through all entries so we can process our custom fields
-        
+        comment_format = nil
+
+        # Loop through all entries so we can process our custom field values
+        entries.each_with_index do |entry, index|
+          if comment_format.nil?
+            comment_format = entry.section.comment_format
+          end
+
+          field_values = {}
+          user         = {}
+          comments     = []
+
+          # Store all the custom field values
+          entry.custom_field_values.each do |v|
+            name  = v.custom_field.slug.to_sym
+            value = v.value
+
+            # Convert the markup
+            if @options[:markup] === true
+              value = Zen::Plugin.call(
+                'com.zen.plugin.markup', v.custom_field.format, value
+              )
+            end
+
+            field_values[name] = value
+          end
+
+          # Get all the comments if the developer wants them
+          if @options[:comments] === true
+            entry.comments.each do |c|
+              comment        = c.values
+              comment[:user] = c.user.values
+
+              # Convert the comment's markup
+              if @options[:comment_markup]
+                comment[:comment] = ::Zen::Plugin.call(
+                  'com.zen.plugin.markup', comment_format, comment[:comment]
+                )
+              end
+
+              comments.push(comment)
+            end
+          end
+
+          # Get the user data
+          if !entry.user.nil?
+            user = entry.user.values
+          end
+
+          # Convert the entry to a hash and re-assign all data
+          entry            = entry.values
+          entry[:fields]   = field_values
+          entry[:user]     = user
+          entry[:comments] = comments
+          entries[index]   = entry
+        end
+
+        # Do we only want a single entry?
+        if !@options[:entry].nil?
+          entries = entries[0]
+        end
 
         return entries
       end

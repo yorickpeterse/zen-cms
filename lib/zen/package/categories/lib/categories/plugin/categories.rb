@@ -10,7 +10,7 @@ module Categories
     # A basic example of how to use this plugin looks like the following:
     #
     #     Zen::Plugin.call('com.zen.plugin.categories', :group => 'blog').each do |category|
-    #       puts category.name
+    #       puts category[:name]
     #     end
     #
     # For more information about the available options see 
@@ -111,6 +111,15 @@ module Categories
           else
             categories = Category[:slug => @options[:category]]
           end
+        end
+
+        # Convert all categories to a hash
+        if categories.class == Array
+          categories.each_with_index do |cat, index|
+            categories[index] = cat.values
+          end
+        else
+          categories = categories.values
         end
 
         return categories

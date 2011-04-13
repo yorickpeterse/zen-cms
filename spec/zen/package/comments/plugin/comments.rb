@@ -33,25 +33,28 @@ describe("Comments::Plugin::Comments") do
   it("Retrieve all comments for an ID") do
     comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => Testdata[:entry].slug)
     
-    comments.count.should                                 === 2
-    comments[0].comment.include?('Spec comment').should   === true
-    comments[1].comment.include?('Spec comment 1').should === true 
+    comments.count.should                                   === 2
+    comments[0].class.should                                ==  Hash
+    comments[0][:comment].include?('Spec comment').should   === true
+    comments[1][:comment].include?('Spec comment 1').should === true
+    comments[1][:user][:email].should                       === 'spec@domain.tld'
+    comments[1][:user][:name].should                        === 'Spec'
   end
 
   it("Retrieve all comments for a slug") do
     comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => Testdata[:entry].id)
     
-    comments.count.should                                 === 2
-    comments[0].comment.include?('Spec comment').should   === true
-    comments[1].comment.include?('Spec comment 1').should === true 
+    comments.count.should                                   === 2
+    comments[0][:comment].include?('Spec comment').should   === true
+    comments[1][:comment].include?('Spec comment 1').should === true 
   end
 
   it("Retrieve all comments and check the markup") do
     comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => Testdata[:entry].id)
     
-    comments.count.should            === 2
-    comments[0].comment.strip.should === '<p>Spec comment</p>'
-    comments[1].comment.strip.should === '<p>Spec comment 1</p>' 
+    comments.count.should              === 2
+    comments[0][:comment].strip.should === '<p>Spec comment</p>'
+    comments[1][:comment].strip.should === '<p>Spec comment 1</p>' 
   end
 
   it("Retrieve a single comment") do
@@ -59,8 +62,8 @@ describe("Comments::Plugin::Comments") do
       'com.zen.plugin.comments', :entry => Testdata[:entry].id, :limit => 1
     )
 
-    comments.count.should                               === 1
-    comments[0].comment.include?('Spec comment').should === true
+    comments.count.should                                 === 1
+    comments[0][:comment].include?('Spec comment').should === true
   end
 
   it("Retrieve a single comment with an offset") do
@@ -68,8 +71,8 @@ describe("Comments::Plugin::Comments") do
       'com.zen.plugin.comments', :entry => Testdata[:entry].id, :limit => 1, :offset => 1
     )
 
-    comments.count.should                                 === 1
-    comments[0].comment.include?('Spec comment 1').should === true
+    comments.count.should                                   === 1
+    comments[0][:comment].include?('Spec comment 1').should === true
   end
 
   it("Remove the test data") do

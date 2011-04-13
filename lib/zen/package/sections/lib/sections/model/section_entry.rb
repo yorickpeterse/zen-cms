@@ -19,12 +19,9 @@ module Sections
     # @author Yorick Peterse
     # @since  0.1
     #
-    class SectionEntry < Sequel::Model  
+    class SectionEntry < Sequel::Model
 
-      one_to_many(
-        :comments, 
-        :class => "Comments::Model::Comment"
-      )
+      one_to_many(:comments, :class => "Comments::Model::Comment")
 
       one_to_many(
         :custom_field_values, 

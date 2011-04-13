@@ -1,7 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Testdata = {}
-
 describe("Categories::Plugin::Categories") do
   include Categories::Model
   
@@ -18,16 +16,17 @@ describe("Categories::Plugin::Categories") do
   it("Retrieve all categories") do
     categories = Zen::Plugin.call('com.zen.plugin.categories', :group => 'Spec')
 
-    categories.count.should   === 2
-    categories[0].name.should === 'Spec'
-    categories[1].name.should === 'Spec 1'
+    categories.count.should     === 2
+    categories.class.should     ==  Array
+    categories[0][:name].should === 'Spec'
+    categories[1][:name].should === 'Spec 1'
   end
 
   it("Limit the amount of categories") do
     categories = Zen::Plugin.call('com.zen.plugin.categories', :limit => 1, :group => 'Spec')
 
-    categories.count.should   === 1
-    categories[0].name.should === 'Spec'
+    categories.count.should     === 1
+    categories[0][:name].should === 'Spec'
   end
 
   it("Specify a limit and an offset") do
@@ -35,14 +34,15 @@ describe("Categories::Plugin::Categories") do
       'com.zen.plugin.categories', :limit => 1, :offset => 1, :group => 'Spec'
     )
 
-    categories.count.should   === 1
-    categories[0].name.should === 'Spec 1'
+    categories.count.should     === 1
+    categories[0][:name].should === 'Spec 1'
   end
 
   it("Retrieve a specific category") do
     category = Zen::Plugin.call("com.zen.plugin.categories", :category => 'spec')
 
-    category.name.should === 'Spec'
+    category[:name].should === 'Spec'
+    category.class.should  == Hash
   end
 
   it("Specify an invalid type") do
