@@ -3,7 +3,43 @@ module Sections
   #:nodoc:
   module Plugin
     ##
+    # The SectionEntries plugin can be used to retrieve section entries as well as the
+    # associated comments and user data. This allows you to relatively easily build a list
+    # of entries (e.g. blog articles) without having to retrieve and process the 
+    # associated data manually.
     #
+    # ## Usage
+    #
+    # Basic usage is as following:
+    #
+    #     entries = Zen::Plugin.call('com.zen.plugin.section_entries', :limit => 10, :section => 'blog')
+    #     entries.each do |e|
+    #       puts e[:title]
+    #     end
+    #
+    # The values of custom fields are stored under the key :fields. This key contains a
+    # hash where the keys are the slugs of the custom fields and the values the values for
+    # the current entry.
+    #
+    #     entries.each do |e|
+    #       e[:fields][:thumbnail]
+    #     end
+    #
+    # User data can be found in the key :user:
+    #
+    #     entries.each do |e|
+    #       e[:user][:name]
+    #     end
+    #
+    # Last but not least, comments can be found under the key :comments:
+    #
+    #     entries.each do |e|
+    #       e[:comments].each do |c|
+    #         c[:comment]
+    #       end
+    #     end
+    #
+    # For a full list of available options see Sections::Plugin::SectionEntries.initialize.
     #
     # @author Yorick Peterse
     # @since  0.2.5
@@ -13,6 +49,14 @@ module Sections
       include ::Sections::Model
 
       ##
+      # Creates a new instance of the plugin and validates/stores the given configuration
+      # options. Please note that you always need to either specify a section from which
+      # to retrieve all entries or a single entry in order to use this plugin. You can
+      # retrieve a list of entries (or just a single one) by specifying the ID or the 
+      # slug:
+      #
+      #     Zen::Plugin.call('com.zen.plugin.section_entries', :section => 'blog')
+      #     Zen::Plugin.call('com.zen.plugin.section_entries', :section => 10)
       #
       # @author Yorick Peterse
       # @since  0.2.5
@@ -22,6 +66,12 @@ module Sections
       # @option options [Fixnum/Integer] :offset
       # @option options [NilClass/String/Integer/Fixnum] :section
       # @option options [NilClass/String/Integer/Fixnum] :entry
+      # @option options [Boolean] :markup When set to true the markup of all entries will
+      # be converted to the desired output (usually this is HTML).
+      # @option options [Boolean] :comments When set to true all comments for each entry
+      # will be retrieved.
+      # @option options [Boolean] :comment_markup When set to true the markup of comments
+      # will be converted to the desired output.
       #
       def initialize(options = {})
         @options = {
@@ -50,10 +100,12 @@ module Sections
       end
 
       ##
+      # Fetches all the data and converts everything to a hash. Once this is done either
+      # an array of entries or a single entry hash will be returned.
       #
       # @author Yorick Peterse
       # @since  0.2.5
-      # @return [Array/Sections::Model::SectionEntry]
+      # @return [Array/Hash]
       #
       def call
         # Create the list with models to load using eager()
