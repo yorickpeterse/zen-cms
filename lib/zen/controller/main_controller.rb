@@ -59,7 +59,7 @@ module Zen
         # Create the group, template and partial paths
         theme_path    = theme.template_dir
         group_path    = theme_path + "/#{group}"
-        template_path = theme_path + "/#{group}/#{template}.liquid"
+        template_path = theme_path + "/#{group}/#{template}.xhtml"
         
         # Register our partial path
         if theme.respond_to?(:partial_dir) and !theme.partial_dir.nil?
@@ -70,7 +70,7 @@ module Zen
         
         # Is the website down?
         if @settings[:website_enabled] == '0'
-          offline_path = theme_path + "/offline.liquid"
+          offline_path = theme_path + "/offline.xhtml"
           
           if File.exist?(offline_path)
             render_file(offline_path)
@@ -82,7 +82,7 @@ module Zen
           if File.directory?(group_path) and File.exists?(template_path)
             render_file(template_path)
           else
-            not_found = theme_path + "/404.liquid"
+            not_found = theme_path + "/404.xhtml"
             
             if File.exist?(not_found)
               render_file(not_found)

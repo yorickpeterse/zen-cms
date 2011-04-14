@@ -11,7 +11,7 @@ module Zen
     # @since  0.1
     #
     class FrontendController < Zen::Controller::BaseController
-      engine :liquid
+      engine :etanni
       layout :none
     end
   end
