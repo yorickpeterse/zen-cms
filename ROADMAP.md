@@ -10,13 +10,26 @@ to be unverified/undecided and might not be added/completed at all.
 ### 0.3 - June 2011
 
 * Website completely up and running. (!)
-* Translation system for the Javascript used in the backend
-* Documentation/Userguide online
+* Translation system for the Javascript used in the backend.
+* Documentation online.
+
+### 0.2.6 - May 2011
+
+* Implement something like Sprockets that can combine CSS/Javascript files and ditch the
+rather crappy helper Ramaze::Helper::Asset.
+* Add some sort of UI framework making it easier to create modal windows, tables, etc.
+* Improve/overhaul the text editor used in the backend, it's rather basic at the moment.
+* Improve the comment system so that people can save their data in some way (perhaps 
+allow people to register). 
 
 ### 0.2.5 - April 2011
 
-* Replaced Liquid by a combination of Etanni and a set of plugins
-* Allow developers to register and load Javascript and CSS files globally
+* Replaced Liquid by a combination of Etanni and a set of plugins.
+* Allow developers to register and load Javascript and CSS files globally.
+* Replace all CSS files by Less CSS if this turns out to have an advantage over regular
+css files. (?)
+* Remove the methods from Settings::Model::Setting that are used to generate the possible
+values for system settings. These should go in a plugin or something similar.
 
 ### 0.2.4 - March 2011
 

@@ -2,7 +2,7 @@ require __DIR__('../error/theme_error')
 
 #:nodoc:
 module Ramaze
-  #:nodo:"
+  #:nodoc:
   module Helper
     ##
     # Helper that provides a few methods that make certain tasks easier when creating
@@ -24,6 +24,9 @@ module Ramaze
       #
       # @author Yorick Peterse
       # @since  0.2.5
+      # @param  [Symbol] file The name of the partial to render.
+      # @param  [Hash] variables A hash with variables that should be made available for
+      # the partial.
       #
       def partial(file, variables = {})
         theme = ::Zen::Theme[@settings[:theme]]
@@ -40,6 +43,29 @@ module Ramaze
 
         # All done captain!
         render_file(template, variables)
+      end
+
+      ##
+      # Renders the 404 template for the current theme (clearing the current buffer) and
+      # sets the HTTP response code to 404. Optionally you can pass a set of variables to
+      # the 404 template by setting this method's first argument to a hash.
+      #
+      # @example
+      #  show_404
+      #  show_404(:uri => @request_uri)
+      #
+      # @author Yorick Peterse
+      # @since  0.2.5
+      # @param  [Hash] variables Hash with variables to pass to the 404 template.
+      #
+      def show_404(variables = {})
+        theme    = ::Zen::Theme[@settings[:theme]]
+        template = "#{theme.template_dir}/404.xhtml"
+
+        # Render the template and replace the current buffer with it's output
+        template = render_file(template, variables)
+
+        respond(template, 404)
       end
 
     end

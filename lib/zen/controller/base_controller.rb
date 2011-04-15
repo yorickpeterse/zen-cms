@@ -24,7 +24,7 @@ module Zen
       #
       def initialize
         super
-        
+
         # Get all settings
         if !@settings
           @settings = ::Settings::Model::Setting.get_settings

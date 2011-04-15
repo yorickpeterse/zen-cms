@@ -66,12 +66,14 @@ module Sections
       # @option options [Fixnum/Integer] :offset
       # @option options [NilClass/String/Integer/Fixnum] :section
       # @option options [NilClass/String/Integer/Fixnum] :entry
-      # @option options [Boolean] :markup When set to true the markup of all entries will
+      # @option options [TrueClass] :markup When set to true the markup of all entries will
       # be converted to the desired output (usually this is HTML).
-      # @option options [Boolean] :comments When set to true all comments for each entry
+      # @option options [TrueClass] :comments When set to true all comments for each entry
       # will be retrieved.
-      # @option options [Boolean] :comment_markup When set to true the markup of comments
+      # @option options [TrueClass] :comment_markup When set to true the markup of comments
       # will be converted to the desired output.
+      # @option options [TrueClass] :categories When set to true all categories for each
+      # entry will be retrieved as well.
       #
       def initialize(options = {})
         @options = {
@@ -81,7 +83,8 @@ module Sections
           :entry          => nil,
           :markup         => true,
           :comments       => true,
-          :comment_markup => true
+          :comment_markup => true,
+          :categories     => true
         }.merge(options)
 
         validate_type(@options[:limit]   , :limit   , [Fixnum, Integer])
@@ -110,6 +113,7 @@ module Sections
       def call
         # Create the list with models to load using eager()
         eager_models = [:custom_field_values, :categories, :section, :user]
+        filter_hash  = {}
 
         if @options[:comments] === true
           eager_models.push(:comments)
@@ -124,25 +128,25 @@ module Sections
             section_id = @options[:section]
           end
 
-          entries = SectionEntry.filter(:section_id => section_id)
-            .eager(*eager_models)
-            .limit(@options[:limit], @options[:offset])
-            .all
+          filter_hash[:section_id] = section_id
+        end
 
-        # Retrieve a single entry
-        else
+        # Retrieve a specific entry
+        if !@options[:entry].nil?
           # Retrieve it by it's slug
           if @options[:entry].class == String
-            entries = SectionEntry.filter(:slug => @options[:entry])
-              .eager(*eager_models)
-              .all
+            filter_hash[:slug] = @options[:entry]
           # Retrieve the entry by it's ID
           else
-            entries = SectionEntry.filter(:id => @options[:entry])
-              .eager(*eager_models)
-              .all
+            filter_hash[:id] = @options[:entry]
           end
         end
+
+        # Get the entries
+        entries = SectionEntry.filter(filter_hash)
+          .eager(*eager_models)
+          .limit(@options[:limit], @options[:offset])
+          .all
 
         comment_format = nil
 
@@ -155,6 +159,7 @@ module Sections
           field_values = {}
           user         = {}
           comments     = []
+          categories   = []
 
           # Store all the custom field values
           entry.custom_field_values.each do |v|
@@ -193,12 +198,18 @@ module Sections
             user = entry.user.values
           end
 
+          # Get all categories
+          categories = entry.categories.map do |cat|
+            cat.values
+          end
+
           # Convert the entry to a hash and re-assign all data
-          entry            = entry.values
-          entry[:fields]   = field_values
-          entry[:user]     = user
-          entry[:comments] = comments
-          entries[index]   = entry
+          entry              = entry.values
+          entry[:fields]     = field_values
+          entry[:user]       = user
+          entry[:comments]   = comments
+          entry[:categories] = categories
+          entries[index]     = entry
         end
 
         # Do we only want a single entry?
