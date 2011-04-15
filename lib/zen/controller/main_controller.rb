@@ -25,17 +25,17 @@ module Zen
       # @param  [Array] uri Array containing all arguments (thus the URI).
       #
       def index(*uri)
-        @uri     = []
+        @request_uri = []
         
         # Clean the URI of nasty input
-        uri.each { |v| @uri.push(h(v)) }
+        uri.each { |v| @request_uri.push(h(v)) }
         
-        if !@uri[0] or @uri[0].empty?
-          @uri[0] = settings[:default_section]
+        if !@request_uri[0] or @request_uri[0].empty?
+          @request_uri[0] = settings[:default_section]
         end
         
-        if !@uri[1] or @uri[1].empty?
-          @uri[1] = 'index'
+        if !@request_uri[1] or @request_uri[1].empty?
+          @request_uri[1] = 'index'
         end
         
         # A theme is always required
@@ -44,29 +44,13 @@ module Zen
         end
 
         theme    = ::Zen::Theme[@settings[:theme]]
-        group    = @uri[0]
-        template = @uri[1]
-        
-        # Pre-create a few Liquid variables
-        @flash         = {}
-        @current_user  = {}
-        flash.each { |k, v| @flash[k.to_s] = v }
-        
-        if !session[:user].nil?
-          session[:user].values.each { |k, v| @current_user[k.to_s] = v }
-        end
+        group    = @request_uri[0]
+        template = @request_uri[1]
         
         # Create the group, template and partial paths
         theme_path    = theme.template_dir
         group_path    = theme_path + "/#{group}"
         template_path = theme_path + "/#{group}/#{template}.xhtml"
-        
-        # Register our partial path
-        if theme.respond_to?(:partial_dir) and !theme.partial_dir.nil?
-          ::Liquid::Template.file_system = ::Liquid::LocalFileSystem.new(
-            theme.partial_dir
-          )
-        end
         
         # Is the website down?
         if @settings[:website_enabled] == '0'

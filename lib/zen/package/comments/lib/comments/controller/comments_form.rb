@@ -13,7 +13,7 @@ module Comments
     class CommentsForm < Zen::Controller::FrontendController
       include ::Comments::Model
       
-      map '/comments_form'
+      map '/comments-form'
       trait :extension_identifier => 'com.zen.comments'
       
       before_all do
@@ -82,9 +82,9 @@ module Comments
         end
         
         # Require anti-spam validation?
-        if session[:settings][:enable_antispam] == '1'
+        if @settings[:enable_antispam] == '1'
           # Validate the comment
-          api_key = session[:settings][:defensio_key]
+          api_key = @settings[:defensio_key]
           
           if api_key.nil?
             flash[:error] = lang('comments.errors.no_api_key')
