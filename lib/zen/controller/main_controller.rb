@@ -31,7 +31,7 @@ module Zen
         uri.each { |v| @request_uri.push(h(v)) }
         
         if !@request_uri[0] or @request_uri[0].empty?
-          @request_uri[0] = settings[:default_section]
+          @request_uri[0] = @settings[:default_section]
         end
         
         if !@request_uri[1] or @request_uri[1].empty?
