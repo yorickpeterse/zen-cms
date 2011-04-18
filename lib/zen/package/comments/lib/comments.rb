@@ -1,17 +1,7 @@
-
-# Load all our classes
 require __DIR__('comments/model/comment.rb')
-
 require __DIR__('comments/controller/comments')
 require __DIR__('comments/controller/comments_form')
-
-require __DIR__('comments/liquid/comments')
-require __DIR__('comments/liquid/comment_form')
-
 require __DIR__('comments/plugin/comments')
-
-Liquid::Template.register_tag('comments'    , Comments::Liquid::Comments)
-Liquid::Template.register_tag('comment_form', Comments::Liquid::CommentForm)
 
 Zen::Package.add do |p|
   p.name          = 'Comments'

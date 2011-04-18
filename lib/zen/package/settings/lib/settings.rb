@@ -1,9 +1,6 @@
-
-require __DIR__ 'settings/model/setting'
-require __DIR__ 'settings/controller/settings'
-require __DIR__ 'settings/liquid/setting'
-
-Liquid::Template.register_tag('setting', Settings::Liquid::Setting)
+require __DIR__('settings/model/setting')
+require __DIR__('settings/controller/settings')
+require __DIR__('settings/plugin/settings')
 
 Zen::Package.add do |p|
   p.name          = 'Settings'

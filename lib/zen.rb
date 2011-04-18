@@ -11,7 +11,6 @@ module Zen
   require 'sequel'
   require 'ramaze'
   require 'bcrypt'
-  require 'liquid'
   require 'json'
   require 'defensio'
   require 'sequel_sluggable'
@@ -55,18 +54,8 @@ module Zen
   require __DIR__('zen/controller/admin_controller')
   require __DIR__('zen/controller/main_controller')
   
-  # Load all default Liquid tags
-  require __DIR__('zen/liquid/general')
-  require __DIR__('zen/liquid/controller_behavior')
-  require __DIR__('zen/liquid/redirect')
-  require __DIR__('zen/liquid/strip')
-  
   # Update the language paths
   Zen::Language.options.paths.push(__DIR__('zen'))
-  
-  # Register our Liquid tags
-  ::Liquid::Template.register_tag('strip'   , Liquid::Strip)
-  ::Liquid::Template.register_tag('redirect', Liquid::Redirect)
 
   ##
   # Intitializes Zen by connecting the database and setting up various other things.

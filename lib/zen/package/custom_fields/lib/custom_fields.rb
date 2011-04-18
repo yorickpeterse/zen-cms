@@ -1,11 +1,8 @@
-
-# Load all the classes such as controllers, models and so on.
-require __DIR__ 'custom_fields/model/custom_field'
-require __DIR__ 'custom_fields/model/custom_field_group'
-require __DIR__ 'custom_fields/model/custom_field_value'
-
-require __DIR__ 'custom_fields/controller/custom_field_groups'
-require __DIR__ 'custom_fields/controller/custom_fields'
+require __DIR__('custom_fields/model/custom_field')
+require __DIR__('custom_fields/model/custom_field_group')
+require __DIR__('custom_fields/model/custom_field_value')
+require __DIR__('custom_fields/controller/custom_field_groups')
+require __DIR__('custom_fields/controller/custom_fields')
 
 Zen::Package.add do |p|
   p.name          = 'Custom Fields'

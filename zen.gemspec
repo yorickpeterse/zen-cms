@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_dependency('sequel'           , ['>= 3.20.0'])
   s.add_dependency('ramaze'           , ['>= 2011.01.30'])
   s.add_dependency('bcrypt-ruby'      , ['>= 2.1.4'])
-  s.add_dependency('liquid'           , ['>= 2.2.2'])
   s.add_dependency('json'             , ['>= 1.5.1'])
   s.add_dependency('thor'             , ['>= 0.14.6'])
   s.add_dependency('defensio'         , ['>= 0.9.1'])

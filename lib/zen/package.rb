@@ -1,6 +1,5 @@
 require 'ramaze/gestalt'
 require __DIR__('helper/acl')
-require __DIR__('liquid/controller_behavior')
 require __DIR__('error/package_error')
 
 #:nodoc:
