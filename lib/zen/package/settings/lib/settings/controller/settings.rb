@@ -36,8 +36,6 @@ module Settings
         
         @form_save_url = Settings.r(:save)
 
-        Zen::Language.load('settings')
-        
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
@@ -66,17 +64,17 @@ module Settings
         
         set_breadcrumbs(lang('settings.titles.index'))
         
-        settings  = Setting.all
-        @settings = {}
+        @settings_ordered = {}
+        @groups           = ::Settings::Plugin::Settings::Registered[:groups]
         
         # Organize the settings so that each item is a child
         # item of it's group.
-        settings.each do |s|
-          if !@settings.key?(s.group_key)
-            @settings[s.group_key.to_s] = []
+        ::Settings::Plugin::Settings::Registered[:settings].each do |name, setting|
+          if !@settings_ordered.key?(setting.group)
+            @settings_ordered[setting.group] = []
           end
           
-          @settings[s.group_key.to_s].push(s)
+          @settings_ordered[setting.group].push(setting)
         end
       end
       
@@ -105,7 +103,7 @@ module Settings
         
         begin
           post.each do |key, value|
-            @setting = Setting[:key => key].update(:value => value)  
+            @setting = Setting[:name => key].update(:value => value)  
           end
           
           notification(:success, lang('settings.titles.index'), flash_success)

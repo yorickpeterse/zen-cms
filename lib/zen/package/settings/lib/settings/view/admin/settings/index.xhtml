@@ -5,99 +5,71 @@
   
     <div class="tabs">
         <ul>
-            <?r @settings.each do |group, items| ?>
-            <?r
-            begin
-              group_label = lang(items[0].language_group_key)
-            rescue
-              group_label = group
-            end
-            ?>
+            <?r @groups.each do |name, group| ?>
             <li>
-                <a href="#group_#{group}">#{group_label}</a>
+                <a href="#group_#{group.name}">#{group.title}</a>
             </li>
             <?r end ?>
         </ul>
     </div>
 
   #{
-    form_for(@settings, :method => :post, :action => @form_save_url, :id => :setting_form) do |f|
+    form_for(@settings_ordered, :method => :post, :action => @form_save_url, :id => :setting_form) do |f|
       f.input_hidden(:csrf_token, get_csrf_token)
 
-      @settings.each do |group, items|
-      
+      @settings_ordered.each do |group, items|
         f.g.div(:id => "group_#{group}") do
-
           items.each do |s|
-            # Get the label from the language pack
-            name = s.key.to_sym
-
-            begin
-              label = lang(s.language_key)
-            rescue
-              label = s.key
-            end
-            
             # Get the value from either the value or default getter
-            if s.value.nil?
+            if @settings[s.name.to_sym].nil?
               value = s.default
             else
-              value = s.value
-            end
-            
-            # Get all possible values for the current setting from the language pack
-            begin
-              values = Settings::Model::Setting.send("get_#{s.key}_values")
-            rescue
-              values = {}
+              value = @settings[s.name.to_sym]
             end
             
             case s.type
               when 'textbox'
                 f.input_text(
-                  label, 
-                  name, 
+                  s.title, 
+                  s.name, 
                   :value => value
                 )
 
               when 'textarea'
                 f.textarea(
-                  label, 
-                  name, 
+                  s.title, 
+                  s.name, 
                   :value => value, 
                   :rows  => 8
                 )
 
               when 'radio'
                 f.input_radio(
-                  label, 
-                  name, 
+                  s.title, 
+                  s.name, 
                   value, 
-                  :values => values
+                  :values => s.values
                 )
 
               when 'checkbox'
                 f.input_checkbox(
-                  label, 
-                  name, 
+                  s.title, 
+                  s.name, 
                   value, 
-                  :values => values
+                  :values => s.values
                 )
 
               when 'select'
                 f.select(
-                  label, 
-                  name, 
-                  :values   => values, 
+                  s.title, 
+                  s.name, 
+                  :values   => s.values, 
                   :size     => 1, 
                   :selected => value
-                ) 
-
+                )
             end
           end
-
         end
-
       end
     
       f.g.div(:class => 'clearfix') do

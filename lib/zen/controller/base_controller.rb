@@ -29,10 +29,12 @@ module Zen
         if !@settings
           @settings = ::Settings::Model::Setting.get_settings
         end
-        
+
         # Override the language
-        ::Zen::Language.options.language = @settings[:language]
-        ::Zen::Language.load('zen_general')
+        if @settings[:language] != ::Zen::Language.options.language
+          ::Zen::Language.options.language = @settings[:language]
+          ::Zen::Language.load('zen_general')
+        end
       end
     end
   end

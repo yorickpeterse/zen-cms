@@ -23,7 +23,6 @@ module Settings
     # idea to refactor this and put it in it's own class/plugin/whatever.
     #
     class Setting < Sequel::Model
-      include ::Zen::Language
 
       ##
       # Retrieves all settings and returns them as a key/value hash.
@@ -42,72 +41,12 @@ module Settings
             value = s.value
           end
           
-          settings[s.key.to_sym] = value
+          settings[s.name.to_sym] = value
         end
         
         return settings
       end
 
-      ##
-      # Generates the possible values for the setting "website_enabled".
-      #
-      # @author Yorick Peterse
-      # @since  0.2
-      # @return [Hash]
-      #
-      def self.get_website_enabled_values
-        hash = {
-          lang('zen_general.special.boolean_hash.true')  => '1',
-          lang('zen_general.special.boolean_hash.false') => '0'
-        }
-
-        return hash
-      end
-
-      ##
-      # Generates the possible values for the setting "language".
-      #
-      # @author Yorick Peterse
-      # @since  0.2
-      # @return [Hash]
-      #
-      def self.get_language_values
-        return ::Zen.languages
-      end
-
-      ##
-      # Generates the possible values for the setting "default_section".
-      #
-      # @author Yorick Peterse
-      # @since  0.2
-      # @return [Hash]
-      #
-      def self.get_default_section_values 
-        section_hash = {}
-
-        ::Sections::Model::Section.select(:name, :slug).each do |s|
-          section_hash[s.slug] = s.name
-        end
-
-        return section_hash
-      end
-
-      ##
-      # Generates the possible values for the setting "theme".
-      #
-      # @author Yorick Peterse
-      # @since  0.2
-      # @return [Hash]
-      #
-      def self.get_theme_values
-        theme_hash = {}
-
-        Zen::Theme.themes.each do |ident, theme|
-          theme_hash[ident] = theme.name
-        end
-
-        return theme_hash
-      end
     end
   end
 end

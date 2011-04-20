@@ -46,7 +46,7 @@ module Zen
         version = options[:version]
         ident   = options[:identifier]
         
-        if Zen::Package.packages.nil? or Zen::Package.extensions.empty?
+        if Zen::Package.packages.nil? 
           abort "No packages have been loaded. Be sure to add them to config/requires.rb."
         end
 
@@ -56,7 +56,7 @@ module Zen
 
         install_ext = Zen::Package[ident]
 
-        if ident.nil? or ident.empty?
+        if ident.nil? or ident.empty? or install_ext.nil?
           abort "You specified an invalid identifier."
         end
 

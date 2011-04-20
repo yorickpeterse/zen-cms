@@ -13,7 +13,7 @@ require __DIR__ 'config/database'
 # Make sure that Ramaze knows where you are
 Ramaze.options.roots << Zen.options.root
 
-# Initialize Zen
+# Load the database
 Zen.init
 
 # Require all the custom gems/modules we need

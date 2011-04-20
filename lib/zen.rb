@@ -18,11 +18,6 @@ module Zen
   require __DIR__('zen/version')
   
   include Innate::Optioned
-
-  class << self
-    # @todo Remove this from the global namespace, this should go somewhere else.
-    attr_reader :languages
-  end
   
   # Update several paths so we can load helpers/layouts from the Zen gem
   Innate::HelpersHelper.options.paths.push(__DIR__('zen'))
@@ -53,12 +48,12 @@ module Zen
   require __DIR__('zen/controller/frontend_controller')
   require __DIR__('zen/controller/admin_controller')
   require __DIR__('zen/controller/main_controller')
-  
-  # Update the language paths
-  Zen::Language.options.paths.push(__DIR__('zen'))
 
+  # Update the language path
+  Zen::Language.options.paths.push(__DIR__('zen'))
+  
   ##
-  # Intitializes Zen by connecting the database and setting up various other things.
+  # Loads the database and the required models.
   #
   # @author Yorick Peterse
   # @since  0.1
@@ -70,9 +65,6 @@ module Zen
     
     require __DIR__('zen/model/settings')
     require __DIR__('zen/model/methods')
-    
-    @languages = {
-      'en' => lang('zen_general.special.language_hash.en')
-    }
   end
+
 end

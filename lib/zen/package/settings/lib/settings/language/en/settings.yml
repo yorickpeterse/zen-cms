@@ -12,6 +12,16 @@ labels:
   enable_antispam      : 'Enable anti-spam'
   defensio_key         : 'Defensio API key'
 
+placeholders:
+  website_name        : 'The name of the website.'
+  website_description : 'The description of the website.'
+  website_enabled     : 'Whether or not the website is available to non admins.'
+  language            : 'The language to use for the system.'
+  default_section     : 'The default section to use on the homepage.'
+  theme               : 'The frontend theme to use.'
+  enable_antispam     : "Whether or not Defensio's anti-spam system should be used."
+  defensio_key        : 'The API key to use for the Defensio anti-spam system.'
+
 tabs:
   general   : 'General'
   security  : 'Security'

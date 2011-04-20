@@ -5,9 +5,6 @@ require 'rack/test'
 require 'capybara'
 require 'capybara/rspec'
 
-# Load the database task, used for migrating the spec database.
-require __DIR__('../lib/zen/task/db')
-
 # Configure all middlewares
 Ramaze.middleware! :spec do |m|
   m.run(Ramaze::AppMap)
