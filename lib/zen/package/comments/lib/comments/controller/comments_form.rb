@@ -82,9 +82,9 @@ module Comments
         end
         
         # Require anti-spam validation?
-        if @settings[:enable_antispam] == '1'
+        if ::Zen::Settings[:enable_antispam] == '1'
           # Validate the comment
-          api_key = @settings[:defensio_key]
+          api_key = ::Zen::Settings[:defensio_key]
           
           if api_key.nil?
             flash[:error] = lang('comments.errors.no_api_key')

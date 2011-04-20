@@ -31,7 +31,7 @@ module Zen
         uri.each { |v| @request_uri.push(h(v)) }
         
         if !@request_uri[0] or @request_uri[0].empty?
-          @request_uri[0] = @settings[:default_section]
+          @request_uri[0] = ::Zen::Settings[:default_section]
         end
         
         if !@request_uri[1] or @request_uri[1].empty?
@@ -39,11 +39,11 @@ module Zen
         end
         
         # A theme is always required
-        if @settings[:theme].nil? or @settings[:theme].empty?
+        if ::Zen::Settings[:theme].nil? or ::Zen::Settings[:theme].empty?
           respond(lang('zen_general.errors.no_theme'))
         end
 
-        theme    = ::Zen::Theme[@settings[:theme]]
+        theme    = ::Zen::Theme[::Zen::Settings[:theme]]
         group    = @request_uri[0]
         template = @request_uri[1]
         
@@ -53,7 +53,7 @@ module Zen
         template_path = theme_path + "/#{group}/#{template}.xhtml"
         
         # Is the website down?
-        if @settings[:website_enabled] == '0'
+        if ::Zen::Settings[:website_enabled] == '0'
           offline_path = theme_path + "/offline.xhtml"
           
           if File.exist?(offline_path)

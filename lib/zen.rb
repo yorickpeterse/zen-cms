@@ -51,7 +51,15 @@ module Zen
 
   # Update the language path
   Zen::Language.options.paths.push(__DIR__('zen'))
-  
+
+  ##
+  # Hash containing all system settings.
+  #
+  # @author Yorick Peterse
+  # @since  0.2.5
+  #
+  Settings = {}
+
   ##
   # Loads the database and the required models.
   #

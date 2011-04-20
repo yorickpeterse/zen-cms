@@ -25,14 +25,17 @@ module Zen
       def initialize
         super
 
-        # Get all settings
-        if !@settings
-          @settings = ::Settings::Model::Setting.get_settings
+        # Store the settings data if this is the first time we're loading the controller
+        if ::Zen::Settings.empty?
+          ::Settings::Model::Setting.get_settings.each do |k, v|
+            ::Zen::Settings[k] = v
+          end
         end
 
         # Override the language
-        if @settings[:language] != ::Zen::Language.options.language
-          ::Zen::Language.options.language = @settings[:language]
+        if ::Zen::Settings[:language] != ::Zen::Language.options.language
+          # Reload the language pack
+          ::Zen::Language.options.language = ::Zen::Settings[:language]
           ::Zen::Language.load('zen_general')
         end
       end

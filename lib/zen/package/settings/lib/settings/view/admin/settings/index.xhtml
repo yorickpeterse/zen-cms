@@ -21,10 +21,10 @@
         f.g.div(:id => "group_#{group}") do
           items.each do |s|
             # Get the value from either the value or default getter
-            if @settings[s.name.to_sym].nil?
+            if ::Zen::Settings[s.name.to_sym].nil?
               value = s.default
             else
-              value = @settings[s.name.to_sym]
+              value = ::Zen::Settings[s.name.to_sym]
             end
             
             case s.type

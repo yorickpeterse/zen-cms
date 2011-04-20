@@ -103,14 +103,14 @@ module Settings
         
         begin
           post.each do |key, value|
-            @setting = Setting[:name => key].update(:value => value)  
+            setting = Setting[:name => key].update(:value => value)  
           end
           
           notification(:success, lang('settings.titles.index'), flash_success)
         rescue
           notification(:error, lang('settings.titles.index'), flash_error)
           
-          flash[:form_errors] = @setting.errors
+          flash[:form_errors] = setting.errors
         end
         
         redirect_referrer
