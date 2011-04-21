@@ -31,7 +31,7 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Retrieve all comments for an ID") do
-    comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => Testdata[:entry].slug)
+    comments = plugin(:comments, :entry => Testdata[:entry].slug)
     
     comments.count.should                                   === 2
     comments[0].class.should                                ==  Hash
@@ -42,7 +42,7 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Retrieve all comments for a slug") do
-    comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => Testdata[:entry].id)
+    comments = plugin(:comments, :entry => Testdata[:entry].id)
     
     comments.count.should                                   === 2
     comments[0][:comment].include?('Spec comment').should   === true
@@ -50,7 +50,7 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Retrieve all comments and check the markup") do
-    comments = Zen::Plugin.call('com.zen.plugin.comments', :entry => Testdata[:entry].id)
+    comments = plugin(:comments, :entry => Testdata[:entry].id)
     
     comments.count.should              === 2
     comments[0][:comment].strip.should === '<p>Spec comment</p>'
@@ -58,8 +58,8 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Retrieve a single comment") do
-    comments = Zen::Plugin.call(
-      'com.zen.plugin.comments', :entry => Testdata[:entry].id, :limit => 1
+    comments = plugin(
+      :comments, :entry => Testdata[:entry].id, :limit => 1
     )
 
     comments.count.should                                 === 1
@@ -67,8 +67,8 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Retrieve a single comment with an offset") do
-    comments = Zen::Plugin.call(
-      'com.zen.plugin.comments', :entry => Testdata[:entry].id, :limit => 1, :offset => 1
+    comments = plugin(
+      :comments, :entry => Testdata[:entry].id, :limit => 1, :offset => 1
     )
 
     comments.count.should                                   === 1

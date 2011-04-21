@@ -16,8 +16,7 @@ module Comments
     class Comments < Zen::Controller::AdminController
       include ::Comments::Model
 
-      map '/admin/comments'
-      trait :extension_identifier => 'com.zen.comments'
+      map('/admin/comments')
       
       before_all do
         csrf_protection(:save, :delete) do

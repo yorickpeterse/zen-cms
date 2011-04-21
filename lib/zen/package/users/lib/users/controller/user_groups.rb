@@ -14,8 +14,7 @@ module Users
     class UserGroups < Zen::Controller::AdminController
       include ::Users::Model
 
-      map   '/admin/user-groups'
-      trait :extension_identifier => 'com.zen.users'
+      map('/admin/user-groups')
       
       before_all do
         csrf_protection(:save, :delete) do

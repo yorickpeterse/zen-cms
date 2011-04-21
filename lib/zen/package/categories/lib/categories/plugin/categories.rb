@@ -9,7 +9,7 @@ module Categories
     #
     # A basic example of how to use this plugin looks like the following:
     #
-    #     Zen::Plugin.call('com.zen.plugin.categories', :group => 'blog').each do |category|
+    #     plugin(:categories, :group => 'blog').each do |category|
     #       puts category[:name]
     #     end
     #

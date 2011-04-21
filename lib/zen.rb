@@ -1,3 +1,12 @@
+require 'sequel'
+require 'ramaze'
+require 'bcrypt'
+require 'json'
+require 'defensio'
+require 'sequel_sluggable'
+require 'yaml'
+require __DIR__('zen/version')
+
 ##
 # Main module for Zen, all other modules and classes will be placed inside this module.
 # This module loads all required classes and is used for starting the application.
@@ -8,15 +17,6 @@
 # files stored as hashes.
 #
 module Zen
-  require 'sequel'
-  require 'ramaze'
-  require 'bcrypt'
-  require 'json'
-  require 'defensio'
-  require 'sequel_sluggable'
-  require 'yaml'
-  require __DIR__('zen/version')
-  
   include Innate::Optioned
   
   # Update several paths so we can load helpers/layouts from the Zen gem
@@ -28,29 +28,6 @@ module Zen
     o 'The date format to use for log files and such.',       :date_format,  '%d-%m-%Y'
     o 'The root directory of Zen.',                           :root,         ''
   end
-  
-  # Load all classes/modules provided by Zen itself.
-  require __DIR__('zen/strict_struct')
-  require __DIR__('zen/logger')
-  require __DIR__('zen/database')
-  require __DIR__('zen/package')
-  require __DIR__('zen/language')
-  require __DIR__('zen/plugin')
-  require __DIR__('zen/theme')
-
-  # Load all required plugins
-  require __DIR__('zen/plugin/helper')
-  require __DIR__('zen/plugin/controller')
-  require __DIR__('zen/plugin/markup/lib/markup')
-  
-  # Load all the base controllers
-  require __DIR__('zen/controller/base_controller')
-  require __DIR__('zen/controller/frontend_controller')
-  require __DIR__('zen/controller/admin_controller')
-  require __DIR__('zen/controller/main_controller')
-
-  # Update the language path
-  Zen::Language.options.paths.push(__DIR__('zen'))
 
   ##
   # Hash containing all system settings.
@@ -76,3 +53,31 @@ module Zen
   end
 
 end
+
+# Load all classes/modules provided by Zen itself.
+require __DIR__('zen/validation')
+require __DIR__('zen/database')
+require __DIR__('zen/plugin')
+require __DIR__('zen/language')
+require __DIR__('zen/logger')
+
+# Load a set of modules into the global namespace 
+include Zen::Plugin::SingletonMethods
+include Zen::Language::SingletonMethods
+
+# Update the language path
+Zen::Language.options.paths.push(__DIR__('zen'))
+
+# Load all additional files
+require __DIR__('zen/plugin/helper')
+require __DIR__('zen/plugin/controller')
+require __DIR__('zen/plugin/markup/lib/markup')
+
+require __DIR__('zen/package')
+require __DIR__('zen/theme')
+
+# Load all the base controllers
+require __DIR__('zen/controller/base_controller')
+require __DIR__('zen/controller/frontend_controller')
+require __DIR__('zen/controller/admin_controller')
+require __DIR__('zen/controller/main_controller')

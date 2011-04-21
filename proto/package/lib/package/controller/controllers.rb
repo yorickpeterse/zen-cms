@@ -8,8 +8,7 @@ module EXTENSION
     class CONTROLLER < Zen::Controllers::AdminController
       include ::EXTENSION::Models
 
-      map   "/admin/module"
-      trait :extension_identifier => ''
+      map('/admin/module')
       
       before_all do
         csrf_protection :save, :delete do
@@ -25,7 +24,7 @@ module EXTENSION
       def initialize
         super
         
-        Zen::Language.load 'language'
+        Zen::Language.load('language')
         
         # Set the page title
         if !action.method.nil?
@@ -78,6 +77,7 @@ module EXTENSION
       def delete
         
       end
+
     end
   end
 end

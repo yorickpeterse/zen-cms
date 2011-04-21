@@ -64,13 +64,17 @@ module Zen
   module Language
     include Ramaze::Optioned
 
+    ##
+    # Hash containing all loaded translation files.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.5
+    #
+    Registered = {}
+
     options.dsl do
       o 'Small string that defines the current language (e.g. "en").', :language, 'en'
       o 'Array of paths to look for the language files'              , :paths   , [] 
-    end
-
-    class << self
-      attr_reader :translations
     end
     
     ##
@@ -85,10 +89,9 @@ module Zen
     # @param  [String] lang_name The name of the language file to load. 
     # 
     def self.load(lang_name)
-      @translations                             ||= {}
-      @translations[self.options.language.to_s] ||= {}
+      Registered[self.options.language.to_s] ||= {}
 
-      if @translations[self.options.language.to_s][lang_name.to_s]
+      if Registered[self.options.language.to_s][lang_name.to_s]
         return
       end
 
@@ -103,8 +106,8 @@ module Zen
           # would result in {'person.age' => 18}.
           translation = self.to_dotted_hash({lang_name.to_s => translation})
           
-          @translations[self.options.language.to_s] ||= {}
-          @translations[self.options.language.to_s].merge!(translation)
+          Registered[self.options.language.to_s] ||= {}
+          Registered[self.options.language.to_s].merge!(translation)
           
           # Prevents the exception from being raised
           return
@@ -112,52 +115,6 @@ module Zen
       end
 
       raise(Zen::LanguageError, "No language file could be found for \"#{lang_name}\"")
-    end
-
-    ##
-    # Method for retrieving the correct language item based on the given string.
-    # If you want to retrieve sub-items you can separate each level with a dot:
-    #
-    #     lang('tutorial.main.sub')
-    #
-    # This would require our YAML file to look something like the following:
-    #
-    #     ---
-    #     main:
-    #       sub: "Something!"
-    #
-    # It's important to remember that your key should always include the name of the
-    # language file since once a file is loaded it will be kept in memory to reduce
-    # disk usage.
-    #
-    # @example
-    #  lang('username')
-    #
-    # @author Yorick Peterse
-    # @since  0.2
-    # @param  [String] key The language key to select.
-    # @return [Mixed]
-    #
-    def lang(key)
-      lang          = ::Zen::Language.options.language.to_s
-      groups        = []
-      translations  = ::Zen::Language.translations
-
-      if !translations or !translations.key?(lang)
-        raise(
-          Zen::LanguageError, 
-          "No translation files have been added for the language code \"#{lang}\""
-        )
-      end
-
-      if translations[lang][key]
-        return translations[lang][key]
-      end
-      
-      raise(
-        Zen::LanguageError,
-        "The specified language item \"#{key}\" does not exist"
-      )
     end
 
     private
@@ -220,5 +177,55 @@ module Zen
 
       return target
     end
+
+    #:nodoc:
+    module SingletonMethods
+      ##
+      # Method for retrieving the correct language item based on the given string.
+      # If you want to retrieve sub-items you can separate each level with a dot:
+      #
+      #     lang('tutorial.main.sub')
+      #
+      # This would require our YAML file to look something like the following:
+      #
+      #     ---
+      #     main:
+      #       sub: "Something!"
+      #
+      # It's important to remember that your key should always include the name of the
+      # language file since once a file is loaded it will be kept in memory to reduce
+      # disk usage.
+      #
+      # @example
+      #  lang('username')
+      #
+      # @author Yorick Peterse
+      # @since  0.2
+      # @param  [String] key The language key to select.
+      # @return [Mixed]
+      #
+      def lang(key)
+        lang          = ::Zen::Language.options.language.to_s
+        groups        = []
+        translations  = ::Zen::Language::Registered
+
+        if !translations or !translations.key?(lang)
+          raise(
+            Zen::LanguageError, 
+            "No translation files have been added for the language code \"#{lang}\""
+          )
+        end
+
+        if translations[lang][key]
+          return translations[lang][key]
+        end
+        
+        raise(
+          Zen::LanguageError,
+          "The specified language item \"#{key}\" does not exist"
+        )
+      end
+    end
+
   end
 end

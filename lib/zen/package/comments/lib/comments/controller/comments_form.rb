@@ -13,8 +13,7 @@ module Comments
     class CommentsForm < Zen::Controller::FrontendController
       include ::Comments::Model
       
-      map '/comments-form'
-      trait :extension_identifier => 'com.zen.comments'
+      map('/comments-form')
       
       before_all do
         csrf_protection(:save) do

@@ -19,8 +19,7 @@ module Users
     class AccessRules < Zen::Controller::AdminController
       include ::Users::Model
 
-      map   '/admin/access-rules'
-      trait :extension_identifier => 'com.zen.users'
+      map('/admin/access-rules')
       
       before_all do
         csrf_protection(:save, :delete) do

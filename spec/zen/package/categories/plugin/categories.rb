@@ -14,7 +14,7 @@ describe("Categories::Plugin::Categories") do
   end
 
   it("Retrieve all categories") do
-    categories = Zen::Plugin.call('com.zen.plugin.categories', :group => 'Spec')
+    categories = plugin(:categories, :group => 'Spec')
 
     categories.count.should     === 2
     categories.class.should     ==  Array
@@ -23,15 +23,15 @@ describe("Categories::Plugin::Categories") do
   end
 
   it("Limit the amount of categories") do
-    categories = Zen::Plugin.call('com.zen.plugin.categories', :limit => 1, :group => 'Spec')
+    categories = plugin(:categories, :limit => 1, :group => 'Spec')
 
     categories.count.should     === 1
     categories[0][:name].should === 'Spec'
   end
 
   it("Specify a limit and an offset") do
-    categories = Zen::Plugin.call(
-      'com.zen.plugin.categories', :limit => 1, :offset => 1, :group => 'Spec'
+    categories = plugin(
+      :categories, :limit => 1, :offset => 1, :group => 'Spec'
     )
 
     categories.count.should     === 1
@@ -39,7 +39,7 @@ describe("Categories::Plugin::Categories") do
   end
 
   it("Retrieve a specific category") do
-    category = Zen::Plugin.call("com.zen.plugin.categories", :category => 'spec')
+    category = plugin(:categories, :category => 'spec')
 
     category[:name].should === 'Spec'
     category.class.should  == Hash
@@ -47,7 +47,7 @@ describe("Categories::Plugin::Categories") do
 
   it("Specify an invalid type") do
     lambda do
-      Zen::Plugin.call('com.zen.plugin.categories', :category => false)
+      plugin(:categories, :category => false)
     end.should raise_error(TypeError)
   end
 

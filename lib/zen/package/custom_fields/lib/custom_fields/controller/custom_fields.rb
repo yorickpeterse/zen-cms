@@ -15,8 +15,7 @@ module CustomFields
     class CustomFields < Zen::Controller::AdminController
       include ::CustomFields::Model
 
-      map   '/admin/custom-fields'
-      trait :extension_identifier => 'com.zen.custom_fields'
+      map('/admin/custom-fields')
       
       before_all do
         csrf_protection(:save, :delete) do

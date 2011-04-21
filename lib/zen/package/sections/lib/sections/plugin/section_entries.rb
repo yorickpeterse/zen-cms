@@ -12,7 +12,7 @@ module Sections
     #
     # Basic usage is as following:
     #
-    #     entries = Zen::Plugin.call('com.zen.plugin.section_entries', :limit => 10, :section => 'blog')
+    #     entries = plugin(:section_entries, :limit => 10, :section => 'blog')
     #     entries.each do |e|
     #       puts e[:title]
     #     end
@@ -55,8 +55,8 @@ module Sections
       # retrieve a list of entries (or just a single one) by specifying the ID or the 
       # slug:
       #
-      #     Zen::Plugin.call('com.zen.plugin.section_entries', :section => 'blog')
-      #     Zen::Plugin.call('com.zen.plugin.section_entries', :section => 10)
+      #     plugin(:section_entries, :section => 'blog')
+      #     plugin(:section_entries, :section => 10)
       #
       # @author Yorick Peterse
       # @since  0.2.5
@@ -168,9 +168,7 @@ module Sections
 
             # Convert the markup
             if @options[:markup] === true
-              value = Zen::Plugin.call(
-                'com.zen.plugin.markup', v.custom_field.format, value
-              )
+              value = plugin(:markup, v.custom_field.format, value)
             end
 
             field_values[name] = value
@@ -184,9 +182,7 @@ module Sections
 
               # Convert the comment's markup
               if @options[:comment_markup]
-                comment[:comment] = ::Zen::Plugin.call(
-                  'com.zen.plugin.markup', comment_format, comment[:comment]
-                )
+                comment[:comment] = plugin(:markup, comment_format, comment[:comment])
               end
 
               comments.push(comment)

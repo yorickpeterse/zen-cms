@@ -23,6 +23,7 @@ module Ramaze
     # @see    Users::Controller::AccessRules()
     #
     module ACL
+
       ##
       # Retrieves all permissions for the current user
       # along with the permissions set for all groups the user

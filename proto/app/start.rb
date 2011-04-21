@@ -14,4 +14,3 @@ Ramaze.start(
   :adapter => Ramaze::Adapter.options.handler,
   :port    => Ramaze::Adapter.options.port
 )
-

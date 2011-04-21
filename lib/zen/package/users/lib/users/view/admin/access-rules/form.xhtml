@@ -5,7 +5,7 @@
     
     users        = {}
     groups       = {}
-    extensions   = {}
+    packages     = {}
     rule_applies = ''
     
     if !@access_rule.user_id.nil?
@@ -18,8 +18,9 @@
       users[user.id.to_s] = user.name
     end
     
-    Zen::Package.packages.each do |ident, ext|
-      extensions[ident] = ext.name
+    Zen::Package::Registered.each do |name, ext|
+      name           = name.to_s
+      packages[name] = name
     end
     
     Users::Model::UserGroup.select(:id, :name).each do |group|
@@ -39,7 +40,6 @@
     )
     
     f.g.div(:id => 'div_user_id') do
-
       f.select(
         lang('access_rules.labels.user'), 
         :user_id, 
@@ -47,11 +47,9 @@
         :selected => @access_rule.user_id, 
         :size     => 1
       ) 
-
     end
     
     f.g.div(:id => 'div_user_group_id') do
-    
       f.select(
         lang('access_rules.labels.user_group'), 
         :user_group_id, 
@@ -59,13 +57,12 @@
         :selected => @access_rule.user_group_id, 
         :size     => 1
       )
-
     end
       
     f.select(
       lang('access_rules.labels.extension'), 
       :extension, 
-      :values   => extensions,
+      :values   => packages,
       :selected => @access_rule.extension, 
       :size     => 1
     )

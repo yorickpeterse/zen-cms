@@ -9,7 +9,7 @@ module Comments
     #
     # If we want to retrieve all comments for the entry "hello-world":
     #
-    #     Zen::Plugin.call('com.zen.plugin.comments', :entry => 'hello-world').each do |comment|
+    #     plugin(:comments, :entry => 'hello-world').each do |comment|
     #       comment[:website]
     #     end
     #
@@ -88,9 +88,7 @@ module Comments
         comments.each_with_index do |comment, index|
           user              = comment.user
           comment           = comment.values
-          comment[:comment] = ::Zen::Plugin.call(
-            'com.zen.plugin.markup', section.comment_format, comment[:comment]
-          )
+          comment[:comment] = plugin(:markup, section.comment_format, comment[:comment])
 
           # Conver the userdata to a hash as well
           comment[:user] = {}

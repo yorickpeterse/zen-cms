@@ -12,8 +12,7 @@ module Sections
     class SectionEntries < Zen::Controller::AdminController
       include ::Sections::Model 
       
-      map   '/admin/section-entries' 
-      trait :extension_identifier => 'com.zen.sections'
+      map('/admin/section-entries')
       
       before_all do
         csrf_protection(:save, :delete) do

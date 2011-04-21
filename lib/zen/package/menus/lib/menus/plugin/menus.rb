@@ -11,7 +11,7 @@ module Menus
     #
     # ## Usage
     #
-    #     menu = Zen::Plugin.call('com.zen.plugin.menus', :menu => 'userguide', :sub => true)
+    #     menu = plugin(:menus, :menu => 'userguide', :sub => true)
     #
     # Calling this plugin will result in a string with HTML being returned. If you were
     # to use this plugin in an Etanni template you'd have to wrap the call in #{} in order
@@ -31,7 +31,7 @@ module Menus
       # Creates a new instance of the plugin and saves the configuration options.
       #
       # @example
-      #  plugin = Menus::Plugin::Menus.new(:limit => 10, :offset => 0, :sub => false).new
+      #  plugin = Menus::Plugin::Menus.new(:limit => 10, :offset => 0, :sub => false)
       #
       # @author Yorick Peterse
       # @since 0.2.5

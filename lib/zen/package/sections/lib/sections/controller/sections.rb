@@ -17,8 +17,7 @@ module Sections
     class Sections < Zen::Controller::AdminController
       include ::Sections::Model
 
-      map   '/admin'
-      trait :extension_identifier => 'com.zen.sections'
+      map('/admin')
       
       before_all do
         csrf_protection(:save, :delete) do

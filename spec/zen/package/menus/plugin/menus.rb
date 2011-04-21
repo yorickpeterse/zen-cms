@@ -18,7 +18,7 @@ describe("Menus::Plugin::Menus") do
   end
 
   it("Retrieve a menu with all items") do
-    menu = Zen::Plugin.call('com.zen.plugin.menus', :menu => 'spec').strip
+    menu = plugin(:menus, :menu => 'spec').strip
 
     menu.include?('Spec').should                  === true
     menu.include?('Spec 2').should                === true
@@ -27,7 +27,7 @@ describe("Menus::Plugin::Menus") do
   end
 
   it("Retrieve a menu with only 1 item") do
-    menu = Zen::Plugin.call('com.zen.plugin.menus', :menu => 'spec', :limit => 1).strip
+    menu = plugin(:menus, :menu => 'spec', :limit => 1).strip
 
     menu.include?('Spec').should                  === true
     menu.include?('Spec 2').should                === false
@@ -36,8 +36,8 @@ describe("Menus::Plugin::Menus") do
   end
 
   it("Retrieve a menu with only 1 item and an offset") do
-    menu = Zen::Plugin.call(
-      'com.zen.plugin.menus', :menu => 'spec', :limit => 1, :offset => 1
+    menu = plugin(
+      :menus, :menu => 'spec', :limit => 1, :offset => 1
     ).strip
 
     menu.include?('Spec 2').should                === true
@@ -46,7 +46,7 @@ describe("Menus::Plugin::Menus") do
   end
 
   it("Retrieve a menu with only the root elemements") do
-    menu = Zen::Plugin.call('com.zen.plugin.menus', :menu => 'spec', :sub => false).strip
+    menu = plugin(:menus, :menu => 'spec', :sub => false).strip
 
     menu.include?('Spec').should                  === true
     menu.include?('Spec 2').should                === true

@@ -26,7 +26,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
     within('#access_rule_form') do
       choose('form_rule_applies_0')
       select('Spec'    , :from => 'user_id')
-      select('Sections', :from => 'extension')
+      select('sections', :from => 'extension')
       choose('form_create_access_1')
       choose('form_read_access_0')
       choose('form_update_access_1')
@@ -35,7 +35,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
     end
 
     page.find('#form_rule_applies_0').checked?.should  === 'checked'
-    page.find('select[name="extension"]').value.should === 'com.zen.sections'
+    page.find('select[name="extension"]').value.should === 'sections'
   end
 
   it("Edit an existing access rule") do
@@ -44,7 +44,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
     save_button = lang('access_rules.buttons.save')
 
     visit(index_url)
-    click_link('com.zen.sections')
+    click_link('sections')
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 

@@ -16,13 +16,9 @@ module Zen
     #
     # ## Usage
     #
-    # Using this plugin can be done in two ways, using Zen::Plugin#call or 
-    # Ramaze::Helper::Plugin#plugin:
+    # Using this plugin can be done as following::
     #
-    #     Zen::Plugin.call('com.zen.plugin.markup', :markdown, "hello **world**")
     #     plugin(:markup, :markdown, "hello **world**")
-    #
-    # In both cases a string with HTML will be returned.
     #
     # ## Adding Engines
     #

@@ -16,7 +16,7 @@ describe('Sections::Plugin::Sections') do
   end
 
   it('Retrieve all sections') do
-    sections = Zen::Plugin.call('com.zen.plugin.sections')
+    sections = plugin(:sections)
 
     sections.count.should   === 2
     sections[0].name.should === 'Spec'
@@ -24,7 +24,7 @@ describe('Sections::Plugin::Sections') do
   end
 
   it('Retrieve a single section') do
-    section = Zen::Plugin.call('com.zen.plugin.sections', :section => 'spec')
+    section = plugin(:sections, :section => 'spec')
 
     section.name.should           === 'Spec'
     section.comment_allow.should  === true
@@ -32,8 +32,8 @@ describe('Sections::Plugin::Sections') do
   end
 
   it('Retrieve a single section by it\'s ID') do
-    section = Zen::Plugin.call(
-      'com.zen.plugin.sections', :section => Testdata[:section_1].id
+    section = plugin(
+      :sections, :section => Testdata[:section_1].id
     )
 
     section.name.should           === 'Spec'
@@ -42,14 +42,14 @@ describe('Sections::Plugin::Sections') do
   end
 
   it('Limit the amount of sections') do
-    sections = Zen::Plugin.call('com.zen.plugin.sections', :limit => 1)
+    sections = plugin(:sections, :limit => 1)
 
     sections.count.should   === 1
     sections[0].name.should === 'Spec'
   end
 
   it('Limit the amount of sections and set an offset') do
-    sections = Zen::Plugin.call('com.zen.plugin.sections', :limit => 1, :offset => 1)
+    sections = plugin(:sections, :limit => 1, :offset => 1)
 
     sections.count.should   === 1
     sections[0].name.should === 'Spec 1'

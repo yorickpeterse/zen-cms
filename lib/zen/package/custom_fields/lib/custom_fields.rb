@@ -5,11 +5,12 @@ require __DIR__('custom_fields/controller/custom_field_groups')
 require __DIR__('custom_fields/controller/custom_fields')
 
 Zen::Package.add do |p|
-  p.name          = 'Custom Fields'
+  p.name          = 'custom_fields'
   p.author        = 'Yorick Peterse'
   p.url           = 'http://yorickpeterse.com/'
-  p.about         = "The Custom Fields module is used to manage, how original, custom fields and custom field groups."
-  p.identifier    = 'com.zen.custom_fields'
+  p.about         = "The Custom Fields module is used to manage, how original, custom 
+fields and custom field groups."
+
   p.directory     = __DIR__('custom_fields')
   p.migration_dir = __DIR__('../migrations')
   

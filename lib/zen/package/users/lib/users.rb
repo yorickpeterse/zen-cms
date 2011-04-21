@@ -10,12 +10,12 @@ require __DIR__('users/controller/access_rules')
 Zen::Controller::BaseController.trait(:user_model => Users::Model::User)
 
 Zen::Package.add do |p|
-  p.name          = 'Users'
+  p.name          = 'users'
   p.author        = 'Yorick Peterse'
   p.url           = 'http://yorickpeterse.com/'
-  p.about         = "Module for managing users along with handling authentication and authorization."
+  p.about         = "Module for managing users along with handling authentication and 
+authorization."
   
-  p.identifier    = 'com.zen.users'
   p.directory     = __DIR__('users')
   p.migration_dir = __DIR__('../migrations')
   

@@ -1,3 +1,6 @@
+require __DIR__('group_base')
+require __DIR__('setting_base')
+
 #:nodoc:
 module Settings
   #:nodoc:
@@ -16,7 +19,7 @@ module Settings
     # are used to display settings in different tabs in the backend interface. In order to
     # register a new group you'd write the following code:
     #
-    #     Zen::Plugin.call('com.zen.plugin.settings', :register_group) do |group|
+    #     plugin(:settings, :register_group) do |group|
     #       group.title = 'My Group'
     #       group.name  = 'my_group'
     #     end
@@ -27,10 +30,11 @@ module Settings
     # 
     # Once a setting group has been added we can add a setting as following:
     #
-    #     Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+    #     plugin(:settings, :register) do |setting|
     #       setting.title       = 'My Setting'
     #       setting.description = 'This is my setting!'
-    #       setting.name        = 'com.zen.setting.my_setting'
+    #       setting.name        = 'my_setting'
+    #       setting.group       = 'my_group'
     #       setting.type        = 'select'
     #       setting.values      = ['yorick', 'zen']
     #       setting.default     = 'yorick'
@@ -55,14 +59,14 @@ module Settings
     # so usually you don't need to manually migrate your settings. If you do want to 
     # migrate them however you can simple execute the following code:
     #
-    #     Zen::Plugin.call('com.zen.plugin.settings', :migrate)
+    #     plugin(:settings, :migrate)
     #
     # ## Removing Settings
     #
     # If you ever need to remove a setting both from the database and the system you can
     # do so as following:
     #
-    #     Zen::Plugin.call('com.zen.plugin.settings', :remove, ['name1', 'name2'])
+    #     plugin(:settings, :remove, ['name1', 'name2'])
     #
     # You don't have to specify an array of names, you can also specify the name of a 
     # single setting to delete.
@@ -84,16 +88,6 @@ module Settings
         :groups   => {},
         :settings => {}
       }
-
-      ##
-      # Array containing all possible setting types.
-      #
-      # @author Yorick Peterse
-      # @since  0.2.5
-      #
-      Types = [
-        'textbox', 'textarea', 'radio', 'checkbox', 'date', 'select', 'select_multiple'
-      ]
 
       ##
       # Creates a new instance of the plugin and saves the given arguments as instance
@@ -132,7 +126,7 @@ module Settings
       # Registers a new setting group using the specified block.
       #
       # @example
-      #  Zen::Plugin.call('com.zen.plugin.settings', :register_group) do |group|
+      #  plugin(:settings, :register_group) do |group|
       #    group.name  = 'example'
       #    group.title = 'Example group'
       #  end
@@ -141,21 +135,12 @@ module Settings
       # @since  0.2.5
       #
       def register_group
-        group = Zen::StrictStruct.new(:name, :title).new
+        group = GroupBase.new
 
         yield group
 
-        # Validate the types
-        validate_type(group.name , :name , [String])
-        validate_type(group.title, :title, [String])
-
-        # Prevent duplicates
-        if Registered[:groups].key?(group.name)
-          raise(
-            StandardError,
-            "The setting group #{group.title} has already been registered."
-          )
-        end
+        # Validate the group
+        group.validate
 
         # Store the group
         Registered[:groups][group.name] = group
@@ -165,10 +150,10 @@ module Settings
       # Registers a new setting using the specified block.
       #
       # @example
-      #  Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+      #  plugin(:settings, :register) do |setting|
       #    setting.name    = 'example'
       #    setting.title   = 'Example setting'
-      #    setting.group   = 'com.zen.setting.group.example'
+      #    setting.group   = 'example'
       #    setting.type    = 'select'
       #    setting.value   = ['yorick', 'chuck']
       #  end
@@ -177,37 +162,12 @@ module Settings
       # @since  0.2.5
       #
       def register
-        setting = Zen::StrictStruct.new(
-          :name, :title, :description, :group, :type, :values, :default
-        ).new
+        setting = SettingBase.new
 
         yield setting
 
-        # Validate the types
-        validate_type(setting.name       , :name       , [String])
-        validate_type(setting.title      , :title      , [String])
-        validate_type(setting.type       , :type       , [String, Symbol])
-        validate_type(setting.values     , :values     , [Array, Hash, NilClass])
-        validate_type(setting.description, :description, [String, NilClass])
-        validate_type(setting.group      , :group      , [String, NilClass])
-
-        # Validate the setting type
-        if !Types.include?(setting.type)
-          raise(ArgumentError, "The setting type #{setting.type} does not exist.")
-        end
-
-        # Prevent duplicates
-        if Registered[:settings].key?(setting.name)
-          raise(
-            StandardError,
-            "The setting #{setting.name} has already been registered"
-          )
-        end
-
-        # Check if the group exists
-        if !Registered[:groups].key?(setting.group)
-          raise(ArgumentError, "The settings group #{setting.group} doesn't exist.")
-        end
+        # Validate all attributes
+        setting.validate
 
         Registered[:settings][setting.name] = setting
       end

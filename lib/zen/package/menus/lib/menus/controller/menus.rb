@@ -12,8 +12,7 @@ module Menus
     class Menus < Zen::Controller::AdminController
       include ::Menus::Model
 
-      map   '/admin/menus'
-      trait :extension_identifier => 'com.zen.menus'
+      map('/admin/menus')
       
       before_all do
         csrf_protection(:save, :delete) do

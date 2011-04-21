@@ -12,8 +12,7 @@ module Settings
     class Settings < Zen::Controller::AdminController
       include ::Settings::Model
 
-      map   "/admin/settings"
-      trait :extension_identifier => 'com.zen.settings'
+      map('/admin/settings')
       
       before_all do
         csrf_protection(:save, :delete) do

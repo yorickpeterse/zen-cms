@@ -1,4 +1,5 @@
 require __DIR__('error/theme_error')
+require __DIR__('theme/base')
 require 'pathname'
 
 #:nodoc:
@@ -25,32 +26,23 @@ module Zen
   # Example:
   #
   #     Zen::Theme.add do |theme|
-  #       theme.author     = 'Yorick Peterse'
-  #       theme.name       = 'Default'
-  #       theme.identifier = 'com.yorickpeterse.theme.default'
+  #       theme.author = 'Yorick Peterse'
+  #       theme.name   = 'default'
   #     end
-  #
-  # The "identifier" key is very important and just like packages and plugins it should
-  # always stay the same once it has been set.
-  #
-  # ## Identifiers
-  #
-  # Theme identifiers should be in the following format:
-  #
-  #     com.VENDOR.theme.NAME
-  #
-  # For example:
-  #
-  #     com.yorickpeterse.theme.fancy_blog
   #
   # @author Yorick Peterse
   # @since  0.2.4
   # @attr_reader [Array] themes Array of all installed themes.
   #
   module Theme
-    class << self
-      attr_reader :themes
-    end
+    ##
+    # Hash containing all registered themes. The keys are the names of the themes and
+    # the values instances of Zen::Theme::Base.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.5
+    #
+    Registered = {}
 
     ##
     # Adds a new theme to Zen. Note that the theme won't be used unless it has been set
@@ -58,33 +50,15 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.2.4
-    # @yield  [theme] Struct object containing all getter/setters for each theme.
     #
     def self.add
-      @themes ||= {}
-
-      required = [:name, :author, :about, :identifier, :template_dir]
-      theme    = Zen::StrictStruct.new(
-        :name, :author, :about, :url, :identifier, :template_dir, :partial_dir,
-        :public_dir, :migration_dir
-      ).new
+      theme = Base.new
 
       yield theme
 
-      # Check if all required items have been set
-      theme.validate(required) do |k|
-        raise(Zen::ThemeError, "The following theme key is missing: #{k}")
-      end
-
-      # Validate all paths set
-      [:template_dir, :partial_dir, :public_dir, :migration_dir].each do |k|
-        # Only validate the path if it has been set
-        if theme.respond_to?(k) and !theme.send(k).nil? and !theme.send(k).empty?
-          if !File.exist?(theme.send(k))
-            raise(Zen::ThemeError, "The path #{k} doesn't exist.")
-          end
-        end
-      end
+      # Validate the theme
+      theme.validate
+      theme.name = theme.name.to_sym
 
       # Do we have a public directory?
       if theme.respond_to?(:public_dir) and !theme.public_dir.nil?
@@ -98,11 +72,7 @@ module Zen
         end
       end
 
-      if !@themes[theme.identifier].nil?
-        raise(Zen::ThemeError, "The theme #{theme.name} already exists.")
-      end
-
-      @themes[theme.identifier] = theme
+      Registered[theme.name] = theme
     end
 
     ##
@@ -110,19 +80,23 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.2.4
-    # @param  [String] ident The identifier of the theme.
-    # @return [Struct] Instance of the theme.
+    # @param  [String/Symbol] name The name of the theme to retrieve.
+    # @return [Zen::Theme::Base]
     #
-    def self.[](ident)
-      if @themes.nil?
-        raise(Zen::ThemeError, "No themes have been added.")
+    def self.[](name)
+      if name.class != Symbol
+        name = name.to_sym
       end
 
-      if !@themes[ident]
-        raise(Zen::ThemeError, "The theme #{ident} doesn't exist.")
+      if Registered.nil?
+        raise(Zen::ThemeError, "No themes have been added yet.")
       end
 
-      return @themes[ident]
+      if !Registered[name]
+        raise(Zen::ThemeError, "The theme #{name} doesn't exist.")
+      end
+
+      return Registered[name]
     end
 
   end

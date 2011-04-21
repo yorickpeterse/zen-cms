@@ -14,8 +14,7 @@ module Categories
     class Categories < Zen::Controller::AdminController
       include ::Categories::Model
       
-      map '/admin/categories'
-      trait :extension_identifier => 'com.zen.categories'
+      map('/admin/categories')
       
       before_all do
         csrf_protection(:save, :delete) do

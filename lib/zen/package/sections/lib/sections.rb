@@ -6,14 +6,13 @@ require __DIR__('sections/plugin/sections')
 require __DIR__('sections/plugin/section_entries')
 
 Zen::Package.add do |p|
-  p.name        = 'Sections'
+  p.name        = 'sections'
   p.author      = 'Yorick Peterse'
   p.url         = 'http://yorickpeterse.com/'
   p.about       = "The sections module allows users to create and manage sections. 
 Sections can be seen as small web applications that live inside the CMS. 
 For example, you could have a section for your blog and for your pages."
   
-  p.identifier    = 'com.zen.sections'
   p.directory     = __DIR__('sections')
   p.migration_dir = __DIR__('../migrations')
   
@@ -24,19 +23,17 @@ For example, you could have a section for your blog and for your pages."
 end
 
 Zen::Plugin.add do |p|
-  p.name       = 'Sections'
+  p.name       = 'sections'
   p.author     = 'Yorick Peterse'
   p.about      = 'Plugin for retrieving multiple or individual sections.'
   p.url        = 'http://yorickpeterse.com/'
-  p.identifier = 'com.zen.plugin.sections'
   p.plugin     = Sections::Plugin::Sections
 end
 
 Zen::Plugin.add do |p|
-  p.name       = 'Section Entries'
+  p.name       = 'section_entries'
   p.author     = 'Yorick Peterse'
   p.about      = 'Plugin for retrieving multiple or individual section entries.'
   p.url        = 'http://yorickpeterse.com/'
-  p.identifier = 'com.zen.plugin.section_entries'
   p.plugin     = Sections::Plugin::SectionEntries
 end

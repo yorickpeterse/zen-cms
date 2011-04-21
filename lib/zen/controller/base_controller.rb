@@ -13,7 +13,7 @@ module Zen
     class BaseController < Ramaze::Controller
       include ::Zen::Language
 
-      helper :csrf, :cgi, :plugin
+      helper :csrf, :cgi
       
       ##
       # The initialize method is called upon class initalization and is used to 

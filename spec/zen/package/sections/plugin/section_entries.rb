@@ -29,7 +29,7 @@ describe('Sections::Plugin::SectionEntries') do
   end
 
   it('Retrieve all section entries') do
-    entries = Zen::Plugin.call('com.zen.plugin.section_entries', :section => 'spec')
+    entries = plugin(:section_entries, :section => 'spec')
 
     entries.count.should                      === 2
     entries[0].class.should                   ==  Hash
@@ -41,8 +41,8 @@ describe('Sections::Plugin::SectionEntries') do
   end
 
   it('Retrieve all section entries for an ID') do
-    entries = Zen::Plugin.call(
-      'com.zen.plugin.section_entries', :section => Testdata[:section].id
+    entries = plugin(
+      :section_entries, :section => Testdata[:section].id
     )
 
     entries.count.should      === 2
@@ -52,7 +52,7 @@ describe('Sections::Plugin::SectionEntries') do
   end
 
   it('Retrieve a single entry by it\'s slug') do
-    entry = Zen::Plugin.call('com.zen.plugin.section_entries', :entry => 'spec')
+    entry = plugin(:section_entries, :entry => 'spec')
 
     entry.class.should   == Hash
     entry[:title].should === 'Spec'
@@ -60,8 +60,8 @@ describe('Sections::Plugin::SectionEntries') do
   end
 
   it('Retrieve a single entry by it\'s ID') do
-    entry = Zen::Plugin.call(
-      'com.zen.plugin.section_entries', :entry => Testdata[:entry_1].id
+    entry = plugin(
+      :section_entries, :entry => Testdata[:entry_1].id
     )
 
     entry.class.should   == Hash
@@ -70,8 +70,8 @@ describe('Sections::Plugin::SectionEntries') do
   end
 
   it('Limit the amount of entries') do
-        entries = Zen::Plugin.call(
-      'com.zen.plugin.section_entries', :section => 'spec', :limit => 1
+        entries = plugin(
+      :section_entries, :section => 'spec', :limit => 1
     )
 
     entries.count.should      === 1
@@ -79,8 +79,8 @@ describe('Sections::Plugin::SectionEntries') do
   end
 
   it('Limit the amount of entries with an offset') do
-        entries = Zen::Plugin.call(
-      'com.zen.plugin.section_entries', :section => 'spec', :limit => 1, :offset => 1
+        entries = plugin(
+      :section_entries, :section => 'spec', :limit => 1, :offset => 1
     )
 
     entries.count.should      === 1

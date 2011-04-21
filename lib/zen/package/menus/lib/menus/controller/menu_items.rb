@@ -11,9 +11,8 @@ module Menus
     class MenuItems < ::Zen::Controller::AdminController
       include ::Menus::Model
 
-      map    '/admin/menu-items'
-      trait  :extension_identifier => 'com.zen.menus'
-      helper :menu_item
+      map('/admin/menu-items')
+      helper(:menu_item)
       
       before_all do
         csrf_protection(:save, :delete) do

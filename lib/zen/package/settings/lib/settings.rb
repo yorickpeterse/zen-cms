@@ -4,13 +4,12 @@ require __DIR__('settings/plugin/settings')
 
 # Register the package
 Zen::Package.add do |p|
-  p.name          = 'Settings'
+  p.name          = 'settings'
   p.author        = 'Yorick Peterse'
   p.url           = 'http://yorickpeterse.com/'
   p.about         = 'Module for managing settings such as the default module, whether or 
 not to allow registration, etc.'
 
-  p.identifier    = 'com.zen.settings'
   p.directory     = __DIR__('settings')
   p.migration_dir = __DIR__('../migrations')
   
@@ -32,37 +31,34 @@ Sections::Model::Section.select(:name, :slug).each do |s|
   section_hash[s.slug] = s.name
 end
 
-if !Zen::Theme.themes.nil?
-  Zen::Theme.themes.each do |ident, theme|
-    theme_hash[ident] = theme.name
-  end
+Zen::Theme::Registered.each do |ident, theme|
+  theme_hash[ident] = theme.name
 end
 
 # ------
 
 # Register the plugin
 Zen::Plugin.add do |plugin|
-  plugin.name       = 'Settings'
+  plugin.name       = 'settings'
   plugin.author     = 'Yorick Peterse'
   plugin.url        = 'http://yorickpeterse.com/'
   plugin.about      = 'Plugin that can be used to register, retrieve and migrate settings.'
-  plugin.identifier = 'com.zen.plugin.settings'
   plugin.plugin     = Settings::Plugin::Settings
 end
 
 # Register all setting groups
-Zen::Plugin.call('com.zen.plugin.settings', :register_group) do |group|
-  group.title       = 'General'
-  group.name = 'general'
+plugin(:settings, :register_group) do |group|
+  group.title = 'General'
+  group.name  = 'general'
 end
 
-Zen::Plugin.call('com.zen.plugin.settings', :register_group) do |group|
-  group.title       = 'Security'
-  group.name = 'security'
+plugin(:settings, :register_group) do |group|
+  group.title = 'Security'
+  group.name  = 'security'
 end
 
 # Register all settings
-Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.website_name')
   setting.description = lang('settings.placeholders.website_name')
   setting.name        = 'website_name'
@@ -71,7 +67,7 @@ Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
   setting.type        = 'textbox'
 end
 
-Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.website_description')
   setting.description = lang('settings.placeholders.website_description')
   setting.name        = 'website_description'
@@ -79,7 +75,7 @@ Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
   setting.type        = 'textarea'
 end
 
-Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.website_enabled')
   setting.description = lang('settings.placeholders.website_enabled')
   setting.name        = 'website_enabled'
@@ -92,7 +88,7 @@ Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
   }
 end
 
-Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.language')
   setting.description = lang('settings.placeholders.language')
   setting.name        = 'language'
@@ -104,7 +100,7 @@ Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
   }
 end
 
-Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.default_section')
   setting.description = lang('settings.placeholders.default_section')
   setting.name        = 'default_section'
@@ -113,7 +109,7 @@ Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
   setting.values      = section_hash
 end
 
-Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.theme')
   setting.description = lang('settings.placeholders.theme')
   setting.name        = 'theme'
@@ -122,7 +118,7 @@ Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
   setting.values      = theme_hash
 end
 
-Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.enable_antispam')
   setting.description = lang('settings.placeholders.enable_antispam')
   setting.name        = 'enable_antispam'
@@ -134,7 +130,7 @@ Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
   }
 end
 
-Zen::Plugin.call('com.zen.plugin.settings', :register) do |setting|
+plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.defensio_key')
   setting.description = lang('settings.placeholders.defensio_key')
   setting.name        = 'defensio_key'
@@ -144,7 +140,7 @@ end
 
 # Migrate all settings
 begin
-  Zen::Plugin.call('com.zen.plugin.settings', :migrate)
+  plugin(:settings, :migrate)
 rescue
   Ramaze::Log.warn(
     "Failed to migrate the current settings, make sure the database table is up to date."

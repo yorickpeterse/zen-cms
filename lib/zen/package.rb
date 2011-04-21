@@ -1,6 +1,6 @@
 require 'ramaze/gestalt'
-require __DIR__('helper/acl')
 require __DIR__('error/package_error')
+require __DIR__('package/base')
 
 #:nodoc:
 module Zen
@@ -19,13 +19,11 @@ module Zen
   #
   # When using this block you're required to set the following attributes:
   #
-  # * name: the name of the package
-  # * author: the name of the person who made the package
-  # * about: a small description of the package
-  # * url: the URL to the package's website
-  # * identifier: unique identifier for the package. The format is com.AUTHOR.NAME for
-  # extensions and com.AUTHOR.themes.NAME for themes.
-  # * directory: the root directory of the package, set this using __DIR__('path')
+  # * name: the name of the package in lowercased letters and/or numbers.
+  # * author: the name of the person who made the package.
+  # * about: a small description of the package.
+  # * url: the URL to the package's website.
+  # * directory: the root directory of the package, set this using __DIR__('path').
   # 
   # Optionally you can also specify the attribute "menu" (more on that later).
   #
@@ -68,32 +66,26 @@ module Zen
   #
   #     $ thor -T
   #
-  # ## Identifiers
-  #
-  # Package identifiers should always have the following format:
-  #
-  #     com.VENDOR.NAME
-  #
-  # For example:
-  #
-  #     com.zen.sections
-  #
   # @author Yorick Peterse
   # @since  0.1
   # @attr_reader [Array] packages Array containing the instances of all packages.
   #
   module Package
-    class << self
-      attr_reader :packages
-    end
+    ##
+    # Hash containing all the registered packages. The keys of this hash are the names
+    # of all packages and the values the instances of Zen::Package::Base.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.5
+    #
+    Registered = {}
     
     ##
-    # Adds a new package along with all it's details such as the name,
-    # author, version and so on. Extensions can be added using a simple
-    # block as following:
+    # Adds a new package along with all it's details such as the name, author, version 
+    # and so on. Extensions can be added using a simple block as following:
     #
     #     Zen::Package.add do |ext|
-    #       ext.name   = "Name"
+    #       ext.name   = "name"
     #       ext.author = "Author"
     #     end
     #
@@ -104,7 +96,6 @@ module Zen
     # * version
     # * about
     # * url
-    # * identifier
     # * directory
     #
     # You can also set "migration_dir" to a directory with all migrations. By default
@@ -115,17 +106,13 @@ module Zen
     # @yield  [package] Object containing all setters and getters for each package.
     #
     def self.add
-      package = Zen::StrictStruct.new(
-        :name, :author, :about, :url, :identifier, :directory, :menu, :migration_dir
-      ).new
-
-      required = [:name, :author, :about, :identifier, :directory]
+      package = Zen::Package::Base.new
       
       yield package
-      
-      package.validate(required) do |k|
-        raise(Zen::PackageError, "The following package key is missing: #{k}")
-      end
+
+      # Validate the package
+      package.validate
+      package.name = package.name.to_sym
 
       # Update the root but prevent duplicates
       if !Ramaze.options.roots.include?(package.directory)
@@ -136,32 +123,30 @@ module Zen
       if !Zen::Language.options.paths.include?(package.directory)
         Zen::Language.options.paths.push(package.directory)
       end
-
-      # Validate the directories
-      [:directory, :migration_dir].each do |k|
-        if package.respond_to?(k) and !package.send(k).nil?
-          if !File.exist?(package.send(k))
-            raise(PackageError, "The directory #{package.send(k)} does not exist.")
-          end
-        end
-      end
       
-      @packages                          = {} if @packages.nil?
-      @packages[package.identifier.to_s] = package 
+      Registered[package.name.to_sym] = package 
     end
-    
+
     ##
-    # Shortcut method that can be used to retrieve an extension or theme based on the
-    # given extension identifier.
+    # Retrieves the package for the given name.
     #
     # @author Yorick Peterse
-    # @param  [String] ident The package's identifier
-    # @return [Object]
+    # @since  0.1
     #
-    def self.[](ident)
-      @packages[ident.to_s]
+    def self.[](name)
+      name = name.to_sym
+
+      if Registered.empty?
+        raise(PackageError, "No packages have been added yet.")
+      end
+
+      if !Registered.key?(name)
+        raise(PackageError, "The package \"#{name}\" doesn't exist.")
+      end
+
+      return Registered[name]
     end
-    
+
     ##
     # Builds a navigation menu for all installed extensions.
     # Extensions can have an infinite amount of sub-navigation
@@ -177,21 +162,21 @@ module Zen
     # @since  0.1
     #
     def self.build_menu(css_class = '', permissions = {}, all = false)
-      @g          = Ramaze::Gestalt.new
-      menu_items  = []
-      identifiers = []
+      @g         = Ramaze::Gestalt.new
+      menu_items = []
+      names      = []
 
       # Build a list of all allowed extensions
-      permissions.each do |ident, rules|
+      permissions.each do |name, rules|
         if rules.include?(:read)
-          identifiers.push(ident)
+          names.push(name)
         end
       end
       
-      @packages.each do |ident, ext|
+      Registered.each do |name, ext|
         # Got a menu for us?
         if !ext.menu.nil?
-          if identifiers.include?(ext.identifier) or all == true
+          if names.include?(ext.name) or all == true
             ext.menu.each do |m|
               menu_items.push(m)
             end

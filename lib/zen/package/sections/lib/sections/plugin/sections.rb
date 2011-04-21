@@ -9,7 +9,7 @@ module Sections
     #
     # ## Usage
     #
-    #     section = Zen::Plugin.call('com.zen.plugin.sections', :section => 10)
+    #     section = plugin(:sections, :section => 10)
     #     section.name # => "My Section"
     #
     # @author Yorick Peterse

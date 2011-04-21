@@ -8,7 +8,6 @@ describe "Zen::Package" do
       p.author     = 'Yorick Peterse'
       p.about      = 'A spec extension'
       p.url        = 'http://zen-cms.com/'
-      p.identifier = 'com.zen.spec'
       p.directory  = __DIR__
 
       p.menu = [
@@ -18,10 +17,10 @@ describe "Zen::Package" do
   end
 
   it "Select a specific package by it's identifier" do
-    package = Zen::Package['com.zen.spec']
+    package = Zen::Package[:spec]
 
     package.should_not  === nil
-    package.name.should === 'spec'
+    package.name.should === :spec
     package.url.should  === 'http://zen-cms.com/'
   end
 
