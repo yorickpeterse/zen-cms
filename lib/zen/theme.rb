@@ -32,7 +32,6 @@ module Zen
   #
   # @author Yorick Peterse
   # @since  0.2.4
-  # @attr_reader [Array] themes Array of all installed themes.
   #
   module Theme
     ##

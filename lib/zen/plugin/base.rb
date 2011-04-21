@@ -1,5 +1,6 @@
 #:nodoc:
 module Zen
+  #:nodoc:
   module Plugin
     ##
     # Base class used to store the data about plugins such as the name, plugin class, etc.

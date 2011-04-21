@@ -1,5 +1,6 @@
 #:nodoc
 module Comments
+  #:nodoc
   module Plugin
     ##
     # The Comments plugin can be used to display a list of comments for a given section

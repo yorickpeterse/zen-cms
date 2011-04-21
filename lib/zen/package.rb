@@ -68,7 +68,6 @@ module Zen
   #
   # @author Yorick Peterse
   # @since  0.1
-  # @attr_reader [Array] packages Array containing the instances of all packages.
   #
   module Package
     ##

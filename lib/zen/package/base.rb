@@ -1,5 +1,6 @@
 #:nodoc:
 module Zen
+  #:nodoc:
   module Package
     ##
     # Base class used to store the data about packages such as the name, directory, etc.
