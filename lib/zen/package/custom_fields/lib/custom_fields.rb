@@ -18,4 +18,8 @@ fields and custom field groups."
     :title => "Custom Fields",
     :url   => "admin/custom-field-groups"
   }]
+
+  p.controllers = [
+    CustomFields::Controller::CustomFields, CustomFields::Controller::CustomFieldGroups
+  ]
 end

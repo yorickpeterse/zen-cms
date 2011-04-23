@@ -1,4 +1,0 @@
-require File.expand_path('../app.rb', __FILE__)
-require 'zen/task/db'
-require 'zen/task/package'
-require 'zen/task/proto'

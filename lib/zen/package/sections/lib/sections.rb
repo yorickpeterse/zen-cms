@@ -20,6 +20,10 @@ For example, you could have a section for your blog and for your pages."
     :title => "Sections",
     :url   => "admin"
   }]
+
+  p.controllers = [
+    Sections::Controller::Sections, Sections::Controller::SectionEntries
+  ]
 end
 
 Zen::Plugin.add do |p|

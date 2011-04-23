@@ -9,7 +9,7 @@ module Ramaze
     # permissions.
     #
     # In order to use the ACL helper you'll need to define a trait named
-    # "extension_identifier" in your classes. Once this trait have been set you
+    # "extension_name" in your classes. Once this trait have been set you
     # can use the "user_authorized?" method to verify the permissions of the current user.
     # The first parameter is an array of required permissions,
     # the second a boolean that indicates if either all or just a single permission must 
@@ -33,7 +33,7 @@ module Ramaze
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @return [Mixed] returns a hash containing all rules per identifier along
+      # @return [Mixed] returns a hash containing all rules per name along
       # with a boolean that indicates if the user is in a super group.
       #
       def extension_permissions
@@ -85,24 +85,11 @@ module Ramaze
       # should have ALL specified permissios. Setting this to false causes
       # this method to return true if any of the permissions are set for the
       # current user.
-      # @param  [String] identifier A custom identifier to use for validating the user's 
-      # permissions instead of using a class trait.
       # @return [Boolean]
       #
-      def user_authorized?(reqs, require_all = true, identifier = nil)
-        # Retrieve the identifier from the class trait if we didn't already have one
-        if identifier.nil?
-          identifier = ancestral_trait.values_at(:extension_identifier)
-          identifier = identifier[0]
-        end
-
-        # Still don't have an identifier?
-        if identifier.nil?
-          raise "You need to specify an extension identifier"
-        end
-        
+      def user_authorized?(reqs, require_all = true)
         # Get the ACL list
-        rules       = self.extension_permissions
+        rules       = extension_permissions
         super_group = rules[1]
         rules       = rules[0]
         
@@ -111,13 +98,13 @@ module Ramaze
           return true
         end
         
-        # Deny access if the identifier is not found
-        if !rules.key?(identifier)
+        # Deny access if the name is not found
+        if !rules.key?(name)
           return false
         end
         
         # Verify the permissions
-        perms = rules[identifier]
+        perms = rules[name]
         
         reqs.each do |req|
           if require_all == false and perms.include?(req)

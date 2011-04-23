@@ -17,6 +17,10 @@ the section allows it)."
     :title => "Comments",
     :url   => "admin/comments"
   }]
+
+  p.controllers = [
+    Comments::Controller::Comments, Comments::Controller::CommentsForm
+  ]
 end
 
 Zen::Plugin.add do |p|

@@ -17,6 +17,8 @@ not to allow registration, etc.'
     :title => 'Settings',
     :url   => "admin/settings"
   }] 
+
+  p.controllers = [Settings::Controller::Settings]
 end
 
 # Load the language pack so it can be used for the settings

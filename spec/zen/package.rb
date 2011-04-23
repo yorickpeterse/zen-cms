@@ -1,5 +1,7 @@
 require File.expand_path('../../helper', __FILE__)
 
+class SpecPackage; end
+
 describe "Zen::Package" do
 
   it "Add a new package" do
@@ -13,15 +15,18 @@ describe "Zen::Package" do
       p.menu = [
         {:title => 'Spec', :url => 'admin/spec'} 
       ]
+
+      p.controllers = [SpecPackage]
     end
   end
 
   it "Select a specific package by it's identifier" do
     package = Zen::Package[:spec]
 
-    package.should_not  === nil
-    package.name.should === :spec
-    package.url.should  === 'http://zen-cms.com/'
+    package.should_not         === nil
+    package.name.should        === :spec
+    package.url.should         === 'http://zen-cms.com/'
+    package.controllers.should === [SpecPackage]
   end
 
   it "Create a navigation menu of all packages" do

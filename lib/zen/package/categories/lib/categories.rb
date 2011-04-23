@@ -19,6 +19,11 @@ section entries."
     :title => "Categories",
     :url   => "admin/category-groups"
   }]
+
+  # Register all controllers
+  p.controllers = [
+    Categories::Controller::CategoryGroups, Categories::Controller::Categories
+  ]
 end
 
 # Register our plugins

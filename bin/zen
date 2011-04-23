@@ -1,8 +1,28 @@
 #!/usr/bin/env ruby
-zen_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'zen'))
 
-require 'thor'
-require zen_path
-require zen_path + "/bin/base"
+require File.expand_path('../../lib/zen/version', __FILE__)
+require 'commander'
+require 'commander/import'
 
-Zen::Bin::Base.start
+# Set the extra information message
+information = <<-MSG
+* Website: http://zen-cms.com/
+    * Github: https://github.com/zen-cms
+    * License: MIT License (found in "license.txt")
+MSG
+
+# Set the details of the application
+program :name       , 'Zen'
+program :version    , Zen::Version
+program :description, 'Zen is a modular CMS written using Ramaze.'
+
+program :help, 'Example'    , '$ zen [COMMAND] [OPTIONS]'
+program :help, 'Information', information.strip
+
+# Load all the commands
+commands = File.expand_path('../../lib/zen/bin/*.rb', __FILE__)
+commands = Dir.glob(commands)
+
+commands.each do |cmd|
+  require cmd
+end

@@ -27,4 +27,9 @@ authorization."
       {:title => "Access Rules", :url => "admin/access-rules"}
     ]
   }]
+
+  p.controllers = [
+    Users::Controller::Users, Users::Controller::UserGroups, 
+    Users::Controller::AccessRules
+  ]
 end

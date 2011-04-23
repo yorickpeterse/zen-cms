@@ -1,5 +1,4 @@
 require File.expand_path('../../lib/zen', __FILE__)
-require 'thor'
 require 'rspec'
 require 'rack/test'
 require 'capybara'

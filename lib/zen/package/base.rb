@@ -32,6 +32,10 @@ module Zen
       # Path to the directory containing all migrations
       attr_accessor :migration_dir
 
+      # Array containing all controllers for the package. These classes will be used
+      # by the ACL system.
+      attr_accessor :controllers
+
       ##
       # Validates all the attributes.
       #
@@ -39,7 +43,7 @@ module Zen
       # @since  0.2.5
       #
       def validate
-        validates_presence([:name, :author, :about, :directory])
+        validates_presence([:name, :author, :about, :directory, :controllers])
         validates_format(:name, /[a-z0-9_\-]+/)
         validates_filepath(:directory)
 
@@ -52,6 +56,7 @@ module Zen
           raise(::Zen::ValidationError, "The package #{name} already exists.")
         end
       end
+
     end
   end
 end

@@ -3,10 +3,16 @@ require __DIR__('../lib/zen/task/db')
 require __DIR__('../lib/zen/task/package')
 require __DIR__('../lib/zen/task/tool')
 
-# Add an extra task for inserting a test user
-class Zen::Task::DB
-  desc 'test_user', 'Creates a test user'
-  def test_user
+##
+# Extend the DB namespace with an extra task.
+#
+# @author Yorick Peterse
+# @since  0.2.5
+#
+namespace :db do
+
+  desc 'Creates a user used for running all specifications'
+  task :test_user do
     # Create a default user and group
     group = Users::Model::UserGroup.new(
       :name => 'Administrators',
@@ -20,4 +26,5 @@ class Zen::Task::DB
 
     user.user_group_pks = [group.id]
   end
+
 end

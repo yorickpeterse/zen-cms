@@ -47,7 +47,7 @@ module Zen
 
       attributes.each do |f|
         if !respond_to?(f) or send(f).nil?
-          raise(ValidationError, "The attribute #{f} doesn't exist.")
+          raise(ValidationError, "The attribute \"#{f}\" doesn't exist.")
         end
       end
     end

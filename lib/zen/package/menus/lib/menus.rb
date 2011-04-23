@@ -20,6 +20,10 @@ for the frontend.'
     :title => "Menus",
     :url   => "/admin/menus"
   }]
+
+  p.controllers = [
+    Menus::Controller::Menus, Menus::Controller::MenuItems
+  ]
 end
 
 Zen::Plugin.add do |p|
