@@ -3,31 +3,11 @@
     @access_rule, :method => :post, :action => @form_save_url, :id => :access_rule_form
   ) do |f|
     
-    users        = {}
-    groups       = {}
-    packages     = {}
-    rule_applies = ''
-    
     if !@access_rule.user_id.nil?
       rule_applies = 'div_user_id'
     else
       rule_applies = 'div_user_group_id'
     end
-    
-    Users::Model::User.select(:id, :name).each do |user|
-      users[user.id.to_s] = user.name
-    end
-    
-    Zen::Package::Registered.each do |name, ext|
-      name           = name.to_s
-      packages[name] = name
-    end
-    
-    Users::Model::UserGroup.select(:id, :name).each do |group|
-      groups[group.id.to_s] = group.name
-    end
-    
-    # ---------------------
     
     f.input_hidden(:id, @access_rule.id)
     f.input_hidden(:csrf_token, get_csrf_token)
@@ -43,7 +23,7 @@
       f.select(
         lang('access_rules.labels.user'), 
         :user_id, 
-        :values   => users,
+        :values   => @form_users,
         :selected => @access_rule.user_id, 
         :size     => 1
       ) 
@@ -53,19 +33,45 @@
       f.select(
         lang('access_rules.labels.user_group'), 
         :user_group_id, 
-        :values   => groups,
+        :values   => @form_groups,
         :selected => @access_rule.user_group_id, 
         :size     => 1
       )
     end
       
     f.select(
-      lang('access_rules.labels.extension'), 
-      :extension, 
-      :values   => packages,
-      :selected => @access_rule.extension, 
+      lang('access_rules.labels.package'), 
+      :package, 
+      :values   => @form_packages,
+      :selected => @access_rule.package, 
       :size     => 1
     )
+
+    # Build the select boxes for all controllers
+    f.g.p do
+      f.g.label { lang('access_rules.labels.controller') }
+      @form_controllers.each do |pkg, controllers|
+        f.g.select(
+          :id => "#{pkg}_controllers", :class => 'controllers hidden', :name => 'controller'
+        ) do
+          # Show all the options
+          controllers.each do |key, value|
+            args = {:value => value}
+
+            # Is it selected?
+            if value === @access_rule.controller
+              args[:selected] = 'selected'
+            else
+              args.delete(:selected)
+            end
+
+            f.g.option(args) do
+              key
+            end
+          end
+        end
+      end
+    end
 
     f.input_radio(
       lang('access_rules.labels.create'), 

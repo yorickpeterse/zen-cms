@@ -171,7 +171,7 @@ module Sections
       # patches as it executes quite a few queries. I'll keep it as it is for now.
       #
       def save
-        if !user_authorized?([:create, :save])
+        if !user_authorized?([:create, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         

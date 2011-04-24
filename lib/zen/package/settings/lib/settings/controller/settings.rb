@@ -99,19 +99,26 @@ module Settings
 
         flash_success = lang('settings.success.save')
         flash_error   = lang('settings.errors.save')
-        
-        begin
-          post.each do |key, value|
-            setting = Setting[:name => key].update(:value => value)  
+
+        # Update all settings
+        post.each do |key, value|
+          setting = Setting[:name => key]
+
+          begin
+            # Update the DB record
+            setting.update(:value => value)
+            notification(:success, lang('settings.titles.index'), flash_success)
+
+            # Update the internal settings
+            if ::Zen::Settings[key.to_sym] != value
+              ::Zen::Settings[key.to_sym] = value
+            end
+          rescue
+            notification(:error, lang('settings.titles.index'), flash_error)
+            flash[:form_errors] = setting.errors
           end
-          
-          notification(:success, lang('settings.titles.index'), flash_success)
-        rescue
-          notification(:error, lang('settings.titles.index'), flash_error)
-          
-          flash[:form_errors] = setting.errors
         end
-        
+
         redirect_referrer
       end
     end

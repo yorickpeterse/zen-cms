@@ -5,15 +5,17 @@ titles:
   new   : 'Add Access Rule'
 
 labels:
-  id           : '#'
-  extension    : 'Extension'
-  rule_applies : 'Rule applies to'
-  create       : 'Create'
-  read         : 'Read'
-  update       : 'Update'
-  delete       : 'Delete'
-  user         : 'User'
-  user_group   : 'User group'
+  id             : '#'
+  package        : 'Package'
+  controller     : 'Controller'
+  rule_applies   : 'Rule applies to'
+  create         : 'Create'
+  read           : 'Read'
+  update         : 'Update'
+  delete         : 'Delete'
+  user           : 'User'
+  user_group     : 'User group'
+  all_controllers: 'All controllers'
 
 messages:
   no_rules: 'No access rules have been added yet.'

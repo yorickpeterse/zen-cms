@@ -5,6 +5,10 @@ require __DIR__('sections/controller/section_entries')
 require __DIR__('sections/plugin/sections')
 require __DIR__('sections/plugin/section_entries')
 
+Zen::Language.options.paths.push(__DIR__('sections'))
+Zen::Language.load('sections')
+Zen::Language.load('section_entries')
+
 Zen::Package.add do |p|
   p.name        = 'sections'
   p.author      = 'Yorick Peterse'
@@ -17,13 +21,14 @@ For example, you could have a section for your blog and for your pages."
   p.migration_dir = __DIR__('../migrations')
   
   p.menu = [{
-    :title => "Sections",
+    :title => lang('sections.titles.index'),
     :url   => "admin"
   }]
 
-  p.controllers = [
-    Sections::Controller::Sections, Sections::Controller::SectionEntries
-  ]
+  p.controllers = {
+    lang('sections.titles.index')        => Sections::Controller::Sections, 
+    lang('section_entries.titles.index') => Sections::Controller::SectionEntries
+  }
 end
 
 Zen::Plugin.add do |p|

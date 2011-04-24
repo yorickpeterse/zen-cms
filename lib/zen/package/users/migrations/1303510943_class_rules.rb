@@ -2,7 +2,7 @@ Sequel.migration do
 
   up do
     rename_column(:access_rules, :extension, :package)
-    add_column(:access_rules, :controller, String, :null => false)
+    add_column(:access_rules, :controller, String, :null => false, :default => '*')
   end
   
   down do

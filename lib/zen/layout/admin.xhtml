@@ -17,10 +17,7 @@
                 doesn't have the required permissions for the extension that created it.
                 -->
                 <nav id="main_nav" class="grid_12">
-                    #{
-                        perms = extension_permissions
-                        Zen::Package.build_menu("left", perms[0], perms[1])
-                    }
+                    #{Zen::Package.build_menu("left", extension_permissions)}
                     
                     <ul class="right clearfix">
                         <li>

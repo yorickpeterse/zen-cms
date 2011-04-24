@@ -18,7 +18,8 @@
                     <?r end ?>
                     
                     <th>#{lang('access_rules.labels.id')}</th>
-                    <th>#{lang('access_rules.labels.extension')}</th>
+                    <th>#{lang('access_rules.labels.package')}</th>
+                    <th>#{lang('access_rules.labels.controller')}</th>
                     <th>#{lang('access_rules.labels.create')}</th>
                     <th>#{lang('access_rules.labels.read')}</th>
                     <th>#{lang('access_rules.labels.update')}</th>
@@ -37,16 +38,17 @@
                     <?r end ?>
                     
                     <td>#{rule.id}</td>
-                    
+                    <td>#{rule.package}</td>
+
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{anchor_to(
-                          rule.extension, 
+                          @form_controllers[rule.package].key(rule.controller), 
                           Users::Controller::AccessRules.r(:edit, rule.id)
                         )}
                     </td>
                     <?r else ?>
-                    <td>#{rule.extension}</td>
+                    <td>#{@form_controllers[rule.package].key(rule.controller)}</td>
                     <?r end ?>
                     
                     <td>#{@boolean_hash.invert[rule.create_access]}</td>

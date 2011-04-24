@@ -39,8 +39,8 @@
                     <?r end ?>
 
                     <td>#{menu.id}</td>
-
-                    <?r if user_authorized?([:edit]) ?>
+                    
+                    <?r if user_authorized?([:update]) ?>
                     <td>
                         #{anchor_to(
                           menu.name, 

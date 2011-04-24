@@ -37,7 +37,7 @@
 
                     <td>#{item.id}</td>
 
-                    <?r if user_authorized?([:edit]) ?>
+                    <?r if user_authorized?([:update]) ?>
                     <td>
                         #{anchor_to(
                           item.name, 

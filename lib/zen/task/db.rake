@@ -27,7 +27,7 @@ namespace :db do
         abort "The migration directory #{dir} doesn't exist."
       end
 
-      table = pkg.name.to_s
+      table = 'migrations_' + pkg.name.to_s
 
       # Migration time
       Zen::Database.handle.transaction do
@@ -58,11 +58,11 @@ namespace :db do
         abort "The migration directory #{dir} doesn't exist."
       end
 
-      table = pkg.name.to_s
+      table = 'migrations_' + pkg.name.to_s
 
       # Migration time
       Zen::Database.handle.transaction do
-        Sequel::Migrator.run(Zen::Database.handle, dir, :table => table)
+        Sequel::Migrator.run(Zen::Database.handle, dir, :table => table, :target => 0)
         Zen::Database.handle.drop_table(table)
 
         puts "Successfully uninstalled \"#{pkg.name}\""

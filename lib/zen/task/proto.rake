@@ -1,4 +1,5 @@
 require 'fileutils'
+require __DIR__('../ext/string')
 
 ##
 # Task group used for creating various prototypes.

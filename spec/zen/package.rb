@@ -1,10 +1,16 @@
 require File.expand_path('../../helper', __FILE__)
 
-class SpecPackage; end
+class SpecPackage < Zen::Controller::AdminController
+  map '/admin/spec'
 
-describe "Zen::Package" do
+  def index
+    Zen::Package.build_menu('spec_menu', extension_permissions)
+  end
+end
 
-  it "Add a new package" do
+describe('Zen::Package', :type => :acceptance, :auto_login => true) do
+
+  it('Add a new package') do
     Zen::Package.add do |p|
       p.name       = 'spec'
       p.author     = 'Yorick Peterse'
@@ -13,27 +19,29 @@ describe "Zen::Package" do
       p.directory  = __DIR__
 
       p.menu = [
-        {:title => 'Spec', :url => 'admin/spec'} 
+        {:title => 'Spec', :url => '/admin/spec'} 
       ]
 
-      p.controllers = [SpecPackage]
+      p.controllers = {
+        'Spec' => SpecPackage
+      }
     end
   end
 
-  it "Select a specific package by it's identifier" do
+  it('Select a specific package by it\'s identifier') do
     package = Zen::Package[:spec]
 
-    package.should_not         === nil
-    package.name.should        === :spec
-    package.url.should         === 'http://zen-cms.com/'
-    package.controllers.should === [SpecPackage]
+    package.should_not                 === nil
+    package.name.should                === :spec
+    package.url.should                 === 'http://zen-cms.com/'
+    package.controllers['Spec'].should == SpecPackage
   end
 
-  it "Create a navigation menu of all packages" do
-    menu = Zen::Package.build_menu('', {}, true)
+  it ('Create a navigation menu of all packages') do
+    visit('/admin/spec')
 
-    menu.include?('admin/spec').should == true
-    menu.include?('Spec').should == true
+    page.has_selector?('a[href="/admin/spec"]').should === true
+    page.has_selector?('ul.spec_menu')
   end
   
 end

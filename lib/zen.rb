@@ -7,9 +7,6 @@ require 'sequel_sluggable'
 require 'yaml'
 require __DIR__('zen/version')
 
-# Load all core extensions
-require __DIR__('zen/ext/string')
-
 ##
 # Main module for Zen, all other modules and classes will be placed inside this module.
 # This module loads all required classes and is used for starting the application.

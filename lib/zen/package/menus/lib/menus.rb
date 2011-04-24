@@ -6,6 +6,10 @@ require __DIR__('menus/controller/menus')
 require __DIR__('menus/controller/menu_items')
 require __DIR__('menus/plugin/menus')
 
+Zen::Language.options.paths.push(__DIR__('menus'))
+Zen::Language.load('menus')
+Zen::Language.load('menu_items')
+
 Zen::Package.add do |p|
   p.name          = 'menus' 
   p.author        = 'Yorick Peterse'
@@ -17,13 +21,14 @@ for the frontend.'
   p.migration_dir = __DIR__('../migrations')
 
   p.menu = [{
-    :title => "Menus",
+    :title => lang('menus.titles.index'),
     :url   => "/admin/menus"
   }]
 
-  p.controllers = [
-    Menus::Controller::Menus, Menus::Controller::MenuItems
-  ]
+  p.controllers = {
+    lang('menus.titles.index')      => Menus::Controller::Menus, 
+    lang('menu_items.titles.index') => Menus::Controller::MenuItems
+  }
 end
 
 Zen::Plugin.add do |p|

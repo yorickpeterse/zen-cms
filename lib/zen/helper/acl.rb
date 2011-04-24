@@ -25,96 +25,129 @@ module Ramaze
     module ACL
 
       ##
-      # Retrieves all permissions for the current user
-      # along with the permissions set for all groups the user
-      # belongs to. Rather than loading a new instance of the User model
-      # we'll retrieve the model from the session variable set by the
-      # User helper provided by Ramaze. Doing this saves us a few queries.
+      # Builds a hash containing the permissions for all controllers. First all group
+      # based rules will be retrieved. If the user is in a super group he'll gain full
+      # access. However, if there's a user specific rule it will overwrite the rules set
+      # for the group. This means that if a group allows something but a user rule doesn't
+      # the user won't be able to gain access to the resource.
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @return [Mixed] returns a hash containing all rules per name along
-      # with a boolean that indicates if the user is in a super group.
+      # @return [Hash]
       #
       def extension_permissions
-        m             = session[:user]
-        user_groups   = m.user_groups
-        super_group   = false
-        rules         = []
-        ordered_rules = {}
-        
+        if session[:access_rules]
+          return session[:access_rules]
+        end
+
+        user            = session[:user]
+        user_groups     = user.user_groups
+        @used_rules     = {}
+        available_rules = [:create_access, :read_access, :update_access, :delete_access]
+
+        # First all group rules should be built
         user_groups.each do |group|
-          rules += group.access_rules
-          
-          if group.super_group == true
-            super_group = true
-          end
-        end
-        
-        m.access_rules.each do |rule|
-          rules.push(rule)
-        end
-        
-        rules.each do |rule|
-          if !ordered_rules.key?(rule.extension)
-            ordered_rules[rule.extension] = []
-          end
-          
-          [:create_access, :read_access, :update_access, :delete_access].each do |perm|
-            if rule.send(perm) === true or super_group == true
-              perm = perm.to_s.gsub!('_access', '').to_sym
-              
-              if !ordered_rules[rule.extension].include?(perm)
-                ordered_rules[rule.extension].push(perm)
-              end
+          # If it's a super group we'll add all rules
+          if group.super_group === true
+            ::Zen::Package::Controllers.each do |controller|
+              @used_rules[controller] = [:create, :read, :update, :delete]
             end
           end
+
+          group.access_rules.each do |rule|
+            process_permissions(rule, available_rules)
+          end
         end
-        
-        return ordered_rules, super_group
+
+        # Process all user specific rules
+        user.access_rules.each do |rule|
+          process_permissions(rule, available_rules)
+        end
+
+        # Store the rules in the user's session so that they don't have to be re-processed
+        # every time this method is called.
+        session[:access_rules] = @used_rules
+
+        return @used_rules
       end
       
       ##
-      # Checks if the user has the specified permissions for the current
-      # extension that was called. Returns true if this is the case and false
-      # otherwise.
+      # Checks if the user has the specified permissions for the current extension that 
+      # was called. Returns true if this is the case and false otherwise.
       #
       # @author Yorick Peterse
-      # @param  [Array] reqs Array of permissions that are required.
-      # @param  [Boolean] require_all Boolean that specifies that the user
-      # should have ALL specified permissios. Setting this to false causes
-      # this method to return true if any of the permissions are set for the
-      # current user.
-      # @return [Boolean]
+      # @param  [Array] required Array of permissions that are required.
+      # @param  [Boolean] require_all Boolean that specifies that the user should have 
+      # ALL specified permissios. Setting this to false causes this method to return true 
+      # if any of the permissions are set for the current user.
+      # @return [TrueClass]
       #
-      def user_authorized?(reqs, require_all = true)
+      def user_authorized?(required, require_all = true)
         # Get the ACL list
-        rules       = extension_permissions
-        super_group = rules[1]
-        rules       = rules[0]
-        
-        # Super groups have full access
-        if super_group == true
-          return true
-        end
-        
-        # Deny access if the name is not found
-        if !rules.key?(name)
+        rules = extension_permissions
+        node  = action.node.to_s
+
+        if !rules.key?(node)
           return false
         end
-        
-        # Verify the permissions
-        perms = rules[name]
-        
-        reqs.each do |req|
-          if require_all == false and perms.include?(req)
+
+        required.each do |req|
+          if require_all === false and rules[node].include?(req)
             return true
-          elsif !perms.include?(req)
+          elsif !rules[node].include?(req)
             return false
           end
         end
-        
+
         return true
+      end
+
+      private
+
+      ##
+      # Extracts and stores all the permissions from a given rule. 
+      #
+      # @author Yorick Peterse
+      # @since  0.2.5
+      # @param  [Users::Model::AccessRule] rule Database record containing the details of
+      # a single rule.
+      # @param  [Array] available_rules All the available rules that can be used.
+      #
+      def process_permissions(rule, available_rules)
+        available_rules.each do |available_rule|
+          # Add the rule to the list
+          if rule.send(available_rule) === true
+            method = :push
+          # Remove the rule
+          else
+            method = :delete
+          end
+
+          available_rule = available_rule.to_s.gsub('_access', '').to_sym
+          controllers    = []
+
+          # Process all controllers
+          if rule.controller === '*'
+            ::Zen::Package[rule.package].controllers.each do |name, controller|
+              controllers.push(controller)
+            end
+          # Process a single controller
+          else
+            controllers.push(rule.controller)
+          end
+
+          # Add the rules for all the controllers
+          controllers.each do |c|
+            @used_rules[c] ||= []
+
+            if method === :push and @used_rules[c].include?(available_rule)
+              next
+            end
+
+            # Add or remove the permission
+            @used_rules[c].send(method, available_rule)
+          end
+        end
       end
 
     end

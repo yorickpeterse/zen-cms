@@ -10,11 +10,11 @@ namespace :package do
   task :list do
     Zen::Package::Registered.each do |name, pkg|
       message = <<-MSG
+--------------------------
 Name: #{name}
 Author: #{pkg.author}
-Version: #{pkg.version}
-Directory: #{pkg.directory}
---------------------------
+
+#{pkg.about}
 MSG
 
       puts message
@@ -52,12 +52,14 @@ MSG
       abort "The directory #{dir} does not exist."
     end
 
+    table = 'migrations_' + package.name.to_s
+
     puts "Migrating package..."
 
     # Run all migrations
     Zen::Database.handle.transaction do
       Sequel.migrator.run(
-        Zen::Database.handle, dir, :table => package.name, :target => version
+        Zen::Database.handle, dir, :table => table, :target => version
       )
     end
   end

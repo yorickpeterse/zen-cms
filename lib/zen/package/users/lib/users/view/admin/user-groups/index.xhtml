@@ -45,7 +45,7 @@
                     <?r end ?>
                     
                     <td>#{group.slug}</td>
-                    <td>#{@boolean_hash[group.super_group]}</td>
+                    <td>#{@boolean_hash.invert[group.super_group]}</td>
                 </tr>
                 <?r end ?>
             </tbody>

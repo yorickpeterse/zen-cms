@@ -23,9 +23,10 @@ module Users
       # @since  0.1
       #
       def validate
-        validates_presence(
-          [:extension, :create_access, :read_access, :update_access, :delete_access]
-        )
+        validates_presence([
+          :package, :controller, :create_access, :read_access, :update_access, 
+          :delete_access
+        ])
 
         validates_type(
           TrueClass, 

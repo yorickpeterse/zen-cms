@@ -3,6 +3,9 @@ require __DIR__('comments/controller/comments')
 require __DIR__('comments/controller/comments_form')
 require __DIR__('comments/plugin/comments')
 
+Zen::Language.options.paths.push(__DIR__('comments'))
+Zen::Language.load('comments')
+
 Zen::Package.add do |p|
   p.name          = 'comments'
   p.author        = 'Yorick Peterse'
@@ -14,13 +17,13 @@ the section allows it)."
   p.migration_dir = __DIR__('../migrations')
   
   p.menu = [{
-    :title => "Comments",
+    :title => lang('comments.titles.index'),
     :url   => "admin/comments"
   }]
 
-  p.controllers = [
-    Comments::Controller::Comments, Comments::Controller::CommentsForm
-  ]
+  p.controllers = {
+    lang('comments.titles.index') => Comments::Controller::Comments
+  }
 end
 
 Zen::Plugin.add do |p|

@@ -64,7 +64,7 @@ module Zen
   # the latter will install all packages while the first one will only install the 
   # specified packages. For more information on these tasks execute the following command:
   #
-  #     $ thor -T
+  #     $ rake -T
   #
   # @author Yorick Peterse
   # @since  0.1
@@ -78,7 +78,15 @@ module Zen
     # @since  0.2.5
     #
     Registered = {}
-    
+
+    ##
+    # Array containing all controllers of all packages.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.5
+    #
+    Controllers = []
+
     ##
     # Adds a new package along with all it's details such as the name, author, version 
     # and so on. Extensions can be added using a simple block as following:
@@ -122,6 +130,14 @@ module Zen
       if !Zen::Language.options.paths.include?(package.directory)
         Zen::Language.options.paths.push(package.directory)
       end
+
+      package.controllers.each do |name, controller|
+        controller = controller.to_s
+
+        if !Controllers.include?(controller)
+          Controllers.push(controller)
+        end
+      end
       
       Registered[package.name.to_sym] = package 
     end
@@ -153,32 +169,21 @@ module Zen
     # of which each list item can contain N sub items.
     #
     # @author Yorick Peterse
-    # @param  [String]  css_class A string of CSS classes to apply to the main UL element.
-    # @param  [Hash]    permissions Hash containing the permissions as returned by
-    # Ramaze::Helper::ACL#extension_permissions
-    # @param  [Boolean] all When set to true all elements will be displayed opposed to 
-    # only those the user is allowed to see.
+    # @param  [String] css_class A string of CSS classes to apply to the main UL element.
+    # @param  [Hash] permissions Hash containing the permissions as returned by
+    # Ramaze::Helper::ACL.extension_permissions
     # @since  0.1
     #
-    def self.build_menu(css_class = '', permissions = {}, all = false)
-      @g         = Ramaze::Gestalt.new
-      menu_items = []
-      names      = []
-
-      # Build a list of all allowed extensions
-      permissions.each do |name, rules|
-        if rules.include?(:read)
-          names.push(name)
-        end
-      end
+    def self.build_menu(css_class = '', permissions = {})
+      @g           = Ramaze::Gestalt.new
+      @permissions = permissions
+      menu_items   = []
       
-      Registered.each do |name, ext|
+      Registered.each do |name, pkg|
         # Got a menu for us?
-        if !ext.menu.nil?
-          if names.include?(ext.name) or all == true
-            ext.menu.each do |m|
-              menu_items.push(m)
-            end
+        if !pkg.menu.nil?
+          pkg.menu.each do |m|
+            menu_items.push(m)
           end
         end
       end
@@ -209,12 +214,26 @@ module Zen
     # @param  [Hash] menu Hash containing the navigation items (url, title, etc)
     # @since  0.1
     #
-    def self.nav_list menu
+    def self.nav_list(menu)
+      if menu[:url][0] != '/'
+        menu[:url] = '/' + menu[:url]
+      end
+
+      # Get the controller for the current item
+      controller  = Ramaze::AppMap.at('/').url_map.at(menu[:url]).to_s
+      read_access = @permissions[controller].include?(:read)
+
+      # Ignore the menu item alltogether
+      if !read_access and !menu.key?(:children)
+        return
+      end
+
       @g.li do
-        if menu[:url][0] != '/'
-          menu[:url] = '/' + menu[:url]
+        # Easy way of disabling an item and not fucking up the menu
+        if !read_access
+          menu[:url] = '#'
         end
-        
+
         @g.a :href => menu[:url], :title => menu[:title] do
           menu[:title]
         end

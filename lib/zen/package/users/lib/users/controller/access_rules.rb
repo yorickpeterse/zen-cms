@@ -80,6 +80,39 @@ module Users
       end
       
       ##
+      # Hook that's executed before the edit and new method. This hook is used to 
+      # pre-process some data used in the form.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.5
+      #
+      before(:index, :edit, :new) do
+        @form_users       = {}
+        @form_groups      = {}
+        @form_packages    = {}
+        @form_controllers = {}
+
+        ::Users::Model::User.select(:id, :name).each do |user|
+          @form_users[user.id.to_s] = user.name
+        end
+        
+        # Build the list of available packages and controllers
+        ::Zen::Package::Registered.each do |name, pkg|
+          name                      = name.to_s
+          @form_packages[name]      = name
+          @form_controllers[name] ||= {lang('access_rules.labels.all_controllers') => '*'}
+
+          pkg.controllers.each do |key, value|
+            @form_controllers[name][key] = value.to_s
+          end
+        end
+
+        ::Users::Model::UserGroup.select(:id, :name).each do |group|
+          @form_groups[group.id.to_s] = group.name
+        end 
+      end
+
+      ##
       # Edit an existing access rule.
       #
       # This method requires the following permissions:
@@ -150,7 +183,7 @@ module Users
         
         post = request.params.dup
 
-        if post['rule_applies'] == 'div_user_id'
+        if post['rule_applies'] === 'div_user_id'
           post['user_group_id'] = nil
         else
           post['user_id'] = nil
@@ -171,6 +204,9 @@ module Users
         
         begin
           @access_rule.update(post)
+
+          # Flush the existing rules from the session
+          session.delete(:access_rules)
           notification(:success, lang('access_rules.titles.index'), flash_success)
         rescue
           notification(:error, lang('access_rules.titles.index'), flash_error)

@@ -2,7 +2,7 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('access_rules')
 
-describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => true) do
+describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => true, :driver => :selenium) do
   include Users::Controller
 
   it("No access rules should exist") do
@@ -26,7 +26,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
     within('#access_rule_form') do
       choose('form_rule_applies_0')
       select('Spec'    , :from => 'user_id')
-      select('sections', :from => 'extension')
+      select('sections', :from => 'package')
       choose('form_create_access_1')
       choose('form_read_access_0')
       choose('form_update_access_1')
@@ -34,8 +34,8 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
       click_on(save_button)
     end
 
-    page.find('#form_rule_applies_0').checked?.should  === 'checked'
-    page.find('select[name="extension"]').value.should === 'sections'
+    page.find('#form_rule_applies_0').checked?.should === true
+    page.find('select[name="package"]').value.should  === 'sections'
   end
 
   it("Edit an existing access rule") do
@@ -44,7 +44,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
     save_button = lang('access_rules.buttons.save')
 
     visit(index_url)
-    click_link('sections')
+    click_link(lang('access_rules.labels.all_controllers'))
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
@@ -53,7 +53,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
       click_on(save_button) 
     end
 
-    page.find('#form_rule_applies_1').checked?.should  === 'checked'
+    page.find('#form_rule_applies_1').checked?.should === true
   end
 
   it("Delete an existing access rule") do

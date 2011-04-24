@@ -10,11 +10,12 @@ namespace :theme do
   task :list do
     Zen::Theme::Registered.each do |name, pkg|
       message = <<-MSG
+--------------------------
 Name: #{name}
 Author: #{pkg.author}
-Version: #{pkg.version}
 Template directory: #{pkg.template_dir}
---------------------------
+
+#{pkg.about}
 MSG
 
       puts message
@@ -34,11 +35,13 @@ MSG
       version = args[:version]
     end
 
-    if !Zen::Theme::Registered[name.to_sym]
+    name = args[:name].to_sym
+
+    if !Zen::Theme::Registered[name]
       abort 'The specified theme does not exist.'
     end
 
-    theme = Zen::Theme::Registered[name.to_sym]
+    theme = Zen::Theme::Registered[name]
     
     # Fetch the migrations directory
     if theme.respond_to?(:migration_dir) and !theme.migration_dir.nil?

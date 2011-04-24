@@ -2,6 +2,9 @@ require __DIR__('settings/model/setting')
 require __DIR__('settings/controller/settings')
 require __DIR__('settings/plugin/settings')
 
+Zen::Language.options.paths.push(__DIR__('settings'))
+Zen::Language.load('settings')
+
 # Register the package
 Zen::Package.add do |p|
   p.name          = 'settings'
@@ -14,23 +17,25 @@ not to allow registration, etc.'
   p.migration_dir = __DIR__('../migrations')
   
   p.menu = [{
-    :title => 'Settings',
-    :url   => "admin/settings"
+    :title => lang('settings.titles.index'),
+    :url   => 'admin/settings'
   }] 
 
-  p.controllers = [Settings::Controller::Settings]
+  p.controllers = {
+    lang('settings.titles.index') => Settings::Controller::Settings
+  }
 end
-
-# Load the language pack so it can be used for the settings
-include Zen::Language
-Zen::Language.load('settings')
 
 # Create all variables required for the settings
 section_hash = {}
 theme_hash   = {}
 
-Sections::Model::Section.select(:name, :slug).each do |s|
-  section_hash[s.slug] = s.name
+begin
+  Sections::Model::Section.select(:name, :slug).each do |s|
+    section_hash[s.slug] = s.name
+  end
+rescue => e
+  Ramaze::Log.warn("The settings plugin failed to retrieve all sections: #{e.message}")
 end
 
 Zen::Theme::Registered.each do |ident, theme|

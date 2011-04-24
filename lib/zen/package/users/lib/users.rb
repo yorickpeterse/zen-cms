@@ -5,6 +5,11 @@ require __DIR__('users/controller/users')
 require __DIR__('users/controller/user_groups')
 require __DIR__('users/controller/access_rules')
 
+Zen::Language.options.paths.push(__DIR__('users'))
+Zen::Language.load('users')
+Zen::Language.load('user_groups')
+Zen::Language.load('access_rules')
+
 # The trait for the User helper has to be specified in the constructor as
 # our user model is loaded after this class is loaded (but before it's initialized)
 Zen::Controller::BaseController.trait(:user_model => Users::Model::User)
@@ -20,16 +25,17 @@ authorization."
   p.migration_dir = __DIR__('../migrations')
   
   p.menu = [{
-    :title    => "Users",
-    :url      => "admin/users",
+    :title    => lang('users.titles.index'),
+    :url      => 'admin/users',
     :children => [
-      {:title => "User Groups" , :url => "admin/user-groups" },
-      {:title => "Access Rules", :url => "admin/access-rules"}
+      {:title => lang('user_groups.titles.index') , :url => 'admin/user-groups' },
+      {:title => lang('access_rules.titles.index'), :url => 'admin/access-rules'}
     ]
   }]
 
-  p.controllers = [
-    Users::Controller::Users, Users::Controller::UserGroups, 
-    Users::Controller::AccessRules
-  ]
+  p.controllers = {
+    lang('users.titles.index')        => Users::Controller::Users, 
+    lang('user_groups.titles.index')  => Users::Controller::UserGroups, 
+    lang('access_rules.titles.index') => Users::Controller::AccessRules
+  }
 end

@@ -4,6 +4,11 @@ require __DIR__('categories/controller/category_groups')
 require __DIR__('categories/controller/categories')
 require __DIR__('categories/plugin/categories')
 
+# Load the language pack manually so it can be used in the block below
+Zen::Language.options.paths.push(__DIR__('categories'))
+Zen::Language.load('categories')
+Zen::Language.load('category_groups')
+
 # Describe what this package is all about
 Zen::Package.add do |p|
   p.name          = 'categories'
@@ -16,14 +21,15 @@ section entries."
   p.migration_dir = __DIR__('../migrations')
   
   p.menu = [{
-    :title => "Categories",
+    :title => lang('categories.titles.index'),
     :url   => "admin/category-groups"
   }]
 
   # Register all controllers
-  p.controllers = [
-    Categories::Controller::CategoryGroups, Categories::Controller::Categories
-  ]
+  p.controllers = {
+    lang('categories.titles.index')      => Categories::Controller::Categories,
+    lang('category_groups.titles.index') => Categories::Controller::CategoryGroups
+  }
 end
 
 # Register our plugins
