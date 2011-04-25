@@ -23,7 +23,7 @@
                     <th>#{lang('menus.labels.css_class')}</th>
                     <th>#{lang('menus.labels.css_id')}</th>
 
-                    <?r if user_authorized?([:create, :read]) ?>
+                    <?r if user_authorized?([:read], true, 'Menus::Controller::MenuItems') ?>
                     <th></th>
                     <?r end ?>
                 </tr>
@@ -55,7 +55,7 @@
                     <td>#{menu.css_class}</td>
                     <td>#{menu.css_id}</td>
 
-                    <?r if user_authorized?([:create, :read]) ?>
+                    <?r if user_authorized?([:read], true, 'Menus::Controller::MenuItems') ?>
                     <td>
                         #{anchor_to(
                           lang('menus.labels.manage_items'), 

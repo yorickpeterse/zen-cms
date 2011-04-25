@@ -22,7 +22,9 @@
                     <th>#{lang('sections.labels.slug')}</th>
                     <th>#{lang('sections.labels.comment_allow')}</th>
                     
-                    <?r if user_authorized?([:create]) ?>
+                    <?r if user_authorized?(
+                      [:read], true, 'Sections::Controller::SectionEntries'
+                    ) ?>
                     <th></th>
                     <?r end ?>
                 </tr>
@@ -55,7 +57,9 @@
                         #{@boolean_hash.invert[section.comment_allow]}
                     </td>
                     
-                    <?r if user_authorized?([:create]) ?>
+                    <?r if user_authorized?(
+                      [:read], true, 'Sections::Controller::SectionEntries'
+                    ) ?>
                     <td>
                         #{anchor_to(
                           lang('sections.labels.manage_entries'), 

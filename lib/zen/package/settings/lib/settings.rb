@@ -38,8 +38,9 @@ rescue => e
   Ramaze::Log.warn("The settings plugin failed to retrieve all sections: #{e.message}")
 end
 
-Zen::Theme::Registered.each do |ident, theme|
-  theme_hash[ident] = theme.name
+Zen::Theme::Registered.each do |name, theme|
+  name             = name.to_s
+  theme_hash[name] = name
 end
 
 # ------

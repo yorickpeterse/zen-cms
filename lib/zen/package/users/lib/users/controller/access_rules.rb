@@ -252,6 +252,7 @@ module Users
           
           begin
             @access_rule.delete
+            session.delete(:access_rules)
             notification(
               :success, 
               lang('access_rules.titles.index'), 

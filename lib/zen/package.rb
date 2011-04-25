@@ -27,6 +27,21 @@ module Zen
   # 
   # Optionally you can also specify the attribute "menu" (more on that later).
   #
+  # ## ACL
+  #
+  # Packages allow developers to register controllers for the ACL system that ships with
+  # Zen. Doing this means a user can set controller specific rules in the backend without
+  # having to write any code. In order to register a set of controllers you'll need to
+  # set the "controllers" attribute in the package block to a hash. The keys of this hash
+  # should be a human readable name of the controller and the values the full namespace
+  # of the controller as either a string or a constants:
+  #
+  #     Zen::Package.add do |pkg|
+  #       pkg.controllers = {
+  #         'Test Controller' => Test::Controller::TestController
+  #       }
+  #     end
+  #
   # ## Menu Items
   #
   # The package system easily allows modules to add navigation/sub-navigation elements
@@ -57,8 +72,9 @@ module Zen
   #
   # If your package uses it's own database tables it's best to use migrations as these make
   # it very easy to install/uninstall the extension. Migrations should be put in the root
-  # directory of your extension. For example, if your extension is in "foobar" the migrations
-  # should be located in "foobar/migrations", the lib directory in "foobar/lib", etc.
+  # directory of your extension. For example, if your extension is in "foobar" the 
+  # migrations should be located in "foobar/migrations", the lib directory in "foobar/lib", 
+  # etc.
   #
   # Migrations can be executed using the Thor task "package:migrate" or "db:migrate",
   # the latter will install all packages while the first one will only install the 

@@ -21,7 +21,9 @@
                     <th>#{lang('custom_field_groups.labels.name')}</th>
                     <th>#{lang('custom_field_groups.labels.sections')}</th>
                     
-                    <?r if user_authorized?([:create]) ?>
+                    <?r if user_authorized?(
+                      [:read], true, 'CustomFields::Controller::CustomFields'
+                    ) ?>
                     <th></th>
                     <?r end ?>
                 </tr>
@@ -58,7 +60,9 @@
                         <?r end ?> 
                     </td>
                     
-                    <?r if user_authorized?([:create]) ?>
+                    <?r if user_authorized?(
+                      [:read], true, 'CustomFields::Controller::CustomFields'
+                    ) ?>
                     <td>
                       #{anchor_to(
                           lang('custom_field_groups.labels.manage_fields'), 

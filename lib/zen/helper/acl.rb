@@ -3,20 +3,21 @@ module Ramaze
   #:nodoc:
   module Helper
     ##
-    # This helper provides an easy way of working with the ACL system that
-    # ships with Zen. Using this helper you can restrict access to methods,
-    # view elements and pretty much everything else based on the user's
-    # permissions.
+    # This helper provides an easy way of working with the ACL system that ships with Zen. 
+    # Using this helper you can restrict access to methods, view elements and pretty much 
+    # everything else based on the user's permissions.
     #
-    # In order to use the ACL helper you'll need to define a trait named
-    # "extension_name" in your classes. Once this trait have been set you
-    # can use the "user_authorized?" method to verify the permissions of the current user.
-    # The first parameter is an array of required permissions,
-    # the second a boolean that indicates if either all or just a single permission must 
-    # be set.
+    # In order to restrict certain actions to only those with the correct permissions you
+    # can use the method "user_authorized?". This method takes a list of required 
+    # permissions and when the user has the correct permissions it will return true:
     #
-    # For more information about the ACL system you should read the documentation
-    # in the ACL controller, Users::Controller::AccessRules().
+    #     user_authorized?([:read]) # => true
+    #
+    # The method has 3 parameters: a list of permissions, a boolean that indicates whether
+    # all of them or just a single one is required and a third argument that can be used
+    # to manually specify the controller to validate against rather than the current node.
+    #
+    #     user_authorized?([:read], true 'FoobarController')
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -50,7 +51,7 @@ module Ramaze
           # If it's a super group we'll add all rules
           if group.super_group === true
             ::Zen::Package::Controllers.each do |controller|
-              @used_rules[controller] = [:create, :read, :update, :delete]
+              @used_rules[controller.to_s] = [:create, :read, :update, :delete]
             end
           end
 
@@ -80,21 +81,27 @@ module Ramaze
       # @param  [Boolean] require_all Boolean that specifies that the user should have 
       # ALL specified permissios. Setting this to false causes this method to return true 
       # if any of the permissions are set for the current user.
+      # @param  [String] controller When set this will overwrite the controller name of
+      # action.node. This is useful when you want to check the permissions of a different
+      # controller than the current one.
       # @return [TrueClass]
       #
-      def user_authorized?(required, require_all = true)
+      def user_authorized?(required, require_all = true, controller = nil)
         # Get the ACL list
         rules = extension_permissions
-        node  = action.node.to_s
 
-        if !rules.key?(node)
+        if !controller
+          controller = action.node.to_s
+        end
+
+        if !rules.key?(controller)
           return false
         end
 
         required.each do |req|
-          if require_all === false and rules[node].include?(req)
+          if require_all === false and rules[controller].include?(req)
             return true
-          elsif !rules[node].include?(req)
+          elsif !rules[controller].include?(req)
             return false
           end
         end
@@ -129,7 +136,7 @@ module Ramaze
           # Process all controllers
           if rule.controller === '*'
             ::Zen::Package[rule.package].controllers.each do |name, controller|
-              controllers.push(controller)
+              controllers.push(controller.to_s)
             end
           # Process a single controller
           else

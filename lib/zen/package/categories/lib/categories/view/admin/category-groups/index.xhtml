@@ -20,7 +20,9 @@
                     <th>#{lang('category_groups.labels.id')}</th>
                     <th>#{lang('category_groups.labels.name')}</th>
                     
-                    <?r if user_authorized?([:create]) ?>
+                    <?r if user_authorized?(
+                      [:read], true, 'Categories::Controller::Categories'
+                    ) ?>
                     <th></th>
                     <?r end ?>
                 </tr>
@@ -30,7 +32,8 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="category_group_ids[]" value="#{group.id}" />
+                        <input type="checkbox" name="category_group_ids[]" 
+                        value="#{group.id}" />
                     </td>
                     <?r end ?>
                     
@@ -47,7 +50,9 @@
                     <td>#{group.name}</td>
                     <?r end ?>
                     
-                    <?r if user_authorized?([:create]) ?>
+                    <?r if user_authorized?(
+                      [:read], true, 'Categories::Controller::Categories'
+                    ) ?>
                     <td>
                         #{anchor_to(
                           lang('category_groups.labels.manage'), 
