@@ -1,5 +1,5 @@
 module EXTENSION
-  module Controllers
+  module Controller
     ##
     #
     # @author

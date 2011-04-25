@@ -1,5 +1,5 @@
 module EXTENSION
-  module Models
+  module Model
     ##
     #
     # @author
