@@ -27,7 +27,7 @@ namespace :db do
         abort "The migration directory #{dir} doesn't exist."
       end
 
-      table = 'migrations_' + pkg.name.to_s
+      table = 'migrations_package_' + pkg.name.to_s
 
       # Migration time
       Zen::Database.handle.transaction do
@@ -58,7 +58,7 @@ namespace :db do
         abort "The migration directory #{dir} doesn't exist."
       end
 
-      table = 'migrations_' + pkg.name.to_s
+      table = 'migrations_package_' + pkg.name.to_s
 
       # Migration time
       Zen::Database.handle.transaction do

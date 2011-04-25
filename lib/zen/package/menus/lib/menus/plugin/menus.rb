@@ -72,6 +72,8 @@ module Menus
           menu = Menu[@options[:menu]]
         end
 
+        return if !menu
+
         # Get all menu items
         menu_items = MenuItem.filter(:menu_id => menu.id, :parent_id => nil)
           .limit(@options[:limit], @options[:offset])

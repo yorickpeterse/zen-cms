@@ -21,8 +21,8 @@ Sequel.migration do
   end
   
   down do
-    rename_column(:settings, :identifier      , :key)
-    rename_column(:settings, :group_identifier, :group_key)
+    rename_column(:settings, :name , :key)
+    rename_column(:settings, :group, :group_key)
 
     add_column(:settings, :language_key      , String)
     add_column(:settings, :language_group_key, String)

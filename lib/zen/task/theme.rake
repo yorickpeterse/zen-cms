@@ -42,6 +42,7 @@ MSG
     end
 
     theme = Zen::Theme::Registered[name]
+    table = 'migrations_theme_' + theme.name.to_s
     
     # Fetch the migrations directory
     if theme.respond_to?(:migration_dir) and !theme.migration_dir.nil?
@@ -59,7 +60,7 @@ MSG
 
     Zen::Database.handle.transaction do
       Sequel::Migrator.run(
-        Zen::Database.handle, dir, :table => theme.name, :target => version
+        Zen::Database.handle, dir, :table => table, :target => version
       )
     end
   end

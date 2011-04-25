@@ -153,6 +153,11 @@ module Menus
         else
           @menu       = Menu.new
           save_action = :new
+
+          # Delete the slug if it's empty
+          if post['slug'].empty?
+            post.delete('slug')
+          end
         end
 
         # Set our notifications

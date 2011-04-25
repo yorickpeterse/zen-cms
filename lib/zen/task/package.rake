@@ -52,7 +52,7 @@ MSG
       abort "The directory #{dir} does not exist."
     end
 
-    table = 'migrations_' + package.name.to_s
+    table = 'migrations_package_' + package.name.to_s
 
     puts "Migrating package..."
 
