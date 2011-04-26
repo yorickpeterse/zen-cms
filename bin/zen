@@ -19,6 +19,8 @@ program :description, 'Zen is a modular CMS written using Ramaze.'
 program :help, 'Example'    , '$ zen [COMMAND] [OPTIONS]'
 program :help, 'Information', information.strip
 
+program :help_formatter, Commander::HelpFormatter::TerminalCompact
+
 # Load all the commands
 commands = File.expand_path('../../lib/zen/bin/*.rb', __FILE__)
 commands = Dir.glob(commands)
