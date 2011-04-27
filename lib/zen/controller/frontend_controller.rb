@@ -13,7 +13,7 @@ module Zen
     class FrontendController < Zen::Controller::BaseController
       engine :etanni
       layout :none
-      helper :theme
+      helper :theme, :common
     end
   end
 end

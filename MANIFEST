@@ -219,6 +219,7 @@ lib/zen/task/package.rake
 lib/zen/task/plugin.rake
 lib/zen/task/proto.rake
 lib/zen/task/theme.rake
+lib/zen/task.rb
 lib/zen/theme/base.rb
 lib/zen/theme.rb
 lib/zen/validation.rb
@@ -237,7 +238,7 @@ proto/app/public/.gitkeep
 proto/app/start.rb
 proto/app/task/.gitkeep
 proto/app/vendor/.gitkeep
-proto/app/vendor/themes/.gitkeep
+proto/app/vendor/theme/.gitkeep
 proto/migration.rb
 proto/package/lib/package/controller/controllers.rb
 proto/package/lib/package/language/en/languages.yml

@@ -16,29 +16,19 @@
 # all databases.
 #
 Zen::Database.mode :dev do |db|
-  ##
   # Example: mysql2
-  #
   db.adapter  = ''
 
-  ##
   # Example: localhost
-  #
   db.host     = ''
 
-  ##
   # Example: zen-app
-  #
   db.username = ''
   
-  ##
   # Example: 23x190jj38123x
-  #
   db.password = ''
 
-  ##
   # Example: blog
-  #
   db.database = ''
 end
 
@@ -47,28 +37,18 @@ end
 # This group accepts the same settings as the block above.
 #
 Zen::Database.mode :live do |db|
-  ##
   # Example: mysql2
-  #
   db.adapter  = ''
 
-  ##
   # Example: localhost
-  #
   db.host     = ''
 
-  ##
   # Example: zen-app
-  #
   db.username = ''
   
-  ##
   # Example: 23x190jj38123x
-  #
   db.password = ''
 
-  ##
   # Example: blog
-  #
   db.database = ''
 end

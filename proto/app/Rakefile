@@ -1,11 +1,5 @@
 require File.expand_path('../app.rb', __FILE__)
-
-# Load all core tasks
-import 'zen/task/db.rake'
-import 'zen/task/package.rake'
-import 'zen/task/proto.rake'
-import 'zen/task/theme.rake'
-import 'zen/task/plugin.rake'
+require 'zen/task'
 
 task_dir = File.expand_path('../task', __FILE__)
 

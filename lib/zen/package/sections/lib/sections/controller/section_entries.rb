@@ -13,7 +13,20 @@ module Sections
       include ::Sections::Model 
       
       map('/admin/section-entries')
-      
+
+      # Load all the javascript files for the editor and the datepicker
+      javascript(
+        [
+          'zen/editor/base', 'zen/editor/drivers/html', 'zen/editor/drivers/textile', 
+          'zen/editor/drivers/markdown', 'vendor/datepicker/Picker', 
+          'vendor/datepicker/Picker.Attach', 'vendor/datepicker/Picker.Date', 
+          'vendor/datepicker/locale'
+        ]
+      )
+
+      # Load the stylesheet for the datepicker
+      stylesheet(['editor', 'datepicker'])
+
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)
@@ -47,14 +60,6 @@ module Sections
           method      = action.method.to_sym
           @page_title = lang("section_entries.titles.#{method}") rescue nil
         end
-
-        # Load our datepicker that ships with Zen itself
-        require_js(
-          'vendor/datepicker/Picker', 'vendor/datepicker/Picker.Attach', 
-          'vendor/datepicker/Picker.Date', 'vendor/datepicker/locale'
-        )
-
-        require_css('datepicker')
 
         @status_hash = {
           'draft'     => lang('section_entries.special.status_hash.draft'),

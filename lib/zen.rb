@@ -60,6 +60,7 @@ require __DIR__('zen/database')
 require __DIR__('zen/plugin')
 require __DIR__('zen/language')
 require __DIR__('zen/logger')
+require __DIR__('zen/asset')
 
 # Load a set of modules into the global namespace 
 include Zen::Plugin::SingletonMethods

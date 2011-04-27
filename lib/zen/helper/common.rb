@@ -148,9 +148,7 @@ module Ramaze
       # @return [String]
       #
       def cycle(*args)
-        if @@cycle_counter.nil?
-          @@cycle_counter = 0
-        end
+        @@cycle_counter ||= 0
         
         # Check the current counter and reset it if it matches the total amount of arguments
         if @@cycle_counter >= args.count

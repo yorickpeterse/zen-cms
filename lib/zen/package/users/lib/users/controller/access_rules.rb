@@ -20,6 +20,8 @@ module Users
       include ::Users::Model
 
       map('/admin/access-rules')
+
+      javascript(['users/access_rules'])
       
       before_all do
         csrf_protection(:save, :delete) do
@@ -50,8 +52,6 @@ module Users
           @page_title = lang("access_rules.titles.#{method}") rescue nil
         end
         
-        require_js 'users/access_rules'
-
         @rule_applies_hash = {
           lang('access_rules.labels.user')       => 'div_user_id', 
           lang('access_rules.labels.user_group') => 'div_user_group_id'

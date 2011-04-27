@@ -22,9 +22,10 @@ success:
   delete : 'The category group has been deleted.'
 
 errors:
-  new    : 'Failed to add a new category group.'
-  save   : 'Failed to modify the category group.'
-  delete : 'Failed to delete the category group with ID #%s.'
+  new      : 'Failed to add a new category group.'
+  save     : 'Failed to modify the category group.'
+  delete   : 'Failed to delete the category group with ID #%s.'
+  no_delete: 'You need to specify at least one group to delete.'
 
 buttons:
   new    : 'Add group'

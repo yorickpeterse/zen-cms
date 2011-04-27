@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         
         <!-- Load all stylesheets -->
-        #{build_css}
+         #{::Zen::Asset.build(:stylesheet)}
         
         <title>#{@page_title}</title>
     </head>
@@ -73,14 +73,11 @@
             </div>
         </footer>
         
-        <script src="/admin/js/mootools/core.js"></script>
-        <script src="/admin/js/mootools/more.js"></script>
-        
         <script>
-            Zen        = {};
-            Zen.Flash  = #{flash.combined.to_json};
+            Zen       = {};
+            Zen.Flash = #{flash.combined.to_json};
         </script>
         
-        #{build_js}
+        #{Zen::Asset.build(:javascript)}
     </body>
 </html>

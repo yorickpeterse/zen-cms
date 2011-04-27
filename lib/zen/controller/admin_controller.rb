@@ -15,26 +15,14 @@ module Zen
     # Users controller, mapped to /admin/users/login. If a user isn't logged in he/she 
     # will be redirected to the login page.
     #
-    # ## Helpers
-    #
-    # The admin controller loads the following helpers:
-    #
-    # * CSRF
-    # * BlueForm
-    # * Common
-    # * Breadcrumb
-    # * User
-    # * ACL
-    # * Asset
-    #
     # @author Yorick Peterse
     # @since  0.1
     #
     class AdminController < Zen::Controller::BaseController
       layout :admin
       engine :etanni
-      helper :blue_form, :common, :breadcrumb, :user, :acl, :asset
-      
+      helper :blue_form, :common, :breadcrumb, :user, :acl
+
       ##
       # The initialize method is called upon class initalization and is used to process several
       # items before loading the controller(s) for the current extension.
@@ -44,18 +32,7 @@ module Zen
       #
       def initialize
         super
-        
-        # Load our CSS and Javascript files
-        require_css(
-          'boilerplate', 'grid', 'layout', 'general', 'forms', 'tables', 'buttons',
-          'tabs', 'notifications', 'editor'
-        )
-
-        require_js('zen/tabs', 'zen/notification', 'zen/modal', 'zen/editor/base',
-          'zen/editor/drivers/html', 'zen/editor/drivers/textile', 'zen/editor/drivers/markdown',
-          'zen/init'
-        )
-        
+                
         # Only allow users to access admin/users/login when they aren't logged in
         if request.env['SCRIPT_NAME'] != 'admin/users/' and request.env['PATH_INFO'] != '/login'
           redirect '/admin/users/login' unless logged_in?
@@ -65,8 +42,55 @@ module Zen
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')
         }.invert
-
       end
+ 
+      ##
+      # Shortcut for Zen::Asset.stylesheet.
+      #
+      # @author Yorick Peterse
+      # @see    Zen::Asset.stylesheet
+      # @since  0.2.5
+      #
+      def self.stylesheet(files, options = {})
+        options = {
+          :controller => self
+        }.merge(options)
+
+        ::Zen::Asset.stylesheet(files, options)
+      end
+
+      ##
+      # Shortcut for Zen::Asset.javascript.
+      #
+      # @author Yorick Peterse
+      # @see    Zen::Asset.javascript
+      # @since  0.2.5
+      #
+      def self.javascript(files, options = {})
+        options = {
+          :controller => self
+        }.merge(options)
+
+        ::Zen::Asset.javascript(files, options)
+      end
+
+      # Load all stylesheets globally
+      stylesheet(
+        [
+          'boilerplate', 'grid', 'layout', 'general', 'forms', 'tables', 'buttons',
+          'tabs', 'notifications'
+        ], 
+        :global => true
+      )
+
+      # Load all global javascript files
+      javascript(
+        [
+          'mootools/core', 'mootools/more', 'zen/tabs', 'zen/notification', 'zen/init'
+        ],
+        :global => true
+      )
+
     end
   end
 end
