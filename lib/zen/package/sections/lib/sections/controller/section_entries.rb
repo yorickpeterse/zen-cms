@@ -18,9 +18,7 @@ module Sections
       javascript(
         [
           'zen/editor/base', 'zen/editor/drivers/html', 'zen/editor/drivers/textile', 
-          'zen/editor/drivers/markdown', 'vendor/datepicker/Picker', 
-          'vendor/datepicker/Picker.Attach', 'vendor/datepicker/Picker.Date', 
-          'vendor/datepicker/locale'
+          'zen/editor/drivers/markdown', 'vendor/datepicker'
         ]
       )
 

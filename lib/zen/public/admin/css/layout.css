@@ -18,7 +18,7 @@
   width:         100%;
 }
 
-    #top #main_nav .left li
+    #top #main_nav .left, #top #main_nav .left li
     {
         float:   left;
     }
@@ -28,15 +28,15 @@
         float:   right;
     }
 
-        #top #main_nav ul li a
-        {
-            color:            #fff;
-            display:          block;
-            margin:           3px 10px;
-            padding:          3px 3px 5px 3px;
-            text-decoration:  none;
-            text-align:       center;
-        }
+    #top #main_nav ul li a
+    {
+        color:            #fff;
+        display:          block;
+        margin:           3px 10px;
+        padding:          3px 3px 5px 3px;
+        text-decoration:  none;
+        text-align:       center;
+    }
 
     #top #main_nav ul li:hover, #top #main_nav ul li a:hover
     {

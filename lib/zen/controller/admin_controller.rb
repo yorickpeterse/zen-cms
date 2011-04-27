@@ -77,8 +77,8 @@ module Zen
       # Load all stylesheets globally
       stylesheet(
         [
-          'boilerplate', 'grid', 'layout', 'general', 'forms', 'tables', 'buttons',
-          'tabs', 'notifications'
+          'reset', 'grid', 'layout', 'general', 'forms', 'tables', 'buttons', 'tabs', 
+          'notifications'
         ], 
         :global => true
       )
