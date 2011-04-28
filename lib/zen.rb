@@ -50,6 +50,26 @@ module Zen
     
     require __DIR__('zen/model/settings')
     require __DIR__('zen/model/methods')
+
+    # Load the global stylesheet and Javascript file if they're located in 
+    # ROOT/public/css/admin/global.css and ROOT/public/js/admin/global.js
+    publics = ::Ramaze.options.publics
+
+    publics.each do |p|
+      p   = File.join(Zen.options.root, p)
+      css = File.join(p, 'admin/css/global.css')
+      js  = File.join(p, 'admin/js/global.js')
+
+      # Load the CSS file if it's there
+      if File.exist?(css)
+        ::Zen::Asset.stylesheet(['global'], :global => true)
+      end
+
+      # Load the JS file if it's there
+      if File.exist?(js)
+        ::Zen::Asset.javascript(['global'], :global => true)
+      end
+    end
   end
 
 end
