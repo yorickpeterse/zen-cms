@@ -77,7 +77,7 @@ module Zen
       # Load all stylesheets globally
       stylesheet(
         [
-          'reset', 'grid', 'layout', 'general', 'forms', 'tables', 'buttons', 'tabs', 
+          'reset', 'grid', 'layout', 'general', 'forms', 'tables', 'buttons', 
           'notifications'
         ], 
         :global => true
@@ -86,7 +86,8 @@ module Zen
       # Load all global javascript files
       javascript(
         [
-          'mootools/core', 'mootools/more', 'zen/tabs', 'zen/notification', 'zen/init'
+          'mootools/core', 'mootools/more', 'vendor/yepnope', 'zen/notification', 
+          'zen/init', 
         ],
         :global => true
       )

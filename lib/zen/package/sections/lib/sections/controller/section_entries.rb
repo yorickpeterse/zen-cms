@@ -14,17 +14,6 @@ module Sections
       
       map('/admin/section-entries')
 
-      # Load all the javascript files for the editor and the datepicker
-      javascript(
-        [
-          'zen/editor/base', 'zen/editor/drivers/html', 'zen/editor/drivers/textile', 
-          'zen/editor/drivers/markdown', 'vendor/datepicker'
-        ]
-      )
-
-      # Load the stylesheet for the datepicker
-      stylesheet(['editor', 'datepicker'])
-
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)
