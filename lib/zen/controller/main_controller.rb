@@ -49,12 +49,12 @@ module Zen
         
         # Create the group, template and partial paths
         theme_path    = theme.template_dir
-        group_path    = theme_path + "/#{group}"
-        template_path = theme_path + "/#{group}/#{template}.xhtml"
+        group_path    = File.join(theme_path, group)
+        template_path = File.join(theme_path, group, "#{template}.xhtml")
         
         # Is the website down?
         if ::Zen::Settings[:website_enabled] == '0'
-          offline_path = theme_path + "/offline.xhtml"
+          offline_path = File.join(theme_path, 'offline.xhtml')
           
           if File.exist?(offline_path)
             render_file(offline_path)
@@ -66,7 +66,7 @@ module Zen
           if File.directory?(group_path) and File.exists?(template_path)
             render_file(template_path)
           else
-            not_found = theme_path + "/404.xhtml"
+            not_found = File.join(theme_path, '404.xhtml')
             
             if File.exist?(not_found)
               render_file(not_found)

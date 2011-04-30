@@ -4,6 +4,7 @@ README.md
 ROADMAP.md
 Rakefile
 bin/zen
+lib/zen/asset.rb
 lib/zen/bin/app.rb
 lib/zen/controller/admin_controller.rb
 lib/zen/controller/base_controller.rb
@@ -17,7 +18,6 @@ lib/zen/error/theme_error.rb
 lib/zen/error/validation_error.rb
 lib/zen/ext/string.rb
 lib/zen/helper/acl.rb
-lib/zen/helper/asset.rb
 lib/zen/helper/breadcrumb.rb
 lib/zen/helper/common.rb
 lib/zen/helper/theme.rb
@@ -163,7 +163,6 @@ lib/zen/plugin/markup/lib/markup/language/en/markup.yml
 lib/zen/plugin/markup/lib/markup/markup.rb
 lib/zen/plugin/markup/lib/markup.rb
 lib/zen/plugin.rb
-lib/zen/public/admin/css/boilerplate.css
 lib/zen/public/admin/css/buttons.css
 lib/zen/public/admin/css/datepicker.css
 lib/zen/public/admin/css/editor.css
@@ -173,6 +172,7 @@ lib/zen/public/admin/css/grid.css
 lib/zen/public/admin/css/layout.css
 lib/zen/public/admin/css/modals.css
 lib/zen/public/admin/css/notifications.css
+lib/zen/public/admin/css/reset.css
 lib/zen/public/admin/css/tables.css
 lib/zen/public/admin/css/tabs.css
 lib/zen/public/admin/images/icons/accept.png
@@ -198,11 +198,8 @@ lib/zen/public/admin/images/icons/user.png
 lib/zen/public/admin/images/icons/view.png
 lib/zen/public/admin/js/mootools/core.js
 lib/zen/public/admin/js/mootools/more.js
-lib/zen/public/admin/js/vendor/datepicker/Picker.Attach.js
-lib/zen/public/admin/js/vendor/datepicker/Picker.Date.js
-lib/zen/public/admin/js/vendor/datepicker/Picker.js
-lib/zen/public/admin/js/vendor/datepicker/README.md
-lib/zen/public/admin/js/vendor/datepicker/locale.js
+lib/zen/public/admin/js/vendor/datepicker.js
+lib/zen/public/admin/js/vendor/yepnope.js
 lib/zen/public/admin/js/zen/editor/base.js
 lib/zen/public/admin/js/zen/editor/drivers/html.js
 lib/zen/public/admin/js/zen/editor/drivers/markdown.js
@@ -224,6 +221,8 @@ lib/zen/theme/base.rb
 lib/zen/theme.rb
 lib/zen/validation.rb
 lib/zen/version.rb
+lib/zen/view/bottom.xhtml
+lib/zen/view/main.xhtml
 lib/zen.rb
 license.txt
 proto/app/Rakefile
