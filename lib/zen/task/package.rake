@@ -30,7 +30,7 @@ MSG
     if !args[:version]
       version = nil
     else
-      version = args[:version]
+      version = args[:version].to_i
     end
 
     # Validate the package name

@@ -178,7 +178,10 @@ module Sections
           if @options[:comments] === true
             entry.comments.each do |c|
               comment        = c.values
-              comment[:user] = c.user.values
+
+              if c.user
+                comment[:user] = c.user.values
+              end
 
               # Convert the comment's markup
               if @options[:comment_markup]

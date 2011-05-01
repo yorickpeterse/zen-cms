@@ -68,6 +68,15 @@ module Sections
           sections = Section.limit(@options[:limit], @options[:offset]).all
         end
 
+        # Convert every section to a hash
+        if sections.class == Array
+          sections.each_with_index do |section, index|
+            sections[index] = section.values
+          end
+        else
+          sections = sections.values
+        end
+
         return sections
       end
 

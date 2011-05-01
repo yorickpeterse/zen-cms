@@ -32,7 +32,7 @@ MSG
       version = nil
       puts 'No version specified, choosing the most recent version...'
     else
-      version = args[:version]
+      version = args[:version].to_i
     end
 
     name = args[:name].to_sym

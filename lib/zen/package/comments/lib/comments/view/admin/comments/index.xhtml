@@ -48,7 +48,7 @@
                     <td>#{comment.section_entry.title}</td>
                     <td>#{Comments::Model::Comment.status_hash[comment.status]}</td>
                     
-                    <?r if !comment.user_id ?>
+                    <?r if !comment.user ?>
                     <td>#{comment.name}</td>
                     <td>#{comment.email}</td>
                     <td>#{comment.website}</td>

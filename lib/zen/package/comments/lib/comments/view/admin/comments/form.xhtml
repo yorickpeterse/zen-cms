@@ -5,7 +5,7 @@
     f.input_hidden(:csrf_token, get_csrf_token)
     f.input_hidden(:id        , @comment.id)
     
-    if !@comment.user_id
+    if !@comment.user
       name    = @comment.name
       website = @comment.website
       email   = @comment.email
