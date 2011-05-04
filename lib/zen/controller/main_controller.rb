@@ -69,7 +69,7 @@ module Zen
             not_found = File.join(theme_path, '404.xhtml')
             
             if File.exist?(not_found)
-              render_file(not_found)
+              respond(render_file(not_found), 404)
             else
               respond(lang('zen_general.errors.no_templates'), 404)
             end
