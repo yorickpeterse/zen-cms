@@ -8,19 +8,19 @@
  */
 #success
 {
-    background: #B3D760 url("../images/icons/success.png") no-repeat 5px center;
+    background: #B3D760 url("../../images/icons/success.png") no-repeat 5px center;
     border:     1px solid #599929;
 }
 
 #error
 {
-    background: #F57E62 url("../images/icons/error.png") no-repeat 5px center;
+    background: #F57E62 url("../../images/icons/error.png") no-repeat 5px center;
     border:     1px solid #FF3100;
 }
 
 #notice
 {
-    background: #FFF58C url("../images/icons/info.png") no-repeat 5px center;
+    background: #FFF58C url("../../images/icons/info.png") no-repeat 5px center;
     border:     1px solid #FFDA05;
 }
 
@@ -55,7 +55,7 @@
 
     .notification .close
     {
-        background: url("../images/icons/close.png") no-repeat center left;
+        background: url("../../images/icons/close.png") no-repeat center left;
         display:    none;
         height:     33px;
         left:       0px;

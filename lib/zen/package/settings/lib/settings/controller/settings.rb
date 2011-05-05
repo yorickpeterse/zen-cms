@@ -12,7 +12,13 @@ module Settings
     class Settings < Zen::Controller::AdminController
       include ::Settings::Model
 
-      map('/admin/settings')
+      map '/admin/settings'
+
+      # Load all required Javascript files
+      javascript ['zen/tabs']
+
+      # Load all required CSS files
+      stylesheet ['zen/tabs']
       
       before_all do
         csrf_protection(:save, :delete) do

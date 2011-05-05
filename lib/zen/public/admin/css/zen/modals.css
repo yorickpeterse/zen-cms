@@ -54,7 +54,7 @@
 
         #modal_container #modal_window #modal_close
         {
-            background: url("../images/icons/close.png");
+            background: url("../../images/icons/close.png");
             cursor:     pointer;
             display:    block;
             height:     30px;

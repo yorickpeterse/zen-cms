@@ -1,2 +1,0 @@
-Zen         = {};
-Zen.Objects = {};

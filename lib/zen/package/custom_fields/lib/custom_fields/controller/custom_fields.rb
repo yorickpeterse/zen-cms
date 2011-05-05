@@ -16,7 +16,13 @@ module CustomFields
       include ::CustomFields::Model
 
       map('/admin/custom-fields')
-      
+
+      # Load all required Javascript files
+      javascript ['zen/tabs']
+
+      # Load all required CSS files
+      stylesheet ['zen/tabs']
+
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)

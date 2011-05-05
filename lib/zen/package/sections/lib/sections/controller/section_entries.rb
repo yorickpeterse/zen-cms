@@ -12,7 +12,15 @@ module Sections
     class SectionEntries < Zen::Controller::AdminController
       include ::Sections::Model 
       
-      map('/admin/section-entries')
+      map '/admin/section-entries'
+
+      # Load all required Javascript files
+      javascript [
+        'zen/tabs', 'zen/editor/editor', 'vendor/datepicker'
+      ]
+
+      # Load all required CSS files
+      stylesheet ['zen/tabs', 'zen/editor', 'zen/datepicker']
 
       before_all do
         csrf_protection(:save, :delete) do
