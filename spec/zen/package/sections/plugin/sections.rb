@@ -19,16 +19,16 @@ describe('Sections::Plugin::Sections') do
     sections = plugin(:sections)
 
     sections.count.should   === 2
-    sections[0].name.should === 'Spec'
-    sections[1].name.should === 'Spec 1'
+    sections[0][:name].should === 'Spec'
+    sections[1][:name].should === 'Spec 1'
   end
 
   it('Retrieve a single section') do
     section = plugin(:sections, :section => 'spec')
 
-    section.name.should           === 'Spec'
-    section.comment_allow.should  === true
-    section.comment_format.should === 'plain'
+    section[:name].should           === 'Spec'
+    section[:comment_allow].should  === true
+    section[:comment_format].should === 'plain'
   end
 
   it('Retrieve a single section by it\'s ID') do
@@ -36,23 +36,23 @@ describe('Sections::Plugin::Sections') do
       :sections, :section => Testdata[:section_1].id
     )
 
-    section.name.should           === 'Spec'
-    section.comment_allow.should  === true
-    section.comment_format.should === 'plain'
+    section[:name].should           === 'Spec'
+    section[:comment_allow].should  === true
+    section[:comment_format].should === 'plain'
   end
 
   it('Limit the amount of sections') do
     sections = plugin(:sections, :limit => 1)
 
-    sections.count.should   === 1
-    sections[0].name.should === 'Spec'
+    sections.count.should     === 1
+    sections[0][:name].should === 'Spec'
   end
 
   it('Limit the amount of sections and set an offset') do
     sections = plugin(:sections, :limit => 1, :offset => 1)
 
-    sections.count.should   === 1
-    sections[0].name.should === 'Spec 1'
+    sections.count.should     === 1
+    sections[0][:name].should === 'Spec 1'
   end
 
   it('Delete the test data') do
