@@ -55,27 +55,27 @@
         /* Individual toolbar buttons */
         .editor_container .editor_toolbar ul li.bold
         {
-            background: url("../images/icons/bold.png") no-repeat 6px 5px;
+            background: url("../../images/icons/bold.png") no-repeat 6px 5px;
         }
 
         .editor_container .editor_toolbar ul li.italic
         {
-            background: url("../images/icons/italic.png") no-repeat 6px 5px;
+            background: url("../../images/icons/italic.png") no-repeat 6px 5px;
         }
 
         .editor_container .editor_toolbar ul li.link
         {
-            background: url("../images/icons/link.png") no-repeat 7px 5px;
+            background: url("../../images/icons/link.png") no-repeat 7px 5px;
         }
 
         .editor_container .editor_toolbar ul li.ul
         {
-            background: url("../images/icons/ul.png") no-repeat 6px 5px;
+            background: url("../../images/icons/ul.png") no-repeat 6px 5px;
         }
 
         .editor_container .editor_toolbar ul li.ol
         {
-            background: url("../images/icons/ol.png") no-repeat 6px 5px;
+            background: url("../../images/icons/ol.png") no-repeat 6px 5px;
         }
 
         .editor_container .editor_toolbar ul li:hover

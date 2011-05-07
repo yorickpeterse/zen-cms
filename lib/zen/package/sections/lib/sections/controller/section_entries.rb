@@ -16,7 +16,8 @@ module Sections
 
       # Load all required Javascript files
       javascript [
-        'zen/tabs', 'zen/editor/editor', 'vendor/datepicker'
+        'zen/tabs', 'zen/editor/editor', 'zen/editor/drivers/markdown', 
+        'zen/editor/drivers/textile', 'vendor/datepicker'
       ]
 
       # Load all required CSS files
