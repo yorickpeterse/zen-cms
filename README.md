@@ -76,7 +76,6 @@ free to submit a pull request and I'll take a look at it.
 * Comments should be in English 
 * The maximum width of each line should be no more than 90 columns, this makes it easier
 to read code in terminals or when using split view modes.
-* Big changes should always be added to the file "CHANGELOG.md".
 
 ## Community
 
