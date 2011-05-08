@@ -1,0 +1,79 @@
+/**
+ * Stylesheet used for the Javascript class Zen.Window.
+ *
+ * @author Yorick Peterse
+ * @since  0.2.6
+ */
+.window
+{
+    background:     #fff;
+    border:         1px solid #aaa;
+    left:           50%;
+    min-width:      350px;
+    min-height:     100px;
+    position:       absolute;
+    padding-bottom: 10px;
+    top:            80px;
+}
+
+.window.move
+{
+    cursor: move;
+}
+
+.window.resize
+{
+    cursor: nwse-resize;
+}
+
+.window, .window header
+{
+    border-radius:         5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    -moz-border-radius:    5px 5px 0px 0px;
+}
+
+    .window header
+    {
+        background:    #ddd -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#eee));
+        background:    #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
+        border-top:    1px solid #fff;
+        border-bottom: 1px solid #aaa;
+        padding:       3px;
+    }
+
+        .window header h1
+        {
+            font-size:   13px;
+            font-weight: normal;
+            float:       right;
+            margin:      0px;
+            padding:     0px;
+            text-shadow: 0px 1px #fff;
+            text-align:  center;
+            width:       95%;
+        }
+
+        .window header .close
+        {
+            background: url('../../images/icons/close.png') no-repeat center left;
+            cursor:     pointer;
+            float:      left;
+            height:     16px;
+            width:      16px;
+        }
+
+    .window .body, .window .buttons
+    {
+        padding: 10px;
+    }
+
+    .window .buttons
+    {
+        float: right;
+    }
+
+        .window .buttons .button:last-child
+        {
+            margin-right: 0px;
+        }

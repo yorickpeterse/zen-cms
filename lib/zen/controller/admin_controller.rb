@@ -85,7 +85,7 @@ module Zen
 
       # Load all global javascript files
       javascript(
-        ['mootools/core', 'mootools/more', 'zen/notification','zen/init'], 
+        ['mootools/core', 'mootools/more', 'zen/core', 'zen/notification', 'zen/init'], 
         :global => true
       )
     end

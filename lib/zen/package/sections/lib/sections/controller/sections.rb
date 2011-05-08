@@ -21,9 +21,6 @@ module Sections
 
       # Load all required Javascript files
       javascript ['zen/tabs']
-
-      # Load all required CSS files
-      stylesheet ['zen/tabs']
       
       before_all do
         csrf_protection(:save, :delete) do
