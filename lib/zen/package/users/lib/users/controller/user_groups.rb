@@ -145,6 +145,8 @@ module Users
         else
           @user_group = UserGroup.new
           save_action = :new
+
+          post.delete('slug') if post['slug'].empty?
         end
         
         flash_success = lang("user_groups.success.#{save_action}")
