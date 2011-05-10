@@ -48,7 +48,7 @@
     f.select(
       lang('users.labels.language'),
       :language,
-      :values   => ::Settings::Plugin::Settings::Registered[:settings]['language'].values,
+      :values   => ::Zen::Language::Languages,
       :selected => @user.language,
       :size     => 1
     )
@@ -56,15 +56,17 @@
     f.select(
       lang('users.labels.frontend_language'),
       :frontend_language,
-      :values   => ::Settings::Plugin::Settings::Registered[:settings]['language'].values,
+      :values   => ::Zen::Language::Languages,
       :selected => @user.frontend_language,
       :size     => 1
     )
 
-    f.input_text(
+    f.select(
       lang('users.labels.date_format'),
       :date_format,
-      :placeholder => lang('users.placeholders.date_format')
+      :values   => plugin(:settings, :get, 'date_format').values,
+      :selected => @user.date_format,
+      :size     => 1
     )
 
     f.g.div(:class => 'clearfix') do

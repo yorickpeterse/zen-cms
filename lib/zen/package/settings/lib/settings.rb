@@ -139,8 +139,13 @@ plugin(:settings, :register) do |setting|
   setting.description = lang('settings.placeholders.date_format')
   setting.name        = 'date_format'
   setting.group       = 'general'
-  setting.type        = 'textbox'
+  setting.type        = 'select'
   setting.default     = '%Y-%m-%d %H:%I:%S'
+  setting.values      = {
+    '%Y-%m-%d %H:%I:%S' => '2011-05-10 13:30:12',
+    '%d-%m-%Y %H:%I:%S' => '10-05-2011 13:30:12',
+    '%A, %B %d, %Y'     => 'Tuesday, May 10, 2011'
+  }
 end
 
 plugin(:settings, :register) do |setting|
