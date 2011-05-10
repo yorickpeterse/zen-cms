@@ -18,6 +18,12 @@ labels:
   updated_at       : 'Updated'
   last_login       : 'Last login'
   user_groups      : 'User groups'
+  language         : 'Language'
+  frontend_language: 'Frontend language'
+  date_format      : 'Date format'
+
+placeholders:
+  date_format: 'A custom format to use for all dates displayed in the backend.'
 
 special:
   status_hash:

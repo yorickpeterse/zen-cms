@@ -7,9 +7,6 @@ Sequel.migration do
     drop_column(:settings, :language_key)
     drop_column(:settings, :language_group_key)
 
-    # Ensure the identifiers are unique
-    #add_index(:settings, :key, :unique => true)
-
     # Update the settings
     Zen::Database.handle[:settings].all.each do |row|
       name  = row[:name].split('.').last

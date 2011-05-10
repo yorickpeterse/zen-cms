@@ -48,9 +48,21 @@
                     <?r end ?>
                     
                     <td>#{lang("users.special.status_hash.#{user.status}")}</td>
-                    <td>#{user.created_at}</td>
-                    <td>#{user.updated_at}</td>
-                    <td>#{user.last_login}</td>
+                    <td>#{user.created_at.strftime(session[:user].date_format)}</td>
+                    <td>
+                        #{
+                        if user.updated_at
+                          user.updated_at.strftime(session[:user].date_format)
+                        end
+                        }
+                    </td>
+                    <td>
+                        #{
+                        if user.last_login
+                          user.last_login.strftime(session[:user].date_format)
+                        end
+                        }
+                    </td>
                 </tr>
                 <?r end ?>
             </tbody>

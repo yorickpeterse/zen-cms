@@ -41,9 +41,32 @@
       :user_group_pks, 
       :values   => @user_group_pks,
       :selected => @user.user_group_pks, 
-      :multiple => :multiple
+      :multiple => :multiple,
+      :size     => 1
     )
-      
+
+    f.select(
+      lang('users.labels.language'),
+      :language,
+      :values   => ::Settings::Plugin::Settings::Registered[:settings]['language'].values,
+      :selected => @user.language,
+      :size     => 1
+    )
+
+    f.select(
+      lang('users.labels.frontend_language'),
+      :frontend_language,
+      :values   => ::Settings::Plugin::Settings::Registered[:settings]['language'].values,
+      :selected => @user.frontend_language,
+      :size     => 1
+    )
+
+    f.input_text(
+      lang('users.labels.date_format'),
+      :date_format,
+      :placeholder => lang('users.placeholders.date_format')
+    )
+
     f.g.div(:class => 'clearfix') do
       f.g.div(:class => 'button') do
         f.g.input(:type => 'submit', :value => lang('users.buttons.save'))

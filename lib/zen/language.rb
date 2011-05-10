@@ -64,6 +64,10 @@ module Zen
   module Language
     include Ramaze::Optioned
 
+    class << self
+      include Innate::Trinity
+    end
+
     ##
     # Hash containing all loaded translation files.
     #
@@ -71,6 +75,16 @@ module Zen
     # @since  0.2.5
     #
     Registered = {}
+
+    ##
+    # Hash containing all the available languages.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.6
+    #
+    Languages = {
+      'en' => 'English'
+    }
 
     options.dsl do
       o 'Small string that defines the current language (e.g. "en").', :language, 'en'
@@ -81,6 +95,8 @@ module Zen
     # Tries to load a language file for the given name. If no language files were found
     # based on the name and the current language an exception will be raised. 
     #
+    # Note that this method will load the language pack for *all* languages.
+    #
     # @example
     #  Zen::Language.load('user')
     #
@@ -89,32 +105,37 @@ module Zen
     # @param  [String] lang_name The name of the language file to load. 
     # 
     def self.load(lang_name)
-      Registered[self.options.language.to_s] ||= {}
+      file_found = false
 
-      if Registered[self.options.language.to_s][lang_name.to_s]
-        return
+      Languages.each do |language, label|
+        Registered[language] ||= {}
+
+        # Abort of the file has already been loaded
+        if Registered[language][lang_name]
+          file_found = true
+          next
+        end
+
+        self.options.paths.each do |path|
+          path += "/language/#{language}/#{lang_name}.yml"
+
+          # Load the file and save it
+          if File.exist?(path)
+            file_found  = true
+            translation = YAML.load_file(path)
+
+            # Conver the hash to a dot based hash. This means that {:person => {:age => 18}}
+            # would result in {'person.age' => 18}.
+            translation = self.to_dotted_hash({lang_name.to_s => translation})
+            
+            Registered[language].merge!(translation)
+          end
+        end
       end
 
-      self.options.paths.each do |path|
-        path += "/language/#{self.options.language}/#{lang_name}.yml"
-
-        # Load the file and save it
-        if File.exist?(path)
-          translation = YAML.load_file(path)
-
-          # Conver the hash to a dot based hash. This means that {:person => {:age => 18}}
-          # would result in {'person.age' => 18}.
-          translation = self.to_dotted_hash({lang_name.to_s => translation})
-          
-          Registered[self.options.language.to_s] ||= {}
-          Registered[self.options.language.to_s].merge!(translation)
-          
-          # Prevents the exception from being raised
-          return
-        end        
+      if file_found === false
+        raise(Zen::LanguageError, "No language file could be found for \"#{lang_name}\"")
       end
-
-      raise(Zen::LanguageError, "No language file could be found for \"#{lang_name}\"")
     end
 
     private
@@ -202,12 +223,21 @@ module Zen
       # @author Yorick Peterse
       # @since  0.2
       # @param  [String] key The language key to select.
+      # @param  [String] lang The language for which to retrieve the key, overwrites the
+      # language set in the session.
       # @return [Mixed]
       #
-      def lang(key)
-        lang          = ::Zen::Language.options.language.to_s
-        groups        = []
-        translations  = ::Zen::Language::Registered
+      def lang(key, lang = nil)
+        if lang.nil?
+          begin
+            lang = action.node.session[:user].language
+          rescue
+            lang = ::Zen::Language.options.language
+          end
+        end
+
+        groups       = []
+        translations = ::Zen::Language::Registered
 
         if !translations or !translations.key?(lang)
           raise(

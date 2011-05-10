@@ -20,6 +20,10 @@ module Users
     # @since  0.1
     #
     class User < Sequel::Model
+      class << self
+        include ::Innate::Trinity
+      end
+
       plugin :timestamps, :create => :created_at, :update => :updated_at
       
       many_to_many :user_groups, :class => "Users::Model::UserGroup", :eager => [:access_rules]
@@ -49,7 +53,18 @@ module Users
         user = self[:email => email]
 
         if !user.nil? and user.password == password and user.status == 'open'
-          ::Zen::Controller::BaseController.session[:user] = user
+          # Overwrite all the global settings with the user specific ones
+          ::Zen::Settings.each do |k, v|
+            if user.respond_to?(k)
+              got = user.send(k)
+              
+              if got.nil? or got.empty?
+                user.send("#{k}=", v)
+              end
+            end
+          end
+
+          action.node.session[:user] = user
           return user
         else
           return false

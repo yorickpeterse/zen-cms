@@ -21,7 +21,7 @@
                 <th>#{lang('comments.labels.name')}</th>
                 <th>#{lang('comments.labels.email')}</th>
                 <th>#{lang('comments.labels.website')}</th>
-                <th>#{lang('comments.labels.defensio_signature')}</th>
+                <th>#{lang('comments.labels.created_at')}</th>
              </thead>
             <tbody> 
                 <?r @comments.each do |comment| ?>
@@ -58,7 +58,7 @@
                     <td>#{user.email}</td>
                     <td>#{user.website}</td>
                     <?r end ?>
-                    <td>#{comment.defensio_signature}</td>
+                    <td>#{comment.created_at.strftime(session[:user].date_format)}</td>
                 </tr>
                 <?r end ?>
             </tbody>

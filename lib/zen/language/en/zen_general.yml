@@ -26,7 +26,3 @@ special:
   boolean_hash:
     'true'    : 'Yes'
     'false'   : 'No'
-
-  language_hash:
-    en  : 'English'
-

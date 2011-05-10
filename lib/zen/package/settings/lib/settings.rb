@@ -103,9 +103,17 @@ plugin(:settings, :register) do |setting|
   setting.group       = 'general'
   setting.default     = 'en'
   setting.type        = 'select'
-  setting.values      = {
-    'en' => lang('zen_general.special.language_hash.en')
-  }
+  setting.values      = Zen::Language::Languages
+end
+
+plugin(:settings, :register) do |setting|
+  setting.title       = lang('settings.labels.frontend_language')
+  setting.description = lang('settings.placeholders.frontend_language')
+  setting.name        = 'frontend_language'
+  setting.group       = 'general'
+  setting.default     = 'en'
+  setting.type        = 'select'
+  setting.values      = Zen::Language::Languages
 end
 
 plugin(:settings, :register) do |setting|
@@ -124,6 +132,15 @@ plugin(:settings, :register) do |setting|
   setting.group       = 'general'
   setting.type        = 'select'
   setting.values      = theme_hash
+end
+
+plugin(:settings, :register) do |setting|
+  setting.title       = lang('settings.labels.date_format')
+  setting.description = lang('settings.placeholders.date_format')
+  setting.name        = 'date_format'
+  setting.group       = 'general'
+  setting.type        = 'textbox'
+  setting.default     = '%Y-%m-%d %H:%I:%S'
 end
 
 plugin(:settings, :register) do |setting|

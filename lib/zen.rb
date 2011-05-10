@@ -88,6 +88,7 @@ include Zen::Language::SingletonMethods
 
 # Update the language path
 Zen::Language.options.paths.push(__DIR__('zen'))
+Zen::Language.load('zen_general')
 
 # Load all additional files
 require __DIR__('zen/plugin/helper')

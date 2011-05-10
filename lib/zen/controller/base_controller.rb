@@ -16,7 +16,7 @@ module Zen
       helper :csrf, :cgi
       
       ##
-      # The initialize method is called upon class initalization and is used to 
+      # The initialize method is called upon class initialization and is used to 
       # process several items before loading the controller(s) for the current module.
       #
       # @author Yorick Peterse
@@ -30,13 +30,6 @@ module Zen
           ::Settings::Model::Setting.get_settings.each do |k, v|
             ::Zen::Settings[k] = v
           end
-        end
-
-        # Override the language
-        if ::Zen::Settings[:language] != ::Zen::Language.options.language
-          # Reload the language pack
-          ::Zen::Language.options.language = ::Zen::Settings[:language]
-          ::Zen::Language.load('zen_general')
         end
       end
     end

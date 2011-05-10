@@ -7,10 +7,12 @@ labels:
   website_description  : 'Website description'
   website_enabled      : 'Website enabled'
   language             : 'Language'
+  frontend_language    : 'Frontend language'
   default_section      : 'Default section'
   theme                : 'Theme'
   enable_antispam      : 'Enable anti-spam'
   defensio_key         : 'Defensio API key'
+  date_format          : 'Date format'
 
 placeholders:
   website_name        : 'The name of the website.'
@@ -21,6 +23,8 @@ placeholders:
   theme               : 'The frontend theme to use.'
   enable_antispam     : "Whether or not Defensio's anti-spam system should be used."
   defensio_key        : 'The API key to use for the Defensio anti-spam system.'
+  frontend_language   : 'The language to use for the frontend of the website.'
+  date_format         : 'A custom format used for all the dates displayed in the backend.'
 
 tabs:
   general   : 'General'
