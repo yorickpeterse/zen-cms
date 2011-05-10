@@ -18,3 +18,6 @@ Zen.init
 
 # Require all the custom gems/modules we need
 require __DIR__('config/requires')
+
+# Almost done!
+Zen.post_init

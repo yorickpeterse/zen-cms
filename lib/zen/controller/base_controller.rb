@@ -14,24 +14,6 @@ module Zen
       include ::Zen::Language
 
       helper :csrf, :cgi
-      
-      ##
-      # The initialize method is called upon class initialization and is used to 
-      # process several items before loading the controller(s) for the current module.
-      #
-      # @author Yorick Peterse
-      # @since  1.0
-      #
-      def initialize
-        super
-
-        # Store the settings data if this is the first time we're loading the controller
-        if ::Zen::Settings.empty?
-          ::Settings::Model::Setting.get_settings.each do |k, v|
-            ::Zen::Settings[k] = v
-          end
-        end
-      end
     end
   end
 end

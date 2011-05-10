@@ -13,13 +13,19 @@ labels:
   name               : 'Name'
   created_at         : 'Created'
   updated_at         : 'Updated'
-  defensio_signature : 'Defensio Signature'
+  defensio           : 'Defensio'
+  anti_spam_system   : 'Anti-spam system'
   open               : 'Open'
   closed             : 'Closed'
   spam               : 'Spam'
+  defensio_key       : 'Defensio key'
 
 messages:
   no_comments: 'No comments have been added yet.'
+
+placeholders:
+  anti_spam_system : 'The anti-spam system to use for validating comments.'
+  defensio_key     : 'The API key for the Defensio anti-spam system.'
 
 success:
   new      : 'The new comment has been created.'

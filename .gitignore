@@ -1,6 +1,7 @@
 # Ignore the log files and the database used for all spec files
 spec/log/*
 spec/resources/database.db
+spec/resources/config.rb
 
 # Ignore common dotfiles
 #

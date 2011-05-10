@@ -46,3 +46,23 @@ Zen::Plugin.add do |p|
   p.url        = 'http://yorickpeterse.com/'
   p.plugin     = Sections::Plugin::SectionEntries
 end
+
+# Register all the settings
+section_hash = {}
+
+begin
+  Sections::Model::Section.select(:name, :slug).each do |s|
+    section_hash[s.slug] = s.name
+  end
+rescue => e
+  Ramaze::Log.warn("The settings plugin failed to retrieve all sections: #{e.message}")
+end
+
+plugin(:settings, :register) do |setting|
+  setting.title       = lang('settings.labels.default_section')
+  setting.description = lang('settings.placeholders.default_section')
+  setting.name        = 'default_section'
+  setting.group       = 'general'
+  setting.type        = 'select'
+  setting.values      = section_hash
+end

@@ -27,16 +27,7 @@ not to allow registration, etc.'
 end
 
 # Create all variables required for the settings
-section_hash = {}
 theme_hash   = {}
-
-begin
-  Sections::Model::Section.select(:name, :slug).each do |s|
-    section_hash[s.slug] = s.name
-  end
-rescue => e
-  Ramaze::Log.warn("The settings plugin failed to retrieve all sections: #{e.message}")
-end
 
 Zen::Theme::Registered.each do |name, theme|
   name             = name.to_s
@@ -117,15 +108,6 @@ plugin(:settings, :register) do |setting|
 end
 
 plugin(:settings, :register) do |setting|
-  setting.title       = lang('settings.labels.default_section')
-  setting.description = lang('settings.placeholders.default_section')
-  setting.name        = 'default_section'
-  setting.group       = 'general'
-  setting.type        = 'select'
-  setting.values      = section_hash
-end
-
-plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.theme')
   setting.description = lang('settings.placeholders.theme')
   setting.name        = 'theme'
@@ -158,21 +140,4 @@ plugin(:settings, :register) do |setting|
     lang('zen_general.special.boolean_hash.true')  => '1',
     lang('zen_general.special.boolean_hash.false') => '0'
   }
-end
-
-plugin(:settings, :register) do |setting|
-  setting.title       = lang('settings.labels.defensio_key')
-  setting.description = lang('settings.placeholders.defensio_key')
-  setting.name        = 'defensio_key'
-  setting.group       = 'security'
-  setting.type        = 'textbox'
-end
-
-# Migrate all settings
-begin
-  plugin(:settings, :migrate)
-rescue
-  Ramaze::Log.warn(
-    "Failed to migrate the current settings, make sure the database table is up to date."
-  )
 end

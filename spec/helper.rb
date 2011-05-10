@@ -28,6 +28,8 @@ Zen.init
 # Require all packages
 require __DIR__('../lib/zen/package/all')
 
+Zen.post_init
+
 # Configure Capybara
 Capybara.configure do |config|
   config.default_driver = :rack_test
@@ -67,3 +69,6 @@ end
 
 # Hash that can be used to store test data for certain specifications
 Testdata = {}
+
+# Load the config file
+require __DIR__('resources/config')

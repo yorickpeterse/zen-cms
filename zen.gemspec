@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
   s.add_dependency('ramaze'           , ['>= 2011.01.30'])
   s.add_dependency('bcrypt-ruby'      , ['>= 2.1.4'])
   s.add_dependency('json'             , ['>= 1.5.1'])
-  s.add_dependency('defensio'         , ['>= 0.9.1'])
   s.add_dependency('sequel_sluggable' , ['>= 0.0.6'])
   s.add_dependency('commander'        , ['>= 4.0.4'])
   s.add_dependency('rake'             , ['>= 0.8.7'])
@@ -39,4 +38,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('capybara' , ['>= 0.4.1.2'])
   s.add_development_dependency('rack-test', ['>= 0.5.7'])
   s.add_development_dependency('sqlite3'  , ['>= 1.3.3'])
+  s.add_development_dependency('defensio' , ['>= 0.9.1'])
 end

@@ -73,7 +73,27 @@ module Zen
     end
   end
 
-end
+  ##
+  # Method executed after everything has been set up and loaded.
+  #
+  # @author Yorick Peterse
+  # @since  0.2.6
+  #
+  def self.post_init
+    ::Settings::Model::Setting.get_settings.each do |k, v|
+      ::Zen::Settings[k] = v
+    end
+
+    # Migrate all settings
+    begin
+      plugin(:settings, :migrate)
+    rescue
+      Ramaze::Log.warn(
+        "Failed to migrate the current settings, make sure the database table is up to date."
+      )
+    end
+  end
+end # Zen
 
 # Load all classes/modules provided by Zen itself.
 require __DIR__('zen/validation')

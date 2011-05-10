@@ -82,20 +82,8 @@ module Comments
         
         # Require anti-spam validation?
         if ::Zen::Settings[:enable_antispam] == '1'
-          # Validate the comment
-          api_key = ::Zen::Settings[:defensio_key]
-          
-          if api_key.nil?
-            flash[:error] = lang('comments.errors.no_api_key')
-            redirect_referrer
-          end
-          
-          defensio         = ::Defensio.new(api_key)
-          status, response = defensio.post_document(
-            :content       => post['comment'],
-            :platform      => 'zen',
-            :type          => 'comment'
-          )
+          engine       = ::Zen::Settings[:defensio_key].to_sym
+          status, spam = plugin(:anti_spam, engine, nil, nil, nil, post['comment'])
           
           if status != 200
             flash[:error] = lang('comments.errors.defensio_status')
@@ -103,7 +91,7 @@ module Comments
           end
           
           # Time to validate the Defensio response
-          if response['allow'] == true and response['spaminess'] <= 0.85
+          if spam === false
             if section.comment_moderate == true
               comment.status = 'closed'
             else
