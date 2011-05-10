@@ -31,7 +31,10 @@ module Comments
       #
       def validate
         validates_presence :comment
-        validates_presence :email
+
+        if user_id.nil?
+          validates_presence :email
+        end
       end
 
       ##
@@ -53,6 +56,44 @@ module Comments
           'spam'   => lang('comments.labels.spam') 
         }
       end
-    end
-  end
-end
+
+      ##
+      # Hook run before creating a new comment.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.6
+      #
+      def before_create
+        super
+        sanitize
+      end
+
+      ##
+      # Hook run before saving an existing comment.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.6
+      #
+      def before_save
+        super
+        sanitize
+      end
+
+      ##
+      # Cleans all the input data of nasty stuff.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.6
+      #
+      def sanitize
+        [:name, :website, :email, :comment].each do |field|
+          got = send(field)
+
+          if !got.nil?
+            send("#{field}=", Loofah.fragment(got).scrub!(:prune).to_s)
+          end
+        end
+      end
+    end # Comment
+  end # Model
+end # Comments

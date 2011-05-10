@@ -5,6 +5,7 @@ require 'json'
 require 'defensio'
 require 'sequel_sluggable'
 require 'yaml'
+require 'loofah'
 require __DIR__('zen/version')
 
 ##
