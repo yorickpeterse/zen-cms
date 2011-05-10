@@ -90,7 +90,7 @@ module Comments
           got = send(field)
 
           if !got.nil?
-            send("#{field}=", Loofah.fragment(got).scrub!(:prune).to_s)
+            send("#{field}=", Loofah.fragment(got).scrub!(:whitewash).scrub!(:nofollow).to_s)
           end
         end
       end
