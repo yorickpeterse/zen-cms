@@ -82,13 +82,8 @@ module Comments
         
         # Require anti-spam validation?
         if ::Zen::Settings[:enable_antispam] == '1'
-          engine       = ::Zen::Settings[:defensio_key].to_sym
-          status, spam = plugin(:anti_spam, engine, nil, nil, nil, post['comment'])
-          
-          if status != 200
-            flash[:error] = lang('comments.errors.defensio_status')
-            redirect_referrer
-          end
+          engine      = ::Zen::Settings[:defensio_key].to_sym
+          score, spam = plugin(:anti_spam, engine, nil, nil, nil, post['comment'])
           
           # Time to validate the Defensio response
           if spam === false

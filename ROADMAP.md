@@ -21,6 +21,11 @@ rather crappy helper Ramaze::Helper::Asset.
 * Improve/overhaul the text editor used in the backend, it's rather basic at the moment.
 * Improve the comment system so that people can save their data in some way (perhaps 
 allow people to register). 
+* Deprecate Zen::Plugin::Helper in favor of Zen::Validation.
+* Remove Zen::Database as all it currently does is pretty much copying the behavior of
+Sequel.connect.
+* Use Zen::Plugin::Controller opposed to Innate::Trinity whenever trying to access
+controller specific data outside of controllers.
 
 ### 0.2.5 - April 2011
 

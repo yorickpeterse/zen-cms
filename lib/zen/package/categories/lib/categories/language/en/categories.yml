@@ -12,8 +12,8 @@ labels:
   slug        : 'Slug'
 
 placeholders:
-  name : 'The name of the category'
-  slug : 'A URL friendly name of the category'
+  name : 'The name of the category.'
+  slug : 'A URL friendly name of the category.'
 
 messages:
   no_categories : 'No categories have been created yet.'

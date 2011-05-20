@@ -14,16 +14,14 @@ require __DIR__('zen/version')
 #
 # @author Yorick Peterse
 # @since  0.1
-# @attr_reader [Array] languages An array containing all the currently loaded language
-# files stored as hashes.
 #
 module Zen
   include Innate::Optioned
-  
+
   # Update several paths so we can load helpers/layouts from the Zen gem
   Innate::HelpersHelper.options.paths.push(__DIR__('zen'))
   Ramaze.options.roots.push(__DIR__('zen'))
-  
+
   options.dsl do
     o 'The character encoding to use when dealing with data', :encoding,     'utf8'
     o 'The date format to use for log files and such.',       :date_format,  '%d-%m-%Y'
@@ -48,11 +46,11 @@ module Zen
     # Initialize the database
     Zen::Database.init
     Zen::Language.load('zen_general')
-    
+
     require __DIR__('zen/model/settings')
     require __DIR__('zen/model/methods')
 
-    # Load the global stylesheet and Javascript file if they're located in 
+    # Load the global stylesheet and Javascript file if they're located in
     # ROOT/public/css/admin/global.css and ROOT/public/js/admin/global.js
     publics = ::Ramaze.options.publics
 
@@ -103,7 +101,7 @@ require __DIR__('zen/language')
 require __DIR__('zen/logger')
 require __DIR__('zen/asset')
 
-# Load a set of modules into the global namespace 
+# Load a set of modules into the global namespace
 include Zen::Plugin::SingletonMethods
 include Zen::Language::SingletonMethods
 

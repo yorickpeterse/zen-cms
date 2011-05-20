@@ -40,8 +40,6 @@ errors:
   no_delete            : "You haven't specified any comments to delete."
   invalid_entry        : 'The specified section entry is invalid.'
   comments_not_allowed : "Comments aren't allowed for this section."
-  no_api_key           : 'You need to specify an API key for the Defensio system in your settings panel.'
-  defensio_status      : 'The comment could not be saved due to a problem with the Defensio server.'
 
 buttons:
   delete : 'Delete selected comments'

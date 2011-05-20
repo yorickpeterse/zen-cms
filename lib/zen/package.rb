@@ -5,12 +5,12 @@ require __DIR__('package/base')
 #:nodoc:
 module Zen
   ##
-  # Module used for registering extensions and themes, setting their details and the 
-  # whole shebang. Packages follow the same directory structure as Rubygems and can 
-  # actually be installed using either Rubygems or by storing them in a custom directory. 
+  # Module used for registering extensions and themes, setting their details and the
+  # whole shebang. Packages follow the same directory structure as Rubygems and can
+  # actually be installed using either Rubygems or by storing them in a custom directory.
   # As long as you require the correct file you're good to go.
   #
-  # Packages are added or "described" using a simple block and the add() method as 
+  # Packages are added or "described" using a simple block and the add() method as
   # following:
   #
   #     Zen::Package.add do |ext|
@@ -24,7 +24,7 @@ module Zen
   # * about: a small description of the package.
   # * url: the URL to the package's website.
   # * directory: the root directory of the package, set this using __DIR__('path').
-  # 
+  #
   # Optionally you can also specify the attribute "menu" (more on that later).
   #
   # ## ACL
@@ -72,12 +72,12 @@ module Zen
   #
   # If your package uses it's own database tables it's best to use migrations as these make
   # it very easy to install/uninstall the extension. Migrations should be put in the root
-  # directory of your extension. For example, if your extension is in "foobar" the 
-  # migrations should be located in "foobar/migrations", the lib directory in "foobar/lib", 
+  # directory of your extension. For example, if your extension is in "foobar" the
+  # migrations should be located in "foobar/migrations", the lib directory in "foobar/lib",
   # etc.
   #
   # Migrations can be executed using the Thor task "package:migrate" or "db:migrate",
-  # the latter will install all packages while the first one will only install the 
+  # the latter will install all packages while the first one will only install the
   # specified packages. For more information on these tasks execute the following command:
   #
   #     $ rake -T
@@ -104,7 +104,7 @@ module Zen
     Controllers = []
 
     ##
-    # Adds a new package along with all it's details such as the name, author, version 
+    # Adds a new package along with all it's details such as the name, author, version
     # and so on. Extensions can be added using a simple block as following:
     #
     #     Zen::Package.add do |ext|
@@ -130,7 +130,7 @@ module Zen
     #
     def self.add
       package = Zen::Package::Base.new
-      
+
       yield package
 
       # Validate the package
@@ -154,8 +154,8 @@ module Zen
           Controllers.push(controller)
         end
       end
-      
-      Registered[package.name.to_sym] = package 
+
+      Registered[package.name.to_sym] = package
     end
 
     ##
@@ -194,7 +194,7 @@ module Zen
       @g           = Ramaze::Gestalt.new
       @permissions = permissions
       menu_items   = []
-      
+
       Registered.each do |name, pkg|
         # Got a menu for us?
         if !pkg.menu.nil?
@@ -203,12 +203,12 @@ module Zen
           end
         end
       end
-      
+
       # Sort the menu alphabetical
       menu_items = menu_items.sort_by do |item|
         item[:title]
       end
-      
+
       @g.ul :class => css_class do
         if !menu_items.empty?
           menu_items.each do |m|
@@ -216,12 +216,12 @@ module Zen
           end
         end
       end
-      
+
       return @g.to_s
     end
-    
+
     private
-    
+
     ##
     # Method that's used to generate the list items for each
     # navigation menu along with all sub elements.
@@ -253,7 +253,7 @@ module Zen
         @g.a :href => menu[:url], :title => menu[:title] do
           menu[:title]
         end
-        
+
         if menu.key?(:children)
           @g.ul do
             menu[:children].each do |c|
@@ -263,6 +263,5 @@ module Zen
         end
       end
     end
-
-  end
-end
+  end # Package
+end # Zen

@@ -6,8 +6,8 @@ module Zen
   ##
   # Plugins in Zen are quite similar to packages except for a few differences. The biggest
   # difference is that plugins won't update any Ramaze root directories or language
-  # directories. This means that they can't have controllers, models and so on. 
-  # Plugins are useful for supporting multiple markup formats (Markdown, Textile, etc) 
+  # directories. This means that they can't have controllers, models and so on.
+  # Plugins are useful for supporting multiple markup formats (Markdown, Textile, etc)
   # and other small tasks such as replacing Email addresses and so on.
   #
   # ## Creating Plugins
@@ -57,7 +57,7 @@ module Zen
   # ## Registering Plugins
   #
   # Now that the plugin is created it's time to tell Zen it actually is a plugin and not
-  # some random class that doesn't belong somewhere. This can be done by calling 
+  # some random class that doesn't belong somewhere. This can be done by calling
   # Zen::Plugin.add and specifying a block with the details of the plugin. Example:
   #
   #     Zen::Plugin.add do |plugin|
@@ -67,7 +67,7 @@ module Zen
   #       plugin.plugin = MyPlugin
   #     end
   #
-  # The name and plugin setter are the most important. Names should always match the 
+  # The name and plugin setter are the most important. Names should always match the
   # regular expression /[a-z0-9_\-]+/. This is done to ensure names are consistent and
   # easy to remember. It's also used for calling plugins and making sure there are no
   # duplicates.
@@ -104,7 +104,7 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.2.4
-    # @raise  [Zen::PluginError] Error raised whenever the plugin already exists or is 
+    # @raise  [Zen::PluginError] Error raised whenever the plugin already exists or is
     # missing a certain setter.
     #
     def self.add

@@ -8,9 +8,9 @@ module Zen
   #
   # ## Usage
   #
-  # Using the module is pretty simple. Include it, specify the validation rules in a 
+  # Using the module is pretty simple. Include it, specify the validation rules in a
   # method and call it. All official modules and classes use a method called "validate"
-  # but you're free to name it whatever you want. A basic example looks like the 
+  # but you're free to name it whatever you want. A basic example looks like the
   # following:
   #
   #     class Something
@@ -27,7 +27,7 @@ module Zen
   # @since  0.2.5
   #
   module Validation
-    
+
     ##
     # Checks if the specified attributes exist and aren't set to nil.
     #
@@ -74,7 +74,7 @@ module Zen
 
       if !value.respond_to?(:length)
         raise(
-          ValidationError, 
+          ValidationError,
           "The length of \"#{attribute}\" can't be checked as the method \"length\" " +
           "doesn't exist."
         )
@@ -107,7 +107,7 @@ module Zen
     # containing all the attributes and their regular expressions.
     # @param  [Regexp] regexp The regular expression to use when validating a single
     # attribute.
-    # @raise [ValidationError] Raised when one of the attributes doesn't matches the 
+    # @raise [ValidationError] Raised when one of the attributes doesn't matches the
     # regular expression.
     #
     def validates_format(attribute, regexp = nil)
@@ -139,7 +139,7 @@ module Zen
     #
     def validates_filepath(attribute)
       path = send(attribute)
-      
+
       if !File.exist?(path)
         raise(ValidationError, "The path #{path} in \"#{attribute}\" doesn't exist.")
       end

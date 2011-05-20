@@ -1,0 +1,33 @@
+---
+titles:
+  index: 'Categorie groepen'
+  edit : 'Categorie groep aanpassen'
+  new  : 'Categorie groep aanmaken'
+
+labels:
+  id         : '#'
+  name       : 'Naam'
+  description: 'Beschrijving'
+  manage     : 'Categoriën beheren'
+
+placeholders:
+  name: 'De naam van de groep.'
+
+messages:
+  no_groups: 'Er zijn nog geen groepen aangemaakt.'
+
+success:
+  new   : 'De categorie groep is aangemaakt.'
+  save  : 'De categorie groep is aangepast.'
+  delete: 'De categorie groep is verwijderd.'
+
+errors:
+  new      : 'De categorie groep kon niet worden aangemaakt.'
+  save     : 'De categorie groep kon niet worden aangepast.'
+  delete   : 'De categorie groep met ID #%s kon niet worden verwijderd.'
+  no_delete: 'U moet ten minste 1 groep specificeren om te verwijderen.'
+
+buttons:
+  new   : 'Groep aanmaken'
+  save  : 'Groep opslaan'
+  delete: 'Geselecteerde groepen verwijderen'

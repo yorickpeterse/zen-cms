@@ -37,7 +37,7 @@ module Zen
   #
   # ## Building Assets
   #
-  # Building assets shouldn't be required as Zen already does this but if you happen to 
+  # Building assets shouldn't be required as Zen already does this but if you happen to
   # need it you can build the files as following:
   #
   #     Zen::Asset.build(:stylesheet)
@@ -45,8 +45,8 @@ module Zen
   #
   # ## Controller Usage
   #
-  # While this module can be called by any other piece of code the class 
-  # Zen::Controller::AdminController provides shortcuts to Zen::Asset.javascript and 
+  # While this module can be called by any other piece of code the class
+  # Zen::Controller::AdminController provides shortcuts to Zen::Asset.javascript and
   # Zen::Asset.stylesheet. These shortcuts work identical but are defined as class methods
   # and thus can be used inside your class declaration:
   #
@@ -137,7 +137,7 @@ module Zen
     # @option options [TrueClass] :global When set to true all the specified stylesheets
     # will be loaded globally rather than just for the current action.
     # @option options [String/Symbol] controller The name of the controller for which
-    # the specified files should be loaded. 
+    # the specified files should be loaded.
     #
     def self.stylesheet(files, options = {})
       options = {
@@ -163,7 +163,7 @@ module Zen
     # @since  0.2.5
     # @param  [Symbol] type The type of assets to build.
     # @return [String] The HTML tags for all the assets.
-    # 
+    #
     def self.build(type)
       type       = type.to_sym
       attrs      = {}

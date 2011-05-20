@@ -1,0 +1,32 @@
+---
+titles:
+  index: 'Veld groepen'
+  edit : 'Veld groep aanpassen'
+  new  : 'Veld groep aanmaken'
+
+labels:
+  id           : '#'
+  name         : 'Naam'
+  description  : 'Beschrijving'
+  sections     : 'Secties'
+  manage_fields: 'Beheer velden'
+  none         : 'Geen'
+
+messages:
+  no_groups: 'Er zijn nog geen veld groepen aangemaakt.'
+
+success:
+  new   : 'De veld groep is aangemaakt.'
+  save  : 'De veld groep is aangepast.'
+  delete: 'De veld groep is verwijderd.'
+
+errors:
+  new      : 'De veld groep kon niet worden aangemaakt.'
+  save     : 'De veld groep kon niet worden aangepast.'
+  delete   : 'De veld groep met ID #%s kon niet worden verwijderd.'
+  no_delete: 'U moet ten minste 1 groep specificeren om te verwijderen.'
+
+buttons:
+  new   : 'Groep aanmaken'
+  save  : 'Groep opslaan'
+  delete: 'Geselecteerde groepen verwijderen'

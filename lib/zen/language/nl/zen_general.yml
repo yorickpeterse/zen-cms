@@ -1,0 +1,28 @@
+---
+labels:
+  zen_version : 'Deze website draait op Zen versie %s'
+  zen_website : 'Website'
+  zen_docs    : 'Documentatie'
+  zen_github  : 'GitHub account'
+  view_website: 'Bekijk website'
+  logout      : 'Uitloggen'
+  profile     : 'Profiel'
+
+errors:
+  csrf           : 'De actie kan niet worden uitgevoerd zonder een geldige CSRF token.'
+  not_authorized : 'U bent niet toegestaan om de huidige pagina te bekijken.'
+  website_offline: 'Deze website is momenteel offline.'
+  no_templates   : 'Er konden geen sjablonen worden gevonden voor de huidige actie.'
+  no_theme       : 'Er is geen thema ingesteld.'
+  invalid_request: 'De actie kon niet worden uitgevoerd omdat de data onjuist is.'
+
+special:
+  format_hash:
+    html    : 'HTML'
+    textile : 'Textile'
+    markdown: 'Markdown'
+    plain   : 'Platte tekst'
+
+  boolean_hash:
+    'true' : 'Ja'
+    'false': 'Nee'

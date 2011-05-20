@@ -59,7 +59,7 @@ module Zen
   # itself.
   #
   # @author Yorick Peterse
-  # @since  0.2 
+  # @since  0.2
   #
   module Language
     include Ramaze::Optioned
@@ -83,17 +83,18 @@ module Zen
     # @since  0.2.6
     #
     Languages = {
-      'en' => 'English'
+      'en' => 'English',
+      'nl' => 'Nederlands'
     }
 
     options.dsl do
       o 'Small string that defines the current language (e.g. "en").', :language, 'en'
-      o 'Array of paths to look for the language files'              , :paths   , [] 
+      o 'Array of paths to look for the language files'              , :paths   , []
     end
-    
+
     ##
     # Tries to load a language file for the given name. If no language files were found
-    # based on the name and the current language an exception will be raised. 
+    # based on the name and the current language an exception will be raised.
     #
     # Note that this method will load the language pack for *all* languages.
     #
@@ -102,8 +103,8 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.1
-    # @param  [String] lang_name The name of the language file to load. 
-    # 
+    # @param  [String] lang_name The name of the language file to load.
+    #
     def self.load(lang_name)
       file_found = false
 
@@ -127,7 +128,7 @@ module Zen
             # Conver the hash to a dot based hash. This means that {:person => {:age => 18}}
             # would result in {'person.age' => 18}.
             translation = self.to_dotted_hash({lang_name.to_s => translation})
-            
+
             Registered[language].merge!(translation)
           end
         end
@@ -186,7 +187,7 @@ module Zen
         end
       when Array
         source.each_with_index do |v, i|
-          self.to_dotted_hash(v, target, "#{prefix}#{i}") 
+          self.to_dotted_hash(v, target, "#{prefix}#{i}")
         end
       else
         if !namespace.nil?
@@ -241,7 +242,7 @@ module Zen
 
         if !translations or !translations.key?(lang)
           raise(
-            Zen::LanguageError, 
+            Zen::LanguageError,
             "No translation files have been added for the language code \"#{lang}\""
           )
         end
@@ -249,13 +250,12 @@ module Zen
         if translations[lang][key]
           return translations[lang][key]
         end
-        
+
         raise(
           Zen::LanguageError,
           "The specified language item \"#{key}\" does not exist"
         )
       end
     end
-
-  end
-end
+  end # Language
+end # Zen

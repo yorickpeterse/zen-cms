@@ -41,7 +41,7 @@ special:
     textbox          : 'Textbox'
     textarea         : 'Textarea'
     radio            : 'Radio button'
-    checkbox         : 'Checkboxe'
+    checkbox         : 'Checkbox'
     date             : 'Date'
     select           : 'Select dropdown'
     select_multiple  : 'Multi select'

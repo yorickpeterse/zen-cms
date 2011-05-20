@@ -1,0 +1,41 @@
+---
+titles:
+  index: 'Menu items'
+  edit : 'Menu item aanpassen'
+  new  : 'Menu item aanmaken'
+
+labels:
+  id       : '#'
+  parent_id: 'Hoofd item'
+  name     : 'Naam'
+  url      : 'URL'
+  order    : 'Volgorde'
+  css_class: 'CSS klasse'
+  css_id   : 'CSS ID'
+
+placeholders:
+  name     : 'De naam/label van het menu item.'
+  url      : 'De URL van het menu item.'
+  order    : 'De sorteer volgorde.'
+  css_class: 'Een klasse die gebruikt kan worden in CSS bestanden.'
+  css_id   : 'Een ID die gebruikt kan worden in CSS bestanden.'
+
+messages:
+  no_items: 'Er zijn nog geen menu items aangemaakt.'
+
+buttons:
+  new   : 'Menu item toevoegen'
+  save  : 'Menu item opslaan'
+  delete: 'Geselecteerde menu items verwijderen'
+
+success:
+  new   : 'Het menu item is aangemaakt.'
+  save  : 'Het menu item is aangepast.'
+  delete: 'De menu items zijn verwijderd.'
+
+errors:
+  new         : 'Het menu item kon niet worden aangemaakt.'
+  save        : 'Het menu item kon niet worden aangepast.'
+  delete      : 'Het menu item met ID #%s kon niet worden verwijderd.'
+  no_delete   : 'U moet ten minste 1 item specificeren om te verwijderen.'
+  invalid_menu: 'Het opgegeven menu is ongeldig of bestaat niet meer.'

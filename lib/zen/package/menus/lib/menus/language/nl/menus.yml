@@ -1,0 +1,39 @@
+---
+titles:
+  index: "Menu's"
+  edit : 'Menu aanpassen'
+  new  : 'Menu aanmaken'
+
+labels:
+  id          : '#'
+  name        : 'Naam'
+  slug        : 'Slug'
+  description : 'Beschrijving'
+  css_class   : 'CSS klasse'
+  css_id      : 'CSS ID'
+  manage_items: 'Menu items beheren'
+
+placeholders:
+  name     : 'De naam van het menu.'
+  slug     : 'Een URL vriendelijke versie van de menu naam.'
+  css_class: 'Een klasse die gebruikt kan worden in CSS bestanden.'
+  css_id   : 'Een ID die gebruikt kan worden in CSS bestanden.'
+
+messages:
+  no_menus: "Er zijn nog geen menu's aangemaakt."
+
+buttons:
+  new   : 'Menu toevoegen'
+  save  : 'Menu opslaan'
+  delete: "Geselecteerde menu's verwijderen"
+
+success:
+  new   : 'Het menu is aangemaakt.'
+  save  : 'Het menu is aangepast.'
+  delete: "De geselecteerde menu's zijn verwijderd."
+
+errors:
+  new      : 'Het menu kon niet worden aangemaakt.'
+  save     : 'Het menu kon niet worden aangepast.'
+  delete   : 'Het menu met ID #%s kon niet worden verwijderd.'
+  no_delete: 'U moet ten minste 1 menu specificeren om te verwijderen.'
