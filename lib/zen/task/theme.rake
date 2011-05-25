@@ -58,9 +58,9 @@ MSG
     # Time to migrate the theme
     puts 'Migrating...'
 
-    Zen::Database.handle.transaction do
+    Zen.database.transaction do
       Sequel::Migrator.run(
-        Zen::Database.handle, dir, :table => table, :target => version
+        Zen.database, dir, :table => table, :target => version
       )
     end
   end

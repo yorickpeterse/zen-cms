@@ -121,11 +121,11 @@ module Comments
       def defensio
         results = [1, true]
 
-        if !::Zen::Settings.key?(:defensio_key)
+        if !::Zen.settings.key?(:defensio_key)
           raise(::Zen::PluginError, "The setting \"defensio_key\" is missing")
         end
 
-        api_key = ::Zen::Settings[:defensio_key]
+        api_key = ::Zen.settings[:defensio_key]
 
         if api_key.nil? or api_key.empty?
           raise(

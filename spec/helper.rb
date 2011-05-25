@@ -12,15 +12,15 @@ end
 # Update all paths
 Ramaze.options.roots = [__DIR__]
 Ramaze.options.mode  = :spec
-Zen.options.root     = __DIR__
+Zen.root     = __DIR__
 
 Zen::Language.options.paths.push(__DIR__('resources'))
 
 # Configure the database
-Zen::Database.mode :spec do |db|
-  db.adapter  = 'sqlite'
-  db.database = __DIR__('resources/database.db') 
-end
+Zen.database = Sequel.connect(
+  :adapter  => 'sqlite', :database => __DIR__('resources/database.db'), 
+  :test     => true    , :encoding => 'utf8'
+)
 
 # Start Zen
 Zen.init
@@ -46,6 +46,9 @@ Ramaze.start(
 
 # Configure RSpec
 RSpec.configure do |c|
+  # Reduce noise by bailing out on the first error
+  c.fail_fast = true
+
   # Clear all logging done by Ramaze as this makes reading the RSpec output a bit hard
   c.after do
     ::Ramaze::Log.loggers.clear
@@ -69,6 +72,3 @@ end
 
 # Hash that can be used to store test data for certain specifications
 Testdata = {}
-
-# Load the config file
-require __DIR__('resources/config')

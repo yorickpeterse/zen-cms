@@ -1,6 +1,7 @@
 module EXTENSION
   module Controller
     ##
+    # Describe what your controller does, no really, do it.
     #
     # @author
     # @since
@@ -17,6 +18,8 @@ module EXTENSION
       end
       
       ##
+      # Creates a new instance of the controller, loads the language file and sets the
+      # title of the current page.
       #
       # @author
       # @since
@@ -34,6 +37,7 @@ module EXTENSION
       end
       
       ##
+      # Describe what the index() method does...
       #
       # @author
       # @since
@@ -41,43 +45,6 @@ module EXTENSION
       def index
         
       end
-      
-      ##
-      #
-      # @author
-      # @since
-      #
-      def edit
-        
-      end
-      
-      ##
-      #
-      # @author
-      # @since
-      #
-      def new
-        
-      end
-      
-      ##
-      #
-      # @author
-      # @since
-      #      
-      def save
-        
-      end
-
-      ##
-      #
-      # @author
-      # @since
-      #      
-      def delete
-        
-      end
-
-    end
-  end
-end
+    end # CONTROLLER
+  end # Controller
+end # EXTENSION

@@ -7,6 +7,6 @@ module EXTENSION
     #
     class MODEL < Sequel::Model
       
-    end
-  end
-end
+    end # MODEL
+  end # Model
+end # EXTENSION

@@ -31,7 +31,7 @@ namespace :build do
   task :manifest do
     zen_path     = File.expand_path('../../../../', __FILE__)
     ignore_exts  = ['.gem', '.gemspec']
-    ignore_files = ['.DS_Store', '.gitignore']
+    ignore_files = ['.DS_Store', '.gitignore', '.rvmrc']
     ignore_dirs  = ['.git', '.yardoc', 'spec', 'pkg', 'doc']
     files        = ''
     

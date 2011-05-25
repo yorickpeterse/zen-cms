@@ -204,7 +204,7 @@ module Sections
         
         # Transactions ahoy!
         begin
-          Zen::Database.handle.transaction do
+          Zen.database.transaction do
             # Update the entry itself
             @entry.update(post)
             notification(:success, lang('section_entries.titles.index'), flash_success)

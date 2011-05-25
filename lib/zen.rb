@@ -2,7 +2,6 @@ require 'sequel'
 require 'ramaze'
 require 'bcrypt'
 require 'json'
-require 'defensio'
 require 'sequel_sluggable'
 require 'yaml'
 require 'loofah'
@@ -16,89 +15,106 @@ require __DIR__('zen/version')
 # @since  0.1
 #
 module Zen
-  include Innate::Optioned
-
   # Update several paths so we can load helpers/layouts from the Zen gem
   Innate::HelpersHelper.options.paths.push(__DIR__('zen'))
   Ramaze.options.roots.push(__DIR__('zen'))
 
-  options.dsl do
-    o 'The character encoding to use when dealing with data', :encoding,     'utf8'
-    o 'The date format to use for log files and such.',       :date_format,  '%d-%m-%Y'
-    o 'The root directory of Zen.',                           :root,         ''
-  end
+  class << self
+    ##
+    # Variable that will contain a database connection that was established using
+    # Sequel.connect.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.6
+    #
+    attr_accessor :database
 
-  ##
-  # Hash containing all system settings.
-  #
-  # @author Yorick Peterse
-  # @since  0.2.5
-  #
-  Settings = {}
+    ##
+    # Hash containing all system settings.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.6
+    #
+    attr_accessor :settings
 
-  ##
-  # Loads the database and the required models.
-  #
-  # @author Yorick Peterse
-  # @since  0.1
-  #
-  def self.init
-    # Initialize the database
-    Zen::Database.init
-    Zen::Language.load('zen_general')
+    ##
+    # String containing the path to the root directory of the Zen application.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.6
+    #
+    attr_accessor :root
 
-    require __DIR__('zen/model/settings')
-    require __DIR__('zen/model/methods')
+    ##
+    # Loads the database and the required models.
+    #
+    # @author Yorick Peterse
+    # @since  0.1
+    #
+    def init
+      @settings ||= {}
 
-    # Load the global stylesheet and Javascript file if they're located in
-    # ROOT/public/css/admin/global.css and ROOT/public/js/admin/global.js
-    publics = ::Ramaze.options.publics
+      # Initialize the database
+      Zen::Language.load('zen_general')
 
-    publics.each do |p|
-      p   = File.join(Zen.options.root, p)
-      css = File.join(p, 'admin/css/global.css')
-      js  = File.join(p, 'admin/js/global.js')
+      require __DIR__('zen/model/settings')
+      require __DIR__('zen/model/methods')
 
-      # Load the CSS file if it's there
-      if File.exist?(css)
-        ::Zen::Asset.stylesheet(['global'], :global => true)
+      # Load the global stylesheet and Javascript file if they're located in
+      # ROOT/public/css/admin/global.css and ROOT/public/js/admin/global.js
+      publics = ::Ramaze.options.publics
+
+      publics.each do |p|
+        p   = File.join(Zen.root, p)
+        css = File.join(p, 'admin/css/global.css')
+        js  = File.join(p, 'admin/js/global.js')
+
+        # Load the CSS file if it's there
+        if File.exist?(css)
+          ::Zen::Asset.stylesheet(['global'], :global => true)
+        end
+
+        # Load the JS file if it's there
+        if File.exist?(js)
+          ::Zen::Asset.javascript(['global'], :global => true)
+        end
+      end
+    end
+
+    ##
+    # Method executed after everything has been set up and loaded.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.6
+    #
+    def post_init
+      # Migrate all settings
+      begin
+        plugin(:settings, :migrate)
+      rescue
+        Ramaze::Log.warn(
+          "Failed to migrate the settings, make sure the database table is up to date"
+        )
       end
 
-      # Load the JS file if it's there
-      if File.exist?(js)
-        ::Zen::Asset.javascript(['global'], :global => true)
+      begin
+        ::Settings::Model::Setting.get_settings.each do |k, v|
+          @settings[k] = v
+        end
+      rescue => e
+        Ramaze::Log.warn(
+          "Failed to retrieve the settings, are you sure the database is migrated?\n" + 
+          "Error: #{e.message}"
+        )
       end
     end
-  end
-
-  ##
-  # Method executed after everything has been set up and loaded.
-  #
-  # @author Yorick Peterse
-  # @since  0.2.6
-  #
-  def self.post_init
-    ::Settings::Model::Setting.get_settings.each do |k, v|
-      ::Zen::Settings[k] = v
-    end
-
-    # Migrate all settings
-    begin
-      plugin(:settings, :migrate)
-    rescue
-      Ramaze::Log.warn(
-        "Failed to migrate the current settings, make sure the database table is up to date."
-      )
-    end
-  end
+  end # class << self
 end # Zen
 
 # Load all classes/modules provided by Zen itself.
 require __DIR__('zen/validation')
-require __DIR__('zen/database')
 require __DIR__('zen/plugin')
 require __DIR__('zen/language')
-require __DIR__('zen/logger')
 require __DIR__('zen/asset')
 
 # Load a set of modules into the global namespace

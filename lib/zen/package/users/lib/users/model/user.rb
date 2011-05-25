@@ -54,7 +54,7 @@ module Users
 
         if !user.nil? and user.password == password and user.status == 'open'
           # Overwrite all the global settings with the user specific ones
-          ::Zen::Settings.each do |k, v|
+          ::Zen.settings.each do |k, v|
             if user.respond_to?(k)
               got = user.send(k)
               

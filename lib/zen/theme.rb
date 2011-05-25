@@ -64,7 +64,7 @@ module Zen
         if !Ramaze.options.publics.include?(theme.public_dir)
           # Generate a relative path from ROOT to the theme
           to   = Pathname.new(theme.public_dir)
-          from = Pathname.new(Zen.options.root)
+          from = Pathname.new(Zen.root)
           dir  = to.relative_path_from(from.realpath).to_s
 
           Ramaze.options.publics.push(dir)

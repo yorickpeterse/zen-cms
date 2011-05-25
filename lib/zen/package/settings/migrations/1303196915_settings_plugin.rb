@@ -8,11 +8,11 @@ Sequel.migration do
     drop_column(:settings, :language_group_key)
 
     # Update the settings
-    Zen::Database.handle[:settings].all.each do |row|
+    Zen.database[:settings].all.each do |row|
       name  = row[:name].split('.').last
       group = row[:group].split('.').last
 
-      Zen::Database.handle[:settings].filter(:id => row[:id])
+      Zen.database[:settings].filter(:id => row[:id])
         .update(:name => name, :group => group)
     end
   end

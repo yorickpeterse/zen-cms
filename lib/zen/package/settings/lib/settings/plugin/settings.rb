@@ -201,12 +201,20 @@ module Settings
         settings = Setting.all.map { |s| s.name }
 
         Registered[:settings].each do |name, setting|
+          name = name.to_s
+
           if !settings.include?(name)
             # Insert the new setting
             Setting.new(
               :name    => setting.name   , :group => setting.group,
               :default => setting.default, :type  => setting.type
             ).save
+
+          # Update everything but the value
+          else
+            Setting.filter[:name => setting.name].update(
+              :group => setting.group, :default => setting.default, :type => setting.type
+            )
           end
         end
       end

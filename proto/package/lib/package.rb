@@ -14,7 +14,6 @@ Zen::Package.add do |p|
   # Path to the directory containing the controllers, models, etc.
   p.directory = __DIR__('package')
   
-  # Note that themes can not have menu items (they'll be ignored).
   p.menu = [{
     :title => 'Prototype',
     :url   => '/admin/prototype'

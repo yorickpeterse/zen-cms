@@ -30,8 +30,8 @@ namespace :db do
       table = 'migrations_package_' + pkg.name.to_s
 
       # Migration time
-      Zen::Database.handle.transaction do
-        Sequel::Migrator.run(Zen::Database.handle, dir, :table => table)
+      Zen.database.transaction do
+        Sequel::Migrator.run(Zen.database, dir, :table => table)
         puts "Successfully migrated \"#{pkg.name}\""
       end
     end
@@ -61,9 +61,9 @@ namespace :db do
       table = 'migrations_package_' + pkg.name.to_s
 
       # Migration time
-      Zen::Database.handle.transaction do
-        Sequel::Migrator.run(Zen::Database.handle, dir, :table => table, :target => 0)
-        Zen::Database.handle.drop_table(table)
+      Zen.database.transaction do
+        Sequel::Migrator.run(Zen.database, dir, :table => table, :target => 0)
+        Zen.database.drop_table(table)
 
         puts "Successfully uninstalled \"#{pkg.name}\""
       end

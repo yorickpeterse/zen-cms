@@ -1,7 +1,6 @@
 require File.expand_path('../lib/zen', __FILE__)
 
-task_dir = File.expand_path('../lib/zen/task', __FILE__)
-
-Dir.glob("#{task_dir}/*.rake").each do |f|
+# Load all tasks
+Dir.glob(File.expand_path('../lib/zen/task/*.rake', __FILE__)).each do |f|
   import(f)
 end

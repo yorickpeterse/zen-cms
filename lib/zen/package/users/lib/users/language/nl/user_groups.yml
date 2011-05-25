@@ -1,0 +1,31 @@
+---
+titles:
+  index: 'Gebruikers groepen'
+  edit : 'Gebruikers groep aanpassen'
+  new  : 'Gebruikers groep aanmaken'
+
+labels:
+  id         : '#'
+  name       : 'Naam'
+  slug       : 'Slug'
+  description: 'Beschrijving'
+  super_group: 'Beheerders groep'
+
+messages:
+  no_groups: 'Er zijn nog geen gebruikers groepen aangemaakt.'
+
+success:
+  new   : 'De gebruikers groep is aangemaakt.'
+  save  : 'De gebruikers groep is aangepast.'
+  delete: 'De geselecteerde groepen zijn verwijderd.'
+
+errors:
+  new      : 'De gebruikers groep kon niet worden aangemaakt.'
+  save     : 'De gebruikers groep kon niet worden aangepast.'
+  delete   : 'De gebruikers groep met ID #%s kon niet worden verwijderd.'
+  no_delete: 'U moet ten minste 1 groep specificeren om te verwijderen.'
+
+buttons:
+  new   : 'Groep toevoegen'
+  delete: 'Geselecteerde groepen verwijderen'
+  save  : 'Groep opslaan'

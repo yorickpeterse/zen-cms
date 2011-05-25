@@ -1,0 +1,10 @@
+script: "rake test"
+rvm:
+  - 1.9.2
+  - jruby
+  - 1.8.7
+  - rbx
+
+notifications:
+  recipients:
+    - info@yorickpeterse.com

@@ -1,0 +1,56 @@
+---
+titles:
+  index: 'Gebruikers'
+  edit : 'Gebruiker aanpassen'
+  new  : 'Gebruiker aanmaken'
+  login: 'Inloggen'
+
+labels:
+  id              : '#'
+  email           : 'Email'
+  name            : 'Naam'
+  website         : 'Website'
+  password        : 'Wachtwoord'
+  new_password    : 'Nieuw wachtwoord'
+  confirm_password: 'Bevestig wachtwoord'
+  status          : 'Status'
+  created_at      : 'Aanmaak datum'
+  updated_at      : 'Aanpas datum'
+  last_login      : 'Login datum'
+  user_groups     : 'Gebruikers groepen'
+  language        : 'Taal'
+  frontend_taal   : 'Bezoekers taal'
+  date_format     : 'Datum formaat'
+
+placeholders:
+  date_format: 'Het formaat van de datums in het admin gedeelte.'
+
+special:
+  status_hash:
+    open  : 'Open'
+    closed: 'Gesloten'
+
+messages:
+  no_users: 'Er zijn nog geen gebruikers aangemaakt.'
+
+success:
+  new   : 'De gebruiker is aangemaakt.'
+  save  : 'De gebruiker is aangepast.'
+  delete: 'Alle gespecificeerde gebruikers zijn verwijderd.'
+  login : 'U bent nu ingelogd.'
+  logout: 'U bent nu uitgelogd.'
+
+errors:
+  new              : 'De gebruiker kon niet worden aangemaakt.'
+  save             : 'De gebruiker kon niet worden aangepast.'
+  delete           : 'De gebruiker met ID #%s kon niet worden verwijderd.'
+  no_delete        : 'U moet ten minste 1 gebruiker specificeren om te verwijderen.'
+  no_password_match: 'De opgegeven wachtwoorden komen niet overeen.'
+  login            : 'U kon niet worden ingelogd.'
+  logout           : 'U kon niet worden uitgelogd, misschien bent u al uitgelogd.'
+
+buttons:
+  login : 'Inloggen'
+  new   : 'Gebruiker toevoegen'
+  save  : 'Gebruiker opslaan'
+  delete: 'Geselecteerde gebruikers verwijderen'

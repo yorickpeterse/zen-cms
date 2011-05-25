@@ -1,0 +1,39 @@
+---
+titles:
+  index: 'Instellingen'
+
+labels:
+  website_name       : 'Website naam'
+  website_description: 'Website beschrijving'
+  website_enable     : 'Website beschikbaar'
+  language           : 'Taal'
+  frontend_langauge  : 'Taal voor bezoekers'
+  default_section    : 'Standaard sectie'
+  theme              : 'Thema'
+  enable_antispam    : 'Anti-spam inschakelen'
+  date_format        : 'Datum formaat'
+
+placeholders:
+  website_name       : 'De naam van de website.'
+  website_description: 'De beschrijving van de website.'
+  website_enabled    : 'Is de website wel of niet beschikbaar?'
+  language           : 'De taal die gebruikt moet worden voor het admin gedeelte.'
+  default_section    : 'De standaard sectie die moet worden gebruikt.'
+  theme              : 'Het thema dat bezoekers zullen zien.'
+  enable_antispam    : 'Waarde die aangeeft of het anti-spam systeem moet worden gebruikt 
+voor reacties.'
+  frontend_language  : 'De taal die gebruikt moet worden voor bezoekers.'
+  date_format        : 'Het formaat van de datum voor het admin gedeelte.'
+
+tabs:
+  general : 'Algemeen'
+  security: 'Beveiliging'
+
+buttons:
+  save: 'Opslaan'
+
+success:
+  save: 'De instellingen zijn opgeslagen.'
+
+errors:
+  save: 'De instellingen konden niet worden opgeslagen.'

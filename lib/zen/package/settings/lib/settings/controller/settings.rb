@@ -113,8 +113,8 @@ module Settings
             notification(:success, lang('settings.titles.index'), flash_success)
 
             # Update the internal settings
-            if ::Zen::Settings[key.to_sym] != value
-              ::Zen::Settings[key.to_sym] = value
+            if ::Zen.settings[key.to_sym] != value
+              ::Zen.settings[key.to_sym] = value
             end
           rescue
             notification(:error, lang('settings.titles.index'), flash_error)

@@ -57,9 +57,9 @@ MSG
     puts "Migrating package..."
 
     # Run all migrations
-    Zen::Database.handle.transaction do
+    Zen.database.transaction do
       Sequel.migrator.run(
-        Zen::Database.handle, dir, :table => table, :target => version
+        Zen.database, dir, :table => table, :target => version
       )
     end
   end

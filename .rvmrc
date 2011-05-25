@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Create our project's gemset
+rvm --create 1.9.2@zen
+
+RED="\033[0;31m"
+RESET="\033[0m"
+YELLOW="\033[1;33m"
+
+# Install bundler automatically
+if ! command -v bundle; then
+    echo -e "${RED}Bundler isn't installed, installing it automatically...${RESET}"
+	  gem install bundler
+fi
+
+# Notify the user that he/she has to run bundle install
+echo -e "
+Bundler is installed and the Gemset has been created/activated.
+If this is the first time you're opening this project be sure to execute
+the following command before trying to run the application:
+
+    ${YELLOW}$ bundle install${RESET}
+
+This will install all the required gems (it may take a while). Once you've
+installed all the dependencies you should read the README.md file for more
+information.
+"

@@ -20,7 +20,7 @@ placeholders:
   language            : 'The language to use for the system.'
   default_section     : 'The default section to use on the homepage.'
   theme               : 'The frontend theme to use.'
-  enable_antispam     : "Whether or not Defensio's anti-spam system should be used."
+  enable_antispam     : 'Whether or not anti-spam protection should be used for comments'
   frontend_language   : 'The language to use for the frontend of the website.'
   date_format         : 'A custom format used for all the dates displayed in the backend.'
 
