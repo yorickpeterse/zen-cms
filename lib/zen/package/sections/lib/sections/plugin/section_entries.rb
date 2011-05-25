@@ -143,9 +143,9 @@ module Sections
         end
 
         # Get the entries
-        entries = SectionEntry.filter(filter_hash)
-          .eager(*eager_models)
-          .limit(@options[:limit], @options[:offset])
+        entries = SectionEntry.filter(filter_hash) \
+          .eager(*eager_models) \
+          .limit(@options[:limit], @options[:offset]) \
           .all
 
         comment_format = nil
@@ -177,7 +177,7 @@ module Sections
           # Get all the comments if the developer wants them
           if @options[:comments] === true
             entry.comments.each do |c|
-              comment        = c.values
+              comment = c.values
 
               if c.user
                 comment[:user] = c.user.values

@@ -32,9 +32,10 @@ Zen.post_init
 
 # Configure Capybara
 Capybara.configure do |config|
-  config.default_driver = :rack_test
-  config.default_host   = 'localhost'
-  config.app            = Ramaze  
+  config.default_driver      = :rack_test
+  config.default_host        = 'localhost'
+  config.app                 = Ramaze
+  config.server_boot_timeout = 50
 end
 
 # Start ramaze
