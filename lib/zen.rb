@@ -1,3 +1,4 @@
+require 'bundler/setup'
 require 'sequel'
 require 'ramaze'
 require 'bcrypt'

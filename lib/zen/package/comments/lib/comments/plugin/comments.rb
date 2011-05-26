@@ -71,8 +71,8 @@ module Comments
 
         # Now that we have the entry and the section we can start retrieving all the 
         # comments.
-        comments = Comment.filter(:section_entry_id => entry.id)
-          .limit(@options[:limit], @options[:offset])
+        comments = Comment.filter(:section_entry_id => entry.id) \
+          .limit(@options[:limit], @options[:offset]) \
           .all
 
         # Don't bother with all code below this if/end if we don't want to convert the

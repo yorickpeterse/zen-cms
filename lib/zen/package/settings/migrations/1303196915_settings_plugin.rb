@@ -12,7 +12,7 @@ Sequel.migration do
       name  = row[:name].split('.').last
       group = row[:group].split('.').last
 
-      Zen.database[:settings].filter(:id => row[:id])
+      Zen.database[:settings].filter(:id => row[:id]) \
         .update(:name => name, :group => group)
     end
   end

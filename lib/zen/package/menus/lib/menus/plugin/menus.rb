@@ -75,8 +75,8 @@ module Menus
         return if !menu
 
         # Get all menu items
-        menu_items = MenuItem.filter(:menu_id => menu.id, :parent_id => nil)
-          .limit(@options[:limit], @options[:offset])
+        menu_items = MenuItem.filter(:menu_id => menu.id, :parent_id => nil) \
+          .limit(@options[:limit], @options[:offset]) \
           .all
         
         @g         = Ramaze::Gestalt.new

@@ -54,7 +54,7 @@ MSG
 
     table = 'migrations_package_' + package.name.to_s
 
-    puts "Migrating package..."
+    Ramaze::Log.info('Migrating package...')
 
     # Run all migrations
     Zen.database.transaction do

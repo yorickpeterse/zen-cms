@@ -14,6 +14,10 @@ end
 
 # Gems only required when developing Zen itself
 group(:development) do
+  # Capybara/Selenium breaks with Rack 1.3 so in order to be able to run the tests we'll
+  # install 1.2.3 instead.
+  gem 'rack', ['= 1.2.3']
+
   gem 'rdiscount', ['>= 1.6.8']
   gem 'RedCloth' , ['>= 4.2.7']
   gem 'rspec'    , ['>= 2.5.0']

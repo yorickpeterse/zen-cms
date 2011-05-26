@@ -56,7 +56,7 @@ MSG
     end
 
     # Time to migrate the theme
-    puts 'Migrating...'
+    Ramaze::Log.info('Migrating package...')
 
     Zen.database.transaction do
       Sequel::Migrator.run(
