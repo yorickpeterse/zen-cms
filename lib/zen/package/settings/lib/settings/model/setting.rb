@@ -23,7 +23,6 @@ module Settings
     # idea to refactor this and put it in it's own class/plugin/whatever.
     #
     class Setting < Sequel::Model
-
       ##
       # Retrieves all settings and returns them as a key/value hash.
       #
@@ -46,7 +45,6 @@ module Settings
         
         return settings
       end
-
-    end
-  end
-end
+    end # Setting
+  end # Model
+end # Settings

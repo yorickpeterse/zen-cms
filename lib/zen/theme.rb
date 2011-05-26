@@ -97,6 +97,5 @@ module Zen
 
       return Registered[name]
     end
-
-  end
-end
+  end # Theme
+end # Zen

@@ -21,7 +21,7 @@ Sequel.migration do
       String :css_class
       String :css_id
 
-      foreign_key :menu_id, :menus, :update => :on_cascade, :on_delete => :cascade, :key => :id,
+      foreign_key :menu_id, :menus, :update => :on_cascade, :on_delete => :cascade, :key => :id
     end
   end
   

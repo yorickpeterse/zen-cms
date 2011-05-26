@@ -218,7 +218,6 @@ module Sections
 
         return entries
       end
-
-    end
-  end
-end
+    end # SectionEntries
+  end # Plugin
+end # Sections

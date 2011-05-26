@@ -238,7 +238,6 @@ module Settings
 
         Setting.filter(:name => names).delete
       end
-
-    end
-  end
-end
+    end # Settings
+  end # Plugin
+end # Settings

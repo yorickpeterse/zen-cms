@@ -78,7 +78,7 @@ module CustomFields
       # which all fields belong.
       # @since  0.1
       #
-      def index custom_field_group_id
+      def index(custom_field_group_id)
         if !user_authorized?([:read])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
@@ -88,8 +88,8 @@ module CustomFields
           lang('custom_fields.titles.index')
         )
         
-        @custom_field_group_id  = custom_field_group_id.to_i
-        @custom_fields          = CustomFieldGroup[@custom_field_group_id].custom_fields
+        @custom_field_group_id = custom_field_group_id.to_i
+        @custom_fields         = CustomFieldGroup[@custom_field_group_id].custom_fields
       end
       
       ##
@@ -106,7 +106,7 @@ module CustomFields
       # @param  [Integer] id The ID of the custom field to retrieve so that we can edit it.
       # @since  0.1
       #
-      def edit custom_field_group_id, id
+      def edit(custom_field_group_id, id)
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
@@ -139,14 +139,20 @@ module CustomFields
       # which all fields belong.
       # @since  0.1
       #
-      def new custom_field_group_id
+      def new(custom_field_group_id)
         if !user_authorized?([:read, :create])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldGroups.r(:index)),
-          anchor_to(lang('custom_fields.titles.index'), CustomFields.r(:index, custom_field_group_id)),
+          anchor_to(
+            lang('custom_field_groups.titles.index'), 
+            CustomFieldGroups.r(:index)
+          ),
+          anchor_to(
+            lang('custom_fields.titles.index'), 
+            CustomFields.r(:index, custom_field_group_id)
+          ),
           lang('custom_fields.titles.index')
         )
         
@@ -172,37 +178,40 @@ module CustomFields
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        post                  = request.params.dup
-        custom_field_group_id = post['custom_field_group_id']
-        
-        post.delete('slug') if post['slug'].empty?
+        post = request.subset(
+          :id, :name, :slug, :description, :sort_order, :type, :format, :possible_values,
+          :required, :visual_editor, :textarea_rows, :text_limit, :custom_field_group_id
+        )
 
         # Get or create a custom field group based on the ID from the hidden field.
         if post['id'] and !post['id'].empty?
-          @custom_field = CustomField[post['id'].to_i]
+          @custom_field = CustomField[post['id']]
           save_action   = :save
         else
           @custom_field = CustomField.new
           save_action   = :new
         end
+
+        post.delete('slug') if post['slug'].empty?
+        post.delete('id')
         
         flash_success = lang("custom_fields.success.#{save_action}")
         flash_error   = lang("custom_fields.errors.#{save_action}")
 
         begin
           @custom_field.update(post)
-          notification(:success, lang('custom_fields.titles.index'), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang('custom_fields.titles.index'), flash_error)
+          message(:error, flash_error)
 
           flash[:form_data]   = @custom_field
           flash[:form_errors] = @custom_field.errors
         end
         
         if @custom_field.id
-          redirect(CustomFields.r(:edit, custom_field_group_id, @custom_field.id))
+          redirect(CustomFields.r(:edit, post['custom_field_group_id'], @custom_field.id))
         else
-          redirect(CustomFields.r(:new, custom_field_group_id))
+          redirect_referrer
         end
       end
       
@@ -225,37 +234,24 @@ module CustomFields
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
-        post = request.params.dup
+        post = request.subset(:custom_field_ids, :custom_field_group_id)
         
         if !request.params['custom_field_ids'] or request.params['custom_field_ids'].empty?
-          notification(
-            :error, 
-            lang('custom_fields.titles.index'), 
-            lang('custom_fields.errors.no_delete')
-          )
-
+          message(:error, lang('custom_fields.errors.no_delete'))
           redirect(CustomFields.r(:index, post['custom_field_group_id']))
         end
         
         request.params['custom_field_ids'].each do |id|
           begin
-            CustomField[id.to_i].destroy
-            notification(
-              :success, 
-              lang('custom_fields.titles.index'), 
-              lang('custom_fields.success.delete')
-            )
+            CustomField[id].destroy
+            message(:success, lang('custom_fields.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('custom_fields.titles.index'), 
-              lang('custom_fields.errors.delete') % id
-            )
+            message(:error, lang('custom_fields.errors.delete') % id)
           end
         end
         
         redirect_referrer
       end
-    end
-  end
-end
+    end # CustomFields
+  end # Controller
+end # CustomFields

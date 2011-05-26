@@ -87,7 +87,7 @@ module Sections
       # @param  [Integer] id The ID of the section to retrieve so that we can edit it.
       # @since  0.1
       #
-      def edit id
+      def edit(id)
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
@@ -151,7 +151,10 @@ module Sections
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        post = request.params.dup
+        post = request.subset(
+          :id, :name, :slug, :description, :comment_allow, :comment_require_account,
+          :comment_moderate, :comment_format, :custom_field_group_pks, :category_group_pks
+        )
 
         if post['id'] and !post['id'].empty?
           @section      = Section[post['id']]
@@ -163,22 +166,19 @@ module Sections
         
         flash_success = lang("sections.success.#{save_action}")
         flash_error   = lang("sections.errors.#{save_action}")
+
+
+        post['custom_field_group_pks'] ||= []
+        post['category_group_pks']     ||= []
         
         # The primary keys have to be integers otherwise Sequel will soil it's pants
-        if !post['custom_field_group_pks'].nil?
-          post['custom_field_group_pks'].map! { |value| value.to_i }
-        else
-          post['custom_field_group_pks'] = []
-        end
-        
-        if !post['category_group_pks'].nil?
-          post['category_group_pks'].map! { |value| value.to_i }
-        else
-          post['category_group_pks'] = [] 
+        ['custom_field_group_pks', 'category_group_pks'].each do |k|
+          post[k].map! { |value| value.to_i }
         end
 
         # Auto generate the slug if it's empty
         post.delete('slug') if post['slug'].empty?
+        post.delete('id')
         
         begin
           @section.update(post)
@@ -188,9 +188,9 @@ module Sections
             @section.category_group_pks     = post['category_group_pks']
           end
           
-          notification(:success, lang('sections.titles.index'), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang('sections.titles.index'), flash_error)
+          message(:error, flash_error)
           
           flash[:form_data]   = @section
           flash[:form_errors] = @section.errors
@@ -222,34 +222,21 @@ module Sections
         end
         
         if !request.params['section_ids'] or request.params['section_ids'].empty?
-          notification(
-            :error, 
-            lang('sections.titles.index'), 
-            lang('sections.errors.no_delete')
-          )
-
+          message(:error, lang('sections.errors.no_delete'))
           redirect_referrer
         end
         
         request.params['section_ids'].each do |id|
           begin
             Section[id.to_i].destroy
-            notification(
-              :success, 
-              lang('sections.titles.index'), 
-              lang('sections.success.delete')
-            )
+            message(:success, lang('sections.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('sections.titles.index'), 
-              lang('sections.errors.delete') % id
-            )
+            message(:error, lang('sections.errors.delete') % id)
           end
         end
         
         redirect_referrer
       end
-    end 
-  end
-end
+    end # Sections
+  end # Controller
+end # Sections

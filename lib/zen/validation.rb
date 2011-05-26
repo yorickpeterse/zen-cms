@@ -27,7 +27,6 @@ module Zen
   # @since  0.2.5
   #
   module Validation
-
     ##
     # Checks if the specified attributes exist and aren't set to nil.
     #
@@ -144,6 +143,5 @@ module Zen
         raise(ValidationError, "The path #{path} in \"#{attribute}\" doesn't exist.")
       end
     end
-
-  end
-end
+  end # Validation
+end # Zen

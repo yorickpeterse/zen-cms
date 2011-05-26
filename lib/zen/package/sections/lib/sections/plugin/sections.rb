@@ -79,7 +79,6 @@ module Sections
 
         return sections
       end
-
-    end
-  end
-end
+    end # Sections
+  end # Plugin
+end # Sections

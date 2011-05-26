@@ -21,7 +21,7 @@ module Zen
     class AdminController < Zen::Controller::BaseController
       layout :admin
       engine :etanni
-      helper :blue_form, :common, :breadcrumb, :user, :acl
+      helper :blue_form, :common, :breadcrumb, :user, :acl, :message
 
       ##
       # The initialize method is called upon class initalization and is used to process several

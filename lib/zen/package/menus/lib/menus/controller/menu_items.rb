@@ -58,7 +58,7 @@ module Menus
       # @since  0.2a
       # @param  [Integer] menu_id The ID of the current navigation menu.
       #
-      def index(menu_id = nil)
+      def index(menu_id)
         if !user_authorized?([:read])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
@@ -87,7 +87,7 @@ module Menus
       # @param  [Integer] menu_id The ID of the current navigation menu.
       # @param  [Integer] id The ID of the menu item to edit.
       #
-      def edit(menu_id = nil, id)
+      def edit(menu_id, id)
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
@@ -105,7 +105,7 @@ module Menus
         if flash[:form_data]
           @menu_item = flash[:form_data]
         else
-          @menu_item = MenuItem[id.to_i]
+          @menu_item = MenuItem[id]
         end
       end
 
@@ -121,7 +121,7 @@ module Menus
       # @since  0.2a
       # @param  [Integer] menu_id  The ID of the current navigation menu.
       #
-      def new(menu_id = nil)
+      def new(menu_id)
         if !user_authorized?([:create, :read])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end  
@@ -154,20 +154,25 @@ module Menus
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
-        post = request.params.dup
-        if post['parent_id'].empty? or post['parent_id'] == post['id']
+        post = request.subset(
+          :id, :parent_id, :name, :url, :order, :css_class, :css_id, :menu_id
+        )
+
+        if post['parent_id'].empty? or post['parent_id'] === post['id']
           post['parent_id'] = nil
         end
 
         # Determine if we're saving changes made to an existing menu item or if we're
         # going to create a new one.
         if !post['id'].empty?
-          @menu_item  = MenuItem[post['id'].to_i]
+          @menu_item  = MenuItem[post['id']]
           save_action = :save
         else
           @menu_item  = MenuItem.new
           save_action = :new
         end
+
+        post.delete('id')
 
         # Set our notifications
         flash_success = lang("menu_items.success.#{save_action}")
@@ -176,9 +181,9 @@ module Menus
         # Time to save the data
         begin
           @menu_item.update(post)
-          notification(:success, lang('menu_items.titles.index'), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang('menu_items.titles.index'), flash_error)
+          message(:error, flash_error)
 
           flash[:form_data]   = @menu_item
           flash[:form_errors] = @menu_item.errors
@@ -205,39 +210,25 @@ module Menus
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
-        post = request.params.dup
+        post = request.subset(:menu_item_ids)
 
         if !post['menu_item_ids'] or post['menu_item_ids'].empty?
-          notification(
-            :error, 
-            lang('menu_items.titles.index'), 
-            lang('menu_items.errors.no_delete')
-          )
-
+          message(:error, lang('menu_items.errors.no_delete'))
           redirect_referrer
         end
 
         post['menu_item_ids'].each do |id|
           begin
-            MenuItem[id.to_i].destroy
+            MenuItem[id].destroy
           rescue
-            notification(
-              :error, 
-              lang('menu_items.titles.index'), 
-              lang('menu_items.errors.delete') % id
-            )
+            message(:error, lang('menu_items.errors.delete') % id)
             redirect_referrer
           end
         end
 
-        notification(
-          :success, 
-          lang('menu_items.titles.index'), 
-          lang('menu_items.success.delete')
-        )
-
+        message(:success, lang('menu_items.success.delete'))
         redirect_referrer
       end
-    end
-  end
-end
+    end # MenuItems
+  end # Controller
+end # Menus

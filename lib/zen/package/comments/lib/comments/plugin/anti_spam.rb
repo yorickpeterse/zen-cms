@@ -44,10 +44,8 @@ module Comments
     #       end
     #     end
     #
-    # The return value of the method added should be an array. The first index should be
-    # the spam score (if it's not used set to 0 for ham and 1 for spam) and the second
-    # index should be a boolean that indicates whether or not the comment is spam (true
-    # for spam, false for ham).
+    # The return value of the method added should be a boolean, true for spam and false
+    # for ham. 
     #
     # @author Yorick Peterse
     # @since  0.2.6
@@ -98,14 +96,11 @@ module Comments
       end
 
       ##
-      # Validates the comment to see if it's spam or ham. The return value is an array
-      # where the first index is the spam score (if implemented) and the second index a
-      # boolean that indicates whether or not the comment is spam. If a score system isn't
-      # implemented it should be set to 0 for no spam and 1 for spam.
+      # Validates the comment to see if it's spam or ham. 
       #
       # @author Yorick Peterse
       # @since  0.2.6
-      # @return [Array]
+      # @return [TrueClass/FalseClass]
       #
       def call
         return send(@engine)
@@ -116,10 +111,10 @@ module Comments
       #
       # @author Yorick Peterse
       # @since  0.2.6
-      # @return [Array]
+      # @return [TrueClass/FalseClass]
       #
       def defensio
-        results = [1, true]
+        spam = true
 
         if !::Zen.settings.key?(:defensio_key)
           raise(::Zen::PluginError, "The setting \"defensio_key\" is missing")
@@ -142,18 +137,15 @@ module Comments
         )
 
         # Not likely to happen but just in case we'll flag the comment as spam
-        return results if status != 200
-
-        # Set the data
-        results[0] = response['spaminess']
+        return spam if status != 200
 
         if response['allow'] === true and response['spaminess'] <= 0.85
-          results[1] = false
+          spam = false
         else
-          results[1] = true
+          spam = true
         end
 
-        return results
+        return spam
       end
     end # AntiSpam
   end # Plugin

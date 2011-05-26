@@ -9,42 +9,11 @@ module Ramaze
     # @author Yorick Peterse
     # @since  0.1
     #
-    module Common
+    module Common      
       ##
-      # Generate the required data for showing a Javascript based notification.
-      # Basically all this method does is storing a hash in the flash data and
-      # making the required code to do so slightly shorter.
-      #
-      # @author Yorick Peterse
-      # @param  [Symbol] type The type of notification to generate (error, notice, etc).
-      # @param  [String] title The title of the notification.
-      # @param  [String] message The message to display in the notification.
-      # @param  [String] image An optional path to a custom image to use. If no image 
-      # is specified the type of notification will be used for the image. For example, 
-      # an error message would result in an image named "error.png" (.png is used for 
-      # all default icons).
-      # @param  [Boolean] sticky Boolean that indicates that the notification shouldn't
-      # be automatically removed after a certain period of time.
-      # @since  0.1
-      #
-      def notification(type, title, message, image = nil, sticky = false)
-        if image.nil?
-          image = "/admin/images/icons/large/#{type.to_s}.png"
-        end
-        
-        sticky = true if type === :error
-        
-        flash[:notification] = {
-          :title   => title,
-          :content => message,
-          :image   => image,
-          :sticky  => sticky
-        }
-      end
-      
-      ##
-      # Generate an anchor tag inspired by the way Rails does this. 
-      # The first parameter is the text to display, the second parameter is the URL.
+      # Generate an anchor tag similar as to how Ramaze does it with the
+      # Ramaze::Controller.a() method. The first parameter is the text to display, 
+      # the second parameter is the URL.
       #
       # The anchor_to tag supports both query string parameters just like the link helper
       # that ships with Ramaze but it also supports the possibility of adding HTML
@@ -78,7 +47,6 @@ module Ramaze
       # @return [String]
       #
       def anchor_to(text, url, *attributes)
-        
         # Sanitize the text and URL
         text = Rack::Utils.escape_html(text)
         url  = url.to_s
@@ -132,38 +100,6 @@ module Ramaze
         
         # Return the tag
         return "<a #{html_attributes}>#{text}</a>"
-      end
-      
-      ##
-      # The cycle method cycles through a specified list of words. This helper can be
-      # used to generate "zebra" tables, meaning that every odd row has a different color.
-      #
-      # The amount of words you want to cycle through is completely customizable,
-      # however you should atleast have two words otherwise this method will be
-      # completely useless.
-      #
-      # @author Yorick Peterse
-      # @since  0.1
-      # @param  [Array] args All words to cycle through.
-      # @return [String]
-      #
-      def cycle(*args)
-        @@cycle_counter ||= 0
-        
-        # Check the current counter and reset it if it matches the total amount of arguments
-        if @@cycle_counter >= args.count
-          # Reset the counter
-          @@cycle_counter = 0
-        end
-        
-        # Get the element based on the current index
-        cycle_element = args[@@cycle_counter]
-        
-        # Increment the counter
-        @@cycle_counter += 1
-        
-        # Return the cycle element
-        return cycle_element
       end
     end
   end

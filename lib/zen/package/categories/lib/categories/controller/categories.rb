@@ -154,39 +154,43 @@ module Categories
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        post              = request.params.dup
-        category_group_id = post['category_group_id']
+        post = request.subset(
+          :id, :parent_id, :name, :description, :slug, :category_group_id
+        )
         
-        post.delete('slug') if post['slug'].empty?
-
         # Retrieve the category and set the notifications based on if the ID has
         # been specified or not.
         if post['id'] and !post['id'].empty?
-          @category   = Category[post['id'].to_i]
+          @category   = Category[post['id']]
           save_action = :save
         else
           @category   = Category.new
           save_action = :new
         end
-        
+
+        # Remove various keys
+        post.delete('slug') if post['slug'].empty?
+        post.delete('id')
+
+        # Set the messages to display
         flash_success = lang("categories.success.#{save_action}")
         flash_error   = lang("categories.errors.#{save_action}")
-        
+
         # Try to update the category
         begin
           @category.update(post)
-          notification(:success, lang('categories.titles.index'), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang('categories.titles.index'), flash_error)
+          message(:error, flash_error)
  
           flash[:form_errors] = @category.errors
           flash[:form_data]   = @category
         end
         
         if @category.id
-          redirect(Categories.r(:edit, category_group_id, @category.id))
+          redirect(Categories.r(:edit, post['category_group_id'], @category.id))
         else  
-          redirect(Categories.r(:new, category_group_id))
+          redirect(Categories.r(:new, post['category_group_id']))
         end
       end
       
@@ -208,42 +212,26 @@ module Categories
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        post              = request.params.dup
-        category_group_id = post['category_group_id'].to_i
+        post = request.subset(:category_ids, :category_group_id)
         
         # Obviously we'll require some IDs
         if !request.params['category_ids'] or request.params['category_ids'].empty?
-          notification(
-            :error, 
-            lang('categories.titles.index'), 
-            lang('categorieserrors.no_delete')
-          )
-
-          redirect(Categories.r(:index, category_group_id))
+          message(:error, lang('categories.errors.no_delete'))
+          redirect(Categories.r(:index, post['category_group_id']))
         end
         
         # Delete each section
         request.params['category_ids'].each do |id|
           begin
-            Category[id.to_i].destroy
-            notification(
-              :success, 
-              lang('categories.titles.index'), 
-              lang('categories.success.delete')
-            )
-
+            Category[id].destroy
+            message(:success, lang('categories.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('categories.titles.index'), 
-              lang('categories.errors.delete') % id
-            )
-
+            message(:error, lang('categories.errors.delete') % id)
           end
         end
         
-        redirect(Categories.r(:index, category_group_id))
+        redirect(Categories.r(:index, post['category_group_id']))
       end
-    end
-  end
-end
+    end # Categories
+  end # Controller
+end # Categories

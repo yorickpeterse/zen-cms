@@ -81,7 +81,7 @@ module CustomFields
       # can edit it.
       # @since  0.1
       #
-      def edit id
+      def edit(id)
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
@@ -140,25 +140,28 @@ module CustomFields
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        post = request.params.dup
+        post = request.subset(:id, :name, :description)
         
         # Get or create a custom field group based on the ID from the hidden field.
         if post['id'] and !post['id'].empty?
-          @field_group  = CustomFieldGroup[post['id'].to_i]
+          @field_group  = CustomFieldGroup[post['id']]
           save_action   = :save
         else
           @field_group  = CustomFieldGroup.new
           save_action   = :new
         end
         
+        post.delete('id')
+
+        # Set the messages
         flash_success = lang("custom_field_groups.success.#{save_action}")
         flash_error   = lang("custom_field_groups.errors.#{save_action}")
         
         begin
           @field_group.update(post)
-          notification(:success, lang("custom_field_groups.titles.index"), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang("custom_field_groups.titles.index"), flash_error)
+          message(:error, flash_error)
 
           flash[:form_errors] = @field_group.errors
           flash[:form_data]   = @field_group
@@ -191,33 +194,21 @@ module CustomFields
         end
         
         if !request.params['custom_field_group_ids'] or request.params['custom_field_group_ids'].empty?
-          notification(
-            :error, 
-            lang('custom_field_groups.titles.index'), 
-            lang('custom_field_groups.errors.no_delete')
-          )
+          message(:error, lang('custom_field_groups.errors.no_delete'))
           redirect(CustomFieldGroups.r(:index))
         end
         
         request.params['custom_field_group_ids'].each do |id|
           begin
             CustomFieldGroup[id.to_i].destroy
-            notification(
-              :success, 
-              lang('custom_field_groups.titles.index'), 
-              lang('custom_field_groups.success.delete')
-            )
+            message(:success, lang('custom_field_groups.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('custom_field_groups.titles.index'), 
-              lang('custom_field_groups.errors.delete') % id
-            )
+            message(:error, lang('custom_field_groups.errors.delete') % id)
           end
         end
         
         redirect_referrer
       end
-    end
-  end
-end
+    end # CustomFieldGroups
+  end # Controller
+end # CustomFields

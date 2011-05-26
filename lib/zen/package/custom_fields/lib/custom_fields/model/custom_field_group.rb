@@ -22,10 +22,7 @@ module CustomFields
         :order => :sort_order
       )
 
-      many_to_many(
-        :sections, 
-        :class => "Sections::Model::Section"
-      )
+      many_to_many(:sections, :class => "Sections::Model::Section")
       
       ##
       # Validates rules used whenever the model is created or saved.
@@ -37,6 +34,6 @@ module CustomFields
         validates_presence        :name
         validates_max_length 255, :name
       end
-    end
-  end
-end
+    end # CustomFieldGroup
+  end # Model
+end # CustomFields

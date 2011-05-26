@@ -253,6 +253,5 @@ module Zen
         end
       end
     end
-
-  end
-end
+  end # Asset
+end # Zen

@@ -27,7 +27,7 @@ not to allow registration, etc.'
 end
 
 # Create all variables required for the settings
-theme_hash   = {}
+theme_hash = {}
 
 Zen::Theme::Registered.each do |name, theme|
   name             = name.to_s

@@ -41,6 +41,6 @@ module CustomFields
         validates_presence :slug unless new?
         validates_unique   :slug
       end
-    end
-  end
-end
+    end # CustomField
+  end # Model
+end # CustomFields

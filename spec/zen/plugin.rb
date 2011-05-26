@@ -1,6 +1,15 @@
 require File.expand_path('../../helper', __FILE__)
-require File.expand_path('../../resources/plugin/spec', __FILE__)
 require 'rdiscount'
+
+class SpecPlugin
+  def initialize(transformation, text)
+    @transformation, @text = transformation, text
+  end
+
+  def call
+    return @text.send(@transformation)
+  end
+end
 
 describe("Zen::Plugin") do
   
@@ -21,7 +30,7 @@ describe("Zen::Plugin") do
     Zen::Plugin[:spec].name.should         === :spec
   end
 
-  it("Retrieve a plugin by it's identifier") do
+  it("Retrieve a plugin by it's name") do
     plugin = Zen::Plugin[:spec]
 
     plugin.name.should   === :spec

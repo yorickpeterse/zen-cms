@@ -155,11 +155,11 @@ module Users
           if user_login(request.subset(:email, :password))
             # Update the last time the user logged in
             User[:email => request.params['email']].update(:last_login => Time.new)
-            
-            notification(:success, lang('users.titles.index'), lang('users.success.login'))
+
+            message(:success, lang('users.success.login'))
             redirect(::Sections::Controller::Sections.r(:index))
           else
-            notification(:error, lang('users.titles.index'), lang('users.errors.login'))
+            message(:error, lang('users.errors.login'))
           end
         end
       end
@@ -174,7 +174,7 @@ module Users
         user_logout
         session.clear
         
-        notification(:success, lang('users.titles.index'), lang('users.success.logout'))
+        message(:success, lang('users.success.logout'))
         redirect(Users.r(:login))
       end
       
@@ -194,7 +194,10 @@ module Users
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        post = request.params.dup
+        post = request.subset(
+          :id, :email, :name, :website, :new_password, :confirm_password, :status, 
+          :language, :frontend_language, :date_format
+        )
        
         if post['id'] and !post['id'].empty?
           @user       = User[post['id']]
@@ -206,12 +209,7 @@ module Users
         
         if !post['new_password'].nil? and !post['new_password'].empty?
           if post['new_password'] != post['confirm_password']
-            notification(
-              :error, 
-              lang('users.titles.index'), 
-              lang('users.errors.no_password_match')
-            )
-
+            message(:error, lang('users.errors.no_password_match'))
             redirect_referrer
           else
             post['password'] = post['new_password']
@@ -220,22 +218,20 @@ module Users
             post.delete('confirm_password')
           end
         end
-        
-        # User group pks have to be integers
-        if !post['user_group_pks'].nil?
-          post['user_group_pks'].map! { |value| value.to_i }
-        else
-          post['user_group_pks'] = []
-        end
+
+        post.delete('id')
+
+        post['user_group_pks'] ||= []
+        post['user_group_pks']   = post['user_group_pks'].map { |value| value.to_i }
         
         flash_success = lang("users.success.#{save_action}")
         flash_error   = lang("users.errors.#{save_action}")
 
         begin
           @user.update(post)
-          notification(:success, lang('users.titles.index'), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang('users.titles.index'), flash_error)
+          message(:error, flash_error)
           
           flash[:form_data]   = @user
           flash[:form_errors] = @user.errors
@@ -264,34 +260,21 @@ module Users
         end
         
         if !request.params['user_ids'] or request.params['user_ids'].empty?
-          notification(
-            :error, 
-            lang('users.titles.index'), 
-            lang('users.errors.no_delete')
-          )
-
+          message(:error, lang('users.errors.no_delete'))
           redirect_referrer
         end
         
         request.params['user_ids'].each do |id|
           begin
-            User[id.to_i].destroy
-            notification(
-              :success, 
-              lang('users.titles.index'), 
-              lang('users.success.delete')
-            )
+            User[id].destroy
+            message(:success, lang('users.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('users.titles.index'), 
-              lang('users.errors.delete') % id
-            )
+            message(:error,lang('users.errors.delete') % id)
           end
         end
         
         redirect_referrer
       end
-    end
-  end
-end
+    end # Users
+  end # Controller
+end # Users

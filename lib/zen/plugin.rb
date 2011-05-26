@@ -89,7 +89,6 @@ module Zen
   # @since  0.2.4
   #
   module Plugin
-
     ##
     # Hash containing all registered plugins. The keys are the names of the plugins and
     # the values are instances of Zen::Plugin::Base.
@@ -173,6 +172,5 @@ module Zen
         return ::Zen::Plugin[name].plugin.new(*data, &block).call
       end
     end
-
-  end
-end
+  end # Plugin
+end # Zen

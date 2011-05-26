@@ -33,6 +33,6 @@ module Menus
         # Prevent people from entering random crap for class and ID names
         validates_format(/^[a-zA-Z\-_0-9]*/, [:css_class, :css_id])
       end
-    end
-  end
-end
+    end # Menu
+  end # Model
+end # Menus

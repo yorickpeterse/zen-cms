@@ -27,7 +27,7 @@
         font-family:     'Helvetica Neue', Helvetica, Arial, sans-serif;
         margin:          0px;
         min-width:       80px;
-        padding:         5px;
+        padding:         3px;
         text-decoration: none;
         text-shadow:     1px 1px #fff;
         text-align:      center;
@@ -35,16 +35,16 @@
 
     .button a
     {
-        padding:      7px 5px 6px 5px;
+        padding: 5px;
     }
     
     .button input[type="submit"]
     {
-        padding:      7px 5px;
+        padding: 5px 4px 6px 4px;
     }
     
     .button a:active, .button input[type="submit"]:active, .button button:active
     {
-        background:   #eee -webkit-gradient(linear, left bottom, left top, from(#eee), to(#ddd));
-        background:   #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
+        background: #eee -webkit-gradient(linear, left bottom, left top, from(#eee), to(#ddd));
+        background: #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
     }

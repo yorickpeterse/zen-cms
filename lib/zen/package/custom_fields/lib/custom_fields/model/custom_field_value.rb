@@ -31,6 +31,6 @@ module CustomFields
           self.value.gsub!(/\r\n/, "\n")
         end
       end
-    end
-  end
-end
+    end # CustomFieldValue
+  end # Model
+end # CustomFields

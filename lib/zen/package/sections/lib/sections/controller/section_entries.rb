@@ -105,8 +105,14 @@ module Sections
         end
         
         set_breadcrumbs(
-          anchor_to(lang('sections.titles.index'), Sections.r(:index)),
-          anchor_to(lang('section_entries.titles.index'), SectionEntries.r(:index, section_id)),
+          anchor_to(
+            lang('sections.titles.index'), 
+            Sections.r(:index)
+          ),
+          anchor_to(
+            lang('section_entries.titles.index'), 
+            SectionEntries.r(:index, section_id)
+          ),
           lang('section_entries.titles.edit')
         )
         
@@ -135,14 +141,20 @@ module Sections
       # @param  [Integer] section_id The ID of the current section.
       # @since  0.1
       #
-      def new section_id
+      def new(section_id)
         if !user_authorized?([:read, :create])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(lang('sections.titles.index'), Sections.r(:index)),
-          anchor_to(lang('section_entries.titles.index'), SectionEntries.r(:index, section_id)),
+          anchor_to(
+            lang('sections.titles.index'), 
+            Sections.r(:index)
+          ),
+          anchor_to(
+            lang('section_entries.titles.index'), 
+            SectionEntries.r(:index, section_id)
+          ),
           lang('section_entries.titles.new')
         )
           
@@ -178,7 +190,7 @@ module Sections
         field_values        = post['custom_field_values']
         custom_field_errors = {}
         
-        post.delete("custom_field_values")
+        post.delete('custom_field_values')
         post.delete('slug') if post['slug'].empty?
         
         if !post['category_pks'].nil?
@@ -198,6 +210,8 @@ module Sections
           @entry        = SectionEntry.new
           save_action   = :new
         end
+
+        post.delete('id')
         
         flash_success = lang("section_entries.success.#{save_action}")
         flash_error   = lang("section_entries.errors.#{save_action}")
@@ -207,7 +221,7 @@ module Sections
           Zen.database.transaction do
             # Update the entry itself
             @entry.update(post)
-            notification(:success, lang('section_entries.titles.index'), flash_success)
+            message(:success, flash_success)
             
             # Update the field values
             field_values.each do |field_id, value|
@@ -227,14 +241,11 @@ module Sections
               custom_field = field_value.custom_field
               
               if custom_field.required and value.empty?
-                custom_field_errors[:"custom_field_values[#{field_id}]"] = lang('zen_models.presence')
+                custom_field_errors[:"custom_field_values[#{field_id}]"] = \
+                  lang('zen_models.presence')
               end
               
-              # Validate the entry
-              if !custom_field_errors.empty?
-                # No need for a particular exception as Sequel will undo the changes anyway
-                raise
-              end
+              raise unless custom_field_errors.empty?
               
               field_value.value = value
               field_value.save
@@ -247,7 +258,7 @@ module Sections
         # 2. Any custom field marked as required didn't have a value
         # 3. Something else went wrong, god knows what.
         rescue
-          notification(:error, lang('section_entries.titles.index'), flash_error)
+          message(:error, flash_error)
             
           flash[:form_errors] = @entry.errors.merge(custom_field_errors)
           flash[:form_data]   = @entry
@@ -279,34 +290,21 @@ module Sections
         end
         
         if !request.params['section_entry_ids'] or request.params['section_entry_ids'].empty?
-          notification(
-            :error, 
-            lang('section_entries.titles.index'), 
-            lang('section_entries.errors.no_delete')
-          )
-
+          message(:error, lang('section_entries.errors.no_delete'))
           redirect_referrer
         end
         
         request.params['section_entry_ids'].each do |id|
           begin
-            SectionEntry[id.to_i].destroy
-            notification(
-              :success, 
-              lang('section_entries.titles.index'), 
-              lang('section_entries.success.delete')
-            )
+            SectionEntry[id].destroy
+            message(:success, lang('section_entries.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('section_entries.titles.index'), 
-              lang('section_entries.errors.delete') % id
-            )
+            message(:error,lang('section_entries.errors.delete') % id)
           end
         end
         
         redirect_referrer
       end
-    end 
-  end
-end
+    end  # SectionEntries
+  end # Controller
+end # Sections

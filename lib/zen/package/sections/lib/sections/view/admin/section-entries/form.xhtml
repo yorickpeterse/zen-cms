@@ -32,7 +32,6 @@
     f.input_hidden(:id, @entry.id)
     
     f.g.div(:id => :basic) do
-
       f.input_text(
         lang('section_entries.labels.title'), 
         :title
@@ -65,11 +64,9 @@
         :selected => @entry.status, 
         :size     => 1
       )
-
     end
     
     f.g.div(:id => :categories) do
-
       if @entry.section.category_groups
         @entry.section.category_groups.each do |group|
           categories = {}
@@ -89,7 +86,6 @@
       else
         f.g.p(lang('section_entries.messages.no_categories'))
       end
-
     end
     
     # Organize all field values by field ID

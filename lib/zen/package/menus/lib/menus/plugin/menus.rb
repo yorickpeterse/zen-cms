@@ -146,7 +146,6 @@ module Menus
           end
         end
       end
-
-    end
-  end
-end
+    end # Menus
+  end # Plugin
+end # Menus

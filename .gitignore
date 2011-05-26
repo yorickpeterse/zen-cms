@@ -4,7 +4,6 @@ spec/resources/database.db
 spec/resources/config.rb
 
 # Ignore common dotfiles
-#
 .yardoc
 
 # Ignore the YARD documentation, this can be generated manually as following:

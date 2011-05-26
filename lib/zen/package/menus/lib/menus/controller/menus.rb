@@ -143,33 +143,31 @@ module Menus
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
-        # Fetch the POST data and store it in a variable so it's a bit easier to work with
-        post = request.params.dup
+        post = request.subset(:name, :slug, :description, :css_class, :css_id, :id)
 
         # Determine if we're creating a new group or modifying an existing one.
         if !post['id'].empty?
-          @menu       = Menu[post['id'].to_i]
+          @menu       = Menu[post['id']]
           save_action = :save
         else
           @menu       = Menu.new
           save_action = :new
 
           # Delete the slug if it's empty
-          if post['slug'].empty?
-            post.delete('slug')
-          end
+          post.delete('slug') if post['slug'].empty?
         end
 
-        # Set our notifications
+        post.delete('id')
+
         flash_success = lang("menus.success.#{save_action}")
         flash_error   = lang("menus.errors.#{save_action}")
 
         # Let's see if we can insert/update the data
         begin
           @menu.update(post)
-          notification(:success, lang('menus.titles.index'), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang('menus.titles.index'), flash_error)
+          message(:error, flash_error)
 
           flash[:form_data]   = @menu
           flash[:form_errors] = @menu.errors
@@ -203,33 +201,23 @@ module Menus
 
         # We always require a set of IDs
         if !post['menu_ids'] or post['menu_ids'].empty?
-          notification(
-            :error, 
-            lang('menus.titles.index'), 
-            lang('menus.errors.no_delete')
-          )
-
+          message(:error, lang('menus.errors.no_delete'))
           redirect_referrer
         end
 
         # Time to delete all menus
         post['menu_ids'].each do |id|
           begin
-            Menu[id.to_i].destroy
+            Menu[id].destroy
           rescue
-            notification(
-              :error, 
-              lang('menus.titles.index'), 
-              lang('menus.errors.delete') % id
-            )
-
+            message(:error, lang('menus.errors.delete') % id)
             redirect_referrer
           end
         end
 
-        notification(:success, lang('menus.titles.index'), lang('menus.success.delete'))
+        message(:success, lang('menus.success.delete'))
         redirect_referrer
       end
-    end
-  end
-end
+    end # Menus
+  end # Controller
+end # Menus

@@ -24,15 +24,8 @@ module Sections
         :eager => [:custom_field_values]
       )
       
-      many_to_many(
-        :custom_field_groups, 
-        :class => "CustomFields::Model::CustomFieldGroup"
-      )
-
-      many_to_many(
-        :category_groups,
-        :class => "Categories::Model::CategoryGroup"
-      )
+      many_to_many(:custom_field_groups, :class => "CustomFields::Model::CustomFieldGroup")
+      many_to_many(:category_groups, :class => "Categories::Model::CategoryGroup")
 
       plugin(:sluggable, :source => :name, :freeze => false)
       
@@ -43,9 +36,12 @@ module Sections
       # @since  0.1
       #
       def validate
-        validates_presence([
-          :name, :comment_allow, :comment_require_account, :comment_moderate, :comment_format
-        ])
+        validates_presence(
+          [
+            :name, :comment_allow, :comment_require_account, :comment_moderate, 
+            :comment_format
+          ]
+        )
 
         validates_presence(:slug) unless new?
         validates_max_length(255, [:name, :slug])
@@ -57,6 +53,6 @@ module Sections
         
         validates_unique(:slug)
       end
-    end
-  end
-end
+    end # Section
+  end # Model
+end # Sections

@@ -69,8 +69,6 @@ module Settings
           raise(::Zen::ValidationError, "The settings group #{group} doesn't exist.")
         end
       end
-
-    end
-  end
-end
-
+    end # SettingBase
+  end # Plugin
+end # Settings

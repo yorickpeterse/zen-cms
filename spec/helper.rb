@@ -8,13 +8,13 @@ require 'capybara/rspec'
 Ramaze::Log.level = 3
 
 # Configure all middlewares
-Ramaze.middleware! :spec do |m|
+Ramaze.middleware! :dev do |m|
   m.run(Ramaze::AppMap)
 end
 
 # Update all paths
 Ramaze.options.roots = [__DIR__]
-Ramaze.options.mode  = :spec
+Ramaze.options.mode  = :dev
 Zen.root     = __DIR__
 
 Zen::Language.options.paths.push(__DIR__('resources'))

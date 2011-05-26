@@ -32,8 +32,11 @@ module Comments
         Zen::Language.load('comments')
 
         comment = Comment.new
-        post    = request.params.dup
-        entry   = ::Sections::Model::SectionEntry[h(post['section_entry']).to_i]
+        post    = request.subset(
+          :section_entry, :user_id, :comment, :name, :website, :email
+        )
+
+        entry = ::Sections::Model::SectionEntry[post['section_entry']]
         
         # Remove empty values
         post.each { |k, v| post.delete(k) if v.empty? }
@@ -57,7 +60,7 @@ module Comments
         
         # Validate the section entry
         if entry.nil?
-          flash[:error] = lang('comments.errors.invalid_entry')
+          message(:error, lang('comments.errors.invalid_entry'))
           redirect_referrer
         end
         
@@ -65,13 +68,13 @@ module Comments
         
         # Comments allowed?
         if section.comment_allow == false
-          flash[:error] = lang('comments.errors.comments_not_allowed')
+          message(:error, lang('comments.errors.comments_not_allowed'))
           redirect_referrer
         end
         
         # Comments require an account?
         if section.comment_require_account == true and session[:user].nil?
-          flash[:error] = lang('comments.errors.comments_require_account')
+          message(:error, lang('comments.errors.comments_require_account'))
           redirect_referrer
         end
         
@@ -82,8 +85,8 @@ module Comments
         
         # Require anti-spam validation?
         if ::Zen.settings[:enable_antispam] == '1'
-          engine      = ::Zen.settings[:defensio_key].to_sym
-          score, spam = plugin(:anti_spam, engine, nil, nil, nil, post['comment'])
+          engine = ::Zen.settings[:anti_spam_system].to_sym
+          spam   = plugin(:anti_spam, engine, nil, nil, nil, post['comment'])
           
           # Time to validate the Defensio response
           if spam === false
@@ -92,8 +95,6 @@ module Comments
             else
               comment.status = 'open'
             end
-            
-            comment.defensio_signature = response['signature']
           else
             comment.status = 'spam'
           end
@@ -104,12 +105,12 @@ module Comments
           comment.save
           
           if section.comment_moderate == true
-            flash[:success] = lang('comments.success.moderate')
+            message(:success, lang('comments.success.moderate'))
           else
-            flash[:success] = lang('comments.success.new')
+            message(:success, lang('comments.success.new'))
           end
         rescue
-          flash[:error] = lang('comments.errors.new')
+          message(:error, lang('comments.errors.new'))
         end
         
         redirect_referrer

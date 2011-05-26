@@ -34,7 +34,6 @@ module Settings
           )
         end
       end
-
-    end
-  end
-end
+    end # GroupBase
+  end # Plugin
+end # Settings

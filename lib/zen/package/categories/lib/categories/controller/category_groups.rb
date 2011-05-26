@@ -131,24 +131,28 @@ module Categories
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        post = request.params.dup
+        post = request.subset(:id, :name, :description)
         
         if post['id'] and !post['id'].empty?
-          @category_group = CategoryGroup[post['id'].to_i]
+          @category_group = CategoryGroup[post['id']]
           save_action     = :save
         else
           @category_group = CategoryGroup.new
           save_action     = :new
         end
         
+        # Set the messages
         flash_success = lang("category_groups.success.#{save_action}")
         flash_error   = lang("category_groups.errors.#{save_action}")
+
+        post.delete('id')
         
+        # Try to run the query
         begin
           @category_group.update(post)
-          notification(:success, lang('category_groups.titles.index'), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang('category_groups.titles.index'), flash_error)
+          message(:error, flash_error)
 
           flash[:form_data]   = @category_group
           flash[:form_errors] = @category_group.errors
@@ -179,37 +183,24 @@ module Categories
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
-        post = request.params.dup
+        post = request.subset(:category_group_ids)
         
         if !post['category_group_ids'] or post['category_group_ids'].empty?
-          notification(
-            :error, 
-            lang('category_groups.titles.index'), 
-            lang('category_groups.errors.no_delete')
-          )
-
+          message(:error, lang('category_groups.errors.no_delete'))
           redirect(CategoryGroups.r(:index))
         end
         
         post['category_group_ids'].each do |id|
           begin
-            CategoryGroup[id.to_i].destroy
-            notification(
-              :success, 
-              lang('category_groups.titles.index'), 
-              lang('category_groups.success.delete')
-            )
+            CategoryGroup[id].destroy
+            message(:success, lang('category_groups.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('category_groups.titles.index'), 
-              lang('category_groups.errors.delete') % id
-            )
+            message(:error, lang('category_groups.errors.delete') % id)
           end
         end
         
         redirect(CategoryGroups.r(:index))
       end
-    end
-  end
-end
+    end # CategoryGroups
+  end # Controller
+end # Categories

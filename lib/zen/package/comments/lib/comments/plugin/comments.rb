@@ -105,7 +105,6 @@ module Comments
 
         return comments
       end
-
-    end
-  end
-end
+    end # Comments
+  end # Plugin
+end # Comments

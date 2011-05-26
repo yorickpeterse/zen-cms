@@ -99,6 +99,7 @@ module Settings
         
         post = request.params.dup
         post.delete('csrf_token')
+        post.delete('id')
 
         flash_success = lang('settings.success.save')
         flash_error   = lang('settings.errors.save')
@@ -108,22 +109,21 @@ module Settings
           setting = Setting[:name => key]
 
           begin
-            # Update the DB record
             setting.update(:value => value)
-            notification(:success, lang('settings.titles.index'), flash_success)
+            message(:success, flash_success)
 
             # Update the internal settings
             if ::Zen.settings[key.to_sym] != value
               ::Zen.settings[key.to_sym] = value
             end
           rescue
-            notification(:error, lang('settings.titles.index'), flash_error)
+            message(:error, flash_error)
             flash[:form_errors] = setting.errors
           end
         end
 
         redirect_referrer
       end
-    end
-  end
-end
+    end # Settings
+  end # Controller
+end # Settings

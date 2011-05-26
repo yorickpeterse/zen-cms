@@ -81,14 +81,13 @@ module Comments
       # @param  [Integer] id The ID of the comment to retrieve so that we can edit it.
       # @since  0.1
       #
-      def edit id
+      def edit(id)
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
         set_breadcrumbs(
-          anchor_to(lang('comments.titles.index'), Comments.r(:index)), 
-          @page_title
+          anchor_to(lang('comments.titles.index'), Comments.r(:index)), @page_title
         )
 
         if flash[:form_data]
@@ -115,22 +114,19 @@ module Comments
         end
         
         # Copy the POST data so we can work with it without messing things up
-        post     = request.params.dup
-        @comment = Comment[post['id'].to_i]
+        post = request.subset(
+          :user_id, :name, :website, :email, :comment, :status, :section_entry_id, :id
+        )
+
+        @comment = Comment[post['id']]
+
+        post.delete('id')
 
         begin
           @comment.update(post)
-          notification(
-            :success, 
-            lang('comments.titles.index'), 
-            lang('comments.success.save')
-          )
+          message(:success, lang('comments.success.save'))
         rescue
-          notification(
-            :error, 
-            lang('comments.titles.index'), 
-            lang('comments.errors.save')
-          )
+          message(:error, lang('comments.errors.save'))
           
           flash[:form_errors] = @comment.errors
           flash[:form_data]   = @comment
@@ -162,35 +158,22 @@ module Comments
         
         # Obviously we'll require some IDs
         if !request.params['comment_ids'] or request.params['comment_ids'].empty?
-          notification(
-            :error, 
-            lang('comments.titles.index'),
-            lang('comments.errors.no_delete')
-          )
-
+          message(:error, lang('comments.errors.no_delete'))
           redirect_referrer
         end
         
         # Delete each section
         request.params['comment_ids'].each do |id|
           begin
-            Comment[id.to_i].destroy
-            notification(
-              :success, 
-              lang('comments.titles.index'), 
-              lang('comments.success.delete')
-            )
+            Comment[id].destroy
+            message(:success, lang('comments.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('comments.titles.index'), 
-              lang('comments.errors.delete') % id
-            )
+            message(:error, lang('comments.errors.delete') % id)
           end
         end
         
         redirect_referrer
       end
-    end 
-  end
-end
+    end # Comments
+  end # Controller
+end # Comments

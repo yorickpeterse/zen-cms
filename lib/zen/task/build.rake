@@ -11,8 +11,7 @@ namespace :build do
     zen_path = File.expand_path('../../../../', __FILE__)
     command  = "yard doc #{zen_path}/lib -m markdown -M rdiscount -o #{zen_path}/doc "
     command += "-r #{zen_path}/README.md --private --protected "
-    command += "--files #{zen_path}/license.txt,#{zen_path}/CHANGELOG.md,"
-    command += "#{zen_path}/ROADMAP.md"
+    command += "--files #{zen_path}/license.txt"
 
     sh(command)
   end
@@ -30,7 +29,7 @@ namespace :build do
   desc 'Builds the MANIFEST file'
   task :manifest do
     zen_path     = File.expand_path('../../../../', __FILE__)
-    ignore_exts  = ['.gem', '.gemspec']
+    ignore_exts  = ['.gem', '.gemspec', '.swp']
     ignore_files = ['.DS_Store', '.gitignore', '.rvmrc']
     ignore_dirs  = ['.git', '.yardoc', 'spec', 'pkg', 'doc']
     files        = ''

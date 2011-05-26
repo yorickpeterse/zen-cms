@@ -3,10 +3,9 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing all user groups. It's not
-    # required to add a user to a group but it can certainly
-    # make it easier when adding custom permissions or
-    # granting a user full access to the backend.
+    # Controller for managing all user groups. It's not required to add a user to a group 
+    # but it can certainly make it easier when adding custom permissions or granting a 
+    # user full access to the backend.
     # 
     # @author Yorick Peterse
     # @since  0.1
@@ -137,7 +136,7 @@ module Users
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        post = request.params.dup
+        post = request.subset(:id, :name, :slug, :description, :super_group)
        
         if post['id'] and !post['id'].empty?
           @user_group = UserGroup[post['id']]
@@ -148,15 +147,17 @@ module Users
 
           post.delete('slug') if post['slug'].empty?
         end
+
+        post.delete('id')
         
         flash_success = lang("user_groups.success.#{save_action}")
         flash_error   = lang("user_groups.errors.#{save_action}")
         
         begin
           @user_group.update(post)
-          notification(:success, lang('user_groups.titles.index'), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang('user_groups.titles.index'), flash_error)
+          message(:error, flash_error)
           
           flash[:form_data]   = @user_group
           flash[:form_errors] = @user_group.errors
@@ -185,34 +186,21 @@ module Users
         end
         
         if !request.params['user_group_ids'] or request.params['user_group_ids'].empty?
-          notification(
-            :error, 
-            lang('user_groups.titles.index'), 
-            lang('user_groups.errors.no_delete')
-          )
-
+          message(:error, lang('user_groups.errors.no_delete'))
           redirect_referrer
         end
         
         request.params['user_group_ids'].each do |id|
           begin
-            UserGroup[id.to_i].destroy
-            notification(
-              :success, 
-              lang('user_groups.titles.index'), 
-              lang('user_groups.success.delete')
-            )
+            UserGroup[id].destroy
+            message(:success,  lang('user_groups.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('user_groups.titles.index'), 
-              lang('user_groups.errors.delete') % id
-            )
+            message(:error, lang('user_groups.errors.delete') % id)
           end
         end
         
         redirect_referrer
       end
-    end
-  end
-end
+    end # UserGroups
+  end # Controller
+end # Users

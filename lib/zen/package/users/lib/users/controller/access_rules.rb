@@ -3,8 +3,8 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing access rules. Each access rule can be used
-    # to specify whether or not a user can edit or create something.
+    # Controller for managing access rules. Each access rule can be used to specify 
+    # whether or not a user can edit or create something.
     # 
     # The following permissions are available:
     #
@@ -21,7 +21,7 @@ module Users
 
       map('/admin/access-rules')
 
-      javascript(['users/access_rules'])
+      javascript ['users/access_rules']
       
       before_all do
         csrf_protection(:save, :delete) do
@@ -181,15 +181,16 @@ module Users
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
         
-        post = request.params.dup
+        post = request.subset(
+          :id, :package, :read_access, :create_access, :update_access, :delete_access,
+          :user_id, :user_group_id, :controller, :rule_applies
+        )
 
         if post['rule_applies'] === 'div_user_id'
           post['user_group_id'] = nil
         else
           post['user_id'] = nil
         end
-        
-        post.delete('rule_applies')
 
         if post['id'] and !post['id'].empty?
           @access_rule = AccessRule[post['id']]
@@ -198,6 +199,9 @@ module Users
           @access_rule = AccessRule.new
           save_action = :new
         end
+
+        post.delete('rule_applies')
+        post.delete('id')
         
         flash_success = lang("access_rules.success.#{save_action}")
         flash_error   = lang("access_rules.errors.#{save_action}")
@@ -207,9 +211,9 @@ module Users
 
           # Flush the existing rules from the session
           session.delete(:access_rules)
-          notification(:success, lang('access_rules.titles.index'), flash_success)
+          message(:success, flash_success)
         rescue
-          notification(:error, lang('access_rules.titles.index'), flash_error)
+          message(:error, flash_error)
           
           flash[:form_data]   = @access_rule
           flash[:form_errors] = @access_rule.errors
@@ -238,12 +242,7 @@ module Users
         end
         
         if !request.params['access_rule_ids'] or request.params['access_rule_ids'].empty?
-          notification(
-            :error, 
-            lang('access_rules.titles.index'), 
-            lang('access_rules.errors.no_delete')
-          )
-
+          message(:error, lang('access_rules.errors.no_delete'))
           redirect_referrer
         end
         
@@ -253,22 +252,14 @@ module Users
           begin
             @access_rule.delete
             session.delete(:access_rules)
-            notification(
-              :success, 
-              lang('access_rules.titles.index'), 
-              lang('access_rules.success.delete')
-            )
+            message(:success, lang('access_rules.success.delete'))
           rescue
-            notification(
-              :error, 
-              lang('access_rules.titles.index'), 
-              lang('access_rules.errors.delete') % id
-            )
+            message(:error, lang('access_rules.errors.delete') % id)
           end
         end
         
         redirect_referrer
       end
-    end
-  end
-end
+    end # AccessRules
+  end # Controller
+end # Users
