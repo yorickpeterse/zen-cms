@@ -236,8 +236,13 @@ module Zen
       end
 
       # Get the controller for the current item
-      controller  = Ramaze::AppMap.at('/').url_map.at(menu[:url]).to_s
-      read_access = @permissions[controller].include?(:read)
+      controller = Ramaze::AppMap.at('/').url_map.at(menu[:url]).to_s
+
+      if @permissions[controller].nil?
+        read_access = false
+      else
+        read_access = @permissions[controller].include?(:read)
+      end
 
       # Ignore the menu item alltogether
       if !read_access and !menu.key?(:children)

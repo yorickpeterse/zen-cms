@@ -2,7 +2,7 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('access_rules')
 
-describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => true, :driver => :selenium) do
+describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => true) do
   include Users::Controller
 
   it("No access rules should exist") do
@@ -34,7 +34,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
       click_on(save_button)
     end
 
-    page.find('#form_rule_applies_0').checked?.should === true
+    page.find('#form_rule_applies_0').checked?.should === 'checked'
     page.find('select[name="package"]').value.should  === 'sections'
   end
 
@@ -53,7 +53,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
       click_on(save_button) 
     end
 
-    page.find('#form_rule_applies_1').checked?.should === true
+    page.find('#form_rule_applies_1').checked?.should === 'checked'
   end
 
   it("Delete an existing access rule") do
