@@ -231,7 +231,7 @@ module Zen
     # @since  0.1
     #
     def self.nav_list(menu)
-      if menu[:url][0] != '/'
+      if menu[:url][0, 1] != '/'
         menu[:url] = '/' + menu[:url]
       end
 

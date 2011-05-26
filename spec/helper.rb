@@ -50,9 +50,6 @@ Ramaze.start(
 
 # Configure RSpec
 RSpec.configure do |c|
-  # Reduce noise by bailing out on the first error
-  c.fail_fast = true
-
   # Clear all logging done by Ramaze as this makes reading the RSpec output a bit hard
   c.after do
     ::Ramaze::Log.loggers.clear

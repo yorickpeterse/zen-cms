@@ -5,6 +5,7 @@ spec/resources/config.rb
 
 # Ignore common dotfiles
 .yardoc
+*.rbc
 
 # Ignore the YARD documentation, this can be generated manually as following:
 doc

@@ -8,23 +8,25 @@ class SpecPackage < Zen::Controller::AdminController
   end
 end
 
-Zen::Package.add do |p|
-  p.name       = 'spec'
-  p.author     = 'Yorick Peterse'
-  p.about      = 'A spec extension'
-  p.url        = 'http://zen-cms.com/'
-  p.directory  = __DIR__
-
-  p.menu = [
-    {:title => 'Spec', :url => '/admin/spec'} 
-  ]
-
-  p.controllers = {
-    'Spec' => SpecPackage
-  }
-end
-
 describe('Zen::Package', :type => :acceptance, :auto_login => true) do
+
+  it('Add a new package') do
+    Zen::Package.add do |p|
+      p.name       = 'spec'
+      p.author     = 'Yorick Peterse'
+      p.about      = 'A spec extension'
+      p.url        = 'http://zen-cms.com/'
+      p.directory  = __DIR__
+
+      p.menu = [
+        {:title => 'Spec', :url => '/admin/spec'} 
+      ]
+
+      p.controllers = {
+        'Spec' => SpecPackage
+      }
+    end
+  end
 
   it('Select a specific package by it\'s name') do
     package = Zen::Package[:spec]
@@ -41,5 +43,5 @@ describe('Zen::Package', :type => :acceptance, :auto_login => true) do
     page.has_selector?('a[href="/admin/spec"]').should === true
     page.has_selector?('ul.spec_menu')
   end
-  
+
 end
