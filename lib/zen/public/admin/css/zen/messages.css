@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+/**
+ * Stylesheet used for the messages (such as errors) in the backend.
+ *
+ * @author Yorick Peterse
+ * @since  0.2.6
+ */
+#message_container
+{
+    margin-top: 20px;
+}
+
+#login #message_container
+{
+    margin: 20px auto;
+    width:  510px;
+}
+
+    #message_container .message
+    {
+        text-align: center;
+    }
+
+        #message_container .message p
+        {
+            margin-bottom: 10px;
+        }
+
+        #message_container .message p:last-child
+        {
+            margin-bottom: 0px;
+        }
+
+.message
+{
+    padding: 5px 10px;
+}
+
+.message.error
+{
+    background:  #BD132A;
+    border:      1px solid #910F20;
+    color:       #fff;
+    text-shadow: 1px 1px #910F20;
+}
+
+.message.success
+{
+    background:  #ABCC6A;
+    border:      1px solid #758C46;
+    color:       #fff;
+    text-shadow: 1px 1px #758C46;
+}
+
+.message.info
+{
+    background:  #F7D76D;
+    border:      1px solid #F7BB6D;
+    color:       #000;
+}

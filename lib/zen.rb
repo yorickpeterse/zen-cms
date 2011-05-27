@@ -1,8 +1,6 @@
-require 'bundler/setup'
 require 'sequel'
 require 'ramaze'
 require 'bcrypt'
-require 'json'
 require 'sequel_sluggable'
 require 'yaml'
 require 'loofah'

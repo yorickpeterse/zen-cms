@@ -6,6 +6,10 @@
  * @author Yorick Peterse
  * @since  0.1a
  */
+#login
+{
+    margin-top: 50px;
+}
 
 /**
  * Top part of the admin panel that contains the user bar along with the main navigation menu.
@@ -103,11 +107,6 @@
     margin: 20px auto;
     width:  500px;
 }
-
-    #login #container
-    {
-        margin-top: 50px;
-    }
   
 /**
  * Bottom part of the admin panel containing the footer

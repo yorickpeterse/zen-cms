@@ -103,14 +103,14 @@ module Settings
 
         flash_success = lang('settings.success.save')
         flash_error   = lang('settings.errors.save')
+        success       = true
 
         # Update all settings
         post.each do |key, value|
           setting = Setting[:name => key]
 
           begin
-            setting.update(:value => value)
-            message(:success, flash_success)
+            setting.update(:value => value) 
 
             # Update the internal settings
             if ::Zen.settings[key.to_sym] != value
@@ -119,9 +119,11 @@ module Settings
           rescue
             message(:error, flash_error)
             flash[:form_errors] = setting.errors
+            success             = false
           end
         end
 
+        message(:success, flash_success) if success === true
         redirect_referrer
       end
     end # Settings

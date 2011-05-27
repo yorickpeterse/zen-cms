@@ -53,17 +53,21 @@ module Ramaze
       #
       def display_messages(types = [:info, :error, :success])
         gestalt = ::Ramaze::Gestalt.new
+
+        return if flash[:messages].nil?
         
-        gestalt.div(:id => 'message_container', :class => 'row') do
+        gestalt.div(:id => 'message_container', :class => 'container') do
           # Render each individual group
           types.each do |type|
             if type.respond_to?(:to_sym)
               type = type.to_sym
             end
 
-            if !flash[:messages].nil? and flash[:messages].key?(type)
+            if flash[:messages].key?(type)
               gestalt.div(:class => "message #{type}") do
-                flash[:messages][type].each do |message|
+                # Render all the messages
+                flash[:messages][type].each_with_index do |message, index|
+                  flash[:messages][type].delete_at(index)
                   gestalt.p { message }
                 end
               end

@@ -7,7 +7,6 @@ require 'fileutils'
 # @since  0.2.5
 # 
 command :app do |cmd|
-
   # Set a few details of the command
   cmd.syntax      = '$ zen app [NAME]'
   cmd.description = 'Creates a new application powered by Zen.'
@@ -38,5 +37,4 @@ command :app do |cmd|
       abort "Failed to generate the application: #{e.message}"
     end
   end
-
 end

@@ -78,15 +78,14 @@ module Zen
       stylesheet(
         [
           'zen/reset', 'zen/grid', 'zen/layout', 'zen/general', 'zen/forms', 'zen/tables', 
-          'zen/buttons', 'zen/notifications'
+          'zen/buttons', 'zen/messages'
         ], 
         :global => true
       )
 
       # Load all global javascript files
       javascript(
-        ['mootools/core', 'mootools/more', 'zen/core', 'zen/notification', 'zen/init'], 
-        :global => true
+        ['mootools/core', 'mootools/more', 'zen/core', 'zen/init'], :global => true
       )
     end
   end
