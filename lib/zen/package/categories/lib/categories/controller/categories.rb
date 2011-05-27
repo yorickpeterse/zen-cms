@@ -1,11 +1,11 @@
 #:nodoc:
-module Categories 
+module Categories
   #:nodoc:
   module Controller
     ##
     # Categories can be seen as "tags" for your section entries. They describe the
     # type of entry just like tags except that categories generally cover larger elements.
-    # When adding a new entry categories aren't required so you're free to ignore 
+    # When adding a new entry categories aren't required so you're free to ignore
     # them if you don't need them.
     #
     # @author Yorick Peterse
@@ -13,15 +13,15 @@ module Categories
     #
     class Categories < Zen::Controller::AdminController
       include ::Categories::Model
-      
+
       map('/admin/categories')
-      
+
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)
         end
       end
-      
+
       ##
       # The constructor is used to set various options such as the form URLs and load
       # the language pack for the categories module.
@@ -36,20 +36,20 @@ module Categories
       #
       def initialize
         super
-        
+
         @form_save_url   = Categories.r(:save)
         @form_delete_url = Categories.r(:delete)
 
         Zen::Language.load('categories')
         Zen::Language.load('category_groups')
-        
+
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_s
           @page_title = lang("categories.titles.#{method}") rescue nil
         end
       end
-      
+
       ##
       # Show an overview of all existing categories and allow the user
       # to create and manage these categories.
@@ -67,16 +67,16 @@ module Categories
         if !user_authorized?([:read])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(
           anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
           lang('categories.titles.index')
         )
-        
+
         @category_group_id = category_group_id.to_i
         @categories        = CategoryGroup[@category_group_id].categories
       end
-      
+
       ##
       # Edit an existing category based on the ID specified in the URL.
       #
@@ -94,13 +94,13 @@ module Categories
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(
           anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
           anchor_to(lang('categories.titles.index'), Categories.r(:index, category_group_id)),
           lang('categories.titles.edit')
         )
-          
+
         @category_group_id = category_group_id.to_i
 
         if flash[:form_data]
@@ -109,7 +109,7 @@ module Categories
           @category = Category[id.to_i]
         end
       end
-      
+
       ##
       # Create a new category.
       #
@@ -126,13 +126,13 @@ module Categories
         if !user_authorized?([:read, :create])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(
           anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
           anchor_to(lang('categories.titles.index'), Categories.r(:index, category_group_id)),
           lang('categories.titles.new')
         )
-          
+
         @category_group_id = category_group_id.to_i
         @category          = Category.new
       end
@@ -148,16 +148,16 @@ module Categories
       #
       # @author Yorick Peterse
       # @since  0.1
-      #    
+      #
       def save
         if !user_authorized?([:create, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         post = request.subset(
           :id, :parent_id, :name, :description, :slug, :category_group_id
         )
-        
+
         # Retrieve the category and set the notifications based on if the ID has
         # been specified or not.
         if post['id'] and !post['id'].empty?
@@ -182,18 +182,18 @@ module Categories
           message(:success, flash_success)
         rescue
           message(:error, flash_error)
- 
+
           flash[:form_errors] = @category.errors
           flash[:form_data]   = @category
         end
-        
+
         if @category.id
           redirect(Categories.r(:edit, post['category_group_id'], @category.id))
-        else  
+        else
           redirect(Categories.r(:new, post['category_group_id']))
         end
       end
-      
+
       ##
       # Delete all specified category groups and their categories. In
       # order to delete a number of groups an array of fields, named "category_group_ids"
@@ -211,15 +211,15 @@ module Categories
         if !user_authorized?([:delete])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         post = request.subset(:category_ids, :category_group_id)
-        
+
         # Obviously we'll require some IDs
         if !request.params['category_ids'] or request.params['category_ids'].empty?
           message(:error, lang('categories.errors.no_delete'))
           redirect(Categories.r(:index, post['category_group_id']))
         end
-        
+
         # Delete each section
         request.params['category_ids'].each do |id|
           begin
@@ -229,7 +229,7 @@ module Categories
             message(:error, lang('categories.errors.delete') % id)
           end
         end
-        
+
         redirect(Categories.r(:index, post['category_group_id']))
       end
     end # Categories

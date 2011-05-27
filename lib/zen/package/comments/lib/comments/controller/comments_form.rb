@@ -9,18 +9,18 @@ module Comments
     #
     # @author Yorick Peterse
     # @since  0.1
-    # 
+    #
     class CommentsForm < Zen::Controller::FrontendController
       include ::Comments::Model
-      
+
       map('/comments-form')
-      
+
       before_all do
         csrf_protection(:save) do
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
       end
-      
+
       ##
       # Creates a new comment for the section entry. Once the comment has been saved
       # the user will be redirected back to the previous page.
@@ -37,17 +37,17 @@ module Comments
         )
 
         entry = ::Sections::Model::SectionEntry[post['section_entry']]
-        
+
         # Remove empty values
         post.each { |k, v| post.delete(k) if v.empty? }
-        
+
         if post.key?('user_id')
           comment.user_id = post['user_id']
         end
-        
+
         # Set the comment data
         comment.comment = post['comment']
-        
+
         if !post.key?('user_id')
           ['name', 'website', 'email'].each do |k|
             if post.key?(k)
@@ -55,39 +55,39 @@ module Comments
             end
           end
         end
-        
+
         comment.section_entry_id = entry.id
-        
+
         # Validate the section entry
         if entry.nil?
           message(:error, lang('comments.errors.invalid_entry'))
           redirect_referrer
         end
-        
+
         section = entry.section
-        
+
         # Comments allowed?
         if section.comment_allow == false
           message(:error, lang('comments.errors.comments_not_allowed'))
           redirect_referrer
         end
-        
+
         # Comments require an account?
         if section.comment_require_account == true and session[:user].nil?
           message(:error, lang('comments.errors.comments_require_account'))
           redirect_referrer
         end
-        
+
         # Require moderation?
         if section.comment_moderate == true
           comment.status = 'closed'
         end
-        
+
         # Require anti-spam validation?
         if ::Zen.settings[:enable_antispam] == '1'
           engine = ::Zen.settings[:anti_spam_system].to_sym
           spam   = plugin(:anti_spam, engine, nil, nil, nil, post['comment'])
-          
+
           # Time to validate the Defensio response
           if spam === false
             if section.comment_moderate == true
@@ -99,20 +99,21 @@ module Comments
             comment.status = 'spam'
           end
         end
-        
+
         # Save the comment
         begin
           comment.save
-          
+
           if section.comment_moderate == true
             message(:success, lang('comments.success.moderate'))
           else
             message(:success, lang('comments.success.new'))
           end
-        rescue
+        rescue => e
+          Ramaze::Log.error(e.inspect)
           message(:error, lang('comments.errors.new'))
         end
-        
+
         redirect_referrer
       end
     end

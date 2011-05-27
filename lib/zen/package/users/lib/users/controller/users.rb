@@ -18,13 +18,13 @@ module Users
       include ::Users::Model
 
       map('/admin/users')
-      
+
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)
         end
       end
-      
+
       # Every action should use the admin layout except the 'login' method,
       # that one will use a trimmed down version of the admin layout.
       layout do |path, format|
@@ -34,7 +34,7 @@ module Users
           :admin
         end
       end
-      
+
       ##
       # Load our language packs, set the form URLs and define our page title.
       #
@@ -47,13 +47,13 @@ module Users
       #
       def initialize
         super
-        
+
         @form_save_url   = Users.r(:save)
         @form_delete_url = Users.r(:delete)
         @form_login_url  = Users.r(:login)
 
         Zen::Language.load('users')
-        
+
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
@@ -65,7 +65,7 @@ module Users
           'closed' => lang('users.special.status_hash.closed')
         }
       end
-      
+
       ##
       # Show an overview of all users and allow the current user
       # to manage these users.
@@ -81,12 +81,12 @@ module Users
         if !user_authorized?([:read])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(lang('users.titles.index'))
-        
+
         @users = User.all
       end
-      
+
       ##
       # Edit an existing user based on the ID.
       #
@@ -103,12 +103,12 @@ module Users
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(
-          anchor_to(lang('users.titles.index'), Users.r(:index)), 
+          anchor_to(lang('users.titles.index'), Users.r(:index)),
           lang('users.titles.edit')
         )
-        
+
         if flash[:form_data]
           @user = flash[:form_data]
         else
@@ -117,7 +117,7 @@ module Users
 
         @user_group_pks = UserGroup.pk_hash(:name)
       end
-      
+
       ##
       # Create a new user.
       #
@@ -133,16 +133,16 @@ module Users
         if !user_authorized?([:read, :create])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(
-          anchor_to(lang('users.titles.index'), Users.r(:index)), 
+          anchor_to(lang('users.titles.index'), Users.r(:index)),
           lang('users.titles.new')
         )
-        
+
         @user           = User.new
         @user_group_pks = UserGroup.pk_hash(:name)
       end
-      
+
       ##
       # Show a form that allows a user to log in.
       #
@@ -163,7 +163,7 @@ module Users
           end
         end
       end
-      
+
       ##
       # Logout and destroy the user's session.
       #
@@ -173,11 +173,11 @@ module Users
       def logout
         user_logout
         session.clear
-        
+
         message(:success, lang('users.success.logout'))
         redirect(Users.r(:login))
       end
-      
+
       ##
       # Saves or creates a new user based on the POST data and a field named 'id'.
       #
@@ -193,12 +193,12 @@ module Users
         if !user_authorized?([:update, :create])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         post = request.subset(
-          :id, :email, :name, :website, :new_password, :confirm_password, :status, 
+          :id, :email, :name, :website, :new_password, :confirm_password, :status,
           :language, :frontend_language, :date_format
         )
-       
+
         if post['id'] and !post['id'].empty?
           @user       = User[post['id']]
           save_action = :save
@@ -206,14 +206,14 @@ module Users
           @user       = User.new
           save_action = :new
         end
-        
+
         if !post['new_password'].nil? and !post['new_password'].empty?
           if post['new_password'] != post['confirm_password']
             message(:error, lang('users.errors.no_password_match'))
             redirect_referrer
           else
             post['password'] = post['new_password']
-            
+
             post.delete('new_password')
             post.delete('confirm_password')
           end
@@ -223,27 +223,28 @@ module Users
 
         post['user_group_pks'] ||= []
         post['user_group_pks']   = post['user_group_pks'].map { |value| value.to_i }
-        
+
         flash_success = lang("users.success.#{save_action}")
         flash_error   = lang("users.errors.#{save_action}")
 
         begin
           @user.update(post)
           message(:success, flash_success)
-        rescue
+        rescue => e
+          Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
-          
+
           flash[:form_data]   = @user
           flash[:form_errors] = @user.errors
         end
-        
+
         if @user.id
           redirect(Users.r(:edit, @user.id))
         else
           redirect_referrer
         end
       end
-      
+
       ##
       # Delete all specified users.
       #
@@ -258,21 +259,22 @@ module Users
         if !user_authorized?([:delete])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         if !request.params['user_ids'] or request.params['user_ids'].empty?
           message(:error, lang('users.errors.no_delete'))
           redirect_referrer
         end
-        
+
         request.params['user_ids'].each do |id|
           begin
             User[id].destroy
             message(:success, lang('users.success.delete'))
-          rescue
+          rescue => e
+            Ramaze::Log.error(e.inspect)
             message(:error,lang('users.errors.delete') % id)
           end
         end
-        
+
         redirect_referrer
       end
     end # Users

@@ -16,13 +16,13 @@ module Settings
 
       # Load all required Javascript files
       javascript ['zen/tabs']
-      
+
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)
         end
       end
-      
+
       ##
       # Load our language packs, set the form URLs and define our page title.
       #
@@ -35,7 +35,7 @@ module Settings
       #
       def initialize
         super
-        
+
         @form_save_url = Settings.r(:save)
 
         # Set the page title
@@ -44,7 +44,7 @@ module Settings
           @page_title = lang("settings.titles.#{method}") rescue nil
         end
       end
-      
+
       ##
       # Show all settings and allow the user to change them.
       # The values of each setting item are stored in the database,
@@ -63,23 +63,23 @@ module Settings
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(lang('settings.titles.index'))
-        
+
         @settings_ordered = {}
         @groups           = ::Settings::Plugin::Settings::Registered[:groups]
-        
+
         # Organize the settings so that each item is a child
         # item of it's group.
         ::Settings::Plugin::Settings::Registered[:settings].each do |name, setting|
           if !@settings_ordered.key?(setting.group)
             @settings_ordered[setting.group] = []
           end
-          
+
           @settings_ordered[setting.group].push(setting)
         end
       end
-      
+
       ##
       # Saves the values of each setting. Since each setting
       # is a new row we'll have to loop through them and execute quite
@@ -88,15 +88,15 @@ module Settings
       # This method requires the following permissions:
       #
       # * update
-      # 
+      #
       # @author Yorick Peterse
       # @since  0.1
-      #      
+      #
       def save
         if !user_authorized?([:update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         post = request.params.dup
         post.delete('csrf_token')
         post.delete('id')
@@ -110,14 +110,16 @@ module Settings
           setting = Setting[:name => key]
 
           begin
-            setting.update(:value => value) 
+            setting.update(:value => value)
 
             # Update the internal settings
             if ::Zen.settings[key.to_sym] != value
               ::Zen.settings[key.to_sym] = value
             end
-          rescue
+          rescue => e
+            Ramaze::Log.error(e.inspect)
             message(:error, flash_error)
+
             flash[:form_errors] = setting.errors
             success             = false
           end

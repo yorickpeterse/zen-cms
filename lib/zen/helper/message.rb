@@ -18,7 +18,7 @@ module Ramaze
     #
     # In your layout you'd do the following:
     #
-    #     display_message
+    #     display_messages
     #
     # This will create and return the HTML for all the messages.
     #

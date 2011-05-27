@@ -7,13 +7,13 @@ require 'fileutils'
 # @since  0.2.5
 #
 namespace :clean do
+  desc 'Removes all the gems located in pkg/'
+  task :gem do
+    glob_pattern = File.expand_path('../../../../pkg/*.gem', __FILE__)
 
-  desc 'Removes all log files'
-  task :log do
-    zen_path = File.expand_path('../../../../', __FILE__)
-
-    log_files = Dir.glob("#{zen_path}/spec/log/**/*.log")
-    log_files.each { |file| File.unlink(file) }
+    Dir.glob(glob_pattern).each do |gem|
+      File.unlink(gem)
+    end
   end
 
   desc 'Removes all YARD files'
@@ -23,5 +23,4 @@ namespace :clean do
     FileUtils.rm_rf("#{zen_path}/doc")
     FileUtils.rm_rf("#{zen_path}/.yardoc")
   end
-
 end

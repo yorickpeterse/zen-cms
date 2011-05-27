@@ -10,8 +10,7 @@ namespace :build do
   task :doc do
     zen_path = File.expand_path('../../../../', __FILE__)
     command  = "yard doc #{zen_path}/lib -m markdown -M rdiscount -o #{zen_path}/doc "
-    command += "-r #{zen_path}/README.md --private --protected "
-    command += "--files #{zen_path}/license.txt"
+    command += "-r #{zen_path}/README.md --private --protected"
 
     sh(command)
   end
@@ -39,7 +38,8 @@ namespace :build do
       f.gsub!(/^\//, '')
 
       # Ignore directories
-      if !File.directory?(f) and !ignore_exts.include?(File.extname(f)) and !ignore_files.include?(File.basename(f))
+      if !File.directory?(f) and !ignore_exts.include?(File.extname(f)) \
+      and !ignore_files.include?(File.basename(f))
         files += "#{f}\n"
       else
         Find.prune if ignore_dirs.include?(f)
@@ -56,4 +56,22 @@ namespace :build do
     end
   end
 
+  # Shamelessly stolen from Ramaze
+  desc 'Builds a list of all the people that have contributed to Zen'
+  task :authors do
+    authors = Hash.new(0)
+
+    `git shortlog -nse`.scan(/(\d+)\s(.+)\s<(.*)>$/) do |count, name, email|
+      authors[[name, email]] += count.to_i
+    end
+
+    File.open('AUTHORS', 'w+') do |io|
+      io.puts "Following persons have contributed to Zen."
+      io.puts '(Sorted by number of submitted patches, then alphabetically)'
+      io.puts ''
+      authors.sort_by{|(n,e),c| [-c, n.downcase] }.each do |(name, email), count|
+        io.puts("%6d %s <%s>" % [count, name, email])
+      end
+    end
+  end
 end

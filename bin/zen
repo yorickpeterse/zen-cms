@@ -8,7 +8,7 @@ require 'commander/import'
 information = <<-MSG
 * Website: http://zen-cms.com/
     * Github: https://github.com/zen-cms
-    * License: MIT License (found in "license.txt")
+    * License: MIT License
 MSG
 
 # Set the details of the application

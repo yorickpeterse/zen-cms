@@ -17,37 +17,37 @@ module Comments
       include ::Comments::Model
 
       map('/admin/comments')
-      
+
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)
         end
       end
-      
+
       ##
       # Constructor method that pre-loads several variables and language files.
       # The following language files are loaded:
       #
       # * comments
-      # 
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def initialize
         super
-        
+
         @form_save_url   = Comments.r(:save)
         @form_delete_url = Comments.r(:delete)
-        
+
         Zen::Language.load('comments')
-        
+
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_s
           @page_title = lang("comments.titles.#{method}") rescue nil
         end
       end
-    
+
       ##
       # Shows an overview of all posted comments along with their status,
       # author and so on.
@@ -55,7 +55,7 @@ module Comments
       # This method requires the following permissions:
       #
       # * read
-      # 
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
@@ -63,12 +63,12 @@ module Comments
         if !user_authorized?([:read])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(lang('comments.titles.index'))
-        
+
         @comments = Comment.all
       end
-      
+
       ##
       # Edits an existing comment based on the ID.
       #
@@ -85,7 +85,7 @@ module Comments
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(
           anchor_to(lang('comments.titles.index'), Comments.r(:index)), @page_title
         )
@@ -96,7 +96,7 @@ module Comments
           @comment = Comment[id.to_i]
         end
       end
-      
+
       ##
       # Saves a comment based on the current POST data. Note that this
       # method won't create a new comment as this can't be done using the backend.
@@ -112,7 +112,7 @@ module Comments
         if !user_authorized?([:update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         # Copy the POST data so we can work with it without messing things up
         post = request.subset(
           :user_id, :name, :website, :email, :comment, :status, :section_entry_id, :id
@@ -125,13 +125,14 @@ module Comments
         begin
           @comment.update(post)
           message(:success, lang('comments.success.save'))
-        rescue
+        rescue => e
+          Ramaze::Log.error(e.inspect)
           message(:error, lang('comments.errors.save'))
-          
+
           flash[:form_errors] = @comment.errors
           flash[:form_data]   = @comment
         end
-        
+
         # Redirect the user to the proper page.
         if @comment.id
           redirect(Comments.r(:edit, @comment.id))
@@ -139,7 +140,7 @@ module Comments
           redirect_referrer
         end
       end
-      
+
       ##
       # Deletes a number of comments based on the comment IDs specified
       # in the POST array "comment_ids".
@@ -155,23 +156,24 @@ module Comments
         if !user_authorized?([:delete])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         # Obviously we'll require some IDs
         if !request.params['comment_ids'] or request.params['comment_ids'].empty?
           message(:error, lang('comments.errors.no_delete'))
           redirect_referrer
         end
-        
+
         # Delete each section
         request.params['comment_ids'].each do |id|
           begin
             Comment[id].destroy
             message(:success, lang('comments.success.delete'))
-          rescue
+          rescue => e
+            Ramaze::Log.error(e.inspect)
             message(:error, lang('comments.errors.delete') % id)
           end
         end
-        
+
         redirect_referrer
       end
     end # Comments

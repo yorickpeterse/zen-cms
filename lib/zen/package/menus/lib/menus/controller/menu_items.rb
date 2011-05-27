@@ -3,7 +3,7 @@ module Menus
   #:nodoc:
   module Controller
     ##
-    # Controller for managing individual navigation items that belong to a menu. 
+    # Controller for managing individual navigation items that belong to a menu.
     #
     # @author Yorick Peterse
     # @since  0.2a
@@ -13,13 +13,13 @@ module Menus
 
       map('/admin/menu-items')
       helper(:menu_item)
-      
+
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)
         end
       end
- 
+
       ##
       # Initializes the class, loads all language packs and sets the form URLs.
       #
@@ -33,10 +33,10 @@ module Menus
       #
       def initialize
         super
- 
+
         @form_save_url   = MenuItems.r(:save)
         @form_delete_url = MenuItems.r(:delete)
-        
+
         Zen::Language.load('menu_items')
         Zen::Language.load('menus')
 
@@ -66,7 +66,7 @@ module Menus
         validate_menu(menu_id)
 
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)), 
+          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
           lang('menu_items.titles.index')
         )
 
@@ -96,7 +96,7 @@ module Menus
 
         set_breadcrumbs(
           anchor_to(lang('menus.titles.index'), Menus.r(:index)),
-          anchor_to(lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)), 
+          anchor_to(lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)),
           lang('menu_items.titles.edit')
         )
 
@@ -124,13 +124,13 @@ module Menus
       def new(menu_id)
         if !user_authorized?([:create, :read])
           respond(lang('zen_general.errors.not_authorized'), 403)
-        end  
+        end
 
         validate_menu(menu_id)
 
         set_breadcrumbs(
           anchor_to(lang('menus.titles.index'), Menus.r(:index)),
-          anchor_to(lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)), 
+          anchor_to(lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)),
           lang('menu_items.titles.new')
         )
 
@@ -139,7 +139,7 @@ module Menus
       end
 
       ##
-      # Saves an existing menu iten or creates a new one using the supplied POST data. 
+      # Saves an existing menu iten or creates a new one using the supplied POST data.
       #
       # This method requires the following permissions:
       #
@@ -182,7 +182,8 @@ module Menus
         begin
           @menu_item.update(post)
           message(:success, flash_success)
-        rescue
+        rescue => e
+          Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
           flash[:form_data]   = @menu_item
@@ -197,7 +198,7 @@ module Menus
       end
 
       ##
-      # Delete all specified menu items based on the values in the POST array 
+      # Delete all specified menu items based on the values in the POST array
       # "menu_item_ids". This method requires the following permissions:
       #
       # * delete
@@ -220,7 +221,8 @@ module Menus
         post['menu_item_ids'].each do |id|
           begin
             MenuItem[id].destroy
-          rescue
+          rescue => e
+            Ramaze::Log.error(e.inspect)
             message(:error, lang('menu_items.errors.delete') % id)
             redirect_referrer
           end

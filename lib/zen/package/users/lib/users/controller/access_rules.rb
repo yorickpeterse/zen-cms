@@ -3,9 +3,9 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing access rules. Each access rule can be used to specify 
+    # Controller for managing access rules. Each access rule can be used to specify
     # whether or not a user can edit or create something.
-    # 
+    #
     # The following permissions are available:
     #
     # * create
@@ -22,13 +22,13 @@ module Users
       map('/admin/access-rules')
 
       javascript ['users/access_rules']
-      
+
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)
         end
       end
-      
+
       ##
       # Load our language packs, set the form URLs and define our page title.
       #
@@ -41,23 +41,23 @@ module Users
       #
       def initialize
         super
-        
+
         @form_save_url   = AccessRules.r(:save)
         @form_delete_url = AccessRules.r(:delete)
         @rules_lang      = Zen::Language.load('access_rules')
-        
+
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
           @page_title = lang("access_rules.titles.#{method}") rescue nil
         end
-        
+
         @rule_applies_hash = {
-          lang('access_rules.labels.user')       => 'div_user_id', 
+          lang('access_rules.labels.user')       => 'div_user_id',
           lang('access_rules.labels.user_group') => 'div_user_group_id'
         }
       end
-      
+
       ##
       # Show an overview of all access rules and allow the current user
       # to manage these groups.
@@ -73,14 +73,14 @@ module Users
         if !user_authorized?([:read])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(lang('access_rules.titles.index'))
-        
+
         @access_rules = AccessRule.all
       end
-      
+
       ##
-      # Hook that's executed before the edit and new method. This hook is used to 
+      # Hook that's executed before the edit and new method. This hook is used to
       # pre-process some data used in the form.
       #
       # @author Yorick Peterse
@@ -95,7 +95,7 @@ module Users
         ::Users::Model::User.select(:id, :name).each do |user|
           @form_users[user.id.to_s] = user.name
         end
-        
+
         # Build the list of available packages and controllers
         ::Zen::Package::Registered.each do |name, pkg|
           name                      = name.to_s
@@ -109,7 +109,7 @@ module Users
 
         ::Users::Model::UserGroup.select(:id, :name).each do |group|
           @form_groups[group.id.to_s] = group.name
-        end 
+        end
       end
 
       ##
@@ -128,19 +128,19 @@ module Users
         if !user_authorized?([:read, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(
-          anchor_to(lang('access_rules.titles.index'), AccessRules.r(:index)), 
+          anchor_to(lang('access_rules.titles.index'), AccessRules.r(:index)),
           lang('access_rules.titles.edit')
         )
-        
+
         if flash[:form_data]
           @access_rule = flash[:form_data]
         else
           @access_rule = AccessRule[id]
         end
       end
-      
+
       ##
       # Create a new access rule.
       #
@@ -156,15 +156,15 @@ module Users
         if !user_authorized?([:read, :create])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         set_breadcrumbs(
-          anchor_to(lang('access_rules.titles.index'), AccessRules.r(:index)), 
+          anchor_to(lang('access_rules.titles.index'), AccessRules.r(:index)),
           lang('access_rules.titles.new')
         )
-        
+
         @access_rule = AccessRule.new
       end
-      
+
       ##
       # Saves or creates a new access rule based on the POST data and a field named 'id'.
       #
@@ -180,7 +180,7 @@ module Users
         if !user_authorized?([:create, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         post = request.subset(
           :id, :package, :read_access, :create_access, :update_access, :delete_access,
           :user_id, :user_group_id, :controller, :rule_applies
@@ -202,30 +202,31 @@ module Users
 
         post.delete('rule_applies')
         post.delete('id')
-        
+
         flash_success = lang("access_rules.success.#{save_action}")
         flash_error   = lang("access_rules.errors.#{save_action}")
-        
+
         begin
           @access_rule.update(post)
 
           # Flush the existing rules from the session
           session.delete(:access_rules)
           message(:success, flash_success)
-        rescue
+        rescue => e
+          Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
-          
+
           flash[:form_data]   = @access_rule
           flash[:form_errors] = @access_rule.errors
         end
-        
+
         if @access_rule.id
           redirect(AccessRules.r(:edit, @access_rule.id))
         else
           redirect_referrer
         end
       end
-      
+
       ##
       # Delete all specified access rules.
       #
@@ -240,24 +241,25 @@ module Users
         if !user_authorized?([:delete])
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
-        
+
         if !request.params['access_rule_ids'] or request.params['access_rule_ids'].empty?
           message(:error, lang('access_rules.errors.no_delete'))
           redirect_referrer
         end
-        
+
         request.params['access_rule_ids'].each do |id|
           @access_rule = AccessRule[id]
-          
+
           begin
             @access_rule.delete
             session.delete(:access_rules)
             message(:success, lang('access_rules.success.delete'))
-          rescue
+          rescue => e
+            Ramaze::Log.error(e.inspect)
             message(:error, lang('access_rules.errors.delete') % id)
           end
         end
-        
+
         redirect_referrer
       end
     end # AccessRules

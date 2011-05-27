@@ -13,13 +13,13 @@ module Menus
       include ::Menus::Model
 
       map('/admin/menus')
-      
+
       before_all do
         csrf_protection(:save, :delete) do
           respond(lang('zen_general.errors.csrf'), 403)
         end
       end
-      
+
       ##
       # Initializes the class and loads all required language packs.
       #
@@ -32,19 +32,19 @@ module Menus
       #
       def initialize
         super
-        
+
         @form_save_url   = Menus.r(:save)
         @form_delete_url = Menus.r(:delete)
-        
+
         Zen::Language.load('menus')
-        
+
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
           @page_title = lang("menus.titles.#{method}") rescue nil
         end
       end
-      
+
       ##
       # Shows an overview of all exisitng menus and a few properties of these
       # groups such as the name, slug and the amount of items in that group.
@@ -67,10 +67,10 @@ module Menus
         # Get all menus
         @menus = Menu.all
       end
-      
+
       ##
       # Show a form that allows the user to edit the details (such as the name and slug)
-      # of a menu group. This method can not be used to manage all menu items for this 
+      # of a menu group. This method can not be used to manage all menu items for this
       # group.
       #
       # This method requires the following permissions:
@@ -87,17 +87,17 @@ module Menus
         end
 
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)), 
+          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
           @page_title
         )
-        
+
         if flash[:form_data]
           @menu = flash[:form_data]
         else
           @menu = Menu[id]
         end
       end
-      
+
       ##
       # Show a form that can be used to create a new menu group. Once a menu group has
       # been created users can start adding navigation items to the group.
@@ -117,13 +117,13 @@ module Menus
 
         # Breadcrumbs, om nom nom!
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)), 
+          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
           @page_title
         )
 
         @menu = Menu.new
       end
-      
+
       ##
       # Saves the changes made to an existing menu group or creates a new group using the
       # supplied POST data. In order to detect this forms that contain data of an existing
@@ -137,7 +137,7 @@ module Menus
       #
       # @author Yorick Peterse
       # @since  0.2a
-      #      
+      #
       def save
         if !user_authorized?([:create, :update])
           respond(lang('zen_general.errors.not_authorized'), 403)
@@ -166,7 +166,8 @@ module Menus
         begin
           @menu.update(post)
           message(:success, flash_success)
-        rescue
+        rescue => e
+          Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
           flash[:form_data]   = @menu
@@ -191,7 +192,7 @@ module Menus
       #
       # @author Yorick Peterse
       # @since  0.2a
-      #      
+      #
       def delete
         if !user_authorized?([:delete])
           respond(lang('zen_general.errors.not_authorized'), 403)
@@ -209,7 +210,8 @@ module Menus
         post['menu_ids'].each do |id|
           begin
             Menu[id].destroy
-          rescue
+          rescue => e
+            Ramaze::Log.error(e.inspect)
             message(:error, lang('menus.errors.delete') % id)
             redirect_referrer
           end
