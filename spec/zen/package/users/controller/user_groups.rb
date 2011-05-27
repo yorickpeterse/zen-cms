@@ -3,10 +3,9 @@ require File.expand_path('../../../../../helper', __FILE__)
 Zen::Language.load('user_groups')
 
 describe("Users::Controller::UserGroups", :type => :acceptance, :auto_login => true) do
-  include Users::Controller
 
   it("A single user group should exist") do
-    index_url = UserGroups.r(:index).to_s
+    index_url = Users::Controller::UserGroups.r(:index).to_s
     message   = lang('user_groups.messages.no_groups')
 
     visit(index_url)
@@ -17,7 +16,7 @@ describe("Users::Controller::UserGroups", :type => :acceptance, :auto_login => t
   end
 
   it("Create a new user group") do
-    index_url   = UserGroups.r(:index).to_s
+    index_url   = Users::Controller::UserGroups.r(:index).to_s
     save_button = lang('user_groups.buttons.save')
     new_button  = lang('user_groups.buttons.new')
 
@@ -35,7 +34,7 @@ describe("Users::Controller::UserGroups", :type => :acceptance, :auto_login => t
   end
 
   it("Edit an existing user group") do
-    index_url    = UserGroups.r(:index).to_s
+    index_url    = Users::Controller::UserGroups.r(:index).to_s
     save_button  = lang('user_groups.buttons.save')
 
     visit(index_url)
@@ -50,7 +49,7 @@ describe("Users::Controller::UserGroups", :type => :acceptance, :auto_login => t
   end
 
   it("Delete an existing user group") do
-    index_url     = UserGroups.r(:index).to_s
+    index_url     = Users::Controller::UserGroups.r(:index).to_s
     delete_button = lang('user_groups.buttons.delete')
 
     visit(index_url)

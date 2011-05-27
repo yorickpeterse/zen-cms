@@ -5,11 +5,9 @@ Zen::Language.load('category_groups')
 describe(
   "Categories::Controller::CategoryGroups", :type => :acceptance, :auto_login => true
 ) do
-  include Categories::Controller
-  include Categories::Model
 
   it("No category groups should exist") do
-    index_url  = CategoryGroups.r(:index).to_s
+    index_url  = Categories::Controller::CategoryGroups.r(:index).to_s
     message    = lang('category_groups.messages.no_groups')
 
     visit(index_url)
@@ -19,9 +17,9 @@ describe(
   end
 
   it("Create a new category group") do
-    index_url   = CategoryGroups.r(:index).to_s
-    new_url     = CategoryGroups.r(:new).to_s
-    edit_url    = CategoryGroups.r(:edit).to_s
+    index_url   = Categories::Controller::CategoryGroups.r(:index).to_s
+    new_url     = Categories::Controller::CategoryGroups.r(:new).to_s
+    edit_url    = Categories::Controller::CategoryGroups.r(:edit).to_s
     new_button  = lang('category_groups.buttons.new')
     save_button = lang('category_groups.buttons.save')
 
@@ -40,8 +38,8 @@ describe(
   end
 
   it("Edit an existing category group") do
-    index_url   = CategoryGroups.r(:index).to_s
-    edit_url    = CategoryGroups.r(:edit).to_s
+    index_url   = Categories::Controller::CategoryGroups.r(:index).to_s
+    edit_url    = Categories::Controller::CategoryGroups.r(:edit).to_s
     save_button = lang('category_groups.buttons.save')
 
     visit(index_url)
@@ -58,7 +56,7 @@ describe(
   end
 
   it("Delete an existing category group") do
-    index_url     = CategoryGroups.r(:index).to_s
+    index_url     = Categories::Controller::CategoryGroups.r(:index).to_s
     delete_button = lang('category_groups.buttons.delete')
     message       = lang('category_groups.messages.no_groups')
 

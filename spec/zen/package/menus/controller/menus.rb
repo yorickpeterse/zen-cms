@@ -3,11 +3,9 @@ require File.expand_path('../../../../../helper', __FILE__)
 Zen::Language.load('menus')
 
 describe("Menus::Controller::Menus", :type => :acceptance, :auto_login => true) do
-  include Menus::Controller
-  include Menus::Model
 
   it("No menus should exist") do
-    index_url = Menus.r(:index).to_s
+    index_url = Menus::Controller::Menus.r(:index).to_s
     message   = lang('menus.messages.no_menus')
 
     visit(index_url)
@@ -17,8 +15,8 @@ describe("Menus::Controller::Menus", :type => :acceptance, :auto_login => true) 
   end
 
   it("Create a new menu") do
-    index_url   = Menus.r(:index).to_s
-    new_url     = Menus.r(:new).to_s
+    index_url   = Menus::Controller::Menus.r(:index).to_s
+    new_url     = Menus::Controller::Menus.r(:new).to_s
     new_button  = lang('menus.buttons.new')
     save_button = lang('menus.buttons.save')
 
@@ -41,9 +39,9 @@ describe("Menus::Controller::Menus", :type => :acceptance, :auto_login => true) 
   end
 
   it("Edit an existing menu") do
-    index_url   = Menus.r(:index).to_s
+    index_url   = Menus::Controller::Menus.r(:index).to_s
     save_button = lang('menus.buttons.save')
-    edit_url    = Menus.r(:edit).to_s
+    edit_url    = Menus::Controller::Menus.r(:edit).to_s
 
     visit(index_url)
     click_link('Spec menu')
@@ -59,7 +57,7 @@ describe("Menus::Controller::Menus", :type => :acceptance, :auto_login => true) 
   end
 
   it("Delete an existing menu") do
-    index_url     = Menus.r(:index).to_s
+    index_url     = Menus::Controller::Menus.r(:index).to_s
     delete_button = lang('menus.buttons.delete')
     message       = lang('menus.messages.no_menus')
 

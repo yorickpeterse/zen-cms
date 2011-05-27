@@ -3,10 +3,9 @@ require File.expand_path('../../../../../helper', __FILE__)
 Zen::Language.load('access_rules')
 
 describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => true) do
-  include Users::Controller
 
   it("No access rules should exist") do
-    index_url = AccessRules.r(:index).to_s
+    index_url = Users::Controller::AccessRules.r(:index).to_s
     message   = lang('access_rules.messages.no_rules')
 
     visit(index_url)
@@ -16,7 +15,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
   end
 
   it("Create a new access rule") do
-    index_url   = AccessRules.r(:index).to_s
+    index_url   = Users::Controller::AccessRules.r(:index).to_s
     new_button  = lang('access_rules.buttons.new')
     save_button = lang('access_rules.buttons.save')
 
@@ -39,8 +38,8 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
   end
 
   it("Edit an existing access rule") do
-    index_url   = AccessRules.r(:index).to_s
-    edit_url    = AccessRules.r(:edit).to_s
+    index_url   = Users::Controller::AccessRules.r(:index).to_s
+    edit_url    = Users::Controller::AccessRules.r(:edit).to_s
     save_button = lang('access_rules.buttons.save')
 
     visit(index_url)
@@ -57,7 +56,7 @@ describe("Users::Controller::AccessRules", :type => :acceptance, :auto_login => 
   end
 
   it("Delete an existing access rule") do
-    index_url     = AccessRules.r(:index).to_s
+    index_url     = Users::Controller::AccessRules.r(:index).to_s
     delete_button = lang('access_rules.buttons.delete')
     message       = lang('access_rules.messages.no_rules')
 

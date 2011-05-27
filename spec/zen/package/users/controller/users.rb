@@ -3,10 +3,9 @@ require File.expand_path('../../../../../helper', __FILE__)
 Zen::Language.load('users')
 
 describe("Users::Controller::Users", :type => :acceptance) do
-  include Users::Controller
 
   it 'Show the login form' do
-    login_url = Users.r(:login).to_s
+    login_url = Users::Controller::Users.r(:login).to_s
 
     visit(login_url)
 
@@ -18,7 +17,7 @@ describe("Users::Controller::Users", :type => :acceptance) do
   end
 
   it('Log in') do
-    login_url     = Users.r(:login).to_s
+    login_url     = Users::Controller::Users.r(:login).to_s
     dashboard_url = Sections::Controller::Sections.r(:index).to_s
 
     visit(login_url)
@@ -35,8 +34,8 @@ describe("Users::Controller::Users", :type => :acceptance) do
   end
 
   it('Access an unauthorized URL') do
-    users_url = UserGroups.r(:index).to_s
-    login_url = Users.r(:login).to_s
+    users_url = Users::Controller::UserGroups.r(:index).to_s
+    login_url = Users::Controller::Users.r(:login).to_s
 
     visit(users_url)
     
@@ -44,7 +43,7 @@ describe("Users::Controller::Users", :type => :acceptance) do
   end
 
   it("A user should exist", :auto_login => true) do
-    index_url = Users.r(:index).to_s
+    index_url = Users::Controller::Users.r(:index).to_s
     message   = lang('users.messages.no_users')
 
     visit(index_url)
@@ -54,7 +53,7 @@ describe("Users::Controller::Users", :type => :acceptance) do
   end
 
   it("Create a new user", :auto_login => true) do
-    index_url   = Users.r(:index).to_s
+    index_url   = Users::Controller::Users.r(:index).to_s
     save_button = lang('users.buttons.save')
     new_button  = lang('users.buttons.new')
     status      = lang('users.special.status_hash.open')
@@ -77,7 +76,7 @@ describe("Users::Controller::Users", :type => :acceptance) do
   end
 
   it("Edit an existing user", :auto_login => true) do
-    index_url   = Users.r(:index).to_s
+    index_url   = Users::Controller::Users.r(:index).to_s
     save_button = lang('users.buttons.save')
 
     visit(index_url)
@@ -92,7 +91,7 @@ describe("Users::Controller::Users", :type => :acceptance) do
   end
 
   it("Delete an existing user", :auto_login => true) do
-    index_url     = Users.r(:index).to_s
+    index_url     = Users::Controller::Users.r(:index).to_s
     delete_button = lang('users.buttons.delete')
 
     visit(index_url)
