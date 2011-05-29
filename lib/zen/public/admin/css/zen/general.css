@@ -91,10 +91,10 @@ a:hover
     padding:      5px 3px 5px 25px;
 }
 
-.icon_edit   { background: url("../images/icons/edit.png") no-repeat center left;    }
-.icon_delete { background: url("../images/icons/delete.png") no-repeat center left;  }
-.icon_add    { background: url("../images/icons/add.png") no-repeat center left;     }
-.icon_success{ background: url("../images/icons/success.png") no-repeat center left; }
-.icon_error  { background: url("../images/icons/error.png") no-repeat center left;   }
-.icon_info   { background: url("../images/icons/info.png") no-repeat center left;    }
-.icon_view   { background: url("../images/icons/view.png") no-repeat center left;    }
+.icon_edit   { background: url("../images/zen/icons/edit.png") no-repeat center left;    }
+.icon_delete { background: url("../images/zen/icons/delete.png") no-repeat center left;  }
+.icon_add    { background: url("../images/zen/icons/add.png") no-repeat center left;     }
+.icon_success{ background: url("../images/zen/icons/success.png") no-repeat center left; }
+.icon_error  { background: url("../images/zen/icons/error.png") no-repeat center left;   }
+.icon_info   { background: url("../images/zen/icons/info.png") no-repeat center left;    }
+.icon_view   { background: url("../images/zen/icons/view.png") no-repeat center left;    }

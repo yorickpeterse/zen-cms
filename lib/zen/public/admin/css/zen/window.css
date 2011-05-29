@@ -56,7 +56,7 @@
 
         .window header .close
         {
-            background: url('../../images/icons/close.png') no-repeat center left;
+            background: url('../../images/zen/icons/close.png') no-repeat center left;
             cursor:     pointer;
             float:      left;
             height:     16px;
