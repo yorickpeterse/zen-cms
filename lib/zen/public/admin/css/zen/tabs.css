@@ -9,7 +9,7 @@
 .tabs
 {
     border:        1px solid #aaa;
-    height:        40px;
+    height:        30px;
     margin-bottom: 20px;
 }
     .tabs ul
@@ -17,7 +17,7 @@
         background:      #ddd -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#eee));
         background:      #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
         border-top:      1px solid #fff;
-        height:          39px;
+        height:          29px;
         list-style-type: none;
         margin:          0px;
     }
@@ -40,14 +40,14 @@
             background:        #eee -webkit-gradient(linear, left bottom, left top, from(#eee), to(#ddd));
             background:        #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
             border-bottom:     1px solid #aaa;
-            height:            29px;
+            height:            19px;
         }
             .tabs ul li a
             {
                 color:           #000;
                 display:         block;
-                height:          30px;
-                padding:         10px 15px 0px 15px;
+                height:          20px;
+                padding:         6px 15px 4px 15px;
                 text-decoration: none;
                 text-shadow:     0px 1px #fff;
             }

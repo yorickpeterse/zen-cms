@@ -15,7 +15,7 @@ module Sections
       map '/admin/section-entries'
 
       # Load all required Javascript files
-      javascript ['zen/tabs', 'zen/editor/editor', 'vendor/datepicker']
+      javascript ['zen/tabs', 'zen/editor', 'vendor/datepicker']
 
       # Load all required CSS files
       stylesheet ['zen/datepicker']
