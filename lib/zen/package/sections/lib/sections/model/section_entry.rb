@@ -44,6 +44,12 @@ module Sections
       def validate
         validates_presence([:title, :status, :user_id])
         validates_presence(:slug) unless new?
+
+        # Check if the slug is unique for the current section
+        if !SectionEntry.filter({:slug => slug, :section_id => section_id}, ~{:id => id}) \
+          .all.empty?
+          errors.add(:slug, lang('zen_models.unique'))
+        end
       end
     end # SectionEntry
   end # Model

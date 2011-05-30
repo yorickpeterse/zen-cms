@@ -1,5 +1,3 @@
-Sequel.extension(:migration)
-
 ##
 # Task group for database related tasks such as migrating and removing the database.
 #

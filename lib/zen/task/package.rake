@@ -34,11 +34,11 @@ MSG
     end
 
     # Validate the package name
-    if !Zen::Packages::Registered[args[:name].to_sym]
+    if !Zen::Package::Registered[args[:name].to_sym]
       abort "The package name \"#{args[:name]}\" is invalid."
     end
 
-    package = Zen::Packages::Registered[args[:name].to_sym]
+    package = Zen::Package::Registered[args[:name].to_sym]
 
     # Get the migrations directory
     if package.respond_to?(:migration_dir) and !package.migration_dir.nil?
@@ -58,7 +58,7 @@ MSG
 
     # Run all migrations
     Zen.database.transaction do
-      Sequel.migrator.run(
+      Sequel::Migrator.run(
         Zen.database, dir, :table => table, :target => version
       )
     end
