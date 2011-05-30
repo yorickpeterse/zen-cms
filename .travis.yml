@@ -1,4 +1,4 @@
-script: "rake test"
+script: "rvm gemset import; rake test"
 rvm:
   - 1.9.2
   - jruby

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-rvm --create 1.9.2@zen
+rvm use --create 1.9.2@zen
