@@ -8,9 +8,4 @@
 # 
 require File.expand_path('../app', __FILE__)
 
-Ramaze.start(
-  :root    => Ramaze.options.roots,
-  :started => true,
-  :adapter => Ramaze::Adapter.options.handler,
-  :port    => Ramaze::Adapter.options.port
-)
+Ramaze.start(:adapter => :webrick, :port => 7000, :file => __FILE__)

@@ -15,7 +15,7 @@ end
 # Update all paths
 Ramaze.options.roots = [__DIR__]
 Ramaze.options.mode  = :dev
-Zen.root     = __DIR__
+Zen.root             = __DIR__
 
 Zen::Language.options.paths.push(__DIR__('resources'))
 
@@ -35,10 +35,9 @@ Zen.post_init
 
 # Configure Capybara
 Capybara.configure do |config|
-  config.default_driver      = :rack_test
-  config.default_host        = 'localhost'
-  config.app                 = Ramaze
-  config.server_boot_timeout = 50
+  config.default_driver = :rack_test
+  config.default_host   = 'localhost'
+  config.app            = Ramaze
 end
 
 # Start ramaze

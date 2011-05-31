@@ -11,7 +11,7 @@ points there are similarities there are also pretty big differences.
 ## Requirements
 
 * Ramaze 2011.01.30 or newer 
-* Ruby 1.9.2 (support for JRuby will be added soon)
+* Ruby 1.9.2
 * A database (MySQL, PostgreSQL, etc)
 
 ## Installation

@@ -1,9 +1,9 @@
-require 'sequel'
 require 'ramaze'
+require 'sequel'
 require 'bcrypt'
 require 'sequel_sluggable'
-require 'yaml'
 require 'loofah'
+require 'yaml'
 require __DIR__('zen/version')
 
 ##
@@ -98,7 +98,7 @@ module Zen
 
       begin
         ::Settings::Model::Setting.get_settings.each do |k, v|
-          @settings[k] = v
+          Zen.settings[k] = v
         end
       rescue => e
         Ramaze::Log.warn(

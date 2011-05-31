@@ -1,7 +1,6 @@
-script: "rvm gemset import; rake test"
+script: "rvm gemset import .gems; rake test"
 rvm:
   - 1.9.2
-  - jruby
 
 notifications:
   recipients:
