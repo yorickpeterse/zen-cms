@@ -6,7 +6,7 @@ spam_comment = 'Hello, you can buy viagra here <a href="http://buyviagra.com/">B
 describe("Comments::Plugin::AntiSpam") do
 
   it('Validate a spam comment using Defensio') do
-    Zen.settings[:defensio_key] = 'test' 
+    plugin(:settings, :get, :defensio_key).value = 'test'
     plugin(:anti_spam, :defensio, nil, nil, nil, spam_comment).should === true
   end
 

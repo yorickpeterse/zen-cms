@@ -181,7 +181,9 @@ module Settings
       # @return [Zen::StrictStruct]
       #
       def get(name)
-        validate_type(name, :name, [String])
+        validate_type(name, :name, [String, Symbol])
+
+        name = name.to_s
 
         if !Registered[:settings].key?(name)
           raise(ArgumentError, "The setting #{name} doesn't exist.")

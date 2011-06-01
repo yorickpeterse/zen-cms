@@ -84,8 +84,8 @@ module Comments
         end
 
         # Require anti-spam validation?
-        if ::Zen.settings[:enable_antispam] == '1'
-          engine = ::Zen.settings[:anti_spam_system].to_sym
+        if plugin(:settings, :get, :enable_antispam).value === '1'
+          engine = plugin(:settings, :get, :anti_spam_system).value.to_sym
           spam   = plugin(:anti_spam, engine, nil, nil, nil, post['comment'])
 
           # Time to validate the Defensio response

@@ -42,24 +42,26 @@ module Users
       # @param  [Hash] creds The specified credentials
       # @return [Object/Boolean] new instance of the given user.
       #
-      def self.authenticate creds
+      def self.authenticate(creds)
         email    = creds['email']
         password = creds['password']
 
-        if email.nil? or password.nil?
-          return false
-        end
+        return false if email.nil? or password.nil?
 
         user = self[:email => email]
 
         if !user.nil? and user.password == password and user.status == 'open'
           # Overwrite all the global settings with the user specific ones
-          ::Zen.settings.each do |k, v|
-            if user.respond_to?(k)
-              got = user.send(k)
+          [:language, :frontend_language, :date_format].each do |setting|
+            # "plugin" is already defined by Sequel so we'll have to call the plugin
+            # manually.
+            value = ::Zen::Plugin[:settings].plugin.new(:get, setting).call.value
+
+            if user.respond_to?(setting)
+              got = user.send(setting)
               
               if got.nil? or got.empty?
-                user.send("#{k}=", v)
+                user.send("#{setting}=", value)
               end
             end
           end

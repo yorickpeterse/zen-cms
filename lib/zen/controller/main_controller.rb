@@ -26,12 +26,13 @@ module Zen
       #
       def index(*uri)
         @request_uri = []
+        theme        = plugin(:settings, :get, :theme).value
         
         # Clean the URI of nasty input
         uri.each { |v| @request_uri.push(h(v)) }
         
         if !@request_uri[0] or @request_uri[0].empty?
-          @request_uri[0] = ::Zen.settings[:default_section]
+          @request_uri[0] = plugin(:settings, :get, :default_section).value
         end
         
         if !@request_uri[1] or @request_uri[1].empty?
@@ -39,11 +40,11 @@ module Zen
         end
         
         # A theme is always required
-        if ::Zen.settings[:theme].nil? or ::Zen.settings[:theme].empty?
+        if theme.nil? or theme.empty?
           respond(lang('zen_general.errors.no_theme'))
         end
 
-        theme    = ::Zen::Theme[::Zen.settings[:theme]]
+        theme    = ::Zen::Theme[theme]
         group    = @request_uri[0]
         template = @request_uri[1]
         
@@ -53,7 +54,7 @@ module Zen
         template_path = File.join(theme_path, group, "#{template}.xhtml")
         
         # Is the website down?
-        if ::Zen.settings[:website_enabled] == '0'
+        if plugin(:settings, :get, :website_enabled).value === '0'
           offline_path = File.join(theme_path, 'offline.xhtml')
           
           if File.exist?(offline_path)

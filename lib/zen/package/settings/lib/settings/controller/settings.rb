@@ -107,15 +107,8 @@ module Settings
 
         # Update all settings
         post.each do |key, value|
-          setting = Setting[:name => key]
-
           begin
-            setting.update(:value => value)
-
-            # Update the internal settings
-            if ::Zen.settings[key.to_sym] != value
-              ::Zen.settings[key.to_sym] = value
-            end
+            plugin(:settings, :get, key).value = value
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, flash_error)

@@ -114,13 +114,8 @@ module Comments
       # @return [TrueClass/FalseClass]
       #
       def defensio
-        spam = true
-
-        if !::Zen.settings.key?(:defensio_key)
-          raise(::Zen::PluginError, "The setting \"defensio_key\" is missing")
-        end
-
-        api_key = ::Zen.settings[:defensio_key]
+        spam    = true
+        api_key = plugin(:settings, :get, :defensio_key).value
 
         if api_key.nil? or api_key.empty?
           raise(

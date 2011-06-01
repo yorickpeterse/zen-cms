@@ -20,12 +20,7 @@
       @settings_ordered.each do |group, items|
         f.g.div(:id => "group_#{group}") do
           items.each do |s|
-            # Get the value from either the value or default getter
-            if ::Zen.settings[s.name.to_sym].nil?
-              value = s.default
-            else
-              value = ::Zen.settings[s.name.to_sym]
-            end
+            value = plugin(:settings, :get, s.name).value
             
             case s.type
               when 'textbox'

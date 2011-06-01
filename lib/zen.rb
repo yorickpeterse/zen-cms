@@ -29,14 +29,6 @@ module Zen
     attr_accessor :database
 
     ##
-    # Hash containing all system settings.
-    #
-    # @author Yorick Peterse
-    # @since  0.2.6
-    #
-    attr_accessor :settings
-
-    ##
     # String containing the path to the root directory of the Zen application.
     #
     # @author Yorick Peterse
@@ -47,12 +39,10 @@ module Zen
     ##
     # Loads the database and the required models.
     #
-    # @author Yorick Peterse
+    # @author Yorick  Peterse
     # @since  0.1
     #
     def init
-      @settings ||= {}
-
       # Initialize the database
       Zen::Language.load('zen_general')
 
@@ -95,17 +85,6 @@ module Zen
           "Failed to migrate the settings, make sure the database table is up to date"
         )
       end
-
-      begin
-        ::Settings::Model::Setting.get_settings.each do |k, v|
-          Zen.settings[k] = v
-        end
-      rescue => e
-        Ramaze::Log.warn(
-          "Failed to retrieve the settings, are you sure the database is migrated?\n" + 
-          "Error: #{e.message}"
-        )
-      end
     end
   end # class << self
 end # Zen
@@ -138,3 +117,8 @@ require __DIR__('zen/controller/frontend_controller')
 require __DIR__('zen/controller/admin_controller')
 require __DIR__('zen/controller/main_controller')
 require __DIR__('zen/controller/preview')
+
+# Load the cache for the settings. This has to be done outside any of the init methods as
+# that would make it impossible to set a custom cache.
+Ramaze::Cache.options.names.push(:settings)
+Ramaze::Cache.options.settings = Ramaze::Cache::LRU
