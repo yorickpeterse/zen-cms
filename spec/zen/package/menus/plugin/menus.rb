@@ -6,14 +6,16 @@ describe("Menus::Plugin::Menus") do
   it("Create the test data") do
     Testdata[:menu]   = Menu.new(:name => 'Spec').save
     Testdata[:item_1] = MenuItem.new(
-      :name => 'Spec', :url => '/', :menu_id => Testdata[:menu].id
+      :name => 'Spec', :url => '/', :menu_id => Testdata[:menu].id,
+      :order => 1
     ).save
     Testdata[:item_2] = MenuItem.new(
-      :name => 'Spec 2', :url => '/2', :menu_id => Testdata[:menu].id
+      :name => 'Spec 2', :url => '/2', :menu_id => Testdata[:menu].id, 
+      :order => 2, :css_id => ''
     ).save
     Testdata[:item_3] = MenuItem.new(
       :name => 'Spec 3', :url => '/3', :menu_id => Testdata[:menu].id, 
-      :parent_id => Testdata[:item_2].id
+      :parent_id => Testdata[:item_2].id, :order => 3
     ).save
   end
 
@@ -52,6 +54,29 @@ describe("Menus::Plugin::Menus") do
     menu.include?('Spec 2').should                === true
     menu.include?('Spec 3').should                === false
     menu.include?('<ul class="children">').should === false
+  end
+
+  it('Retrieve a set of items and sort them') do
+    menu     = plugin(:menus, :menu => 'spec', :order => :desc, :sub => false).strip
+    menu_asc = plugin(:menus, :menu => 'spec', :order => :asc, :sub => false).strip
+    html     = <<-HTML
+<ul><li><a href="/2" title="Spec 2">Spec 2</a></li><li><a href="/" title="Spec">Spec</a>
+</li></ul>
+HTML
+
+    html_asc = <<-HTML
+<ul><li><a href="/" title="Spec">Spec</a></li><li><a href="/2" title="Spec 2">Spec 2</a>
+</li></ul>
+HTML
+
+    menu.should     === html.gsub("\n", '').strip
+    menu_asc.should === html_asc.gsub("\n", '').strip
+  end
+
+  it('No empty attributes should be set') do
+    menu = plugin(:menus, :menu => 'spec')
+
+    menu.include?('id=""').should === false
   end
 
   it("Delete the test data") do

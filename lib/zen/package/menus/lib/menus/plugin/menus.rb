@@ -49,12 +49,14 @@ module Menus
           :limit  => 20,
           :offset => 0,
           :menu   => nil,
-          :sub    => true
+          :sub    => true,
+          :order  => :asc
         }.merge(options)
 
         validate_type(@options[:limit] , :limit , [Integer, Fixnum])
         validate_type(@options[:offset], :offset, [Integer, Fixnum])
-        validate_type(@options[:menu]  , :menu  , [String, Integer, Fixnum])
+        validate_type(@options[:menu]  , :menu  , [String , Integer, Fixnum])
+        validate_type(@options[:order] , :order , [String , Symbol])
       end
 
       ##
@@ -77,6 +79,7 @@ module Menus
         # Get all menu items
         menu_items = MenuItem.filter(:menu_id => menu.id, :parent_id => nil) \
           .limit(@options[:limit], @options[:offset]) \
+          .order(:order.send(@options[:order])) \
           .all
         
         @g         = Ramaze::Gestalt.new
@@ -85,11 +88,11 @@ module Menus
 
         # Set the attributes for the main <ul> elements
         if !menu.css_class.nil?
-          attributes[:class] = menu.css_class
+          attributes[:class] = menu.css_class if !menu.css_class.empty?
         end
 
         if !menu.css_id.nil?
-          attributes[:id] = menu.css_id
+          attributes[:id] = menu.css_id if !menu.css_id.empty?
         end
 
         # Time to build the HTML
@@ -117,11 +120,11 @@ module Menus
         attributes = {}
 
         if !item.css_class.nil?
-          attributes[:class] = item.css_class
+          attributes[:class] = item.css_class if !item.css_class.empty?
         end
 
         if !item.css_id.nil?
-          attributes[:id] = item.css_id
+          attributes[:id] = item.css_id if !item.css_id.empty?
         end
 
         # Get all child elements

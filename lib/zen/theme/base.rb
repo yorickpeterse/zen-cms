@@ -43,6 +43,7 @@ module Zen
       #
       def validate
         validates_presence([:name, :author, :about, :template_dir])
+        validates_format(:name, /[a-z0-9_\-]+/)
 
         # Validate all the directories
         validates_filepath(:template_dir)
