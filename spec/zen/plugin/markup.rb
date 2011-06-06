@@ -19,7 +19,7 @@ describe("Zen::Plugin::Markup") do
   it("Convert HTML to plain text") do
     text = plugin(:markup, :plain, '<p>hello world</p>').strip
 
-    text.should === '&lt;p&gt;hello world&lt;/p&gt;'
+    text.should === '&lt;p&gt;hello world&lt;&#x2F;p&gt;'
   end
 
   it("Convert to HTML to HTML") do
