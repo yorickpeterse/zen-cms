@@ -1,4 +1,4 @@
-script: "rake test"
+script: "gem install ramaze; rake test"
 rvm:
   - 1.9.2
   - rbx
