@@ -74,7 +74,7 @@ easier to read code in terminals or when using split view modes.
 ## Community
 
 * [Website][zen website]
-* Mailing list
+* [Mailing list][mailing list]
 
 Zen does not have it's own IRC channel at this time but you can usually find me in any
 of the following channels on Freenode:
@@ -92,3 +92,4 @@ the file "LICENSE".
 [zen website]: http://zen-cms.com/
 [zen documentation]: http://zen-cms.com/userguide/
 [nvie branch model]: http://nvie.com/posts/a-successful-git-branching-model/
+[mailing list]: https://groups.google.com/forum/#!forum/zen-cms
