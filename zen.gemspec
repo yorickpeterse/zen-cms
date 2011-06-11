@@ -30,13 +30,13 @@ Gem::Specification.new do |s|
   s.add_dependency('loofah'          , ['~> 1.0.0'])
 
   # These gems are only required when hacking the Zen core or when running tests.
-  s.add_development_dependency('rdiscount', ['>= 1.6.8'])
-  s.add_development_dependency('RedCloth' , ['>= 4.2.7'])
-  s.add_development_dependency('rspec'    , ['>= 2.5.0'])
-  s.add_development_dependency('yard'     , ['>= 0.6.5'])
-  s.add_development_dependency('capybara' , ['>= 0.4.1.2'])
-  s.add_development_dependency('rack-test', ['>= 0.5.7'])
-  s.add_development_dependency('sqlite3'  , ['>= 1.3.3'])
-  s.add_development_dependency('defensio' , ['>= 0.9.1'])
-  s.add_development_dependency('yard'     , ['>= 0.7.1'])
+  s.add_development_dependency('rdiscount', ['~> 1.6.8'])
+  s.add_development_dependency('RedCloth' , ['~> 4.2.7'])
+  s.add_development_dependency('rspec'    , ['~> 2.6.0'])
+  s.add_development_dependency('yard'     , ['~> 0.7.1'])
+  s.add_development_dependency('capybara' , ['~> 0.4.1.2'])
+  s.add_development_dependency('rack-test', ['~> 0.6.0'])
+  s.add_development_dependency('sqlite3'  , ['~> 1.3.3'])
+  s.add_development_dependency('defensio' , ['~> 0.9.1'])
+  s.add_development_dependency('yard'     , ['~> 0.7.1'])
 end

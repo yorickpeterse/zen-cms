@@ -5,6 +5,9 @@ Ramaze.setup(:verbose => false) do
   gem 'rack-test', ['~> 0.6.0'], :lib => 'rack/test'
   gem 'capybara' , ['~> 0.4.1.2']
   gem 'sqlite3'  , ['~> 1.3.3']
+  gem 'rdiscount', ['~> 1.6.8']
+  gem 'RedCloth' , ['~> 4.2.7']
+  gem 'defensio' , ['~> 0.9.1']
 end
 
 require 'capybara/rspec'
