@@ -5,7 +5,6 @@ titles:
 labels:
   website_name         : 'Website name'
   website_description  : 'Website description'
-  website_enabled      : 'Website enabled'
   language             : 'Language'
   frontend_language    : 'Frontend language'
   default_section      : 'Default section'
@@ -16,7 +15,6 @@ labels:
 placeholders:
   website_name        : 'The name of the website.'
   website_description : 'The description of the website.'
-  website_enabled     : 'Whether or not the website is available to non admins.'
   language            : 'The language to use for the system.'
   default_section     : 'The default section to use on the homepage.'
   theme               : 'The frontend theme to use.'

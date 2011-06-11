@@ -11,7 +11,6 @@ labels:
 errors:
   csrf           : 'De actie kan niet worden uitgevoerd zonder een geldige CSRF token.'
   not_authorized : 'U bent niet toegestaan om de huidige pagina te bekijken.'
-  website_offline: 'Deze website is momenteel offline.'
   no_templates   : 'Er konden geen sjablonen worden gevonden voor de huidige actie.'
   no_theme       : 'Er is geen thema ingesteld.'
   invalid_request: 'De actie kon niet worden uitgevoerd omdat de data onjuist is.'

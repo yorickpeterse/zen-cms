@@ -34,8 +34,6 @@ Zen::Theme::Registered.each do |name, theme|
   theme_hash[name] = name
 end
 
-# ------
-
 # Register the plugin
 Zen::Plugin.add do |plugin|
   plugin.name       = 'settings'
@@ -72,19 +70,6 @@ plugin(:settings, :register) do |setting|
   setting.name        = 'website_description'
   setting.group       = 'general'
   setting.type        = 'textarea'
-end
-
-plugin(:settings, :register) do |setting|
-  setting.title       = lang('settings.labels.website_enabled')
-  setting.description = lang('settings.placeholders.website_enabled')
-  setting.name        = 'website_enabled'
-  setting.group       = 'general'
-  setting.type        = 'radio'
-  setting.default     = '1'
-  setting.values      = {
-    lang('zen_general.special.boolean_hash.true')  => '1',
-    lang('zen_general.special.boolean_hash.false') => '0'
-  }
 end
 
 plugin(:settings, :register) do |setting|

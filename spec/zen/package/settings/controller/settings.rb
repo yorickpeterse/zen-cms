@@ -12,21 +12,17 @@ describe("Settings::Controller::Settings", :type => :acceptance, :auto_login => 
 
     within('#setting_form') do
       fill_in('website_name', :with => 'Zen spec')
-      choose('form_website_enabled_0')
 
       click_on(save_button)
     end
 
     page.find('input[name="website_name"]').value.should         === 'Zen spec'
-    page.find('input[id="form_website_enabled_0"]').value.should === '1'
 
     within('#setting_form') do
       fill_in('website_name', :with => 'Zen')
-      choose('form_website_enabled_1')
     end
 
     page.find('input[name="website_name"]').value.should         === 'Zen'
-    page.find('input[id="form_website_enabled_1"]').value.should === '0'
   end
 
 end

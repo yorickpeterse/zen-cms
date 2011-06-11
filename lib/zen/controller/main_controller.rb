@@ -17,8 +17,7 @@ module Zen
       # The index method acts as a catch-all method. Based on the requested URI
       # the correct template group/file will be loaded. If no templates are found
       # a 404 template will be loaded. If that's not found either a default error
-      # will be shown. If the website is offline we'll try to load the template
-      # "offline", if it isn't there a regular message will be displayed.
+      # will be shown.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -53,27 +52,16 @@ module Zen
         group_path    = File.join(theme_path, group)
         template_path = File.join(theme_path, group, "#{template}.xhtml")
         
-        # Is the website down?
-        if plugin(:settings, :get, :website_enabled).value === '0'
-          offline_path = File.join(theme_path, 'offline.xhtml')
-          
-          if File.exist?(offline_path)
-            render_file(offline_path)
-          else
-            respond(lang('zen_general.errors.website_offline'))
-          end
+        # Check if the group exists
+        if File.directory?(group_path) and File.exists?(template_path)
+          render_file(template_path)
         else
-          # Check if the group exists
-          if File.directory?(group_path) and File.exists?(template_path)
-            render_file(template_path)
+          not_found = File.join(theme_path, '404.xhtml')
+          
+          if File.exist?(not_found)
+            respond(render_file(not_found), 404)
           else
-            not_found = File.join(theme_path, '404.xhtml')
-            
-            if File.exist?(not_found)
-              respond(render_file(not_found), 404)
-            else
-              respond(lang('zen_general.errors.no_templates'), 404)
-            end
+            respond(lang('zen_general.errors.no_templates'), 404)
           end
         end
       end

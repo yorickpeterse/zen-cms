@@ -5,7 +5,6 @@ titles:
 labels:
   website_name       : 'Website naam'
   website_description: 'Website beschrijving'
-  website_enable     : 'Website beschikbaar'
   language           : 'Taal'
   frontend_langauge  : 'Taal voor bezoekers'
   default_section    : 'Standaard sectie'
@@ -16,7 +15,6 @@ labels:
 placeholders:
   website_name       : 'De naam van de website.'
   website_description: 'De beschrijving van de website.'
-  website_enabled    : 'Is de website wel of niet beschikbaar?'
   language           : 'De taal die gebruikt moet worden voor het admin gedeelte.'
   default_section    : 'De standaard sectie die moet worden gebruikt.'
   theme              : 'Het thema dat bezoekers zullen zien.'
