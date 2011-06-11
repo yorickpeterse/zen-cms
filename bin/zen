@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 require File.expand_path('../../lib/zen/version', __FILE__)
 
-require 'commander'
+Ramaze.setup(:verbose => false) do
+  gem 'commander', ['~> 4.0.4']
+end
+
 require 'commander/import'
 
 # Set the extra information message

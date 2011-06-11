@@ -21,13 +21,13 @@ Gem::Specification.new do |s|
   s.executables = ['zen']
   
   # The following gems are *always* required 
-  s.add_dependency('sequel'          , ['>= 3.20.0'])
-  s.add_dependency('ramaze'          , ['>= 2011.01.30'])
-  s.add_dependency('bcrypt-ruby'     , ['>= 2.1.4'])
-  s.add_dependency('sequel_sluggable', ['>= 0.0.6'])
-  s.add_dependency('commander'       , ['>= 4.0.4'])
-  s.add_dependency('rake'            , ['>= 0.8.7'])
-  s.add_dependency('loofah'          , ['>= 1.0.0'])
+  s.add_dependency('sequel'          , ['~> 3.24.1'])
+  s.add_dependency('ramaze'          , ['~> 2011.01.30'])
+  s.add_dependency('bcrypt-ruby'     , ['~> 2.1.4'])
+  s.add_dependency('sequel_sluggable', ['~> 0.0.6'])
+  s.add_dependency('commander'       , ['~> 4.0.4'])
+  s.add_dependency('rake'            , ['~> 0.9.2'])
+  s.add_dependency('loofah'          , ['~> 1.0.0'])
 
   # These gems are only required when hacking the Zen core or when running tests.
   s.add_development_dependency('rdiscount', ['>= 1.6.8'])

@@ -148,7 +148,6 @@ module Zen
       def html(markup)
         return markup
       end
-
-    end
-  end
-end
+    end # Markup
+  end # Plugin
+end # Zen

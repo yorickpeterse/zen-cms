@@ -1,4 +1,4 @@
-script: "rvm gemset import .gems; rake test"
+script: "rake test"
 rvm:
   - 1.9.2
   - rbx
