@@ -1,4 +1,3 @@
-.gems
 .travis.yml
 AUTHORS
 CHANGELOG.md
@@ -145,6 +144,7 @@ lib/zen/package/settings/migrations/.gitkeep
 lib/zen/package/settings/migrations/1295597111_create_schema.rb
 lib/zen/package/settings/migrations/1299538742_add_language_key.rb
 lib/zen/package/settings/migrations/1303196915_settings_plugin.rb
+lib/zen/package/settings/migrations/1307796295_remove_website_enabled.rb
 lib/zen/package/users/lib/users/controller/access_rules.rb
 lib/zen/package/users/lib/users/controller/user_groups.rb
 lib/zen/package/users/lib/users/controller/users.rb
