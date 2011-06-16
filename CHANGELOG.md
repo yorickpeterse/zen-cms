@@ -1,3 +1,9 @@
+## 0.2.7 - June 16th, 2011
+
+* Started using Ramaze.setup for Gem management.
+* Websites can no longer be marked as "offline", this was a rather useless feature anyway.
+* Fixed various bugs
+
 ## 0.2.6.1 - June 1st, 2011
 
 * Dropped Zen.settings and modified the settings plugin so that it works properly when
