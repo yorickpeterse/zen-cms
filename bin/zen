@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'ramaze'
 require File.expand_path('../../lib/zen/version', __FILE__)
 
 Ramaze.setup(:verbose => false) do
