@@ -56,7 +56,6 @@ module Zen
           raise(::Zen::ValidationError, "The package #{name} already exists.")
         end
       end
-
-    end
-  end
-end
+    end # Base
+  end # Package
+end # Zen
