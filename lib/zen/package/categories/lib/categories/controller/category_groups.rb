@@ -1,10 +1,10 @@
 module Categories
   module Controller
     ##
-    # Category groups can be used to group a number of categories into a single container.
-    # These groups are assigned to a section (rather than individual categories). It's
-    # important to remember that a section entry can't use a category group until it has
-    # been added to a section.
+    # Category groups can be used to group a number of categories into a single 
+    # container. These groups are assigned to a section (rather than individual 
+    # categories). It's important to remember that a section entry can't use a 
+    # category group until it has been added to a section.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -21,8 +21,8 @@ module Categories
       end
 
       ##
-      # The constructor is used to set various options such as the form URLs and load
-      # the language pack for the categories module.
+      # The constructor is used to set various options such as the form URLs and 
+      # load the language pack for the categories module.
       #
       # The following language files are loaded:
       #
@@ -83,7 +83,9 @@ module Categories
         end
 
         set_breadcrumbs(
-          anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
+          anchor_to(
+            lang('category_groups.titles.index'), CategoryGroups.r(:index)
+          ),
           lang('category_groups.titles.edit')
         )
 
@@ -95,7 +97,8 @@ module Categories
       end
 
       ##
-      # Create a new category group. This method requires the following permissions:
+      # Create a new category group. This method requires the following 
+      # permissions:
       #
       # * create
       # * read
@@ -109,7 +112,9 @@ module Categories
         end
 
         set_breadcrumbs(
-          anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
+          anchor_to(
+            lang('category_groups.titles.index'), CategoryGroups.r(:index)
+          ),
           lang('category_groups.titles.new')
         )
 
@@ -168,9 +173,9 @@ module Categories
 
       ##
       # Delete all specified category groups and their categories. In
-      # order to delete a number of groups an array of fields, named "category_group_ids"
-      # is required. This array will contain all the primary values of each group that
-      # has to be deleted.
+      # order to delete a number of groups an array of fields, named 
+      # "category_group_ids" is required. This array will contain all the 
+      # primary values of each group that has to be deleted.
       #
       # This method requires the following permissions:
       #

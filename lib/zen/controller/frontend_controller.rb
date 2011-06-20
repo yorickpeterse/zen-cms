@@ -3,9 +3,9 @@ module Zen
   #:nodoc:
   module Controller
     ##
-    # Controller that should be extended by other controllers that can be accessed from
-    # the web without having to log in. Frontend controllers don't have a layout and
-    # use the Liquid template engine for all views.
+    # Controller that should be extended by other controllers that can be 
+    # accessed from the web without having to log in. Frontend controllers don't 
+    # have a layout and use the Liquid template engine for all views.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -14,6 +14,6 @@ module Zen
       engine :etanni
       layout :none
       helper :theme, :common
-    end
-  end
-end
+    end # FrontendController
+  end # Controller
+end # Zen

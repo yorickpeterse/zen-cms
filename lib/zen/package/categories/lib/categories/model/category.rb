@@ -3,7 +3,8 @@ module Categories
   #:nodoc:
   module Model
     ##
-    # Model that represents a single category. This model has the following relations:
+    # Model that represents a single category. This model has the following 
+    # relations:
     #
     # * category groups (one to one)
     # * self (many to one)
@@ -12,10 +13,11 @@ module Categories
     #
     # * sluggable (source: "name")
     #
-    # When creating or saving a category the fields "name" and "slug" are required.
-    # The latter is only needed when saving an existing category as a slug will be
-    # generated whenever the field is empty. It's also important to remember
-    # that slugs have to be unique. For more info see the validate() method.
+    # When creating or saving a category the fields "name" and "slug" are 
+    # required. The latter is only needed when saving an existing category as a 
+    # slug will be generated whenever the field is empty. It's also important to 
+    # remember that slugs have to be unique. For more info see the validate() 
+    # method.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -37,6 +39,6 @@ module Categories
         validates_max_length  255, [:name, :slug]
         validates_unique      :slug
       end
-    end
-  end
-end
+    end # Category
+  end # Model
+end # Categories

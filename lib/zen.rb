@@ -12,8 +12,9 @@ end
 require __DIR__('zen/version')
 
 ##
-# Main module for Zen, all other modules and classes will be placed inside this module.
-# This module loads all required classes and is used for starting the application.
+# Main module for Zen, all other modules and classes will be placed inside this 
+# module. This module loads all required classes and is used for starting the 
+# application.
 #
 # @author Yorick Peterse
 # @since  0.1
@@ -25,8 +26,8 @@ module Zen
 
   class << self
     ##
-    # Variable that will contain a database connection that was established using
-    # Sequel.connect.
+    # Variable that will contain a database connection that was established 
+    # using Sequel.connect.
     #
     # @author Yorick Peterse
     # @since  0.2.6
@@ -123,7 +124,7 @@ require __DIR__('zen/controller/admin_controller')
 require __DIR__('zen/controller/main_controller')
 require __DIR__('zen/controller/preview')
 
-# Load the cache for the settings. This has to be done outside any of the init methods as
-# that would make it impossible to set a custom cache.
+# Load the cache for the settings. This has to be done outside any of the init 
+# methods as that would make it impossible to set a custom cache.
 Ramaze::Cache.options.names.push(:settings)
 Ramaze::Cache.options.settings = Ramaze::Cache::LRU

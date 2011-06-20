@@ -3,10 +3,10 @@ module Categories
   #:nodoc:
   module Controller
     ##
-    # Categories can be seen as "tags" for your section entries. They describe the
-    # type of entry just like tags except that categories generally cover larger elements.
-    # When adding a new entry categories aren't required so you're free to ignore
-    # them if you don't need them.
+    # Categories can be seen as "tags" for your section entries. They describe 
+    # the type of entry just like tags except that categories generally cover 
+    # larger elements. When adding a new entry categories aren't required so 
+    # you're free to ignore them if you don't need them.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -23,8 +23,8 @@ module Categories
       end
 
       ##
-      # The constructor is used to set various options such as the form URLs and load
-      # the language pack for the categories module.
+      # The constructor is used to set various options such as the form URLs and 
+      # load the language pack for the categories module.
       #
       # The following language files are loaded:
       #
@@ -59,8 +59,8 @@ module Categories
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Integer] category_group_id The ID of the category group that's currently
-      # being managed by the user.
+      # @param  [Integer] category_group_id The ID of the category group that's 
+      # currently being managed by the user.
       # @since  0.1
       #
       def index category_group_id
@@ -69,7 +69,9 @@ module Categories
         end
 
         set_breadcrumbs(
-          anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
+          anchor_to(
+            lang('category_groups.titles.index'), CategoryGroups.r(:index)
+          ),
           lang('categories.titles.index')
         )
 
@@ -96,8 +98,14 @@ module Categories
         end
 
         set_breadcrumbs(
-          anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
-          anchor_to(lang('categories.titles.index'), Categories.r(:index, category_group_id)),
+          anchor_to(
+            lang('category_groups.titles.index'), 
+            CategoryGroups.r(:index)
+          ),
+          anchor_to(
+            lang('categories.titles.index'), 
+            Categories.r(:index, category_group_id)
+          ),
           lang('categories.titles.edit')
         )
 
@@ -128,8 +136,14 @@ module Categories
         end
 
         set_breadcrumbs(
-          anchor_to(lang('category_groups.titles.index'), CategoryGroups.r(:index)),
-          anchor_to(lang('categories.titles.index'), Categories.r(:index, category_group_id)),
+          anchor_to(
+            lang('category_groups.titles.index'), 
+            CategoryGroups.r(:index)
+          ),
+          anchor_to(
+            lang('categories.titles.index'), 
+            Categories.r(:index, category_group_id)
+          ),
           lang('categories.titles.new')
         )
 
@@ -196,9 +210,9 @@ module Categories
 
       ##
       # Delete all specified category groups and their categories. In
-      # order to delete a number of groups an array of fields, named "category_group_ids"
-      # is required. This array will contain all the primary values of each group that
-      # has to be deleted.
+      # order to delete a number of groups an array of fields, named 
+      # "category_group_ids" is required. This array will contain all the 
+      # primary values of each group that has to be deleted.
       #
       # This method requires the following permissions:
       #
@@ -215,7 +229,8 @@ module Categories
         post = request.subset(:category_ids, :category_group_id)
 
         # Obviously we'll require some IDs
-        if !request.params['category_ids'] or request.params['category_ids'].empty?
+        if !request.params['category_ids'] or \
+        request.params['category_ids'].empty?
           message(:error, lang('categories.errors.no_delete'))
           redirect(Categories.r(:index, post['category_group_id']))
         end

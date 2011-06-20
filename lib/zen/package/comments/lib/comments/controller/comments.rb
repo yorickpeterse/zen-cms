@@ -6,9 +6,9 @@ module Comments
     # Controller used for managing comments. Administrations can't actually
     # add new comments using the backend controller but can edit or delete them.
     # Comments can be submitted to any section entry as long as the section
-    # allows it. When submitting a comment the user data such as the name and email
-    # will be retrieved from either the users table (if the user is logged in) or
-    # from the form that was submitted.
+    # allows it. When submitting a comment the user data such as the name and 
+    # email will be retrieved from either the users table (if the user is logged 
+    # in) or from the form that was submitted.
     #
     # @author  Yorick Peterse
     # @since   0.1
@@ -78,7 +78,8 @@ module Comments
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the comment to retrieve so that we can edit it.
+      # @param  [Integer] id The ID of the comment to retrieve so that we can 
+      # edit it.
       # @since  0.1
       #
       def edit(id)
@@ -87,7 +88,10 @@ module Comments
         end
 
         set_breadcrumbs(
-          anchor_to(lang('comments.titles.index'), Comments.r(:index)), @page_title
+          anchor_to(
+            lang('comments.titles.index'), Comments.r(:index)
+          ), 
+          @page_title
         )
 
         if flash[:form_data]
@@ -99,7 +103,8 @@ module Comments
 
       ##
       # Saves a comment based on the current POST data. Note that this
-      # method won't create a new comment as this can't be done using the backend.
+      # method won't create a new comment as this can't be done using the 
+      # backend.
       #
       # This method requires the following permissions:
       #
@@ -115,7 +120,8 @@ module Comments
 
         # Copy the POST data so we can work with it without messing things up
         post = request.subset(
-          :user_id, :name, :website, :email, :comment, :status, :section_entry_id, :id
+          :user_id, :name, :website, :email, :comment, :status, 
+          :section_entry_id, :id
         )
 
         @comment = Comment[post['id']]
@@ -158,7 +164,8 @@ module Comments
         end
 
         # Obviously we'll require some IDs
-        if !request.params['comment_ids'] or request.params['comment_ids'].empty?
+        if !request.params['comment_ids'] \
+        or request.params['comment_ids'].empty?
           message(:error, lang('comments.errors.no_delete'))
           redirect_referrer
         end

@@ -3,34 +3,38 @@ module Comments
   #:nodoc:
   module Plugin
     ##
-    # A plugin that can be used to verify a comment against an external (or internal)
-    # service to see if it's spam or ham.
+    # A plugin that can be used to verify a comment against an external (or 
+    # internal) service to see if it's spam or ham.
     #
     # ## Usage
     #
     #     plugin(:anti_spam, engine, author, email, url, comment)
     #
-    # Note that all variables are required. This is because certain anti-spam systems may
-    # verify the name of the author or the entered Email address besides just the comment.
-    # When using Defensio you're only required to set the comment:
+    # Note that all variables are required. This is because certain anti-spam 
+    # systems may verify the name of the author or the entered Email address 
+    # besides just the comment. When using Defensio you're only required to set 
+    # the comment:
     #
-    #     plugin(:anti_spam, :defensio, nil, nil, nil, 'Hello, this is a comment.')
+    #     plugin(
+    #       :anti_spam, :defensio, nil, nil, nil, 'Hello, this is a comment.'
+    #     )
     #
     # ## Supported Systems
     #
-    # Currently the plugin only supports Defensio, this engine requires the setting
-    # "defensio_key" to contain a valid Defensio API key.
+    # Currently the plugin only supports Defensio, this engine requires the 
+    # setting "defensio_key" to contain a valid Defensio API key.
     #
     # ## Adding Systems
     #
     # Adding a system is done in two steps. First you should update the hash
-    # Comments::PLugin::AntiSpam::Registered so that it includes your system. The keys of
-    # this hash are symbols that match the name of the engine used when calling the
-    # plugin() method. The values are the Gems to require.
+    # Comments::PLugin::AntiSpam::Registered so that it includes your system. 
+    # The keys of this hash are symbols that match the name of the engine used 
+    # when calling the plugin() method. The values are the Gems to require.
     #
     # Once this has been done you should add a method to the class
-    # Comments::Plugin::AntiSpam who's name matches the key set in the Registered hash. If
-    # your anti-spam solution is called "cake" then you'd do something like the following:
+    # Comments::Plugin::AntiSpam who's name matches the key set in the 
+    # Registered hash. If your anti-spam solution is called "cake" then you'd 
+    # do something like the following:
     #
     #     Comments::Plugin::AntiSpam::Registered[:cake] = 'cake-gem'
     #
@@ -44,8 +48,8 @@ module Comments
     #       end
     #     end
     #
-    # The return value of the method added should be a boolean, true for spam and false
-    # for ham. 
+    # The return value of the method added should be a boolean, true for spam 
+    # and false for ham. 
     #
     # @author Yorick Peterse
     # @since  0.2.6
@@ -54,7 +58,8 @@ module Comments
       include ::Zen::Plugin::Helper
 
       ##
-      # Hash containing all the supported anti-spam engines and their Gems to load.
+      # Hash containing all the supported anti-spam engines and their Gems to 
+      # load.
       #
       # @author Yorick Peterse
       # @since  0.2.6
@@ -75,13 +80,17 @@ module Comments
       # @param  [String] comment The comment.
       #
       def initialize(engine, author, email, url, comment)
-        @engine, @author, @email, @url, @comment = engine, author, email, url, comment
+        @engine, @author, @email, @url, @comment = engine, author, email, \
+          url, comment
 
         validate_type(engine, :engine, [Symbol])
 
         # Load the correct gem
         if !Registered.key?(@engine) or !respond_to?(@engine)
-          raise(::Zen::PluginError, "The anti-spam engine \"#{@engine}\" is invalid")
+          raise(
+            ::Zen::PluginError, 
+            "The anti-spam engine \"#{@engine}\" is invalid"
+          )
         end
 
         begin

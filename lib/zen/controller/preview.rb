@@ -3,11 +3,12 @@ module Zen
   #:nodoc
   module Controller
     ##
-    # Controller that can be used to render a block of markup based on the POST data. This
-    # controller is useful for generating previews when using the text editor for example.
+    # Controller that can be used to render a block of markup based on the POST 
+    # data. This controller is useful for generating previews when using the 
+    # text editor for example.
     #
-    # In order to render a preview you'll have to send a POST request with the following
-    # data in it:
+    # In order to render a preview you'll have to send a POST request with the 
+    # following data in it:
     #
     # * engine: The markup engine to use (Markdown, Textile, etc).
     # * markup: The markup to convert to HTML.
@@ -18,9 +19,9 @@ module Zen
     #     engine: "markdown"
     #     markup: "Hello **world**!"
     #
-    # The return data is an HTTP status code and the HTML as the body. The HTTP status
-    # code will be 200 whenever the data was converted and or 400 in case of an error
-    # (e.g. an incorrect markup engine was specified).
+    # The return data is an HTTP status code and the HTML as the body. The HTTP 
+    # status code will be 200 whenever the data was converted and or 400 in case 
+    # of an error (e.g. an incorrect markup engine was specified).
     #
     # @author Yorick Peterse
     # @since  0.2.6
@@ -40,11 +41,14 @@ module Zen
         end
 
         begin
-          respond(plugin(:markup, request.params['engine'], request.params['markup']), 200)
+          respond(
+            plugin(:markup, request.params['engine'], request.params['markup']), 
+            200
+          )
         rescue
           respond(lang('zen_general.errors.invalid_request'), 400)
         end
       end
-    end
-  end
-end
+    end # Preview
+  end # Controller
+end # Zen

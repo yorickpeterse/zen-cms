@@ -3,9 +3,9 @@ module Comments
   #:nodoc:
   module Controller
     ##
-    # Frontend controller for the comments system used for saving user-submitted comments.
-    # When the anti-spam system is enabled Zen will use Defensio to check if the comment is
-    # spam or ham.
+    # Frontend controller for the comments system used for saving user-submitted 
+    # comments. When the anti-spam system is enabled Zen will use Defensio to 
+    # check if the comment is spam or ham.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -22,8 +22,8 @@ module Comments
       end
 
       ##
-      # Creates a new comment for the section entry. Once the comment has been saved
-      # the user will be redirected back to the previous page.
+      # Creates a new comment for the section entry. Once the comment has been 
+      # saved the user will be redirected back to the previous page.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -116,6 +116,6 @@ module Comments
 
         redirect_referrer
       end
-    end
-  end
-end
+    end # CommentsForm
+  end # Controller
+end # Comments

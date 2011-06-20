@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
   s.email       = 'info@yorickpeterse.com'
   s.summary     = 'Zen is a modular CMS written using Ramaze.'
   s.homepage    = 'http://zen-cms.com/'
-  s.description = 'Zen is a modular CMS written using Ramaze. Unlike traditional CMS\' you 
- are completely free to build whatever you want.'
+  s.description = 'Zen is a modular CMS written using Ramaze. Unlike traditional 
+CMS\' you are completely free to build whatever you want.'
 
   s.files       = manifest
   s.has_rdoc    = 'yard'

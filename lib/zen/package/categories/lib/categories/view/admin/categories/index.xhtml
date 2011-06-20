@@ -5,7 +5,8 @@
     
     <form method="post" action="#{@form_delete_url}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
-        <input type="hidden" name="category_group_id" value="#{@category_group_id}" />
+        <input type="hidden" name="category_group_id" 
+        value="#{@category_group_id}" />
         
         <?r if @categories and !@categories.empty? ?>
         
@@ -29,7 +30,8 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="category_ids[]" value="#{category.id}" />
+                        <input type="checkbox" name="category_ids[]" 
+                        value="#{category.id}" />
                     </td>
                     <?r end ?>
                     
@@ -39,7 +41,9 @@
                     <td>
                         #{anchor_to(
                           category.name, 
-                          Categories::Controller::Categories.r(:edit, @category_group_id, category.id)
+                          Categories::Controller::Categories.r(
+                            :edit, @category_group_id, category.id
+                          )
                         )}
                     </td>
                     <?r else ?>
@@ -47,7 +51,10 @@
                     <?r end ?>
                     
                     <td>#{category.slug}</td>
-                    <td>#{category.parent.name if category.parent.respond_to?(:name)}</td>
+                    <td>
+                        #{category.parent.name \
+                        if category.parent.respond_to?(:name)}
+                    </td>
                 </tr>
                 <?r end ?>
             </tbody>
@@ -67,9 +74,11 @@
             </div>
             <?r end ?>
             
-            <?r if user_authorized?([:delete]) and @categories and !@categories.empty? ?>
+            <?r if user_authorized?([:delete]) and @categories \
+            and !@categories.empty? ?>
             <div class="button">
-                <input type="submit" value="#{lang('categories.buttons.delete')}" />
+                <input type="submit" 
+                value="#{lang('categories.buttons.delete')}" />
             </div>
             <?r end ?>
             

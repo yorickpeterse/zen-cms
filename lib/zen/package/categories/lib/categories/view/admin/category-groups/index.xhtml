@@ -80,9 +80,11 @@
             </div>
             <?r end ?>
             
-            <?r if user_authorized?([:delete]) and @category_groups and !@category_groups.empty? ?>
+            <?r if user_authorized?([:delete]) and @category_groups \
+            and !@category_groups.empty? ?>
             <div class="button">
-                <input type="submit" value="#{lang('category_groups.buttons.delete')}" />
+                <input type="submit" 
+                value="#{lang('category_groups.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>

@@ -5,17 +5,18 @@ module Ramaze
   #:nodoc:
   module Helper
     ##
-    # Helper that provides a few methods that make certain tasks easier when creating
-    # themes and templates.
+    # Helper that provides a few methods that make certain tasks easier when 
+    # creating themes and templates.
     #
     # @author Yorick Peterse
     # @since  0.2.5
     #
     module Theme
       ##
-      # Renders a partial from the current theme's partial directory. The first argument
-      # is the name of the partial (without an extension) to render. The second argument
-      # is a hash with variables that should be made available to the partial.
+      # Renders a partial from the current theme's partial directory. The first 
+      # argument is the name of the partial (without an extension) to render. 
+      # The second argument is a hash with variables that should be made 
+      # available to the partial.
       #
       # @example
       #  partial(:header) # => partials/header.xhtml
@@ -24,15 +25,18 @@ module Ramaze
       # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Symbol] file The name of the partial to render.
-      # @param  [Hash] variables A hash with variables that should be made available for
-      # the partial.
+      # @param  [Hash] variables A hash with variables that should be made 
+      # available for the partial.
       #
       def partial(file, variables = {})
         theme = plugin(:settings, :get, :theme).value
         theme = Zen::Theme[theme]
 
         if !theme.respond_to?(:partial_dir) or theme.partial_dir.nil?
-          raise(::Zen::ThemeError, "The theme #{theme.name} has no partial directory set.")
+          raise(
+            ::Zen::ThemeError, 
+            "The theme #{theme.name} has no partial directory set."
+          )
         end
 
         template = "#{theme.partial_dir}/#{file}.xhtml"
@@ -46,9 +50,10 @@ module Ramaze
       end
 
       ##
-      # Renders the 404 template for the current theme (clearing the current buffer) and
-      # sets the HTTP response code to 404. Optionally you can pass a set of variables to
-      # the 404 template by setting this method's first argument to a hash.
+      # Renders the 404 template for the current theme (clearing the current 
+      # buffer) and sets the HTTP response code to 404. Optionally you can pass 
+      # a set of variables to the 404 template by setting this method's first 
+      # argument to a hash.
       #
       # @example
       #  show_404

@@ -3,7 +3,8 @@ module Comments
   #:nodoc:
   module Model
     ##
-    # Model that represents a single comment. This model has the following relations:
+    # Model that represents a single comment. This model has the following 
+    # relations:
     #
     # * section entry (many to one)
     # * user (many to one)
@@ -90,7 +91,8 @@ module Comments
           got = send(field)
 
           if !got.nil?
-            send("#{field}=", Loofah.fragment(got).scrub!(:whitewash).scrub!(:nofollow).to_s)
+            send("#{field}=", Loofah.fragment(got).scrub!(:whitewash) \
+              .scrub!(:nofollow).to_s)
           end
         end
       end

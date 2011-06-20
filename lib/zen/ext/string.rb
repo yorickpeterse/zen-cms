@@ -1,20 +1,21 @@
 ##
-# Extension to the string class provided by Ruby that provides the following 2 methods:
+# Extension to the string class provided by Ruby that provides the following 2 
+# methods:
 #
 # * String.pluralize
 # * String.singularize
 #
-# Note that these methods only work for English words, other languages such as Japanese
-# or French aren't supported at this time (January, 2011). This snippet also doesn't cover
-# every single english word, patches are welcome!
+# Note that these methods only work for English words, other languages such as 
+# Japanese or French aren't supported at this time (January, 2011). This snippet 
+# also doesn't cover every single english word, patches are welcome!
 #
 # @author Yorick Peterse, Michael Fellinger
 # @since  1.0
 #
 class String
   ##
-  # Constant containing all regular expressions for singular strings (that will be pluralized)
-  # and their replacements.
+  # Constant containing all regular expressions for singular strings (that will 
+  # be pluralized) and their replacements.
   #
   # @since 1.0
   # 
@@ -27,7 +28,8 @@ class String
     /ge$/ => 'ges',
     /g$/  => 'gs',
 
-    # When the singular form ends in a voiceless consonant (other than a sibilant).
+    # When the singular form ends in a voiceless consonant (other than a 
+    # sibilant).
     # 
     # lap   => laps
     # cat   => cats
@@ -40,14 +42,16 @@ class String
     /ff$/ => 'ffs',
     /th$/ => 'ths',
     
-    # Most nouns ending in o preceded by a consonant also form their plurals by adding -es
+    # Most nouns ending in o preceded by a consonant also form their plurals by 
+    # adding -es
     # 
     # hero    => heroes
     # potato  => potatoes
     # volcano => volcanoes or volcanos
     /o$/  => 'oes',
     
-    # nouns ending in a y preceded by a consonant usually drop the y and add -ies
+    # nouns ending in a y preceded by a consonant usually drop the y and add 
+    # -ies
     #
     # cherry => cherries
     # lady   => ladies
@@ -95,10 +99,10 @@ class String
   }
   
   ##
-  # Tries to convert a string to it's pluralized version. For example, "user" would
-  # result in "users" and "quiz" will result in "quizes". This method will return
-  # the pluralized string, use pluralize! to overwrite the current (singular) version
-  # of the string with the pluralized one.
+  # Tries to convert a string to it's pluralized version. For example, "user" 
+  # would result in "users" and "quiz" will result in "quizes". This method will 
+  # return the pluralized string, use pluralize! to overwrite the current 
+  # (singular) version of the string with the pluralized one.
   #
   # @example
   #  
@@ -182,4 +186,4 @@ class String
   def singularize!
     self.replace(self.singularize)
   end
-end
+end # String

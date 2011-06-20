@@ -3,7 +3,8 @@ module Zen
   #:nodoc:
   module Package
     ##
-    # Base class used to store the data about packages such as the name, directory, etc.
+    # Base class used to store the data about packages such as the name, 
+    # directory, etc.
     #
     # @author Yorick Peterse
     # @since  0.2.5
@@ -32,8 +33,8 @@ module Zen
       # Path to the directory containing all migrations
       attr_accessor :migration_dir
 
-      # Array containing all controllers for the package. These classes will be used
-      # by the ACL system.
+      # Array containing all controllers for the package. These classes will be 
+      # used by the ACL system.
       attr_accessor :controllers
 
       ##

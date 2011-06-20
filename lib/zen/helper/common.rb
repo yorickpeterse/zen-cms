@@ -12,17 +12,18 @@ module Ramaze
     module Common      
       ##
       # Generate an anchor tag similar as to how Ramaze does it with the
-      # Ramaze::Controller.a() method. The first parameter is the text to display, 
-      # the second parameter is the URL.
+      # Ramaze::Controller.a() method. The first parameter is the text to 
+      # display, the second parameter is the URL.
       #
-      # The anchor_to tag supports both query string parameters just like the link helper
-      # that ships with Ramaze but it also supports the possibility of adding HTML
-      # attributes such as an ID or class. 
+      # The anchor_to tag supports both query string parameters just like the 
+      # link helper that ships with Ramaze but it also supports the possibility 
+      # of adding HTML attributes such as an ID or class. 
       # 
-      # URLs can be formatted in two ways. The first one, which is the most common one,
-      # is using a path to a controller/method. Simply specify a string such as
-      # "controller/method". If you want to create an anchor that points to an external
-      # website, say Google, simply start the string with "http://" and you're good to go.
+      # URLs can be formatted in two ways. The first one, which is the most 
+      # common one, is using a path to a controller/method. Simply specify a 
+      # string such as "controller/method". If you want to create an anchor that
+      # points to an external website, say Google, simply start the string with 
+      # "http://" and you're good to go.
       #
       # @example
       #  # Rather verbose isn't it?
@@ -39,11 +40,12 @@ module Ramaze
       # @author Yorick Peterse
       # @since  0.1
       # @param  [String] text The text to display in the anchor tag.
-      # @param  [Hash/String] url Either a hash or a string that defines the URL.
-      # When using a hash the :href key will be used for the link location.
-      # Other keys will be used to create query string items. If the URL starts with
-      # http:// it will be an external URL.
-      # @param  [Array] attributes Optional HTML attributes to add to the anchor tag.
+      # @param  [Hash/String] url Either a hash or a string that defines the 
+      # URL. When using a hash the :href key will be used for the link location.
+      # Other keys will be used to create query string items. If the URL starts 
+      # with http:// it will be an external URL.
+      # @param  [Array] attributes Optional HTML attributes to add to the anchor 
+      # tag.
       # @return [String]
       #
       def anchor_to(text, url, *attributes)
@@ -57,7 +59,8 @@ module Ramaze
           anchor_url   = url[:href].strip          
           url.delete(anchor_url)
           
-          # Generate the query string based on the left over values in the URL hash
+          # Generate the query string based on the left over values in the URL 
+          # hash
           query_string = Rack::Utils.build_query(url)
           
           # Create the full URL
@@ -101,6 +104,6 @@ module Ramaze
         # Return the tag
         return "<a #{html_attributes}>#{text}</a>"
       end
-    end
-  end
-end
+    end # Common
+  end # Helper
+end # Ramaze

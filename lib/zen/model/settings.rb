@@ -1,8 +1,8 @@
 Zen::Language.load('zen_models')
 
-# When passing a hash to update() or create() we'll ignore any keys that don't belong 
-# in the table. This allows you to directly pass request.params to these methods 
-# without having to filter the hash yourself.
+# When passing a hash to update() or create() we'll ignore any keys that don't 
+# belong in the table. This allows you to directly pass request.params to these 
+# methods without having to filter the hash yourself.
 Sequel::Model.strict_param_setting = false
 
 # Load all the required plugins
