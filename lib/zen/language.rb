@@ -3,37 +3,39 @@ require __DIR__('error/language_error')
 #:nodoc:
 module Zen
   ##
-  # The language module is used for writing and using text translations. Translations are
-  # stored in a simple YAML file inside a directory called "language" followed by a directory
-  # who's name matches the language code for which it's translations should be used.
-  # Say we wanted to translate "Login" and "Register" into different languages our YAML
-  # file would look like the following:
+  # The language module is used for writing and using text translations. 
+  # Translations are stored in a simple YAML file inside a directory called 
+  # "language" followed by a directory who's name matches the language code for 
+  # which it's translations should be used. Say we wanted to translate "Login" 
+  # and "Register" into different languages our YAML file would look like the 
+  # following:
   #
   #     ---
   #     login: "Login"
   #     register: "Register"
   #
-  # If we save this file under parent_directory/language/en/tutorial.yml we could then
-  # load that file as following:
+  # If we save this file under parent_directory/language/en/tutorial.yml we 
+  # could then load that file as following:
   #
   #     Zen::Language.load('tutorial')
   #
   # ## Loading Translations
   #
-  # The load() method will look for a YAML file of which the name matches the given string
-  # and can be found in the directory for the current language. This means that if we were
-  # to switch our language without creating a translation file for that language we wouldn't
-  # be able to use it (makes sense right?).
+  # The load() method will look for a YAML file of which the name matches the 
+  # given string and can be found in the directory for the current language. 
+  # This means that if we were to switch our language without creating a 
+  # translation file for that language we wouldn't be able to use it 
+  # (makes sense right?).
   #
-  # Once your translation file is in place and it's loaded it can be used using the lang()
-  # method. Example:
+  # Once your translation file is in place and it's loaded it can be used using 
+  # the lang() method. Example:
   #
   #     lang('tutorial.login') # => "Login"
   #
   # ## Directory Structure
   #
-  # As mentioned earlier language files are saved in a certain directory. The structure
-  # of this directory looks like the following:
+  # As mentioned earlier language files are saved in a certain directory. The 
+  # structure of this directory looks like the following:
   #
   #     parent directory
   #       |
@@ -43,20 +45,21 @@ module Zen
   #             |
   #             |__ filename.yml
   #
-  # When loading a language file this module will loop through a certain number of paths.
-  # The array containing all base directories to loop through can be updated as following:
+  # When loading a language file this module will loop through a certain number 
+  # of paths. The array containing all base directories to loop through can be 
+  # updated as following:
   #
   #     Zen::Language.options.paths.push('/path/to/directory')
   #
-  # It's important that you _don't_ add a /language segment to the path, this will be done
-  # automatically.
+  # It's important that you _don't_ add a /language segment to the path, this 
+  # will be done automatically.
   #
   # ## Options
   #
   # * language: Small string that defines the current language (e.g. "en").
-  # * paths: Array of paths to look for a language directory. Note that this should be
-  # the parent directory of the directory called "language", not the actual directory
-  # itself.
+  # * paths: Array of paths to look for a language directory. Note that this 
+  #   should be the parent directory of the directory called "language", not the 
+  #   actual directory itself.
   #
   # @author Yorick Peterse
   # @since  0.2
@@ -93,8 +96,9 @@ module Zen
     end
 
     ##
-    # Tries to load a language file for the given name. If no language files were found
-    # based on the name and the current language an exception will be raised.
+    # Tries to load a language file for the given name. If no language files 
+    # were found based on the name and the current language an exception will 
+    # be raised.
     #
     # Note that this method will load the language pack for *all* languages.
     #
@@ -125,8 +129,8 @@ module Zen
             file_found  = true
             translation = YAML.load_file(path)
 
-            # Conver the hash to a dot based hash. This means that {:person => {:age => 18}}
-            # would result in {'person.age' => 18}.
+            # Conver the hash to a dot based hash. This means that 
+            # {:person => {:age => 18}} would result in {'person.age' => 18}.
             translation = self.to_dotted_hash({lang_name.to_s => translation})
 
             Registered[language].merge!(translation)
@@ -135,15 +139,18 @@ module Zen
       end
 
       if file_found === false
-        raise(Zen::LanguageError, "No language file could be found for \"#{lang_name}\"")
+        raise(
+          Zen::LanguageError, 
+          "No language file could be found for \"#{lang_name}\""
+        )
       end
     end
 
     private
 
     ##
-    # Method that takes a hash or an array and converts it to a dot-based hash. For example,
-    # the following hash:
+    # Method that takes a hash or an array and converts it to a dot-based hash. 
+    # For example, the following hash:
     #
     #     {:name => 'Name', :location => {:street => 'Street', :address => 'Address'}}
     #
@@ -170,8 +177,8 @@ module Zen
     # @param  [Hash/Array] source The hash or array to conver to a dot-based hash.
     # @param  [Hash] target The hash to store the new key/values in.
     # @param  [String] namespace The namespace for the key (e.g. "user.location").
-    # @return [Hash] The converted hash where the keys are dot-based strings instead of
-    # regular strings/symbols with sub hashes.
+    # @return [Hash] The converted hash where the keys are dot-based strings 
+    # instead of regular strings/symbols with sub hashes.
     #
     def self.to_dotted_hash(source, target = {}, namespace = nil)
       if namespace and !namespace.nil?
@@ -203,8 +210,9 @@ module Zen
     #:nodoc:
     module SingletonMethods
       ##
-      # Method for retrieving the correct language item based on the given string.
-      # If you want to retrieve sub-items you can separate each level with a dot:
+      # Method for retrieving the correct language item based on the given 
+      # string. If you want to retrieve sub-items you can separate each level 
+      # with a dot:
       #
       #     lang('tutorial.main.sub')
       #
@@ -214,9 +222,9 @@ module Zen
       #     main:
       #       sub: "Something!"
       #
-      # It's important to remember that your key should always include the name of the
-      # language file since once a file is loaded it will be kept in memory to reduce
-      # disk usage.
+      # It's important to remember that your key should always include the name 
+      # of the language file since once a file is loaded it will be kept in 
+      # memory to reduce disk usage.
       #
       # @example
       #  lang('username')
@@ -224,8 +232,8 @@ module Zen
       # @author Yorick Peterse
       # @since  0.2
       # @param  [String] key The language key to select.
-      # @param  [String] lang The language for which to retrieve the key, overwrites the
-      # language set in the session.
+      # @param  [String] lang The language for which to retrieve the key, 
+      # overwrites the language set in the session.
       # @return [Mixed]
       #
       def lang(key, lang = nil)
