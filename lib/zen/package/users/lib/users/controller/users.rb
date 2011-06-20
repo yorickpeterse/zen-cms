@@ -196,7 +196,7 @@ module Users
 
         post = request.subset(
           :id, :email, :name, :website, :new_password, :confirm_password, :status,
-          :language, :frontend_language, :date_format
+          :language, :frontend_language, :date_format, :user_group_pks
         )
 
         if post['id'] and !post['id'].empty?
