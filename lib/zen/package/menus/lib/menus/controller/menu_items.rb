@@ -155,7 +155,8 @@ module Menus
         end
 
         post = request.subset(
-          :id, :parent_id, :name, :url, :order, :css_class, :css_id, :menu_id
+          :id, :parent_id, :name, :url, :sort_order, :css_class, :css_id, 
+          :menu_id
         )
 
         if post['parent_id'].empty? or post['parent_id'] === post['id']

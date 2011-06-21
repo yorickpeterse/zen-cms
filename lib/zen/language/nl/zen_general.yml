@@ -14,6 +14,7 @@ errors:
   no_templates   : 'Er konden geen sjablonen worden gevonden voor de huidige actie.'
   no_theme       : 'Er is geen thema ingesteld.'
   invalid_request: 'De actie kon niet worden uitgevoerd omdat de data onjuist is.'
+  require_login  : 'U moet ingelogd zijn om deze pagina te kunnen bekijken.'
 
 special:
   format_hash:

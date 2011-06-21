@@ -15,7 +15,10 @@ module Sections
       map '/admin/section-entries'
 
       # Load all required Javascript files
-      javascript ['zen/tabs', 'zen/editor', 'vendor/datepicker']
+      javascript [
+        'zen/tabs', 'zen/editor', 'zen/editor/markdown', 'zen/editor/textile',
+        'vendor/datepicker'
+      ]
 
       # Load all required CSS files
       stylesheet ['zen/datepicker']
@@ -166,9 +169,10 @@ module Sections
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back to
-      # the proper URL. Based on the value of a hidden field named "id" we'll determine
-      # if the data will be used to create a new section or to update an existing one.
+      # Method used for processing the form data and redirecting the user back 
+      # to the proper URL. Based on the value of a hidden field named "id" we'll 
+      # determine if the data will be used to create a new section or to update 
+      # an existing one.
       #
       # This method requires the following permissions:
       #
@@ -177,8 +181,9 @@ module Sections
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @todo The way this method handles the creation of field values might require some
-      # patches as it executes quite a few queries. I'll keep it as it is for now.
+      # @todo The way this method handles the creation of field values might 
+      # require some patches as it executes quite a few queries. I'll keep it 
+      # as it is for now.
       #
       def save
         if !user_authorized?([:create, :update])
@@ -203,8 +208,8 @@ module Sections
           @entry        = SectionEntry[post['id']]
           save_action   = :save
 
-          # Section entries aren't considered to be updated whenever a custom field value
-          # is modified, this solves that problem
+          # Section entries aren't considered to be updated whenever a custom 
+          # field value is modified, this solves that problem
           post['updated_at'] = Time.new
         else
           @entry        = SectionEntry.new
@@ -290,7 +295,8 @@ module Sections
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
-        if !request.params['section_entry_ids'] or request.params['section_entry_ids'].empty?
+        if !request.params['section_entry_ids'] \
+        or request.params['section_entry_ids'].empty?
           message(:error, lang('section_entries.errors.no_delete'))
           redirect_referrer
         end

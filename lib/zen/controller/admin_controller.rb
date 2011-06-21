@@ -39,6 +39,7 @@ module Zen
         # in
         if request.env['SCRIPT_NAME'] != 'admin/users/' and \
         request.env['PATH_INFO'] != '/login'
+          message(:error, lang('zen_general.errors.require_login'))
           redirect '/admin/users/login' unless logged_in?
         end
 

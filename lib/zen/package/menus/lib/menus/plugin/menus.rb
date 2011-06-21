@@ -79,7 +79,7 @@ module Menus
         # Get all menu items
         menu_items = MenuItem.filter(:menu_id => menu.id, :parent_id => nil) \
           .limit(@options[:limit], @options[:offset]) \
-          .order(:order.send(@options[:order])) \
+          .order(:sort_order.send(@options[:order])) \
           .all
         
         @g         = Ramaze::Gestalt.new

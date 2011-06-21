@@ -59,7 +59,7 @@ plugin(:settings, :register) do |setting|
 
     begin
       Sections::Model::Section.select(:name, :slug).each do |s|
-        section_hash[s.slug] = s.name
+        section_hash[s.id] = s.name
       end
 
       return section_hash

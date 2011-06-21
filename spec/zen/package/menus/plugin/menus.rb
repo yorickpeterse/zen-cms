@@ -7,15 +7,15 @@ describe("Menus::Plugin::Menus") do
     Testdata[:menu]   = Menu.new(:name => 'Spec').save
     Testdata[:item_1] = MenuItem.new(
       :name => 'Spec', :url => '/', :menu_id => Testdata[:menu].id,
-      :order => 1
+      :sort_order => 1
     ).save
     Testdata[:item_2] = MenuItem.new(
       :name => 'Spec 2', :url => '/2', :menu_id => Testdata[:menu].id, 
-      :order => 2, :css_id => ''
+      :sort_order => 2, :css_id => ''
     ).save
     Testdata[:item_3] = MenuItem.new(
       :name => 'Spec 3', :url => '/3', :menu_id => Testdata[:menu].id, 
-      :parent_id => Testdata[:item_2].id, :order => 3
+      :parent_id => Testdata[:item_2].id, :sort_order => 3
     ).save
   end
 

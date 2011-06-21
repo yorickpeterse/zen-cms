@@ -14,6 +14,7 @@ errors:
   no_templates    : 'No templates were found for the given action.'
   no_theme        : 'No theme has been specified.'
   invalid_request : 'The request could not be executed as the specified data is incorrect.'
+  require_login   : 'You need to be logged in in order to view this page.'
 
 special:
   format_hash:

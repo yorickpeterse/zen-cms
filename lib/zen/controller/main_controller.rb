@@ -31,7 +31,9 @@ module Zen
         uri.each { |v| @request_uri.push(h(v)) }
         
         if !@request_uri[0] or @request_uri[0].empty?
-          @request_uri[0] = plugin(:settings, :get, :default_section).value
+          section         = plugin(:settings, :get, :default_section).value
+          section         = ::Sections::Model::Section[section].slug
+          @request_uri[0] = section
         end
         
         if !@request_uri[1] or @request_uri[1].empty?
