@@ -11,7 +11,8 @@
             </a>
         </li>
         
-        <?r if @entry.section.custom_field_groups and !@entry.section.custom_field_groups.empty? ?>
+        <?r if @entry.section.custom_field_groups \
+        and !@entry.section.custom_field_groups.empty? ?>
         <?r @entry.section.custom_field_groups.each do |group| ?>
         <li>
             <a href="#group_#{group.id}" title="#{group.name}">
@@ -25,7 +26,8 @@
 
 #{
   form_for(
-    @entry, :method => :post, :action => @form_save_url, :id => :section_entry_form
+    @entry, 
+    :method => :post, :action => @form_save_url, :id => :section_entry_form
   ) do |f|
     f.input_hidden(:csrf_token, get_csrf_token)
     f.input_hidden(:section_id, @section_id)
@@ -59,9 +61,9 @@
       
       f.select(
         lang('section_entries.labels.status'), 
-        :status, 
-        :values   => @status_hash,
-        :selected => @entry.status, 
+        :section_entry_status_id, 
+        :values   => ::Sections::Model::SectionEntry.status_hash,
+        :selected => @entry.section_entry_status_id, 
         :size     => 1
       )
     end

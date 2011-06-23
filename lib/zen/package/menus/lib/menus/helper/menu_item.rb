@@ -17,11 +17,17 @@ module Ramaze
       # @author Yorick Peterse
       # @since  0.2a
       # @param  [Integer] menu_id The ID of the menu to validate.
+      # @return [Menus::Model::Menu] The menu that was specified in case it's
+      # valid.
       #
       def validate_menu(menu_id)
-        if !menu_id or ::Menus::Model::Menu[menu_id].nil?
+        menu = ::Menus::Model::Menu[menu_id]
+
+        if menu.nil?
           message(:error, @menu_items_lang.errors[:invalid_menu])
           redirect(::Menus::Controller::Menus.r(:index))
+        else
+          return menu
         end
       end
 

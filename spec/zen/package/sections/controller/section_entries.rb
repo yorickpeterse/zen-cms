@@ -63,14 +63,17 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
 
     within('#section_entry_form') do
       fill_in(title_field  , :with => 'Spec entry')
-      select(status_field  , :from => 'form_status')
+      select(status_field  , :from => 'form_section_entry_status_id')
       fill_in('Spec field' , :with => 'Spec field value')
       click_on(save_entry)
     end
 
     current_path.should                             =~ /#{edit_url}\/[0-9]+/
     page.find('input[name="title"]').value.should   === 'Spec entry'
-    page.find('select[name="status"]').value.should === 'published'
+
+    page.find('select[name="section_entry_status_id"] option[selected]') \
+      .text.should === status_field
+    
     page.find_field('Spec field').value.should      === 'Spec field value'
   end
 

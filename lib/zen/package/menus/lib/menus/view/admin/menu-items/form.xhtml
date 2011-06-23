@@ -1,6 +1,7 @@
 #{
 form_for(
-  @menu_item, :method => :post, :action => @form_save_url, :id => :menu_item_form
+  @menu_item, :method => :post, :action => @form_save_url, 
+  :id => :menu_item_form
 ) do |f|
 
   f.input_hidden(:csrf_token, get_csrf_token)
@@ -26,13 +27,6 @@ form_for(
   )
 
   # Generate the dropdown that contains all possible parent menu items    
-  parent_items = {}
-  Menus::Model::Menu[@menu_id.to_i].menu_items.each do |i|
-    if i.id != @menu_item.id
-      parent_items[i.id] = i.name
-    end
-  end
-
   parent_items = menu_item_tree(@menu_id.to_i)
 
   f.select(

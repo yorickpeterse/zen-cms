@@ -66,7 +66,7 @@ module Comments
 
         set_breadcrumbs(lang('comments.titles.index'))
 
-        @comments = Comment.all
+        @comments = Comment.eager(:comment_status).all
       end
 
       ##
@@ -120,7 +120,7 @@ module Comments
 
         # Copy the POST data so we can work with it without messing things up
         post = request.subset(
-          :user_id, :name, :website, :email, :comment, :status, 
+          :user_id, :name, :website, :email, :comment, :comment_status_id, 
           :section_entry_id, :id
         )
 

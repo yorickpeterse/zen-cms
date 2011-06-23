@@ -28,7 +28,8 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="comment_ids[]" value="#{comment.id}" />
+                        <input type="checkbox" name="comment_ids[]" 
+                        value="#{comment.id}" />
                     </td>
                     <?r end ?>
                     
@@ -46,7 +47,9 @@
                     <?r end ?>
                     
                     <td>#{comment.section_entry.title}</td>
-                    <td>#{Comments::Model::Comment.status_hash[comment.status]}</td>
+                    <td>
+                        #{lang("comments.labels.#{comment.comment_status.name}")}
+                    </td>
                     
                     <?r if !comment.user ?>
                     <td>#{comment.name}</td>
@@ -58,7 +61,10 @@
                     <td>#{user.email}</td>
                     <td>#{user.website}</td>
                     <?r end ?>
-                    <td>#{comment.created_at.strftime(session[:user].date_format)}</td>
+                    <td>
+                        #{comment.created_at.strftime(session[:user] \
+                          .date_format)}
+                    </td>
                 </tr>
                 <?r end ?>
             </tbody>

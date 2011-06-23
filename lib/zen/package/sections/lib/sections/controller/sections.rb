@@ -84,7 +84,8 @@ module Sections
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the section to retrieve so that we can edit it.
+      # @param  [Integer] id The ID of the section to retrieve so that we can 
+      # edit it.
       # @since  0.1
       #
       def edit(id)
@@ -97,8 +98,11 @@ module Sections
           @page_title
         )
 
-        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup.pk_hash(:name)
-        @category_group_pk_hash     = Categories::Model::CategoryGroup.pk_hash(:name)
+        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup \
+          .pk_hash(:name)
+
+        @category_group_pk_hash = Categories::Model::CategoryGroup \
+          .pk_hash(:name)
 
         if flash[:form_data]
           @section = flash[:form_data]
@@ -128,15 +132,20 @@ module Sections
           @page_title
         )
 
-        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup.pk_hash(:name)
-        @category_group_pk_hash     = Categories::Model::CategoryGroup.pk_hash(:name)
-        @section                    = Section.new
+        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup \
+          .pk_hash(:name)
+
+        @category_group_pk_hash = Categories::Model::CategoryGroup \
+          .pk_hash(:name)
+
+        @section = Section.new
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back to
-      # the proper URL. Based on the value of a hidden field named "id" we'll determine
-      # if the data will be used to create a new section or to update an existing one.
+      # Method used for processing the form data and redirecting the user back 
+      # to the proper URL. Based on the value of a hidden field named "id" 
+      # we'll determine if the data will be used to create a new section or to 
+      # update an existing one.
       #
       # This method requires the following permissions:
       #
@@ -152,8 +161,9 @@ module Sections
         end
 
         post = request.subset(
-          :id, :name, :slug, :description, :comment_allow, :comment_require_account,
-          :comment_moderate, :comment_format, :custom_field_group_pks, :category_group_pks
+          :id, :name, :slug, :description, :comment_allow, 
+          :comment_require_account, :comment_moderate, :comment_format, 
+          :custom_field_group_pks, :category_group_pks
         )
 
         if post['id'] and !post['id'].empty?
@@ -171,7 +181,8 @@ module Sections
         post['custom_field_group_pks'] ||= []
         post['category_group_pks']     ||= []
 
-        # The primary keys have to be integers otherwise Sequel will soil it's pants
+        # The primary keys have to be integers otherwise Sequel will soil it's 
+        # pants
         ['custom_field_group_pks', 'category_group_pks'].each do |k|
           post[k].map! { |value| value.to_i }
         end
@@ -206,9 +217,9 @@ module Sections
 
       ##
       # Delete an existing section. Poor section, what did he do wrong?
-      # In order to delete a section you'll need to send a POST request that contains
-      # a field named "section_ids[]". This field should contain the primary values of
-      # each section that has to be deleted.
+      # In order to delete a section you'll need to send a POST request that 
+      # contains a field named "section_ids[]". This field should contain the 
+      # primary values of each section that has to be deleted.
       #
       # This method requires the following permissions:
       #

@@ -206,16 +206,22 @@ module Settings
           name = name.to_s
 
           if !settings.include?(name)
-            # Insert the new setting
-            Setting.new(
-              :name    => setting.name   , :group => setting.group,
-              :default => setting.default, :type  => setting.type
-            ).save
+            # For some reason using the Settings model generates nil errors 
+            # when this method is called from a migration so we'll insert them
+            # the non-model way.
+            Zen.database[:settings].insert(
+              :name    => setting.name,
+              :group   => setting.group,
+              :default => setting.default,
+              :type    => setting.type
+            )
 
           # Update everything but the value
           else
-            Setting.filter[:name => setting.name].update(
-              :group => setting.group, :default => setting.default, :type => setting.type
+            Zen.database[:settings].filter[:name => setting.name].update(
+              :group   => setting.group, 
+              :default => setting.default, 
+              :type    => setting.type
             )
           end
         end

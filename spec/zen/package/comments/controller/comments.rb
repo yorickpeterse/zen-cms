@@ -6,14 +6,19 @@ describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => 
 
   it("Create all test data") do
     Testdata[:section] = Sections::Model::Section.new(
-      :name => 'Spec section', :comment_allow => true, 
-      :comment_require_account => false, :comment_moderate => false, 
+      :name                    => 'Spec section', 
+      :comment_allow           => true, 
+      :comment_require_account => false, 
+      :comment_moderate        => false, 
       :comment_format          => 'markdown'
     )
     Testdata[:section].save
 
     Testdata[:entry] = Sections::Model::SectionEntry.new(
-      :title => 'Spec entry', :status => 'published', :user_id => 1
+      :title      => 'Spec entry', 
+      :status     => 'published', 
+      :user_id    => 1,
+      :section_id => Testdata[:section].id
     )
     Testdata[:entry].save
   end
@@ -30,8 +35,10 @@ describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => 
 
   it("Create a new comment") do
     comment = Comments::Model::Comment.new(
-      :user_id => 1, :section_entry_id => Testdata[:entry].id, 
-      :email   => 'spec@domain.tld', :comment => 'Spec comment' 
+      :user_id          => 1, 
+      :section_entry_id => Testdata[:entry].id, 
+      :email            => 'spec@domain.tld', 
+      :comment          => 'Spec comment' 
     )
     comment.save
 
@@ -48,7 +55,6 @@ describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => 
     index_url   = Comments::Controller::Comments.r(:index).to_s
     edit_url    = Comments::Controller::Comments.r(:edit).to_s
     save_button = lang('comments.buttons.save')
-    
 
     visit(index_url)
     click_link('Spec comment')
@@ -57,10 +63,15 @@ describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => 
 
     within('#comment_form') do
       fill_in('comment', :with => 'Spec comment modified')
+      select(lang('comments.labels.open'), :from => 'comment_status_id') 
       click_on(save_button)
     end
 
-    page.find('textarea[name="comment"]').value.should === 'Spec comment modified'
+    page.find('textarea[name="comment"]').value \
+      .should === 'Spec comment modified'
+
+    page.find('select[name="comment_status_id"] option[selected]').text \
+      .should === lang('comments.labels.open')
   end
 
   it("Delete an existing comment") do

@@ -63,7 +63,7 @@ module Menus
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
-        validate_menu(menu_id)
+        menu = validate_menu(menu_id)
 
         set_breadcrumbs(
           anchor_to(lang('menus.titles.index'), Menus.r(:index)),
@@ -71,7 +71,7 @@ module Menus
         )
 
         @menu_id    = menu_id
-        @menu_items = Menu[menu_id.to_i].menu_items
+        @menu_items = menu.menu_items
       end
 
       ##
@@ -95,8 +95,12 @@ module Menus
         validate_menu(menu_id)
 
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
-          anchor_to(lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)),
+          anchor_to(
+            lang('menus.titles.index'), Menus.r(:index)
+          ),
+          anchor_to(
+            lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)
+          ),
           lang('menu_items.titles.edit')
         )
 
@@ -129,8 +133,12 @@ module Menus
         validate_menu(menu_id)
 
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
-          anchor_to(lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)),
+          anchor_to(
+            lang('menus.titles.index'), Menus.r(:index)
+          ),
+          anchor_to(
+            lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)
+          ),
           lang('menu_items.titles.new')
         )
 
@@ -139,7 +147,8 @@ module Menus
       end
 
       ##
-      # Saves an existing menu iten or creates a new one using the supplied POST data.
+      # Saves an existing menu iten or creates a new one using the supplied 
+      # POST data.
       #
       # This method requires the following permissions:
       #
@@ -163,8 +172,8 @@ module Menus
           post['parent_id'] = nil
         end
 
-        # Determine if we're saving changes made to an existing menu item or if we're
-        # going to create a new one.
+        # Determine if we're saving changes made to an existing menu item or 
+        # if we're going to create a new one.
         if !post['id'].empty?
           @menu_item  = MenuItem[post['id']]
           save_action = :save
