@@ -49,7 +49,7 @@ module Menus
           :limit  => 20,
           :offset => 0,
           :menu   => nil,
-          :sub    => true,
+          :sub    => false,
           :order  => :asc
         }.merge(options)
 
@@ -127,9 +127,6 @@ module Menus
           attributes[:id] = item.css_id if !item.css_id.empty?
         end
 
-        # Get all child elements
-        children = item.children
-
         # Render the <li> tag
         @g.li(attributes) do
           # Do we have a URL?
@@ -140,10 +137,14 @@ module Menus
           end
 
           # Generate all the sub elements
-          if !children.empty? and @options[:sub] === true
-            @g.ul(:class => :children) do
-              children.each do |child|
-                generate_item(child)
+          if @options[:sub] === true
+            children = item.children
+
+            if !children.empty?
+              @g.ul(:class => :children) do
+                children.each do |child|
+                  generate_item(child)
+                end
               end
             end
           end

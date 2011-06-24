@@ -84,7 +84,7 @@ module Sections
           lang('section_entries.titles.index')
         )
 
-        section     = Section[section_id.to_i]
+        section     = Section[section_id]
         @section_id = section_id
         @entries    = section.section_entries
       end
@@ -124,7 +124,7 @@ module Sections
         if flash[:form_data]
           @entry = flash[:form_data]
         else
-          @entry = SectionEntry[entry_id.to_i]
+          @entry = SectionEntry[entry_id]
         end
 
         @users_hash = {}

@@ -3,10 +3,10 @@ module Sections
   #:nodoc:
   module Plugin
     ##
-    # The SectionEntries plugin can be used to retrieve section entries as well as the
-    # associated comments and user data. This allows you to relatively easily build a list
-    # of entries (e.g. blog articles) without having to retrieve and process the 
-    # associated data manually.
+    # The SectionEntries plugin can be used to retrieve section entries as well
+    # as the associated comments and user data. This allows you to relatively
+    # easily build a list of entries (e.g. blog articles) without having to
+    # retrieve and process the associated data manually.
     #
     # ## Usage
     #
@@ -17,9 +17,9 @@ module Sections
     #       puts e[:title]
     #     end
     #
-    # The values of custom fields are stored under the key :fields. This key contains a
-    # hash where the keys are the slugs of the custom fields and the values the values for
-    # the current entry.
+    # The values of custom fields are stored under the key :fields. This key
+    # contains a hash where the keys are the slugs of the custom fields and the
+    # values the values for the current entry.
     #
     #     entries.each do |e|
     #       e[:fields][:thumbnail]
@@ -39,7 +39,8 @@ module Sections
     #       end
     #     end
     #
-    # For a full list of available options see Sections::Plugin::SectionEntries.initialize.
+    # For a full list of available options see
+    # Sections::Plugin::SectionEntries.initialize.
     #
     # @author Yorick Peterse
     # @since  0.2.5
@@ -49,31 +50,32 @@ module Sections
       include ::Sections::Model
 
       ##
-      # Creates a new instance of the plugin and validates/stores the given configuration
-      # options. Please note that you always need to either specify a section from which
-      # to retrieve all entries or a single entry in order to use this plugin. You can
-      # retrieve a list of entries (or just a single one) by specifying the ID or the 
-      # slug:
+      # Creates a new instance of the plugin and validates/stores the given
+      # configuration options. Please note that you always need to either
+      # specify a section from which to retrieve all entries or a single entry
+      # in order to use this plugin. You can retrieve a list of entries (or just
+      # a single one) by specifying the ID or the slug:
       #
       #     plugin(:section_entries, :section => 'blog')
       #     plugin(:section_entries, :section => 10)
       #
       # @author Yorick Peterse
       # @since  0.2.5
-      # @param  [Hash] options Hash with a collection of custom configuration options that
-      # determine how and what entries should be retrieved.
+      # @param  [Hash] options Hash with a collection of custom configuration
+      # options that determine how and what entries should be retrieved.
       # @option options [Fixnum/Integer] :limit
       # @option options [Fixnum/Integer] :offset
       # @option options [NilClass/String/Integer/Fixnum] :section
       # @option options [NilClass/String/Integer/Fixnum] :entry
-      # @option options [TrueClass] :markup When set to true the markup of all entries will
-      # be converted to the desired output (usually this is HTML).
-      # @option options [TrueClass] :comments When set to true all comments for each entry
-      # will be retrieved.
-      # @option options [TrueClass] :comment_markup When set to true the markup of comments
-      # will be converted to the desired output.
-      # @option options [TrueClass] :categories When set to true all categories for each
-      # entry will be retrieved as well.
+      # @option options [TrueClass] :markup When set to true the markup of all
+      # entries will be converted to the desired output (usually this is HTML).
+      # @option options [TrueClass] :comments When set to true all comments for
+      # each entry will be retrieved. Set to false by default.
+      # @option options [TrueClass] :comment_markup When set to true the markup
+      # of comments will be converted to the desired output.
+      # @option options [TrueClass] :categories When set to true all categories
+      # for each entry will be retrieved as well. This is set to false by
+      # default.
       #
       def initialize(options = {})
         @options = {
@@ -82,29 +84,36 @@ module Sections
           :section        => nil,
           :entry          => nil,
           :markup         => true,
-          :comments       => true,
+          :comments       => false,
           :comment_markup => true,
-          :categories     => true
+          :categories     => false
         }.merge(options)
 
         validate_type(@options[:limit]   , :limit   , [Fixnum, Integer])
         validate_type(@options[:offset]  , :limit   , [Fixnum, Integer])
-        validate_type(@options[:section] , :section , [NilClass, String, Integer, Fixnum])
-        validate_type(@options[:entry]   , :entry   , [NilClass, String, Integer, Fixnum])
+
+        validate_type(
+          @options[:section], :section, [NilClass, String, Integer, Fixnum]
+        )
+
+        validate_type(
+          @options[:entry], :entry, [NilClass, String, Integer, Fixnum]
+        )
+
         validate_type(@options[:markup]  , :markup  , [TrueClass, FalseClass])
         validate_type(@options[:comments], :comments, [TrueClass, FalseClass])
 
         if @options[:section].nil? and @options[:entry].nil?
           raise(
-            ArgumentError, 
+            ArgumentError,
             "You need to specify either an entry or a section to retrieve."
           )
         end
       end
 
       ##
-      # Fetches all the data and converts everything to a hash. Once this is done either
-      # an array of entries or a single entry hash will be returned.
+      # Fetches all the data and converts everything to a hash. Once this is
+      # done either an array of entries or a single entry hash will be returned.
       #
       # @author Yorick Peterse
       # @since  0.2.5
@@ -112,14 +121,18 @@ module Sections
       #
       def call
         # Create the list with models to load using eager()
-        eager_models = [:custom_field_values, :categories, :section, :user]
+        eager_models = [:custom_field_values, :user]
         filter_hash  = {}
 
         if @options[:comments] === true
           eager_models.push(:comments)
         end
+        
+        if @options[:categories] === true
+          eager_models.push(:categories)
+        end
 
-        # Retrieve multiple entries
+        # Get the section ID based on either the slug or ID.
         if !@options[:section].nil?
           # Retrieve the section by it's slug
           if @options[:section].class == String
@@ -128,23 +141,30 @@ module Sections
             section_id = @options[:section]
           end
 
-          filter_hash[:section_id] = section_id
+          filter_hash[:section_entries__section_id] = section_id
         end
 
         # Retrieve a specific entry
         if !@options[:entry].nil?
           # Retrieve it by it's slug
           if @options[:entry].class == String
-            filter_hash[:slug] = @options[:entry]
+            filter_hash[:section_entries__slug] = @options[:entry]
           # Retrieve the entry by it's ID
           else
-            filter_hash[:id] = @options[:entry]
+            filter_hash[:section_entries__id] = @options[:entry]
           end
         end
+
+        filter_hash[:section_entry_statuses__name] = 'published'
 
         # Get the entries
         entries = SectionEntry.filter(filter_hash) \
           .eager(*eager_models) \
+          .join(
+            :section_entry_statuses, 
+            :section_entries__section_entry_status_id \
+              => :section_entry_statuses__id
+          )
           .limit(@options[:limit], @options[:offset]) \
           .all
 
@@ -185,7 +205,9 @@ module Sections
 
               # Convert the comment's markup
               if @options[:comment_markup]
-                comment[:comment] = plugin(:markup, comment_format, comment[:comment])
+                comment[:comment] = plugin(
+                  :markup, comment_format, comment[:comment]
+                )
               end
 
               comments.push(comment)
@@ -198,8 +220,10 @@ module Sections
           end
 
           # Get all categories
-          categories = entry.categories.map do |cat|
-            cat.values
+          if @options[:categories] === true
+            categories = entry.categories.map do |cat|
+              cat.values
+            end
           end
 
           # Convert the entry to a hash and re-assign all data

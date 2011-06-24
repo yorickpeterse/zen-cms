@@ -97,7 +97,8 @@
     end
 
     # Loop through all the custom field groups
-    if @entry.section.custom_field_groups and !@entry.section.custom_field_groups.empty?
+    if @entry.section.custom_field_groups \
+    and !@entry.section.custom_field_groups.empty?
       @entry.section.custom_field_groups.each do |group|
       
         f.g.div(:id => "group_#{group.id}") do
@@ -224,7 +225,9 @@
     
     f.g.div(:class => 'clearfix') do
       f.g.div(:class => 'button') do
-        f.g.input(:type => 'submit', :value => lang('section_entries.buttons.save'))
+        f.g.input(
+          :type => 'submit', :value => lang('section_entries.buttons.save')
+        )
       end
     end
   end

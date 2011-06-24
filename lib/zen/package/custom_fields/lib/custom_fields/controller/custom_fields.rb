@@ -66,16 +66,16 @@ module CustomFields
       end
 
       ##
-      # Show an overview of all existing custom fields. Using this overview a user
-      # can manage an existing field, delete it or create a new one.
+      # Show an overview of all existing custom fields. Using this overview a 
+      # user can manage an existing field, delete it or create a new one.
       #
       # This method requires the following permissions:
       #
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Integer] custom_field_group_id The ID of the custom field group to
-      # which all fields belong.
+      # @param  [Integer] custom_field_group_id The ID of the custom field group 
+      # to which all fields belong.
       # @since  0.1
       #
       def index(custom_field_group_id)
@@ -84,12 +84,16 @@ module CustomFields
         end
 
         set_breadcrumbs(
-          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldGroups.r(:index)),
+          anchor_to(
+            lang('custom_field_groups.titles.index'), 
+            CustomFieldGroups.r(:index)
+          ),
           lang('custom_fields.titles.index')
         )
 
-        @custom_field_group_id = custom_field_group_id.to_i
-        @custom_fields         = CustomFieldGroup[@custom_field_group_id].custom_fields
+        @custom_field_group_id = custom_field_group_id
+        @custom_fields         = CustomFieldGroup[@custom_field_group_id] \
+          .custom_fields
       end
 
       ##
@@ -101,9 +105,10 @@ module CustomFields
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] custom_field_group_id The ID of the custom field group to
-      # which all fields belong.
-      # @param  [Integer] id The ID of the custom field to retrieve so that we can edit it.
+      # @param  [Integer] custom_field_group_id The ID of the custom field 
+      # group to which all fields belong.
+      # @param  [Integer] id The ID of the custom field to retrieve so that we 
+      # can edit it.
       # @since  0.1
       #
       def edit(custom_field_group_id, id)
@@ -112,8 +117,14 @@ module CustomFields
         end
 
         set_breadcrumbs(
-          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldGroups.r(:index)),
-          anchor_to(lang('custom_fields.titles.index'), CustomFields.r(:index, custom_field_group_id)),
+          anchor_to(
+            lang('custom_field_groups.titles.index'), 
+            CustomFieldGroups.r(:index)
+          ),
+          anchor_to(
+            lang('custom_fields.titles.index'), 
+            CustomFields.r(:index, custom_field_group_id)
+          ),
           lang('custom_fields.titles.edit')
         )
 
@@ -135,8 +146,8 @@ module CustomFields
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Integer] custom_field_group_id The ID of the custom field group to
-      # which all fields belong.
+      # @param  [Integer] custom_field_group_id The ID of the custom field group 
+      # to which all fields belong.
       # @since  0.1
       #
       def new(custom_field_group_id)
@@ -161,9 +172,10 @@ module CustomFields
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back to
-      # the proper URL. Based on the value of a hidden field named 'id' we'll determine
-      # if the data will be used to create a new custom field or to update an existing one.
+      # Method used for processing the form data and redirecting the user back 
+      # to the proper URL. Based on the value of a hidden field named 'id' we'll 
+      # determine if the data will be used to create a new custom field or to 
+      # update an existing one.
       #
       # This method requires the following permissions:
       #
@@ -179,11 +191,13 @@ module CustomFields
         end
 
         post = request.subset(
-          :id, :name, :slug, :description, :sort_order, :type, :format, :possible_values,
-          :required, :visual_editor, :textarea_rows, :text_limit, :custom_field_group_id
+          :id, :name, :slug, :description, :sort_order, :type, :format, 
+          :possible_values, :required, :visual_editor, :textarea_rows, 
+          :text_limit, :custom_field_group_id
         )
 
-        # Get or create a custom field group based on the ID from the hidden field.
+        # Get or create a custom field group based on the ID from the hidden 
+        # field.
         if post['id'] and !post['id'].empty?
           @custom_field = CustomField[post['id']]
           save_action   = :save
@@ -210,7 +224,13 @@ module CustomFields
         end
 
         if @custom_field.id
-          redirect(CustomFields.r(:edit, post['custom_field_group_id'], @custom_field.id))
+          redirect(
+            CustomFields.r(
+              :edit,
+              post['custom_field_group_id'], 
+              @custom_field.id
+            )
+          )
         else
           redirect_referrer
         end
@@ -219,9 +239,9 @@ module CustomFields
       ##
       # Delete an existing custom field.
       #
-      # In order to delete a custom field group you'll need to send a POST request that
-      # contains a field named 'custom_field_ids[]'. This field should contain the
-      # primary values of each field that has to be deleted.
+      # In order to delete a custom field group you'll need to send a POST 
+      # request that contains a field named 'custom_field_ids[]'. This field 
+      # should contain the primary values of each field that has to be deleted.
       #
       # This method requires the following permissions:
       #
@@ -237,7 +257,8 @@ module CustomFields
 
         post = request.subset(:custom_field_ids, :custom_field_group_id)
 
-        if !request.params['custom_field_ids'] or request.params['custom_field_ids'].empty?
+        if !request.params['custom_field_ids'] \
+        or request.params['custom_field_ids'].empty?
           message(:error, lang('custom_fields.errors.no_delete'))
           redirect(CustomFields.r(:index, post['custom_field_group_id']))
         end

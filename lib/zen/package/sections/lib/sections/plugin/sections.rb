@@ -3,8 +3,8 @@ module Sections
   #:nodoc:
   module Plugin
     ##
-    # Plugin that can be used to display sections and their details. If you want to 
-    # display section entries instead you should use the plugin 
+    # Plugin that can be used to display sections and their details. If you want
+    # to display section entries instead you should use the plugin
     # Sections::Plugin::SectionEntries.
     #
     # ## Usage
@@ -20,8 +20,8 @@ module Sections
       include ::Sections::Model
 
       ##
-      # Creates a new instance of the plugin and saves/validates the given configuration
-      # options.
+      # Creates a new instance of the plugin and saves/validates the given
+      # configuration options.
       #
       # @example
       #  plugin = Sections::Plugin::Sections.new(:section => 10)
@@ -39,19 +39,22 @@ module Sections
 
         validate_type(@options[:limit]  , :limit  , [Fixnum, Integer])
         validate_type(@options[:offset] , :offset , [Fixnum, Integer])
-        validate_type(@options[:section], :section, [NilClass, Integer, Fixnum, String])
+
+        validate_type(
+          @options[:section], :section, [NilClass, Integer, Fixnum, String]
+        )
       end
 
       ##
-      # Retrieves the section(s) based on the given configuration options. When multiple
-      # sections are retrieved they're returned as an array, otherwise a single instance
-      # of Sections::Model::Sections will be returned.
+      # Retrieves the section(s) based on the given configuration options. When
+      # multiple sections are retrieved they're returned as an array, otherwise
+      # a single instance of Sections::Model::Sections will be returned.
       #
       # @author Yorick Peterse
       # @since  0.2.5
-      # @return [Array/Sections::Model::Section] List of all sections that were retrieved
-      # or an instance of Sections::Model::Section in case a specific section was retrieved
-      # from the database.
+      # @return [Array/Sections::Model::Section] List of all sections that were
+      # retrieved or an instance of Sections::Model::Section in case a specific
+      # section was retrieved from the database.
       #
       def call
         # Retrieve a single section

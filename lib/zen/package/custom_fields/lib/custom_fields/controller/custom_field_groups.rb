@@ -48,8 +48,9 @@ module CustomFields
       end
 
       ##
-      # Show an overview of all existing custom field groups. Using this overview a user
-      # can manage an existing field group, delete it or create a new one.
+      # Show an overview of all existing custom field groups. Using this 
+      # overview a user can manage an existing field group, delete it or create 
+      # a new one.
       #
       # This method requires the following permissions:
       #
@@ -77,8 +78,8 @@ module CustomFields
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the custom field group to retrieve so that we
-      # can edit it.
+      # @param  [Integer] id The ID of the custom field group to retrieve so 
+      # that we can edit it.
       # @since  0.1
       #
       def edit(id)
@@ -87,7 +88,10 @@ module CustomFields
         end
 
         set_breadcrumbs(
-          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldGroups.r(:index)),
+          anchor_to(
+            lang('custom_field_groups.titles.index'), 
+            CustomFieldGroups.r(:index)
+          ),
           @page_title
         )
 
@@ -115,7 +119,10 @@ module CustomFields
         end
 
         set_breadcrumbs(
-          anchor_to(lang('custom_field_groups.titles.index'), CustomFieldGroups.r(:index)),
+          anchor_to(
+            lang('custom_field_groups.titles.index'), 
+            CustomFieldGroups.r(:index)
+          ),
           @page_title
         )
 
@@ -123,9 +130,10 @@ module CustomFields
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back to
-      # the proper URL. Based on the value of a hidden field named 'id' we'll determine
-      # if the data will be used to create a new group or to update an existing one.
+      # Method used for processing the form data and redirecting the user back 
+      # to the proper URL. Based on the value of a hidden field named 'id' we'll 
+      # determine if the data will be used to create a new group or to update 
+      # an existing one.
       #
       # This method requires the following permissions:
       #
@@ -142,7 +150,8 @@ module CustomFields
 
         post = request.subset(:id, :name, :description)
 
-        # Get or create a custom field group based on the ID from the hidden field.
+        # Get or create a custom field group based on the ID from the hidden 
+        # field.
         if post['id'] and !post['id'].empty?
           @field_group  = CustomFieldGroup[post['id']]
           save_action   = :save
@@ -177,9 +186,10 @@ module CustomFields
       ##
       # Delete an existing custom field group.
       #
-      # In order to delete a custom field group you'll need to send a POST request
-      # that contains a field named 'custom_field_group_ids[]'. This field should
-      # contain the primary values of each field group that has to be deleted.
+      # In order to delete a custom field group you'll need to send a POST 
+      # request that contains a field named 'custom_field_group_ids[]'. This 
+      # field should contain the primary values of each field group that has to 
+      # be deleted.
       #
       # This method requires the following permissions:
       #
@@ -193,7 +203,8 @@ module CustomFields
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
 
-        if !request.params['custom_field_group_ids'] or request.params['custom_field_group_ids'].empty?
+        if !request.params['custom_field_group_ids'] \
+        or request.params['custom_field_group_ids'].empty?
           message(:error, lang('custom_field_groups.errors.no_delete'))
           redirect(CustomFieldGroups.r(:index))
         end
