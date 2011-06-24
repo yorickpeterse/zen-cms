@@ -25,10 +25,12 @@ Sequel.migration do
       .filter(:name => 'default_section') \
       .all[0][:value]
 
-    if !Zen.database[:sections].all.empty?
-      default_section = Zen.database[:sections] \
-        .filter(:id => default_section) \
-        .all[0][:slug]
+    section = Zen.database[:sections] \
+      .filter(:id => default_section) \
+      .all[0]
+
+    if !section.nil?
+      default_section = section[:slug]
 
       # Change the ID back to a slug
       Zen.database[:settings].filter(:name => 'default_section') \

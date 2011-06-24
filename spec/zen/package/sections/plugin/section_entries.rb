@@ -6,30 +6,46 @@ describe('Sections::Plugin::SectionEntries') do
 
   it('Create the test data') do
     user               = Users::Model::User[:email => 'spec@domain.tld']
+    status_id          = SectionEntryStatus[:name => 'published'].id
+    comment_status     = CommentStatus[:name => 'open'].id
     Testdata[:section] = Section.new(
-      :name => 'Spec', :comment_allow => true, :comment_require_account => false,
-      :comment_moderate => false, :comment_format => 'plain'
+      :name                     => 'Spec', 
+      :comment_allow            => true, 
+      :comment_require_account  => false,
+      :comment_moderate         => false, 
+      :comment_format           => 'plain'
     ).save
 
-    Testdata[:entry_1] = SectionEntry.new(
-      :title => 'Spec', :status => 'published', :user_id => user.id, 
-      :section_id => Testdata[:section].id
-    ).save
+    Testdata[:entry_1] = SectionEntry.create(
+      :title                   => 'Spec', 
+      :status                  => 'published',
+      :user_id                 => user.id, 
+      :section_id              => Testdata[:section].id,
+      :slug                    => 'spec',
+      :section_entry_status_id => status_id
+    )
 
-    Testdata[:entry_2] = SectionEntry.new(
-      :title => 'Spec 1', :status => 'published', :user_id => user.id, 
-      :section_id => Testdata[:section].id
-    ).save
+    Testdata[:entry_2] = SectionEntry.create(
+      :title                    => 'Spec 1', 
+      :status                   => 'published', 
+      :user_id                  => user.id, 
+      :section_id               => Testdata[:section].id,
+      :slug                     => 'spec-1',
+      :section_entry_status_id  => status_id
+    )
 
-    Testdata[:comment] = Comment.new(
-      :user_id => user.id, :comment => 'spec comment', :status => 'open',
-      :section_entry_id => Testdata[:entry_2].id, :comment => 'Comment', 
-      :email => user.email
-    ).save  
+    Testdata[:comment] = Comment.create(
+      :user_id           => user.id, 
+      :comment           => 'spec comment', 
+      :comment_status_id => comment_status,
+      :section_entry_id  => Testdata[:entry_2].id, 
+      :comment           => 'Comment', 
+      :email             => user.email
+    )
   end
 
   it('Retrieve all section entries') do
-    entries = plugin(:section_entries, :section => 'spec')
+    entries = plugin(:section_entries, :section => 'spec', :comments => true)
 
     entries.count.should                      === 2
     entries[0].class.should                   ==  Hash

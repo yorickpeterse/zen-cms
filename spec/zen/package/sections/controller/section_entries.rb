@@ -5,8 +5,11 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
   
   it("Create the test data") do
     Testdata[:section] = Sections::Model::Section.new(
-      :name => 'Spec section', :comment_allow => true, :comment_require_account => true,
-      :comment_moderate => true, :comment_format => 'plain'
+      :name                    => 'Spec section', 
+      :comment_allow           => true, 
+      :comment_require_account => true,
+      :comment_moderate        => true, 
+      :comment_format          => 'plain'
     )
     Testdata[:section].save
 
@@ -14,9 +17,13 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
     Testdata[:group].save
 
     Testdata[:field] = CustomFields::Model::CustomField.new(
-      :name => 'Spec field', :sort_order => 0, :type => 'textbox', :format => 'markdown',
-      :required => true, :visual_editor => false, 
-      :custom_field_group_id => Testdata[:group].id
+      :name                   => 'Spec field', 
+      :sort_order             => 0, 
+      :type                   => 'textbox', 
+      :format                 => 'markdown',
+      :required               => true, 
+      :visual_editor          => false, 
+      :custom_field_group_id  => Testdata[:group].id
     )
     Testdata[:field].save
 

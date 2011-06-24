@@ -20,7 +20,7 @@ describe("Menus::Plugin::Menus") do
   end
 
   it("Retrieve a menu with all items") do
-    menu = plugin(:menus, :menu => 'spec').strip
+    menu = plugin(:menus, :menu => 'spec', :sub => true).strip
 
     menu.include?('Spec').should                  === true
     menu.include?('Spec 2').should                === true
@@ -29,7 +29,7 @@ describe("Menus::Plugin::Menus") do
   end
 
   it("Retrieve a menu with only 1 item") do
-    menu = plugin(:menus, :menu => 'spec', :limit => 1).strip
+    menu = plugin(:menus, :menu => 'spec', :limit => 1, :sub => true).strip
 
     menu.include?('Spec').should                  === true
     menu.include?('Spec 2').should                === false
@@ -39,7 +39,7 @@ describe("Menus::Plugin::Menus") do
 
   it("Retrieve a menu with only 1 item and an offset") do
     menu = plugin(
-      :menus, :menu => 'spec', :limit => 1, :offset => 1
+      :menus, :menu => 'spec', :limit => 1, :offset => 1, :sub => true
     ).strip
 
     menu.include?('Spec 2').should                === true
@@ -58,7 +58,7 @@ describe("Menus::Plugin::Menus") do
 
   it('Retrieve a set of items and sort them') do
     menu     = plugin(:menus, :menu => 'spec', :order => :desc, :sub => false).strip
-    menu_asc = plugin(:menus, :menu => 'spec', :order => :asc, :sub => false).strip
+    menu_asc = plugin(:menus, :menu => 'spec', :order => :asc , :sub => false).strip
     html     = <<-HTML
 <ul><li><a href="/2" title="Spec 2">Spec 2</a></li><li><a href="/" title="Spec">Spec</a>
 </li></ul>

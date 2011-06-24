@@ -141,30 +141,27 @@ module Sections
             section_id = @options[:section]
           end
 
-          filter_hash[:section_entries__section_id] = section_id
+          filter_hash[:section_id] = section_id
         end
 
         # Retrieve a specific entry
         if !@options[:entry].nil?
           # Retrieve it by it's slug
           if @options[:entry].class == String
-            filter_hash[:section_entries__slug] = @options[:entry]
+            filter_hash[:slug] = @options[:entry]
           # Retrieve the entry by it's ID
           else
-            filter_hash[:section_entries__id] = @options[:entry]
+            filter_hash[:id] = @options[:entry]
           end
         end
 
-        filter_hash[:section_entry_statuses__name] = 'published'
+        # Get the correct status to retrieve
+        filter_hash[:section_entry_status_id] = \
+          ::Sections::Model::SectionEntryStatus[:name => 'published'].id
 
         # Get the entries
         entries = SectionEntry.filter(filter_hash) \
           .eager(*eager_models) \
-          .join(
-            :section_entry_statuses, 
-            :section_entries__section_entry_status_id \
-              => :section_entry_statuses__id
-          )
           .limit(@options[:limit], @options[:offset]) \
           .all
 
@@ -172,10 +169,6 @@ module Sections
 
         # Loop through all entries so we can process our custom field values
         entries.each_with_index do |entry, index|
-          if comment_format.nil?
-            comment_format = entry.section.comment_format
-          end
-
           field_values = {}
           user         = {}
           comments     = []
@@ -196,6 +189,10 @@ module Sections
 
           # Get all the comments if the developer wants them
           if @options[:comments] === true
+            if comment_format.nil?
+              comment_format = entry.section.comment_format
+            end
+
             entry.comments.each do |c|
               comment = c.values
 
