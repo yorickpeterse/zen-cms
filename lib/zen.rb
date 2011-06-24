@@ -88,7 +88,8 @@ module Zen
         plugin(:settings, :migrate)
       rescue
         Ramaze::Log.warn(
-          "Failed to migrate the settings, make sure the database table is up to date"
+          'Failed to migrate the settings, make sure the database ' + \
+            'table is up to date'
         )
       end
     end
