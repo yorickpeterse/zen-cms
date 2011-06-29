@@ -6,8 +6,9 @@ describe("Categories::Controller::Categories") do
   behaves_like :capybara
 
   it("Create the test data") do
-    Testdata[:group] = Categories::Model::CategoryGroup \
-      .create(:name => 'Spec group')
+    Testdata[:group] = Categories::Model::CategoryGroup.create(
+      :name => 'Spec group'
+    )
 
     Testdata[:group].name.should === 'Spec group'
   end

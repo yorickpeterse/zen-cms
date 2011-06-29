@@ -26,7 +26,6 @@ module Ramaze
     # @see    Users::Controller::AccessRules()
     #
     module ACL
-
       ##
       # Builds a hash containing the permissions for all controllers. First all 
       # group based rules will be retrieved. If the user is in a super group 
@@ -161,6 +160,21 @@ module Ramaze
             # Add or remove the permission
             @used_rules[c].send(method, available_rule)
           end
+        end
+      end
+
+      ##
+      # Method that checks if the user has the given permissions. If this isn't
+      # the case an error message is displayed and the user won't be able to
+      # access the page.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.7.1
+      # @param  [Array] *args An array of permissions that are required.
+      #
+      def require_permissions(*args)
+        if !user_authorized?(args)
+          respond(lang('zen_general.errors.not_authorized'), 403)
         end
       end
     end # ACL

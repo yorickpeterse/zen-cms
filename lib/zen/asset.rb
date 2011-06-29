@@ -68,9 +68,9 @@ module Zen
     end
 
     options.dsl do
-      o 'Prefix for both Javascript files and stylesheets', :prefix           , 'admin'
-      o 'Prefix for Javascript files on top of :prefix'   , :javascript_prefix, 'js'
-      o 'Prefix for stylesheets on top of :prefix'        , :stylesheet_prefix, 'css'
+      o 'Prefix for JS and CSS files'          , :prefix           , 'admin'
+      o 'Prefix for JS files on top of :prefix', :javascript_prefix, 'js'
+      o 'Prefix for CSS on top of :prefix'     , :stylesheet_prefix, 'css'
     end
 
     ##

@@ -1,4 +1,6 @@
+#:nodoc:
 module Categories
+  #:nodoc:
   module Controller
     ##
     # Category groups can be used to group a number of categories into a single 
@@ -11,8 +13,9 @@ module Categories
     #
     class CategoryGroups < Zen::Controller::AdminController
       include ::Categories::Model
-
-      map('/admin/category-groups')
+      
+      helper :category
+      map '/admin/category-groups'
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -77,22 +80,18 @@ module Categories
       # @author Yorick Peterse
       # @since  0.1
       #
-      def edit id
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+      def edit(id)
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('category_groups.titles.index'), CategoryGroups.r(:index)
-          ),
+          CategoryGroups.a(lang('category_groups.titles.index'), :index),
           lang('category_groups.titles.edit')
         )
 
         if flash[:form_data]
           @category_group = flash[:form_data]
         else
-          @category_group = CategoryGroup[id]
+          @category_group = validate_category_group(id)
         end
       end
 
@@ -107,14 +106,10 @@ module Categories
       # @since  0.1
       #
       def new
-        if !user_authorized?([:create, :read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:create, :read)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('category_groups.titles.index'), CategoryGroups.r(:index)
-          ),
+          CategoryGroups.a(lang('category_groups.titles.index'), :index),
           lang('category_groups.titles.new')
         )
 
@@ -132,18 +127,16 @@ module Categories
       # @since  0.1
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:create, :update)
 
         post = request.subset(:id, :name, :description)
 
         if post['id'] and !post['id'].empty?
-          @category_group = CategoryGroup[post['id']]
-          save_action     = :save
+          category_group = validate_category_group(post['id'])
+          save_action    = :save
         else
-          @category_group = CategoryGroup.new
-          save_action     = :new
+          category_group = CategoryGroup.new
+          save_action    = :new
         end
 
         # Set the messages
@@ -154,18 +147,18 @@ module Categories
 
         # Try to run the query
         begin
-          @category_group.update(post)
+          category_group.update(post)
           message(:success, flash_success)
         rescue => e
           message(:error, flash_error)
           Ramaze::Log.error(e.inspect)
 
-          flash[:form_data]   = @category_group
-          flash[:form_errors] = @category_group.errors
+          flash[:form_data]   = category_group
+          flash[:form_errors] = category_group.errors
         end
 
-        if !@category_group.nil? and @category_group.id
-          redirect(CategoryGroups.r(:edit, @category_group.id))
+        if !category_group.nil? and category_group.id
+          redirect(CategoryGroups.r(:edit, category_group.id))
         else
           redirect(CategoryGroups.r(:new))
         end
@@ -203,6 +196,7 @@ module Categories
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('category_groups.errors.delete') % id)
+            redirect_referrer
           end
         end
 

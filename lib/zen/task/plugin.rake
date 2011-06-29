@@ -10,11 +10,10 @@ namespace :plugin do
   task :list do
     Zen::Plugin::Registered.each do |name, pkg|
       message = <<-MSG
---------------------------
-Name: #{name}
-Author: #{pkg.author}
-
+#{name}
+--------------------
 #{pkg.about}
+
 MSG
 
       puts message

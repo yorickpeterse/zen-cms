@@ -1,3 +1,20 @@
+## 0.2.7.1 - July XXX, 2011
+
+* Replaced RSpec with Bacon.
+* When retrieving section entries comments are now retrieved properly.
+* Comments and categories are no longer retrieved by default when calling the
+  section entries plugin.
+* Statuses of comments and section entries are now stored in a separate table.
+* Plugins can be called as a singleton using Zen::Plugin.plugin.
+* The column menu\_items.order has been renamed to menu\_items.sort\_order.
+* The accessor method for settings that defines the possible values now accepts
+  a Proc, this makes it possible for conditional possible values and such.
+* Various performance tweaks.
+* The rake task proto:package has been removed.
+* The core package have been cleaned up and are much more robust thanks to
+  better validation of various objects such as category groups when viewing a
+  list of categories.
+
 ## 0.2.7 - June 16th, 2011
 
 * Started using Ramaze.setup for Gem management.

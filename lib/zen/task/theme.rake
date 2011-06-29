@@ -10,12 +10,10 @@ namespace :theme do
   task :list do
     Zen::Theme::Registered.each do |name, pkg|
       message = <<-MSG
---------------------------
-Name: #{name}
-Author: #{pkg.author}
-Template directory: #{pkg.template_dir}
-
+#{name}
+--------------------
 #{pkg.about}
+
 MSG
 
       puts message

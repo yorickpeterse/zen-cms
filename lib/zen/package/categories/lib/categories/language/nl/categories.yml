@@ -28,10 +28,11 @@ success:
   delete: 'De categorie is verwijderd.'
 
 errors:
-  new      : 'De categorie kon niet worden aangemaakt.'
-  save     : 'De categorie kon niet worden aangepast.'
-  delete   : 'De categorie met ID #%s kon niet worden verwijderd.'
-  no_delete: 'U moet ten minste 1 categorie specificeren om te verwijderen.'
+  new             : 'De categorie kon niet worden aangemaakt.'
+  save            : 'De categorie kon niet worden aangepast.'
+  delete          : 'De categorie met ID #%s kon niet worden verwijderd.'
+  no_delete       : 'U moet ten minste 1 categorie specificeren om te verwijderen.'
+  invalid_category: 'De opgegeven categorie is ongeldig.'
 
 buttons:
   new   : 'Categorie aanmaken'
