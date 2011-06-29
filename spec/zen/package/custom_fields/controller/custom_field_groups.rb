@@ -2,11 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('custom_field_groups')
 
-describe(
-  "CustomFields::Controller::CustomFieldGroups", 
-  :type       => :acceptance, 
-  :auto_login => true
-) do
+describe('CustomFields::Controller::CustomFieldGroups') do
+  behaves_like :capybara
 
   it("No custom field groups should exist") do
     index_url = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
@@ -37,9 +34,13 @@ describe(
       click_on(save_button)
     end
 
-    current_path.should                                    =~ /#{edit_url}\/[0-9]+/
-    page.find('input[name="name"]').value.should           === 'Spec field group'
-    page.find('textarea[name="description"]').value.should === 'Spec field group desc'
+    current_path.should =~ /#{edit_url}\/[0-9]+/
+
+    page.find('input[name="name"]') \
+      .value.should === 'Spec field group'
+
+    page.find('textarea[name="description"]') \
+      .value.should === 'Spec field group desc'
   end
 
   it("Edit an existing group") do
@@ -50,9 +51,13 @@ describe(
     visit(index_url)
     click_link('Spec field group')
 
-    current_path.should                                    =~ /#{edit_url}\/[0-9]+/
-    page.find('input[name="name"]').value.should           === 'Spec field group'
-    page.find('textarea[name="description"]').value.should === 'Spec field group desc'
+    current_path.should =~ /#{edit_url}\/[0-9]+/
+    
+    page.find('input[name="name"]') \
+      .value.should === 'Spec field group'
+    
+    page.find('textarea[name="description"]') \
+      .value.should === 'Spec field group desc'
 
     # Update the details
     within('#custom_field_group_form') do
@@ -60,7 +65,8 @@ describe(
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should === 'Spec field group modified'
+    page.find('input[name="name"]') \
+      .value.should === 'Spec field group modified'
   end
 
   it("Delete an existing group") do

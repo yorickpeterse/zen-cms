@@ -2,9 +2,9 @@ require File.expand_path('../../helper', __FILE__)
 
 Zen::Language::Languages['nl'] = 'Nederlands'
 
-describe "Zen::Language" do
+describe 'Zen::Language' do
 
-  it "Test an English language pack" do
+  it 'Test an English language pack' do
     Zen::Language.load('spec')
 
     lang('spec.name').should === 'Name'
@@ -13,7 +13,7 @@ describe "Zen::Language" do
     lang('spec.parent.sub').should === 'Sub item'
   end
 
-  it "Test a Dutch language pack" do
+  it 'Test a Dutch language pack' do
     Zen::Language.options.language = 'nl'
 
     lang('spec.name').should       === 'Naam'

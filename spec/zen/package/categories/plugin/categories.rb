@@ -1,16 +1,22 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 describe("Categories::Plugin::Categories") do
-  include Categories::Model
+  extend Categories::Model
   
   it("Create the test data") do
-    Testdata[:group]      = CategoryGroup.new(:name => 'Spec').save
-    Testdata[:category_1] = Category.new(
+    Testdata[:group]      = CategoryGroup.create(:name => 'Spec')
+
+    Testdata[:category_1] = Category.create(
       :category_group_id => Testdata[:group].id, :name => 'Spec'
-    ).save
-    Testdata[:category_2] = Category.new(
+    )
+
+    Testdata[:category_2] = Category.create(
       :category_group_id => Testdata[:group].id, :name => 'Spec 1'
-    ).save
+    )
+
+    Testdata[:group].name.should      === 'Spec'
+    Testdata[:category_1].name.should === 'Spec'
+    Testdata[:category_2].name.should === 'Spec 1'
   end
 
   it("Retrieve all categories") do
@@ -46,15 +52,19 @@ describe("Categories::Plugin::Categories") do
   end
 
   it("Specify an invalid type") do
-    lambda do
+    should.raise?(TypeError) do
       plugin(:categories, :category => false)
-    end.should raise_error(TypeError)
+    end
   end
 
   it("Delete the test data") do
     Testdata[:category_1].destroy
     Testdata[:category_2].destroy
     Testdata[:group].destroy
+
+    CategoryGroup[:name => 'Spec'].should === nil
+    Category[:name => 'Spec'].should      === nil
+    Category[:name => 'Spec 1'].should    === nil
   end
 
 end

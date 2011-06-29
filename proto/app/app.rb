@@ -1,4 +1,5 @@
 require 'zen'
+require 'ramaze/log/rotatinginformer'
 
 # Load the configuration files
 require __DIR__('config/config')

@@ -3,7 +3,7 @@ require File.expand_path('../../helper', __FILE__)
 describe("Zen::Theme") do
   
   it("No themes should exist") do
-    lambda { Zen::Theme[:foobar] }.should raise_error(Zen::ThemeError)
+    should.raise?(Zen::ThemeError) { Zen::Theme[:spec] }
   end
 
   it("Add a new theme") do
@@ -13,6 +13,8 @@ describe("Zen::Theme") do
       t.about        = 'An example theme'
       t.template_dir = __DIR__
     end
+
+    should.not.raise?(Zen::ThemeError) { Zen::Theme[:spec] }
   end
 
   it("Retrieve our theme") do

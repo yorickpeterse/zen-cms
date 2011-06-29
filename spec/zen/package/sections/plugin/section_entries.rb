@@ -1,20 +1,21 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 describe('Sections::Plugin::SectionEntries') do
-  include ::Sections::Model
-  include ::Comments::Model
+  extend ::Sections::Model
+  extend ::Comments::Model
 
   it('Create the test data') do
     user               = Users::Model::User[:email => 'spec@domain.tld']
     status_id          = SectionEntryStatus[:name => 'published'].id
     comment_status     = CommentStatus[:name => 'open'].id
-    Testdata[:section] = Section.new(
+
+    Testdata[:section] = Section.create(
       :name                     => 'Spec', 
       :comment_allow            => true, 
       :comment_require_account  => false,
       :comment_moderate         => false, 
       :comment_format           => 'plain'
-    ).save
+    )
 
     Testdata[:entry_1] = SectionEntry.create(
       :title                   => 'Spec', 
@@ -36,12 +37,16 @@ describe('Sections::Plugin::SectionEntries') do
 
     Testdata[:comment] = Comment.create(
       :user_id           => user.id, 
-      :comment           => 'spec comment', 
       :comment_status_id => comment_status,
       :section_entry_id  => Testdata[:entry_2].id, 
       :comment           => 'Comment', 
       :email             => user.email
     )
+
+    Testdata[:section].name.should    === 'Spec'
+    Testdata[:entry_1].title.should   === 'Spec'
+    Testdata[:entry_2].title.should   === 'Spec 1'
+    Testdata[:comment].comment.should === 'Comment'
   end
 
   it('Retrieve all section entries') do
@@ -107,6 +112,11 @@ describe('Sections::Plugin::SectionEntries') do
     [:comment, :entry_2, :entry_1, :section].each do |k|
       Testdata[k].destroy
     end
+
+    Section[:name => 'Spec'].should            === nil
+    SectionEntry[:title => 'Spec'].should      === nil
+    SectionEntry[:title => 'Spec 1'].should    === nil
+    Comment[:comment => 'spec comment'].should === nil
   end
 
 end

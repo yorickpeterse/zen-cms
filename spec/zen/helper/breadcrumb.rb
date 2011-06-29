@@ -1,7 +1,7 @@
 require File.expand_path('../../../helper', __FILE__)
 
 describe "Ramaze::Helper::Breadcrumb" do
-  include Ramaze::Helper::Breadcrumb
+  extend Ramaze::Helper::Breadcrumb
 
   it "Add and build a set of breadcrumbs" do
     respond_to?('set_breadcrumbs').should == true

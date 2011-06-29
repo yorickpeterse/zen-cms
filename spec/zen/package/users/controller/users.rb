@@ -2,7 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('users')
 
-describe("Users::Controller::Users", :type => :acceptance) do
+describe("Users::Controller::Users") do
+  behaves_like :capybara
 
   it 'Show the login form' do
     login_url = Users::Controller::Users.r(:login).to_s
@@ -10,10 +11,10 @@ describe("Users::Controller::Users", :type => :acceptance) do
     visit(login_url)
 
     # Verify if the form is really there
-    page.has_selector?('#login_form').should == true
-    page.has_selector?('input[type="submit"][value="Login"]').should == true
-    page.has_content?('Email').should == true
-    page.has_content?('Password').should == true 
+    page.has_selector?('#login_form').should                         === true
+    page.has_selector?('input[type="submit"][value="Login"]').should === true
+    page.has_content?('Email').should                                === true
+    page.has_content?('Password').should                             === true 
   end
 
   it('Log in') do
@@ -33,16 +34,7 @@ describe("Users::Controller::Users", :type => :acceptance) do
     current_path.should == dashboard_url
   end
 
-  it('Access an unauthorized URL') do
-    users_url = Users::Controller::UserGroups.r(:index).to_s
-    login_url = Users::Controller::Users.r(:login).to_s
-
-    visit(users_url)
-    
-    current_path.should == login_url
-  end
-
-  it("A user should exist", :auto_login => true) do
+  it("A user should exist") do
     index_url = Users::Controller::Users.r(:index).to_s
     message   = lang('users.messages.no_users')
 
@@ -52,7 +44,7 @@ describe("Users::Controller::Users", :type => :acceptance) do
     page.has_content?(message).should           === false
   end
 
-  it("Create a new user", :auto_login => true) do
+  it("Create a new user") do
     index_url   = Users::Controller::Users.r(:index).to_s
     save_button = lang('users.buttons.save')
     new_button  = lang('users.buttons.new')
@@ -75,7 +67,7 @@ describe("Users::Controller::Users", :type => :acceptance) do
     page.find('input[name="email"]').value.should === 'spec@email.com'
   end
 
-  it("Edit an existing user", :auto_login => true) do
+  it("Edit an existing user") do
     index_url   = Users::Controller::Users.r(:index).to_s
     save_button = lang('users.buttons.save')
 
@@ -90,7 +82,7 @@ describe("Users::Controller::Users", :type => :acceptance) do
     page.find('input[name="name"]').value.should  === 'Spec user modified'
   end
 
-  it("Delete an existing user", :auto_login => true) do
+  it("Delete an existing user") do
     index_url     = Users::Controller::Users.r(:index).to_s
     delete_button = lang('users.buttons.delete')
 

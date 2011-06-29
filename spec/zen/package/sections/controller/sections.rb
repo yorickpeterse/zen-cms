@@ -2,7 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('sections')
 
-describe("Sections::Controller::Sections", :type => :acceptance, :auto_login => true) do
+describe("Sections::Controller::Sections") do
+  behaves_like :capybara
   
   it("No sections should exist") do
     section_url = Sections::Controller::Sections.r(:index).to_s

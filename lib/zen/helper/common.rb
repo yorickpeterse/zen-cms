@@ -51,22 +51,15 @@ module Ramaze
       def anchor_to(text, url, *attributes)
         # Sanitize the text and URL
         text = Rack::Utils.escape_html(text)
-        url  = url.to_s
 
         # Get the URL from the second parameter (either a string or a hash).
-        if url.class === Hash
+        if url.class == Hash
           # Get the URL from the hash and delete it
-          anchor_url   = url[:href].strip          
-          url.delete(anchor_url)
-          
-          # Generate the query string based on the left over values in the URL 
-          # hash
+          anchor_url   = url.delete(:href).strip          
           query_string = Rack::Utils.build_query(url)
-          
-          # Create the full URL
-          anchor_url = anchor_url + query_string 
-         else
-          anchor_url = url
+          anchor_url   = anchor_url + '?' + query_string 
+        else
+          anchor_url = url.to_s
         end
 
         # Got attributes?
@@ -84,21 +77,22 @@ module Ramaze
             prefix = '/'
           end
 
-          anchor_url = request.domain("#{prefix}#{anchor_url}")
+          begin
+            anchor_url = request.domain("#{prefix}#{anchor_url}")
+          rescue
+            anchor_url = prefix + anchor_url
+          end
         end
         
         # Add the href attribute so it gets processed
         attributes['href'] = anchor_url
-        
-        # Add all the extra arguments
-        html_attributes = String.new
+        html_attributes    = ''
         
         attributes.each do |attribute, value|
-          attribute         = Rack::Utils.escape_html attribute
+          attribute         = Rack::Utils.escape_html(attribute)
           html_attributes  += "#{attribute}=\"#{value}\" "
         end
         
-        # Remove the trailing space
         html_attributes = html_attributes.strip
         
         # Return the tag

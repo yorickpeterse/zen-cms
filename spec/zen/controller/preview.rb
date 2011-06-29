@@ -2,7 +2,8 @@ require File.expand_path('../../../helper', __FILE__)
 require 'rdiscount'
 require 'redcloth'
 
-describe "Zen::Controller::Preview", :type => :acceptance, :auto_login => true do
+describe "Zen::Controller::Preview" do
+  behaves_like :capybara
   
   it('Convert Markdown to HTML') do
     markdown = 'Hello, **world**'

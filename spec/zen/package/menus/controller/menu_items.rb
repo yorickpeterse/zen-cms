@@ -2,10 +2,13 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('menu_items')
 
-describe("Menus::Controller::MenuItems", :type => :acceptance, :auto_login => true) do
+describe("Menus::Controller::MenuItems") do
+  behaves_like :capybara
 
   it("Create the required test data") do
-    Testdata[:menu] = Menus::Model::Menu.new(:name => 'Spec menu').save
+    Testdata[:menu] = Menus::Model::Menu.create(:name => 'Spec menu')
+
+    Testdata[:menu].name.should === 'Spec menu'
   end
 
   it("No menu items should exist") do
@@ -71,6 +74,8 @@ describe("Menus::Controller::MenuItems", :type => :acceptance, :auto_login => tr
 
   it("Remove all test data") do
     Testdata[:menu].destroy
+
+    Menus::Model::Menu[:name => 'Spec menu'].should === nil
   end
 
 end

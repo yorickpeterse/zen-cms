@@ -1,18 +1,27 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 describe('Sections::Plugin::Sections') do
-  include ::Sections::Model
+  extend ::Sections::Model
 
   it('Create the test data') do
-    Testdata[:section_1] = Section.new(
-      :name => 'Spec', :comment_allow => true, :comment_require_account => false,
-      :comment_moderate => false, :comment_format => 'plain'
-    ).save
+    Testdata[:section_1] = Section.create(
+      :name                    => 'Spec', 
+      :comment_allow           => true, 
+      :comment_require_account => false,
+      :comment_moderate        => false, 
+      :comment_format          => 'plain'
+    )
 
-    Testdata[:section_2] = Section.new(
-      :name => 'Spec 1', :comment_allow => true, :comment_require_account => false,
-      :comment_moderate => false, :comment_format => 'plain'
-    ).save
+    Testdata[:section_2] = Section.create(
+      :name                    => 'Spec 1', 
+      :comment_allow           => true, 
+      :comment_require_account => false,
+      :comment_moderate        => false, 
+      :comment_format          => 'plain'
+    )
+
+    Testdata[:section_1].name.should === 'Spec'
+    Testdata[:section_2].name.should === 'Spec 1'
   end
 
   it('Retrieve all sections') do
@@ -58,6 +67,9 @@ describe('Sections::Plugin::Sections') do
   it('Delete the test data') do
     Testdata[:section_1].destroy
     Testdata[:section_2].destroy
+
+    Section[:name => 'Spec'].should   === nil
+    Section[:name => 'Spec 1'].should === nil
   end
 
 end

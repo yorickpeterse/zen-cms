@@ -2,7 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('settings')
 
-describe("Settings::Controller::Settings", :type => :acceptance, :auto_login => true) do
+describe("Settings::Controller::Settings") do
+  behaves_like :capybara
 
   it("Update a set of settings") do
     index_url   = Settings::Controller::Settings.r(:index).to_s
@@ -16,13 +17,13 @@ describe("Settings::Controller::Settings", :type => :acceptance, :auto_login => 
       click_on(save_button)
     end
 
-    page.find('input[name="website_name"]').value.should         === 'Zen spec'
+    page.find('input[name="website_name"]').value.should === 'Zen spec'
 
     within('#setting_form') do
       fill_in('website_name', :with => 'Zen')
     end
 
-    page.find('input[name="website_name"]').value.should         === 'Zen'
+    page.find('input[name="website_name"]').value.should === 'Zen'
   end
 
 end

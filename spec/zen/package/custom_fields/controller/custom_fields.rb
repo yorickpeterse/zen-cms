@@ -2,15 +2,15 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('custom_fields')
 
-describe(
-  "CustomFields::Controller::CustomFields", :type => :acceptance, :auto_login => true
-) do
+describe('CustomFields::Controller::CustomFields') do
+  behaves_like :capybara
 
   it("Create the test data") do
-    Testdata[:group] = CustomFields::Model::CustomFieldGroup.new(
+    Testdata[:group] = CustomFields::Model::CustomFieldGroup.create(
       :name => 'Spec field group' 
     )
-    Testdata[:group].save
+
+    Testdata[:group].name.should === 'Spec field group'
   end
 
   it("No custom fields should exist") do
@@ -26,8 +26,12 @@ describe(
 
   it("Create a new custom field") do
     group_id      = Testdata[:group].id
-    index_url     = CustomFields::Controller::CustomFields.r(:index, group_id).to_s
-    edit_url      = CustomFields::Controller::CustomFields.r(:edit , group_id).to_s
+    index_url     = CustomFields::Controller::CustomFields \
+      .r(:index, group_id).to_s
+
+    edit_url      = CustomFields::Controller::CustomFields \
+      .r(:edit , group_id).to_s
+    
     new_button    = lang('custom_fields.buttons.new')
     save_button   = lang('custom_fields.buttons.save')
     type_select   = lang('custom_fields.special.type_hash.textbox')
@@ -50,7 +54,9 @@ describe(
 
   it("Edit an existing custom field") do
     group_id    = Testdata[:group].id
-    index_url   = CustomFields::Controller::CustomFields.r(:index, group_id).to_s
+    index_url   = CustomFields::Controller::CustomFields \
+      .r(:index, group_id).to_s
+    
     save_button = lang('custom_fields.buttons.save')
 
     visit(index_url)
@@ -66,7 +72,9 @@ describe(
 
   it("Delete an existing custom field") do
     group_id      = Testdata[:group].id
-    index_url     = CustomFields::Controller::CustomFields.r(:index, group_id).to_s
+    index_url     = CustomFields::Controller::CustomFields \
+      .r(:index, group_id).to_s
+    
     delete_button = lang('custom_fields.buttons.delete')
     message       = lang('custom_fields.messages.no_fields')
 
@@ -80,6 +88,9 @@ describe(
 
   it("Delete all the test data") do
     Testdata[:group].destroy
+
+    CustomFields::Model::CustomFieldGroup[:name => 'Spec field group'] \
+      .should === nil
   end
 
 end

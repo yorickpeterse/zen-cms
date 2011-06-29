@@ -2,7 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('menus')
 
-describe("Menus::Controller::Menus", :type => :acceptance, :auto_login => true) do
+describe("Menus::Controller::Menus") do
+  behaves_like :capybara
 
   it("No menus should exist") do
     index_url = Menus::Controller::Menus.r(:index).to_s

@@ -2,9 +2,8 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('category_groups')
 
-describe(
-  "Categories::Controller::CategoryGroups", :type => :acceptance, :auto_login => true
-) do
+describe("Categories::Controller::CategoryGroups") do
+  behaves_like :capybara
 
   it("No category groups should exist") do
     index_url  = Categories::Controller::CategoryGroups.r(:index).to_s
@@ -52,7 +51,8 @@ describe(
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should === 'Spec category group modified'
+    page.find('input[name="name"]') \
+      .value.should === 'Spec category group modified'
   end
 
   it("Delete an existing category group") do

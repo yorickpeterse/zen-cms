@@ -1,36 +1,41 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
+Zen::Language.load('section_entries')
+
 # Run the actual test
-describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_login => true) do
+describe("Sections::Controller::SectionEntries") do
+  behaves_like :capybara
   
   it("Create the test data") do
-    Testdata[:section] = Sections::Model::Section.new(
+    Testdata[:section] = Sections::Model::Section.create(
       :name                    => 'Spec section', 
       :comment_allow           => true, 
       :comment_require_account => true,
       :comment_moderate        => true, 
       :comment_format          => 'plain'
     )
-    Testdata[:section].save
 
-    Testdata[:group] = CustomFields::Model::CustomFieldGroup.new(:name => 'Spec fields')
-    Testdata[:group].save
+    Testdata[:group] = CustomFields::Model::CustomFieldGroup.create(
+      :name => 'Spec fields'
+    )
 
-    Testdata[:field] = CustomFields::Model::CustomField.new(
+    Testdata[:field] = CustomFields::Model::CustomField.create(
       :name                   => 'Spec field', 
       :sort_order             => 0, 
       :type                   => 'textbox', 
       :format                 => 'markdown',
       :required               => true, 
       :visual_editor          => false, 
-      :custom_field_group_id  => Testdata[:group].id
+      :custom_field_group_id  => Testdata[:group].id,
+      :text_limit             => 100
     )
-    Testdata[:field].save
 
     # Link the custom field group and the section
     Testdata[:section].custom_field_group_pks = [Testdata[:group].id]
 
-    Zen::Language.load('section_entries')
+    Testdata[:section].name.should === 'Spec section'
+    Testdata[:group].name.should   === 'Spec fields'
+    Testdata[:field].name.should   === 'Spec field'
   end
 
   it("No section entries should exist") do
@@ -42,8 +47,8 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
 
     visit(index_url)
 
-    page.has_selector?('table tbody tr').should == false
-    page.has_content?(message).should == true
+    page.has_selector?('table tbody tr').should === false
+    page.has_content?(message).should           === true
   end
 
   it("Create a new section entry") do
@@ -66,12 +71,14 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
     visit(index_url)
     click_link(new_entry)
 
-    current_path.should === new_url
+    current_path.should                                        === new_url
+    page.has_selector?('input[data-format="markdown"]').should === true
+    page.has_field?('Spec field').should                       === true
 
     within('#section_entry_form') do
-      fill_in(title_field  , :with => 'Spec entry')
-      select(status_field  , :from => 'form_section_entry_status_id')
-      fill_in('Spec field' , :with => 'Spec field value')
+      fill_in(title_field , :with => 'Spec entry')
+      select(status_field , :from => 'form_section_entry_status_id')
+      fill_in('Spec field', :with => 'Spec field value')
       click_on(save_entry)
     end
 
@@ -81,7 +88,7 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
     page.find('select[name="section_entry_status_id"] option[selected]') \
       .text.should === status_field
     
-    page.find_field('Spec field').value.should      === 'Spec field value'
+    page.find_field('Spec field').value.should === 'Spec field value'
   end
 
   it("Edit an existing section entry") do
@@ -108,7 +115,7 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
     end
 
     page.find('input[name="title"]').value.should === 'Spec entry modified'
-    page.find_field('Spec field').value.should    === 'Spec field value modified'
+    page.find_field('Spec field').value.should === 'Spec field value modified'
   end
 
   it("Delete an existing section entry") do
@@ -131,6 +138,15 @@ describe("Sections::Controller::SectionEntries", :type => :acceptance, :auto_log
     Testdata[:field].destroy
     Testdata[:group].destroy
     Testdata[:section].destroy
+
+    Sections::Model::Section[:name => 'Spec section'] \
+      .should === nil
+
+    CustomFields::Model::CustomFieldGroup[:name => 'Spec fields'] \
+      .should === nil
+
+    CustomFields::Model::CustomField[:name => 'Spec field'] \
+      .should === nil
   end
 
 end

@@ -1,11 +1,11 @@
 # Ignore the log files and the database used for all spec files
-spec/log/*
-spec/resources/database.db
-spec/resources/config.rb
+spec/database.db
 
 # Ignore common dotfiles
 .yardoc
 *.rbc
+*.swp
+webrat.log
 
 # Ignore the YARD documentation, this can be generated manually as following:
 doc

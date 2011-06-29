@@ -2,25 +2,27 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('comments')
 
-describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => true) do
+describe("Comments::Controller::Comments") do
+  behaves_like :capybara
 
   it("Create all test data") do
-    Testdata[:section] = Sections::Model::Section.new(
+    Testdata[:section] = Sections::Model::Section.create(
       :name                    => 'Spec section', 
       :comment_allow           => true, 
       :comment_require_account => false, 
       :comment_moderate        => false, 
       :comment_format          => 'markdown'
     )
-    Testdata[:section].save
 
-    Testdata[:entry] = Sections::Model::SectionEntry.new(
+    Testdata[:entry] = Sections::Model::SectionEntry.create(
       :title      => 'Spec entry', 
       :status     => 'published', 
       :user_id    => 1,
       :section_id => Testdata[:section].id
     )
-    Testdata[:entry].save
+
+    Testdata[:section].name.should === 'Spec section'
+    Testdata[:entry].title.should  === 'Spec entry'
   end
 
   it("No comments should exist") do
@@ -34,13 +36,12 @@ describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => 
   end
 
   it("Create a new comment") do
-    comment = Comments::Model::Comment.new(
+    comment = Comments::Model::Comment.create(
       :user_id          => 1, 
       :section_entry_id => Testdata[:entry].id, 
       :email            => 'spec@domain.tld', 
       :comment          => 'Spec comment' 
     )
-    comment.save
 
     index_url = Comments::Controller::Comments.r(:index).to_s
     message   = lang('comments.messages.no_comments')
@@ -90,6 +91,9 @@ describe("Comments::Controller::Comments", :type => :acceptance, :auto_login => 
   it("Delete all test data") do
     Testdata[:entry].destroy
     Testdata[:section].destroy
+    
+    Sections::Model::Section.filter[:name => 'Spec section'].should     === nil
+    Sections::Model::SectionEntry.filter[:title => 'Spec entry'].should === nil
   end
 
 end
