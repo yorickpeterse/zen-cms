@@ -44,7 +44,10 @@ module Sections
       #
       def validate
         validates_presence([
-          :name, :comment_allow, :comment_require_account, :comment_moderate, 
+          :name, 
+          :comment_allow, 
+          :comment_require_account, 
+          :comment_moderate, 
           :comment_format
         ])
 

@@ -42,6 +42,7 @@ errors:
   no_delete           : 'U moet ten minste 1 reactie specificeren om te verwijderen.'
   invalid_entry       : 'Het gespecificeerde artikel is ongeldig.'
   comments_not_allowed: 'Reacties zijn niet toegestaan voor deze sectie.'
+  invalid_comment     : 'De opgegeven reactie is ongeldig.'
 
 buttons:
   delete: 'Geselecteerde reacties verwijderen'

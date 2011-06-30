@@ -200,6 +200,8 @@ module Categories
 
           flash[:form_errors] = category.errors
           flash[:form_data]   = category
+
+          redirect_referrer
         end
 
         if category.id
@@ -242,6 +244,7 @@ module Categories
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('categories.errors.delete') % id)
+
             redirect_referrer
           end
         end

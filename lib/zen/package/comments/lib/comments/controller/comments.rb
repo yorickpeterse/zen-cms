@@ -16,7 +16,8 @@ module Comments
     class Comments < Zen::Controller::AdminController
       include ::Comments::Model
 
-      map('/admin/comments')
+      map '/admin/comments'
+      helper :comment
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -60,9 +61,7 @@ module Comments
       # @since  0.1
       #
       def index
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
         set_breadcrumbs(lang('comments.titles.index'))
 
@@ -83,21 +82,17 @@ module Comments
       # @since  0.1
       #
       def edit(id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('comments.titles.index'), Comments.r(:index)
-          ), 
+          Comments.a(lang('comments.titles.index'), :index),
           @page_title
         )
 
         if flash[:form_data]
           @comment = flash[:form_data]
         else
-          @comment = Comment[id.to_i]
+          @comment = validate_comment(id)
         end
       end
 
@@ -114,34 +109,40 @@ module Comments
       # @since  0.1
       #
       def save
-        if !user_authorized?([:update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:update)
 
         # Copy the POST data so we can work with it without messing things up
         post = request.subset(
-          :user_id, :name, :website, :email, :comment, :comment_status_id, 
-          :section_entry_id, :id
+          :id,
+          :user_id, 
+          :name, 
+          :website, 
+          :email, 
+          :comment, 
+          :comment_status_id, 
+          :section_entry_id
         )
 
-        @comment = Comment[post['id']]
+        comment = validate_comment(post['id'])
 
         post.delete('id')
 
         begin
-          @comment.update(post)
+          comment.update(post)
           message(:success, lang('comments.success.save'))
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, lang('comments.errors.save'))
 
-          flash[:form_errors] = @comment.errors
-          flash[:form_data]   = @comment
+          flash[:form_errors] = comment.errors
+          flash[:form_data]   = comment
+
+          redirect_referrer
         end
 
         # Redirect the user to the proper page.
-        if @comment.id
-          redirect(Comments.r(:edit, @comment.id))
+        if comment.id
+          redirect(Comments.r(:edit, comment.id))
         else
           redirect_referrer
         end
@@ -159,9 +160,7 @@ module Comments
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         # Obviously we'll require some IDs
         if !request.params['comment_ids'] \
@@ -178,6 +177,8 @@ module Comments
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('comments.errors.delete') % id)
+
+            redirect_referrer
           end
         end
 

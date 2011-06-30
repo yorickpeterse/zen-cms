@@ -40,6 +40,7 @@ errors:
   no_delete            : "You haven't specified any comments to delete."
   invalid_entry        : 'The specified section entry is invalid.'
   comments_not_allowed : "Comments aren't allowed for this section."
+  invalid_comment      : 'The specified comment is invalid.'
 
 buttons:
   delete : 'Delete selected comments'
