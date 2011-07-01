@@ -7,15 +7,15 @@ describe('CustomFields::Controller::CustomFields') do
   behaves_like :capybara
 
   it("Create the test data") do
-    Testdata[:group] = CustomFields::Model::CustomFieldGroup.create(
+    @group = CustomFields::Model::CustomFieldGroup.create(
       :name => 'Spec field group' 
     )
 
-    Testdata[:group].name.should === 'Spec field group'
+    @group.name.should === 'Spec field group'
   end
 
   it("No custom fields should exist") do
-    group_id  = Testdata[:group].id
+    group_id  = @group.id
     index_url = CustomFields::Controller::CustomFields.r(:index,  group_id).to_s
     message   = lang('custom_fields.messages.no_fields')
 
@@ -26,7 +26,7 @@ describe('CustomFields::Controller::CustomFields') do
   end
 
   it("Create a new custom field") do
-    group_id      = Testdata[:group].id
+    group_id      = @group.id
     index_url     = CustomFields::Controller::CustomFields \
       .r(:index, group_id).to_s
  
@@ -54,7 +54,7 @@ describe('CustomFields::Controller::CustomFields') do
   end
 
   it("Edit an existing custom field") do
-    group_id    = Testdata[:group].id
+    group_id    = @group.id
     index_url   = CustomFields::Controller::CustomFields \
       .r(:index, group_id).to_s
     
@@ -72,7 +72,7 @@ describe('CustomFields::Controller::CustomFields') do
   end
 
   it("Delete an existing custom field") do
-    group_id      = Testdata[:group].id
+    group_id      = @group.id
     index_url     = CustomFields::Controller::CustomFields \
       .r(:index, group_id).to_s
     
@@ -88,7 +88,7 @@ describe('CustomFields::Controller::CustomFields') do
   end
 
   it("Delete all the test data") do
-    Testdata[:group].destroy
+    @group.destroy
 
     CustomFields::Model::CustomFieldGroup[:name => 'Spec field group'] \
       .should === nil

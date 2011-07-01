@@ -4,7 +4,7 @@ describe('Sections::Plugin::Sections') do
   extend ::Sections::Model
 
   it('Create the test data') do
-    Testdata[:section_1] = Section.create(
+    @section_1 = Section.create(
       :name                    => 'Spec', 
       :comment_allow           => true, 
       :comment_require_account => false,
@@ -12,7 +12,7 @@ describe('Sections::Plugin::Sections') do
       :comment_format          => 'plain'
     )
 
-    Testdata[:section_2] = Section.create(
+    @section_2 = Section.create(
       :name                    => 'Spec 1', 
       :comment_allow           => true, 
       :comment_require_account => false,
@@ -20,8 +20,8 @@ describe('Sections::Plugin::Sections') do
       :comment_format          => 'plain'
     )
 
-    Testdata[:section_1].name.should === 'Spec'
-    Testdata[:section_2].name.should === 'Spec 1'
+    @section_1.name.should === 'Spec'
+    @section_2.name.should === 'Spec 1'
   end
 
   it('Retrieve all sections') do
@@ -42,7 +42,7 @@ describe('Sections::Plugin::Sections') do
 
   it('Retrieve a single section by it\'s ID') do
     section = plugin(
-      :sections, :section => Testdata[:section_1].id
+      :sections, :section => @section_1.id
     )
 
     section[:name].should           === 'Spec'
@@ -65,8 +65,8 @@ describe('Sections::Plugin::Sections') do
   end
 
   it('Delete the test data') do
-    Testdata[:section_1].destroy
-    Testdata[:section_2].destroy
+    @section_1.destroy
+    @section_2.destroy
 
     Section[:name => 'Spec'].should   === nil
     Section[:name => 'Spec 1'].should === nil

@@ -9,7 +9,7 @@ describe('Sections::Plugin::SectionEntries') do
     status_id          = SectionEntryStatus[:name => 'published'].id
     comment_status     = CommentStatus[:name => 'open'].id
 
-    Testdata[:section] = Section.create(
+    @section = Section.create(
       :name                     => 'Spec', 
       :comment_allow            => true, 
       :comment_require_account  => false,
@@ -17,36 +17,36 @@ describe('Sections::Plugin::SectionEntries') do
       :comment_format           => 'plain'
     )
 
-    Testdata[:entry_1] = SectionEntry.create(
+    @entry_1 = SectionEntry.create(
       :title                   => 'Spec', 
       :status                  => 'published',
       :user_id                 => user.id, 
-      :section_id              => Testdata[:section].id,
+      :section_id              => @section.id,
       :slug                    => 'spec',
       :section_entry_status_id => status_id
     )
 
-    Testdata[:entry_2] = SectionEntry.create(
+    @entry_2 = SectionEntry.create(
       :title                    => 'Spec 1', 
       :status                   => 'published', 
       :user_id                  => user.id, 
-      :section_id               => Testdata[:section].id,
+      :section_id               => @section.id,
       :slug                     => 'spec-1',
       :section_entry_status_id  => status_id
     )
 
-    Testdata[:comment] = Comment.create(
+    @comment = Comment.create(
       :user_id           => user.id, 
       :comment_status_id => comment_status,
-      :section_entry_id  => Testdata[:entry_2].id, 
+      :section_entry_id  => @entry_2.id, 
       :comment           => 'Comment', 
       :email             => user.email
     )
 
-    Testdata[:section].name.should    === 'Spec'
-    Testdata[:entry_1].title.should   === 'Spec'
-    Testdata[:entry_2].title.should   === 'Spec 1'
-    Testdata[:comment].comment.should === 'Comment'
+    @section.name.should    === 'Spec'
+    @entry_1.title.should   === 'Spec'
+    @entry_2.title.should   === 'Spec 1'
+    @comment.comment.should === 'Comment'
   end
 
   it('Retrieve all section entries') do
@@ -63,7 +63,7 @@ describe('Sections::Plugin::SectionEntries') do
 
   it('Retrieve all section entries for an ID') do
     entries = plugin(
-      :section_entries, :section => Testdata[:section].id
+      :section_entries, :section => @section.id
     )
 
     entries.count.should      === 2
@@ -77,17 +77,17 @@ describe('Sections::Plugin::SectionEntries') do
 
     entry.class.should   == Hash
     entry[:title].should === 'Spec'
-    entry[:id].should    === Testdata[:entry_1].id
+    entry[:id].should    === @entry_1.id
   end
 
   it('Retrieve a single entry by it\'s ID') do
     entry = plugin(
-      :section_entries, :entry => Testdata[:entry_1].id
+      :section_entries, :entry => @entry_1.id
     )
 
     entry.class.should   == Hash
     entry[:title].should === 'Spec'
-    entry[:id].should    === Testdata[:entry_1].id
+    entry[:id].should    === @entry_1.id
   end
 
   it('Limit the amount of entries') do
@@ -109,8 +109,8 @@ describe('Sections::Plugin::SectionEntries') do
   end
 
   it('Delete the test data') do
-    [:comment, :entry_2, :entry_1, :section].each do |k|
-      Testdata[k].destroy
+    [@comment, @entry_2, @entry_1, @section].each do |k|
+      k.destroy
     end
 
     Section[:name => 'Spec'].should            === nil

@@ -4,34 +4,34 @@ describe("Menus::Plugin::Menus") do
   extend Menus::Model
 
   it("Create the test data") do
-    Testdata[:menu]   = Menu.create(:name => 'Spec')
-    Testdata[:item_1] = MenuItem.create(
+    @menu   = Menu.create(:name => 'Spec')
+    @item_1 = MenuItem.create(
       :name       => 'Spec', 
       :url        => '/', 
-      :menu_id    => Testdata[:menu].id,
+      :menu_id    => @menu.id,
       :sort_order => 1
     )
 
-    Testdata[:item_2] = MenuItem.create(
+    @item_2 = MenuItem.create(
       :name       => 'Spec 2', 
       :url        => '/2', 
-      :menu_id    => Testdata[:menu].id, 
+      :menu_id    => @menu.id, 
       :sort_order => 2, 
       :css_id     => ''
     )
 
-    Testdata[:item_3] = MenuItem.create(
+    @item_3 = MenuItem.create(
       :name       => 'Spec 3', 
       :url        => '/3', 
-      :menu_id    => Testdata[:menu].id, 
-      :parent_id  => Testdata[:item_2].id, 
+      :menu_id    => @menu.id, 
+      :parent_id  => @item_2.id, 
       :sort_order => 3
     )
 
-    Testdata[:menu].name.should   === 'Spec'
-    Testdata[:item_1].name.should === 'Spec'
-    Testdata[:item_2].name.should === 'Spec 2'
-    Testdata[:item_3].name.should === 'Spec 3'
+    @menu.name.should   === 'Spec'
+    @item_1.name.should === 'Spec'
+    @item_2.name.should === 'Spec 2'
+    @item_3.name.should === 'Spec 3'
   end
 
   it("Retrieve a menu with all items") do
@@ -101,8 +101,8 @@ HTML
   end
 
   it("Delete the test data") do
-    [:item_3, :item_2, :item_1, :menu].each do |k|
-      Testdata[k].destroy
+    [@item_3, @item_2, @item_1, @menu].each do |k|
+      k.destroy
     end
 
     Menu[:name => 'Spec'].should       === nil

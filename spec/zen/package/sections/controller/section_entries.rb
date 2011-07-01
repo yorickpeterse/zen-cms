@@ -7,7 +7,7 @@ describe("Sections::Controller::SectionEntries") do
   behaves_like :capybara
   
   it("Create the test data") do
-    Testdata[:section] = Sections::Model::Section.create(
+    @section = Sections::Model::Section.create(
       :name                    => 'Spec section', 
       :comment_allow           => true, 
       :comment_require_account => true,
@@ -15,32 +15,32 @@ describe("Sections::Controller::SectionEntries") do
       :comment_format          => 'plain'
     )
 
-    Testdata[:group] = CustomFields::Model::CustomFieldGroup.create(
+    @group = CustomFields::Model::CustomFieldGroup.create(
       :name => 'Spec fields'
     )
 
-    Testdata[:field] = CustomFields::Model::CustomField.create(
+    @field = CustomFields::Model::CustomField.create(
       :name                   => 'Spec field', 
       :sort_order             => 0, 
       :type                   => 'textbox', 
       :format                 => 'markdown',
       :required               => true, 
       :visual_editor          => false, 
-      :custom_field_group_id  => Testdata[:group].id,
+      :custom_field_group_id  => @group.id,
       :text_limit             => 100
     )
 
     # Link the custom field group and the section
-    Testdata[:section].custom_field_group_pks = [Testdata[:group].id]
+    @section.custom_field_group_pks = [@group.id]
 
-    Testdata[:section].name.should === 'Spec section'
-    Testdata[:group].name.should   === 'Spec fields'
-    Testdata[:field].name.should   === 'Spec field'
+    @section.name.should === 'Spec section'
+    @group.name.should   === 'Spec fields'
+    @field.name.should   === 'Spec field'
   end
 
   it("No section entries should exist") do
     index_url = Sections::Controller::SectionEntries.r(
-      :index, Testdata[:section].id
+      :index, @section.id
     ).to_s
 
     message = lang('section_entries.messages.no_entries')
@@ -53,16 +53,16 @@ describe("Sections::Controller::SectionEntries") do
 
   it("Create a new section entry") do
     index_url = Sections::Controller::SectionEntries.r(
-      :index, Testdata[:section].id
+      :index, @section.id
     ).to_s
     new_url   = Sections::Controller::SectionEntries.r(
-      :new, Testdata[:section].id
+      :new, @section.id
     ).to_s
     edit_url  = Sections::Controller::SectionEntries.r(
-      :edit, Testdata[:section].id
+      :edit, @section.id
     ).to_s
 
-    field_id     = Testdata[:field].id
+    field_id     = @field.id
     new_entry    = lang('section_entries.buttons.new')
     save_entry   = lang('section_entries.buttons.save')
     title_field  = lang('section_entries.labels.title')
@@ -93,10 +93,10 @@ describe("Sections::Controller::SectionEntries") do
 
   it("Edit an existing section entry") do
     index_url = Sections::Controller::SectionEntries.r(
-      :index, Testdata[:section].id
+      :index, @section.id
     ).to_s
     edit_url  = Sections::Controller::SectionEntries.r(
-      :edit, Testdata[:section].id
+      :edit, @section.id
     ).to_s
 
     title_field = lang('section_entries.labels.title')
@@ -120,7 +120,7 @@ describe("Sections::Controller::SectionEntries") do
 
   it("Delete an existing section entry") do
     index_url = Sections::Controller::SectionEntries.r(
-      :index, Testdata[:section].id
+      :index, @section.id
     ).to_s
 
     delete_button = lang('section_entries.buttons.delete')
@@ -135,9 +135,9 @@ describe("Sections::Controller::SectionEntries") do
   end
 
   it("Delete the test data") do
-    Testdata[:field].destroy
-    Testdata[:group].destroy
-    Testdata[:section].destroy
+    @field.destroy
+    @group.destroy
+    @section.destroy
 
     Sections::Model::Section[:name => 'Spec section'] \
       .should === nil

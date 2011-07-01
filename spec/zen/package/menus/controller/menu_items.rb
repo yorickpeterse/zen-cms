@@ -6,13 +6,13 @@ describe("Menus::Controller::MenuItems") do
   behaves_like :capybara
 
   it("Create the required test data") do
-    Testdata[:menu] = Menus::Model::Menu.create(:name => 'Spec menu')
+    @menu = Menus::Model::Menu.create(:name => 'Spec menu')
 
-    Testdata[:menu].name.should === 'Spec menu'
+    @menu.name.should === 'Spec menu'
   end
 
   it("No menu items should exist") do
-    menu_id   = Testdata[:menu].id
+    menu_id   = @menu.id
     index_url = Menus::Controller::MenuItems.r(:index, menu_id).to_s
     message   = lang('menu_items.messages.no_items')
     
@@ -23,7 +23,7 @@ describe("Menus::Controller::MenuItems") do
   end
 
   it("Create a new menu item") do
-    menu_id     = Testdata[:menu].id
+    menu_id     = @menu.id
     index_url   = Menus::Controller::MenuItems.r(:index, menu_id).to_s
     edit_url    = Menus::Controller::MenuItems.r(:edit, menu_id).to_s
     new_button  = lang('menu_items.buttons.new')
@@ -43,7 +43,7 @@ describe("Menus::Controller::MenuItems") do
   end
 
   it("Edit an existing menu item") do
-    menu_id     = Testdata[:menu].id
+    menu_id     = @menu.id
     index_url   = Menus::Controller::MenuItems.r(:index, menu_id).to_s
     save_button = lang('menu_items.buttons.save')
 
@@ -59,7 +59,7 @@ describe("Menus::Controller::MenuItems") do
   end
 
   it("Delete an existing menu item") do
-    menu_id       = Testdata[:menu].id
+    menu_id       = @menu.id
     index_url     = Menus::Controller::MenuItems.r(:index, menu_id).to_s
     message       = lang('menu_items.messages.no_items')
     delete_button = lang('menu_items.buttons.delete')
@@ -73,7 +73,7 @@ describe("Menus::Controller::MenuItems") do
   end
 
   it("Remove all test data") do
-    Testdata[:menu].destroy
+    @menu.destroy
 
     Menus::Model::Menu[:name => 'Spec menu'].should === nil
   end

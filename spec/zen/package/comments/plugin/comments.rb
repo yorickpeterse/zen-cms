@@ -10,7 +10,7 @@ describe("Comments::Plugin::Comments") do
     user      = User[:email => 'spec@domain.tld']
     status_id = CommentStatus[:name => 'open'].id
 
-    Testdata[:section] = Section.create(
+    @section = Section.create(
       :name                     => 'Spec', 
       :comment_allow            => true, 
       :comment_require_account  => false, 
@@ -18,37 +18,37 @@ describe("Comments::Plugin::Comments") do
       :comment_format           => 'markdown'
     )
 
-    Testdata[:entry] = SectionEntry.create(
+    @entry = SectionEntry.create(
       :title      => 'Spec', 
       :status     => 'published', 
-      :section_id => Testdata[:section].id,
+      :section_id => @section.id,
       :user_id    => user.id
     )
 
-    Testdata[:comment_1] = Comment.create(
+    @comment_1 = Comment.create(
       :user_id          => user.id, 
       :comment          => 'Spec comment', 
       :status           => status_id, 
-      :section_entry_id => Testdata[:entry].id, 
+      :section_entry_id => @entry.id, 
       :email            => user.email
     )
 
-    Testdata[:comment_2] = Comment.create(
+    @comment_2 = Comment.create(
       :user_id          => user.id, 
       :comment          => 'Spec comment 1', 
       :status           => status_id, 
-      :section_entry_id => Testdata[:entry].id, 
+      :section_entry_id => @entry.id, 
       :email            => user.email
     )
 
-    Testdata[:section].name.should      === 'Spec'
-    Testdata[:entry].title.should       === 'Spec'
-    Testdata[:comment_1].comment.should === 'Spec comment'
-    Testdata[:comment_2].comment.should === 'Spec comment 1'
+    @section.name.should      === 'Spec'
+    @entry.title.should       === 'Spec'
+    @comment_1.comment.should === 'Spec comment'
+    @comment_2.comment.should === 'Spec comment 1'
   end
 
   it("Retrieve all comments for an ID") do
-    comments = plugin(:comments, :entry => Testdata[:entry].slug)
+    comments = plugin(:comments, :entry => @entry.slug)
     
     comments.count.should                                   === 2
     comments[0].class.should                                ==  Hash
@@ -59,7 +59,7 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Retrieve all comments for a slug") do
-    comments = plugin(:comments, :entry => Testdata[:entry].id)
+    comments = plugin(:comments, :entry => @entry.id)
     
     comments.count.should                                   === 2
     comments[0][:comment].include?('Spec comment').should   === true
@@ -67,7 +67,7 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Retrieve all comments and check the markup") do
-    comments = plugin(:comments, :entry => Testdata[:entry].id)
+    comments = plugin(:comments, :entry => @entry.id)
     
     comments.count.should              === 2
     comments[0][:comment].strip.should === '<p>Spec comment</p>'
@@ -76,7 +76,7 @@ describe("Comments::Plugin::Comments") do
 
   it("Retrieve a single comment") do
     comments = plugin(
-      :comments, :entry => Testdata[:entry].id, :limit => 1
+      :comments, :entry => @entry.id, :limit => 1
     )
 
     comments.count.should                                 === 1
@@ -85,7 +85,7 @@ describe("Comments::Plugin::Comments") do
 
   it("Retrieve a single comment with an offset") do
     comments = plugin(
-      :comments, :entry => Testdata[:entry].id, :limit => 1, :offset => 1
+      :comments, :entry => @entry.id, :limit => 1, :offset => 1
     )
 
     comments.count.should                                   === 1
@@ -93,10 +93,10 @@ describe("Comments::Plugin::Comments") do
   end
 
   it("Remove the test data") do
-    Testdata[:comment_2].destroy
-    Testdata[:comment_1].destroy
-    Testdata[:entry].destroy
-    Testdata[:section].destroy
+    @comment_2.destroy
+    @comment_1.destroy
+    @entry.destroy
+    @section.destroy
 
     Comment[:comment => 'Spec comment'].should   === nil
     Comment[:comment => 'Spec comment 1'].should === nil

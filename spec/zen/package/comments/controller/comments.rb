@@ -6,7 +6,7 @@ describe("Comments::Controller::Comments") do
   behaves_like :capybara
 
   it("Create all test data") do
-    Testdata[:section] = Sections::Model::Section.create(
+    @section = Sections::Model::Section.create(
       :name                    => 'Spec section', 
       :comment_allow           => true, 
       :comment_require_account => false, 
@@ -14,15 +14,15 @@ describe("Comments::Controller::Comments") do
       :comment_format          => 'markdown'
     )
 
-    Testdata[:entry] = Sections::Model::SectionEntry.create(
+    @entry = Sections::Model::SectionEntry.create(
       :title      => 'Spec entry', 
       :status     => 'published', 
       :user_id    => 1,
-      :section_id => Testdata[:section].id
+      :section_id => @section.id
     )
 
-    Testdata[:section].name.should === 'Spec section'
-    Testdata[:entry].title.should  === 'Spec entry'
+    @section.name.should === 'Spec section'
+    @entry.title.should  === 'Spec entry'
   end
 
   it("No comments should exist") do
@@ -38,7 +38,7 @@ describe("Comments::Controller::Comments") do
   it("Create a new comment") do
     comment = Comments::Model::Comment.create(
       :user_id          => 1, 
-      :section_entry_id => Testdata[:entry].id, 
+      :section_entry_id => @entry.id, 
       :email            => 'spec@domain.tld', 
       :comment          => 'Spec comment' 
     )
@@ -89,8 +89,8 @@ describe("Comments::Controller::Comments") do
   end
 
   it("Delete all test data") do
-    Testdata[:entry].destroy
-    Testdata[:section].destroy
+    @entry.destroy
+    @section.destroy
     
     Sections::Model::Section.filter[:name => 'Spec section'].should     === nil
     Sections::Model::SectionEntry.filter[:title => 'Spec entry'].should === nil

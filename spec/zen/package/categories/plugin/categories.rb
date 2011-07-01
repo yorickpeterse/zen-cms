@@ -4,19 +4,19 @@ describe("Categories::Plugin::Categories") do
   extend Categories::Model
   
   it("Create the test data") do
-    Testdata[:group]      = CategoryGroup.create(:name => 'Spec')
+    @group      = CategoryGroup.create(:name => 'Spec')
 
-    Testdata[:category_1] = Category.create(
-      :category_group_id => Testdata[:group].id, :name => 'Spec'
+    @category_1 = Category.create(
+      :category_group_id => @group.id, :name => 'Spec'
     )
 
-    Testdata[:category_2] = Category.create(
-      :category_group_id => Testdata[:group].id, :name => 'Spec 1'
+    @category_2 = Category.create(
+      :category_group_id => @group.id, :name => 'Spec 1'
     )
 
-    Testdata[:group].name.should      === 'Spec'
-    Testdata[:category_1].name.should === 'Spec'
-    Testdata[:category_2].name.should === 'Spec 1'
+    @group.name.should      === 'Spec'
+    @category_1.name.should === 'Spec'
+    @category_2.name.should === 'Spec 1'
   end
 
   it("Retrieve all categories") do
@@ -58,9 +58,9 @@ describe("Categories::Plugin::Categories") do
   end
 
   it("Delete the test data") do
-    Testdata[:category_1].destroy
-    Testdata[:category_2].destroy
-    Testdata[:group].destroy
+    @category_1.destroy
+    @category_2.destroy
+    @group.destroy
 
     CategoryGroup[:name => 'Spec'].should === nil
     Category[:name => 'Spec'].should      === nil
