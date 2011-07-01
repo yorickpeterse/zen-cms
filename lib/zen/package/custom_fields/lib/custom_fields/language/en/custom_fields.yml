@@ -26,10 +26,11 @@ messages:
   no_fields : 'No custom fields have been added yet.'
 
 errors:
-  new       : 'Failed to create a new custom field.'
-  save      : 'Failed to modify the custom field.'
-  delete    : 'Failed to delete the custom field with ID #%s.'
-  no_delete : "You haven't specified any custom fields to delete."
+  new          : 'Failed to create a new custom field.'
+  save         : 'Failed to modify the custom field.'
+  delete       : 'Failed to delete the custom field with ID #%s.'
+  no_delete    : "You haven't specified any custom fields to delete."
+  invalid_field: 'The specified custom field is invalid.'
 
 success:
   new     : 'The new custom field has been created.'

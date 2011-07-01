@@ -13,7 +13,9 @@ module CustomFields
     class CustomFieldGroups < Zen::Controller::AdminController
       include ::CustomFields::Model
 
-      map('/admin/custom-field-groups')
+      helper :custom_field
+
+      map '/admin/custom-field-groups'
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -35,8 +37,8 @@ module CustomFields
       def initialize
         super
 
-        @form_save_url     = CustomFieldGroups.r(:save)
-        @form_delete_url   = CustomFieldGroups.r(:delete)
+        @form_save_url   = CustomFieldGroups.r(:save)
+        @form_delete_url = CustomFieldGroups.r(:delete)
 
         Zen::Language.load('custom_field_groups')
 
@@ -60,9 +62,7 @@ module CustomFields
       # @since  0.1
       #
       def index
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
         set_breadcrumbs(lang('custom_field_groups.titles.index'))
 
@@ -83,22 +83,17 @@ module CustomFields
       # @since  0.1
       #
       def edit(id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('custom_field_groups.titles.index'), 
-            CustomFieldGroups.r(:index)
-          ),
+          CustomFieldGroups.a(lang('custom_field_groups.titles.index'), :index),
           @page_title
         )
 
         if flash[:form_data]
           @field_group = flash[:form_data]
         else
-          @field_group = CustomFieldGroup[id.to_i]
+          @field_group = validate_custom_field_group(id)
         end
       end
 
@@ -114,15 +109,10 @@ module CustomFields
       # @since  0.1
       #
       def new
-        if !user_authorized?([:read, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :create)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('custom_field_groups.titles.index'), 
-            CustomFieldGroups.r(:index)
-          ),
+          CustomFieldGroups.a(lang('custom_field_groups.titles.index'), :index),
           @page_title
         )
 
@@ -144,16 +134,14 @@ module CustomFields
       # @since  0.1
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:create, :update)
 
         post = request.subset(:id, :name, :description)
 
         # Get or create a custom field group based on the ID from the hidden 
         # field.
         if post['id'] and !post['id'].empty?
-          @field_group  = CustomFieldGroup[post['id']]
+          @field_group  = validate_custom_field_group(post['id'])
           save_action   = :save
         else
           @field_group  = CustomFieldGroup.new
@@ -169,17 +157,20 @@ module CustomFields
         begin
           @field_group.update(post)
           message(:success, flash_success)
-        rescue
+        rescue => e
+          Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
           flash[:form_errors] = @field_group.errors
           flash[:form_data]   = @field_group
+
+          redirect_referrer
         end
 
         if !@field_group.nil? and @field_group.id
           redirect(CustomFieldGroups.r(:edit, @field_group.id))
         else
-          redirect(CustomFieldGroups.r(:new))
+          redirect_referrer
         end
       end
 
@@ -199,14 +190,12 @@ module CustomFields
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         if !request.params['custom_field_group_ids'] \
         or request.params['custom_field_group_ids'].empty?
           message(:error, lang('custom_field_groups.errors.no_delete'))
-          redirect(CustomFieldGroups.r(:index))
+          redirect_referrer
         end
 
         request.params['custom_field_group_ids'].each do |id|
@@ -215,6 +204,7 @@ module CustomFields
             message(:success, lang('custom_field_groups.success.delete'))
           rescue
             message(:error, lang('custom_field_groups.errors.delete') % id)
+            redirect_referrer
           end
         end
 

@@ -1,8 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Zen::Language.load('category_groups')
-Zen::Language.load('categories')
-
 describe('Ramaze::Helper::Category') do
   behaves_like :capybara
 
@@ -21,7 +18,6 @@ describe('Ramaze::Helper::Category') do
   end
 
   it('Validate a valid category group') do
-    msg = lang('category_groups.errors.invalid_group')
     url = ::Categories::Controller::Categories.r(
       :index, Testdata[:category_group].id
     ).to_s
@@ -33,7 +29,6 @@ describe('Ramaze::Helper::Category') do
   end
 
   it('Validate an invalid category group') do
-    url = ::Categories::Controller::Categories.r(:index, 100).to_s
     msg = lang('category_groups.errors.invalid_group')
 
     visit(url)

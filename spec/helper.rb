@@ -64,9 +64,6 @@ shared :capybara do
   end
 end
 
-# Hash that can be used to store test data for certain specifications
-Testdata = {}
-
 # Method that can be used to load a number of fixtures from fixtures/zen
 def fixtures(fixtures)
   fixtures.each do |f|

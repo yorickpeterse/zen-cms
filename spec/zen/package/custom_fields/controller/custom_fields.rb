@@ -1,6 +1,7 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('custom_fields')
+Zen::Language.load('custom_field_groups')
 
 describe('CustomFields::Controller::CustomFields') do
   behaves_like :capybara
@@ -28,7 +29,7 @@ describe('CustomFields::Controller::CustomFields') do
     group_id      = Testdata[:group].id
     index_url     = CustomFields::Controller::CustomFields \
       .r(:index, group_id).to_s
-
+ 
     edit_url      = CustomFields::Controller::CustomFields \
       .r(:edit , group_id).to_s
     
@@ -41,7 +42,7 @@ describe('CustomFields::Controller::CustomFields') do
     click_link(new_button)
 
     within('#custom_field_form') do
-      fill_in('name'      , :with => 'Spec field')
+      fill_in('form_name' , :with => 'Spec field')
       select(type_select  , :from => 'form_type')
       select(format_select, :from => 'form_format')
       click_on(save_button)
@@ -63,7 +64,7 @@ describe('CustomFields::Controller::CustomFields') do
     click_link('Spec field')
 
     within('#custom_field_form') do
-      fill_in('name', :with => 'Spec field modified')
+      fill_in('form_name', :with => 'Spec field modified')
       click_on(save_button)
     end
 

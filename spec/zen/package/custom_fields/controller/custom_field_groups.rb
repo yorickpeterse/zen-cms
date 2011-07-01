@@ -1,7 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Zen::Language.load('custom_field_groups')
-
 describe('CustomFields::Controller::CustomFieldGroups') do
   behaves_like :capybara
 

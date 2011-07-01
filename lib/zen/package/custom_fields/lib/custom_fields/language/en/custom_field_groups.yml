@@ -16,10 +16,11 @@ messages:
   no_groups : 'No custom field groups have been created yet.'
 
 errors:
-  new       : 'Failed to create a new custom field group.'
-  save      : 'Failed to modify the custom field group.'
-  delete    : 'Failed to delete the custom field group with ID #%s'
-  no_delete : "You haven't specified any custom field groups to delete"
+  new          : 'Failed to create a new custom field group.'
+  save         : 'Failed to modify the custom field group.'
+  delete       : 'Failed to delete the custom field group with ID #%s'
+  no_delete    : "You haven't specified any custom field groups to delete"
+  invalid_group: 'The specified custom field group is invalid.'
 
 success:
   new    : 'The custom field group has been created.'

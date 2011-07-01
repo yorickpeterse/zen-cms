@@ -1,21 +1,19 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Zen::Language.load('categories')
-
 describe("Categories::Controller::Categories") do
   behaves_like :capybara
 
   it("Create the test data") do
-    Testdata[:group] = Categories::Model::CategoryGroup.create(
+    @group = Categories::Model::CategoryGroup.create(
       :name => 'Spec group'
     )
 
-    Testdata[:group].name.should === 'Spec group'
+    @group.name.should === 'Spec group'
   end
 
   it("No categories should exist") do
     index_url = Categories::Controller::Categories \
-      .r(:index, Testdata[:group].id).to_s
+      .r(:index, @group.id).to_s
 
     message = lang('categories.messages.no_categories')
 
@@ -28,10 +26,10 @@ describe("Categories::Controller::Categories") do
 
   it("Create a new category") do
     index_url   = Categories::Controller::Categories \
-      .r(:index, Testdata[:group].id).to_s
+      .r(:index, @group.id).to_s
     
     edit_url    = Categories::Controller::Categories \
-      .r(:edit , Testdata[:group].id).to_s
+      .r(:edit , @group.id).to_s
 
     new_button  = lang('categories.buttons.new')
     save_button = lang('categories.buttons.save')
@@ -49,10 +47,10 @@ describe("Categories::Controller::Categories") do
 
   it("Edit an existing category") do
     index_url   = Categories::Controller::Categories \
-      .r(:index, Testdata[:group].id).to_s
+      .r(:index, @group.id).to_s
     
     edit_url    = Categories::Controller::Categories \
-      .r(:edit , Testdata[:group].id).to_s
+      .r(:edit , @group.id).to_s
     
     save_button = lang('categories.buttons.save')
 
@@ -71,7 +69,7 @@ describe("Categories::Controller::Categories") do
 
   it("Delete an existing category") do
     index_url     = Categories::Controller::Categories \
-      .r(:index, Testdata[:group].id).to_s
+      .r(:index, @group.id).to_s
     
     message       = lang('categories.messages.no_categories')
     delete_button = lang('categories.buttons.delete')
@@ -85,7 +83,7 @@ describe("Categories::Controller::Categories") do
   end
 
   it("Delete the test data") do
-    Testdata[:group].destroy
+    @group.destroy
 
     Categories::Model::CategoryGroup[:name => 'Spec group'].should === nil
   end

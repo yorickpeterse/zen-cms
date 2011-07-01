@@ -31,10 +31,11 @@ success:
   delete: 'Alle geselecteerde velden zijn verwijderd.'
 
 errors:
-  new      : 'Het veld kon niet worden aangemaakt.'
-  save     : 'Het veld kon niet worden aangepast.'
-  delete   : 'Het veld met ID #%s kon niet worden verwijderd.'
-  no_delete: 'U moet ten minste 1 veld specificeren om te verwijderen.'
+  new          : 'Het veld kon niet worden aangemaakt.'
+  save         : 'Het veld kon niet worden aangepast.'
+  delete       : 'Het veld met ID #%s kon niet worden verwijderd.'
+  no_delete    : 'U moet ten minste 1 veld specificeren om te verwijderen.'
+  invalid_field: 'Het opgegeven veld is ongeldig.'
 
 special:
   type_hash:

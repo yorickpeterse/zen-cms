@@ -1,4 +1,4 @@
-<div class='tabs'>
+<div class="tabs">
     <ul>
         <li>
             <a href="#general" title="#{lang('custom_fields.tabs.general')}">
@@ -15,7 +15,10 @@
 
 #{
 form_for(
-  @custom_field, :method => :post, :action => @form_save_url, :id => :custom_field_form
+  @custom_field, 
+  :method => :post, 
+  :action => @form_save_url, 
+  :id     => :custom_field_form
 ) do |f|
 
   f.input_hidden(:id, @custom_field.id)

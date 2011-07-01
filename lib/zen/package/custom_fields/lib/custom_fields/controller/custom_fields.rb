@@ -15,7 +15,9 @@ module CustomFields
     class CustomFields < Zen::Controller::AdminController
       include ::CustomFields::Model
 
-      map('/admin/custom-fields')
+      helper :custom_field
+
+      map '/admin/custom-fields'
 
       # Load all required Javascript files
       javascript ['zen/tabs']
@@ -53,7 +55,7 @@ module CustomFields
           @page_title = lang("custom_fields.titles.#{method}") rescue nil
         end
 
-        # Build our array containing all custom field formats
+        # Build our hash containing all custom field formats
         @field_type_hash = {
           'textbox'         => lang('custom_fields.special.type_hash.textbox'),
           'textarea'        => lang('custom_fields.special.type_hash.textarea'),
@@ -74,26 +76,22 @@ module CustomFields
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Integer] custom_field_group_id The ID of the custom field group 
+      # @param  [Fixnum] custom_field_group_id The ID of the custom field group 
       # to which all fields belong.
       # @since  0.1
       #
       def index(custom_field_group_id)
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
+
+        field_group = validate_custom_field_group(custom_field_group_id)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('custom_field_groups.titles.index'), 
-            CustomFieldGroups.r(:index)
-          ),
+          CustomFieldGroups.a(lang('custom_field_groups.titles.index'), :index),
           lang('custom_fields.titles.index')
         )
 
         @custom_field_group_id = custom_field_group_id
-        @custom_fields         = CustomFieldGroup[@custom_field_group_id] \
-          .custom_fields
+        @custom_fields         = field_group.custom_fields
       end
 
       ##
@@ -105,25 +103,23 @@ module CustomFields
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] custom_field_group_id The ID of the custom field 
+      # @param  [Fixnum] custom_field_group_id The ID of the custom field 
       # group to which all fields belong.
-      # @param  [Integer] id The ID of the custom field to retrieve so that we 
+      # @param  [Fixnum] id The ID of the custom field to retrieve so that we 
       # can edit it.
       # @since  0.1
       #
       def edit(custom_field_group_id, id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
+
+        validate_custom_field_group(custom_field_group_id)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('custom_field_groups.titles.index'), 
-            CustomFieldGroups.r(:index)
+          CustomFieldGroups.a(
+            lang('custom_field_groups.titles.index'), :index
           ),
-          anchor_to(
-            lang('custom_fields.titles.index'), 
-            CustomFields.r(:index, custom_field_group_id)
+          CustomFields.a(
+            lang('custom_fields.titles.index'), :index, custom_field_group_id
           ),
           lang('custom_fields.titles.edit')
         )
@@ -133,7 +129,7 @@ module CustomFields
         if flash[:form_data]
           @custom_field = flash[:form_data]
         else
-          @custom_field = CustomField[id.to_i]
+          @custom_field = validate_custom_field(id, custom_field_group_id)
         end
       end
 
@@ -146,23 +142,21 @@ module CustomFields
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Integer] custom_field_group_id The ID of the custom field group 
+      # @param  [Fixnum] custom_field_group_id The ID of the custom field group 
       # to which all fields belong.
       # @since  0.1
       #
       def new(custom_field_group_id)
-        if !user_authorized?([:read, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :create)
+
+        validate_custom_field_group(custom_field_group_id)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('custom_field_groups.titles.index'),
-            CustomFieldGroups.r(:index)
+          CustomFieldGroups.a(
+            lang('custom_field_groups.titles.index'), :index
           ),
-          anchor_to(
-            lang('custom_fields.titles.index'),
-            CustomFields.r(:index, custom_field_group_id)
+          CustomFields.a(
+            lang('custom_fields.titles.index'), :index, custom_field_group_id
           ),
           lang('custom_fields.titles.index')
         )
@@ -186,24 +180,37 @@ module CustomFields
       # @since  0.1
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:create, :update)
 
         post = request.subset(
-          :id, :name, :slug, :description, :sort_order, :type, :format, 
-          :possible_values, :required, :visual_editor, :textarea_rows, 
-          :text_limit, :custom_field_group_id
+          :id, 
+          :name, 
+          :slug, 
+          :description, 
+          :sort_order, 
+          :type, 
+          :format, 
+          :possible_values, 
+          :required, 
+          :visual_editor, 
+          :textarea_rows, 
+          :text_limit, 
+          :custom_field_group_id
         )
 
+        validate_custom_field_group(post['custom_field_group_id'])
+        
         # Get or create a custom field group based on the ID from the hidden 
         # field.
         if post['id'] and !post['id'].empty?
-          @custom_field = CustomField[post['id']]
-          save_action   = :save
+          custom_field = validate_custom_field(
+            post['id'], post['custom_field_group_id']
+          )
+          
+          save_action  = :save
         else
-          @custom_field = CustomField.new
-          save_action   = :new
+          custom_field = CustomField.new
+          save_action  = :new
         end
 
         post.delete('slug') if post['slug'].empty?
@@ -213,22 +220,22 @@ module CustomFields
         flash_error   = lang("custom_fields.errors.#{save_action}")
 
         begin
-          @custom_field.update(post)
+          custom_field.update(post)
           message(:success, flash_success)
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
-          flash[:form_data]   = @custom_field
-          flash[:form_errors] = @custom_field.errors
+          flash[:form_data]   = custom_field
+          flash[:form_errors] = custom_field.errors
+
+          redirect_referrer
         end
 
-        if @custom_field.id
+        if custom_field.id
           redirect(
             CustomFields.r(
-              :edit,
-              post['custom_field_group_id'], 
-              @custom_field.id
+              :edit, post['custom_field_group_id'], custom_field.id
             )
           )
         else
@@ -251,9 +258,7 @@ module CustomFields
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         post = request.subset(:custom_field_ids, :custom_field_group_id)
 
@@ -270,6 +275,8 @@ module CustomFields
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('custom_fields.errors.delete') % id)
+
+            redirect_referrer
           end
         end
 
