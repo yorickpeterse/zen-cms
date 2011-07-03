@@ -33,7 +33,8 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="custom_field_group_ids[]" value="#{group.id}" />
+												<input type="checkbox" name="custom_field_group_ids[]" 
+												value="#{group.id}" />
                     </td>
                     <?r end ?>
                     
@@ -93,9 +94,11 @@
             </div>
             <?r end ?>
             
-            <?r if user_authorized?([:delete]) and @field_groups and !@field_groups.empty? ?>
+						<?r if user_authorized?([:delete]) and @field_groups \
+						and !@field_groups.empty? ?>
             <div class="button">
-                <input type="submit" value="#{lang('custom_field_groups.buttons.delete')}" />
+								<input type="submit" 
+								value="#{lang('custom_field_groups.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>

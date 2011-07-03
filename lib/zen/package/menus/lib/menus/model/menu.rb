@@ -3,8 +3,8 @@ module Menus
   #:nodoc:
   module Model
     ##
-    # Model used for managing groups of menu items. This model uses the following
-    # Sequel plugins:
+    # Model used for managing groups of menu items. This model uses the 
+    # following Sequel plugins:
     #
     # * sluggable
     #
@@ -19,8 +19,8 @@ module Menus
 
       ##
       # Specifies all validates rules used when creating or updating a menu.
-      # A slug will be generated when a menu is first created but after that they are
-      # required to ensure that they don't collide with existing slugs.
+      # A slug will be generated when a menu is first created but after that 
+      # they are required to ensure that they don't collide with existing slugs.
       #
       # @author Yorick Peterse
       # @since  0.2a

@@ -22,7 +22,10 @@ form_for(
   
   f.g.div(:class => 'clearfix') do
     f.g.div(:class => 'button') do
-      f.g.input(:type => 'submit', :value => lang('custom_field_groups.buttons.save'))
+		  f.g.input(
+			  :type  => 'submit', 
+				:value => lang('custom_field_groups.buttons.save')
+		  )
     end
   end
 

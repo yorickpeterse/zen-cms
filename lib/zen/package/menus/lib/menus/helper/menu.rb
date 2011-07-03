@@ -3,20 +3,20 @@ module Ramaze
   #:nodoc:
   module Helper
     ##
-    # Small helper for the Menus package mainly used to reduce the amount of code
-    # in controllers.
+    # Small helper for the Menus package mainly used to reduce the amount of 
+    # code in controllers.
     #
     # @author Yorick Peterse
     # @since  0.2a
     #
-    module MenuItem
+    module Menu
       ##
-      # Checks if there is a menu for the given ID. If this isn't the case the user
-      # will be redirected back to the index page of the menus controller.
+      # Checks if there is a menu for the given ID. If this isn't the case the 
+      # user will be redirected back to the index page of the menus controller.
       #
       # @author Yorick Peterse
       # @since  0.2a
-      # @param  [Integer] menu_id The ID of the menu to validate.
+      # @param  [Fixnum] menu_id The ID of the menu to validate.
       # @return [Menus::Model::Menu] The menu that was specified in case it's
       # valid.
       #
@@ -24,7 +24,7 @@ module Ramaze
         menu = ::Menus::Model::Menu[menu_id]
 
         if menu.nil?
-          message(:error, @menu_items_lang.errors[:invalid_menu])
+          message(:error, lang('menus.errors.invalid_menu'))
           redirect(::Menus::Controller::Menus.r(:index))
         else
           return menu
@@ -32,8 +32,29 @@ module Ramaze
       end
 
       ##
-      # Builds a hierarchy of navigation items and all their sub items. The generated
-      # structure looks like the following:
+      # Validates a menu item and returns it if it's valid.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.7.1
+      # @param  [Fixnum] menu_item_id The ID of the menu item to validate.
+      # @param  [Fixnum] menu_id The ID of the menu the item belongs to, used
+      # when redirecting the user.
+      # @return [Menus::Model::MenuItem]
+      #
+      def validate_menu_item(menu_item_id, menu_id)
+        menu_item = ::Menus::Model::MenuItem[menu_item_id]
+
+        if menu_item.nil?
+          message(:error, lang('menu_items.errors.invalid_item'))
+          redirect(::Menus::Controller::MenuItems.r(:index, menu_id))
+        else
+          return menu_item
+        end
+      end
+
+      ##
+      # Builds a hierarchy of navigation items and all their sub items. The 
+      # generated structure looks like the following:
       #
       #     Root
       #      |
@@ -45,7 +66,7 @@ module Ramaze
       # 
       # @author Yorick Peterse
       # @since  0.2a
-      # @param  [Integer] menu_id The ID of the current menu group.
+      # @param  [Fixnum] menu_id The ID of the current menu group.
       # @return [Hash]
       #
       def menu_item_tree(menu_id)
@@ -73,7 +94,7 @@ module Ramaze
       # @author Yorick Peterse
       # @since  0.2a
       # @param  [Menus::Model::MenuItem] item A MenuItem instance
-      # @param  [Integer] spaces The amount of unbreakable spaces to use.
+      # @param  [Fixnum] spaces The amount of unbreakable spaces to use.
       #
       def descendant_items(item, spaces)
         return if @menu_items_hash.key?(item.id)

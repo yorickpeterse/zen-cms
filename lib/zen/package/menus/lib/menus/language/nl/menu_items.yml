@@ -38,4 +38,4 @@ errors:
   save        : 'Het menu item kon niet worden aangepast.'
   delete      : 'Het menu item met ID #%s kon niet worden verwijderd.'
   no_delete   : 'U moet ten minste 1 item specificeren om te verwijderen.'
-  invalid_menu: 'Het opgegeven menu is ongeldig of bestaat niet meer.'
+  invalid_item: 'Het opgegeven menu item is ongeldig.'

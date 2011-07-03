@@ -5,17 +5,17 @@ module Menus
   #:nodoc:
   module Plugin
     ##
-    # Plugin for displaying navigation menus. This plugin will take care of recursively
-    # displaying all sub items and various other tasks, you merely have to set a few
-    # options and then you can sit back and enjoy.
+    # Plugin for displaying navigation menus. This plugin will take care of 
+    # recursively displaying all sub items and various other tasks, you merely 
+    # have to set a few options and then you can sit back and enjoy.
     #
     # ## Usage
     #
     #     menu = plugin(:menus, :menu => 'userguide', :sub => true)
     #
-    # Calling this plugin will result in a string with HTML being returned. If you were
-    # to use this plugin in an Etanni template you'd have to wrap the call in #{} in order
-    # to actually display the menu.
+    # Calling this plugin will result in a string with HTML being returned. If 
+    # you were to use this plugin in an Etanni template you'd have to wrap the 
+    # call in #{} in order to actually display the menu.
     #
     # For more information about all the available options see 
     # Menus::Plugin::Menus#initialize().
@@ -36,13 +36,14 @@ module Menus
       # @author Yorick Peterse
       # @since 0.2.5
       # @param [Hash] options Hash with configuration options.
-      # @option options [Integer/Fixnum] :limit The maximum amount of root items to 
-      # retrieve.
-      # @option options [Integer/Fixnum] :offset The row offset for all root elements.
-      # @option options [Fixnum/Integer/String] :menu The ID or slug of the menu for which
-      # to retrieve all menu items.
-      # @option options [Boolean] :sub When set to false sub items will be ignored. This
-      # option is set to true by default.
+      # @option options [Integer/Fixnum] :limit The maximum amount of root items 
+      # to retrieve.
+      # @option options [Integer/Fixnum] :offset The row offset for all root 
+      # elements.
+      # @option options [Fixnum/Integer/String] :menu The ID or slug of the menu 
+      # for which to retrieve all menu items.
+      # @option options [Boolean] :sub When set to false sub items will be 
+      # ignored. This option is set to true by default.
       # 
       def initialize(options = {})
         @options = {
@@ -114,7 +115,8 @@ module Menus
       #
       # @author Yorick Peterse
       # @since  0.2.5 
-      # @param  [Object] item An instance of the MenuItem model as returned by Sequel.
+      # @param  [Object] item An instance of the MenuItem model as returned by 
+      # Sequel.
       #
       def generate_item(item)
         attributes = {}
@@ -146,7 +148,7 @@ module Menus
                   generate_item(child)
                 end
               end
-            end
+            end # if !children.empty?
           end
         end
       end

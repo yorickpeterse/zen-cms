@@ -33,7 +33,8 @@ success:
   delete  : 'The selected menus have been deleted.'
 
 errors:
-  new        : 'The menu could not be created.'
-  save       : 'The menu could not be modified.'
-  delete     : 'The menu with ID #%s could not be deleted.'
-  no_delete  : 'You need to specify at least one menu to delete.'
+  new         : 'The menu could not be created.'
+  save        : 'The menu could not be modified.'
+  delete      : 'The menu with ID #%s could not be deleted.'
+  no_delete   : 'You need to specify at least one menu to delete.'
+  invalid_menu: 'The specified menu is invalid.'

@@ -31,7 +31,8 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input name="menu_item_ids[]" type="checkbox" value="#{item.id}" />
+												<input name="menu_item_ids[]" type="checkbox" 
+												value="#{item.id}" />
                     </td>
                     <?r end ?>
 
@@ -75,7 +76,8 @@
 
             <?r if user_authorized?([:delete]) ?>
             <div class="button">
-                <input type="submit" value="#{lang('menu_items.buttons.delete')}" />
+								<input type="submit" 
+								value="#{lang('menu_items.buttons.delete')}" />
             </div>
             <?r end ?>
         </div>
