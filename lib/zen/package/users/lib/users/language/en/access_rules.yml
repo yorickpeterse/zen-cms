@@ -21,10 +21,11 @@ messages:
   no_rules: 'No access rules have been added yet.'
 
 errors:
-  new       : 'Failed to create a new access rule.'
-  save      : 'Failed to save the access rule.'
-  delete    : 'Failed to delete the access rule with ID #%s.'
-  no_delete : 'You have to specify at least one rule to delete.'
+  new         : 'Failed to create a new access rule.'
+  save        : 'Failed to save the access rule.'
+  delete      : 'Failed to delete the access rule with ID #%s.'
+  no_delete   : 'You have to specify at least one rule to delete.'
+  invalid_rule: 'The specified access rule is invalid.'
   
 success: 
   new    : 'The access rule has been created.'

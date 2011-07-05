@@ -58,9 +58,9 @@ shared :capybara do
   ::Ramaze::Log.loggers.clear
 
   within('#login_form') do
-    fill_in 'Email'   , :with => 'spec@domain.tld'
-    fill_in 'Password', :with => 'spec'
-    click_button 'Login'
+    fill_in('Email'   , :with => 'spec@domain.tld')
+    fill_in('Password', :with => 'spec')
+    click_button('Login')
   end
 end
 

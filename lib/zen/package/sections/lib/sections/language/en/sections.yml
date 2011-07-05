@@ -31,10 +31,11 @@ messages:
   no_sections: "No sections have been created yet."
 
 errors:
-  new        : 'Failed to create a new section.'
-  save       : 'Failed to modify the section.'
-  delete     : 'Failed to delete the section with ID #%s.'
-  no_delete  : 'You need to specify at least one section to delete.'
+  new            : 'Failed to create a new section.'
+  save           : 'Failed to modify the section.'
+  delete         : 'Failed to delete the section with ID #%s.'
+  no_delete      : 'You need to specify at least one section to delete.'
+  invalid_section: 'The specified section is invalid.'
 
 success:
   new     : 'The new section has been created.'

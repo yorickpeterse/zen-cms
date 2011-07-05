@@ -27,10 +27,11 @@ messages:
   no_categories  : 'No categories have been assigned to the current section.'
 
 errors:
-  new        : 'Failed to create a new section entry.'
-  save       : 'Failed to save the section entry.'
-  delete     : 'Failed to delete the section entry with ID#%s'
-  no_delete  : "You haven't specified any section entries to delete."
+  new          : 'Failed to create a new section entry.'
+  save         : 'Failed to save the section entry.'
+  delete       : 'Failed to delete the section entry with ID#%s'
+  no_delete    : "You haven't specified any section entries to delete."
+  invalid_entry: 'The specified entry is invalid.'
 
 success:
   new     : 'The new section entry has been created.'

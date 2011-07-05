@@ -1,3 +1,5 @@
+Ramaze::HelpersHelper.options.paths.push(__DIR__('users'))
+
 require __DIR__('users/model/user')
 require __DIR__('users/model/user_group')
 require __DIR__('users/model/access_rule')

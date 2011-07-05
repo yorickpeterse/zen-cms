@@ -26,10 +26,11 @@ success:
   delete: 'Alle gespecificeerde regels zijn verwijderd.' 
 
 errors:
-  new      : 'De toegangs regel kon niet worden aangemaakt.'
-  save     : 'De toegangs regel kon niet worden aangepast.'
-  delete   : 'De toegangs regel met ID #%s kon niet worden verwijderd.'
-  no_delete: 'U moet ten minste 1 regel specificeren om te verwijderen.'
+  new         : 'De toegangs regel kon niet worden aangemaakt.'
+  save        : 'De toegangs regel kon niet worden aangepast.'
+  delete      : 'De toegangs regel met ID #%s kon niet worden verwijderd.'
+  no_delete   : 'U moet ten minste 1 regel specificeren om te verwijderen.'
+  invalid_rule: 'De opgegeven regel is ongeldig.'
 
 buttons:
   new   : 'Regel toevoegen'

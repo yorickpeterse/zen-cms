@@ -18,6 +18,7 @@ module Sections
       include ::Sections::Model
 
       map '/admin'
+      helper :section
 
       # Load all required Javascript files
       javascript ['zen/tabs']
@@ -66,9 +67,7 @@ module Sections
       # @since  0.1
       #
       def index
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
         set_breadcrumbs(lang('sections.titles.index'))
 
@@ -89,12 +88,10 @@ module Sections
       # @since  0.1
       #
       def edit(id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(lang('sections.titles.index'), Sections.r(:index)),
+          Sections.a(lang('sections.titles.index'), :index),
           @page_title
         )
 
@@ -107,7 +104,7 @@ module Sections
         if flash[:form_data]
           @section = flash[:form_data]
         else
-          @section = Section[id.to_i]
+          @section = validate_section(id)
         end
       end
 
@@ -123,12 +120,10 @@ module Sections
       # @since  0.1
       #
       def new
-        if !user_authorized?([:create, :read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:create, :read)
 
         set_breadcrumbs(
-          anchor_to(lang('sections.titles.index'), Sections.r(:index)),
+          Sections.a(lang('sections.titles.index'), :index),
           @page_title
         )
 
@@ -156,18 +151,23 @@ module Sections
       # @since  0.1
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:create, :update)
 
         post = request.subset(
-          :id, :name, :slug, :description, :comment_allow, 
-          :comment_require_account, :comment_moderate, :comment_format, 
-          :custom_field_group_pks, :category_group_pks
+          :id, 
+          :name, 
+          :slug, 
+          :description, 
+          :comment_allow, 
+          :comment_require_account, 
+          :comment_moderate, 
+          :comment_format, 
+          :custom_field_group_pks, 
+          :category_group_pks
         )
 
         if post['id'] and !post['id'].empty?
-          @section      = Section[post['id']]
+          @section      = validate_section(post['id'])
           save_action   = :save
         else
           @section      = Section.new
@@ -176,7 +176,6 @@ module Sections
 
         flash_success = lang("sections.success.#{save_action}")
         flash_error   = lang("sections.errors.#{save_action}")
-
 
         post['custom_field_group_pks'] ||= []
         post['category_group_pks']     ||= []
@@ -206,6 +205,8 @@ module Sections
 
           flash[:form_data]   = @section
           flash[:form_errors] = @section.errors
+
+          redirect_referrer
         end
 
         if @section.id
@@ -229,9 +230,7 @@ module Sections
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         if !request.params['section_ids'] or request.params['section_ids'].empty?
           message(:error, lang('sections.errors.no_delete'))
@@ -245,6 +244,8 @@ module Sections
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('sections.errors.delete') % id)
+
+            redirect_referrer
           end
         end
 

@@ -36,10 +36,11 @@ success:
   delete: 'Alle geselecteerde secties zijn verwijderd.'
 
 errors:
-  new      : 'De sectie kon niet worden aangemaakt.'
-  save     : 'De sectie kon niet worden aangepast.'
-  delete   : 'De sectie met ID #%s kon niet worden verwijderd.'
-  no_delete: 'U moet ten minste 1 sectie specificeren om te verwijderen.'
+  new            : 'De sectie kon niet worden aangemaakt.'
+  save           : 'De sectie kon niet worden aangepast.'
+  delete         : 'De sectie met ID #%s kon niet worden verwijderd.'
+  no_delete      : 'U moet ten minste 1 sectie specificeren om te verwijderen.'
+  invalid_section: 'De opgegeven sectie is ongeldig.'
 
 buttons:
   new   : 'Sectie toevoegen'

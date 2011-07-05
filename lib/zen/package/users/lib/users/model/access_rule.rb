@@ -24,7 +24,11 @@ module Users
       #
       def validate
         validates_presence([
-          :package, :controller, :create_access, :read_access, :update_access, 
+          :package, 
+          :controller, 
+          :create_access, 
+          :read_access, 
+          :update_access, 
           :delete_access
         ])
 

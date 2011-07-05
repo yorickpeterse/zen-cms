@@ -17,7 +17,8 @@ module Users
     class Users < Zen::Controller::AdminController
       include ::Users::Model
 
-      map('/admin/users')
+      helper :users
+      map '/admin/users'
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -78,9 +79,7 @@ module Users
       # @since  0.1
       #
       def index
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
         set_breadcrumbs(lang('users.titles.index'))
 
@@ -100,19 +99,17 @@ module Users
       # @since  0.1
       #
       def edit(id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(lang('users.titles.index'), Users.r(:index)),
+          Users.a(lang('users.titles.index'), :index),
           lang('users.titles.edit')
         )
 
         if flash[:form_data]
           @user = flash[:form_data]
         else
-          @user = User[id.to_i]
+          @user = validate_user(id)
         end
 
         @user_group_pks = UserGroup.pk_hash(:name)
@@ -130,12 +127,10 @@ module Users
       # @since  0.1
       #
       def new
-        if !user_authorized?([:read, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :create)
 
         set_breadcrumbs(
-          anchor_to(lang('users.titles.index'), Users.r(:index)),
+          Users.a(lang('users.titles.index'), :index),
           lang('users.titles.new')
         )
 
@@ -154,7 +149,8 @@ module Users
           # Let's see if we can authenticate
           if user_login(request.subset(:email, :password))
             # Update the last time the user logged in
-            User[:email => request.params['email']].update(:last_login => Time.new)
+            User[:email => request.params['email']] \
+              .update(:last_login => Time.new)
 
             message(:success, lang('users.success.login'))
             redirect(::Sections::Controller::Sections.r(:index))
@@ -190,20 +186,27 @@ module Users
       # @since  0.1
       #
       def save
-        if !user_authorized?([:update, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:update, :create)
 
         post = request.subset(
-          :id, :email, :name, :website, :new_password, :confirm_password, :status,
-          :language, :frontend_language, :date_format, :user_group_pks
+          :id, 
+          :email, 
+          :name, 
+          :website, 
+          :new_password, 
+          :confirm_password, 
+          :status,
+          :language, 
+          :frontend_language, 
+          :date_format, 
+          :user_group_pks
         )
 
         if post['id'] and !post['id'].empty?
-          @user       = User[post['id']]
+          user        = validate_user(post['id'])
           save_action = :save
         else
-          @user       = User.new
+          user        = User.new
           save_action = :new
         end
 
@@ -228,18 +231,20 @@ module Users
         flash_error   = lang("users.errors.#{save_action}")
 
         begin
-          @user.update(post)
+          user.update(post)
           message(:success, flash_success)
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
-          flash[:form_data]   = @user
-          flash[:form_errors] = @user.errors
+          flash[:form_data]   = user
+          flash[:form_errors] = user.errors
+
+          redirect_referrer
         end
 
-        if @user.id
-          redirect(Users.r(:edit, @user.id))
+        if user.id
+          redirect(Users.r(:edit, user.id))
         else
           redirect_referrer
         end
@@ -256,9 +261,7 @@ module Users
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         if !request.params['user_ids'] or request.params['user_ids'].empty?
           message(:error, lang('users.errors.no_delete'))
@@ -272,6 +275,8 @@ module Users
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error,lang('users.errors.delete') % id)
+
+            redirect_referrer
           end
         end
 

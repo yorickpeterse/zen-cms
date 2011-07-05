@@ -1,3 +1,5 @@
+Ramaze::HelpersHelper.options.paths.push(__DIR__('sections'))
+
 require __DIR__('sections/model/section')
 require __DIR__('sections/model/section_entry')
 require __DIR__('sections/model/section_entry_status')
@@ -65,7 +67,9 @@ plugin(:settings, :register) do |setting|
 
       return section_hash
     rescue => e
-      Ramaze::Log.warn("The settings plugin failed to retrieve all sections: #{e.message}")
+      Ramaze::Log.warn(
+        "The settings plugin failed to retrieve all sections: #{e.message}"
+      )
     end
   end
 end

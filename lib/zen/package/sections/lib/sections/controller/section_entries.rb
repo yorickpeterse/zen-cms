@@ -13,10 +13,14 @@ module Sections
       include ::Sections::Model
 
       map '/admin/section-entries'
+      helper :section
 
       # Load all required Javascript files
       javascript [
-        'zen/tabs', 'zen/editor', 'zen/editor/markdown', 'zen/editor/textile',
+        'zen/tabs', 
+        'zen/editor', 
+        'zen/editor/markdown', 
+        'zen/editor/textile',
         'vendor/datepicker'
       ]
 
@@ -56,11 +60,6 @@ module Sections
           method      = action.method.to_sym
           @page_title = lang("section_entries.titles.#{method}") rescue nil
         end
-
-        @status_hash = {
-          'draft'     => lang('section_entries.special.status_hash.draft'),
-          'published' => lang('section_entries.special.status_hash.published')
-        }
       end
 
       ##
@@ -71,20 +70,18 @@ module Sections
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Integer] section_id The ID of the current section.
+      # @param  [Fixnum] section_id The ID of the current section.
       # @since  0.1
       #
       def index(section_id)
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
         set_breadcrumbs(
-          anchor_to(lang('sections.titles.index'), Sections.r(:index)),
+          Sections.a(lang('sections.titles.index'), :index),
           lang('section_entries.titles.index')
         )
 
-        section     = Section[section_id]
+        section     = validate_section(section_id)
         @section_id = section_id
         @entries    = section.section_entries
       end
@@ -98,33 +95,31 @@ module Sections
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] section_id The ID of the current section.
-      # @param  [Integer] entry_id The ID of the current section entry.
+      # @param  [Fixnum] section_id The ID of the current section.
+      # @param  [Fixnum] entry_id The ID of the current section entry.
       # @since  0.1
       #
       def edit(section_id, entry_id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('sections.titles.index'),
-            Sections.r(:index)
+          Sections.a(
+            lang('sections.titles.index'), :index
           ),
-          anchor_to(
-            lang('section_entries.titles.index'),
-            SectionEntries.r(:index, section_id)
+          SectionEntries.a(
+            lang('section_entries.titles.index'), :index, section_id
           ),
           lang('section_entries.titles.edit')
         )
 
+        validate_section(section_id)
+        
         @section_id = section_id
 
         if flash[:form_data]
           @entry = flash[:form_data]
         else
-          @entry = SectionEntry[entry_id]
+          @entry = validate_section_entry(entry_id, section_id)
         end
 
         @users_hash = {}
@@ -141,28 +136,26 @@ module Sections
       # * create
       #
       # @author Yorick Peterse
-      # @param  [Integer] section_id The ID of the current section.
+      # @param  [Fixnum] section_id The ID of the current section.
       # @since  0.1
       #
       def new(section_id)
-        if !user_authorized?([:read, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :create)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('sections.titles.index'),
-            Sections.r(:index)
+          Sections.a(
+            lang('sections.titles.index'), :index
           ),
-          anchor_to(
-            lang('section_entries.titles.index'),
-            SectionEntries.r(:index, section_id)
+          SectionEntries.a(
+            lang('section_entries.titles.index'), :index, section_id
           ),
           lang('section_entries.titles.new')
         )
 
+        validate_section(section_id)
+
         @section_id = section_id
-        @entry      = SectionEntry.new(:section_id => @section_id)
+        @entry      = SectionEntry.new(:section_id => section_id)
         @users_hash = {}
 
         Users::Model::User.each { |u| @users_hash[u.id] = u.name }
@@ -186,14 +179,14 @@ module Sections
       # as it is for now.
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:create, :update)
 
         post                = request.params.dup
         section_id          = post['section_id']
         field_values        = post['custom_field_values']
         custom_field_errors = {}
+
+        validate_section(section_id)
 
         post.delete('custom_field_values')
         post.delete('slug') if post['slug'].empty?
@@ -291,9 +284,7 @@ module Sections
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         if !request.params['section_entry_ids'] \
         or request.params['section_entry_ids'].empty?
@@ -308,6 +299,8 @@ module Sections
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error,lang('section_entries.errors.delete') % id)
+
+            redirect_referrer
           end
         end
 
