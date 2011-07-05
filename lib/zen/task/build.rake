@@ -26,17 +26,6 @@ namespace :build do
     sh("gem install #{zen_path}/pkg/zen-#{Zen::Version}.gem")
   end
 
-  desc 'Builds the MANIFEST file'
-  task :manifest do
-    zen_path = File.expand_path('../../../../', __FILE__)
-    files    = `cd #{zen_path}; git ls-files`.split("\n").sort
-
-    File.open(File.expand_path('../../../../MANIFEST', __FILE__), 'w') \
-    do |handle|
-      handle.write(files.join("\n"))
-    end
-  end
-
   # Stolen from Ramaze
   desc 'Builds a list of all the people that have contributed to Zen'
   task :authors do

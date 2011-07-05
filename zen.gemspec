@@ -1,9 +1,7 @@
 require File.expand_path('../lib/zen/version', __FILE__)
 
 # Get all the files from the manifest
-manifest = File.open './MANIFEST', 'r'
-manifest = manifest.read.strip
-manifest = manifest.split "\n"
+path = File.expand_path('../', __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'zen'
@@ -16,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = 'Zen is a modular CMS written using Ramaze. Unlike traditional 
 CMS\' you are completely free to build whatever you want.'
 
-  s.files       = manifest
+  s.files       = `cd #{path}; git ls-files`.split("\n").sort
   s.has_rdoc    = 'yard'
   s.executables = ['zen']
   
