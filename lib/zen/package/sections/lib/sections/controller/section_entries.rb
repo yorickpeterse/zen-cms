@@ -124,7 +124,7 @@ module Sections
 
         @users_hash = {}
 
-        Users::Model::User.each { |u| @users_hash[u.id] = u.name }
+        ::Users::Model::User.each { |u| @users_hash[u.id] = u.name }
       end
 
       ##
@@ -158,7 +158,7 @@ module Sections
         @entry      = SectionEntry.new(:section_id => section_id)
         @users_hash = {}
 
-        Users::Model::User.each { |u| @users_hash[u.id] = u.name }
+        ::Users::Model::User.each { |u| @users_hash[u.id] = u.name }
       end
 
       ##
