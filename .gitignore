@@ -5,13 +5,11 @@ spec/database.db
 .yardoc
 *.rbc
 *.swp
-webrat.log
+.DS_Store
 
-# Ignore the YARD documentation, this can be generated manually as following:
+# Ignore general files and directories
 doc
+pkg/*.gem
 
 # Keep the .gitkeep files.
 !.gitkeep
-
-# Ignore all packages
-pkg/*.gem

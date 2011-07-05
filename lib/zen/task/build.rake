@@ -1,5 +1,6 @@
 ##
-# Task group used for building various elements such as the Gem and the documentation.
+# Task group used for building various elements such as the Gem and the 
+# documentation.
 #
 # @author Yorick Peterse
 # @since  0.2.5
@@ -27,36 +28,16 @@ namespace :build do
 
   desc 'Builds the MANIFEST file'
   task :manifest do
-    zen_path     = File.expand_path('../../../../', __FILE__)
-    ignore_exts  = ['.gem', '.gemspec', '.swp']
-    ignore_files = ['.DS_Store', '.gitignore', '.rvmrc']
-    ignore_dirs  = ['.git', '.yardoc', 'spec', 'pkg', 'doc']
-    files        = ''
-    
-    Find.find(zen_path) do |f|
-      f[zen_path] = ''
-      f.gsub!(/^\//, '')
+    zen_path = File.expand_path('../../../../', __FILE__)
+    files    = `cd #{zen_path}; git ls-files`.split("\n").sort
 
-      # Ignore directories
-      if !File.directory?(f) and !ignore_exts.include?(File.extname(f)) \
-      and !ignore_files.include?(File.basename(f))
-        files += "#{f}\n"
-      else
-        Find.prune if ignore_dirs.include?(f)
-      end
-    end
-    
-    # Time to write the MANIFEST file
-    begin
-      handle = File.open 'MANIFEST', 'w'
-      handle.write files.strip
-      puts "The MANIFEST file has been updated."
-    rescue
-      abort "The MANIFEST file could not be written."
+    File.open(File.expand_path('../../../../MANIFEST', __FILE__), 'w') \
+    do |handle|
+      handle.write(files.join("\n"))
     end
   end
 
-  # Shamelessly stolen from Ramaze
+  # Stolen from Ramaze
   desc 'Builds a list of all the people that have contributed to Zen'
   task :authors do
     authors = Hash.new(0)

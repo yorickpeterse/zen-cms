@@ -16,7 +16,7 @@ module Ramaze
       #
       # @author Yorick Peterse
       # @since  0.2.7.1
-      # @parma  [Fixnum] access_rule_id The ID of the access rule to validate.
+      # @param  [Fixnum] access_rule_id The ID of the access rule to validate.
       # @return [Users::Model::AccessRule]
       #
       def validate_access_rule(access_rule_id)
