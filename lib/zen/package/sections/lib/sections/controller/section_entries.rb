@@ -17,10 +17,10 @@ module Sections
 
       # Load all required Javascript files
       javascript [
-        'zen/tabs', 
-        'zen/editor', 
-        'zen/editor/markdown', 
-        'zen/editor/textile',
+        'lib/zen/tabs', 
+        'lib/zen/editor', 
+        'lib/zen/editor/markdown', 
+        'lib/zen/editor/textile',
         'vendor/datepicker'
       ]
 

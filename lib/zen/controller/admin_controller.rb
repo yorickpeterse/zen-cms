@@ -38,7 +38,7 @@ module Zen
         # Only allow users to access admin/users/login when they aren't logged
         # in
         if request.env['SCRIPT_NAME'] != 'admin/users/' \
-        and request.env['PATH_INFO'] != '/login' \
+        and request.env['PATH_INFO']  != '/login' \
         and !logged_in?
           message(:error, lang('zen_general.errors.require_login'))
           redirect '/admin/users/login'
@@ -49,7 +49,7 @@ module Zen
           false => lang('zen_general.special.boolean_hash.false')
         }.invert
       end
-
+  
       ##
       # Shortcut for Zen::Asset.stylesheet.
       #
@@ -58,7 +58,7 @@ module Zen
       # @since  0.2.5
       #
       def self.stylesheet(files, options = {})
-        options = { :controller => self }.merge(options)
+        options = {:controller => self}.merge(options)
 
         ::Zen::Asset.stylesheet(files, options)
       end
@@ -71,7 +71,7 @@ module Zen
       # @since  0.2.5
       #
       def self.javascript(files, options = {})
-        options = { :controller => self }.merge(options)
+        options = {:controller => self}.merge(options)
 
         ::Zen::Asset.javascript(files, options)
       end
@@ -94,10 +94,10 @@ module Zen
       # Load all default javascript files
       javascript(
         [
-          'mootools/core',
-          'mootools/more',
-          'zen/core',
-          'zen/init'
+          'vendor/mootools/core',
+          'vendor/mootools/more',
+          'lib/zen/zen',
+          'zen/index'
         ],
         :global => true
       )
