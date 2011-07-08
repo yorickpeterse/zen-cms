@@ -35,7 +35,7 @@ module Ramaze
       # Validates a menu item and returns it if it's valid.
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @param  [Fixnum] menu_item_id The ID of the menu item to validate.
       # @param  [Fixnum] menu_id The ID of the menu the item belongs to, used
       # when redirecting the user.

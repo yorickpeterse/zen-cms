@@ -7,7 +7,7 @@ module Ramaze
     # helper Ramaze::Helper::Message to be loaded.
     #
     # @author Yorick Peterse
-    # @since   0.2.7.1
+    # @since   0.2.8
     #
     module Category
       ##
@@ -17,7 +17,7 @@ module Ramaze
       # category groups and is informed about the group being invalid.
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @param  [Fixnum] category_group_id The ID of the category group to
       # validate.
       # @return [Categories::Model::CategoryGroup]
@@ -40,7 +40,7 @@ module Ramaze
       # categories.
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @param  [Fixnum] category_id The ID of the category.
       # @param  [Fixnum] category_group_id The ID of the category group, used
       # when redirecting the user.

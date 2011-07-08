@@ -78,7 +78,7 @@ module Sections
       # are the IDs and the values the names. 
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @return [Hash]
       #
       def self.status_hash
@@ -99,7 +99,7 @@ module Sections
       # Hook that is executed before saving an existing section entry.
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       #
       def before_save
         if self.section_entry_status_id.nil?

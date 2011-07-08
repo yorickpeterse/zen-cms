@@ -8,14 +8,14 @@ module Ramaze
     # incorrect helper (as it already comes with a helper named "User").
     #
     # @author Yorick Peterse
-    # @since  0.2.7.1
+    # @since  0.2.8
     #
     module Users
       ##
       # Checks if an access rule is valid and returns it if ithis is the case.
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @param  [Fixnum] access_rule_id The ID of the access rule to validate.
       # @return [Users::Model::AccessRule]
       #
@@ -34,7 +34,7 @@ module Ramaze
       # Checks if a user group is valid and returns it if this is the case.
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @param  [Fixnum] user_group_id The ID of the user group to validate.
       # @return [Users::Model::UserGroup]
       #
@@ -53,7 +53,7 @@ module Ramaze
       # Validates a user and returns the object if it's a valid user.
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @param  [Fixnum] user_id The ID of the user to validate.
       # @return [Users::Model::User]
       #

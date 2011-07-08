@@ -6,7 +6,7 @@ module Ramaze
     # Helper used by the comments package.
     #
     # @author Yorick Peterse
-    # @since  0.2.7.1
+    # @since  0.2.8
     #
     module Comment
       ##
@@ -16,7 +16,7 @@ module Ramaze
       # and is shown a message.
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @param  [Fixnum] comment_id The ID of the comment to validate.
       # @return [Comments::Model::Comment]
       #

@@ -169,7 +169,7 @@ module Ramaze
       # access the page.
       #
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @param  [Array] *args An array of permissions that are required.
       #
       def require_permissions(*args)

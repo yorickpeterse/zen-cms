@@ -118,7 +118,7 @@ module Settings
       # value is used.
       # 
       # @author Yorick Peterse
-      # @since  0.2.7.1
+      # @since  0.2.8
       # @return [Mixed]
       #
       def values
