@@ -20,7 +20,7 @@ module Sections
         [
           'lib/zen/tabs', 
           'lib/zen/editor', 
-          'lib/zen/editor/markdown', 
+          'lib/zen/editor/markdown',
           'lib/zen/editor/textile',
           'vendor/datepicker'
         ],

@@ -96,7 +96,7 @@ module Zen
         [
           'vendor/mootools/core',
           'vendor/mootools/more',
-          'lib/zen/zen',
+          'lib/zen/asset',
           'zen/index'
         ],
         :global => true

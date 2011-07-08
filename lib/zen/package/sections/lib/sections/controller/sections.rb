@@ -21,7 +21,7 @@ module Sections
       helper :section
 
       # Load all required Javascript files
-      javascript ['lib/zen/tabs']
+      javascript(['lib/zen/tabs'], :method => [:edit, :new])
 
       before_all do
         csrf_protection(:save, :delete) do
