@@ -22,7 +22,7 @@ module Users
       helper :users
       map '/admin/access-rules'
 
-      javascript ['users/access_rules']
+      javascript ['lib/users/access_rules', 'users/access_rules']
 
       before_all do
         csrf_protection(:save, :delete) do

@@ -3,17 +3,17 @@ require 'ramaze/gestalt'
 #:nodoc:
 module Zen
   ##
-  # The Asset module is a module used to register what Javascript files and 
-  # stylesheets should be loaded for the current request. This can be very 
-  # useful if you want to add a widget to all pages or override a certain 
+  # The Asset module is a module used to register what Javascript files and
+  # stylesheets should be loaded for the current request. This can be very
+  # useful if you want to add a widget to all pages or override a certain
   # stylesheet.
   #
   # ## Adding Assets
   #
-  # Assets can be added by calling either Zen::Asset.stylesheet or 
-  # Zen::Asset.javascript. Both take an array of files and a hash with some 
-  # configuration options, for more info on the exact usage and all the 
-  # available parameters see the individual methods. Here are a few quick 
+  # Assets can be added by calling either Zen::Asset.stylesheet or
+  # Zen::Asset.javascript. Both take an array of files and a hash with some
+  # configuration options, for more info on the exact usage and all the
+  # available parameters see the individual methods. Here are a few quick
   # examples of loading files:
   #
   #     # Load 3 Javascript files of which 2 will be loaded globally
@@ -29,18 +29,18 @@ module Zen
   #
   # ## Customizing Options
   #
-  # This module uses Innate::Optioned to provide a few options that can be 
+  # This module uses Innate::Optioned to provide a few options that can be
   # changed. The following options are available:
   #
   # * prefix: The global prefix to use for all assets, set to "admin" by default.
-  # * javascript_prefix: The prefix to use for all Javascript files on top of 
+  # * javascript_prefix: The prefix to use for all Javascript files on top of
   #   the globalprefix.
-  # * stylesheet_prefix: Similar to the javascript_prefix option but for 
+  # * stylesheet_prefix: Similar to the javascript_prefix option but for
   #   stylesheets.
   #
   # ## Building Assets
   #
-  # Building assets shouldn't be required as Zen already does this but if you 
+  # Building assets shouldn't be required as Zen already does this but if you
   # happen to need it you can build the files as following:
   #
   #     Zen::Asset.build(:stylesheet)
@@ -49,8 +49,8 @@ module Zen
   # ## Controller Usage
   #
   # While this module can be called by any other piece of code the class
-  # Zen::Controller::AdminController provides shortcuts to Zen::Asset.javascript 
-  # and Zen::Asset.stylesheet. These shortcuts work identical but are defined 
+  # Zen::Controller::AdminController provides shortcuts to Zen::Asset.javascript
+  # and Zen::Asset.stylesheet. These shortcuts work identical but are defined
   # as class methods and thus can be used inside your class declaration:
   #
   #     class Something < Zen::Controller::AdminController
@@ -63,10 +63,6 @@ module Zen
   module Asset
     include ::Innate::Optioned
 
-    class << self
-      include ::Innate::Trinity
-    end
-
     options.dsl do
       o 'Prefix for JS and CSS files'          , :prefix           , 'admin'
       o 'Prefix for JS files on top of :prefix', :javascript_prefix, 'js'
@@ -74,7 +70,7 @@ module Zen
     end
 
     ##
-    # Hash containing all the global and controller specific stylesheets that 
+    # Hash containing all the global and controller specific stylesheets that
     # have to be loaded when calling build_stylesheets.
     #
     # @author Yorick Peterse
@@ -85,7 +81,7 @@ module Zen
     }
 
     ##
-    # Hash containing all the global and controller specific stylesheets to 
+    # Hash containing all the global and controller specific stylesheets to
     # load when calling build_javascripts.
     #
     # @author Yorick Peterse
@@ -96,8 +92,8 @@ module Zen
     }
 
     ##
-    # Registers the given Javascripts files so that they're either loaded for 
-    # the current action or for all actions. Note that the first argument of 
+    # Registers the given Javascripts files so that they're either loaded for
+    # the current action or for all actions. Note that the first argument of
     # this method should always be an array.
     #
     # @example
@@ -109,13 +105,7 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.2.5
-    # @param  [Array] files An array of Javascript files (without their 
-    # extensions) to load relatively to the root of the application (/).
-    # @param  [Hash] options A hash containing additional options.
-    # @option options [TrueClass] :global When set to true the specified files 
-    # will be loaded globally rather than just for the current action.
-    # @option options [String/Symbol] controller The name of the controller for 
-    # which the specified files should be loaded.
+    # @see    Zen::Asset.process
     #
     def self.javascript(files, options = {})
       options = {
@@ -129,7 +119,7 @@ module Zen
     end
 
     ##
-    # Registers a number of stylesheets that can either be loaded globally or 
+    # Registers a number of stylesheets that can either be loaded globally or
     # for the current action.
     #
     # @example
@@ -137,13 +127,7 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.2.5
-    # @param  [Array] files A list of stylesheets (without their extensions) to 
-    # load.
-    # @param  [Hash] options A hash containing additional options to use.
-    # @option options [TrueClass] :global When set to true all the specified 
-    # stylesheets will be loaded globally rather than just for the current action.
-    # @option options [String/Symbol] controller The name of the controller for 
-    # which the specified files should be loaded.
+    # @see    Zen::Asset.process
     #
     def self.stylesheet(files, options = {})
       options = {
@@ -157,7 +141,7 @@ module Zen
     end
 
     ##
-    # Builds either all Javascript files or stylesheets. This method will load 
+    # Builds either all Javascript files or stylesheets. This method will load
     # both the global and action specific files.
     #
     # @example
@@ -175,8 +159,15 @@ module Zen
     def self.build(type)
       type       = type.to_sym
       attrs      = {}
-      controller = action.node.to_s.to_sym
+      controller = Ramaze::Current.action.node.to_s.to_sym
+      method     = Ramaze::Current.action.method.to_s.to_sym
       gestalt    = Ramaze::Gestalt.new
+
+      # The method in Ramaze::Current.action.method does not always contain the
+      # method since the assets are built in a layout.
+      if method.empty? and Ramaze::Current.actions[-2]
+        method = Ramaze::Current.actions[-2].method.to_s.to_sym
+      end
 
       # Set the basic elements of the tag
       if type === :stylesheet
@@ -192,7 +183,13 @@ module Zen
 
       # Get all the files to build
       if !files[controller].nil?
-        files = files[:global] + files[controller]
+        if files[controller].key?(method)
+          files = files[:global] + files[controller][method]
+        elsif !files[controller][:__all].nil?
+          files = files[:global] + files[controller][:__all]
+        else
+          files = files[:global]
+        end
       else
         files = files[:global]
       end
@@ -220,9 +217,9 @@ module Zen
     #
     # @example
     #  process(
-    #    ['foobar', 'baz'], 
-    #    :global => false, 
-    #    :type   => :javascript, 
+    #    ['foobar', 'baz'],
+    #    :global => false,
+    #    :type   => :javascript,
     #    :prefix => 'js'
     #  )
     #
@@ -230,13 +227,18 @@ module Zen
     # @since  0.2.5
     # @param  [Array] files An array of files to load.
     # @param  [Hash] options A hash containing all the required options.
-    # @option options [TrueClass] :global Specifies that all the files should be 
+    # @option options [TrueClass] :global Specifies that all the files should be
     # loaded globally.
-    # @option options [Symbol] :type The type of asset that's loaded, can either 
+    # @option options [Symbol] :type The type of asset that's loaded, can either
     # be :javascript or :stylesheet.
     # @option options [String] :prefix The prefix to use for all the assets.
-    # @option options [TrueClass] :global
-    # @option options [Symbol/String] :controller
+    # @option options [TrueClass] :global When set to true the specified files
+    # will be loaded globally.
+    # @option options [Symbol/String] :controller The class of the controller
+    # for which the assets should be loaded.
+    # @option options [Symbol/String/Array] :method A string or symbol that
+    # represents a single method for which to load the assets OR an array of
+    # methods.
     #
     def self.process(files, options)
       # Determine whether the files should be loaded globally
@@ -255,14 +257,34 @@ module Zen
         ext  = '.css'
       end
 
+      # Get the method to load the assets for
+      if options.key?(:method) and options[:method].class != Array
+        options[:method] = [options[:method]]
+      end
+
       # Add all the files
       files.each do |f|
-        f           = f.to_s + ext
-        f           = File.join(options[:prefix], f)
-        save[key] ||= []
+        f = f.to_s + ext
+        f = File.join(options[:prefix], f)
 
-        if !save[key].include?(f)
-          save[key].push(f)
+        # Load the assets for all the given methods
+        if options.key?(:method)
+          options[:method].each do |method|
+            method              = method.to_sym
+            save[key]         ||= {}
+            save[key][method] ||= []
+
+            save[key][method].push(f) unless save[key][method].include?(f)
+          end
+        # Load the assets for all methods in the controller
+        else
+          if key === :global
+            save[key].push(f) unless save[key].include?(f)
+          else
+            save[key]         ||= {}
+            save[key][:__all] ||= []
+            save[key][:__all].push(f) unless save[key][:__all].include?(f)
+          end
         end
       end
     end

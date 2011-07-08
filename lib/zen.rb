@@ -64,15 +64,8 @@ module Zen
         css = File.join(p, 'admin/css/global.css')
         js  = File.join(p, 'admin/js/global.js')
 
-        # Load the CSS file if it's there
-        if File.exist?(css)
-          ::Zen::Asset.stylesheet(['global'], :global => true)
-        end
-
-        # Load the JS file if it's there
-        if File.exist?(js)
-          ::Zen::Asset.javascript(['global'], :global => true)
-        end
+        Zen::Asset.stylesheet(['global'], :global => true) if File.exist?(css)
+        Zen::Asset.javascript(['global'], :global => true) if File.exist?(js)
       end
     end
 

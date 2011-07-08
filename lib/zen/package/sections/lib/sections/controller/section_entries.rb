@@ -16,16 +16,19 @@ module Sections
       helper :section
 
       # Load all required Javascript files
-      javascript [
-        'lib/zen/tabs', 
-        'lib/zen/editor', 
-        'lib/zen/editor/markdown', 
-        'lib/zen/editor/textile',
-        'vendor/datepicker'
-      ]
+      javascript(
+        [
+          'lib/zen/tabs', 
+          'lib/zen/editor', 
+          'lib/zen/editor/markdown', 
+          'lib/zen/editor/textile',
+          'vendor/datepicker'
+        ],
+        :method => [:edit, :new]
+      )
 
       # Load all required CSS files
-      stylesheet ['zen/datepicker']
+      stylesheet(['zen/datepicker'], :method => [:edit, :new])
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -62,7 +65,7 @@ module Sections
         end
       end
 
-      ##
+      ##]
       # Show an overview of all entries for the current section.
       #
       # This method requires the following permissions:

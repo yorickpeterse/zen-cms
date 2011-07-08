@@ -14,6 +14,8 @@
 * The core package have been cleaned up and are much more robust thanks to
   better validation of various objects such as category groups when viewing a
   list of categories.
+* Assets can now be loaded for specific methods using Zen::Asset by specifying
+  the :method key.
 
 ## 0.2.7 - June 16th, 2011
 

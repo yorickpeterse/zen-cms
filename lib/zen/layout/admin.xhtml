@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         
         <!-- Load all stylesheets -->
-         #{::Zen::Asset.build(:stylesheet)}
+         #{Zen::Asset.build(:stylesheet)}
         
         <title>#{@page_title}</title>
     </head>
@@ -40,7 +40,7 @@
                 </nav>
             </header>
         </div>
-        
+ 
         #{render_file(__DIR__('../view/main.xhtml'))}
         #{render_file(__DIR__('../view/bottom.xhtml'))}
     </body>
