@@ -35,12 +35,12 @@
 
     .button a
     {
-        padding: 5px;
+        padding: 3px 5px;
     }
     
     .button input[type="submit"]
     {
-        padding: 5px 4px 6px 4px;
+        padding: 5px 6px 6px 6px;
     }
     
     .button a:active, .button input[type="submit"]:active, .button button:active

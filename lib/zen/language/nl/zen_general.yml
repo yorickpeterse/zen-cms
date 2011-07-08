@@ -1,9 +1,6 @@
 ---
 labels:
-  zen_version : 'Deze website draait op Zen versie %s'
-  zen_website : 'Website'
-  zen_docs    : 'Documentatie'
-  zen_github  : 'GitHub account'
+  powered_by  : 'Aangedreven door'
   view_website: 'Bekijk website'
   logout      : 'Uitloggen'
   profile     : 'Profiel'

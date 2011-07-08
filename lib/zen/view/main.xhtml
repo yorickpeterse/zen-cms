@@ -8,23 +8,12 @@
 
 <footer id="main_footer" class="container">
     <div class="grid_12">
-        <p>#{lang('zen_general.labels.zen_version') % Zen::Version}</p>
-        <ul class="clearfix">
-            <li>
-                <a href="http://zen-cms.com/">
-                    #{lang('zen_general.labels.zen_website')}
-                </a>
-            </li>
-            <li>
-                <a href="http://zen-cms.com/userguide">
-                    #{lang('zen_general.labels.zen_docs')}
-                </a>
-            </li>
-            <li>
-                <a href="https://github.com/zen-cms/">
-                    #{lang('zen_general.labels.zen_github')}
-                </a>
-            </li>
-        </ul>
+        <p>
+            #{lang('zen_general.labels.powered_by')}
+
+            <a href="http://zen-cms.com/">
+                Zen #{Zen::Version}
+            </a>
+        </p>
     </div>
 </footer>

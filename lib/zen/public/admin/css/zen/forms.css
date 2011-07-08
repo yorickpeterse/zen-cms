@@ -9,7 +9,7 @@
 form label
 {
     display:       block;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
     form label .error
@@ -26,6 +26,7 @@ input[type="text"], input[type="password"], textarea, input[type="email"]
     border:      1px solid #ccc;
     font-family: 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
     font-size:   14px;
+    line-height: 1.4;
     padding:     5px;
     min-width:   400px;
 }

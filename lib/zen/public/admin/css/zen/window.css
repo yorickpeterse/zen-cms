@@ -6,14 +6,13 @@
  */
 .window
 {
-    background:     #fff;
-    border:         1px solid #aaa;
-    left:           50%;
-    min-width:      350px;
-    min-height:     100px;
-    position:       absolute;
-    padding-bottom: 10px;
-    top:            80px;
+    background:  #fff;
+    border:      1px solid #aaa;
+    left:        50%;
+    min-width:   350px;
+    min-height:  100px;
+    position:    absolute;
+    top:         80px;
 }
 
 .window.move
@@ -35,7 +34,8 @@
 
     .window header
     {
-        background:    #ddd -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#eee));
+        background:    #ddd -webkit-gradient(linear, left bottom, left top, 
+            from(#ddd), to(#eee));
         background:    #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
         border-top:    1px solid #fff;
         border-bottom: 1px solid #aaa;
@@ -51,7 +51,7 @@
             padding:     0px;
             text-shadow: 0px 1px #fff;
             text-align:  center;
-            width:       96%;
+            width:       97%;
         }
 
         .window header .close
@@ -65,7 +65,7 @@
 
     .window .body, .window .buttons
     {
-        padding: 10px;
+        padding: 20px;
     }
 
     .window .buttons

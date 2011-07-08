@@ -35,7 +35,7 @@
         {
             font-size:  14px;
             margin:     0px auto;
-            padding:    12px 0px 5px 0px;
+            padding:    10px 0px 5px 0px;
             text-align: center;
         }
         .datepicker .header .title:hover
@@ -49,7 +49,7 @@
             display:    block;
             font-size:  24px;
             height:     10px;
-            padding:    5px 5px 5px 3px;
+            padding:    2px 5px 5px 3px;
             position:   absolute;
             top:        -1px;
             width:      10px;

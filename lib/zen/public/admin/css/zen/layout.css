@@ -36,7 +36,7 @@
     {
         color:            #fff;
         display:          block;
-        margin:           3px 10px;
+        margin:           1px 10px;
         padding:          3px 3px 5px 3px;
         text-decoration:  none;
         text-align:       center;
@@ -113,26 +113,13 @@
  */
 #main_footer
 {
-    margin-top: 20px;
+    font-size:  12px;
+    margin-top: 10px;
     text-align: center;
 }
 
     #main_footer p
     {
-      margin-bottom: 8px;
-      margin:        0 auto 8px auto;
-      width:         300px;
+        text-align: center;
     }
-    
-    #main_footer ul
-    {
-        list-style-type: none;
-        margin:          0 auto;
-        width:           300px;
-    }
-        #main_footer ul li
-        {
-            float:      left;
-            margin:     0px 8px;
-            text-align: center;
-        }
+
