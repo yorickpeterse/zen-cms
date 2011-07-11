@@ -3,7 +3,7 @@ require 'ramaze'
 require 'yaml'
 
 Ramaze.setup(:verbose => false) do
-  gem 'sequel'          , ['~> 3.24.1']
+  gem 'sequel'          , ['~> 3.25']
   gem 'bcrypt-ruby'     , ['~> 2.1.4'], :lib => 'bcrypt'
   gem 'sequel_sluggable', ['~> 0.0.6']
   gem 'loofah'          , ['~> 1.0.0']
