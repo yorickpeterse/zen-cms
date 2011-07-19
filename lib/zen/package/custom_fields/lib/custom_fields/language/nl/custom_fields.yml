@@ -5,18 +5,18 @@ titles:
   new  : 'Veld aanmaken'
 
 labels:
-  id             : '#'
-  name           : 'Naam'
-  slug           : 'Slug'
-  type           : 'Type'
-  format         : 'Formaat'
-  description    : 'Beschrijving'
-  possible_values: 'Mogelijke waardes (een per regel)'
-  required       : 'Vereist een waarde'
-  visual_editor  : 'Visuele editor'
-  textarea_rows  : 'Text veld rijen'
-  text_limit     : 'Karakter limiet'
-  sort_order     : 'Sorteer volgorde'
+  id                  : '#'
+  name                : 'Naam'
+  slug                : 'Slug'
+  format              : 'Formaat'
+  description         : 'Beschrijving'
+  possible_values     : 'Mogelijke waardes (een per regel)'
+  required            : 'Vereist een waarde'
+  text_editor         : 'Text verwerker'
+  textarea_rows       : 'Text veld rijen'
+  text_limit          : 'Karakter limiet'
+  sort_order          : 'Sorteer volgorde'
+  custom_field_type_id: 'Veld type'
 
 tabs:
   general : 'Algemeen'
@@ -46,6 +46,7 @@ special:
     date           : 'Datum'
     select         : 'Lijst (enkele waarde)'
     select_multiple: 'Lijst (meerdere waardes)'
+    password       : 'Wachtwoord'
 
 buttons:
   new   : 'Veld toevoegen'

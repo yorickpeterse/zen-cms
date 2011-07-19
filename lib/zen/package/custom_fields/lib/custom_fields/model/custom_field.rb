@@ -23,6 +23,12 @@ module CustomFields
         :custom_field_values, 
         :class => "CustomFields::Model::CustomFieldValue"
       )
+
+      many_to_one(
+        :custom_field_type,
+        :class => 'CustomFields::Model::CustomFieldType',
+        :eager => :custom_field_method
+      )
       
       plugin :sluggable, :source => :name, :freeze => false
       
@@ -33,13 +39,29 @@ module CustomFields
       # @since  0.1
       # 
       def validate
-        validates_presence              [:name, :type, :format, :required, :visual_editor]
-        validates_max_length 255      , [:name]
-        validates_type       TrueClass, [:required, :visual_editor]
-        validates_integer               [:sort_order, :textarea_rows, :text_limit]
+        validates_presence([
+          :name, 
+          :format, 
+          :required, 
+          :text_editor, 
+          :custom_field_group_id,
+          :custom_field_type_id
+        ])
+
+        validates_max_length(255, [:name])
         
-        validates_presence :slug unless new?
-        validates_unique   :slug
+        validates_type(TrueClass, [:required, :text_editor])
+
+        validates_integer([
+          :sort_order, 
+          :textarea_rows, 
+          :text_limit, 
+          :custom_field_group_id,
+          :custom_field_type_id
+        ])
+        
+        validates_presence(:slug) unless new?
+        validates_unique(:slug)
       end
     end # CustomField
   end # Model

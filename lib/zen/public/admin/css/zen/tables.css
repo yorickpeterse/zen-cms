@@ -39,12 +39,12 @@ table
             padding: 4px 10px 2px 10px;
         }
 
-        .table thead tr th:first-child, .table tbody tr td:first-child
+        table thead tr th:first-child, table tbody tr td:first-child
         {
             width: 15px;
         }
 
-        .table thead tr th:first-child input[type="checkbox"], .table tbody tr td:first-child input[type="checkbox"]
+        table thead tr th:first-child input[type="checkbox"], table tbody tr td:first-child input[type="checkbox"]
         {
             margin-top: 3px;
         }

@@ -3,12 +3,12 @@
         <h1>#{get_breadcrumbs}</h1>
     </header>
     
-    <form method="post" action="#{@form_delete_url}">
+    <form method="post" action="#{Sections::Controller::Sections.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
         
-        <?r if @sections and !@sections.empty? ?>
+        <?r if !@sections.empty? ?>
         
-        <table class="table">
+        <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
@@ -34,7 +34,8 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="section_ids[]" value="#{section.id}" />
+                        <input type="checkbox" name="section_ids[]" 
+                        value="#{section.id}" />
                     </td>
                     <?r end ?>
                     
@@ -42,10 +43,8 @@
                     
                     <?r if user_authorized?([:update]) ?>
                     <td>
-                        #{anchor_to(
-                          section.name, 
-                          Sections::Controller::Sections.r(:edit, section.id), 
-                          :title => section.name
+                        #{Sections::Controller::Sections.a(
+                          section.name, :edit, section.id
                         )}
                     </td>
                     <?r else ?>
@@ -61,9 +60,10 @@
                       [:read], true, 'Sections::Controller::SectionEntries'
                     ) ?>
                     <td>
-                        #{anchor_to(
+                        #{Sections::Controller::SectionEntries.a(
                           lang('sections.labels.manage_entries'), 
-                          Sections::Controller::SectionEntries.r(:index, section.id)
+                          :index,
+                          section.id
                         )}
                     </td>
                     <?r end ?>
@@ -73,25 +73,23 @@
         </table>
         
         <?r else ?>
+        
         <p>#{lang('sections.messages.no_sections')}</p>
+
         <?r end ?>
         
-        <div class="clearfix">
-            <?r if user_authorized?([:create]) ?>
-            <div class="button">
-                #{anchor_to(
-                  lang('sections.buttons.new'),
-                  Sections::Controller::Sections.r(:new)
-                )}
-            </div>    
-            <?r end ?>
-            
-            <?r if user_authorized?([:delete]) and @sections and !@sections.empty? ?>
-            <div class="button">
-                <input type="submit" value="#{lang('sections.buttons.delete')}" />
-            </div>
-            <?r end ?>
+        <?r if user_authorized?([:create]) ?>
+        <div class="button">
+            #{Sections::Controller::Sections.a(
+              lang('sections.buttons.new'), :new
+            )}
+        </div>    
+        <?r end ?>
+        
+        <?r if user_authorized?([:delete]) and !@sections.empty? ?>
+        <div class="button">
+            <input type="submit" value="#{lang('sections.buttons.delete')}" />
         </div>
-
+        <?r end ?>
     </form>
 </article>

@@ -25,9 +25,20 @@ describe("Sections::Controller::SectionEntries") do
       :type                   => 'textbox', 
       :format                 => 'markdown',
       :required               => true, 
-      :visual_editor          => false, 
+      :text_editor            => false, 
       :custom_field_group_id  => @group.id,
       :text_limit             => 100
+    )
+
+    @field_1 = CustomFields::Model::CustomField.create(
+      :name                  => 'Spec checkbox',
+      :sort_order            => 1,
+      :type                  => 'checkbox',
+      :format                => 'plain',
+      :required              => true,
+      :text_editor           => false,
+      :custom_field_group_id => @group.id,
+      :possible_values       => "Yorick Peterse|yorick\nChuck Norris|chuck"
     )
 
     # Link the custom field group and the section
@@ -36,6 +47,7 @@ describe("Sections::Controller::SectionEntries") do
     @section.name.should === 'Spec section'
     @group.name.should   === 'Spec fields'
     @field.name.should   === 'Spec field'
+    @field_1.name.should === 'Spec checkbox'
   end
 
   it("No section entries should exist") do
@@ -76,9 +88,10 @@ describe("Sections::Controller::SectionEntries") do
     page.has_field?('Spec field').should                       === true
 
     within('#section_entry_form') do
-      fill_in(title_field , :with => 'Spec entry')
-      select(status_field , :from => 'form_section_entry_status_id')
-      fill_in('Spec field', :with => 'Spec field value')
+      fill_in(title_field   , :with => 'Spec entry')
+      select(status_field   , :from => 'form_section_entry_status_id')
+      fill_in('Spec field'  , :with => 'Spec field value') 
+      check("form_custom_field_values[#{@field_1.id}]_0")
       click_on(save_entry)
     end
 
@@ -87,8 +100,9 @@ describe("Sections::Controller::SectionEntries") do
 
     page.find('select[name="section_entry_status_id"] option[selected]') \
       .text.should === status_field
-    
-    page.find_field('Spec field').value.should === 'Spec field value'
+
+    page.find_field('Spec checkbox').value.should === 'yorick'
+    page.find_field('Spec field').value.should    === 'Spec field value'
   end
 
   it("Edit an existing section entry") do
@@ -111,11 +125,13 @@ describe("Sections::Controller::SectionEntries") do
     within('#section_entry_form') do
       fill_in(title_field , :with => 'Spec entry modified')
       fill_in('Spec field', :with => 'Spec field value modified')
+      check("form_custom_field_values[#{@field_1.id}]_1")
       click_on(save_entry)
     end
 
     page.find('input[name="title"]').value.should === 'Spec entry modified'
-    page.find_field('Spec field').value.should === 'Spec field value modified'
+    page.find_field('Spec field').value.should    === 'Spec field value modified'
+    page.find_field('Spec checkbox').value.should === 'chuck'
   end
 
   it("Delete an existing section entry") do
@@ -136,6 +152,7 @@ describe("Sections::Controller::SectionEntries") do
 
   it("Delete the test data") do
     @field.destroy
+    @field_1.destroy
     @group.destroy
     @section.destroy
 
@@ -146,6 +163,9 @@ describe("Sections::Controller::SectionEntries") do
       .should === nil
 
     CustomFields::Model::CustomField[:name => 'Spec field'] \
+      .should === nil
+
+    CustomFields::Model::CustomField[:name => 'Spec checkbox'] \
       .should === nil
   end
 

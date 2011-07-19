@@ -3,12 +3,12 @@
         <h1>#{get_breadcrumbs}</h1>
     </header>
 
-    <form action="#{@form_delete_url}" method="post">
+    <form action="#{Menus::Controller::Menus.r(:delete)}" method="post">
         <input name="csrf_token" type="hidden" value="#{get_csrf_token}" />
 
         <?r if @menus and !@menus.empty? ?>
 
-        <table class="table">
+        <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
@@ -23,18 +23,20 @@
                     <th>#{lang('menus.labels.css_class')}</th>
                     <th>#{lang('menus.labels.css_id')}</th>
 
-                    <?r if user_authorized?([:read], true, 'Menus::Controller::MenuItems') ?>
+                    <?r if user_authorized?(
+                      [:read], true, 'Menus::Controller::MenuItems'
+                    ) ?>
                     <th></th>
                     <?r end ?>
                 </tr>
             </thead>
-
             <tbody>
                 <?r @menus.each do |menu| ?>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="menu_ids[]" value="#{menu.id}" />
+                        <input type="checkbox" name="menu_ids[]" 
+                        value="#{menu.id}" />
                     </td>
                     <?r end ?>
 
@@ -42,10 +44,7 @@
                     
                     <?r if user_authorized?([:update]) ?>
                     <td>
-                        #{anchor_to(
-                          menu.name, 
-                          Menus::Controller::Menus.r(:edit, menu.id)
-                        )}
+                        #{Menus::Controller::Menus.a(menu.name, :edit, menu.id)}
                     </td>
                     <?r else ?>
                     <td>#{menu.name}</td>
@@ -55,11 +54,12 @@
                     <td>#{menu.css_class}</td>
                     <td>#{menu.css_id}</td>
 
-                    <?r if user_authorized?([:read], true, 'Menus::Controller::MenuItems') ?>
+                    <?r if user_authorized?(
+                      [:read], true, 'Menus::Controller::MenuItems'
+                    ) ?>
                     <td>
-                        #{anchor_to(
-                          lang('menus.labels.manage_items'), 
-                          Menus::Controller::MenuItems.r(:index, menu.id)
+                        #{Menus::Controller::MenuItems.a(
+                          lang('menus.labels.manage_items'), :index, menu.id
                         )}
                     </td>
                     <?r end ?>
@@ -72,24 +72,18 @@
         <p>#{lang('menus.messages.no_menus')}</p>
         <?r end ?>
 
-        <div class="clearfix">
-
-            <?r if user_authorized?([:create, :read]) ?>
-            <div class="button">
-                #{anchor_to(
-                  lang('menus.buttons.new'), 
-                  Menus::Controller::Menus.r(:new) 
-                )}
-            </div>
-            <?r end ?>
-
-            <?r if user_authorized?([:delete]) ?>
-            <div class="button">
-                <input type="submit" value="#{lang('menus.buttons.delete')}" />
-            </div>
-            <?r end ?>
-
+        <?r if user_authorized?([:create, :read]) ?>
+        <div class="button">
+            #{Menus::Controller::Menus.a(
+              lang('menus.buttons.new'), :new
+            )}
         </div>
-            
+        <?r end ?>
+
+        <?r if user_authorized?([:delete]) ?>
+        <div class="button">
+            <input type="submit" value="#{lang('menus.buttons.delete')}" />
+        </div>
+        <?r end ?>
     </form>    
 </article>

@@ -37,9 +37,6 @@ module Categories
       def initialize
         super
 
-        @form_save_url   = CategoryGroups.r(:save)
-        @form_delete_url = CategoryGroups.r(:delete)
-
         Zen::Language.load('category_groups')
 
         # Set the page title
@@ -61,9 +58,7 @@ module Categories
       # @since  0.1
       #
       def index
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
         set_breadcrumbs(lang('category_groups.titles.index'))
 
@@ -93,6 +88,8 @@ module Categories
         else
           @category_group = validate_category_group(id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -114,6 +111,8 @@ module Categories
         )
 
         @category_group = CategoryGroup.new
+
+        render_view(:form)
       end
 
       ##
@@ -155,6 +154,8 @@ module Categories
 
           flash[:form_data]   = category_group
           flash[:form_errors] = category_group.errors
+
+          redirect_referrer
         end
 
         if !category_group.nil? and category_group.id
@@ -178,9 +179,7 @@ module Categories
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         post = request.subset(:category_group_ids)
 
@@ -196,6 +195,7 @@ module Categories
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('category_groups.errors.delete') % id)
+
             redirect_referrer
           end
         end

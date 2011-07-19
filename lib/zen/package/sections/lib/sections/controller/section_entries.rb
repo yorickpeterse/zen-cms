@@ -18,8 +18,8 @@ module Sections
       # Load all required Javascript files
       javascript(
         [
-          'lib/zen/tabs', 
-          'lib/zen/editor', 
+          'lib/zen/tabs',
+          'lib/zen/editor',
           'lib/zen/editor/markdown',
           'lib/zen/editor/textile',
           'vendor/datepicker'
@@ -51,9 +51,6 @@ module Sections
       #
       def initialize
         super
-
-        @form_save_url   = SectionEntries.r(:save)
-        @form_delete_url = SectionEntries.r(:delete)
 
         Zen::Language.load('section_entries')
         Zen::Language.load('sections')
@@ -116,8 +113,6 @@ module Sections
         )
 
         validate_section(section_id)
-        
-        @section_id = section_id
 
         if flash[:form_data]
           @entry = flash[:form_data]
@@ -125,9 +120,11 @@ module Sections
           @entry = validate_section_entry(entry_id, section_id)
         end
 
-        @users_hash = {}
+        @section_id          = section_id
+        @possible_categories = @entry.possible_categories
+        @custom_fields_hash  = @entry.custom_fields_hash
 
-        ::Users::Model::User.each { |u| @users_hash[u.id] = u.name }
+        render_view(:form)
       end
 
       ##
@@ -157,17 +154,18 @@ module Sections
 
         validate_section(section_id)
 
-        @section_id = section_id
-        @entry      = SectionEntry.new(:section_id => section_id)
-        @users_hash = {}
+        @section_id          = section_id
+        @entry               = SectionEntry.new(:section_id => section_id)
+        @possible_categories = @entry.possible_categories
+        @custom_fields_hash  = @entry.custom_fields_hash
 
-        ::Users::Model::User.each { |u| @users_hash[u.id] = u.name }
+        render_view(:form)
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back 
-      # to the proper URL. Based on the value of a hidden field named "id" we'll 
-      # determine if the data will be used to create a new section or to update 
+      # Method used for processing the form data and redirecting the user back
+      # to the proper URL. Based on the value of a hidden field named "id" we'll
+      # determine if the data will be used to create a new section or to update
       # an existing one.
       #
       # This method requires the following permissions:
@@ -177,8 +175,8 @@ module Sections
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @todo The way this method handles the creation of field values might 
-      # require some patches as it executes quite a few queries. I'll keep it 
+      # @todo The way this method handles the creation of field values might
+      # require some patches as it executes quite a few queries. I'll keep it
       # as it is for now.
       #
       def save
@@ -204,7 +202,7 @@ module Sections
           @entry        = SectionEntry[post['id']]
           save_action   = :save
 
-          # Section entries aren't considered to be updated whenever a custom 
+          # Section entries aren't considered to be updated whenever a custom
           # field value is modified, this solves that problem
           post['updated_at'] = Time.new
         else

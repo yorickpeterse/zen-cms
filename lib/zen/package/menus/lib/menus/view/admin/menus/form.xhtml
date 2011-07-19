@@ -1,42 +1,51 @@
-#{
-form_for(@menu, :method => :post, :action => @form_save_url, :id => :menu_form) do |f| 
-  f.input_hidden(:csrf_token, get_csrf_token)
-  f.input_hidden(:id        , @menu.id)
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
 
-  f.input_text(
-    lang('menus.labels.name'), 
-    :name, 
-    :placeholder => lang('menus.placeholders.name') 
-  )
+    #{
+    form_for(
+      @menu, 
+      :method => :post, 
+      :action => Menus::Controller::Menus.r(:save), 
+      :id     => :menu_form
+    ) do |f| 
+      f.input_hidden(:csrf_token, get_csrf_token)
+      f.input_hidden(:id        , @menu.id)
 
-  f.input_text(
-    lang('menus.labels.slug'), 
-    :slug, 
-    :placeholder => lang('menus.placeholders.slug')
-  )
-    
-  f.input_text(
-    lang('menus.labels.css_class'), 
-    :css_class, 
-    :placeholder => lang('menus.placeholders.css_class')
-  )
+      f.input_text(
+        lang('menus.labels.name'), 
+        :name, 
+        :placeholder => lang('menus.placeholders.name') 
+      )
 
-  f.input_text(
-    lang('menus.labels.css_id'), 
-    :css_id, 
-    :placeholder => lang('menus.placeholders.css_id')
-  )
+      f.input_text(
+        lang('menus.labels.slug'), 
+        :slug, 
+        :placeholder => lang('menus.placeholders.slug')
+      )
+        
+      f.input_text(
+        lang('menus.labels.css_class'), 
+        :css_class, 
+        :placeholder => lang('menus.placeholders.css_class')
+      )
 
-  f.textarea(
-    lang('menus.labels.description'), 
-    :description, 
-    :rows => 8
-  )
-  
-  f.g.div(:class => "clearfix") do
-    f.g.div(:class => "button") do
-      f.g.input(:type => :submit, :value => lang('menus.buttons.save'))
+      f.input_text(
+        lang('menus.labels.css_id'), 
+        :css_id, 
+        :placeholder => lang('menus.placeholders.css_id')
+      )
+
+      f.textarea(
+        lang('menus.labels.description'), 
+        :description, 
+        :rows => 8
+      )
+      
+      f.g.div(:class => "button") do
+        f.g.input(:type => :submit, :value => lang('menus.buttons.save'))
+      end
     end
-  end
-end
-}
+    }
+</article>

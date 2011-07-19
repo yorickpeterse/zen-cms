@@ -3,12 +3,13 @@
         <h1>#{get_breadcrumbs}</h1>
     </header>
     
-    <form method="post" action="#{@form_delete_url}">
+    <form method="post"
+    action="#{CustomFields::Controller::CustomFieldGroups.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
         
         <?r if @field_groups and !@field_groups.empty? ?>
         
-        <table class="table">
+        <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
@@ -33,8 +34,8 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-												<input type="checkbox" name="custom_field_group_ids[]" 
-												value="#{group.id}" />
+                        <input type="checkbox" name="custom_field_group_ids[]" 
+                        value="#{group.id}" />
                     </td>
                     <?r end ?>
                     
@@ -42,10 +43,8 @@
                     
                     <?r if user_authorized?([:update]) ?>
                     <td>
-                        #{anchor_to(
-                          group.name, 
-                          CustomFields::Controller::CustomFieldGroups.r(:edit, group.id), 
-                          :title => group.name
+                        #{CustomFields::Controller::CustomFieldGroups.a(
+                          group.name, :edit, group.id
                         )}
                     </td>
                     <?r else ?>
@@ -55,9 +54,9 @@
                     <td>
                         <?r sections = group.sections.map { |s| s.name } ?> 
                         <?r if !sections.empty? ?>
-                            #{sections.join(', ')}
+                        #{sections.join(', ')}
                         <?r else ?>
-                            #{lang('custom_field_groups.labels.none')}
+                        #{lang('custom_field_groups.labels.none')}
                         <?r end ?> 
                     </td>
                     
@@ -65,13 +64,13 @@
                       [:read], true, 'CustomFields::Controller::CustomFields'
                     ) ?>
                     <td>
-                      #{anchor_to(
-                          lang('custom_field_groups.labels.manage_fields'), 
-                          CustomFields::Controller::CustomFields.r(:index, group.id) 
+                        #{CustomFields::Controller::CustomFields.a(
+                          lang('custom_field_groups.labels.manage_fields'),
+                          :index,
+                          group.id
                         )}
                     </td>
                     <?r end ?>
-                    
                 </tr>
                 <?r end ?>
             </tbody>
@@ -83,25 +82,20 @@
         
         <?r end ?>
         
-        <div class="clearfix">
-            
-            <?r if user_authorized?([:create]) ?>
-            <div class="button">
-                #{anchor_to(
-                  lang('custom_field_groups.buttons.new'), 
-                  CustomFields::Controller::CustomFieldGroups.r(:new)
-                )}
-            </div>
-            <?r end ?>
-            
-						<?r if user_authorized?([:delete]) and @field_groups \
-						and !@field_groups.empty? ?>
-            <div class="button">
-								<input type="submit" 
-								value="#{lang('custom_field_groups.buttons.delete')}" />
-            </div>
-            <?r end ?>
+        <?r if user_authorized?([:create]) ?>
+        <div class="button">
+            #{CustomFields::Controller::CustomFieldGroups.a(
+              lang('custom_field_groups.buttons.new'),
+              :new
+            )}
         </div>
-
+        <?r end ?>
+        
+        <?r if user_authorized?([:delete]) and !@field_groups.empty? ?>
+        <div class="button">
+            <input type="submit" 
+            value="#{lang('custom_field_groups.buttons.delete')}" />
+        </div>
+        <?r end ?>
     </form>
 </article> 

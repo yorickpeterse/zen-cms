@@ -1,107 +1,110 @@
-<div class="tabs">
-    <ul>
-        <li>
-            <a href="#general" title="#{lang('sections.tabs.general')}">
-                #{lang('sections.tabs.general')}
-            </a>
-        </li>
-        <li>
-            <a href="#comments" title="#{lang('sections.tabs.comment_settings')}">
-                #{lang('sections.tabs.comment_settings')}
-            </a>
-        </li>
-        <li>
-            <a href="#groups" title="#{lang('sections.tabs.group_assignments')}">
-                #{lang('sections.tabs.group_assignments')}
-            </a>
-        </li>
-    </ul>
-</div>
-  
-#{
-form_for(@section, :method => 'post', :action => @form_save_url, :id => :section_form) do |f|
-
-  f.input_hidden(:id, @section.id)
-  f.input_hidden(:csrf_token, get_csrf_token)
-  
-  f.g.div(:id => 'general') do
-
-    f.input_text(
-      lang('sections.labels.name'), 
-      :name
-    )
-
-    f.input_text(
-      lang('sections.labels.slug'), 
-      :slug
-    )
-
-    f.textarea(
-      lang('sections.labels.description'), 
-      :description, 
-      :rows => 8
-    )
-
-  end
-  
-  f.g.div(:id => 'comments') do
-
-    f.input_radio(
-      lang('sections.labels.comment_allow'), 
-      :comment_allow, 
-      @section.comment_allow,
-      :values => @boolean_hash 
-    )
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
     
-    f.input_radio(
-      lang('sections.labels.comment_require_account'),
-      :comment_require_account, 
-      @section.comment_require_account,
-      :values => @boolean_hash
-    )
+    <div class="tabs">
+        <ul>
+            <li>
+                <a href="#general" title="#{lang('sections.tabs.general')}">
+                    #{lang('sections.tabs.general')}
+                </a>
+            </li>
+            <li>
+                <a href="#comments" 
+                title="#{lang('sections.tabs.comment_settings')}">
+                    #{lang('sections.tabs.comment_settings')}
+                </a>
+            </li>
+            <li>
+                <a href="#groups" 
+                title="#{lang('sections.tabs.group_assignments')}">
+                    #{lang('sections.tabs.group_assignments')}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    #{
+    form_for(
+      @section, 
+      :method => 'post', 
+      :action => Sections::Controller::Sections.r(:save), 
+      :id     => :section_form
+    ) do |f|
+      f.input_hidden(:id        , @section.id)
+      f.input_hidden(:csrf_token, get_csrf_token)
       
-    f.input_radio(
-      lang('sections.labels.comment_moderate'), 
-      :comment_moderate, 
-      @section.comment_moderate,
-      :values => @boolean_hash
-    )
+      f.g.div(:id => 'general') do
+        f.input_text(
+          lang('sections.labels.name'), 
+          :name
+        )
+
+        f.input_text(
+          lang('sections.labels.slug'), 
+          :slug
+        )
+
+        f.textarea(
+          lang('sections.labels.description'), 
+          :description, 
+          :rows => 8
+        )
+      end # f.g.div(:id => 'general')
       
-    f.select(
-      lang('sections.labels.comment_format'), 
-      :comment_format,
-      :values   => Zen::Plugin::Markup::Engines, 
-      :selected => @section.comment_format, 
-      :size     => 1
-    )
-
-  end
-  
-  f.g.div(:id => 'groups') do
-
-    f.select(
-      lang('sections.labels.custom_field_groups'), 
-      :custom_field_group_pks, 
-      :values   => @custom_field_group_pk_hash,
-      :multiple => :multiple,
-      :selected => @section.custom_field_group_pks
-    )
-    
-    f.select(
-      lang('sections.labels.category_groups'), 
-      :category_group_pks, 
-      :values   => @category_group_pk_hash,
-      :multiple => :multiple, 
-      :selected => @section.category_group_pks
-    )
-
-  end
-  
-  f.g.div(:class => 'clearfix') do
-    f.g.div(:class => 'button') do
-      f.g.input(:type => 'submit', :value => lang('sections.buttons.save'))
+      f.g.div(:id => 'comments') do
+        f.input_radio(
+          lang('sections.labels.comment_allow'), 
+          :comment_allow, 
+          @section.comment_allow,
+          :values => @boolean_hash 
+        )
+        
+        f.input_radio(
+          lang('sections.labels.comment_require_account'),
+          :comment_require_account, 
+          @section.comment_require_account,
+          :values => @boolean_hash
+        )
+          
+        f.input_radio(
+          lang('sections.labels.comment_moderate'), 
+          :comment_moderate, 
+          @section.comment_moderate,
+          :values => @boolean_hash
+        )
+          
+        f.select(
+          lang('sections.labels.comment_format'), 
+          :comment_format,
+          :values   => Zen::Plugin::Markup::Engines, 
+          :selected => @section.comment_format, 
+          :size     => 1
+        )
+      end # f.g.div(:id => 'comments')
+      
+      f.g.div(:id => 'groups') do
+        f.select(
+          lang('sections.labels.custom_field_groups'), 
+          :custom_field_group_pks, 
+          :values   => @custom_field_group_pk_hash,
+          :multiple => :multiple,
+          :selected => @section.custom_field_group_pks
+        )
+        
+        f.select(
+          lang('sections.labels.category_groups'), 
+          :category_group_pks, 
+          :values   => @category_group_pk_hash,
+          :multiple => :multiple, 
+          :selected => @section.category_group_pks
+        )
+      end # f.g.div(:id => 'groups')
+      
+      f.g.div(:class => 'button') do
+        f.g.input(:type => 'submit', :value => lang('sections.buttons.save'))
+      end
     end
-  end
-
-end
-}
+    }
+</article>

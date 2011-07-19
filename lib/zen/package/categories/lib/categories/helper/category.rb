@@ -58,6 +58,31 @@ module Ramaze
           return category
         end
       end
+
+      ##
+      # Method that extracts all the possible parent categories for a given
+      # category group ID.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.8
+      # @param  [Fixnum[ category_id The ID of the category, this one will be
+      # excluded from the hash.
+      # @param  [Fixnum] category_group_id The ID of a category group for which
+      # to retrieve all the possible parent items.
+      # @return [Hash]
+      #
+      def parent_categories(category_id, category_group_id)
+        parent_categories = {}
+
+        Categories::Model::CategoryGroup[category_group_id].categories \
+        .each do |c|
+          parent_categories[c.id] = c.name if c.id != category_id
+        end
+
+        parent_categories[nil] = '--'
+
+        return parent_categories
+      end
     end # Category
   end # Helper
 end # Ramaze

@@ -3,9 +3,9 @@ module CustomFields
   #:nodoc:
   module Controller
     ##
-    # Controller for managing custom field groups. These groups are used
-    # to organize individual fields into a larger group which in turn will
-    # be assigned to a section.
+    # Controller for managing custom field groups. These groups are used to
+    # organize individual fields into a larger group which in turn will be
+    # assigned to a section.
     #
     # @author  Yorick Peterse
     # @since   0.1
@@ -14,7 +14,6 @@ module CustomFields
       include ::CustomFields::Model
 
       helper :custom_field
-
       map '/admin/custom-field-groups'
 
       before_all do
@@ -24,8 +23,8 @@ module CustomFields
       end
 
       ##
-      # Constructor method, called upon initialization. It's used to set the
-      # URL to which forms send their data and load the language pack.
+      # Constructor method, called upon initialization. It's used to set the URL
+      # to which forms send their data and load the language pack.
       #
       # This method loads the following language files:
       #
@@ -37,9 +36,6 @@ module CustomFields
       def initialize
         super
 
-        @form_save_url   = CustomFieldGroups.r(:save)
-        @form_delete_url = CustomFieldGroups.r(:delete)
-
         Zen::Language.load('custom_field_groups')
 
         # Set the page title
@@ -50,8 +46,8 @@ module CustomFields
       end
 
       ##
-      # Show an overview of all existing custom field groups. Using this 
-      # overview a user can manage an existing field group, delete it or create 
+      # Show an overview of all existing custom field groups. Using this
+      # overview a user can manage an existing field group, delete it or create
       # a new one.
       #
       # This method requires the following permissions:
@@ -95,6 +91,8 @@ module CustomFields
         else
           @field_group = validate_custom_field_group(id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -117,13 +115,15 @@ module CustomFields
         )
 
         @field_group = CustomFieldGroup.new
+
+        render_view(:form)
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back 
-      # to the proper URL. Based on the value of a hidden field named 'id' we'll 
-      # determine if the data will be used to create a new group or to update 
-      # an existing one.
+      # Method used for processing the form data and redirecting the user back
+      # to the proper URL. Based on the value of a hidden field named 'id' we'll
+      # determine if the data will be used to create a new group or to update an
+      # existing one.
       #
       # This method requires the following permissions:
       #
@@ -177,9 +177,9 @@ module CustomFields
       ##
       # Delete an existing custom field group.
       #
-      # In order to delete a custom field group you'll need to send a POST 
-      # request that contains a field named 'custom_field_group_ids[]'. This 
-      # field should contain the primary values of each field group that has to 
+      # In order to delete a custom field group you'll need to send a POST
+      # request that contains a field named 'custom_field_group_ids[]'. This
+      # field should contain the primary values of each field group that has to
       # be deleted.
       #
       # This method requires the following permissions:
@@ -200,10 +200,12 @@ module CustomFields
 
         request.params['custom_field_group_ids'].each do |id|
           begin
-            CustomFieldGroup[id.to_i].destroy
+            CustomFieldGroup[id].destroy
             message(:success, lang('custom_field_groups.success.delete'))
-          rescue
+          rescue => e
+            Ramaze::Log.error(e.inspect)
             message(:error, lang('custom_field_groups.errors.delete') % id)
+
             redirect_referrer
           end
         end

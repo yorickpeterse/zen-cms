@@ -54,6 +54,26 @@ module Ramaze
           return field
         end
       end
+      
+      ##
+      # Validates a custom field type and returns it if it's valid.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.8
+      # @param  [Fixnum] custom_field_type_id The ID of the field type to
+      # validate.
+      # @return [CustomFields::Model::CustomFieldType]
+      #
+      def validate_custom_field_type(custom_field_type_id)
+        type = ::CustomFields::Model::CustomFieldType[custom_field_type_id]
+
+        if type.nil?
+          message(:error, lang('custom_field_types.errors.invalid_type'))
+          redirect(::CustomFields::Controller::CustomFieldTypes.r(:index))
+        else
+          return type
+        end
+      end
     end # CustomField
   end # Helper
 end # Ramaze

@@ -3,14 +3,15 @@
         <h1>#{get_breadcrumbs}</h1>
     </header>
     
-    <form method="post" action="#{@form_delete_url}">
+    <form method="post" 
+    action="#{Categories::Controller::Categories.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
         <input type="hidden" name="category_group_id" 
         value="#{@category_group_id}" />
         
         <?r if @categories and !@categories.empty? ?>
         
-        <table class="table">
+        <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
@@ -39,11 +40,11 @@
                     
                     <?r if user_authorized?([:update]) ?>
                     <td>
-                        #{anchor_to(
-                          category.name, 
-                          Categories::Controller::Categories.r(
-                            :edit, @category_group_id, category.id
-                          )
+                        #{Categories::Controller::Categories.a(
+                          category.name,
+                          :edit,
+                          @category_group_id, 
+                          category.id
                         )}
                     </td>
                     <?r else ?>
@@ -64,24 +65,21 @@
         <p>#{lang('categories.messages.no_categories')}</p>
         <?r end ?>
         
-        <div class="clearfix">
-            <?r if user_authorized?([:create]) ?>
-            <div class="button">
-                #{anchor_to(
-                  lang('categories.buttons.new'), 
-                  Categories::Controller::Categories.r(:new, @category_group_id)
-                )}
-            </div>
-            <?r end ?>
-            
-            <?r if user_authorized?([:delete]) and @categories \
-            and !@categories.empty? ?>
-            <div class="button">
-                <input type="submit" 
-                value="#{lang('categories.buttons.delete')}" />
-            </div>
-            <?r end ?>
-            
+        <?r if user_authorized?([:create]) ?>
+        <div class="button">
+            #{Categories::Controller::Categories.a(
+              lang('categories.buttons.new'),
+              :new,
+              @category_group_id
+            )}
         </div>
+        <?r end ?>
+        
+        <?r if user_authorized?([:delete]) and !@categories.empty? ?>
+        <div class="button">
+            <input type="submit" 
+            value="#{lang('categories.buttons.delete')}" />
+        </div>
+        <?r end ?>
     </form>
 </article>

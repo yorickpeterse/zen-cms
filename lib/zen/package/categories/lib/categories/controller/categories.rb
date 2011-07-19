@@ -38,9 +38,6 @@ module Categories
       def initialize
         super
 
-        @form_save_url   = Categories.r(:save)
-        @form_delete_url = Categories.r(:delete)
-
         Zen::Language.load('categories')
         Zen::Language.load('category_groups')
 
@@ -113,6 +110,8 @@ module Categories
         else
           @category = validate_category(id, category_group_id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -144,6 +143,8 @@ module Categories
 
         @category_group_id = category_group_id
         @category          = Category.new
+
+        render_view(:form)
       end
 
       ##

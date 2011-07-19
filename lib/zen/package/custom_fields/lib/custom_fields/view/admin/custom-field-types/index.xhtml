@@ -1,0 +1,88 @@
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
+
+    <form action="#{CustomFields::Controller::CustomFieldTypes.r(:delete)}"
+    method="post">
+        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+
+        <?r if !@field_types.empty? ?>
+
+        <table>
+            <thead>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <th>
+                        <input type="checkbox" />
+                    </th>
+                    <?r end ?>
+
+                    <th>#{lang('custom_field_types.labels.id')}</th>
+                    <th>#{lang('custom_field_types.labels.name')}</th>
+                    <th>#{lang('custom_field_types.labels.language_string')}</th>
+                    <th>#{lang('custom_field_types.labels.css_class')}</th>
+                    <th>#{lang('custom_field_types.labels.serialize')}</th>
+                    <th>#{lang('custom_field_types.labels.allow_markup')}</th>
+                    <th>
+                        #{lang(
+                          'custom_field_types.labels.custom_field_method_id'
+                        )}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?r @field_types.each do |type| ?>
+                <tr>
+                    <?r if user_authorized?([:delete]) ?>
+                    <td>
+                        <input type="checkbox" name="custom_field_type_ids[]"
+                        value="#{type.id}" />
+                    </td>
+                    <?r end ?>
+
+                    <td>#{type.id}</td>
+                    <td>
+                        <?r if user_authorized?([:update]) ?>
+                        #{CustomFields::Controller::CustomFieldTypes.a(
+                          type.name,
+                          :edit,
+                          type.id
+                        )}
+                        <?r else ?>
+                        #{type.name}
+                        <?r end ?>
+                    </td>
+                    <td>#{type.language_string}</td>
+                    <td>#{type.css_class}</td>
+                    <td>#{@boolean_hash.invert[type.serialize]}</td>
+                    <td>#{@boolean_hash.invert[type.allow_markup]}</td>
+                    <td>#{type.custom_field_method.name}</td>
+                </tr>
+                <?r end ?>
+            </tbody>
+        </table>
+
+        <?r else ?>
+
+        <p>#{lang('custom_field_types.messages.no_field_types')}</p>
+
+        <?r end ?>
+
+        <?r if user_authorized?([:create]) ?>
+        <div class="button">
+            #{CustomFields::Controller::CustomFieldTypes.a(
+              lang('custom_field_types.buttons.new'),
+              :new
+            )}
+        </div>
+        <?r end ?>
+
+        <?r if user_authorized?([:delete]) and !@field_types.empty? ?>
+        <div class="button">
+            <input type="submit"
+            value="#{lang('custom_field_types.buttons.delete')}" />
+        </div>
+        <?r end ?>
+    </form>
+</article>

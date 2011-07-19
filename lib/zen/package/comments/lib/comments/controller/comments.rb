@@ -37,9 +37,6 @@ module Comments
       def initialize
         super
 
-        @form_save_url   = Comments.r(:save)
-        @form_delete_url = Comments.r(:delete)
-
         Zen::Language.load('comments')
 
         # Set the page title
@@ -94,6 +91,8 @@ module Comments
         else
           @comment = validate_comment(id)
         end
+
+        render_view(:form)
       end
 
       ##

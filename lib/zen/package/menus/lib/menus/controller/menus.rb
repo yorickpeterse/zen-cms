@@ -34,9 +34,6 @@ module Menus
       def initialize
         super
 
-        @form_save_url   = Menus.r(:save)
-        @form_delete_url = Menus.r(:delete)
-
         Zen::Language.load('menus')
 
         # Set the page title
@@ -91,6 +88,8 @@ module Menus
         else
           @menu = validate_menu(id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -115,6 +114,8 @@ module Menus
         )
 
         @menu = Menu.new
+
+        render_view(:form)
       end
 
       ##
@@ -171,6 +172,8 @@ module Menus
 
           flash[:form_data]   = @menu
           flash[:form_errors] = @menu.errors
+
+          redirect_referrer
         end
 
         # Redrect the user to the proper page
@@ -211,6 +214,7 @@ module Menus
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('menus.errors.delete') % id)
+
             redirect_referrer
           end
         end

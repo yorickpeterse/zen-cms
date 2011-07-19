@@ -3,10 +3,10 @@ module Sections
   #:nodoc:
   module Controller
     ##
-    # Sections can be seen as mini applications inside your website.
-    # Examples of sections can be a blog, pages, a products listing, etc.
-    # Before being able to properly add section entries you need to assign
-    # the following data to a section:
+    # Sections can be seen as mini applications inside your website.  Examples
+    # of sections can be a blog, pages, a products listing, etc.  Before being
+    # able to properly add section entries you need to assign the following data
+    # to a section:
     #
     # * a category group
     # * a custom field group
@@ -30,8 +30,8 @@ module Sections
       end
 
       ##
-      # Constructor method, called upon initialization. It's used to set the
-      # URL to which forms send their data and load the language pack.
+      # Constructor method, called upon initialization. It's used to set the URL
+      # to which forms send their data and load the language pack.
       #
       # This method loads the following language files:
       #
@@ -42,9 +42,6 @@ module Sections
       #
       def initialize
         super
-
-        @form_save_url   = Sections.r(:save)
-        @form_delete_url = Sections.r(:delete)
 
         Zen::Language.load('sections')
 
@@ -75,6 +72,20 @@ module Sections
       end
 
       ##
+      # Hook that is executed before the edit() and new() methods.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.8
+      #
+      before(:edit, :new) do
+        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup \
+          .pk_hash(:name)
+
+        @category_group_pk_hash = Categories::Model::CategoryGroup \
+          .pk_hash(:name)
+      end
+
+      ##
       # Show a form that lets the user edit an existing section.
       #
       # This method requires the following permissions:
@@ -95,17 +106,13 @@ module Sections
           @page_title
         )
 
-        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup \
-          .pk_hash(:name)
-
-        @category_group_pk_hash = Categories::Model::CategoryGroup \
-          .pk_hash(:name)
-
         if flash[:form_data]
           @section = flash[:form_data]
         else
           @section = validate_section(id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -127,20 +134,16 @@ module Sections
           @page_title
         )
 
-        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup \
-          .pk_hash(:name)
-
-        @category_group_pk_hash = Categories::Model::CategoryGroup \
-          .pk_hash(:name)
-
         @section = Section.new
+
+        render_view(:form)
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back 
-      # to the proper URL. Based on the value of a hidden field named "id" 
-      # we'll determine if the data will be used to create a new section or to 
-      # update an existing one.
+      # Method used for processing the form data and redirecting the user back
+      # to the proper URL. Based on the value of a hidden field named "id" we'll
+      # determine if the data will be used to create a new section or to update
+      # an existing one.
       #
       # This method requires the following permissions:
       #
@@ -217,10 +220,10 @@ module Sections
       end
 
       ##
-      # Delete an existing section. Poor section, what did he do wrong?
-      # In order to delete a section you'll need to send a POST request that 
-      # contains a field named "section_ids[]". This field should contain the 
-      # primary values of each section that has to be deleted.
+      # Delete an existing section. Poor section, what did he do wrong? In order
+      # to delete a section you'll need to send a POST request that contains a 
+      # field named "section_ids[]". This field should contain the primary 
+      # values of each section that has to be deleted.
       #
       # This method requires the following permissions:
       #

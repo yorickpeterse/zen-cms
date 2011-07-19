@@ -1,0 +1,40 @@
+---
+titles:
+  index: 'Custom Field Types'
+  edit : 'Edit Custom Field Type'
+  new  : 'Add Custom Field Type'
+
+labels:
+  id                    : '#'
+  name                  : 'Name'
+  language_string       : 'Language string'
+  css_class             : 'CSS class'
+  serialize             : 'Serialize'
+  allow_markup          : 'Allow markup'
+  custom_field_method_id: 'Custom field method'
+
+placeholders:
+  language_string: 'The full language string to use.'
+  css_class      : 'A set of CSS classes to apply to all fields that use this type.'
+  serialize      : 'Whether or not the value of a field has to be serialized.'
+  allow_markup   : 'Whether or not markup, such as Markdown, can be used. '
+
+messages:
+  no_field_types: 'No custom field types have been added yet.'
+
+errors:
+  new         : 'The custom field type could not be added.'
+  save        : 'The custom field type could not be modified.'
+  delete      : 'The custom field type with ID #%s could not be removed.'
+  no_delete   : 'You need to specify at least one custom field type to remove.'
+  invalid_type: 'The specified custom field type is invalid.'
+
+success:
+  new   : 'The custom field type has been added.'
+  save  : 'The custom field type has been modified.'
+  delete: 'All selected custom field types have been removed.'
+
+buttons:
+  new   : 'Add field type'
+  delete: 'Delete selected field types'
+  save  : 'Save field type'

@@ -9,8 +9,8 @@ module CustomFields
     # being able to use a custom field you'll need to add it to a group
     # and bind that group to a section.
     #
-    # @author  Yorick Peterse
-    # @since   0.1
+    # @author Yorick Peterse
+    # @since  0.1
     #
     class CustomFields < Zen::Controller::AdminController
       include ::CustomFields::Model
@@ -29,6 +29,16 @@ module CustomFields
       end
 
       ##
+      # Hook that is executed before the index(), edit() and new() methods.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.8
+      #
+      before(:index, :edit, :new) do
+        @custom_field_types = CustomFieldType.type_hash
+      end
+
+      ##
       # Constructor method, called upon initialization. It's used to set the
       # URL to which forms send their data and load the language pack.
       #
@@ -43,9 +53,6 @@ module CustomFields
       def initialize
         super
 
-        @form_save_url     = CustomFields.r(:save)
-        @form_delete_url   = CustomFields.r(:delete)
-
         Zen::Language.load('custom_fields')
         Zen::Language.load('custom_field_groups')
 
@@ -54,17 +61,6 @@ module CustomFields
           method      = action.method.to_sym
           @page_title = lang("custom_fields.titles.#{method}") rescue nil
         end
-
-        # Build our hash containing all custom field formats
-        @field_type_hash = {
-          'textbox'         => lang('custom_fields.special.type_hash.textbox'),
-          'textarea'        => lang('custom_fields.special.type_hash.textarea'),
-          'radio'           => lang('custom_fields.special.type_hash.radio'),
-          'checkbox'        => lang('custom_fields.special.type_hash.checkbox'),
-          'date'            => lang('custom_fields.special.type_hash.date'),
-          'select'          => lang('custom_fields.special.type_hash.select'),
-          'select_multiple' => lang('custom_fields.special.type_hash.select_multiple')
-        }
       end
 
       ##
@@ -131,6 +127,8 @@ module CustomFields
         else
           @custom_field = validate_custom_field(id, custom_field_group_id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -163,6 +161,8 @@ module CustomFields
 
         @custom_field_group_id = custom_field_group_id
         @custom_field          = CustomField.new
+
+        render_view(:form)
       end
 
       ##
@@ -188,14 +188,14 @@ module CustomFields
           :slug, 
           :description, 
           :sort_order, 
-          :type, 
           :format, 
           :possible_values, 
           :required, 
-          :visual_editor, 
+          :text_editor, 
           :textarea_rows, 
           :text_limit, 
-          :custom_field_group_id
+          :custom_field_group_id,
+          :custom_field_type_id
         )
 
         validate_custom_field_group(post['custom_field_group_id'])
