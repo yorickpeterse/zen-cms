@@ -196,6 +196,8 @@ module CustomFields
         params = select(field, field_value)
 
         params.last[:multiple] = :multiple
+        params.last[:values]   = params.last[:values].invert
+
         params.last.delete(:size)
 
         return params

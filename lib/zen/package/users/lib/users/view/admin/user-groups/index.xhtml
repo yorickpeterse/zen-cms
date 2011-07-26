@@ -2,21 +2,21 @@
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
-    
+
     <form method="post" action="#{@form_delete_url}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
-        
+
         <?r if @user_groups and !@user_groups.empty? ?>
-        
-        <table class="table">
+
+        <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
-                    <th>
+                    <th class="no_sort">
                         <input type="checkbox" />
                     </th>
                     <?r end ?>
-                    
+
                     <th>#{lang('user_groups.labels.id')}</th>
                     <th>#{lang('user_groups.labels.name')}</th>
                     <th>#{lang('user_groups.labels.slug')}</th>
@@ -31,9 +31,9 @@
                         <input type="checkbox" name="user_group_ids[]" value="#{group.id}" />
                     </td>
                     <?r end ?>
-                    
+
                     <td>#{group.id}</td>
-                    
+
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{anchor_to(
@@ -43,29 +43,29 @@
                     <?r else ?>
                     <td>#{group.name}</td>
                     <?r end ?>
-                    
+
                     <td>#{group.slug}</td>
                     <td>#{@boolean_hash.invert[group.super_group]}</td>
                 </tr>
                 <?r end ?>
             </tbody>
         </table>
-        
+
         <?r else ?>
         <p>#{lang('user_groups.messages.no_groups')}</p>
         <?r end ?>
-        
+
         <div class="clearfix">
-            
+
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  lang('user_groups.buttons.new'), 
+                  lang('user_groups.buttons.new'),
                   Users::Controller::UserGroups.r(:new)
                 )}
             </div>
             <?r end ?>
-            
+
             <?r if user_authorized?([:delete]) and @user_groups and !@user_groups.empty? ?>
             <div class="button">
                 <input type="submit" value="#{lang('user_groups.buttons.delete')}" />

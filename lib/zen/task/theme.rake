@@ -41,7 +41,7 @@ MSG
 
     theme = Zen::Theme::Registered[name]
     table = 'migrations_theme_' + theme.name.to_s
-    
+
     # Fetch the migrations directory
     if theme.respond_to?(:migration_dir) and !theme.migration_dir.nil?
       dir = theme.migration_dir

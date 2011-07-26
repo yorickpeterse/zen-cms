@@ -2,21 +2,21 @@
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
-    
+
     <form method="post" action="#{@form_delete_url}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
-        
+
         <?r if @access_rules and !@access_rules.empty? ?>
-        
-        <table class="table">
+
+        <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
-                    <th>
+                    <th class="no_sort">
                         <input type="checkbox" />
                     </th>
                     <?r end ?>
-                    
+
                     <th>#{lang('access_rules.labels.id')}</th>
                     <th>#{lang('access_rules.labels.package')}</th>
                     <th>#{lang('access_rules.labels.controller')}</th>
@@ -36,21 +36,21 @@
                         <input type="checkbox" name="access_rule_ids[]" value="#{rule.id}" />
                     </td>
                     <?r end ?>
-                    
+
                     <td>#{rule.id}</td>
                     <td>#{rule.package}</td>
 
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{anchor_to(
-                          @form_controllers[rule.package].key(rule.controller), 
+                          @form_controllers[rule.package].key(rule.controller),
                           Users::Controller::AccessRules.r(:edit, rule.id)
                         )}
                     </td>
                     <?r else ?>
                     <td>#{@form_controllers[rule.package].key(rule.controller)}</td>
                     <?r end ?>
-                    
+
                     <td>#{@boolean_hash.invert[rule.create_access]}</td>
                     <td>#{@boolean_hash.invert[rule.read_access]}</td>
                     <td>#{@boolean_hash.invert[rule.update_access]}</td>
@@ -69,22 +69,22 @@
                 <?r end ?>
             </tbody>
         </table>
-        
+
         <?r else ?>
         <p>#{lang('access_rules.messages.no_rules')}</p>
         <?r end ?>
-        
+
         <div class="clearfix">
-            
+
             <?r if user_authorized?([:create]) ?>
             <div class="button">
                 #{anchor_to(
-                  lang('access_rules.buttons.new'), 
+                  lang('access_rules.buttons.new'),
                   Users::Controller::AccessRules.r(:new)
                 )}
             </div>
             <?r end ?>
-            
+
             <?r if user_authorized?([:delete]) and @access_rules and !@access_rules.empty? ?>
             <div class="button">
                 <input type="submit" value="#{lang('access_rules.buttons.delete')}" />

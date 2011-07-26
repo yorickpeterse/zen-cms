@@ -2,26 +2,26 @@
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
-    
+
     <form method="post" action="#{Sections::Controller::Sections.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
-        
+
         <?r if !@sections.empty? ?>
-        
+
         <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
-                    <th>
+                    <th class="no_sort">
                         <input type="checkbox" />
                     </th>
                     <?r end ?>
-                    
+
                     <th>#{lang('sections.labels.id')}</th>
                     <th>#{lang('sections.labels.name')}</th>
                     <th>#{lang('sections.labels.slug')}</th>
                     <th>#{lang('sections.labels.comment_allow')}</th>
-                    
+
                     <?r if user_authorized?(
                       [:read], true, 'Sections::Controller::SectionEntries'
                     ) ?>
@@ -34,13 +34,13 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="section_ids[]" 
+                        <input type="checkbox" name="section_ids[]"
                         value="#{section.id}" />
                     </td>
                     <?r end ?>
-                    
+
                     <td>#{section.id}</td>
-                    
+
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{Sections::Controller::Sections.a(
@@ -50,18 +50,18 @@
                     <?r else ?>
                     <td>#{section.name}</td>
                     <?r end ?>
-                    
+
                     <td>#{section.slug}</td>
                     <td>
                         #{@boolean_hash.invert[section.comment_allow]}
                     </td>
-                    
+
                     <?r if user_authorized?(
                       [:read], true, 'Sections::Controller::SectionEntries'
                     ) ?>
                     <td>
                         #{Sections::Controller::SectionEntries.a(
-                          lang('sections.labels.manage_entries'), 
+                          lang('sections.labels.manage_entries'),
                           :index,
                           section.id
                         )}
@@ -71,21 +71,21 @@
                 <?r end ?>
             </tbody>
         </table>
-        
+
         <?r else ?>
-        
+
         <p>#{lang('sections.messages.no_sections')}</p>
 
         <?r end ?>
-        
+
         <?r if user_authorized?([:create]) ?>
         <div class="button">
             #{Sections::Controller::Sections.a(
               lang('sections.buttons.new'), :new
             )}
-        </div>    
+        </div>
         <?r end ?>
-        
+
         <?r if user_authorized?([:delete]) and !@sections.empty? ?>
         <div class="button">
             <input type="submit" value="#{lang('sections.buttons.delete')}" />

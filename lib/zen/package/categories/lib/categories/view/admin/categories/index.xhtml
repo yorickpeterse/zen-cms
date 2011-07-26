@@ -2,24 +2,24 @@
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
-    
-    <form method="post" 
+
+    <form method="post"
     action="#{Categories::Controller::Categories.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
-        <input type="hidden" name="category_group_id" 
+        <input type="hidden" name="category_group_id"
         value="#{@category_group_id}" />
-        
+
         <?r if @categories and !@categories.empty? ?>
-        
+
         <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
-                    <th>
+                    <th class="no_sort">
                         <input type="checkbox" />
                     </th>
                     <?r end ?>
-                    
+
                     <th>#{lang('categories.labels.id')}</th>
                     <th>#{lang('categories.labels.name')}</th>
                     <th>#{lang('categories.labels.slug')}</th>
@@ -31,26 +31,26 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="category_ids[]" 
+                        <input type="checkbox" name="category_ids[]"
                         value="#{category.id}" />
                     </td>
                     <?r end ?>
-                    
+
                     <td>#{category.id}</td>
-                    
+
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{Categories::Controller::Categories.a(
                           category.name,
                           :edit,
-                          @category_group_id, 
+                          @category_group_id,
                           category.id
                         )}
                     </td>
                     <?r else ?>
                     <td>#{category.name}</td>
                     <?r end ?>
-                    
+
                     <td>#{category.slug}</td>
                     <td>
                         #{category.parent.name \
@@ -60,11 +60,11 @@
                 <?r end ?>
             </tbody>
         </table>
-        
+
         <?r else ?>
         <p>#{lang('categories.messages.no_categories')}</p>
         <?r end ?>
-        
+
         <?r if user_authorized?([:create]) ?>
         <div class="button">
             #{Categories::Controller::Categories.a(
@@ -74,10 +74,10 @@
             )}
         </div>
         <?r end ?>
-        
+
         <?r if user_authorized?([:delete]) and !@categories.empty? ?>
         <div class="button">
-            <input type="submit" 
+            <input type="submit"
             value="#{lang('categories.buttons.delete')}" />
         </div>
         <?r end ?>

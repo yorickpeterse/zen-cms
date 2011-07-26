@@ -2,22 +2,22 @@
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
-    
-    <form method="post" 
+
+    <form method="post"
     action="#{Sections::Controller::SectionEntries.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
-        
+
         <?r if !@entries.empty? ?>
-        
+
         <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
-                    <th>
+                    <th class="no_sort">
                         <input type="checkbox" />
                     </th>
                     <?r end ?>
-                    
+
                     <th>#{lang('section_entries.labels.id')}</th>
                     <th>#{lang('section_entries.labels.title')}</th>
                     <th>#{lang('section_entries.labels.slug')}</th>
@@ -31,13 +31,13 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="section_entry_ids[]" 
+                        <input type="checkbox" name="section_entry_ids[]"
                         value="#{entry.id}" />
                     </td>
                     <?r end ?>
-                    
+
                     <td>#{entry.id}</td>
-                    
+
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{Sections::Controller::SectionEntries.a(
@@ -47,7 +47,7 @@
                     <?r else ?>
                     <td>#{entry.title}</td>
                     <?r end ?>
-                    
+
                     <td>#{entry.slug}</td>
                     <td>
                         #{lang(
@@ -67,13 +67,13 @@
                 <?r end ?>
             </tbody>
         </table>
-        
+
         <?r else ?>
-        
+
         <p>#{lang('section_entries.messages.no_entries')}</p>
 
         <?r end ?>
-        
+
         <?r if user_authorized?([:create]) ?>
         <div class="button">
             #{Sections::Controller::SectionEntries.a(
@@ -81,10 +81,10 @@
             )}
         </div>
         <?r end ?>
-        
+
         <?r if user_authorized?([:delete]) and !@entries.empty? ?>
         <div class="button">
-            <input type="submit" 
+            <input type="submit"
             value="#{lang('section_entries.buttons.delete')}" />
         </div>
         <?r end ?>

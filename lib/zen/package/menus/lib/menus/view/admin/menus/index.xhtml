@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
-                    <th>
+                    <th class="no_sort">
                         <input type="checkbox" />
                     </th>
                     <?r end ?>
@@ -35,13 +35,13 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="menu_ids[]" 
+                        <input type="checkbox" name="menu_ids[]"
                         value="#{menu.id}" />
                     </td>
                     <?r end ?>
 
                     <td>#{menu.id}</td>
-                    
+
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{Menus::Controller::Menus.a(menu.name, :edit, menu.id)}
@@ -85,5 +85,5 @@
             <input type="submit" value="#{lang('menus.buttons.delete')}" />
         </div>
         <?r end ?>
-    </form>    
+    </form>
 </article>

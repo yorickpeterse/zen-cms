@@ -3,13 +3,12 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing users. Users in this case are people
-    # that have access to the backend. However, users might be able
-    # to access the backend but that doesn't mean they can actuall use it.
-    # The permission system will block anybody that don't have the correct
-    # permissions for each module. In case of a module like a forum it's
-    # probably better to add some additional checks to ensure people
-    # can't mess around with your system.
+    # Controller for managing users. Users in this case are people that have
+    # access to the backend. However, users might be able to access the backend
+    # but that doesn't mean they can actuall use it. The permission system will
+    # block anybody that don't have the correct permissions for each module. In
+    # case of a module like a forum it's probably better to add some additional
+    # checks to ensure people can't mess around with your system.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -113,6 +112,8 @@ module Users
         end
 
         @user_group_pks = UserGroup.pk_hash(:name)
+
+        render_view(:form)
       end
 
       ##
@@ -136,6 +137,8 @@ module Users
 
         @user           = User.new
         @user_group_pks = UserGroup.pk_hash(:name)
+
+        render_view(:form)
       end
 
       ##

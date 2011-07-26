@@ -4,23 +4,26 @@
     </header>
 
     #{
-    form_for(nil, :method => :post, :action => @form_login_url, :id => 'login_form') do |f|
+    form_for(
+      nil,
+      :method => :post,
+      :action => @form_login_url,
+      :id     => 'login_form'
+    ) do |f|
       f.input_text(
-        lang('users.labels.email'), 
-        :email, 
+        lang('users.labels.email'),
+        :email,
         :tabindex => 1
       )
 
       f.input_password(
-        lang('users.labels.password'), 
-        :password, 
+        lang('users.labels.password'),
+        :password,
         :tabindex => 2
       )
 
-      f.g.div(:class => 'clearfix') do
-        f.g.div(:class => 'button') do
-          f.g.input(:type => :submit, :value => lang('users.buttons.login'))
-        end
+      f.g.div(:class => 'button') do
+        f.g.input(:type => :submit, :value => lang('users.buttons.login'))
       end
     end
     }

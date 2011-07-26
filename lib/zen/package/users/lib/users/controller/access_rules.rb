@@ -125,7 +125,7 @@ module Users
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the access rule to edit.
+      # @param  [Fixnum] id The ID of the access rule to edit.
       # @since  0.1
       #
       def edit(id)
@@ -141,6 +141,8 @@ module Users
         else
           @access_rule = validate_access_rule(id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -149,7 +151,7 @@ module Users
       # This method requires the following permissions:
       #
       # * read
-      # * create§
+      # * create
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -163,6 +165,8 @@ module Users
         )
 
         @access_rule = AccessRule.new
+
+        render_view(:form)
       end
 
       ##

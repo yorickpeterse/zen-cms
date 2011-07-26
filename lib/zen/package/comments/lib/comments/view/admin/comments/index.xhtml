@@ -2,16 +2,16 @@
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
-    
+
     <form method="post" action="#{Comments::Controller::Comments.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
-        
+
         <?r if @comments and !@comments.empty? ?>
 
         <table>
             <thead>
                 <?r if user_authorized?([:delete]) ?>
-                <th>
+                <th class="no_sort">
                     <input type="checkbox" />
                 </th>
                 <?r end ?>
@@ -24,18 +24,18 @@
                 <th>#{lang('comments.labels.website')}</th>
                 <th>#{lang('comments.labels.created_at')}</th>
              </thead>
-            <tbody> 
+            <tbody>
                 <?r @comments.each do |comment| ?>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input type="checkbox" name="comment_ids[]" 
+                        <input type="checkbox" name="comment_ids[]"
                         value="#{comment.id}" />
                     </td>
                     <?r end ?>
-                    
+
                     <td>#{comment.id}</td>
-                    
+
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{Comments::Controller::Comments.a(
@@ -47,14 +47,14 @@
                     <?r else ?>
                     <td>#{comment.comment[0, 15]}...</td>
                     <?r end ?>
-                    
+
                     <td>#{comment.section_entry.title}</td>
                     <td>
                         #{lang(
                           "comments.labels.#{comment.comment_status.name}"
                         )}
                     </td>
-                    
+
                     <?r if !comment.user ?>
                     <td>#{comment.name}</td>
                     <td>#{comment.email}</td>
@@ -78,7 +78,7 @@
         <?r else ?>
         <p>#{lang('comments.messages.no_comments')}</p>
         <?r end ?>
-        
+
         <?r if user_authorized?([:delete]) and !@comments.empty? ?>
         <div class="button">
             <input type="submit" value="#{lang('comments.buttons.delete')}" />

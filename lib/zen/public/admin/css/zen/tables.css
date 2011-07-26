@@ -1,11 +1,5 @@
 @charset "UTF-8";
 
-/**
-* Tables
-*
-* @author Yorick Peterse
-* @since  0.1
-*/
 table
 {
     border:          1px solid #aaa;
@@ -16,12 +10,15 @@ table
 
     table thead
     {
-        background:      #ddd;
+        background: #ddd;
     }
 
         table thead tr th
         {
-            background:    #ddd -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#eee));
+            background: #ddd -webkit-gradient(
+                linear, left bottom, left top,from(#ddd), to(#eee)
+            );
+
             background:    #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
             border-top:    1px solid #fff;
             border-right:  1px solid #aaa;
@@ -34,9 +31,39 @@ table
             border-right:  none;
         }
 
+        /* Styles used to indicate the sort order of a column */
+        table thead tr th div
+        {
+            background:   url('../../images/zen/icons/asc.png')
+                no-repeat center right;
+
+            cursor:        pointer;
+            margin-right:  -5px;
+            padding-right: 30px;
+
+            /* VENDOR PREFIXES, AWESOME! */
+            user-select:         none;
+            -webkit-user-select: none;
+            -khtml-user-select:  none;
+            -moz-user-select:    none;
+            -o-user-select:      none;
+        }
+
+        table thead tr th.desc
+        {
+            background: #ddd;
+        }
+
+            table thead tr th.desc div
+            {
+                background:   url('../../images/zen/icons/desc.png')
+                    no-repeat center right!important;
+            }
+
         table thead tr th, table tbody tr td
         {
-            padding: 4px 10px 2px 10px;
+            padding:        4px 10px 2px 10px;
+            vertical-align: middle;
         }
 
         table thead tr th:first-child, table tbody tr td:first-child
@@ -44,7 +71,8 @@ table
             width: 15px;
         }
 
-        table thead tr th:first-child input[type="checkbox"], table tbody tr td:first-child input[type="checkbox"]
+        table thead tr th:first-child input[type="checkbox"],
+        table tbody tr td:first-child input[type="checkbox"]
         {
             margin-top: 3px;
         }

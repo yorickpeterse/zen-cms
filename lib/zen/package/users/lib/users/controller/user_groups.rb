@@ -91,6 +91,8 @@ module Users
         else
           @user_group = validate_user_group(id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -113,6 +115,8 @@ module Users
         )
 
         @user_group = UserGroup.new
+
+        render_view(:form)
       end
 
       ##

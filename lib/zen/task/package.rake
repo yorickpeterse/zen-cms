@@ -5,7 +5,7 @@
 # @since  0.2.5
 #
 namespace :package do
-  
+
   desc 'Lists all installed packages'
   task :list do
     Zen::Package::Registered.each do |name, pkg|
