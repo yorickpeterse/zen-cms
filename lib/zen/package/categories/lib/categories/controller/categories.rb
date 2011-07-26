@@ -3,9 +3,9 @@ module Categories
   #:nodoc:
   module Controller
     ##
-    # Categories can be seen as "tags" for your section entries. They describe 
-    # the type of entry just like tags except that categories generally cover 
-    # larger elements. When adding a new entry categories aren't required so 
+    # Categories can be seen as "tags" for your section entries. They describe
+    # the type of entry just like tags except that categories generally cover
+    # larger elements. When adding a new entry categories aren't required so
     # you're free to ignore them if you don't need them.
     #
     # @author Yorick Peterse
@@ -24,7 +24,7 @@ module Categories
       end
 
       ##
-      # The constructor is used to set various options such as the form URLs and 
+      # The constructor is used to set various options such as the form URLs and
       # load the language pack for the categories module.
       #
       # The following language files are loaded:
@@ -57,7 +57,7 @@ module Categories
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Fixnum] category_group_id The ID of the category group that's 
+      # @param  [Fixnum] category_group_id The ID of the category group that's
       # currently being managed by the user.
       # @since  0.1
       #
@@ -102,7 +102,7 @@ module Categories
         )
 
         validate_category_group(category_group_id)
-        
+
         @category_group_id = category_group_id
 
         if flash[:form_data]
@@ -160,15 +160,13 @@ module Categories
       # @since  0.1
       #
       def save
-        require_permissions(:create, :update)
-
         # Fetch all the required fields
         post = request.subset(
-          :id, 
-          :parent_id, 
-          :name, 
-          :description, 
-          :slug, 
+          :id,
+          :parent_id,
+          :name,
+          :description,
+          :slug,
           :category_group_id
         )
 
@@ -178,9 +176,13 @@ module Categories
         # Retrieve the category and set the notifications based on if the ID has
         # been specified or not.
         if post['id'] and !post['id'].empty?
+          require_permissions(:update)
+
           category    = validate_category(post['id'], post['category_group_id'])
           save_action = :save
         else
+          require_permissions(:create)
+
           category    = Category.new
           save_action = :new
         end
@@ -214,8 +216,8 @@ module Categories
 
       ##
       # Delete all specified category groups and their categories. In
-      # order to delete a number of groups an array of fields, named 
-      # "category_group_ids" is required. This array will contain all the 
+      # order to delete a number of groups an array of fields, named
+      # "category_group_ids" is required. This array will contain all the
       # primary values of each group that has to be deleted.
       #
       # This method requires the following permissions:

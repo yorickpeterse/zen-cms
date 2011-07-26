@@ -89,7 +89,7 @@ module Users
         if flash[:form_data]
           @user_group = flash[:form_data]
         else
-          @user_group = validate_user_group(id) 
+          @user_group = validate_user_group(id)
         end
       end
 
@@ -116,7 +116,7 @@ module Users
       end
 
       ##
-      # Saves or creates a new user group based on the POST data and a field 
+      # Saves or creates a new user group based on the POST data and a field
       # named 'id'.
       #
       # This method requires the following permissions:
@@ -128,14 +128,16 @@ module Users
       # @since  0.1
       #
       def save
-        require_permissions(:create, :update)
-
         post = request.subset(:id, :name, :slug, :description, :super_group)
 
         if post['id'] and !post['id'].empty?
+          require_permissions(:update)
+
           user_group  = validate_user_group(post['id'])
           save_action = :save
         else
+          require_permissions(:create)
+
           user_group  = UserGroup.new
           save_action = :new
 

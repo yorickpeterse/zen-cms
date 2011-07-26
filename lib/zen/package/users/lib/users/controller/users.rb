@@ -186,26 +186,28 @@ module Users
       # @since  0.1
       #
       def save
-        require_permissions(:update, :create)
-
         post = request.subset(
-          :id, 
-          :email, 
-          :name, 
-          :website, 
-          :new_password, 
-          :confirm_password, 
+          :id,
+          :email,
+          :name,
+          :website,
+          :new_password,
+          :confirm_password,
           :status,
-          :language, 
-          :frontend_language, 
-          :date_format, 
+          :language,
+          :frontend_language,
+          :date_format,
           :user_group_pks
         )
 
         if post['id'] and !post['id'].empty?
+          require_permissions(:update)
+
           user        = validate_user(post['id'])
           save_action = :save
         else
+          require_permissions(:create)
+
           user        = User.new
           save_action = :new
         end

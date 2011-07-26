@@ -3,7 +3,7 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing access rules. Each access rule can be used to 
+    # Controller for managing access rules. Each access rule can be used to
     # specify whether or not a user can edit or create something.
     #
     # The following permissions are available:
@@ -23,7 +23,7 @@ module Users
       map '/admin/access-rules'
 
       javascript(
-        ['lib/users/access_rules', 'users/access_rules'], 
+        ['lib/users/access_rules', 'users/access_rules'],
         :method => [:edit, :new]
       )
 
@@ -63,7 +63,7 @@ module Users
       end
 
       ##
-      # Hook that's executed before the edit and new method. This hook is used 
+      # Hook that's executed before the edit and new method. This hook is used
       # to pre-process some data used in the form.
       #
       # @author Yorick Peterse
@@ -166,7 +166,7 @@ module Users
       end
 
       ##
-      # Saves or creates a new access rule based on the POST data and a field 
+      # Saves or creates a new access rule based on the POST data and a field
       # named 'id'.
       #
       # This method requires the following permissions:
@@ -178,18 +178,16 @@ module Users
       # @since  0.1
       #
       def save
-        require_permissions(:create, :update)
-
         post = request.subset(
-          :id, 
-          :package, 
-          :read_access, 
+          :id,
+          :package,
+          :read_access,
           :create_access,
-          :update_access, 
+          :update_access,
           :delete_access,
-          :user_id, 
-          :user_group_id, 
-          :controller, 
+          :user_id,
+          :user_group_id,
+          :controller,
           :rule_applies
         )
 
@@ -200,9 +198,13 @@ module Users
         end
 
         if post['id'] and !post['id'].empty?
+          require_permissions(:update)
+
           access_rule = validate_access_rule(post['id'])
           save_action = :save
         else
+          require_permissions(:create)
+
           access_rule = AccessRule.new
           save_action = :new
         end

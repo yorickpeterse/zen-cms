@@ -134,7 +134,7 @@ module Menus
       end
 
       ##
-      # Saves an existing menu iten or creates a new one using the supplied 
+      # Saves an existing menu iten or creates a new one using the supplied
       # POST data.
       #
       # This method requires the following permissions:
@@ -146,16 +146,14 @@ module Menus
       # @since  0.2a
       #
       def save
-        require_permissions(:create, :update)
-
         post = request.subset(
-          :id, 
-          :parent_id, 
-          :name, 
-          :url, 
-          :sort_order, 
-          :css_class, 
-          :css_id, 
+          :id,
+          :parent_id,
+          :name,
+          :url,
+          :sort_order,
+          :css_class,
+          :css_id,
           :menu_id
         )
 
@@ -163,12 +161,16 @@ module Menus
           post['parent_id'] = nil
         end
 
-        # Determine if we're saving changes made to an existing menu item or 
+        # Determine if we're saving changes made to an existing menu item or
         # if we're going to create a new one.
-        if !post['id'].empty?
+        if post.key?('id') and !post['id'].empty?
+          require_permissions(:update)
+
           @menu_item  = validate_menu_item(post['id'], post['menu_id'])
           save_action = :save
         else
+          require_permissions(:create)
+
           @menu_item  = MenuItem.new
           save_action = :new
         end

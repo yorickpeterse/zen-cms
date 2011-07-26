@@ -180,8 +180,6 @@ module CustomFields
       # @since  0.1
       #
       def save
-        require_permissions(:create, :update)
-
         post = request.subset(
           :id,
           :name,
@@ -203,12 +201,16 @@ module CustomFields
         # Get or create a custom field group based on the ID from the hidden
         # field.
         if post['id'] and !post['id'].empty?
+          require_permissions(:update)
+
           custom_field = validate_custom_field(
             post['id'], post['custom_field_group_id']
           )
 
           save_action  = :save
         else
+          require_permissions(:create)
+
           custom_field = CustomField.new
           save_action  = :new
         end

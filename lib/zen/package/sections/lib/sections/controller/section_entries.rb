@@ -180,13 +180,13 @@ module Sections
       # as it is for now.
       #
       def save
-        require_permissions(:create, :update)
-
         section_id = request.params['section_id']
 
         validate_section(section_id)
 
         if request.params['id'] and !request.params['id'].empty?
+          require_permissions(:update)
+
           @entry      = SectionEntry[request.params['id']]
           save_action = :save
 
@@ -194,6 +194,8 @@ module Sections
           # field value is modified, this solves that problem
           request.params['updated_at'] = Time.new
         else
+          require_permissions(:create)
+
           @entry      = SectionEntry.new(:section_id => section_id)
           save_action = :new
         end

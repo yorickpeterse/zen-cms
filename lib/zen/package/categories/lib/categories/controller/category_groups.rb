@@ -3,9 +3,9 @@ module Categories
   #:nodoc:
   module Controller
     ##
-    # Category groups can be used to group a number of categories into a single 
-    # container. These groups are assigned to a section (rather than individual 
-    # categories). It's important to remember that a section entry can't use a 
+    # Category groups can be used to group a number of categories into a single
+    # container. These groups are assigned to a section (rather than individual
+    # categories). It's important to remember that a section entry can't use a
     # category group until it has been added to a section.
     #
     # @author Yorick Peterse
@@ -13,7 +13,7 @@ module Categories
     #
     class CategoryGroups < Zen::Controller::AdminController
       include ::Categories::Model
-      
+
       helper :category
       map '/admin/category-groups'
 
@@ -24,7 +24,7 @@ module Categories
       end
 
       ##
-      # The constructor is used to set various options such as the form URLs and 
+      # The constructor is used to set various options such as the form URLs and
       # load the language pack for the categories module.
       #
       # The following language files are loaded:
@@ -93,7 +93,7 @@ module Categories
       end
 
       ##
-      # Create a new category group. This method requires the following 
+      # Create a new category group. This method requires the following
       # permissions:
       #
       # * create
@@ -126,14 +126,16 @@ module Categories
       # @since  0.1
       #
       def save
-        require_permissions(:create, :update)
-
         post = request.subset(:id, :name, :description)
 
         if post['id'] and !post['id'].empty?
+          require_permissions(:update)
+
           category_group = validate_category_group(post['id'])
           save_action    = :save
         else
+          require_permissions(:create)
+
           category_group = CategoryGroup.new
           save_action    = :new
         end
@@ -167,8 +169,8 @@ module Categories
 
       ##
       # Delete all specified category groups and their categories. In
-      # order to delete a number of groups an array of fields, named 
-      # "category_group_ids" is required. This array will contain all the 
+      # order to delete a number of groups an array of fields, named
+      # "category_group_ids" is required. This array will contain all the
       # primary values of each group that has to be deleted.
       #
       # This method requires the following permissions:

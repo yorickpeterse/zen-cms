@@ -3,7 +3,7 @@ module Menus
   #:nodoc:
   module Controller
     ##
-    # Controller for managing menu groups. Individual navigation items are 
+    # Controller for managing menu groups. Individual navigation items are
     # managed using the menu items controller, simply named "menu_items".
     #
     # @author Yorick Peterse
@@ -63,8 +63,8 @@ module Menus
       end
 
       ##
-      # Show a form that allows the user to edit the details (such as the name 
-      # and slug) of a menu group. This method can not be used to manage all 
+      # Show a form that allows the user to edit the details (such as the name
+      # and slug) of a menu group. This method can not be used to manage all
       # menu items for this group.
       #
       # This method requires the following permissions:
@@ -93,8 +93,8 @@ module Menus
       end
 
       ##
-      # Show a form that can be used to create a new menu group. Once a menu 
-      # group has been created users can start adding navigation items to the 
+      # Show a form that can be used to create a new menu group. Once a menu
+      # group has been created users can start adding navigation items to the
       # group.
       #
       # This method requires the following permissions:
@@ -119,10 +119,10 @@ module Menus
       end
 
       ##
-      # Saves the changes made to an existing menu group or creates a new group 
-      # using the supplied POST data. In order to detect this forms that contain 
-      # data of an existing group should have a hidden field named "id", the 
-      # value of this field is the primary value of the menu group of which the 
+      # Saves the changes made to an existing menu group or creates a new group
+      # using the supplied POST data. In order to detect this forms that contain
+      # data of an existing group should have a hidden field named "id", the
+      # value of this field is the primary value of the menu group of which the
       # changes should be saved.
       #
       # This method requires the following permissions:
@@ -134,22 +134,24 @@ module Menus
       # @since  0.2a
       #
       def save
-        require_permissions(:create, :update)
-
         post = request.subset(
-          :name, 
-          :slug, 
-          :description, 
-          :css_class, 
-          :css_id, 
+          :name,
+          :slug,
+          :description,
+          :css_class,
+          :css_id,
           :id
         )
 
         # Determine if we're creating a new group or modifying an existing one.
-        if !post['id'].empty?
+        if post.key?('id') and !post['id'].empty?
+          require_permissions(:update)
+
           @menu       = validate_menu(post['id'])
           save_action = :save
         else
+          require_permissions(:create)
+
           @menu       = Menu.new
           save_action = :new
 
@@ -185,8 +187,8 @@ module Menus
       end
 
       ##
-      # Deletes a number of navigation menus based on the supplied primary 
-      # values. These primary values should be stored in a POST array called 
+      # Deletes a number of navigation menus based on the supplied primary
+      # values. These primary values should be stored in a POST array called
       # "menu_ids".
       #
       # This method requires the following permissions:

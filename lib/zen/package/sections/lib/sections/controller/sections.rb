@@ -94,7 +94,7 @@ module Sections
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the section to retrieve so that we can 
+      # @param  [Integer] id The ID of the section to retrieve so that we can
       # edit it.
       # @since  0.1
       #
@@ -154,25 +154,27 @@ module Sections
       # @since  0.1
       #
       def save
-        require_permissions(:create, :update)
-
         post = request.subset(
-          :id, 
-          :name, 
-          :slug, 
-          :description, 
-          :comment_allow, 
-          :comment_require_account, 
-          :comment_moderate, 
-          :comment_format, 
-          :custom_field_group_pks, 
+          :id,
+          :name,
+          :slug,
+          :description,
+          :comment_allow,
+          :comment_require_account,
+          :comment_moderate,
+          :comment_format,
+          :custom_field_group_pks,
           :category_group_pks
         )
 
         if post['id'] and !post['id'].empty?
+          require_permissions(:update)
+
           @section      = validate_section(post['id'])
           save_action   = :save
         else
+          require_permissions(:create)
+
           @section      = Section.new
           save_action   = :new
         end
@@ -183,7 +185,7 @@ module Sections
         post['custom_field_group_pks'] ||= []
         post['category_group_pks']     ||= []
 
-        # The primary keys have to be integers otherwise Sequel will soil it's 
+        # The primary keys have to be integers otherwise Sequel will soil it's
         # pants
         ['custom_field_group_pks', 'category_group_pks'].each do |k|
           post[k].map! { |value| value.to_i }
@@ -221,8 +223,8 @@ module Sections
 
       ##
       # Delete an existing section. Poor section, what did he do wrong? In order
-      # to delete a section you'll need to send a POST request that contains a 
-      # field named "section_ids[]". This field should contain the primary 
+      # to delete a section you'll need to send a POST request that contains a
+      # field named "section_ids[]". This field should contain the primary
       # values of each section that has to be deleted.
       #
       # This method requires the following permissions:

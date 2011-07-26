@@ -74,7 +74,7 @@ module CustomFields
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the custom field group to retrieve so 
+      # @param  [Integer] id The ID of the custom field group to retrieve so
       # that we can edit it.
       # @since  0.1
       #
@@ -134,16 +134,16 @@ module CustomFields
       # @since  0.1
       #
       def save
-        require_permissions(:create, :update)
-
         post = request.subset(:id, :name, :description)
 
-        # Get or create a custom field group based on the ID from the hidden 
-        # field.
         if post['id'] and !post['id'].empty?
+          require_permissions(:update)
+
           @field_group  = validate_custom_field_group(post['id'])
           save_action   = :save
         else
+          require_permissions(:create)
+
           @field_group  = CustomFieldGroup.new
           save_action   = :new
         end

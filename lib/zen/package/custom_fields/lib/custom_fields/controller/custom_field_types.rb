@@ -126,8 +126,6 @@ module CustomFields
       # @since  0.2.8
       #
       def save
-        require_permissions(:create, :update)
-
         post = request.subset(
           :id,
           :name,
@@ -139,9 +137,13 @@ module CustomFields
         )
 
         if post['id'] and !post['id'].empty?
+          require_permissions(:update)
+
           field_type  = validate_custom_field_type(post['id'])
           save_action = :save
         else
+          require_permissions(:create)
+
           field_type  = CustomFieldType.new
           save_action = :new
         end
