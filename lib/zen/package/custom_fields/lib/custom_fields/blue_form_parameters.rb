@@ -44,8 +44,8 @@ module CustomFields
           params.last[:'data-format'] = field.format
         end
 
-        if !type.css_class.nil? and !type.css_class.empty?
-          params.last[:class] = type.css_class
+        if !type.html_class.nil? and !type.html_class.empty?
+          params.last[:class] = type.html_class
         end
 
         return params

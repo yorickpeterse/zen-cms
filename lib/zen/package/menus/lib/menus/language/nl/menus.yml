@@ -9,15 +9,15 @@ labels:
   name        : 'Naam'
   slug        : 'Slug'
   description : 'Beschrijving'
-  css_class   : 'CSS klasse'
-  css_id      : 'CSS ID'
+  html_class   : 'CSS klasse'
+  html_id      : 'CSS ID'
   manage_items: 'Menu items beheren'
 
 placeholders:
-  name     : 'De naam van het menu.'
-  slug     : 'Een URL vriendelijke versie van de menu naam.'
-  css_class: 'Een klasse die gebruikt kan worden in CSS bestanden.'
-  css_id   : 'Een ID die gebruikt kan worden in CSS bestanden.'
+  name      : 'De naam van het menu.'
+  slug      : 'Een URL vriendelijke versie van de menu naam.'
+  html_class: 'Een of meerdere klasses voor dit menu.'
+  html_id   : 'Een ID voor dit menu.'
 
 messages:
   no_menus: "Er zijn nog geen menu's aangemaakt."

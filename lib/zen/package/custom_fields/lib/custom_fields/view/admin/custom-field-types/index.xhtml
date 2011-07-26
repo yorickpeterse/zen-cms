@@ -21,7 +21,7 @@
                     <th>#{lang('custom_field_types.labels.id')}</th>
                     <th>#{lang('custom_field_types.labels.name')}</th>
                     <th>#{lang('custom_field_types.labels.language_string')}</th>
-                    <th>#{lang('custom_field_types.labels.css_class')}</th>
+                    <th>#{lang('custom_field_types.labels.html_class')}</th>
                     <th>#{lang('custom_field_types.labels.serialize')}</th>
                     <th>#{lang('custom_field_types.labels.allow_markup')}</th>
                     <th>
@@ -54,7 +54,7 @@
                         <?r end ?>
                     </td>
                     <td>#{type.language_string}</td>
-                    <td>#{type.css_class}</td>
+                    <td>#{type.html_class}</td>
                     <td>#{@boolean_hash.invert[type.serialize]}</td>
                     <td>#{@boolean_hash.invert[type.allow_markup]}</td>
                     <td>#{type.custom_field_method.name}</td>

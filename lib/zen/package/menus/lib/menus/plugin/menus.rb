@@ -88,12 +88,12 @@ module Menus
         items_tree = {}
 
         # Set the attributes for the main <ul> elements
-        if !menu.css_class.nil?
-          attributes[:class] = menu.css_class if !menu.css_class.empty?
+        if !menu.html_class.nil?
+          attributes[:class] = menu.html_class if !menu.html_class.empty?
         end
 
-        if !menu.css_id.nil?
-          attributes[:id] = menu.css_id if !menu.css_id.empty?
+        if !menu.html_id.nil?
+          attributes[:id] = menu.html_id if !menu.html_id.empty?
         end
 
         # Time to build the HTML
@@ -121,12 +121,12 @@ module Menus
       def generate_item(item)
         attributes = {}
 
-        if !item.css_class.nil?
-          attributes[:class] = item.css_class if !item.css_class.empty?
+        if !item.html_class.nil?
+          attributes[:class] = item.html_class if !item.html_class.empty?
         end
 
-        if !item.css_id.nil?
-          attributes[:id] = item.css_id if !item.css_id.empty?
+        if !item.html_id.nil?
+          attributes[:id] = item.html_id if !item.html_id.empty?
         end
 
         # Render the <li> tag

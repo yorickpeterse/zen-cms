@@ -45,7 +45,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
         :with => 'custom_fields.special.type_hash.textbox'
       )
 
-      fill_in('form_css_class', :with => 'spec_class')
+      fill_in('form_html_class', :with => 'spec_class')
 
       # Choose "Yes" for the serialize and allow_markup options
       choose('form_serialize_0')
@@ -64,7 +64,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.find_field('form_language_string') \
       .value.should === 'custom_fields.special.type_hash.textbox'
 
-    page.find_field('form_css_class').value.should      === 'spec_class'
+    page.find_field('form_html_class').value.should      === 'spec_class'
     page.find_field('form_serialize_0').checked?.should === 'checked'
 
     page.find_field('form_allow_markup_0').checked?.should      === 'checked'
@@ -95,7 +95,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
         :with => 'custom_fields.special.type_hash.textarea'
       )
 
-      fill_in('form_css_class', :with => 'spec_class_modified')
+      fill_in('form_html_class', :with => 'spec_class_modified')
       select('textarea'       , :from => 'custom_field_method_id')
 
       click_on(save_button)
@@ -105,7 +105,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     current_path.should =~ /#{edit_url}\/\d+/
 
     page.find_field('form_name').value.should      === 'Spec type modified'
-    page.find_field('form_css_class').value.should === 'spec_class_modified'
+    page.find_field('form_html_class').value.should === 'spec_class_modified'
 
     page.find_field('form_language_string') \
       .value.should === 'custom_fields.special.type_hash.textarea'

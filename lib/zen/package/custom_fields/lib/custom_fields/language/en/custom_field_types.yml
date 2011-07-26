@@ -8,14 +8,14 @@ labels:
   id                    : '#'
   name                  : 'Name'
   language_string       : 'Language string'
-  css_class             : 'CSS class'
+  html_class            : 'HTML class'
   serialize             : 'Serialize'
   allow_markup          : 'Allow markup'
   custom_field_method_id: 'Custom field method'
 
 placeholders:
   language_string: 'The full language string to use.'
-  css_class      : 'A set of CSS classes to apply to all fields that use this type.'
+  html_class     : 'A set of HTML classes to apply to all fields.'
   serialize      : 'Whether or not the value of a field has to be serialized.'
   allow_markup   : 'Whether or not markup, such as Markdown, can be used. '
 

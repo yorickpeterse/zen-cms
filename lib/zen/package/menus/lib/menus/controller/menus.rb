@@ -138,8 +138,8 @@ module Menus
           :name,
           :slug,
           :description,
-          :css_class,
-          :css_id,
+          :html_class,
+          :html_id,
           :id
         )
 

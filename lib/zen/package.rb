@@ -193,13 +193,13 @@ module Zen
     # of which each list item can contain N sub items.
     #
     # @author Yorick Peterse
-    # @param  [String] css_class A string of CSS classes to apply to the main UL 
+    # @param  [String] html_class A string of CSS classes to apply to the main UL 
     # element.
     # @param  [Hash] permissions Hash containing the permissions as returned by
     # Ramaze::Helper::ACL.extension_permissions
     # @since  0.1
     #
-    def self.build_menu(css_class = '', permissions = {})
+    def self.build_menu(html_class = '', permissions = {})
       @g           = Ramaze::Gestalt.new
       @permissions = permissions
       menu_items   = []
@@ -218,7 +218,7 @@ module Zen
         item[:title]
       end
 
-      @g.ul :class => css_class do
+      @g.ul :class => html_class do
         if !menu_items.empty?
           menu_items.each do |m|
             self.nav_list(m)

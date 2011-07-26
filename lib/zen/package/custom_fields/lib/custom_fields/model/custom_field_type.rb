@@ -43,7 +43,7 @@ module CustomFields
         validates_presence([:name, :language_string, :custom_field_method_id])
         validates_integer(:custom_field_method_id)
         validates_type(TrueClass, [:serialize, :allow_markup])
-        validates_format(/^[a-zA-Z\-_0-9]*/, [:css_class])
+        validates_format(/^[a-zA-Z\-_0-9]*/, [:html_class])
       end
     end # CustomFieldType
   end # Model

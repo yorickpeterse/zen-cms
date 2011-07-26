@@ -152,8 +152,8 @@ module Menus
           :name,
           :url,
           :sort_order,
-          :css_class,
-          :css_id,
+          :html_class,
+          :html_id,
           :menu_id
         )
 

@@ -21,8 +21,8 @@
                     <th>#{lang('menu_items.labels.url')}</th>
                     <th>#{lang('menu_items.labels.parent_id')}</th>
                     <th>#{lang('menu_items.labels.order')}</th>
-                    <th>#{lang('menu_items.labels.css_class')}</th>
-                    <th>#{lang('menu_items.labels.css_id')}</th>
+                    <th>#{lang('menu_items.labels.html_class')}</th>
+                    <th>#{lang('menu_items.labels.html_id')}</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,8 +54,8 @@
 
                     <td>#{item.ancestors.map { |a| a.name }.join(', ')}</td>
                     <td>#{item.sort_order}</td>
-                    <td>#{item.css_class}</td>
-                    <td>#{item.css_id}</td>
+                    <td>#{item.html_class}</td>
+                    <td>#{item.html_id}</td>
                 </tr>
                 <?r end ?>
 

@@ -8,14 +8,14 @@ labels:
   id                    : '#'
   name                  : 'Naam'
   language_string       : 'Vertaal naam'
-  css_class             : 'CSS klasse'
+  html_class             : 'CSS klasse'
   serialize             : 'Serialiseren'
   allow_markup          : 'Opmaak toegestaan'
   custom_field_method_id: 'Veld methode'
 
 placeholders:
-  language_string: 'De volledige naam van de vertaling voor dit veld. '
-  css_class      : 'Een CSS klasse voor het veld.'
+  language_string: 'De volledige naam van de vertaling voor dit veld.'
+  html_class     : 'Een set aan HTML klasses voor alle velden van dit type.'
   serialize      : 'De waarde wel of niet serialiseren.'
   allow_markup   : 'Opmaak toegestaan of niet.'
 

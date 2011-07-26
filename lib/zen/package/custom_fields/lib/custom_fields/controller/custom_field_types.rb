@@ -130,7 +130,7 @@ module CustomFields
           :id,
           :name,
           :language_string,
-          :css_class,
+          :html_class,
           :serialize,
           :allow_markup,
           :custom_field_method_id

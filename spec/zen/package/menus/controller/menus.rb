@@ -28,15 +28,15 @@ describe("Menus::Controller::Menus") do
 
     within('#menu_form') do
       fill_in('name'     , :with => 'Spec menu')
-      fill_in('css_class', :with => 'spec_class')
-      fill_in('css_id'   , :with => 'spec_id')
+      fill_in('html_class', :with => 'spec_class')
+      fill_in('html_id'   , :with => 'spec_id')
 
       click_on(save_button)
     end
 
     page.find('input[name="name"]').value.should      === 'Spec menu'
-    page.find('input[name="css_class"]').value.should === 'spec_class'
-    page.find('input[name="css_id"]').value.should    === 'spec_id'
+    page.find('input[name="html_class"]').value.should === 'spec_class'
+    page.find('input[name="html_id"]').value.should    === 'spec_id'
   end
 
   it("Edit an existing menu") do

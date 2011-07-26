@@ -17,7 +17,7 @@ describe("Menus::Plugin::Menus") do
       :url        => '/2', 
       :menu_id    => @menu.id, 
       :sort_order => 2, 
-      :css_id     => ''
+      :html_id     => ''
     )
 
     @item_3 = MenuItem.create(

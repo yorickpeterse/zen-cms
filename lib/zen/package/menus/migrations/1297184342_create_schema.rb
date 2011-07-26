@@ -7,8 +7,8 @@ Sequel.migration do
       String :name        , :null => false
       String :slug        , :null => false, :index => true
       String :description , :text => true
-      String :css_class
-      String :css_id
+      String :html_class
+      String :html_id
     end
 
     create_table :menu_items do
@@ -18,8 +18,8 @@ Sequel.migration do
       String :name      , :null    => false
       String :url       , :null    => false
       Integer :order    , :default => 0
-      String :css_class
-      String :css_id
+      String :html_class
+      String :html_id
 
       foreign_key :menu_id, :menus, :update => :on_cascade, :on_delete => :cascade, :key => :id
     end

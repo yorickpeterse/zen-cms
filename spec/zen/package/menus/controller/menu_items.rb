@@ -35,7 +35,7 @@ describe("Menus::Controller::MenuItems") do
     within('#menu_item_form') do
       fill_in('name'     , :with => 'Spec menu item')
       fill_in('url'      , :with => '/spec')
-      fill_in('css_class', :with => 'spec_class')
+      fill_in('html_class', :with => 'spec_class')
       click_on(save_button)
     end
 

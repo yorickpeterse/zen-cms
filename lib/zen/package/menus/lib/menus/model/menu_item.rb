@@ -30,7 +30,7 @@ module Menus
         validates_integer  [:sort_order, :parent_id]
         
         # Prevent people from entering random crap for class and ID names
-        validates_format(/^[a-zA-Z\-_0-9]*/, [:css_class, :css_id])
+        validates_format(/^[a-zA-Z\-_0-9]*/, [:html_class, :html_id])
       end
     end # MenuItem
   end # Model

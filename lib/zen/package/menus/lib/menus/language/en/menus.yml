@@ -9,15 +9,15 @@ labels:
   name          : 'Name'
   slug          : 'Slug'
   description   : 'Description'
-  css_class     : 'CSS class'
-  css_id        : 'CSS ID'
+  html_class     : 'CSS class'
+  html_id        : 'CSS ID'
   manage_items  : 'Manage menu items'
 
 placeholders:
   name       : 'Specify the name of the menu.'
   slug       : 'Specify the URL friendly name of the menu.'
-  css_class  : 'Specify a class to use in stylesheets.'
-  css_id     : 'Specify an ID to use in stylesheets.'
+  html_class : 'A number of classes to apply to the menu.'
+  html_id    : 'An ID to apply to the menu.'
 
 messages:
   no_menus: 'No menus have been added yet.'
