@@ -24,9 +24,9 @@ Zen::Language.options.paths.push(__DIR__('fixtures'))
 
 # Configure the database
 Zen.database = Sequel.connect(
-  :adapter   => 'sqlite', 
-  :database  => __DIR__('database.db'), 
-  :test      => true, 
+  :adapter   => 'sqlite',
+  :database  => __DIR__('database.db'),
+  :test      => true,
   :encoding  => 'utf8'
 )
 

@@ -5,13 +5,15 @@ Zen::Language.load('section_entries')
 # Run the actual test
 describe("Sections::Controller::SectionEntries") do
   behaves_like :capybara
-  
+
   it("Create the test data") do
-    @section = Sections::Model::Section.create(
-      :name                    => 'Spec section', 
-      :comment_allow           => true, 
+    textbox_id  = CustomFields::Model::CustomFieldType[:name => 'textbox'].id
+    checkbox_id = CustomFields::Model::CustomFieldType[:name => 'checkbox'].id
+    @section    = Sections::Model::Section.create(
+      :name                    => 'Spec section',
+      :comment_allow           => true,
       :comment_require_account => true,
-      :comment_moderate        => true, 
+      :comment_moderate        => true,
       :comment_format          => 'plain'
     )
 
@@ -20,24 +22,23 @@ describe("Sections::Controller::SectionEntries") do
     )
 
     @field = CustomFields::Model::CustomField.create(
-      :name                   => 'Spec field', 
-      :sort_order             => 0, 
-      :type                   => 'textbox', 
-      :format                 => 'markdown',
-      :required               => true, 
-      :text_editor            => false, 
-      :custom_field_group_id  => @group.id,
-      :text_limit             => 100
+      :name                  => 'Spec field',
+      :sort_order            => 0,
+      :format                => 'markdown',
+      :required              => true,
+      :text_editor           => false,
+      :custom_field_group_id => @group.id,
+      :custom_field_type_id  => textbox_id
     )
 
     @field_1 = CustomFields::Model::CustomField.create(
       :name                  => 'Spec checkbox',
       :sort_order            => 1,
-      :type                  => 'checkbox',
       :format                => 'plain',
       :required              => true,
       :text_editor           => false,
       :custom_field_group_id => @group.id,
+      :custom_field_type_id  => checkbox_id,
       :possible_values       => "Yorick Peterse|yorick\nChuck Norris|chuck"
     )
 
@@ -48,6 +49,7 @@ describe("Sections::Controller::SectionEntries") do
     @group.name.should   === 'Spec fields'
     @field.name.should   === 'Spec field'
     @field_1.name.should === 'Spec checkbox'
+    @section.custom_field_group_pks.include?(@group.id).should === true
   end
 
   it("No section entries should exist") do
@@ -83,20 +85,19 @@ describe("Sections::Controller::SectionEntries") do
     visit(index_url)
     click_link(new_entry)
 
-    current_path.should                                        === new_url
-    page.has_selector?('input[data-format="markdown"]').should === true
-    page.has_field?('Spec field').should                       === true
+    current_path.should                  === new_url
+    page.has_field?('Spec field').should === true
 
     within('#section_entry_form') do
-      fill_in(title_field   , :with => 'Spec entry')
-      select(status_field   , :from => 'form_section_entry_status_id')
-      fill_in('Spec field'  , :with => 'Spec field value') 
-      check("form_custom_field_values[#{@field_1.id}]_0")
+      fill_in(title_field , :with => 'Spec entry')
+      select(status_field , :from => 'form_section_entry_status_id')
+      fill_in('Spec field', :with => 'Spec field value')
+      check("form_custom_field_value_#{@field_1.id}_0")
       click_on(save_entry)
     end
 
-    current_path.should                             =~ /#{edit_url}\/[0-9]+/
-    page.find('input[name="title"]').value.should   === 'Spec entry'
+    current_path.should                           =~ /#{edit_url}\/[0-9]+/
+    page.find('input[name="title"]').value.should === 'Spec entry'
 
     page.find('select[name="section_entry_status_id"] option[selected]') \
       .text.should === status_field
@@ -125,13 +126,15 @@ describe("Sections::Controller::SectionEntries") do
     within('#section_entry_form') do
       fill_in(title_field , :with => 'Spec entry modified')
       fill_in('Spec field', :with => 'Spec field value modified')
-      check("form_custom_field_values[#{@field_1.id}]_1")
+      check("form_custom_field_value_#{@field_1.id}_1")
       click_on(save_entry)
     end
 
     page.find('input[name="title"]').value.should === 'Spec entry modified'
     page.find_field('Spec field').value.should    === 'Spec field value modified'
-    page.find_field('Spec checkbox').value.should === 'chuck'
+
+    page.find_field("form_custom_field_value_#{@field_1.id}_1") \
+      .value.should === 'chuck'
   end
 
   it("Delete an existing section entry") do

@@ -64,7 +64,7 @@ module CustomFields
       end
 
       ##
-      # Show an overview of all existing custom fields. Using this overview a 
+      # Show an overview of all existing custom fields. Using this overview a
       # user can manage an existing field, delete it or create a new one.
       #
       # This method requires the following permissions:
@@ -72,7 +72,7 @@ module CustomFields
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Fixnum] custom_field_group_id The ID of the custom field group 
+      # @param  [Fixnum] custom_field_group_id The ID of the custom field group
       # to which all fields belong.
       # @since  0.1
       #
@@ -99,9 +99,9 @@ module CustomFields
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Fixnum] custom_field_group_id The ID of the custom field 
+      # @param  [Fixnum] custom_field_group_id The ID of the custom field
       # group to which all fields belong.
-      # @param  [Fixnum] id The ID of the custom field to retrieve so that we 
+      # @param  [Fixnum] id The ID of the custom field to retrieve so that we
       # can edit it.
       # @since  0.1
       #
@@ -140,7 +140,7 @@ module CustomFields
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Fixnum] custom_field_group_id The ID of the custom field group 
+      # @param  [Fixnum] custom_field_group_id The ID of the custom field group
       # to which all fields belong.
       # @since  0.1
       #
@@ -166,9 +166,9 @@ module CustomFields
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back 
-      # to the proper URL. Based on the value of a hidden field named 'id' we'll 
-      # determine if the data will be used to create a new custom field or to 
+      # Method used for processing the form data and redirecting the user back
+      # to the proper URL. Based on the value of a hidden field named 'id' we'll
+      # determine if the data will be used to create a new custom field or to
       # update an existing one.
       #
       # This method requires the following permissions:
@@ -183,30 +183,30 @@ module CustomFields
         require_permissions(:create, :update)
 
         post = request.subset(
-          :id, 
-          :name, 
-          :slug, 
-          :description, 
-          :sort_order, 
-          :format, 
-          :possible_values, 
-          :required, 
-          :text_editor, 
-          :textarea_rows, 
-          :text_limit, 
+          :id,
+          :name,
+          :slug,
+          :description,
+          :sort_order,
+          :format,
+          :possible_values,
+          :required,
+          :text_editor,
+          :textarea_rows,
+          :text_limit,
           :custom_field_group_id,
           :custom_field_type_id
         )
 
         validate_custom_field_group(post['custom_field_group_id'])
-        
-        # Get or create a custom field group based on the ID from the hidden 
+
+        # Get or create a custom field group based on the ID from the hidden
         # field.
         if post['id'] and !post['id'].empty?
           custom_field = validate_custom_field(
             post['id'], post['custom_field_group_id']
           )
-          
+
           save_action  = :save
         else
           custom_field = CustomField.new
@@ -246,8 +246,8 @@ module CustomFields
       ##
       # Delete an existing custom field.
       #
-      # In order to delete a custom field group you'll need to send a POST 
-      # request that contains a field named 'custom_field_ids[]'. This field 
+      # In order to delete a custom field group you'll need to send a POST
+      # request that contains a field named 'custom_field_ids[]'. This field
       # should contain the primary values of each field that has to be deleted.
       #
       # This method requires the following permissions:

@@ -21,45 +21,45 @@ module Sections
     #
     class SectionEntry < Sequel::Model
       one_to_many(
-        :comments, 
+        :comments,
         :class => "Comments::Model::Comment"
       )
 
       one_to_many(
-        :custom_field_values, 
-        :class => "CustomFields::Model::CustomFieldValue", 
+        :custom_field_values,
+        :class => "CustomFields::Model::CustomFieldValue",
         :eager => [:custom_field]
       )
-      
+
       many_to_one(
-        :user, 
+        :user,
         :class => "Users::Model::User"
       )
-      
+
       many_to_many(
-        :categories, 
+        :categories,
         :class => "Categories::Model::Category"
       )
-      
+
       many_to_one(
-        :section, 
+        :section,
         :class => "Sections::Model::Section"
       )
 
       many_to_one(
-        :section_entry_status, 
+        :section_entry_status,
         :class => 'Sections::Model::SectionEntryStatus'
       )
-      
+
       plugin(:sluggable , :source => :title     , :freeze => false)
       plugin(:timestamps, :create => :created_at, :update => false)
-      
+
       ##
       # Specify our validation rules.
       #
       # @author Yorick Peterse
       # @since  0.1
-      # 
+      #
       def validate
         validates_presence([:title, :user_id])
         validates_presence(:slug) unless new?
@@ -75,7 +75,7 @@ module Sections
 
       ##
       # Returns a hash containing all the entry statuses. The keys of this hash
-      # are the IDs and the values the names. 
+      # are the IDs and the values the names.
       #
       # @author Yorick Peterse
       # @since  0.2.8
@@ -96,6 +96,28 @@ module Sections
       end
 
       ##
+      # Retrieves all custom fields for a section entry.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.8
+      # @return [Array]
+      #
+      def custom_fields
+        return CustomFields::Model::CustomField.select_all(
+          :custom_fields
+        ).join(
+          :custom_field_groups,
+          :custom_field_groups__id => :custom_fields__custom_field_group_id
+        ).join(
+          :custom_field_groups_sections,
+          :custom_field_groups_sections__custom_field_group_id \
+            => :custom_field_groups__id
+        ).filter(
+          :custom_field_groups_sections__section_id => section_id
+        ).all
+      end
+
+      ##
       # Retrieves all the possible categories for an entry and returns these as
       # a hash. This hash is a multi dimensional hash where the keys are the
       # names of all available category groups and the values hashes with the
@@ -113,12 +135,12 @@ module Sections
         hash  = {}
         query = Zen.database[:category_groups_sections] \
           .select(
-            :categories__id, 
-            :categories__name, 
+            :categories__id,
+            :categories__name,
             :category_groups__name => :category_group_name
           ) \
           .left_join(
-            :categories, 
+            :categories,
             :category_groups_sections__category_group_id \
               => :categories__category_group_id
           ) \
@@ -127,7 +149,7 @@ module Sections
             :category_groups_sections__category_group_id => :category_groups__id
           ) \
           .filter(
-            :category_groups_sections__section_id => section_id()
+            :category_groups_sections__section_id => section_id
           ) \
           .all
 
@@ -163,7 +185,7 @@ module Sections
           fields[field.custom_field_group_id] ||= []
           fields[field.custom_field_group_id].push(field)
         end
-        
+
         # Index the custom field values hash so that the keys are the IDs of the
         # custom fields and the values the instances of
         # CustomFields::Model::CustomFieldValue.
@@ -185,7 +207,7 @@ module Sections
                 )
               )
             rescue => e
-              Ramaze::Log.error(e.inspect)
+              Ramaze::Log.error(e)
             end
           end
         end

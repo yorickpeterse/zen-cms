@@ -7,6 +7,7 @@
     form_for(
       @custom_field_type,
       :method => :post,
+      :id     => :custom_field_type_form,
       :action => CustomFields::Controller::CustomFieldTypes.r(:save)
     ) do |f|
       f.input_hidden(:csrf_token, get_csrf_token)

@@ -7,24 +7,25 @@ module Zen
     ##
     # Command that can be used to create a new application prototype.
     #
-    # ## Syntax
-    #
-    #     $ zen app [NAME]
-    #
-    # ## Usage
-    #
-    #     $ zen app blog
-    #
     # @author Yorick Peterse
     # @since  0.2.8
     #
-    class App
-      ##
+    class Create
+      # The description of this command.
+      Description = 'Creates a new application prototype.'
+
+      # The banner of this application.
+      Banner = <<-TXT.strip
+Creates a new application prototype and saves it in the given path.
+
+Usage:
+  zen create [NAME] [OPTIONS]
+
+Example:
+  zen create blog
+      TXT
+
       # Hash containing options that can be overwritten via the command line.
-      #
-      # @author Yorick Peterse
-      # @since  0.2.8
-      #
       Options = {
         :force => false
       }
@@ -37,18 +38,10 @@ module Zen
       #
       def initialize
         @options = OptionParser.new do |opt|
-          opt.banner         = 'Creates a new application prototype'
+          opt.banner         = Banner
           opt.summary_indent = '  '
 
-          opt.separator "
-Usage:
-  zen app [NAME] [OPTIONS]
-
-Example:
-  zen app blog
-
-Options:
-"
+          opt.separator "\nOptions:\n"
 
           opt.on('-h', '--help', 'Shows this help message') do
             puts @options
@@ -81,11 +74,10 @@ Options:
         end
 
         proto = __DIR__('../../../proto/app')
-        
+
         if File.directory?(app) and Options[:force] === false
-          $stderr.puts "The application #{app} already exists, use -f to " \
+          abort "The application #{app} already exists, use -f to " \
             + "overwrite it."
-          exit
         else
           FileUtils.rm_rf(app)
         end

@@ -182,75 +182,78 @@ module Sections
       def save
         require_permissions(:create, :update)
 
-        post                = request.params.dup
-        section_id          = post['section_id']
-        field_values        = post['custom_field_values']
-        custom_field_errors = {}
+        section_id = request.params['section_id']
 
         validate_section(section_id)
 
-        post.delete('custom_field_values')
-        post.delete('slug') if post['slug'].empty?
-
-        if !post['category_pks'].nil?
-          post['category_pks'].map! { |value| value.to_i }
-        else
-          post['category_pks'] = []
-        end
-
-        if post['id'] and !post['id'].empty?
-          @entry        = SectionEntry[post['id']]
-          save_action   = :save
+        if request.params['id'] and !request.params['id'].empty?
+          @entry      = SectionEntry[request.params['id']]
+          save_action = :save
 
           # Section entries aren't considered to be updated whenever a custom
           # field value is modified, this solves that problem
-          post['updated_at'] = Time.new
+          request.params['updated_at'] = Time.new
         else
-          @entry        = SectionEntry.new
-          save_action   = :new
+          @entry      = SectionEntry.new(:section_id => section_id)
+          save_action = :new
         end
 
-        post.delete('id')
+        request.params.delete('slug') if request.params['slug'].empty?
+        request.params.delete('id')
 
         flash_success = lang("section_entries.success.#{save_action}")
         flash_error   = lang("section_entries.errors.#{save_action}")
+        custom_fields = @entry.custom_fields
+        field_errors  = {}
+        field_values  = {}
 
-        # Transactions ahoy!
+        @entry.custom_field_values.each do |value|
+          field_values[value.custom_field_id] = value
+        end
+
         begin
           Zen.database.transaction do
             # Update the entry itself
-            @entry.update(post)
+            @entry.update(request.subset(
+              :title,
+              :created_at,
+              :updated_at,
+              :section_id,
+              :user_id,
+              :slug,
+              :section_entry_status_id
+            ))
+
             message(:success, flash_success)
 
-            # Update the field values
-            field_values.each do |field_id, value|
-              field_value = CustomFields::Model::CustomFieldValue[
-                :custom_field_id  => field_id,
-                :section_entry_id => @entry.id
-              ]
+            # Update/add all the custom field values
+            custom_fields.each do |field|
+              key = "custom_field_value_#{field.id}"
 
-              if field_value.nil?
-                field_value = @entry.add_custom_field_value(
-                  :section_entry_id => @entry.id,
-                  :custom_field_id  => field_id
-                )
+              # The custom field has been submitted, let's see if we have to
+              # update it or add it.
+              if request.params.key?(key)
+                # Validate it
+                if field.required and request.params[key].empty?
+                  field_errors[:"custom_field_value_#{field.id}"] = \
+                    lang('zen_models.presence')
+
+                  raise
+                end
+
+                # Update it
+                if field_values.key?(field.id)
+                  field_values[field.id].update(:value => request.params[key])
+                # Add it
+                else
+                  @entry.add_custom_field_value(
+                    :custom_field_id => field.id,
+                    :value           => request.params[key]
+                  )
+                end
               end
-
-              # Get the custom field for the current value
-              custom_field = field_value.custom_field
-
-              if custom_field.required and value.empty?
-                custom_field_errors[:"custom_field_values[#{field_id}]"] = \
-                  lang('zen_models.presence')
-              end
-
-              raise unless custom_field_errors.empty?
-
-              field_value.value = value
-              field_value.save
             end
           end
-
         # The rescue statement is called whenever the following happens:
         #
         # 1. The fields for the section entry (title, slug, etc) are invalid
@@ -260,7 +263,7 @@ module Sections
           Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
-          flash[:form_errors] = @entry.errors.merge(custom_field_errors)
+          flash[:form_errors] = @entry.errors.merge(field_errors)
           flash[:form_data]   = @entry
 
           redirect_referrer

@@ -37,7 +37,7 @@
                     <?r if user_authorized?([:delete]) ?>
                     <td>
                         <input type="checkbox" name="custom_field_type_ids[]"
-                        value="#{type.id}" />
+                        id="custom_field_type_#{type.id}" value="#{type.id}" />
                     </td>
                     <?r end ?>
 

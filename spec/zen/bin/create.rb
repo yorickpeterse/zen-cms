@@ -1,45 +1,18 @@
 require File.expand_path('../../../helper', __FILE__)
+require __DIR__('../../../lib/zen/bin/runner')
 require 'fileutils'
 
-describe('Zen::Bin::App') do
+describe('Zen::Bin::Create') do
   @bin_path = __DIR__('../../../bin/zen')
 
   it('Show the help message') do
-    output   = `#{@bin_path} app`
-    expected = <<TXT
-Creates a new application prototype
-
-Usage:
-  zen app [NAME] [OPTIONS]
-
-Example:
-  zen app blog
-
-Options:
-  -h, --help                       Shows this help message
-  -f, --force                      Overwrites existing directories
-TXT
-
-    output.should === expected
+    output   = `#{@bin_path} create`
+    output.include?(Zen::Bin::Create::Banner).should === true
   end
 
   it('Show the help message using -h') do
-    output   = `#{@bin_path} app -h`
-    expected = <<TXT
-Creates a new application prototype
-
-Usage:
-  zen app [NAME] [OPTIONS]
-
-Example:
-  zen app blog
-
-Options:
-  -h, --help                       Shows this help message
-  -f, --force                      Overwrites existing directories
-TXT
-
-    output.should === expected
+    output   = `#{@bin_path} create -h`
+    output.include?(Zen::Bin::Create::Banner).should === true
   end
 
   it('Create a new application prototype') do
@@ -49,7 +22,7 @@ TXT
       FileUtils.rm_rf(app_dir)
     end
 
-    output  = `#{@bin_path} app #{app_dir} 2>&1`.strip
+    output = `#{@bin_path} create #{app_dir} 2>&1`.strip
 
     output.should === "The application has been generated and saved in #{app_dir}"
     File.directory?(app_dir).should === true
@@ -77,10 +50,10 @@ TXT
       FileUtils.rm_rf(app_dir)
     end
 
-    output        = `#{@bin_path} app #{app_dir} 2>&1`.strip
+    output        = `#{@bin_path} create #{app_dir} 2>&1`.strip
     output.should === "The application has been generated and saved in #{app_dir}"
 
-    output        = `#{@bin_path} app #{app_dir} -f 2>&1`.strip
+    output        = `#{@bin_path} create #{app_dir} -f 2>&1`.strip
     output.should === "The application has been generated and saved in #{app_dir}"
 
     FileUtils.rm_rf(app_dir)

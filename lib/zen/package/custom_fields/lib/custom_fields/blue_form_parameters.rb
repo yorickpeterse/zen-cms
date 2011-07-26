@@ -22,12 +22,13 @@ module CustomFields
       # @return [Array]
       #
       def input_text(field, field_value)
-        type    = field.custom_field_type
-        params  = [
+        type   = field.custom_field_type
+        value  = field_value.value rescue nil
+        params = [
           :input_text,
           field.name,
-          "custom_field_values[#{field.id}]",
-          {:value => field_value.value}
+          "custom_field_value_#{field.id}",
+          {:value => value}
         ]
 
         if !field.text_limit.nil?
@@ -45,11 +46,6 @@ module CustomFields
 
         if !type.css_class.nil? and !type.css_class.empty?
           params.last[:class] = type.css_class
-        end
-
-        # Unserialize the value?
-        if type.serialize === true
-          params.last[:value] = deserialize(params.last[:value])
         end
 
         return params
@@ -106,18 +102,15 @@ module CustomFields
       # @see    CustomFields::BlueFormParameters.input_text
       #
       def input_radio(field, field_value)
-        type    = field.custom_field_type
-        params  = [
+        type   = field.custom_field_type
+        value  = field_value.value rescue nil
+        params = [
           :input_radio,
           field.name,
-          "custom_field_values[#{field.id}]",
-          field_value.value,
+          "custom_field_value_#{field.id}",
+          value,
           {}
         ]
-
-        if type.serialize === true
-          params[3] = deserialize(params[3])
-        end
 
         # Convert the string containing the possible values to a hash.
         if !field.possible_values.nil? and !field.possible_values.empty?
@@ -163,16 +156,13 @@ module CustomFields
       #
       def select(field, field_value)
         type   = field.custom_field_type
+        value  = field_value.value rescue nil
         params = [
           :select,
           field.name,
-          "custom_field_values[#{field.id}]",
-          {:selected => field_value.value, :size => 1}
+          "custom_field_value_#{field.id}",
+          {:selected => value, :size => 1}
         ]
-
-        if type.serialize === true
-          params.last[:selected] = deserialize(params.last[:selected])
-        end
 
         # Convert the string containing the possible values to a hash.
         if !field.possible_values.nil? and !field.possible_values.empty?
@@ -212,18 +202,6 @@ module CustomFields
       end
 
       private
-
-      ##
-      # Unserializes a value using Marshal and returns it.
-      #
-      # @author Yorick Peterse
-      # @since  0.2.8
-      # @param  [String] serialized The data to deserialize.
-      # @return [Mixed]
-      #
-      def deserialize(serialized)
-        Marshal.load(serialized.unpack('m')[0]) rescue Marshal.load(serialized)
-      end
     end # class << self
   end # BlueFormParameters
 end # CustomFields

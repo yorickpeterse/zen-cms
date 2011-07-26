@@ -88,4 +88,4 @@ describe('Ramaze::Helper::CustomField') do
     CustomFields::Model::CustomField[:name => 'Spec field'].should      === nil
     CustomFields::Model::CustomFieldGroup[:name => 'Spec group'].should === nil
   end
-end
+end # describe
