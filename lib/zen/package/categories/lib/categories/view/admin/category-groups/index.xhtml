@@ -7,8 +7,7 @@
     action="#{Categories::Controller::CategoryGroups.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
-        <?r if @category_groups and !@category_groups.empty? ?>
-
+        <?r if !@category_groups.empty? ?>
         <table>
             <thead>
                 <tr>
@@ -66,6 +65,13 @@
                 <?r end ?>
             </tbody>
         </table>
+
+        #{
+        if @category_groups.respond_to?(:navigation) \
+        and @category_groups.page_count > 1
+          @category_groups.navigation
+        end
+        }
 
         <?r else ?>
         <p>#{lang('category_groups.messages.no_groups')}</p>

@@ -15,8 +15,10 @@
 
     .button a, .button input[type="submit"], .button button
     {
-        background:      #ddd;
-        background:      #ddd -webkit-gradient(linear, left bottom, left top, from(#ddd), to(#eee));
+        background: #ddd;
+        background: #ddd -webkit-gradient(linear, left bottom, left top,
+            from(#ddd), to(#eee));
+
         background:      #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
         border:          none;
         border-top:      1px solid #fff;
@@ -37,14 +39,16 @@
     {
         padding: 3px 5px;
     }
-    
+
     .button input[type="submit"]
     {
         padding: 5px 6px 6px 6px;
     }
-    
+
     .button a:active, .button input[type="submit"]:active, .button button:active
     {
-        background: #eee -webkit-gradient(linear, left bottom, left top, from(#eee), to(#ddd));
+        background: #eee -webkit-gradient(linear, left bottom, left top,
+            from(#eee), to(#ddd));
+
         background: #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
     }

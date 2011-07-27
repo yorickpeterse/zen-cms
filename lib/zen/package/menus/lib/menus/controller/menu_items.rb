@@ -66,7 +66,8 @@ module Menus
         )
 
         @menu_id    = menu_id
-        @menu_items = menu.menu_items
+        @menu_items = MenuItem.filter(:menu_id => menu_id)
+        @menu_items = paginate(@menu_items)
       end
 
       ##

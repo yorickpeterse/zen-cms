@@ -68,6 +68,12 @@
             </tbody>
         </table>
 
+        #{
+        if @menus.respond_to?(:navigation) and @menus.page_count > 1
+          @menus.navigation
+        end
+        }
+
         <?r else ?>
         <p>#{lang('menus.messages.no_menus')}</p>
         <?r end ?>

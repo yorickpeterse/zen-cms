@@ -1,7 +1,7 @@
 Zen::Language.load('zen_models')
 
-# When passing a hash to update() or create() we'll ignore any keys that don't 
-# belong in the table. This allows you to directly pass request.params to these 
+# When passing a hash to update() or create() we'll ignore any keys that don't
+# belong in the table. This allows you to directly pass request.params to these
 # methods without having to filter the hash yourself.
 Sequel::Model.strict_param_setting = false
 
@@ -9,7 +9,8 @@ Sequel::Model.strict_param_setting = false
 Sequel::Model.plugin :validation_helpers
 Sequel::Model.plugin :association_pks
 
-Sequel.extension(:migration)
+Sequel.extension :migration
+Sequel.extension :pagination
 
 Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
 {

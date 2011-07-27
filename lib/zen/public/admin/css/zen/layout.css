@@ -82,8 +82,8 @@
                 }
 
 /**
- * Main area of the admin panel. The content stretches across the entire screen and there
- * are no silly sidebars.
+ * Main area of the admin panel. The content stretches across the entire screen
+ * and there are no silly sidebars.
  */
 #container
 {
@@ -92,7 +92,7 @@
     border:        5px solid #ddd;
     margin-top:    20px;
     min-height:    100px;
-  
+
     -webkit-border-radius: 5px;
     -moz-border-radius:    5px;
 }
@@ -107,7 +107,7 @@
     margin: 20px auto;
     width:  500px;
 }
-  
+
 /**
  * Bottom part of the admin panel containing the footer
  */
@@ -123,3 +123,47 @@
         text-align: center;
     }
 
+/* CSS rules for the pagination system */
+.pager
+{
+    float: right;
+}
+
+    .pager a
+    {
+        background: #ddd;
+        background: #ddd -webkit-gradient(linear, left bottom, left top,
+            from(#ddd), to(#eee));
+
+        background:      #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
+        border:          1px solid #bbb;
+        color:           #000!important;
+        display:         inline-block!important;
+        font-size:       13px;
+        font-family:     'Helvetica Neue', Helvetica, Arial, sans-serif;
+        margin-left:     10px;
+        min-width:       20px;
+        padding:         3px 5px;
+        text-decoration: none;
+        text-shadow:     1px 1px #fff;
+        text-align:      center;
+    }
+
+    .pager a.current
+    {
+        font-weight: bold;
+        padding:     2px 5px 4px 5px;
+    }
+
+    .pager a:active
+    {
+        background: #eee -webkit-gradient(linear, left bottom, left top,
+            from(#eee), to(#ddd));
+
+        background: #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
+    }
+
+    .pager span
+    {
+        display: none;
+    }

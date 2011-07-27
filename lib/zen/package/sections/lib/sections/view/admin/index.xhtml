@@ -72,10 +72,14 @@
             </tbody>
         </table>
 
+        #{
+        if @sections.respond_to?(:navigation) and @sections.page_count > 1
+          @sections.navigation
+        end
+        }
+
         <?r else ?>
-
         <p>#{lang('sections.messages.no_sections')}</p>
-
         <?r end ?>
 
         <?r if user_authorized?([:create]) ?>

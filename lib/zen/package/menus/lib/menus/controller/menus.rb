@@ -59,7 +59,7 @@ module Menus
 
         set_breadcrumbs(lang('menus.titles.index'))
 
-        @menus = Menu.all
+        @menus = paginate(Menu)
       end
 
       ##

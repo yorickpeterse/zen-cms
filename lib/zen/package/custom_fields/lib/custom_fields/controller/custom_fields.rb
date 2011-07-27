@@ -91,7 +91,11 @@ module CustomFields
         )
 
         @custom_field_group_id = custom_field_group_id
-        @custom_fields         = field_group.custom_fields
+        @custom_fields         = CustomField.filter(
+          :custom_field_group_id => custom_field_group_id
+        )
+
+        @custom_fields = paginate(@custom_fields)
       end
 
       ##

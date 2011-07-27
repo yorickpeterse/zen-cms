@@ -114,7 +114,7 @@ module Users
 
         set_breadcrumbs(lang('access_rules.titles.index'))
 
-        @access_rules = AccessRule.all
+        @access_rules = paginate(AccessRule)
       end
 
       ##

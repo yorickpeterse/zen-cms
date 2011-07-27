@@ -9,7 +9,7 @@
         <input type="hidden" name="category_group_id"
         value="#{@category_group_id}" />
 
-        <?r if @categories and !@categories.empty? ?>
+        <?r if !@categories.empty? ?>
 
         <table>
             <thead>
@@ -60,6 +60,12 @@
                 <?r end ?>
             </tbody>
         </table>
+
+        #{
+        if @categories.respond_to?(:navigation) and @categories.page_count > 1
+          @categories.navigation
+        end
+        }
 
         <?r else ?>
         <p>#{lang('categories.messages.no_categories')}</p>

@@ -69,6 +69,13 @@
                 <?r end ?>
             </tbody>
         </table>
+
+        #{
+        if @users.respond_to?(:navigation) and @users.page_count > 1
+          @users.navigation
+        end
+        }
+
         <?r else ?>
         <p>#{lang('users.messages.no_users')}</p>
         <?r end ?>

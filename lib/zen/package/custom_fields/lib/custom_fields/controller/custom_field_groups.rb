@@ -62,7 +62,7 @@ module CustomFields
 
         set_breadcrumbs(lang('custom_field_groups.titles.index'))
 
-        @field_groups = CustomFieldGroup.all
+        @field_groups = paginate(CustomFieldGroup)
       end
 
       ##

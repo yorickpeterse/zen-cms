@@ -76,10 +76,15 @@
             </tbody>
         </table>
 
+        #{
+        if @field_groups.respond_to?(:navigation) \
+        and @field_groups.page_count > 1
+          @field_groups.navigation
+        end
+        }
+
         <?r else ?>
-
         <p>#{lang('custom_field_groups.messages.no_groups')}</p>
-
         <?r end ?>
 
         <?r if user_authorized?([:create]) ?>

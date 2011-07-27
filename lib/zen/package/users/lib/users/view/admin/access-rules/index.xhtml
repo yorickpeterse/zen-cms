@@ -72,6 +72,14 @@
                 <?r end ?>
             </tbody>
         </table>
+
+        #{
+        if @access_rules.respond_to?(:navigation) \
+        and @access_rules.page_count > 1
+          @access_rules.navigation
+        end
+        }
+
         <?r else ?>
         <p>#{lang('access_rules.messages.no_rules')}</p>
         <?r end ?>

@@ -60,7 +60,7 @@ module CustomFields
 
         set_breadcrumbs(lang('custom_field_types.titles.index'))
 
-        @field_types = CustomFieldType.eager(:custom_field_method).all
+        @field_types = paginate(CustomFieldType.eager(:custom_field_method))
       end
 
       ##

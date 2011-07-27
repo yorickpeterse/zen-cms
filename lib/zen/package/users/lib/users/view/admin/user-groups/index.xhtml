@@ -50,6 +50,14 @@
                 <?r end ?>
             </tbody>
         </table>
+
+        #{
+        if @user_groups.respond_to?(:navigation) \
+        and @user_groups.page_count > 1
+          @user_groups.navigation
+        end
+        }
+
         <?r else ?>
         <p>#{lang('user_groups.messages.no_groups')}</p>
         <?r end ?>

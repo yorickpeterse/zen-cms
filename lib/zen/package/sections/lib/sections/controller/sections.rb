@@ -73,7 +73,7 @@ module Sections
 
         set_breadcrumbs(lang('sections.titles.index'))
 
-        @sections = Section.all
+        @sections = paginate(Section)
       end
 
       ##

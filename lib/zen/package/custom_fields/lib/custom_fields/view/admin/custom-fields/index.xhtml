@@ -57,10 +57,15 @@
             </tbody>
         </table>
 
+        #{
+        if @custom_fields.respond_to?(:navigation) \
+        and @custom_fields.page_count > 1
+          @custom_fields.navigation
+        end
+        }
+
         <?r else ?>
-
         <p>#{lang('custom_fields.messages.no_fields')}</p>
-
         <?r end ?>
 
         <?r if user_authorized?([:create]) ?>

@@ -83,7 +83,8 @@ module Sections
 
         section     = validate_section(section_id)
         @section_id = section_id
-        @entries    = section.section_entries
+        @entries    = SectionEntry.filter(:section_id => section_id)
+        @entries    = paginate(@entries)
       end
 
       ##

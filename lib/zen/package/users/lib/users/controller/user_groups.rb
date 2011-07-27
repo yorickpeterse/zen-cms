@@ -65,7 +65,7 @@ module Users
 
         set_breadcrumbs(lang('user_groups.titles.index'))
 
-        @user_groups = UserGroup.all
+        @user_groups = paginate(UserGroup)
       end
 
       ##

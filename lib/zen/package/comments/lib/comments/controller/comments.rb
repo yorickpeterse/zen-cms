@@ -6,8 +6,8 @@ module Comments
     # Controller used for managing comments. Administrations can't actually
     # add new comments using the backend controller but can edit or delete them.
     # Comments can be submitted to any section entry as long as the section
-    # allows it. When submitting a comment the user data such as the name and 
-    # email will be retrieved from either the users table (if the user is logged 
+    # allows it. When submitting a comment the user data such as the name and
+    # email will be retrieved from either the users table (if the user is logged
     # in) or from the form that was submitted.
     #
     # @author  Yorick Peterse
@@ -62,7 +62,7 @@ module Comments
 
         set_breadcrumbs(lang('comments.titles.index'))
 
-        @comments = Comment.eager(:comment_status).all
+        @comments = paginate(Comment.eager(:comment_status))
       end
 
       ##
@@ -74,7 +74,7 @@ module Comments
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the comment to retrieve so that we can 
+      # @param  [Integer] id The ID of the comment to retrieve so that we can
       # edit it.
       # @since  0.1
       #
@@ -97,7 +97,7 @@ module Comments
 
       ##
       # Saves a comment based on the current POST data. Note that this
-      # method won't create a new comment as this can't be done using the 
+      # method won't create a new comment as this can't be done using the
       # backend.
       #
       # This method requires the following permissions:
@@ -113,12 +113,12 @@ module Comments
         # Copy the POST data so we can work with it without messing things up
         post = request.subset(
           :id,
-          :user_id, 
-          :name, 
-          :website, 
-          :email, 
-          :comment, 
-          :comment_status_id, 
+          :user_id,
+          :name,
+          :website,
+          :email,
+          :comment,
+          :comment_status_id,
           :section_entry_id
         )
 

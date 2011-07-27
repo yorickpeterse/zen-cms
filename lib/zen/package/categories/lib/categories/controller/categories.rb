@@ -72,7 +72,11 @@ module Categories
         # Validate the category group
         category_group     = validate_category_group(category_group_id)
         @category_group_id = category_group_id
-        @categories        = category_group.categories
+        @categories        = Category.filter(
+          :category_group_id => category_group_id
+        )
+
+        @categories = paginate(@categories)
       end
 
       ##

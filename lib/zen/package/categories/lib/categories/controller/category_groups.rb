@@ -15,7 +15,7 @@ module Categories
       include ::Categories::Model
 
       helper :category
-      map '/admin/category-groups'
+      map    '/admin/category-groups'
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -62,7 +62,7 @@ module Categories
 
         set_breadcrumbs(lang('category_groups.titles.index'))
 
-        @category_groups = CategoryGroup.all
+        @category_groups = paginate(CategoryGroup)
       end
 
       ##
