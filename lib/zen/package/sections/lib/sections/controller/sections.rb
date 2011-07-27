@@ -17,11 +17,11 @@ module Sections
     class Sections < Zen::Controller::AdminController
       include ::Sections::Model
 
-      map '/admin'
+      map    '/admin'
       helper :section
 
       # Load all required Javascript files
-      javascript(['lib/zen/tabs'], :method => [:edit, :new])
+      javascript(['zen/lib/tabs'], :method => [:edit, :new])
 
       before_all do
         csrf_protection(:save, :delete) do

@@ -20,10 +20,10 @@ module Users
       include ::Users::Model
 
       helper :users
-      map '/admin/access-rules'
+      map    '/admin/access-rules'
 
       javascript(
-        ['lib/users/access_rules', 'users/access_rules'],
+        ['users/lib/access_rules', 'users/access_rules'],
         :method => [:edit, :new]
       )
 

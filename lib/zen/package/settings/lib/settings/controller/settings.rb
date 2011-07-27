@@ -15,7 +15,7 @@ module Settings
       map '/admin/settings'
 
       # Load all required Javascript files
-      javascript ['lib/zen/tabs']
+      javascript ['zen/lib/tabs']
 
       before_all do
         csrf_protection(:save, :delete) do

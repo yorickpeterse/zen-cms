@@ -14,7 +14,7 @@ module CustomFields
       include ::CustomFields::Model
 
       helper :custom_field
-      map '/admin/custom-field-groups'
+      map    '/admin/custom-field-groups'
 
       before_all do
         csrf_protection(:save, :delete) do

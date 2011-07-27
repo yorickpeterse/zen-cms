@@ -16,11 +16,10 @@ module CustomFields
       include ::CustomFields::Model
 
       helper :custom_field
-
-      map '/admin/custom-fields'
+      map    '/admin/custom-fields'
 
       # Load all required Javascript files
-      javascript ['lib/zen/tabs']
+      javascript ['zen/lib/tabs']
 
       before_all do
         csrf_protection(:save, :delete) do

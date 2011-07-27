@@ -18,10 +18,10 @@ module Sections
       # Load all required Javascript files
       javascript(
         [
-          'lib/zen/tabs',
-          'lib/zen/editor',
-          'lib/zen/editor/markdown',
-          'lib/zen/editor/textile',
+          'zen/lib/tabs',
+          'zen/lib/editor',
+          'zen/lib/editor/markdown',
+          'zen/lib/editor/textile',
           'vendor/datepicker'
         ],
         :method => [:edit, :new]
