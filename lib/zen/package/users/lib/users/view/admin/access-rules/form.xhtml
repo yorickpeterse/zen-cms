@@ -85,28 +85,28 @@
         lang('access_rules.labels.create'),
         :create_access,
         @access_rule.create_access,
-        :values => @boolean_hash
+        :values => @boolean_hash.invert
       )
 
       f.input_radio(
         lang('access_rules.labels.read'),
         :read_access,
         @access_rule.read_access,
-        :values => @boolean_hash
+        :values => @boolean_hash.invert
       )
 
       f.input_radio(
         lang('access_rules.labels.update'),
         :update_access,
         @access_rule.update_access,
-        :values => @boolean_hash
+        :values => @boolean_hash.invert
       )
 
       f.input_radio(
         lang('access_rules.labels.delete'),
         :delete_access,
         @access_rule.delete_access,
-        :values => @boolean_hash
+        :values => @boolean_hash.invert
       )
 
       f.g.div(:class => 'button') do

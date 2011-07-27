@@ -56,6 +56,11 @@ module Users
           lang('access_rules.labels.user')       => 'div_user_id',
           lang('access_rules.labels.user_group') => 'div_user_group_id'
         }
+
+        @boolean_hash = {
+          true  => lang('zen_general.special.boolean_hash.true'),
+          false => lang('zen_general.special.boolean_hash.false')
+        }
       end
 
       ##

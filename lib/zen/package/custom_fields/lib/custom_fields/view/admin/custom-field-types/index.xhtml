@@ -55,8 +55,8 @@
                     </td>
                     <td>#{type.language_string}</td>
                     <td>#{type.html_class}</td>
-                    <td>#{@boolean_hash.invert[type.serialize]}</td>
-                    <td>#{@boolean_hash.invert[type.allow_markup]}</td>
+                    <td>#{@boolean_hash[type.serialize]}</td>
+                    <td>#{@boolean_hash[type.allow_markup]}</td>
                     <td>#{type.custom_field_method.name}</td>
                 </tr>
                 <?r end ?>

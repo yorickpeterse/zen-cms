@@ -32,14 +32,14 @@
         lang('custom_field_types.labels.serialize'),
         :serialize,
         @custom_field_type.serialize,
-        :values => @boolean_hash
+        :values => @boolean_hash.invert
       )
-      
+
       f.input_radio(
         lang('custom_field_types.labels.allow_markup'),
         :allow_markup,
         @custom_field_type.allow_markup,
-        :values => @boolean_hash
+        :values => @boolean_hash.invert
       )
 
       f.select(
@@ -48,11 +48,11 @@
         :values   => @custom_field_methods,
         :size     => 1,
         :selected => @custom_field_type.custom_field_method_id
-      )  
+      )
 
       f.g.div(:class => 'button') do
         f.g.input(
-          :type  => :submit, 
+          :type  => :submit,
           :value => lang('custom_field_types.buttons.save')
         )
       end

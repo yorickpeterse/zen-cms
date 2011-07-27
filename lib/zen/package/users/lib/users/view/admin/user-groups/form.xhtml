@@ -27,7 +27,7 @@
         lang('user_groups.labels.super_group'),
         :super_group,
         @user_group.super_group,
-        :values => @boolean_hash,
+        :values => @boolean_hash.invert
       )
 
       f.textarea(

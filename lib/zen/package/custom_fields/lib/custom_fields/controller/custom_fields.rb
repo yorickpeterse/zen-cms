@@ -60,6 +60,11 @@ module CustomFields
           method      = action.method.to_sym
           @page_title = lang("custom_fields.titles.#{method}") rescue nil
         end
+
+        @boolean_hash = {
+          true  => lang('zen_general.special.boolean_hash.true'),
+          false => lang('zen_general.special.boolean_hash.false')
+        }
       end
 
       ##

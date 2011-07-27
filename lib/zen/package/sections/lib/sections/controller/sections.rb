@@ -50,6 +50,11 @@ module Sections
           method      = action.method.to_sym
           @page_title = lang("sections.titles.#{method}") rescue nil
         end
+
+        @boolean_hash = {
+          true  => lang('zen_general.special.boolean_hash.true'),
+          false => lang('zen_general.special.boolean_hash.false')
+        }
       end
 
       ##

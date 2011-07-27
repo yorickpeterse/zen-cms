@@ -37,6 +37,11 @@ module CustomFields
             "custom_field_types.titles.#{action.method}"
           ) rescue nil
         end
+
+        @boolean_hash = {
+          true  => lang('zen_general.special.boolean_hash.true'),
+          false => lang('zen_general.special.boolean_hash.false')
+        }
       end
 
       ##

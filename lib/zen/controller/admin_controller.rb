@@ -22,7 +22,13 @@ module Zen
     class AdminController < Zen::Controller::BaseController
       layout :admin
       engine :etanni
-      helper :blue_form_vendor, :breadcrumb, :user, :acl, :message
+      helper :blue_form_vendor, :breadcrumb, :user, :acl, :message, :paginate
+
+      # Configure the pagination
+      trait :paginate => {
+        :limit => 20,
+        :var   => 'page'
+      }
 
       ##
       # The initialize method is called upon class initalization and is used to
@@ -41,13 +47,8 @@ module Zen
         and request.env['PATH_INFO']  != '/login' \
         and !logged_in?
           message(:error, lang('zen_general.errors.require_login'))
-          redirect '/admin/users/login'
+          redirect('/admin/users/login')
         end
-
-        @boolean_hash = {
-          true  => lang('zen_general.special.boolean_hash.true'),
-          false => lang('zen_general.special.boolean_hash.false')
-        }.invert
       end
 
       ##

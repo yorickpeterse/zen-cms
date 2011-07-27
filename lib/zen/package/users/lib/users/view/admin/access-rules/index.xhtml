@@ -54,10 +54,10 @@
                         }
                     </td>
 
-                    <td>#{@boolean_hash.invert[rule.create_access]}</td>
-                    <td>#{@boolean_hash.invert[rule.read_access]}</td>
-                    <td>#{@boolean_hash.invert[rule.update_access]}</td>
-                    <td>#{@boolean_hash.invert[rule.delete_access]}</td>
+                    <td>#{@boolean_hash[rule.create_access]}</td>
+                    <td>#{@boolean_hash[rule.read_access]}</td>
+                    <td>#{@boolean_hash[rule.update_access]}</td>
+                    <td>#{@boolean_hash[rule.delete_access]}</td>
                     <td>
                         <?r if !rule.user_id.nil? ?>
                         #{rule.user.name}
