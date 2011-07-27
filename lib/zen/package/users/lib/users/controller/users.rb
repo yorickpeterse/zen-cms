@@ -48,10 +48,6 @@ module Users
       def initialize
         super
 
-        @form_save_url   = Users.r(:save)
-        @form_delete_url = Users.r(:delete)
-        @form_login_url  = Users.r(:login)
-
         Zen::Language.load('users')
 
         # Set the page title

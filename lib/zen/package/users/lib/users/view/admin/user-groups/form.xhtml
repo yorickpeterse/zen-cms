@@ -7,7 +7,7 @@
     form_for(
       @user_group,
       :method => :post,
-      :action => @form_save_url,
+      :action => Users::Controller::UserGroups.r(:save),
       :id     => :user_group_form
     ) do |f|
       f.input_hidden(:id, @user_group.id)

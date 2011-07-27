@@ -35,9 +35,6 @@ module Users
       def initialize
         super
 
-        @form_save_url   = UserGroups.r(:save)
-        @form_delete_url = UserGroups.r(:delete)
-
         Zen::Language.load('user_groups')
 
         # Set the page title

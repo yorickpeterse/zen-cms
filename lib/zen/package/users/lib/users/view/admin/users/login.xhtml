@@ -7,7 +7,7 @@
     form_for(
       nil,
       :method => :post,
-      :action => @form_login_url,
+      :action => Users::Controller::Users.r(:login),
       :id     => 'login_form'
     ) do |f|
       f.input_text(

@@ -7,7 +7,7 @@
     form_for(
       @access_rule,
       :method => :post,
-      :action => @form_save_url,
+      :action => Users::Controller::AccessRules.r(:save),
       :id     => :access_rule_form
     ) do |f|
 

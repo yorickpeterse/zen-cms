@@ -46,10 +46,6 @@ module Users
       def initialize
         super
 
-        @form_save_url   = AccessRules.r(:save)
-        @form_delete_url = AccessRules.r(:delete)
-        @rules_lang      = Zen::Language.load('access_rules')
-
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
