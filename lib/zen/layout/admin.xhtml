@@ -1,25 +1,15 @@
 <!DOCTYPE html>
 <html lang="#{plugin(:settings, :get, :language).value}">
     <head>
-        <meta charset="utf-8" />
-        
-        <!-- Load all stylesheets -->
-         #{Zen::Asset.build(:stylesheet)}
-        
-        <title>#{@page_title}</title>
+        #{render_file(__DIR__('../view/head.xhtml'))}
     </head>
 
     <body id="admin">
         <div id="top">
             <header class="container">
-                <!--
-                Main navigation of the backend. Navigation items may be excluded 
-                if the user doesn't have the required permissions for the 
-                extension that created it.
-                -->
                 <nav id="main_nav" class="grid_12">
                     #{Zen::Package.build_menu("left", extension_permissions)}
-                    
+
                     <ul class="right clearfix">
                         <li>
                             <a href="/admin/users/logout">
@@ -40,7 +30,7 @@
                 </nav>
             </header>
         </div>
- 
+
         #{render_file(__DIR__('../view/main.xhtml'))}
         #{render_file(__DIR__('../view/bottom.xhtml'))}
     </body>
