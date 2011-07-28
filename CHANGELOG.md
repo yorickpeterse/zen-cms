@@ -17,6 +17,15 @@
 * Assets can now be loaded for specific methods using Zen::Asset by specifying
   the :method key.
 * Users can now create their own custom field types.
+* Overview pages now paginate their results so they display a maximum of 20 rows
+  per page.
+* All references to "css_class" and "css_id" have been replaced with
+  "html_class" and "html_id".
+* Ramaze::Helper::Common has been removed.
+* Tables can now be sorted by clicking on the headers.
+* The required permissions for the #save() methods of all controllers have been
+  set correctly (issue #28).
+* The executable now uses OptionParser instead of Commander.
 
 ## 0.2.7 - June 16, 2011
 

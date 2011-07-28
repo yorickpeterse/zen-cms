@@ -164,7 +164,7 @@ module CustomFields
           CustomFields.a(
             lang('custom_fields.titles.index'), :index, custom_field_group_id
           ),
-          lang('custom_fields.titles.index')
+          lang('custom_fields.titles.new')
         )
 
         @custom_field_group_id = custom_field_group_id
