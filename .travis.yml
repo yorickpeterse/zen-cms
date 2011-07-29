@@ -1,9 +1,6 @@
 script: "gem install ramaze; rake test"
 rvm:
   - 1.9.2
-  - rbx
-  - jruby
-  - 1.8.7
 
 notifications:
   disabled: true

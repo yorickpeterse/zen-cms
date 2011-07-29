@@ -44,7 +44,7 @@ Sequel.migration do
       :custom_fields,
       :custom_field_type_id,
       Integer,
-      :index => true,
+      :index => true
     )
 
     field_methods = {}
