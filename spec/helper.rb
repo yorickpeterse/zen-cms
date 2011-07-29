@@ -4,7 +4,7 @@ require File.expand_path('../../lib/zen/spec/bacon/color_output', __FILE__)
 Ramaze.setup(:verbose => false) do
   gem 'bacon'    , ['~> 1.1.0']
   gem 'capybara' , ['~> 1.0.0']
-  gem 'sqlite3'  , ['~> 1.3.3']
+  gem 'sqlite3'  , ['~> 1.3.4']
   gem 'rdiscount', ['~> 1.6.8']
   gem 'RedCloth' , ['~> 4.2.7']
   gem 'defensio' , ['~> 0.9.1']
