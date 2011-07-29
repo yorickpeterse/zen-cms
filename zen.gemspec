@@ -28,7 +28,6 @@ CMS\' you are completely free to build whatever you want.'
 
   # These gems are only required when hacking the Zen core or when running tests.
   s.add_development_dependency('rdiscount', ['~> 1.6.8'])
-  s.add_development_dependency('RedCloth' , ['~> 4.2.7'])
   s.add_development_dependency('bacon'    , ['~> 1.1.0'])
   s.add_development_dependency('yard'     , ['~> 0.7.2'])
   s.add_development_dependency('capybara' , ['~> 1.0.0'])

@@ -6,7 +6,6 @@ Ramaze.setup(:verbose => false) do
   gem 'capybara' , ['~> 1.0.0']
   gem 'sqlite3'  , ['~> 1.3.4']
   gem 'rdiscount', ['~> 1.6.8']
-  gem 'RedCloth' , ['~> 4.2.7']
   gem 'defensio' , ['~> 0.9.1']
 end
 

@@ -1,24 +1,13 @@
 require File.expand_path('../../../helper', __FILE__)
 require 'rdiscount'
-require 'redcloth'
 
 describe "Zen::Controller::Preview" do
   behaves_like :capybara
-  
+
   it('Convert Markdown to HTML') do
     markdown = 'Hello, **world**'
     response = page.driver.post(
       '/admin/preview', :engine => 'markdown', :markup => markdown
-    )
-
-    response.body.strip.should === '<p>Hello, <strong>world</strong></p>'
-    response.status.should     === 200
-  end
-
-  it('Convert Textile to HTML') do
-    textile  = 'Hello, *world*'
-    response = page.driver.post(
-      '/admin/preview', :engine => 'textile', :markup => textile
     )
 
     response.body.strip.should === '<p>Hello, <strong>world</strong></p>'
