@@ -1,4 +1,4 @@
-## 0.2.8 - July 31, 2011
+## 0.2.8 - August 5, 2011
 
 * Replaced RSpec with Bacon.
 * When retrieving section entries comments are now retrieved properly.
