@@ -1,13 +1,12 @@
 require File.expand_path('../../helper', __FILE__)
-
-fixtures ['asset']
+require File.join(Zen::Fixtures, 'asset')
 
 describe('Zen::Asset') do
   behaves_like :capybara
 
   it('Load a single stylesheet') do
     Zen::Asset.stylesheet(['reset'], :global => true)
-    
+
     path = File.join(
       '/', Zen::Asset.options.prefix, Zen::Asset.options.stylesheet_prefix
     ) + '/reset.css'
@@ -44,10 +43,10 @@ describe('Zen::Asset') do
 
   it('Build all Javascript files') do
     visit('/spec/asset/javascripts')
-    
+
     path = File.join(
-      '/', 
-      Zen::Asset.options.prefix, 
+      '/',
+      Zen::Asset.options.prefix,
       Zen::Asset.options.javascript_prefix
     ) + '/spec.js'
 
@@ -57,10 +56,10 @@ describe('Zen::Asset') do
 
   it('Build all Stylesheets') do
     visit('/spec/asset/stylesheets')
-    
+
     path = File.join(
-      '/', 
-      Zen::Asset.options.prefix, 
+      '/',
+      Zen::Asset.options.prefix,
       Zen::Asset.options.stylesheet_prefix
     ) + '/reset.css'
 
@@ -69,10 +68,10 @@ describe('Zen::Asset') do
 
   it('Build a set of method specific Javascript files') do
     visit('/spec/asset/specific')
-    
+
     path = File.join(
-      '/', 
-      Zen::Asset.options.prefix, 
+      '/',
+      Zen::Asset.options.prefix,
       Zen::Asset.options.javascript_prefix
     ) + '/specific.js'
 
@@ -82,8 +81,8 @@ describe('Zen::Asset') do
 
   it('Build a set of Javascript files using an array of methods') do
     path = File.join(
-      '/', 
-      Zen::Asset.options.prefix, 
+      '/',
+      Zen::Asset.options.prefix,
       Zen::Asset.options.javascript_prefix
     ) + '/array.js'
 

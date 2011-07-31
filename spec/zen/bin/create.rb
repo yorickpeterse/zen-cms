@@ -6,13 +6,19 @@ describe('Zen::Bin::Create') do
   @bin_path = __DIR__('../../../bin/zen')
 
   it('Show the help message') do
-    output   = `#{@bin_path} create`
-    output.include?(Zen::Bin::Create::Banner).should === true
+    output = catch_output do
+      Zen::Bin::Create.new.run
+    end
+
+    output[:stdout].include?(Zen::Bin::Create::Banner).should === true
   end
 
   it('Show the help message using -h') do
-    output   = `#{@bin_path} create -h`
-    output.include?(Zen::Bin::Create::Banner).should === true
+    output = catch_output do
+      Zen::Bin::Create.new.run(['-h'])
+    end
+
+    output[:stdout].include?(Zen::Bin::Create::Banner).should === true
   end
 
   it('Create a new application prototype') do
@@ -22,9 +28,13 @@ describe('Zen::Bin::Create') do
       FileUtils.rm_rf(app_dir)
     end
 
-    output = `#{@bin_path} create #{app_dir} 2>&1`.strip
+    output = catch_output do
+      Zen::Bin::Create.new.run([app_dir])
+    end
 
-    output.should === "The application has been generated and saved in #{app_dir}"
+    output[:stdout].strip \
+      .should === "The application has been generated and saved in #{app_dir}"
+
     File.directory?(app_dir).should === true
 
     # Check various directories
@@ -50,11 +60,28 @@ describe('Zen::Bin::Create') do
       FileUtils.rm_rf(app_dir)
     end
 
-    output        = `#{@bin_path} create #{app_dir} 2>&1`.strip
-    output.should === "The application has been generated and saved in #{app_dir}"
+    output = catch_output do
+      Zen::Bin::Create.new.run([app_dir])
+    end
 
-    output        = `#{@bin_path} create #{app_dir} -f 2>&1`.strip
-    output.should === "The application has been generated and saved in #{app_dir}"
+    output[:stdout].strip \
+      .should === "The application has been generated and saved in #{app_dir}"
+
+    # Warn that it exists
+    output = catch_output do
+      Zen::Bin::Create.new.run([app_dir])
+    end
+
+    output[:stderr].strip.should \
+      === "The application #{app_dir} already exists, use -f to overwrite it."
+
+    # Force it
+    output = catch_output do
+      Zen::Bin::Create.new.run([app_dir, '-f'])
+    end
+
+    output[:stdout].strip \
+      .should === "The application has been generated and saved in #{app_dir}"
 
     FileUtils.rm_rf(app_dir)
   end

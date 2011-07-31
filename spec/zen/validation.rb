@@ -1,6 +1,6 @@
 require File.expand_path('../../helper', __FILE__)
-
-fixtures ['validation']
+require File.join(Zen::Fixtures, 'validation')
+require 'fileutils'
 
 describe('Zen::Validation') do
 
@@ -45,6 +45,19 @@ describe('Zen::Validation') do
     object.name = 'hello'
 
     should.not.raise?(Zen::ValidationError) { object.format }
+  end
+
+  it('Validate a file') do
+    object      = ValidationObject.new
+    object.file = '/tmp/zen_validation'
+
+    should.raise?(Zen::ValidationError) { object.exists }
+
+    FileUtils.touch('/tmp/zen_validation')
+
+    should.not.raise?(Zen::ValidationError) { object.exists }
+
+    File.unlink('/tmp/zen_validation')
   end
 
 end

@@ -1,6 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
-
-fixtures ['package/settings/plugin/settings']
+require File.join(Zen::Fixtures, 'package/settings/plugin/settings')
 
 describe("Settings::Plugin::Settings") do
   extend ::Settings::Model

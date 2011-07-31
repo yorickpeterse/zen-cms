@@ -23,4 +23,11 @@ describe "Zen::Controller::Preview" do
     response.status.should     === 400
   end
 
+  it('Call without any parameters') do
+    response = page.driver.post('/admin/preview')
+
+    response.body.strip.should === lang('zen_general.errors.invalid_request')
+    response.status.should     === 400
+  end
+
 end

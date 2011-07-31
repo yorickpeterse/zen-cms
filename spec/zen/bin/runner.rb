@@ -2,21 +2,46 @@ require File.expand_path('../../../helper', __FILE__)
 require __DIR__('../../../lib/zen/bin/runner')
 
 describe('Zen::Bin::Runner') do
-  @bin_path = __DIR__('../../../bin/zen')
 
   it('Show the help message') do
-    output   = `#{@bin_path}`
-    output.include?(Zen::Bin::Runner::Banner).should === true
+    output = catch_output do
+      Zen::Bin::Runner.run
+    end
+
+    output[:stdout].include?(Zen::Bin::Runner::Banner).should === true
   end
 
   it('Show the help message using -h') do
-    output   = `#{@bin_path} -h`
-    output.include?(Zen::Bin::Runner::Banner).should === true  end
+    output = catch_output do
+      Zen::Bin::Runner.run(['-h'])
+    end
+
+    output[:stdout].include?(Zen::Bin::Runner::Banner).should === true
+  end
 
   it('Show the version number') do
-    output = `#{@bin_path} -v`.strip
+    output = catch_output do
+      Zen::Bin::Runner.run(['-v'])
+    end
 
-    output.should === Zen::Version
+    output[:stdout].strip.should === Zen::Version
+  end
+
+  it('Run a command') do
+    output = catch_output do
+      Zen::Bin::Runner.run(['create'])
+    end
+
+    output[:stdout].strip.include?(Zen::Bin::Create::Banner).should === true
+  end
+
+  it('Run a command') do
+    output = catch_output do
+      Zen::Bin::Runner.run(['invalid'])
+    end
+
+    output[:stdout].empty?.should === true
+    output[:stderr].strip.should  === 'The specified command is invalid'
   end
 
 end

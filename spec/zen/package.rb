@@ -1,6 +1,5 @@
 require File.expand_path('../../helper', __FILE__)
-
-fixtures ['package']
+require File.join(Zen::Fixtures, 'package')
 
 describe('Zen::Package') do
   behaves_like :capybara

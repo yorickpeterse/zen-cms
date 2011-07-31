@@ -38,7 +38,8 @@ Example:
       # @param  [Array] argv An array containing command line arguments.
       #
       def self.run(argv=ARGV)
-        op = OptionParser.new do |opt|
+        stop = false
+        op   = OptionParser.new do |opt|
           opt.banner         = Banner
           opt.summary_indent = '  '
 
@@ -48,23 +49,23 @@ Example:
           # Define the available options
           opt.on('-v', '--version', 'Shows the version of Zen') do
             puts Zen::Version
-            exit
+
+            stop = true
           end
 
           opt.on('-h', '--help', 'Shows this help message') do
             puts op
-            exit
+
+            stop = true
           end
         end
 
         # Parse it
         op.order!(argv)
 
-        # Show the help message if no command has been specified
-        if !argv[0]
-          puts op
-          exit
-        end
+        # exit() doesn't work for specs.
+        return if stop === true
+        return puts op if !argv[0]
 
         # Run the command if it exists
         cmd = argv.delete_at(0).to_sym
@@ -73,7 +74,7 @@ Example:
           cmd = Commands[cmd].new
           cmd.run(argv)
         else
-          abort "The specified command is invalid"
+          return $stderr.puts "The specified command is invalid"
         end
       end
 

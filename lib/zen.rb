@@ -105,7 +105,6 @@ Zen::Language.load('zen_general')
 
 # Load all additional files
 require __DIR__('zen/plugin/helper')
-require __DIR__('zen/plugin/controller')
 require __DIR__('zen/plugin/markup/lib/markup')
 
 require __DIR__('zen/package')

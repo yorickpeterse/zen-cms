@@ -3,16 +3,16 @@ module Zen
   #:nodoc
   module Plugin
     ##
-    # The Markup plugin is used to convert the given markup using the specified engine.
-    # Out of the box this plugin is capable of doing the following:
+    # The Markup plugin is used to convert the given markup using the specified
+    # engine.  Out of the box this plugin is capable of doing the following:
     #
     # * Markdown -> HTML
     # * Textile -> HTML
     # * HTML -> Plain text (escapes HTML)
     # * Regular HTML
     #
-    # When using Markdown you'll have to make sure RDiscount is loaded, for Textile this
-    # should be RedCloth.
+    # When using Markdown you'll have to make sure RDiscount is loaded, for
+    # Textile this should be RedCloth.
     #
     # ## Usage
     #
@@ -22,14 +22,15 @@ module Zen
     #
     # ## Adding Engines
     #
-    # In order to add a custom markdown engine (e.g. RDoc) you'll have to update 
-    # Zen::Plugin::Markup::Engines so that it includes the name and human readable name
-    # of the engine you wish to use. This can be done as following:
+    # In order to add a custom markdown engine (e.g. RDoc) you'll have to update
+    # Zen::Plugin::Markup::Engines so that it includes the name and human
+    # readable name of the engine you wish to use. This can be done as
+    # following:
     #
     #     Zen::Plugin::Markup::Engines[:rdoc] => 'RDoc'
     #
-    # Once this is done you'll need to define a method that matches the key you've just
-    # added. In this case it will be named "rdoc":
+    # Once this is done you'll need to define a method that matches the key
+    # you've just added. In this case it will be named "rdoc":
     #
     #     module Zen
     #       module Plugin
@@ -41,22 +42,25 @@ module Zen
     #       end
     #     end
     #
-    # Once this has been done you're able to convert RDoc markup to HTML using this plugin.
+    # Once this has been done you're able to convert RDoc markup to HTML using
+    # this plugin.
     #
     # @author Yorick Peterse
     # @since  0.2.5
     #
     class Markup
       include Ramaze::Helper::CGI
-      
-      # Load the language pack in the class method scope rather than the instance's scope
+
+      # Load the language pack in the class method scope rather than the
+      # instance's scope
       class << self
         include Zen::Language
       end
 
       ##
-      # Hash containing the keys of the engines to use and their human friendly names
-      # (used in the backend). Note that the keys of this hash should be strings.
+      # Hash containing the keys of the engines to use and their human friendly
+      # names (used in the backend). Note that the keys of this hash should be
+      # strings.
       #
       # @author Yorick Peterse
       # @since  0.2.5
@@ -66,10 +70,11 @@ module Zen
         'textile'  => lang('markup.engines.textile'),
         'plain'    => lang('markup.engines.plain'),
         'html'     => lang('markup.engines.html')
-      } 
-    
+      }
+
       ##
-      # Creates a new instance of the markup plugin and validates all the given parameters.
+      # Creates a new instance of the markup plugin and validates all the given
+      # parameters.
       #
       # @author Yorick Peterse
       # @since  0.2.5
@@ -81,17 +86,23 @@ module Zen
 
         # Validate the given engine
         if !Engines.keys.include?(@engine)
-          raise(ArgumentError, "The markup engine \"#{@engine}\" is invalid.")
+          raise(
+            ArgumentError,
+            "The markup engine \"#{@engine}\" is invalid."
+          )
         end
 
         # Does the engine have a matching method?
         if !respond_to?(@engine)
-          raise(NoMethodError, "The engine \"#{@engine}\" has no matching method.")
+          raise(
+            NoMethodError,
+            "The engine \"#{@engine}\" has no matching method."
+          )
         end
       end
 
       ##
-      # Converts the markup into HTML or plain text. 
+      # Converts the markup into HTML or plain text.
       #
       # @author Yorick Peterse
       # @since  0.2.5
@@ -130,7 +141,8 @@ module Zen
       #
       # @author Yorick Peterse
       # @since  0.2.5
-      # @param  [String] markup The markup in which all HTML tags should be escaped.
+      # @param  [String] markup The markup in which all HTML tags should be
+      # escaped.
       # @return [String] String containing the escaped HTML.
       #
       def plain(markup)

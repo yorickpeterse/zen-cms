@@ -5,26 +5,26 @@ require 'pathname'
 #:nodoc:
 module Zen
   ##
-  # Themes in many ways are similar to plugins and packages but with a few 
-  # differences. Unlike packages themes aren't able to update the entire Ramaze 
-  # root, this prevents them from loading controllers and other classes unless 
-  # the developer updates these paths manually. However, themes can set the 
+  # Themes in many ways are similar to plugins and packages but with a few
+  # differences. Unlike packages themes aren't able to update the entire Ramaze
+  # root, this prevents them from loading controllers and other classes unless
+  # the developer updates these paths manually. However, themes can set the
   # following paths:
   #
-  # * template_dir: the directory where all Liquid templates are located, 
+  # * template_dir: the directory where all Liquid templates are located,
   #   always required.
   # * partial_dir: the directory where all Liquid partials are located.
-  # * public_dir: the public directory containing assets such as CSS and 
+  # * public_dir: the public directory containing assets such as CSS and
   #   Javascript files.
-  # * migration_dir: themes can use migrations to automatically add the required 
-  #   fields to the database, this setting should point to the directory where 
+  # * migration_dir: themes can use migrations to automatically add the required
+  #   fields to the database, this setting should point to the directory where
   #   all migrations are located.
   #
   # ## Adding Themes
   #
-  # Just like plugins and packages a theme can be added by calling 
-  # Zen::Theme#add and passing a block to it. Once a theme has been loaded it 
-  # will *not* be used until the user sets it as the active theme in the 
+  # Just like plugins and packages a theme can be added by calling
+  # Zen::Theme#add and passing a block to it. Once a theme has been loaded it
+  # will *not* be used until the user sets it as the active theme in the
   # settings module.
   #
   # Example:
@@ -39,7 +39,7 @@ module Zen
   #
   module Theme
     ##
-    # Hash containing all registered themes. The keys are the names of the 
+    # Hash containing all registered themes. The keys are the names of the
     # themes and the values instances of Zen::Theme::Base.
     #
     # @author Yorick Peterse
@@ -48,7 +48,7 @@ module Zen
     Registered = {}
 
     ##
-    # Adds a new theme to Zen. Note that the theme won't be used unless it has 
+    # Adds a new theme to Zen. Note that the theme won't be used unless it has
     # been set as the active theme in the settings package.
     #
     # @author Yorick Peterse
@@ -87,15 +87,9 @@ module Zen
     # @return [Zen::Theme::Base]
     #
     def self.[](name)
-      if name.class != Symbol
-        name = name.to_sym
-      end
+      name = name.to_sym if name.class != Symbol
 
-      if Registered.nil?
-        raise(Zen::ThemeError, "No themes have been added yet.")
-      end
-
-      if !Registered[name]
+      if !Registered.key?(name)
         raise(Zen::ThemeError, "The theme #{name} doesn't exist.")
       end
 

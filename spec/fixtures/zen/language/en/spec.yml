@@ -4,3 +4,7 @@ age: 'Age'
 
 parent:
   sub: 'Sub item'
+
+array:
+  - 'first'
+  - 'second'

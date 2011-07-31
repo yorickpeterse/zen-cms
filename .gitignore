@@ -1,4 +1,4 @@
-# Ignore the log files and the database used for all spec files
+coverage/
 spec/database.db
 
 # Ignore common dotfiles

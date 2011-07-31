@@ -37,6 +37,7 @@ Example:
       # @since  0.2.8
       #
       def initialize
+        @stop    = false
         @options = OptionParser.new do |opt|
           opt.banner         = Banner
           opt.summary_indent = '  '
@@ -45,7 +46,8 @@ Example:
 
           opt.on('-h', '--help', 'Shows this help message') do
             puts @options
-            exit
+
+            @stop = true
           end
 
           opt.on('-f', '--force', 'Overwrites existing directories') do
@@ -67,17 +69,14 @@ Example:
 
         app = argv.delete_at(0)
 
-        # Show the help message if no application name has been specified
-        if app.nil?
-          puts @options
-          exit
-        end
+        return if @stop === true
+        return puts @options if app.nil?
 
         proto = __DIR__('../../../proto/app')
 
         if File.directory?(app) and Options[:force] === false
-          abort "The application #{app} already exists, use -f to " \
-            + "overwrite it."
+          return $stderr.puts "The application #{app} already exists, use -f " \
+            + "to overwrite it."
         else
           FileUtils.rm_rf(app)
         end
@@ -87,8 +86,7 @@ Example:
           FileUtils.cp_r(proto, app)
           puts "The application has been generated and saved in #{app}"
         rescue => e
-          $stderr.puts "Failed to generate the application: #{e.message}"
-          exit
+          return $stderr.puts "Failed to generate the application: #{e.message}"
         end
       end
     end # App

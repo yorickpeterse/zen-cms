@@ -33,4 +33,5 @@ CMS\' you are completely free to build whatever you want.'
   s.add_development_dependency('capybara' , ['~> 1.0.0'])
   s.add_development_dependency('sqlite3'  , ['~> 1.3.4'])
   s.add_development_dependency('defensio' , ['~> 0.9.1'])
+  s.add_development_dependency('simplecov', ['~> 0.4.2'])
 end

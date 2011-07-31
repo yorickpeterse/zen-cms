@@ -1,7 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Zen::Language.load('settings')
-
 describe("Settings::Controller::Settings") do
   behaves_like :capybara
 

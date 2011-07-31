@@ -1,10 +1,9 @@
 require File.expand_path('../../helper', __FILE__)
 require 'rdiscount'
-
-fixtures ['plugin']
+require File.join(Zen::Fixtures, 'plugin')
 
 describe("Zen::Plugin") do
-  
+
   it("No plugins should be added") do
     should.raise?(Zen::PluginError) { Zen::Plugin[:foobar] }
   end
@@ -29,10 +28,37 @@ describe("Zen::Plugin") do
     plugin.author.should === 'Yorick Peterse'
   end
 
+  it('Retrieve a plugin using a string') do
+    plugin = Zen::Plugin['spec']
+
+    plugin.name.should   === :spec
+    plugin.author.should === 'Yorick Peterse'
+  end
+
   it("Execute a plugin") do
     response = plugin(:spec, :upcase, 'hello world')
 
     response.should === 'HELLO WORLD'
+  end
+
+  it('Execute a plugin using a class method') do
+    response = Zen::Plugin.plugin('spec', :upcase, 'hello world')
+
+    response.should === 'HELLO WORLD'
+  end
+
+  it('Add an existing plugin') do
+    begin
+      Zen::Plugin.add do |plugin|
+        plugin.name    = 'spec'
+        plugin.author  = 'Yorick Peterse'
+        plugin.about   = 'A simple spec plugin'
+        plugin.url     = 'http://zen-cms.com/'
+        plugin.plugin  = SpecPlugin
+      end
+    rescue => e
+      e.message.should === 'The plugin spec already exists.'
+    end
   end
 
 end

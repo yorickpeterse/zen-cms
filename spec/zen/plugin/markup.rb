@@ -21,4 +21,24 @@ describe("Zen::Plugin::Markup") do
     html.should === '<p>hello world</p>'
   end
 
+  it('Specify a non existing engine') do
+    begin
+      plugin(:markup, :foobar, 'hello')
+    rescue => e
+      e.message.should === 'The markup engine "foobar" is invalid.'
+    end
+  end
+
+  it('Specify an engine without a message') do
+    Zen::Plugin::Markup::Engines['foobar'] = 'foobar'
+
+    begin
+      plugin(:markup, :foobar, 'hello')
+    rescue => e
+      e.message.should === 'The engine "foobar" has no matching method.'
+    end
+
+    Zen::Plugin::Markup::Engines.delete('foobar')
+  end
+
 end
