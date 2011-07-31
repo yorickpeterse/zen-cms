@@ -1,9 +1,12 @@
 class SpecCommentsForm < Zen::Controller::FrontendController
-  map '/spec-comments-form'
+  map    '/spec-comments-form'
+  helper :message
 
   def index
     body = <<-HTML
-<form action="#{Comments::Controller::CommentsForm.r(:save)}" 
+#{display_messages}
+
+<form action="#{Comments::Controller::CommentsForm.r(:save)}"
 method="post" id="spec_comments_form">
     <input name="csrf_token" value="#{get_csrf_token}" type="hidden" />
 
@@ -17,7 +20,7 @@ method="post" id="spec_comments_form">
 
     <input type="submit" value="Submit" />
 </form>
-HTML
+    HTML
 
     return body
   end

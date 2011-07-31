@@ -3,8 +3,8 @@ module Comments
   #:nodoc:
   module Controller
     ##
-    # Frontend controller for the comments system used for saving user-submitted 
-    # comments. When the anti-spam system is enabled Zen will use Defensio to 
+    # Frontend controller for the comments system used for saving user-submitted
+    # comments. When the anti-spam system is enabled Zen will use Defensio to
     # check if the comment is spam or ham.
     #
     # @author Yorick Peterse
@@ -23,7 +23,7 @@ module Comments
       end
 
       ##
-      # Creates a new comment for the section entry. Once the comment has been 
+      # Creates a new comment for the section entry. Once the comment has been
       # saved the user will be redirected back to the previous page.
       #
       # @author Yorick Peterse
@@ -34,11 +34,11 @@ module Comments
 
         comment = Comment.new
         post    = request.subset(
-          :section_entry, 
-          :user_id, 
-          :comment, 
-          :name, 
-          :website, 
+          :section_entry,
+          :user_id,
+          :comment,
+          :name,
+          :website,
           :email
         )
 
@@ -70,15 +70,14 @@ module Comments
           end
         end
 
-        comment.section_entry_id = entry.id
-
         # Validate the section entry
         if entry.nil? or entry.section_entry_status_id === draft_status
           message(:error, lang('comments.errors.invalid_entry'))
           redirect_referrer
         end
 
-        section = entry.section
+        comment.section_entry_id = entry.id
+        section                  = entry.section
 
         # Section valid?
         if section.nil?
@@ -100,7 +99,7 @@ module Comments
 
         # Require moderation?
         if section.comment_moderate === true
-          comment.status = 'closed'
+          comment.comment_status_id = comment_statuses['closed']
         end
 
         # Require anti-spam validation?
@@ -111,12 +110,12 @@ module Comments
           # Time to validate the Defensio response
           if spam === false
             if section.comment_moderate == true
-              comment.status = comment_statuses['closed']
+              comment.comment_status_id = comment_statuses['closed']
             else
-              comment.status = comment_statuses['open']
+              comment.comment_status_id = comment_statuses['open']
             end
           else
-            comment.status = comment_statuses['spam']
+            comment.comment_status_id = comment_statuses['spam']
           end
         end
 

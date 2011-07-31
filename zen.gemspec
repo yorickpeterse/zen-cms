@@ -18,7 +18,6 @@ CMS\' you are completely free to build whatever you want.'
   s.has_rdoc    = 'yard'
   s.executables = ['zen']
 
-  # The following gems are *always* required
   s.add_dependency('sequel'          , ['~> 3.25'])
   s.add_dependency('ramaze'          , ['~> 2011.07.25'])
   s.add_dependency('bcrypt-ruby'     , ['~> 2.1.4'])
@@ -26,7 +25,6 @@ CMS\' you are completely free to build whatever you want.'
   s.add_dependency('rake'            , ['~> 0.9.2'])
   s.add_dependency('loofah'          , ['~> 1.0.0'])
 
-  # These gems are only required when hacking the Zen core or when running tests.
   s.add_development_dependency('rdiscount', ['~> 1.6.8'])
   s.add_development_dependency('bacon'    , ['~> 1.1.0'])
   s.add_development_dependency('yard'     , ['~> 0.7.2'])
@@ -34,4 +32,5 @@ CMS\' you are completely free to build whatever you want.'
   s.add_development_dependency('sqlite3'  , ['~> 1.3.4'])
   s.add_development_dependency('defensio' , ['~> 0.9.1'])
   s.add_development_dependency('simplecov', ['~> 0.4.2'])
+  s.add_development_dependency('webmock'  , ['~> 1.6.4'])
 end

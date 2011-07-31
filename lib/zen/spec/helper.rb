@@ -4,6 +4,7 @@ require 'stringio'
 Ramaze.setup(:verobse => false) do
   gem 'capybara', ['~> 1.0.0']
   gem 'bacon'   , ['~> 1.1.0']
+  gem 'webmock' , ['~> 1.6.4']
 end
 
 require 'capybara/dsl'
@@ -145,5 +146,7 @@ end
 shared :capybara do
   Ramaze.setup_dependencies
   extend Capybara::DSL
+  extend WebMock::API
+
   capybara_login
 end

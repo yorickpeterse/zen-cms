@@ -24,7 +24,7 @@ messages:
   no_comments: 'Er zijn nog geen reacties toegevoegd.'
 
 placeholders:
-  anti_spam_system: 'Het anti-spam systeem dat gebruikt moet worden voor het verifiëren 
+  anti_spam_system: 'Het anti-spam systeem dat gebruikt moet worden voor het verifiëren
 van reacties.'
   defensio_key: 'De API sleutel voor het Defensio anti-spam systeem.'
 
@@ -32,17 +32,18 @@ success:
   new     : 'De reactie is aangemaakt.'
   save    : 'De reactie is aangepast.'
   delete  : 'Alle geselecteerde reacties zijn verwijderd.'
-  moderate: 'De reactie moet eerst worden goedgekeurd door een beheerder voordat het kan 
+  moderate: 'De reactie moet eerst worden goedgekeurd door een beheerder voordat het kan
 worden weergegeven'
 
 errors:
-  new                 : 'De reactie kon niet worden aangemaakt.'
-  save                : 'De reactie kon niet worden aangepast.'
-  delete              : 'De reactie met ID #%s kon niet worden verwijderd.'
-  no_delete           : 'U moet ten minste 1 reactie specificeren om te verwijderen.'
-  invalid_entry       : 'Het gespecificeerde artikel is ongeldig.'
-  comments_not_allowed: 'Reacties zijn niet toegestaan voor deze sectie.'
-  invalid_comment     : 'De opgegeven reactie is ongeldig.'
+  new                     : 'De reactie kon niet worden aangemaakt.'
+  save                    : 'De reactie kon niet worden aangepast.'
+  delete                  : 'De reactie met ID #%s kon niet worden verwijderd.'
+  no_delete               : 'U moet ten minste 1 reactie specificeren om te verwijderen.'
+  invalid_entry           : 'Het gespecificeerde artikel is ongeldig.'
+  comments_not_allowed    : 'Reacties zijn niet toegestaan voor deze sectie.'
+  comments_require_account: 'Je moet ingelogd zijn om reacties te kunnen plaatsen.'
+  invalid_comment         : 'De opgegeven reactie is ongeldig.'
 
 buttons:
   delete: 'Geselecteerde reacties verwijderen'
