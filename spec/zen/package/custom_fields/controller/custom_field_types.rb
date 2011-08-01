@@ -3,8 +3,15 @@ require File.expand_path('../../../../../helper', __FILE__)
 describe('CustomFields::Controller::CustomFieldTypes') do
   behaves_like :capybara
 
-  # Check if there are any field types and check if the field types that were
-  # displayed are the same number as the total amount of rows in the database.
+  it('Submit a form without a CSRF token') do
+    response = page.driver.post(
+      CustomFields::Controller::CustomFieldTypes.r(:save).to_s
+    )
+
+    response.body.include?(lang('zen_general.errors.csrf')).should === true
+    response.status.should                                         === 403
+  end
+
   it('A number of field types should exist') do
     index_url = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
     message   = lang('custom_field_types.messages.no_field_types')
@@ -18,8 +25,6 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.all('table tbody tr').count.should      === rows
   end
 
-  # Create a new field type by navigating to the index page, clicking the "New"
-  # button and submitting the form.
   it('Create a new custom field type') do
     index_url   = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
     new_url     = CustomFields::Controller::CustomFieldTypes.r(:new).to_s
@@ -71,8 +76,6 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.find_field('form_custom_field_method_id').value.should === method_id
   end
 
-  # Edits the field type that was created in the spec above by going to the
-  # index page, clicking the link to the field type and submitting the form.
   it('Edit a custom field type') do
     index_url   = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
     edit_url    = CustomFields::Controller::CustomFieldTypes.r(:edit).to_s
@@ -113,8 +116,38 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.find_field('custom_field_method_id').value.should === method_id
   end
 
-  # Deletes the custom field type that was created and modified in the specs
-  # above.
+  it('Edit a custom field type with invalid data') do
+    index_url   = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
+    edit_url    = CustomFields::Controller::CustomFieldTypes.r(:edit).to_s
+    save_button = lang('custom_field_types.buttons.save')
+
+    visit(index_url)
+    click_link('Spec type')
+
+    current_path.should =~ /#{edit_url}\/\d+/
+
+    within('#custom_field_type_form') do
+      fill_in('form_name', :with => '')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should === true
+  end
+
+  it('Try to delete a field type without a specified ID') do
+    index_url     = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
+    delete_button = lang('custom_field_types.buttons.delete')
+    type_id       = CustomFields::Model::CustomFieldType[
+      :name => 'Spec type modified'
+    ].id
+
+    visit(index_url)
+    click_on(delete_button)
+
+    page.has_selector?("input[id=\"custom_field_type_#{type_id}\"]") \
+      .should === true
+  end
+
   it('Delete a custom field type') do
     index_url     = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
     delete_button = lang('custom_field_types.buttons.delete')

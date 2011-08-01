@@ -3,8 +3,15 @@ require File.expand_path('../../../../../helper', __FILE__)
 describe('CustomFields::Controller::CustomFieldGroups') do
   behaves_like :capybara
 
-  # Verifies if no custom field groups exist. This shouldn't be the case if all
-  # specs handle their data correctly.
+  it('Submit a form without a CSRF token') do
+    response = page.driver.post(
+      CustomFields::Controller::CustomFieldGroups.r(:save).to_s
+    )
+
+    response.body.include?(lang('zen_general.errors.csrf')).should === true
+    response.status.should                                         === 403
+  end
+
   it("No custom field groups should exist") do
     index_url = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
     message   = lang('custom_field_groups.messages.no_groups')
@@ -18,7 +25,6 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     page.has_content?(message).should           === true
   end
 
-  # Creates a new field group and validates the results.
   it("Create a new group") do
     index_url   = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
     new_url     = CustomFields::Controller::CustomFieldGroups.r(:new).to_s
@@ -46,7 +52,6 @@ describe('CustomFields::Controller::CustomFieldGroups') do
       .value.should === 'Spec field group desc'
   end
 
-  # Edits the field group that was created in the spec above.
   it("Edit an existing group") do
     index_url   = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
     edit_url    = CustomFields::Controller::CustomFieldGroups.r(:edit).to_s
@@ -67,6 +72,38 @@ describe('CustomFields::Controller::CustomFieldGroups') do
       .value.should === 'Spec field group modified'
   end
 
+  it("Edit an existing group with invalid data") do
+    index_url   = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
+    edit_url    = CustomFields::Controller::CustomFieldGroups.r(:edit).to_s
+    save_button = lang('custom_field_groups.buttons.save')
+
+    visit(index_url)
+    click_link('Spec field group')
+
+    current_path.should =~ /#{edit_url}\/[0-9]+/
+
+    # Update the details
+    within('#custom_field_group_form') do
+      fill_in('name', :with => '')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should === true
+  end
+
+  it("Try to delete a group without an ID specified") do
+    index_url     = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
+    delete_button = lang('custom_field_groups.buttons.delete')
+    message       = lang('custom_field_groups.messages.no_groups')
+
+    visit(index_url)
+
+    click_on(delete_button)
+
+    page.has_selector?('input[name="custom_field_group_ids[]"]') \
+      .should === true
+  end
+
   it("Delete an existing group") do
     index_url     = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
     delete_button = lang('custom_field_groups.buttons.delete')
@@ -74,12 +111,9 @@ describe('CustomFields::Controller::CustomFieldGroups') do
 
     visit(index_url)
 
-    # Check all the radio buttons and submit the form
     check('custom_field_group_ids[]')
     click_on(delete_button)
 
-    # Once all the groups have been removed the user is redirected back to the
-    # overview. In this case no groups should exist anymore.
     page.has_selector?('table tbody tr').should === false
     page.has_content?(message).should           === true
   end

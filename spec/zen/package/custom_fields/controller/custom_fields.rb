@@ -3,37 +3,29 @@ require File.expand_path('../../../../../helper', __FILE__)
 describe('CustomFields::Controller::CustomFields') do
   behaves_like :capybara
 
-  # Creates the test data that's needed for this specification and validates it
-  # to ensure it's correct.
-  it("Create the test data") do
-    @group = CustomFields::Model::CustomFieldGroup.create(
-      :name => 'Spec field group'
+  @group = CustomFields::Model::CustomFieldGroup.create(
+    :name => 'Spec field group'
+  )
+
+  it('Submit a form without a CSRF token') do
+    response = page.driver.post(
+      CustomFields::Controller::CustomFields.r(:save).to_s
     )
 
-    @group.name.should    === 'Spec field group'
-    @group.id.nil?.should === false
-
-    # Check if the record is actually there
-    CustomFields::Model::CustomFieldGroup[:name => 'Spec field group'] \
-      .nil?.should === false
+    response.body.include?(lang('zen_general.errors.csrf')).should === true
+    response.status.should                                         === 403
   end
 
-  # Navigates to the overview of all the custom fields of a particular group and
-  # checks if there are no fields.
   it("No custom fields should exist") do
     index_url = CustomFields::Controller::CustomFields.r(:index, @group.id).to_s
     message   = lang('custom_fields.messages.no_fields')
 
     visit(index_url)
 
-    # When no fields are available a message is displayed and the table with all
-    # records isn't.
     page.has_selector?('table tbody tr').should === false
     page.has_content?(message).should           === true
   end
 
-  # Navigates to the index page of a certain custom field group, clicks the link
-  # to the form for a new field and submits it.
   it("Create a new custom field") do
     index_url = CustomFields::Controller::CustomFields.r(:index, @group.id).to_s
     edit_url  = CustomFields::Controller::CustomFields.r(:edit , @group.id).to_s
@@ -80,12 +72,10 @@ describe('CustomFields::Controller::CustomFields') do
     page.find_field('form_sort_order').value.should      === '2'
   end
 
-  # Similar to the spec above this method navigates to the index page but
-  # instead of creating a new field it will instead edit an existing one.
   it("Edit an existing custom field") do
     index_url   = CustomFields::Controller::CustomFields \
       .r(:index, @group.id).to_s
-    
+
     save_button    = lang('custom_fields.buttons.save')
     type_select    = lang('custom_fields.special.type_hash.textarea')
     textarea_field = CustomFields::Model::CustomFieldType[:name => 'textarea']
@@ -109,7 +99,7 @@ describe('CustomFields::Controller::CustomFields') do
 
     page.find('input[name="name"]').value.should    === 'Spec field modified'
     page.find_field('form_text_limit').value.should === '15'
-    
+
     page.find_field('form_description') \
       .value.should === 'Spec description updated'
 
@@ -117,7 +107,37 @@ describe('CustomFields::Controller::CustomFields') do
       .value.should === textarea_field.id.to_s
   end
 
-  # Deletes the custom field that was created and modified in the specs above.
+  it("Edit an existing custom field with invalid data") do
+    index_url   = CustomFields::Controller::CustomFields \
+      .r(:index, @group.id).to_s
+
+    save_button = lang('custom_fields.buttons.save')
+
+    visit(index_url)
+    click_link('Spec field')
+
+    within('#custom_field_form') do
+      fill_in('form_name', :with => '')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should === true
+  end
+
+  it('Try to delete a field with no IDs specified') do
+    group_id      = @group.id
+    index_url     = CustomFields::Controller::CustomFields \
+      .r(:index, group_id).to_s
+
+    delete_button = lang('custom_fields.buttons.delete')
+    message       = lang('custom_fields.messages.no_fields')
+
+    visit(index_url)
+    click_on(delete_button)
+
+    page.has_selector?('input[name="custom_field_ids[]"]').should === true
+  end
+
   it("Delete an existing custom field") do
     group_id      = @group.id
     index_url     = CustomFields::Controller::CustomFields \
@@ -134,12 +154,5 @@ describe('CustomFields::Controller::CustomFields') do
     page.has_content?(message).should           === true
   end
 
-  # Removes all the test data, in this case the custom field group that was
-  # created earlier in this specification.
-  it("Delete all the test data") do
-    @group.destroy
-
-    CustomFields::Model::CustomFieldGroup[:name => 'Spec field group'] \
-      .should === nil
-  end
+  @group.destroy
 end # describe
