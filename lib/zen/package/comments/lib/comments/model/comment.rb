@@ -3,7 +3,7 @@ module Comments
   #:nodoc:
   module Model
     ##
-    # Model that represents a single comment. This model has the following 
+    # Model that represents a single comment. This model has the following
     # relations:
     #
     # * section entry (many to one)
@@ -11,7 +11,7 @@ module Comments
     #
     # The following plugins are used:
     #
-    # * timestamps 
+    # * timestamps
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -22,7 +22,7 @@ module Comments
       many_to_one :section_entry,   :class => "Sections::Model::SectionEntry"
       many_to_one :user,            :class => "Users::Model::User"
       many_to_one  :comment_status, :class => 'Comments::Model::CommentStatus'
-      
+
       plugin :timestamps, :create => :created_at, :update => :updated_at
 
       ##

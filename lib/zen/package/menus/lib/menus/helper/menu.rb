@@ -3,7 +3,7 @@ module Ramaze
   #:nodoc:
   module Helper
     ##
-    # Small helper for the Menus package mainly used to reduce the amount of 
+    # Small helper for the Menus package mainly used to reduce the amount of
     # code in controllers.
     #
     # @author Yorick Peterse
@@ -11,7 +11,7 @@ module Ramaze
     #
     module Menu
       ##
-      # Checks if there is a menu for the given ID. If this isn't the case the 
+      # Checks if there is a menu for the given ID. If this isn't the case the
       # user will be redirected back to the index page of the menus controller.
       #
       # @author Yorick Peterse
@@ -53,7 +53,7 @@ module Ramaze
       end
 
       ##
-      # Builds a hierarchy of navigation items and all their sub items. The 
+      # Builds a hierarchy of navigation items and all their sub items. The
       # generated structure looks like the following:
       #
       #     Root
@@ -63,7 +63,7 @@ module Ramaze
       #      | |_ Sub sub
       #      |
       #      |_ Sub 1
-      # 
+      #
       # @author Yorick Peterse
       # @since  0.2a
       # @param  [Fixnum] menu_id The ID of the current menu group.
@@ -71,7 +71,7 @@ module Ramaze
       #
       def menu_item_tree(menu_id)
         menu_items = ::Menus::Model::MenuItem.filter(
-          :menu_id   => menu_id, 
+          :menu_id   => menu_id,
           :parent_id => nil
         )
 
@@ -81,7 +81,7 @@ module Ramaze
           @menu_items_hash[item.id] = item.name
 
           item.descendants.each do |i|
-            self.descendant_items(i, 2)
+            descendant_items(i, 2)
           end
         end
 

@@ -3,39 +3,47 @@ require File.expand_path('../../../../../helper', __FILE__)
 describe("Menus::Plugin::Menus") do
   extend Menus::Model
 
-  it("Create the test data") do
-    @menu   = Menu.create(:name => 'Spec')
-    @item_1 = MenuItem.create(
-      :name       => 'Spec', 
-      :url        => '/', 
-      :menu_id    => @menu.id,
-      :sort_order => 1
-    )
+  @menu   = Menu.create(
+    :name       => 'Spec',
+    :html_class => 'spec_menu_class',
+    :html_id    => 'spec_menu_id'
+  )
 
-    @item_2 = MenuItem.create(
-      :name       => 'Spec 2', 
-      :url        => '/2', 
-      :menu_id    => @menu.id, 
-      :sort_order => 2, 
-      :html_id     => ''
-    )
+  @item_1 = MenuItem.create(
+    :name       => 'Spec',
+    :url        => '/',
+    :menu_id    => @menu.id,
+    :sort_order => 1
+  )
 
-    @item_3 = MenuItem.create(
-      :name       => 'Spec 3', 
-      :url        => '/3', 
-      :menu_id    => @menu.id, 
-      :parent_id  => @item_2.id, 
-      :sort_order => 3
-    )
+  @item_2 = MenuItem.create(
+    :name       => 'Spec 2',
+    :url        => '/2',
+    :menu_id    => @menu.id,
+    :sort_order => 2,
+    :html_id    => '',
+    :html_class => 'html class'
+  )
 
-    @menu.name.should   === 'Spec'
-    @item_1.name.should === 'Spec'
-    @item_2.name.should === 'Spec 2'
-    @item_3.name.should === 'Spec 3'
-  end
+  @item_3 = MenuItem.create(
+    :name       => 'Spec 3',
+    :url        => '/3',
+    :menu_id    => @menu.id,
+    :parent_id  => @item_2.id,
+    :sort_order => 3
+  )
 
   it("Retrieve a menu with all items") do
     menu = plugin(:menus, :menu => 'spec', :sub => true).strip
+
+    menu.include?('Spec').should                  === true
+    menu.include?('Spec 2').should                === true
+    menu.include?('Spec 3').should                === true
+    menu.include?('<ul class="children">').should === true
+  end
+
+  it('Retrieve a menu with all items by the menu id') do
+    menu = plugin(:menus, :menu => @menu.id, :sub => true).strip
 
     menu.include?('Spec').should                  === true
     menu.include?('Spec 2').should                === true
@@ -72,26 +80,32 @@ describe("Menus::Plugin::Menus") do
   end
 
   it('Retrieve a set of items and sort them') do
-    menu     = plugin(
+    menu = plugin(
       :menus, :menu => 'spec', :order => :desc, :sub => false
-    ).strip
-    
+    )
+
     menu_asc = plugin(
       :menus, :menu => 'spec', :order => :asc , :sub => false
-    ).strip
-    
-    html = <<-HTML
-<ul><li><a href="/2" title="Spec 2">Spec 2</a></li><li><a href="/" title="Spec">Spec</a>
-</li></ul>
-HTML
+    )
 
-    html_asc = <<-HTML
-<ul><li><a href="/" title="Spec">Spec</a></li><li><a href="/2" title="Spec 2">Spec 2</a>
-</li></ul>
-HTML
+    menu     = Nokogiri::HTML.fragment(menu)
+    menu_asc = Nokogiri::HTML.fragment(menu_asc)
 
-    menu.should     === html.gsub("\n", '').strip
-    menu_asc.should === html_asc.gsub("\n", '').strip
+    menu.css('ul')[0].attr('id').should    === @menu.html_id
+    menu.css('ul')[0].attr('class').should === @menu.html_class
+
+    menu.css('ul li').size.should                          === 2
+    menu.css('ul li:first-child a')[0].attr('href').should === '/2'
+    menu.css('ul li:last-child a')[0].attr('href').should  === '/'
+    menu.css('ul li:first-child')[0].attr('class') \
+      .should  === @item_2.html_class
+
+    menu_asc.css('ul li').size.should                          === 2
+    menu_asc.css('ul li:first-child a')[0].attr('href').should === '/'
+    menu_asc.css('ul li:last-child a')[0].attr('href').should  === '/2'
+
+    menu_asc.css('ul li:last-child')[0].attr('class') \
+      .should === @item_2.html_class
   end
 
   it('No empty attributes should be set') do
@@ -100,15 +114,7 @@ HTML
     menu.include?('id=""').should === false
   end
 
-  it("Delete the test data") do
-    [@item_3, @item_2, @item_1, @menu].each do |k|
-      k.destroy
-    end
-
-    Menu[:name => 'Spec'].should       === nil
-    MenuItem[:name => 'Spec'].should   === nil
-    MenuItem[:name => 'Spec 2'].should === nil
-    MenuItem[:name => 'Spec 3'].should === nil
+  [@item_3, @item_2, @item_1, @menu].each do |k|
+    k.destroy
   end
-
 end

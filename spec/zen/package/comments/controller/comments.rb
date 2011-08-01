@@ -1,28 +1,35 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Zen::Language.load('comments')
-
 describe("Comments::Controller::Comments") do
   behaves_like :capybara
 
   it("Create all test data") do
     @section = Sections::Model::Section.create(
-      :name                    => 'Spec section', 
-      :comment_allow           => true, 
-      :comment_require_account => false, 
-      :comment_moderate        => false, 
+      :name                    => 'Spec section',
+      :comment_allow           => true,
+      :comment_require_account => false,
+      :comment_moderate        => false,
       :comment_format          => 'markdown'
     )
 
     @entry = Sections::Model::SectionEntry.create(
-      :title      => 'Spec entry', 
-      :status     => 'published', 
+      :title      => 'Spec entry',
+      :status     => 'published',
       :user_id    => 1,
       :section_id => @section.id
     )
 
     @section.name.should === 'Spec section'
     @entry.title.should  === 'Spec entry'
+  end
+
+  it('Submit a form without a CSRF token') do
+    response = page.driver.post(
+      Comments::Controller::Comments.r(:save).to_s
+    )
+
+    response.body.include?(lang('zen_general.errors.csrf')).should === true
+    response.status.should                                         === 403
   end
 
   it("No comments should exist") do
@@ -37,10 +44,10 @@ describe("Comments::Controller::Comments") do
 
   it("Create a new comment") do
     comment = Comments::Model::Comment.create(
-      :user_id          => 1, 
-      :section_entry_id => @entry.id, 
-      :email            => 'spec@domain.tld', 
-      :comment          => 'Spec comment' 
+      :user_id          => 1,
+      :section_entry_id => @entry.id,
+      :email            => 'spec@domain.tld',
+      :comment          => 'Spec comment'
     )
 
     index_url = Comments::Controller::Comments.r(:index).to_s
@@ -59,12 +66,12 @@ describe("Comments::Controller::Comments") do
 
     visit(index_url)
     click_link('Spec comment')
-    
+
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
     within('#comment_form') do
       fill_in('comment', :with => 'Spec comment modified')
-      select(lang('comments.labels.open'), :from => 'comment_status_id') 
+      select(lang('comments.labels.open'), :from => 'comment_status_id')
       click_on(save_button)
     end
 
@@ -73,6 +80,34 @@ describe("Comments::Controller::Comments") do
 
     page.find('select[name="comment_status_id"] option[selected]').text \
       .should === lang('comments.labels.open')
+  end
+
+  it("Edit an existing comment with invalid data") do
+    index_url   = Comments::Controller::Comments.r(:index).to_s
+    edit_url    = Comments::Controller::Comments.r(:edit).to_s
+    save_button = lang('comments.buttons.save')
+
+    visit(index_url)
+    click_link('Spec comment')
+
+    current_path.should =~ /#{edit_url}\/[0-9]+/
+
+    within('#comment_form') do
+      fill_in('comment', :with => '')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should === true
+  end
+
+  it('Try to delete a set of comments without IDs') do
+    index_url     = Comments::Controller::Comments.r(:index).to_s
+    delete_button = lang('comments.buttons.delete')
+
+    visit(index_url)
+    click_on(delete_button)
+
+    page.has_selector?('input[name="comment_ids[]"]').should === true
   end
 
   it("Delete an existing comment") do
@@ -91,7 +126,7 @@ describe("Comments::Controller::Comments") do
   it("Delete all test data") do
     @entry.destroy
     @section.destroy
-    
+
     Sections::Model::Section.filter[:name => 'Spec section'].should     === nil
     Sections::Model::SectionEntry.filter[:title => 'Spec entry'].should === nil
   end
