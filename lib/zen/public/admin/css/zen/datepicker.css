@@ -14,7 +14,7 @@
     border:        5px solid #ddd;
     cursor:        move;
     display:       block;
-    height:        255px;
+    height:        285px;
     margin-top:    5px;
     padding:       5px;
     position:      absolute;
@@ -43,7 +43,7 @@
             text-decoration: underline;
         }
 
-        .datepicker .header .previous, .datepicker .header .next 
+        .datepicker .header .previous, .datepicker .header .next
         {
             cursor:     pointer;
             display:    block;
@@ -59,7 +59,7 @@
         {
             left:  5px;
         }
-        
+
         .datepicker .header .next
         {
             right: 5px;
@@ -72,7 +72,7 @@
 
     .datepicker .body
     {
-        height:    215px;
+        height:    255px;
         overflow:  hidden;
         position:  relative;
     }
