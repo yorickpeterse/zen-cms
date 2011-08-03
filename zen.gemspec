@@ -18,7 +18,7 @@ CMS\' you are completely free to build whatever you want.'
   s.has_rdoc    = 'yard'
   s.executables = ['zen']
 
-  s.add_dependency('sequel'          , ['~> 3.25'])
+  s.add_dependency('sequel'          , ['~> 3.26'])
   s.add_dependency('ramaze'          , ['~> 2011.07.25'])
   s.add_dependency('bcrypt-ruby'     , ['~> 2.1.4'])
   s.add_dependency('sequel_sluggable', ['~> 0.0.6'])
