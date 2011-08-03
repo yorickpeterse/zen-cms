@@ -1,59 +1,52 @@
-#{
-form_for(
-  @category, :method => :post, :action => @form_save_url, :id => :category_form
-) do |f|
-
-  f.input_hidden(:category_group_id, @category_group_id)
-  f.input_hidden(:id               , @category.id)
-  f.input_hidden(:csrf_token       , get_csrf_token)
-  
-  f.g.div(:id => 'general') do
-    f.input_text(
-      lang('categories.labels.name'), 
-      :name, 
-      :placeholder => lang('categories.placeholders.name'), 
-      :required    => :required, 
-      :maxlength   => 255
-    )
-
-    f.input_text(
-      lang('categories.labels.slug'),
-      :slug, 
-      :placeholder => lang('categories.placeholders.slug')
-    )
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
     
-    # Generate the dropdown that contains all possible parent categories
-    parent_categories = {}
-    Categories::Model::CategoryGroup[@category_group_id].categories.each do |c|
-      if c.id != @category.id
-        parent_categories[c.id] = c.name
+    #{
+    form_for(
+      @category, 
+      :method => :post, 
+      :action => Categories::Controller::Categories.r(:save), 
+      :id     => :category_form
+    ) do |f|
+      f.input_hidden(:category_group_id, @category_group_id)
+      f.input_hidden(:id               , @category.id)
+      f.input_hidden(:csrf_token       , get_csrf_token)
+      
+      f.g.div(:id => 'general') do
+        f.input_text(
+          lang('categories.labels.name'), 
+          :name, 
+          :placeholder => lang('categories.placeholders.name'), 
+          :required    => :required, 
+          :maxlength   => 255
+        )
+
+        f.input_text(
+          lang('categories.labels.slug'),
+          :slug, 
+          :placeholder => lang('categories.placeholders.slug')
+        )
+        
+        f.select(
+          lang('categories.labels.parent'), 
+          :parent_id, 
+          :values   => parent_categories(@category.id, @category_group_id), 
+          :size     => 1, 
+          :selected => @category.parent_id
+        )
+        
+        f.textarea(
+          lang('categories.labels.description'), 
+          :description, 
+          :rows => 8
+        )
+      end
+      
+      f.g.div(:class => 'button') do
+        f.g.input(:type => 'submit', :value => lang('categories.buttons.save'))
       end
     end
-
-    parent_categories[nil] = '--'
-    
-    if !parent_categories.empty?
-      f.select(
-        lang('categories.labels.parent'), 
-        :parent_id, 
-        :values   => parent_categories, 
-        :size     => 1, 
-        :selected => @category.parent_id
-      )
-    end
-    
-    f.textarea(
-      lang('categories.labels.description'), 
-      :description, 
-      :rows => 8
-    )
-  end
-  
-  f.g.div(:class => "clearfix") do
-    f.g.div(:class => "button") do
-      f.g.input(:type => 'submit', :value => lang('categories.buttons.save'))
-    end
-  end
-
-end
-}
+    }
+</article>

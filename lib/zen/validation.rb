@@ -3,15 +3,15 @@ require __DIR__('error/validation_error')
 #:nodoc:
 module Zen
   ##
-  # The Validation module is a very basic validation framework that's used by various
-  # internal modules/classes such as Zen::Plugin and Zen::Package.
+  # The Validation module is a very basic validation framework that's used by 
+  # various internal modules/classes such as Zen::Plugin and Zen::Package.
   #
   # ## Usage
   #
-  # Using the module is pretty simple. Include it, specify the validation rules in a
-  # method and call it. All official modules and classes use a method called "validate"
-  # but you're free to name it whatever you want. A basic example looks like the
-  # following:
+  # Using the module is pretty simple. Include it, specify the validation rules 
+  # in a method and call it. All official modules and classes use a method 
+  # called "validate" but you're free to name it whatever you want. A basic 
+  # example looks like the following:
   #
   #     class Something
   #       include Zen::Validation
@@ -35,9 +35,10 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.2.5
-    # @param  [Array/Symbol/String] attributes Either a single or multiple attributes to
-    # validate.
-    # @raise  [ValidationError] Raised whenever a attribute is missing or is set to nil.
+    # @param  [Array/Symbol/String] attributes Either a single or multiple 
+    # attributes to validate.
+    # @raise  [ValidationError] Raised whenever a attribute is missing or is 
+    # set to nil.
     #
     def validates_presence(attributes)
       if attributes.class != Array
@@ -52,8 +53,8 @@ module Zen
     end
 
     ##
-    # Checks if the length of a string matches the given length. You can specify a minimum
-    # length, a maximum one as well as both.
+    # Checks if the length of a string matches the given length. You can specify 
+    # a minimum length, a maximum one as well as both.
     #
     # @example
     #  validates_length(:foobar, :min => 5, :max => 10)
@@ -61,12 +62,12 @@ module Zen
     # @author Yorick Peterse
     # @since  0.2.5
     # @param  [String/Symbol] attribute The attribute to validate.
-    # @param  [Hash] options Hash containing the options to use for determining how long
-    # the attribute's value should be.
+    # @param  [Hash] options Hash containing the options to use for determining 
+    # how long the attribute's value should be.
     # @option options [Fixnum] :min The minimum length of the attribute's value.
     # @option options [Fixnum] :max The maximum length of the value.
-    # @raise  [ValidationError] Raised then the value of the attribute isn't long or short
-    # enough.
+    # @raise  [ValidationError] Raised then the value of the attribute isn't 
+    # long or short enough.
     #
     def validates_length(attribute, options)
       value = send(attribute)
@@ -74,8 +75,8 @@ module Zen
       if !value.respond_to?(:length)
         raise(
           ValidationError,
-          "The length of \"#{attribute}\" can't be checked as the method \"length\" " +
-          "doesn't exist."
+          "The length of \"#{attribute}\" can't be checked as the method " + \
+            "\"length\" doesn't exist."
         )
       end
 
@@ -93,8 +94,8 @@ module Zen
 
     ##
     # Checks if the given attributes match the specified regular expressions.
-    # When a hash is specified the keys should be the names of the attributes to validate
-    # and the values the regular expressions to use.
+    # When a hash is specified the keys should be the names of the attributes to 
+    # validate and the values the regular expressions to use.
     #
     # @example
     #  validates_format(:name, /[\w\-]+/)
@@ -102,12 +103,12 @@ module Zen
     #
     # @author Yorick Peterse
     # @since  0.2.5
-    # @param  [Hash/Symbol] attribute The name of the attribute to validate or a hash
-    # containing all the attributes and their regular expressions.
-    # @param  [Regexp] regexp The regular expression to use when validating a single
-    # attribute.
-    # @raise [ValidationError] Raised when one of the attributes doesn't matches the
-    # regular expression.
+    # @param  [Hash/Symbol] attribute The name of the attribute to validate or 
+    # a hash containing all the attributes and their regular expressions.
+    # @param  [Regexp] regexp The regular expression to use when validating a 
+    # single attribute.
+    # @raise [ValidationError] Raised when one of the attributes doesn't matches 
+    # the regular expression.
     #
     def validates_format(attribute, regexp = nil)
       if attribute.class != Hash
@@ -120,7 +121,10 @@ module Zen
         match = val =~ regexp
 
         if !match
-          raise(ValidationError, "The attribute \"#{attr}\" doesn't match #{regexp}.")
+          raise(
+            ValidationError, 
+            "The attribute \"#{attr}\" doesn't match #{regexp}"
+          )
         end
       end
     end
@@ -140,7 +144,10 @@ module Zen
       path = send(attribute)
 
       if !File.exist?(path)
-        raise(ValidationError, "The path #{path} in \"#{attribute}\" doesn't exist.")
+        raise(
+          ValidationError, 
+          "The path #{path} in \"#{attribute}\" doesn't exist."
+        )
       end
     end
   end # Validation

@@ -3,8 +3,8 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing access rules. Each access rule can be used to specify
-    # whether or not a user can edit or create something.
+    # Controller for managing access rules. Each access rule can be used to
+    # specify whether or not a user can edit or create something.
     #
     # The following permissions are available:
     #
@@ -19,9 +19,13 @@ module Users
     class AccessRules < Zen::Controller::AdminController
       include ::Users::Model
 
-      map('/admin/access-rules')
+      helper :users
+      map    '/admin/access-rules'
 
-      javascript ['users/access_rules']
+      javascript(
+        ['users/lib/access_rules', 'users/access_rules'],
+        :method => [:edit, :new]
+      )
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -42,10 +46,6 @@ module Users
       def initialize
         super
 
-        @form_save_url   = AccessRules.r(:save)
-        @form_delete_url = AccessRules.r(:delete)
-        @rules_lang      = Zen::Language.load('access_rules')
-
         # Set the page title
         if !action.method.nil?
           method      = action.method.to_sym
@@ -56,32 +56,16 @@ module Users
           lang('access_rules.labels.user')       => 'div_user_id',
           lang('access_rules.labels.user_group') => 'div_user_group_id'
         }
+
+        @boolean_hash = {
+          true  => lang('zen_general.special.boolean_hash.true'),
+          false => lang('zen_general.special.boolean_hash.false')
+        }
       end
 
       ##
-      # Show an overview of all access rules and allow the current user
-      # to manage these groups.
-      #
-      # This method requires the following permissions:
-      #
-      # * read
-      #
-      # @author Yorick Peterse
-      # @since  0.1
-      #
-      def index
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
-
-        set_breadcrumbs(lang('access_rules.titles.index'))
-
-        @access_rules = AccessRule.all
-      end
-
-      ##
-      # Hook that's executed before the edit and new method. This hook is used to
-      # pre-process some data used in the form.
+      # Hook that's executed before the edit and new method. This hook is used
+      # to pre-process some data used in the form.
       #
       # @author Yorick Peterse
       # @since  0.2.5
@@ -100,7 +84,9 @@ module Users
         ::Zen::Package::Registered.each do |name, pkg|
           name                      = name.to_s
           @form_packages[name]      = name
-          @form_controllers[name] ||= {lang('access_rules.labels.all_controllers') => '*'}
+          @form_controllers[name] ||= {
+            lang('access_rules.labels.all_controllers') => '*'
+          }
 
           pkg.controllers.each do |key, value|
             @form_controllers[name][key] = value.to_s
@@ -113,6 +99,25 @@ module Users
       end
 
       ##
+      # Show an overview of all access rules and allow the current user
+      # to manage these groups.
+      #
+      # This method requires the following permissions:
+      #
+      # * read
+      #
+      # @author Yorick Peterse
+      # @since  0.1
+      #
+      def index
+        require_permissions(:read)
+
+        set_breadcrumbs(lang('access_rules.titles.index'))
+
+        @access_rules = paginate(AccessRule)
+      end
+
+      ##
       # Edit an existing access rule.
       #
       # This method requires the following permissions:
@@ -121,24 +126,24 @@ module Users
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the access rule to edit.
+      # @param  [Fixnum] id The ID of the access rule to edit.
       # @since  0.1
       #
       def edit(id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(lang('access_rules.titles.index'), AccessRules.r(:index)),
+          AccessRules.a(lang('access_rules.titles.index'), :index),
           lang('access_rules.titles.edit')
         )
 
         if flash[:form_data]
           @access_rule = flash[:form_data]
         else
-          @access_rule = AccessRule[id]
+          @access_rule = validate_access_rule(id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -147,26 +152,27 @@ module Users
       # This method requires the following permissions:
       #
       # * read
-      # * create§
+      # * create
       #
       # @author Yorick Peterse
       # @since  0.1
       #
       def new
-        if !user_authorized?([:read, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :create)
 
         set_breadcrumbs(
-          anchor_to(lang('access_rules.titles.index'), AccessRules.r(:index)),
+          AccessRules.a(lang('access_rules.titles.index'), :index),
           lang('access_rules.titles.new')
         )
 
         @access_rule = AccessRule.new
+
+        render_view(:form)
       end
 
       ##
-      # Saves or creates a new access rule based on the POST data and a field named 'id'.
+      # Saves or creates a new access rule based on the POST data and a field
+      # named 'id'.
       #
       # This method requires the following permissions:
       #
@@ -177,13 +183,17 @@ module Users
       # @since  0.1
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
-
         post = request.subset(
-          :id, :package, :read_access, :create_access, :update_access, :delete_access,
-          :user_id, :user_group_id, :controller, :rule_applies
+          :id,
+          :package,
+          :read_access,
+          :create_access,
+          :update_access,
+          :delete_access,
+          :user_id,
+          :user_group_id,
+          :controller,
+          :rule_applies
         )
 
         if post['rule_applies'] === 'div_user_id'
@@ -193,10 +203,14 @@ module Users
         end
 
         if post['id'] and !post['id'].empty?
-          @access_rule = AccessRule[post['id']]
+          require_permissions(:update)
+
+          access_rule = validate_access_rule(post['id'])
           save_action = :save
         else
-          @access_rule = AccessRule.new
+          require_permissions(:create)
+
+          access_rule = AccessRule.new
           save_action = :new
         end
 
@@ -207,7 +221,7 @@ module Users
         flash_error   = lang("access_rules.errors.#{save_action}")
 
         begin
-          @access_rule.update(post)
+          access_rule.update(post)
 
           # Flush the existing rules from the session
           session.delete(:access_rules)
@@ -216,12 +230,14 @@ module Users
           Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
-          flash[:form_data]   = @access_rule
-          flash[:form_errors] = @access_rule.errors
+          flash[:form_data]   = access_rule
+          flash[:form_errors] = access_rule.errors
+
+          redirect_referrer
         end
 
-        if @access_rule.id
-          redirect(AccessRules.r(:edit, @access_rule.id))
+        if access_rule.id
+          redirect(AccessRules.r(:edit, access_rule.id))
         else
           redirect_referrer
         end
@@ -238,11 +254,10 @@ module Users
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
-        if !request.params['access_rule_ids'] or request.params['access_rule_ids'].empty?
+        if !request.params['access_rule_ids'] \
+        or request.params['access_rule_ids'].empty?
           message(:error, lang('access_rules.errors.no_delete'))
           redirect_referrer
         end
@@ -257,6 +272,8 @@ module Users
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('access_rules.errors.delete') % id)
+
+            redirect_referrer
           end
         end
 

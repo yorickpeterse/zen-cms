@@ -5,18 +5,18 @@ titles:
   new  : 'Veld aanmaken'
 
 labels:
-  id             : '#'
-  name           : 'Naam'
-  slug           : 'Slug'
-  type           : 'Type'
-  format         : 'Formaat'
-  description    : 'Beschrijving'
-  possible_values: 'Mogelijke waardes (een per regel)'
-  required       : 'Vereist een waarde'
-  visual_editor  : 'Visuele editor'
-  textarea_rows  : 'Text veld rijen'
-  text_limit     : 'Karakter limiet'
-  sort_order     : 'Sorteer volgorde'
+  id                  : '#'
+  name                : 'Naam'
+  slug                : 'Slug'
+  format              : 'Formaat'
+  description         : 'Beschrijving'
+  possible_values     : 'Mogelijke waardes (een per regel)'
+  required            : 'Vereist een waarde'
+  text_editor         : 'Text verwerker'
+  textarea_rows       : 'Text veld rijen'
+  text_limit          : 'Karakter limiet'
+  sort_order          : 'Sorteer volgorde'
+  custom_field_type_id: 'Veld type'
 
 tabs:
   general : 'Algemeen'
@@ -31,10 +31,11 @@ success:
   delete: 'Alle geselecteerde velden zijn verwijderd.'
 
 errors:
-  new      : 'Het veld kon niet worden aangemaakt.'
-  save     : 'Het veld kon niet worden aangepast.'
-  delete   : 'Het veld met ID #%s kon niet worden verwijderd.'
-  no_delete: 'U moet ten minste 1 veld specificeren om te verwijderen.'
+  new          : 'Het veld kon niet worden aangemaakt.'
+  save         : 'Het veld kon niet worden aangepast.'
+  delete       : 'Het veld met ID #%s kon niet worden verwijderd.'
+  no_delete    : 'U moet ten minste 1 veld specificeren om te verwijderen.'
+  invalid_field: 'Het opgegeven veld is ongeldig.'
 
 special:
   type_hash:
@@ -45,6 +46,7 @@ special:
     date           : 'Datum'
     select         : 'Lijst (enkele waarde)'
     select_multiple: 'Lijst (meerdere waardes)'
+    password       : 'Wachtwoord'
 
 buttons:
   new   : 'Veld toevoegen'

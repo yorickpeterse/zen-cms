@@ -41,6 +41,7 @@ errors:
   no_password_match : 'The specified passwords did not match.'
   login             : 'Failed to log in with the specified details.'
   logout            : 'Failed to log out, perhaps you are already logged out.'
+  invalid_user      : 'The specified user is invalid.'
 
 success:
   new    : 'The new user has been created.'

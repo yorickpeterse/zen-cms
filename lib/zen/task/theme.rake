@@ -1,21 +1,14 @@
-##
 # Task group for managing themes.
-#
-# @author Yorick Peterse
-# @since  0.2.5
-#
 namespace :theme do
 
   desc 'Lists all installed themes'
   task :list do
     Zen::Theme::Registered.each do |name, pkg|
       message = <<-MSG
---------------------------
-Name: #{name}
-Author: #{pkg.author}
-Template directory: #{pkg.template_dir}
-
+#{name}
+--------------------
 #{pkg.about}
+
 MSG
 
       puts message
@@ -43,7 +36,7 @@ MSG
 
     theme = Zen::Theme::Registered[name]
     table = 'migrations_theme_' + theme.name.to_s
-    
+
     # Fetch the migrations directory
     if theme.respond_to?(:migration_dir) and !theme.migration_dir.nil?
       dir = theme.migration_dir

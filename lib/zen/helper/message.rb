@@ -5,9 +5,9 @@ module Ramaze
   #:nodoc:
   module Helper
     ##
-    # The Mesage helper is a Ruby implementation of the Codeigniter library "Message"
-    # (located here: https://github.com/isset/codeigniter-message). This helper was taken
-    # from another project of mine which can be found here:
+    # The Mesage helper is a Ruby implementation of the Codeigniter library 
+    # "Message" (located here: https://github.com/isset/codeigniter-message). 
+    # This helper was taken from another project of mine which can be found here:
     # https://github.com/yorickpeterse/stumpert/
     #
     # ## Usage

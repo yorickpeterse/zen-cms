@@ -21,10 +21,11 @@ success:
   delete: 'De veld groep is verwijderd.'
 
 errors:
-  new      : 'De veld groep kon niet worden aangemaakt.'
-  save     : 'De veld groep kon niet worden aangepast.'
-  delete   : 'De veld groep met ID #%s kon niet worden verwijderd.'
-  no_delete: 'U moet ten minste 1 groep specificeren om te verwijderen.'
+  new          : 'De veld groep kon niet worden aangemaakt.'
+  save         : 'De veld groep kon niet worden aangepast.'
+  delete       : 'De veld groep met ID #%s kon niet worden verwijderd.'
+  no_delete    : 'U moet ten minste 1 groep specificeren om te verwijderen.'
+  invalid_group: 'De opgegeven veld groep is ongeldig.'
 
 buttons:
   new   : 'Groep aanmaken'

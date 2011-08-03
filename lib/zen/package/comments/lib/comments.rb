@@ -1,4 +1,7 @@
-require __DIR__('comments/model/comment.rb')
+Ramaze::HelpersHelper.options.paths.push(__DIR__('comments'))
+
+require __DIR__('comments/model/comment_status')
+require __DIR__('comments/model/comment')
 require __DIR__('comments/controller/comments')
 require __DIR__('comments/controller/comments_form')
 require __DIR__('comments/plugin/comments')

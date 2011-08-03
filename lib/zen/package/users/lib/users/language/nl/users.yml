@@ -48,6 +48,7 @@ errors:
   no_password_match: 'De opgegeven wachtwoorden komen niet overeen.'
   login            : 'U kon niet worden ingelogd.'
   logout           : 'U kon niet worden uitgelogd, misschien bent u al uitgelogd.'
+  invalid_user     : 'De opgegeven gebruiker is ongeldig.'
 
 buttons:
   login : 'Inloggen'

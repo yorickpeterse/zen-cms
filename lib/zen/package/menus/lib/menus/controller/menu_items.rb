@@ -11,8 +11,8 @@ module Menus
     class MenuItems < ::Zen::Controller::AdminController
       include ::Menus::Model
 
-      map('/admin/menu-items')
-      helper(:menu_item)
+      map '/admin/menu-items'
+      helper :menu
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -33,9 +33,6 @@ module Menus
       #
       def initialize
         super
-
-        @form_save_url   = MenuItems.r(:save)
-        @form_delete_url = MenuItems.r(:delete)
 
         Zen::Language.load('menu_items')
         Zen::Language.load('menus')
@@ -59,19 +56,18 @@ module Menus
       # @param  [Integer] menu_id The ID of the current navigation menu.
       #
       def index(menu_id)
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
-        validate_menu(menu_id)
+        menu = validate_menu(menu_id)
 
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
+          Menus.a(lang('menus.titles.index'), :index),
           lang('menu_items.titles.index')
         )
 
         @menu_id    = menu_id
-        @menu_items = Menu[menu_id.to_i].menu_items
+        @menu_items = MenuItem.filter(:menu_id => menu_id)
+        @menu_items = paginate(@menu_items)
       end
 
       ##
@@ -88,15 +84,13 @@ module Menus
       # @param  [Integer] id The ID of the menu item to edit.
       #
       def edit(menu_id, id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         validate_menu(menu_id)
 
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
-          anchor_to(lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)),
+          Menus.a(lang('menus.titles.index'), :index),
+          MenuItems.a(lang('menu_items.titles.index'), :index, menu_id),
           lang('menu_items.titles.edit')
         )
 
@@ -105,8 +99,10 @@ module Menus
         if flash[:form_data]
           @menu_item = flash[:form_data]
         else
-          @menu_item = MenuItem[id]
+          @menu_item = validate_menu_item(id, menu_id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -122,24 +118,25 @@ module Menus
       # @param  [Integer] menu_id  The ID of the current navigation menu.
       #
       def new(menu_id)
-        if !user_authorized?([:create, :read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:create, :read)
 
         validate_menu(menu_id)
 
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
-          anchor_to(lang('menu_items.titles.index'), MenuItems.r(:index, menu_id)),
+          Menus.a(lang('menus.titles.index'), :index),
+          MenuItems.a(lang('menu_items.titles.index'), :index, menu_id),
           lang('menu_items.titles.new')
         )
 
         @menu_id   = menu_id
         @menu_item = MenuItem.new
+
+        render_view(:form)
       end
 
       ##
-      # Saves an existing menu iten or creates a new one using the supplied POST data.
+      # Saves an existing menu iten or creates a new one using the supplied
+      # POST data.
       #
       # This method requires the following permissions:
       #
@@ -150,24 +147,31 @@ module Menus
       # @since  0.2a
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
-
         post = request.subset(
-          :id, :parent_id, :name, :url, :order, :css_class, :css_id, :menu_id
+          :id,
+          :parent_id,
+          :name,
+          :url,
+          :sort_order,
+          :html_class,
+          :html_id,
+          :menu_id
         )
 
         if post['parent_id'].empty? or post['parent_id'] === post['id']
           post['parent_id'] = nil
         end
 
-        # Determine if we're saving changes made to an existing menu item or if we're
-        # going to create a new one.
-        if !post['id'].empty?
-          @menu_item  = MenuItem[post['id']]
+        # Determine if we're saving changes made to an existing menu item or
+        # if we're going to create a new one.
+        if post.key?('id') and !post['id'].empty?
+          require_permissions(:update)
+
+          @menu_item  = validate_menu_item(post['id'], post['menu_id'])
           save_action = :save
         else
+          require_permissions(:create)
+
           @menu_item  = MenuItem.new
           save_action = :new
         end
@@ -188,6 +192,8 @@ module Menus
 
           flash[:form_data]   = @menu_item
           flash[:form_errors] = @menu_item.errors
+
+          redirect_referrer
         end
 
         if @menu_item.id
@@ -207,9 +213,7 @@ module Menus
       # @since  0.2a
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         post = request.subset(:menu_item_ids)
 
@@ -224,6 +228,7 @@ module Menus
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('menu_items.errors.delete') % id)
+
             redirect_referrer
           end
         end

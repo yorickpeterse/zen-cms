@@ -12,6 +12,7 @@ body
     background:  #eee;
     font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, sans-serif;
     font-size:   13px;
+    line-height: 1.6;
 }
 
 /* Headings */
@@ -47,11 +48,11 @@ h6
 
 h1, h2, h3, h4, h5, h6
 {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 /* General */
-p,dl,hr,ol,ul,pre,table,address,fieldset 
+p, dl, hr, ol, ul, pre, table, address, fieldset 
 {
     margin-bottom: 20px;
 }
@@ -71,20 +72,24 @@ hr
 
 a, a:active, a:visited
 {
-    color:#607890;
+    color: #607890;
 }
 
 a:hover
 {
-    color:#036;
+    color: #036;
 }
 
-/**
- * Icons and other re-usable images.
- *
- * @author Yorick Peterse
- * @since  0.1
- */
+/* Code blocks */
+pre
+{
+    background: #444;
+    color:      #fff;
+    overflow:   auto;
+    padding:    10px;
+}
+
+/* Icons and other re-usable images. */
 .icon_edit,.icon_delete,.icon_add, .icon_success, .icon_error, .icon_info, .icon_view
 {
     margin-right: 10px;

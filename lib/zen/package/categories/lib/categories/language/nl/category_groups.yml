@@ -22,10 +22,11 @@ success:
   delete: 'De categorie groep is verwijderd.'
 
 errors:
-  new      : 'De categorie groep kon niet worden aangemaakt.'
-  save     : 'De categorie groep kon niet worden aangepast.'
-  delete   : 'De categorie groep met ID #%s kon niet worden verwijderd.'
-  no_delete: 'U moet ten minste 1 groep specificeren om te verwijderen.'
+  new          : 'De categorie groep kon niet worden aangemaakt.'
+  save         : 'De categorie groep kon niet worden aangepast.'
+  delete       : 'De categorie groep met ID #%s kon niet worden verwijderd.'
+  no_delete    : 'U moet ten minste 1 groep specificeren om te verwijderen.'
+  invalid_group: 'De opgegeven categorie groep is ongeldig.'
 
 buttons:
   new   : 'Groep aanmaken'

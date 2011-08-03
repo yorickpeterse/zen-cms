@@ -31,15 +31,17 @@ success:
   new      : 'The new comment has been created.'
   save     : 'The comment has been modified.'
   delete   : 'All selected comments have been deleted.'
-  moderate : "The comment has been posted but mush be approved by an administrator before it's displayed."
+  moderate : "The comment has been posted but must be approved by an administrator before it's displayed."
 
 errors:
-  new                  : 'Failed to create the new comment.'
-  save                 : 'Failed to modify the comment.'
-  delete               : 'Failed to delete the comment with ID #%s.'
-  no_delete            : "You haven't specified any comments to delete."
-  invalid_entry        : 'The specified section entry is invalid.'
-  comments_not_allowed : "Comments aren't allowed for this section."
+  new                     : 'Failed to create the new comment.'
+  save                    : 'Failed to modify the comment.'
+  delete                  : 'Failed to delete the comment with ID #%s.'
+  no_delete               : "You haven't specified any comments to delete."
+  invalid_entry           : 'The specified section entry is invalid.'
+  comments_not_allowed    : "Comments aren't allowed for this section."
+  comments_require_account: 'You need to be logged in to post a comment.'
+  invalid_comment         : 'The specified comment is invalid.'
 
 buttons:
   delete : 'Delete selected comments'

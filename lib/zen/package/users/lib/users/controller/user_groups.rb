@@ -3,9 +3,9 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing all user groups. It's not required to add a user to a group
-    # but it can certainly make it easier when adding custom permissions or granting a
-    # user full access to the backend.
+    # Controller for managing all user groups. It's not required to add a user
+    # to a group but it can certainly make it easier when adding custom
+    # permissions or granting a user full access to the backend.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -13,7 +13,8 @@ module Users
     class UserGroups < Zen::Controller::AdminController
       include ::Users::Model
 
-      map('/admin/user-groups')
+      helper :users
+      map '/admin/user-groups'
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -34,9 +35,6 @@ module Users
       def initialize
         super
 
-        @form_save_url   = UserGroups.r(:save)
-        @form_delete_url = UserGroups.r(:delete)
-
         Zen::Language.load('user_groups')
 
         # Set the page title
@@ -44,6 +42,11 @@ module Users
           method      = action.method.to_sym
           @page_title = lang("user_groups.titles.#{method}") rescue nil
         end
+
+        @boolean_hash = {
+          true  => lang('zen_general.special.boolean_hash.true'),
+          false => lang('zen_general.special.boolean_hash.false')
+        }
       end
 
       ##
@@ -58,13 +61,11 @@ module Users
       # @since  0.1
       #
       def index
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
         set_breadcrumbs(lang('user_groups.titles.index'))
 
-        @user_groups = UserGroup.all
+        @user_groups = paginate(UserGroup)
       end
 
       ##
@@ -80,20 +81,20 @@ module Users
       # @since  0.1
       #
       def edit(id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(lang('user_groups.titles.index'), UserGroups.r(:index)),
+          UserGroups.a(lang('user_groups.titles.index'), :index),
           lang('user_groups.titles.edit')
         )
 
         if flash[:form_data]
           @user_group = flash[:form_data]
         else
-          @user_group = UserGroup[id.to_i]
+          @user_group = validate_user_group(id)
         end
+
+        render_view(:form)
       end
 
       ##
@@ -108,20 +109,21 @@ module Users
       # @since  0.1
       #
       def new
-        if !user_authorized?([:read, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :create)
 
         set_breadcrumbs(
-          anchor_to(lang('user_groups.titles.index'), UserGroups.r(:index)),
+          UserGroups.a(lang('user_groups.titles.index'), :index),
           lang('user_groups.titles.new')
         )
 
         @user_group = UserGroup.new
+
+        render_view(:form)
       end
 
       ##
-      # Saves or creates a new user group based on the POST data and a field named 'id'.
+      # Saves or creates a new user group based on the POST data and a field
+      # named 'id'.
       #
       # This method requires the following permissions:
       #
@@ -132,17 +134,17 @@ module Users
       # @since  0.1
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
-
         post = request.subset(:id, :name, :slug, :description, :super_group)
 
         if post['id'] and !post['id'].empty?
-          @user_group = UserGroup[post['id']]
+          require_permissions(:update)
+
+          user_group  = validate_user_group(post['id'])
           save_action = :save
         else
-          @user_group = UserGroup.new
+          require_permissions(:create)
+
+          user_group  = UserGroup.new
           save_action = :new
 
           post.delete('slug') if post['slug'].empty?
@@ -154,18 +156,20 @@ module Users
         flash_error   = lang("user_groups.errors.#{save_action}")
 
         begin
-          @user_group.update(post)
+          user_group.update(post)
           message(:success, flash_success)
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
-          flash[:form_data]   = @user_group
-          flash[:form_errors] = @user_group.errors
+          flash[:form_data]   = user_group
+          flash[:form_errors] = user_group.errors
+
+          redirect_referrer
         end
 
-        if @user_group.id
-          redirect(UserGroups.r(:edit, @user_group.id))
+        if user_group.id
+          redirect(UserGroups.r(:edit, user_group.id))
         else
           redirect_referrer
         end
@@ -182,11 +186,10 @@ module Users
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
-        if !request.params['user_group_ids'] or request.params['user_group_ids'].empty?
+        if !request.params['user_group_ids'] \
+        or request.params['user_group_ids'].empty?
           message(:error, lang('user_groups.errors.no_delete'))
           redirect_referrer
         end
@@ -198,6 +201,8 @@ module Users
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('user_groups.errors.delete') % id)
+
+            redirect_referrer
           end
         end
 

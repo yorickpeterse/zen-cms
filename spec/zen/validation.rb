@@ -1,66 +1,63 @@
 require File.expand_path('../../helper', __FILE__)
-
-class ValidationObject
-  include ::Zen::Validation
-
-  attr_accessor :name
-
-  def presence
-    validates_presence(:name)
-  end
-
-  def length
-    validates_length(:name, :min => 3, :max => 5)
-  end
-
-  def format
-    validates_format(:name, /[a-z]+/)
-  end
-end
+require File.join(Zen::Fixtures, 'validation')
+require 'fileutils'
 
 describe('Zen::Validation') do
 
   it('Validate the presence of an attribute') do
     object = ValidationObject.new
 
-    lambda { object.presence }.should raise_error(Zen::ValidationError)
+    should.raise?(Zen::ValidationError) { object.presence }
 
     # Now validate it with a value
     object.name = 'yorick'
 
-    lambda { object.presence }.should_not raise_error(Zen::ValidationError)
+    should.not.raise?(Zen::ValidationError) { object.presence }
   end
 
   it('Validate the length of an attribute') do
     object = ValidationObject.new
 
-    lambda { object.length }.should raise_error(Zen::ValidationError)
+    should.raise?(Zen::ValidationError) { object.length }
 
     # Too short
     object.name = 'ab'
 
-    lambda { object.length }.should raise_error(Zen::ValidationError)
+    should.raise?(Zen::ValidationError) { object.length }
 
     # Too long
     object.name = 'abcdef'
 
-    lambda { object.length }.should raise_error(Zen::ValidationError)
+    should.raise?(Zen::ValidationError) { object.length }
 
     # Perfect
     object.name = 'ab3'
 
-    lambda { object.length }.should_not raise_error(Zen::ValidationError)
+    should.not.raise?(Zen::ValidationError) { object.length }
   end
 
   it('Validate the format of an attribute') do
     object      = ValidationObject.new
     object.name = 10
 
-    lambda { object.format }.should raise_error(Zen::ValidationError)
+    should.raise?(Zen::ValidationError) { object.format }
 
     object.name = 'hello'
 
-    lambda { object.format }.should_not raise_error(Zen::ValidationError)
+    should.not.raise?(Zen::ValidationError) { object.format }
+  end
+
+  it('Validate a file') do
+    object      = ValidationObject.new
+    object.file = '/tmp/zen_validation'
+
+    should.raise?(Zen::ValidationError) { object.exists }
+
+    FileUtils.touch('/tmp/zen_validation')
+
+    should.not.raise?(Zen::ValidationError) { object.exists }
+
+    File.unlink('/tmp/zen_validation')
   end
 
 end

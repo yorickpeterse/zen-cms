@@ -3,9 +3,9 @@ module Zen
   #:nodoc:
   module Controller
     ##
-    # The MainController controller is used to load the correct template files based
-    # on the current URI. If no section is specified the default section will be retrieved
-    # from the settings table.
+    # The MainController controller is used to load the correct template files 
+    # based on the current URI. If no section is specified the default section 
+    # will be retrieved from the settings table.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -15,9 +15,9 @@ module Zen
       
       ##
       # The index method acts as a catch-all method. Based on the requested URI
-      # the correct template group/file will be loaded. If no templates are found
-      # a 404 template will be loaded. If that's not found either a default error
-      # will be shown.
+      # the correct template group/file will be loaded. If no templates are 
+      # found a 404 template will be loaded. If that's not found either a 
+      # default error will be shown.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -31,7 +31,9 @@ module Zen
         uri.each { |v| @request_uri.push(h(v)) }
         
         if !@request_uri[0] or @request_uri[0].empty?
-          @request_uri[0] = plugin(:settings, :get, :default_section).value
+          section         = plugin(:settings, :get, :default_section).value
+          section         = ::Sections::Model::Section[section].slug
+          @request_uri[0] = section
         end
         
         if !@request_uri[1] or @request_uri[1].empty?
@@ -65,6 +67,6 @@ module Zen
           end
         end
       end
-    end
-  end
-end
+    end # MainController
+  end # Controller
+end # Zen

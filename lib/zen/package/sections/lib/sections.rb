@@ -1,5 +1,8 @@
+Ramaze::HelpersHelper.options.paths.push(__DIR__('sections'))
+
 require __DIR__('sections/model/section')
 require __DIR__('sections/model/section_entry')
+require __DIR__('sections/model/section_entry_status')
 require __DIR__('sections/controller/sections')
 require __DIR__('sections/controller/section_entries')
 require __DIR__('sections/plugin/sections')
@@ -48,21 +51,25 @@ Zen::Plugin.add do |p|
 end
 
 # Register all the settings
-section_hash = {}
-
-begin
-  Sections::Model::Section.select(:name, :slug).each do |s|
-    section_hash[s.slug] = s.name
-  end
-rescue => e
-  Ramaze::Log.warn("The settings plugin failed to retrieve all sections: #{e.message}")
-end
-
 plugin(:settings, :register) do |setting|
   setting.title       = lang('settings.labels.default_section')
   setting.description = lang('settings.placeholders.default_section')
   setting.name        = 'default_section'
   setting.group       = 'general'
   setting.type        = 'select'
-  setting.values      = section_hash
+  setting.values      = lambda do
+    section_hash = {}
+
+    begin
+      Sections::Model::Section.select(:name, :id).all.each do |s|
+        section_hash[s.id] = s.name
+      end
+
+      return section_hash
+    rescue => e
+      Ramaze::Log.warn(
+        "The settings plugin failed to retrieve all sections: #{e.message}"
+      )
+    end
+  end
 end

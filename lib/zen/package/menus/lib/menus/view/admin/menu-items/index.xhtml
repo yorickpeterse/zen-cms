@@ -3,15 +3,15 @@
         <h1>#{get_breadcrumbs}</h1>
     </header>
 
-    <form method="post" action="#{@form_delete_url}">
+    <form method="post" action="#{Menus::Controller::MenuItems.r(:delete)}">
         <input name="csrf_token" type="hidden" value="#{get_csrf_token}" />
 
-        <?r if @menu_items and !@menu_items.empty? ?>
-        <table class="table">
+        <?r if !@menu_items.empty? ?>
+        <table>
             <thead>
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
-                    <th>
+                    <th class="no_sort">
                         <input type="checkbox" />
                     </th>
                     <?r end ?>
@@ -21,8 +21,8 @@
                     <th>#{lang('menu_items.labels.url')}</th>
                     <th>#{lang('menu_items.labels.parent_id')}</th>
                     <th>#{lang('menu_items.labels.order')}</th>
-                    <th>#{lang('menu_items.labels.css_class')}</th>
-                    <th>#{lang('menu_items.labels.css_id')}</th>
+                    <th>#{lang('menu_items.labels.html_class')}</th>
+                    <th>#{lang('menu_items.labels.html_id')}</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,7 +31,8 @@
                 <tr>
                     <?r if user_authorized?([:delete]) ?>
                     <td>
-                        <input name="menu_item_ids[]" type="checkbox" value="#{item.id}" />
+                        <input name="menu_item_ids[]" type="checkbox"
+                        value="#{item.id}" />
                     </td>
                     <?r end ?>
 
@@ -39,46 +40,50 @@
 
                     <?r if user_authorized?([:update]) ?>
                     <td>
-                        #{anchor_to(
-                          item.name, 
-                          Menus::Controller::MenuItems.r(:edit, @menu_id, item.id)
+                        #{Menus::Controller::MenuItems.a(
+                          item.name, :edit, @menu_id, item.id
                         )}
                     </td>
                     <?r else ?>
                     <td>#{item.name}</td>
                     <?r end ?>
 
-                    <td>#{anchor_to(item.url, item.url)}</td>
+                    <td>
+                        <a href="#{item.url}">#{item.url}</a>
+                    </td>
+
                     <td>#{item.ancestors.map { |a| a.name }.join(', ')}</td>
-                    <td>#{item.order}</td>
-                    <td>#{item.css_class}</td>
-                    <td>#{item.css_id}</td>
+                    <td>#{item.sort_order}</td>
+                    <td>#{item.html_class}</td>
+                    <td>#{item.html_id}</td>
                 </tr>
                 <?r end ?>
 
             </tbody>
         </table>
 
+        #{
+        if @menu_items.respond_to?(:navigation) and @menu_items.page_count > 1
+          @menu_items.navigation
+        end
+        }
+
         <?r else ?>
         <p>#{lang('menu_items.messages.no_items')}</p>
         <?r end ?>
 
-        <div class="clearfix">
-            <?r if user_authorized?([:create, :read]) ?>
-            <div class="button">
-                #{anchor_to(
-                  lang('menu_items.buttons.new'), 
-                  Menus::Controller::MenuItems.r(:new, @menu_id)
-                )}
-            </div>
-            <?r end ?>
-
-            <?r if user_authorized?([:delete]) ?>
-            <div class="button">
-                <input type="submit" value="#{lang('menu_items.buttons.delete')}" />
-            </div>
-            <?r end ?>
+        <?r if user_authorized?([:create, :read]) ?>
+        <div class="button">
+            #{Menus::Controller::MenuItems.a(
+              lang('menu_items.buttons.new'), :new, @menu_id
+            )}
         </div>
-    </form> 
+        <?r end ?>
 
+        <?r if user_authorized?([:delete]) ?>
+        <div class="button">
+            <input type="submit" value="#{lang('menu_items.buttons.delete')}" />
+        </div>
+        <?r end ?>
+    </form>
 </article>

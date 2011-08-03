@@ -3,8 +3,8 @@ module Menus
   #:nodoc:
   module Controller
     ##
-    # Controller for managing menu groups. Individual navigation items are managed using
-    # the menu items controller, simply named "menu_items".
+    # Controller for managing menu groups. Individual navigation items are
+    # managed using the menu items controller, simply named "menu_items".
     #
     # @author Yorick Peterse
     # @since  0.2a
@@ -12,7 +12,8 @@ module Menus
     class Menus < Zen::Controller::AdminController
       include ::Menus::Model
 
-      map('/admin/menus')
+      map '/admin/menus'
+      helper :menu
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -32,9 +33,6 @@ module Menus
       #
       def initialize
         super
-
-        @form_save_url   = Menus.r(:save)
-        @form_delete_url = Menus.r(:delete)
 
         Zen::Language.load('menus')
 
@@ -57,21 +55,17 @@ module Menus
       # @since  0.2a
       #
       def index
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
-        # Set our breadcrumbs
         set_breadcrumbs(lang('menus.titles.index'))
 
-        # Get all menus
-        @menus = Menu.all
+        @menus = paginate(Menu)
       end
 
       ##
-      # Show a form that allows the user to edit the details (such as the name and slug)
-      # of a menu group. This method can not be used to manage all menu items for this
-      # group.
+      # Show a form that allows the user to edit the details (such as the name
+      # and slug) of a menu group. This method can not be used to manage all
+      # menu items for this group.
       #
       # This method requires the following permissions:
       #
@@ -82,25 +76,26 @@ module Menus
       # @since  0.2a
       #
       def edit(id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
+          Menus.a(lang('menus.titles.index'), :index),
           @page_title
         )
 
         if flash[:form_data]
           @menu = flash[:form_data]
         else
-          @menu = Menu[id]
+          @menu = validate_menu(id)
         end
+
+        render_view(:form)
       end
 
       ##
-      # Show a form that can be used to create a new menu group. Once a menu group has
-      # been created users can start adding navigation items to the group.
+      # Show a form that can be used to create a new menu group. Once a menu
+      # group has been created users can start adding navigation items to the
+      # group.
       #
       # This method requires the following permissions:
       #
@@ -111,24 +106,24 @@ module Menus
       # @since  0.2a
       #
       def new
-        if !user_authorized?([:create, :read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:create, :read)
 
-        # Breadcrumbs, om nom nom!
         set_breadcrumbs(
-          anchor_to(lang('menus.titles.index'), Menus.r(:index)),
+          Menus.a(lang('menus.titles.index'), :index),
           @page_title
         )
 
         @menu = Menu.new
+
+        render_view(:form)
       end
 
       ##
-      # Saves the changes made to an existing menu group or creates a new group using the
-      # supplied POST data. In order to detect this forms that contain data of an existing
-      # group should have a hidden field named "id", the value of this field is the primary
-      # value of the menu group of which the changes should be saved.
+      # Saves the changes made to an existing menu group or creates a new group
+      # using the supplied POST data. In order to detect this forms that contain
+      # data of an existing group should have a hidden field named "id", the
+      # value of this field is the primary value of the menu group of which the
+      # changes should be saved.
       #
       # This method requires the following permissions:
       #
@@ -139,17 +134,24 @@ module Menus
       # @since  0.2a
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
-
-        post = request.subset(:name, :slug, :description, :css_class, :css_id, :id)
+        post = request.subset(
+          :name,
+          :slug,
+          :description,
+          :html_class,
+          :html_id,
+          :id
+        )
 
         # Determine if we're creating a new group or modifying an existing one.
-        if !post['id'].empty?
-          @menu       = Menu[post['id']]
+        if post.key?('id') and !post['id'].empty?
+          require_permissions(:update)
+
+          @menu       = validate_menu(post['id'])
           save_action = :save
         else
+          require_permissions(:create)
+
           @menu       = Menu.new
           save_action = :new
 
@@ -172,6 +174,8 @@ module Menus
 
           flash[:form_data]   = @menu
           flash[:form_errors] = @menu.errors
+
+          redirect_referrer
         end
 
         # Redrect the user to the proper page
@@ -183,8 +187,9 @@ module Menus
       end
 
       ##
-      # Deletes a number of navigation menus based on the supplied primary values.
-      # These primary values should be stored in a POST array called "menu_ids".
+      # Deletes a number of navigation menus based on the supplied primary
+      # values. These primary values should be stored in a POST array called
+      # "menu_ids".
       #
       # This method requires the following permissions:
       #
@@ -194,9 +199,7 @@ module Menus
       # @since  0.2a
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         post = request.params.dup
 
@@ -213,6 +216,7 @@ module Menus
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('menus.errors.delete') % id)
+
             redirect_referrer
           end
         end

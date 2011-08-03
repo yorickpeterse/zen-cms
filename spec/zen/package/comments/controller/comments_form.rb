@@ -1,0 +1,343 @@
+require File.expand_path('../../../../../helper', __FILE__)
+require File.join(Zen::Fixtures, 'package/comments/controller/comments_form')
+
+describe("Comments::Controller::CommentsForm") do
+  behaves_like :capybara
+
+  before do
+    plugin(:settings, :get, :defensio_key).value = 'test'
+  end
+
+  after do
+    Comments::Model::Comment.destroy
+    plugin(:settings, :get, :defensio_key).value = nil
+  end
+
+  it('Create the test data') do
+    user_id      = Users::Model::User[:name => 'Spec'].id
+    entry_status = Sections::Model::SectionEntryStatus[:name => 'published'].id
+
+    @section = Sections::Model::Section.create(
+      :name                    => 'Spec section',
+      :comment_allow           => true,
+      :comment_require_account => true,
+      :comment_moderate        => false,
+      :comment_format          => 'plain'
+    )
+
+    @section_entry = Sections::Model::SectionEntry.create(
+      :title                   => 'Spec entry',
+      :user_id                 => user_id,
+      :section_entry_status_id => entry_status,
+      :section_id              => @section.id
+    )
+
+    @section.name.should        === 'Spec section'
+    @section_entry.title.should === 'Spec entry'
+
+    Comments::Model::Comment.all.empty?.should === true
+  end
+
+  it('Submit a comment') do
+    visit(SpecCommentsForm.r(:index).to_s)
+
+    # Submit the form
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('name'         , :with => 'Spec user')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'Spec comment')
+
+      click_on('Submit')
+    end
+
+    # Let's see if the comment exists
+    comment = Comments::Model::Comment[:comment => 'Spec comment']
+
+    comment.name.should      === 'Spec user'
+    comment.comment.should   === 'Spec comment'
+    comment.website.should   === 'http://zen-cms.com/'
+    comment.email.should     === 'spec@domain.tld'
+    comment.section_entry_id === @section_entry.id
+  end
+
+  it('Submit a comment without a CSRF token') do
+    url      = Comments::Controller::CommentsForm.r(:save).to_s
+    response = page.driver.post(url)
+
+    response.body.should   === lang('zen_general.errors.not_authorized')
+    response.status.should === 403
+  end
+
+  it('Submit a comment with an invalid entry') do
+    url = SpecCommentsForm.r(:index).to_s
+
+    visit(url)
+
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => @section_entry.id + 1)
+      fill_in('name'         , :with => 'Spec user')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'Spec comment')
+
+      click_on('Submit')
+    end
+
+    page.body.include?(lang('comments.errors.invalid_entry')) \
+      .should === true
+
+    current_path.should === url
+  end
+
+  it('Submit a comment for an invalid section') do
+    old_id = @section_entry.section_id
+    url    = SpecCommentsForm.r(:index).to_s
+
+    @section_entry.update(:section_id => nil)
+
+    visit(url)
+
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('name'         , :with => 'Spec user')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'Spec comment')
+
+      click_on('Submit')
+    end
+
+    page.body.include?(lang('comments.errors.invalid_entry')) \
+      .should === true
+
+    current_path.should === url
+
+    @section_entry.update(:section_id => old_id)
+  end
+
+  it('Submit a comment for a section that does not allow comments') do
+    url = SpecCommentsForm.r(:index).to_s
+
+    @section.update(:comment_allow => false)
+    visit(url)
+
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('name'         , :with => 'S)ec user')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'Spec comment')
+
+      click_on('Submit')
+    end
+
+    page.body.include?(lang('comments.errors.comments_not_allowed')) \
+      .should === true
+
+    current_path.should === url
+
+    @section.update(:comment_allow => true)
+  end
+
+  it('Submit a comment when not logged in') do
+    url = SpecCommentsForm.r(:index).to_s
+
+    visit(Users::Controller::Users.r(:logout).to_s)
+    visit(url)
+
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('name'         , :with => 'Spec user')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'Spec comment')
+
+      click_on('Submit')
+    end
+
+    page.body.include?(lang('comments.errors.comments_require_account')) \
+      .should === true
+
+    current_path.should === url
+
+    # Log back in
+    capybara_login
+  end
+
+  it('Submit a comment with moderation turned on') do
+    @section.update(:comment_moderate => true)
+
+    url           = SpecCommentsForm.r(:index).to_s
+    closed_status = Comments::Model::CommentStatus[:name => 'closed']
+
+    visit(url)
+
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('name'         , :with => 'Spec user')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'Spec comment')
+
+      click_on('Submit')
+    end
+
+    page.body.include?(lang('comments.success.moderate')).should === true
+    current_path.should                                          === url
+
+    Comments::Model::Comment[:comment => 'Spec comment'] \
+      .comment_status_id.should === closed_status.id
+
+    @section.update(:comment_moderate => false)
+  end
+
+  it('Submit a comment and mark it as ham') do
+    yaml_response = <<-YAML.strip
+    defensio-result:
+      api-version: 2.0
+      status: success
+      message:
+      signature: 1234abc
+      allow: true
+      classification: innocent
+      spaminess: 0.5
+      profanity-match: false
+    YAML
+
+    stub_request(
+      :post,
+      'http://api.defensio.com/2.0/users/test/documents.yaml'
+    ).to_return(:body => yaml_response)
+
+    plugin(:settings, :get, :enable_antispam).value = '1'
+
+    url         = SpecCommentsForm.r(:index).to_s
+    open_status = Comments::Model::CommentStatus[:name => 'open']
+
+    visit(url)
+
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('name'         , :with => 'Spec alternative')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'COMMENT')
+
+      click_on('Submit')
+    end
+
+    page.body.include?(lang('comments.success.new')).should === true
+    current_path.should                                     === url
+
+    Comments::Model::Comment[:name => 'Spec alternative'] \
+      .comment_status_id.should === open_status.id
+
+    plugin(:settings, :get, :enable_antispam).value = '0'
+    WebMock.reset!
+  end
+
+  it('Submit a comment and mark it as ham with moderation turned on') do
+    yaml_response = <<-YAML.strip
+    defensio-result:
+      api-version: 2.0
+      status: success
+      message:
+      signature: 1234abc
+      allow: true
+      classification: innocent
+      spaminess: 0.5
+      profanity-match: false
+    YAML
+
+    stub_request(
+      :post,
+      'http://api.defensio.com/2.0/users/test/documents.yaml'
+    ).to_return(:body => yaml_response)
+
+    plugin(:settings, :get, :enable_antispam).value = '1'
+
+    @section.update(:comment_moderate => true)
+
+    url           = SpecCommentsForm.r(:index).to_s
+    closed_status = Comments::Model::CommentStatus[:name => 'closed']
+
+    visit(url)
+
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('name'         , :with => 'Spec alternative')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'COMMENT')
+
+      click_on('Submit')
+    end
+
+    page.body.include?(lang('comments.success.moderate')).should === true
+    current_path.should                                          === url
+
+    Comments::Model::Comment[:name => 'Spec alternative'] \
+      .comment_status_id.should === closed_status.id
+
+    plugin(:settings, :get, :enable_antispam).value = '0'
+    WebMock.reset!
+
+    @section.update(:comment_moderate => false)
+  end
+
+  it('Submit a comment and mark it as spam') do
+    yaml_response = <<-YAML.strip
+    defensio-result:
+      api-version: 2.0
+      status: success
+      message:
+      signature: 1234abc
+      allow: false
+      classification: spam
+      spaminess: 0.9
+      profanity-match: false
+    YAML
+
+    stub_request(
+      :post,
+      'http://api.defensio.com/2.0/users/test/documents.yaml'
+    ).to_return(:body => yaml_response)
+
+    plugin(:settings, :get, :enable_antispam).value = '1'
+
+    url         = SpecCommentsForm.r(:index).to_s
+    spam_status = Comments::Model::CommentStatus[:name => 'spam']
+
+    visit(url)
+
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('name'         , :with => 'Spec alternative')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'COMMENT')
+
+      click_on('Submit')
+    end
+
+    page.body.include?(lang('comments.success.new')).should === true
+    current_path.should                                     === url
+
+    Comments::Model::Comment[:name => 'Spec alternative'] \
+      .comment_status_id.should === spam_status.id
+
+    plugin(:settings, :get, :enable_antispam).value = '0'
+    WebMock.reset!
+  end
+
+  it('Delete the test data') do
+    @section_entry.destroy
+    @section.destroy
+
+    Sections::Model::Section[:name => 'Spec section'].should     === nil
+    Sections::Model::SectionEntry[:title => 'Spec entry'].should === nil
+  end
+
+end

@@ -9,15 +9,15 @@ labels:
   name          : 'Name'
   slug          : 'Slug'
   description   : 'Description'
-  css_class     : 'CSS class'
-  css_id        : 'CSS ID'
+  html_class     : 'CSS class'
+  html_id        : 'CSS ID'
   manage_items  : 'Manage menu items'
 
 placeholders:
   name       : 'Specify the name of the menu.'
   slug       : 'Specify the URL friendly name of the menu.'
-  css_class  : 'Specify a class to use in stylesheets.'
-  css_id     : 'Specify an ID to use in stylesheets.'
+  html_class : 'A number of classes to apply to the menu.'
+  html_id    : 'An ID to apply to the menu.'
 
 messages:
   no_menus: 'No menus have been added yet.'
@@ -33,7 +33,8 @@ success:
   delete  : 'The selected menus have been deleted.'
 
 errors:
-  new        : 'The menu could not be created.'
-  save       : 'The menu could not be modified.'
-  delete     : 'The menu with ID #%s could not be deleted.'
-  no_delete  : 'You need to specify at least one menu to delete.'
+  new         : 'The menu could not be created.'
+  save        : 'The menu could not be modified.'
+  delete      : 'The menu with ID #%s could not be deleted.'
+  no_delete   : 'You need to specify at least one menu to delete.'
+  invalid_menu: 'The specified menu is invalid.'

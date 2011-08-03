@@ -24,10 +24,11 @@ success:
   delete : 'The selected categories have been deleted.'
 
 errors:
-  new       : 'Failed to add a new category.'
-  save      : 'Failed to save the category.'
-  delete    : 'Failed to delete the category with ID #%s.'
-  no_delete : "You haven't specified any categories to delete."
+  new             : 'Failed to add a new category.'
+  save            : 'Failed to save the category.'
+  delete          : 'Failed to delete the category with ID #%s.'
+  no_delete       : "You haven't specified any categories to delete."
+  invalid_category: 'The specified category is invalid.'
 
 buttons:
   new    : 'Add Category'

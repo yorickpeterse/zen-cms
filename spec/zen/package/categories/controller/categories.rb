@@ -1,18 +1,24 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Zen::Language.load('categories')
+describe("Categories::Controller::Categories") do
+  behaves_like :capybara
 
-describe(
-  "Categories::Controller::Categories", :type => :acceptance, :auto_login => true
-) do
+  @group = Categories::Model::CategoryGroup.create(:name => 'Spec group')
 
-  it("Create the test data") do
-    Testdata[:group] = Categories::Model::CategoryGroup.new(:name => 'Spec group').save
+  it('Submit a form without a CSRF token') do
+    response = page.driver.post(
+      Categories::Controller::Categories.r(:save).to_s
+    )
+
+    response.body.include?(lang('zen_general.errors.csrf')).should === true
+    response.status.should                                         === 403
   end
 
   it("No categories should exist") do
-    index_url = Categories::Controller::Categories.r(:index, Testdata[:group].id).to_s
-    message   = lang('categories.messages.no_categories')
+    index_url = Categories::Controller::Categories \
+      .r(:index, @group.id).to_s
+
+    message = lang('categories.messages.no_categories')
 
     visit(index_url)
 
@@ -22,8 +28,12 @@ describe(
   end
 
   it("Create a new category") do
-    index_url   = Categories::Controller::Categories.r(:index, Testdata[:group].id).to_s
-    edit_url    = Categories::Controller::Categories.r(:edit , Testdata[:group].id).to_s
+    index_url   = Categories::Controller::Categories \
+      .r(:index, @group.id).to_s
+
+    edit_url    = Categories::Controller::Categories \
+      .r(:edit , @group.id).to_s
+
     new_button  = lang('categories.buttons.new')
     save_button = lang('categories.buttons.save')
 
@@ -39,8 +49,12 @@ describe(
   end
 
   it("Edit an existing category") do
-    index_url   = Categories::Controller::Categories.r(:index, Testdata[:group].id).to_s
-    edit_url    = Categories::Controller::Categories.r(:edit , Testdata[:group].id).to_s
+    index_url   = Categories::Controller::Categories \
+      .r(:index, @group.id).to_s
+
+    edit_url    = Categories::Controller::Categories \
+      .r(:edit , @group.id).to_s
+
     save_button = lang('categories.buttons.save')
 
     visit(index_url)
@@ -51,13 +65,49 @@ describe(
     within('#category_form') do
       fill_in('name', :with => 'Spec category modified')
       click_on(save_button)
-    end    
+    end
 
     page.find('input[name="name"]').value.should === 'Spec category modified'
   end
 
+  it("Edit an existing category with invalid data") do
+    index_url   = Categories::Controller::Categories \
+      .r(:index, @group.id).to_s
+
+    edit_url    = Categories::Controller::Categories \
+      .r(:edit , @group.id).to_s
+
+    save_button = lang('categories.buttons.save')
+
+    visit(index_url)
+    click_link('Spec category')
+
+    current_path.should =~ /#{edit_url}\/[0-9]+/
+
+    within('#category_form') do
+      fill_in('name', :with => '')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should === true
+  end
+
+  it('Try to delete a category without specifying an ID') do
+    index_url = Categories::Controller::Categories \
+      .r(:index, @group.id).to_s
+
+    delete_button = lang('categories.buttons.delete')
+
+    visit(index_url)
+    click_on(delete_button)
+
+    page.has_selector?('input[name="category_ids[]"]').should === true
+  end
+
   it("Delete an existing category") do
-    index_url     = Categories::Controller::Categories.r(:index, Testdata[:group].id).to_s
+    index_url = Categories::Controller::Categories \
+      .r(:index, @group.id).to_s
+
     message       = lang('categories.messages.no_categories')
     delete_button = lang('categories.buttons.delete')
 
@@ -69,8 +119,5 @@ describe(
     page.has_selector?('table tbody tr').should === false
   end
 
-  it("Delete the test data") do
-    Testdata[:group].destroy
-  end
-
+  @group.destroy
 end

@@ -1,35 +1,36 @@
 ---
 titles:
-  index  : 'Custom Fields'
-  edit   : 'Edit Custom Field'
-  new    : 'Add Custom Field'
+  index: 'Custom Fields'
+  edit : 'Edit Custom Field'
+  new  : 'Add Custom Field'
 
 labels:
-  id               : '#'
-  name             : 'Name'
-  slug             : 'Slug'
-  type             : 'Type'
-  format           : 'Format'
-  description      : 'Description'
-  possible_values  : 'Possible values (one value per line)'
-  required         : 'Requires a value'
-  visual_editor    : 'Enable the visual editor'
-  textarea_rows    : 'Textarea rows'
-  text_limit       : 'Character limit'
-  sort_order       : 'Sort order'
+  id                  : '#'
+  name                : 'Name'
+  slug                : 'Slug'
+  format              : 'Format'
+  description         : 'Description'
+  possible_values     : 'Possible values (one value per line)'
+  required            : 'Requires a value'
+  text_editor         : 'Enable a text editor'
+  textarea_rows       : 'Textarea rows'
+  text_limit          : 'Character limit'
+  sort_order          : 'Sort order'
+  custom_field_type_id: 'Field type'
 
 tabs:
-  general   : 'General'
-  settings  : 'Settings'
+  general : 'General'
+  settings: 'Settings'
 
 messages:
-  no_fields : 'No custom fields have been added yet.'
+  no_fields: 'No custom fields have been added yet.'
 
 errors:
-  new       : 'Failed to create a new custom field.'
-  save      : 'Failed to modify the custom field.'
-  delete    : 'Failed to delete the custom field with ID #%s.'
-  no_delete : "You haven't specified any custom fields to delete."
+  new          : 'Failed to create a new custom field.'
+  save         : 'Failed to modify the custom field.'
+  delete       : 'Failed to delete the custom field with ID #%s.'
+  no_delete    : "You haven't specified any custom fields to delete."
+  invalid_field: 'The specified custom field is invalid.'
 
 success:
   new     : 'The new custom field has been created.'
@@ -38,15 +39,16 @@ success:
 
 special:
   type_hash:
-    textbox          : 'Textbox'
-    textarea         : 'Textarea'
-    radio            : 'Radio button'
-    checkbox         : 'Checkbox'
-    date             : 'Date'
-    select           : 'Select dropdown'
-    select_multiple  : 'Multi select'
+    textbox        : 'Textbox'
+    textarea       : 'Textarea'
+    radio          : 'Radio button'
+    checkbox       : 'Checkbox'
+    date           : 'Date'
+    select         : 'Select dropdown'
+    select_multiple: 'Multi select'
+    password       : 'Password'
 
 buttons:
-  new     : 'Add custom field'
-  delete  : 'Delete selected fields'
-  save    : 'Save custom field'
+  new   : 'Add custom field'
+  delete: 'Delete selected fields'
+  save  : 'Save custom field'

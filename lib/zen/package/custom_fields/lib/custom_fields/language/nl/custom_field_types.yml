@@ -1,0 +1,40 @@
+---
+titles:
+  index: 'Veld types'
+  edit : 'Veld type aanpassen'
+  new  : 'Veld type toevoegen'
+
+labels:
+  id                    : '#'
+  name                  : 'Naam'
+  language_string       : 'Vertaal naam'
+  html_class             : 'CSS klasse'
+  serialize             : 'Serialiseren'
+  allow_markup          : 'Opmaak toegestaan'
+  custom_field_method_id: 'Veld methode'
+
+placeholders:
+  language_string: 'De volledige naam van de vertaling voor dit veld.'
+  html_class     : 'Een set aan HTML klasses voor alle velden van dit type.'
+  serialize      : 'De waarde wel of niet serialiseren.'
+  allow_markup   : 'Opmaak toegestaan of niet.'
+
+messages:
+  no_field_types: 'Er zijn nog geen veld types aangemaakt.'
+
+errors:
+  new         : 'Het veld type kon niet worden aangemaakt.'
+  save        : 'Het veld type kon niet worden aangepast.'
+  delete      : 'Het veld type met ID #%s kon niet worden verwijderd.'
+  no_delete   : 'U moet ten minste 1 veld type specificeren om te verwijderen.'
+  invalid_type: 'Het opgegeven veld type is ongeldig.'
+
+success:
+  new   : 'Het veld type is aangemaakt.'
+  save  : 'Het veld type is aangepast.'
+  delete: 'Alle geselecteerde veld types zijn verwijderd.'
+
+buttons:
+  new   : 'Veld type toevoegen'
+  delete: 'Geselecteerde types verwijderen'
+  save  : 'Veld type opslaan'

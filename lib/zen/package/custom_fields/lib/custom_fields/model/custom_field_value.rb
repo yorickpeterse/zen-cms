@@ -19,17 +19,38 @@ module CustomFields
       many_to_one(:section_entry, :class => "Sections::Model::SectionEntry")
 
       ##
-      # Hook that is executed before saving a field's value. This hook is used to clean
-      # up all values making it easier to process them at a later stage.
+      # Sets the value and serializes it based on the field type.
       #
       # @author Yorick Peterse
-      # @since  0.2.4
+      # @since  0.2.8
+      # @param  [Mixed] value The value to store.
       #
-      def before_save
-        # T-t-t-t-that's all folks!
-        if !self.value.nil?
-          self.value.gsub!(/\r\n/, "\n")
+      def value=(val)
+        type = custom_field.custom_field_type
+
+        if !type.nil? and type.serialize === true
+          val = [Marshal.dump(val)].pack('m')
         end
+
+        super(val)
+      end
+
+      ##
+      # Retrieves the value and optionally unserializes it.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.8
+      # @return [Mixed]
+      #
+      def value
+        val  = super
+        type = custom_field.custom_field_type
+
+        if !type.nil? and type.serialize === true
+          val = Marshal.load(val.unpack('m')[0]) rescue Marshal.load(val)
+        end
+
+        return val
       end
     end # CustomFieldValue
   end # Model

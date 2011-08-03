@@ -1,6 +1,0 @@
----
-name: 'Name'
-age: 'Age'
-
-parent:
-  sub: 'Sub item'

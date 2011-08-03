@@ -1,64 +1,60 @@
-#{
-form_for(
-  @menu_item, :method => :post, :action => @form_save_url, :id => :menu_item_form
-) do |f|
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
 
-  f.input_hidden(:csrf_token, get_csrf_token)
-  f.input_hidden(:id        , @menu_item.id)
-  f.input_hidden(:menu_id   , @menu_id)
+    #{
+    form_for(
+      @menu_item, 
+      :method => :post, 
+      :action => Menus::Controller::MenuItems.r(:save), 
+      :id     => :menu_item_form
+    ) do |f|
+      f.input_hidden(:csrf_token, get_csrf_token)
+      f.input_hidden(:id        , @menu_item.id)
+      f.input_hidden(:menu_id   , @menu_id)
 
-  f.input_text(
-    lang('menu_items.labels.name'), 
-    :name, 
-    :placeholder => lang('menu_items.placeholders.name')
-  )
+      f.input_text(
+        lang('menu_items.labels.name'), 
+        :name, 
+        :placeholder => lang('menu_items.placeholders.name')
+      )
 
-  f.input_text(
-    lang('menu_items.labels.url'),
-    :url, 
-    :placeholder => lang('menu_items.placeholders.url')
-  )
+      f.input_text(
+        lang('menu_items.labels.url'),
+        :url, 
+        :placeholder => lang('menu_items.placeholders.url')
+      )
 
-  f.input_text(
-    lang('menu_items.labels.order'),
-    :order, 
-    :placeholder => lang('menu_items.placeholders.order')
-  )
+      f.input_text(
+        lang('menu_items.labels.order'),
+        :sort_order, 
+        :placeholder => lang('menu_items.placeholders.order')
+      )
 
-  # Generate the dropdown that contains all possible parent menu items    
-  parent_items = {}
-  Menus::Model::Menu[@menu_id.to_i].menu_items.each do |i|
-    if i.id != @menu_item.id
-      parent_items[i.id] = i.name
+      f.select(
+        lang('menu_items.labels.parent_id'),
+        :parent_id, 
+        :values   => menu_item_tree(@menu_id), 
+        :selected => @menu_item.parent_id, 
+        :size     => 1
+      )
+
+      f.input_text(
+        lang('menu_items.labels.html_class'), 
+        :html_class, 
+        :placeholder => lang('menu_items.placeholders.html_class')
+      )
+
+      f.input_text(
+        lang('menu_items.labels.html_id'), 
+        :html_id, 
+        :placeholder => lang('menu_items.placeholders.html_id')
+      )
+
+      f.g.div(:class => :button) do
+        f.g.input(:type => :submit, :value => lang('menu_items.buttons.save'))
+      end
     end
-  end
-
-  parent_items = menu_item_tree(@menu_id.to_i)
-
-  f.select(
-    lang('menu_items.labels.parent_id'),
-    :parent_id, 
-    :values   => parent_items, 
-    :selected => @menu_item.parent_id, 
-    :size     => 1
-  )
-
-  f.input_text(
-    lang('menu_items.labels.css_class'), 
-    :css_class, 
-    :placeholder => lang('menu_items.placeholders.css_class')
-  )
-
-  f.input_text(
-    lang('menu_items.labels.css_id'), 
-    :css_id, 
-    :placeholder => lang('menu_items.placeholders.css_id')
-  )
-
-  f.g.div(:class => :clearfix) do
-    f.g.div(:class => :button) do
-      f.g.input(:type => :submit, :value => lang('menu_items.buttons.save'))
-    end
-  end
-end
-}
+    }
+</article>

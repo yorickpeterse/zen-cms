@@ -13,12 +13,22 @@ module Sections
       include ::Sections::Model
 
       map '/admin/section-entries'
+      helper :section
 
       # Load all required Javascript files
-      javascript ['zen/tabs', 'zen/editor', 'vendor/datepicker']
+      javascript(
+        [
+          'zen/lib/tabs',
+          'zen/lib/editor',
+          'zen/lib/editor/markdown',
+          'zen/lib/editor/textile',
+          'vendor/datepicker'
+        ],
+        :method => [:edit, :new]
+      )
 
       # Load all required CSS files
-      stylesheet ['zen/datepicker']
+      stylesheet(['zen/datepicker'], :method => [:edit, :new])
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -42,9 +52,6 @@ module Sections
       def initialize
         super
 
-        @form_save_url   = SectionEntries.r(:save)
-        @form_delete_url = SectionEntries.r(:delete)
-
         Zen::Language.load('section_entries')
         Zen::Language.load('sections')
 
@@ -53,14 +60,9 @@ module Sections
           method      = action.method.to_sym
           @page_title = lang("section_entries.titles.#{method}") rescue nil
         end
-
-        @status_hash = {
-          'draft'     => lang('section_entries.special.status_hash.draft'),
-          'published' => lang('section_entries.special.status_hash.published')
-        }
       end
 
-      ##
+      ##]
       # Show an overview of all entries for the current section.
       #
       # This method requires the following permissions:
@@ -68,22 +70,21 @@ module Sections
       # * read
       #
       # @author Yorick Peterse
-      # @param  [Integer] section_id The ID of the current section.
+      # @param  [Fixnum] section_id The ID of the current section.
       # @since  0.1
       #
       def index(section_id)
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
         set_breadcrumbs(
-          anchor_to(lang('sections.titles.index'), Sections.r(:index)),
+          Sections.a(lang('sections.titles.index'), :index),
           lang('section_entries.titles.index')
         )
 
-        section     = Section[section_id.to_i]
+        section     = validate_section(section_id)
         @section_id = section_id
-        @entries    = section.section_entries
+        @entries    = SectionEntry.filter(:section_id => section_id)
+        @entries    = paginate(@entries)
       end
 
       ##
@@ -95,38 +96,36 @@ module Sections
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] section_id The ID of the current section.
-      # @param  [Integer] entry_id The ID of the current section entry.
+      # @param  [Fixnum] section_id The ID of the current section.
+      # @param  [Fixnum] entry_id The ID of the current section entry.
       # @since  0.1
       #
       def edit(section_id, entry_id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('sections.titles.index'),
-            Sections.r(:index)
+          Sections.a(
+            lang('sections.titles.index'), :index
           ),
-          anchor_to(
-            lang('section_entries.titles.index'),
-            SectionEntries.r(:index, section_id)
+          SectionEntries.a(
+            lang('section_entries.titles.index'), :index, section_id
           ),
           lang('section_entries.titles.edit')
         )
 
-        @section_id = section_id
+        validate_section(section_id)
 
         if flash[:form_data]
           @entry = flash[:form_data]
         else
-          @entry = SectionEntry[entry_id.to_i]
+          @entry = validate_section_entry(entry_id, section_id)
         end
 
-        @users_hash = {}
+        @section_id          = section_id
+        @possible_categories = @entry.possible_categories
+        @custom_fields_hash  = @entry.custom_fields_hash
 
-        Users::Model::User.each { |u| @users_hash[u.id] = u.name }
+        render_view(:form)
       end
 
       ##
@@ -138,37 +137,37 @@ module Sections
       # * create
       #
       # @author Yorick Peterse
-      # @param  [Integer] section_id The ID of the current section.
+      # @param  [Fixnum] section_id The ID of the current section.
       # @since  0.1
       #
       def new(section_id)
-        if !user_authorized?([:read, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :create)
 
         set_breadcrumbs(
-          anchor_to(
-            lang('sections.titles.index'),
-            Sections.r(:index)
+          Sections.a(
+            lang('sections.titles.index'), :index
           ),
-          anchor_to(
-            lang('section_entries.titles.index'),
-            SectionEntries.r(:index, section_id)
+          SectionEntries.a(
+            lang('section_entries.titles.index'), :index, section_id
           ),
           lang('section_entries.titles.new')
         )
 
-        @section_id = section_id
-        @entry      = SectionEntry.new(:section_id => @section_id)
-        @users_hash = {}
+        validate_section(section_id)
 
-        Users::Model::User.each { |u| @users_hash[u.id] = u.name }
+        @section_id          = section_id
+        @entry               = SectionEntry.new(:section_id => section_id)
+        @possible_categories = @entry.possible_categories
+        @custom_fields_hash  = @entry.custom_fields_hash
+
+        render_view(:form)
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back to
-      # the proper URL. Based on the value of a hidden field named "id" we'll determine
-      # if the data will be used to create a new section or to update an existing one.
+      # Method used for processing the form data and redirecting the user back
+      # to the proper URL. Based on the value of a hidden field named "id" we'll
+      # determine if the data will be used to create a new section or to update
+      # an existing one.
       #
       # This method requires the following permissions:
       #
@@ -177,81 +176,87 @@ module Sections
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @todo The way this method handles the creation of field values might require some
-      # patches as it executes quite a few queries. I'll keep it as it is for now.
+      # @todo The way this method handles the creation of field values might
+      # require some patches as it executes quite a few queries. I'll keep it
+      # as it is for now.
       #
       def save
-        if !user_authorized?([:create, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        section_id = request.params['section_id']
 
-        post                = request.params.dup
-        section_id          = post['section_id']
-        field_values        = post['custom_field_values']
-        custom_field_errors = {}
+        validate_section(section_id)
 
-        post.delete('custom_field_values')
-        post.delete('slug') if post['slug'].empty?
+        if request.params['id'] and !request.params['id'].empty?
+          require_permissions(:update)
 
-        if !post['category_pks'].nil?
-          post['category_pks'].map! { |value| value.to_i }
+          @entry      = SectionEntry[request.params['id']]
+          save_action = :save
+
+          # Section entries aren't considered to be updated whenever a custom
+          # field value is modified, this solves that problem
+          request.params['updated_at'] = Time.new
         else
-          post['category_pks'] = []
+          require_permissions(:create)
+
+          @entry      = SectionEntry.new(:section_id => section_id)
+          save_action = :new
         end
 
-        if post['id'] and !post['id'].empty?
-          @entry        = SectionEntry[post['id']]
-          save_action   = :save
-
-          # Section entries aren't considered to be updated whenever a custom field value
-          # is modified, this solves that problem
-          post['updated_at'] = Time.new
-        else
-          @entry        = SectionEntry.new
-          save_action   = :new
-        end
-
-        post.delete('id')
+        request.params.delete('slug') if request.params['slug'].empty?
+        request.params.delete('id')
 
         flash_success = lang("section_entries.success.#{save_action}")
         flash_error   = lang("section_entries.errors.#{save_action}")
+        custom_fields = @entry.custom_fields
+        field_errors  = {}
+        field_values  = {}
 
-        # Transactions ahoy!
+        @entry.custom_field_values.each do |value|
+          field_values[value.custom_field_id] = value
+        end
+
         begin
           Zen.database.transaction do
             # Update the entry itself
-            @entry.update(post)
+            @entry.update(request.subset(
+              :title,
+              :created_at,
+              :updated_at,
+              :section_id,
+              :user_id,
+              :slug,
+              :section_entry_status_id
+            ))
+
             message(:success, flash_success)
 
-            # Update the field values
-            field_values.each do |field_id, value|
-              field_value = CustomFields::Model::CustomFieldValue[
-                :custom_field_id  => field_id,
-                :section_entry_id => @entry.id
-              ]
+            # Update/add all the custom field values
+            custom_fields.each do |field|
+              key = "custom_field_value_#{field.id}"
 
-              if field_value.nil?
-                field_value = @entry.add_custom_field_value(
-                  :section_entry_id => @entry.id,
-                  :custom_field_id  => field_id
-                )
+              # The custom field has been submitted, let's see if we have to
+              # update it or add it.
+              if request.params.key?(key)
+                # Validate it
+                if field.required and request.params[key].empty?
+                  field_errors[:"custom_field_value_#{field.id}"] = \
+                    lang('zen_models.presence')
+
+                  raise
+                end
+
+                # Update it
+                if field_values.key?(field.id)
+                  field_values[field.id].update(:value => request.params[key])
+                # Add it
+                else
+                  @entry.add_custom_field_value(
+                    :custom_field_id => field.id,
+                    :value           => request.params[key]
+                  )
+                end
               end
-
-              # Get the custom field for the current value
-              custom_field = field_value.custom_field
-
-              if custom_field.required and value.empty?
-                custom_field_errors[:"custom_field_values[#{field_id}]"] = \
-                  lang('zen_models.presence')
-              end
-
-              raise unless custom_field_errors.empty?
-
-              field_value.value = value
-              field_value.save
             end
           end
-
         # The rescue statement is called whenever the following happens:
         #
         # 1. The fields for the section entry (title, slug, etc) are invalid
@@ -261,7 +266,7 @@ module Sections
           Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
-          flash[:form_errors] = @entry.errors.merge(custom_field_errors)
+          flash[:form_errors] = @entry.errors.merge(field_errors)
           flash[:form_data]   = @entry
 
           redirect_referrer
@@ -286,11 +291,10 @@ module Sections
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
-        if !request.params['section_entry_ids'] or request.params['section_entry_ids'].empty?
+        if !request.params['section_entry_ids'] \
+        or request.params['section_entry_ids'].empty?
           message(:error, lang('section_entries.errors.no_delete'))
           redirect_referrer
         end
@@ -302,6 +306,8 @@ module Sections
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error,lang('section_entries.errors.delete') % id)
+
+            redirect_referrer
           end
         end
 

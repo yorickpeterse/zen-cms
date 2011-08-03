@@ -1,9 +1,5 @@
-##
-# Task group for database related tasks such as migrating and removing the database.
-#
-# @author Yorick Peterse
-# @since  0.2.5
-#
+# Task group for database related tasks such as migrating and removing the
+# database.
 namespace :db do
 
   desc 'Migrates the database to the newest version'
@@ -75,29 +71,29 @@ namespace :db do
       number = (0..9).to_a[rand(26)]
       letter + number.to_s
     end.join
-  
+
     # Only insert the user if it isn't there yet.
     user  = Users::Model::User[:email => 'admin@website.tld']
     group = Users::Model::UserGroup[:slug => 'administrators']
-    
+
     if group.nil?
       group = Users::Model::UserGroup.new(
         :name => 'Administrators',
         :slug => 'administrators', :super_group => true
       ).save
     end
-    
+
     if !user.nil?
       abort "The default user has already been inserted."
     end
-    
+
     user = Users::Model::User.new(
       :email => 'admin@website.tld', :name => 'Administrator',
       :password => password, :status => 'open'
     ).save
-    
+
     user.user_group_pks = [group.id]
-    
+
     puts "Default administrator account has been created.
 
 Email: admin@website.tld

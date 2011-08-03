@@ -1,229 +1,109 @@
-<div class="tabs">
-    <ul>
-        <li>
-            <a href="#basic" title="#{lang('section_entries.tabs.basic')}">
-                #{lang('section_entries.tabs.basic')}
-            </a>
-        </li>
-        <li>
-            <a href="#categories" title="#{lang('section_entries.tabs.categories')}">
-                #{lang('section_entries.tabs.categories')}
-            </a>
-        </li>
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
+
+    <div class="tabs">
+        <ul>
+            <li>
+                <a href="#basic" title="#{lang('section_entries.tabs.basic')}">
+                    #{lang('section_entries.tabs.basic')}
+                </a>
+            </li>
+            <li>
+                <a href="#categories" 
+                title="#{lang('section_entries.tabs.categories')}">
+                    #{lang('section_entries.tabs.categories')}
+                </a>
+            </li>
+
+            <?r @custom_fields_hash.each do |id, group| ?>
+            <li>
+                <a href="#group_#{id}" title="#{group[:name]}">
+                  #{group[:name]}
+                </a>
+            </li>
+            <?r end ?>
+        </ul>
+    </div>
+
+    #{
+      form_for(
+        @entry, 
+        :method => :post, 
+        :action => Sections::Controller::SectionEntries.r(:save), 
+        :id     => :section_entry_form
+      ) do |f|
+        f.input_hidden(:csrf_token, get_csrf_token)
+        f.input_hidden(:section_id, @section_id)
+        f.input_hidden(:id        , @entry.id)
         
-        <?r if @entry.section.custom_field_groups and !@entry.section.custom_field_groups.empty? ?>
-        <?r @entry.section.custom_field_groups.each do |group| ?>
-        <li>
-            <a href="#group_#{group.id}" title="#{group.name}">
-                #{group.name}
-            </a>
-        </li>
-        <?r end ?>
-        <?r end ?>
-    </ul>
-</div>
+        f.g.div(:id => :basic) do
+          f.input_text(
+            lang('section_entries.labels.title'), 
+            :title
+          )
 
-#{
-  form_for(
-    @entry, :method => :post, :action => @form_save_url, :id => :section_entry_form
-  ) do |f|
-    f.input_hidden(:csrf_token, get_csrf_token)
-    f.input_hidden(:section_id, @section_id)
-    f.input_hidden(:id, @entry.id)
-    
-    f.g.div(:id => :basic) do
-      f.input_text(
-        lang('section_entries.labels.title'), 
-        :title
-      )
+          f.input_text(
+            lang('section_entries.labels.slug'), 
+            :slug
+          )
 
-      f.input_text(
-        lang('section_entries.labels.slug'), 
-        :slug
-      )
-
-      # Only show the date field when modifying an existing entry
-      if !@entry.nil?
-        f.input_text(
-          lang('section_entries.labels.created_at'),
-          :created_at,
-          :class => 'date'
-        )
-      end
-    
-      f.select(
-        lang('section_entries.labels.author'), 
-        :user_id, 
-        :values => @users_hash
-      )
-      
-      f.select(
-        lang('section_entries.labels.status'), 
-        :status, 
-        :values   => @status_hash,
-        :selected => @entry.status, 
-        :size     => 1
-      )
-    end
-    
-    f.g.div(:id => :categories) do
-      if @entry.section.category_groups
-        @entry.section.category_groups.each do |group|
-          categories = {}
-
-          group.categories.each do |category|
-            categories[category.id] = category.name
+          # Only show the date field when modifying an existing entry
+          if !@entry.nil?
+            f.input_text(
+              lang('section_entries.labels.created_at'),
+              :created_at,
+              :class => 'date'
+            )
           end
+        
+          f.select(
+            lang('section_entries.labels.author'), 
+            :user_id, 
+            :values => ::Users::Model::User.pk_hash(:name)
+          )
           
           f.select(
-            group.name, 
-            :category_pks, 
-            :values   => categories, 
-            :multiple => :multiple,
-            :selected => @entry.category_pks
+            lang('section_entries.labels.status'), 
+            :section_entry_status_id, 
+            :values   => ::Sections::Model::SectionEntry.status_hash,
+            :selected => @entry.section_entry_status_id, 
+            :size     => 1
           )
         end
-      else
-        f.g.p(lang('section_entries.messages.no_categories'))
-      end
-    end
-    
-    # Organize all field values by field ID
-    field_values_by_id = {}
-    @entry.custom_field_values.each do |value|
-      field_values_by_id[value.custom_field_id] = value
-    end
+        
+        f.g.div(:id => :categories) do
+          if !@possible_categories.empty?
+            @possible_categories.each do |group, categories|
+              f.select(
+                group, 
+                :category_pks, 
+                :values   => categories, 
+                :multiple => :multiple,
+                :selected => @entry.category_pks
+              )
+            end
+          else
+            f.g.p(lang('section_entries.messages.no_categories'))
+          end
+        end
 
-    # Loop through all the custom field groups
-    if @entry.section.custom_field_groups and !@entry.section.custom_field_groups.empty?
-      @entry.section.custom_field_groups.each do |group|
-      
-        f.g.div(:id => "group_#{group.id}") do
-          # Show each custom field
-          if group.custom_fields and !group.custom_fields.empty?
-            group.custom_fields.each do |field|
-              
-              # Generate some global variables for all fields
-              field_name            = "custom_field_values[#{field.id}]"
-              possible_values       = {}
-              field.possible_values = '' if field.possible_values.nil?
-              
-              field.possible_values.split("\n").each do |row|
-                if row.include? '|'
-                  row   = row.split('|')
-                  key   = row[0]
-                  value = row[1]
-                else
-                  key = value = row
-                end
-                
-                possible_values[key] = value
-              end
-              
-              if field.text_limit == 0
-                text_limit = nil
-              else
-                text_limit = field.text_limit
-              end
-            
-              # Get the current field's value
-              field_value = field_values_by_id[field.id].value rescue nil
-     
-              case field.type
-                when "textbox" then
-                  f.input_text(
-                    field.name, 
-                    field_name, 
-                    :maxlength     => text_limit,
-                    :value         => field_value, 
-                    :placeholder   => field.description, 
-                    :'data-format' => field.format
-                  )
-                
-                when "textarea" then
-                  if field.visual_editor == true
-                    textarea_class = 'visual_editor'
-                  else
-                    textarea_class = nil
-                  end
-                  
-                  f.textarea(
-                    field.name, 
-                    field_name, 
-                    :rows          => field.textarea_rows, 
-                    :maxlength     => text_limit,
-                    :value         => field_value, 
-                    :class         => textarea_class, 
-                    :placeholder   => field.description,
-                    :'data-format' => field.format
-                  )
-                
-                when "radio" then
-                  f.input_radio(
-                    field.name, 
-                    field_name, 
-                    field_value, 
-                    :values        => possible_values,
-                    :placeholder   => field.description, 
-                    :'data-format' => field.format
-                  )
-                  
-                when "checkbox" then
-                  f.input_checkbox(
-                    field.name, 
-                    field_name, 
-                    field_value, 
-                    :values        => possible_values,
-                    :placeholder   => field.description, 
-                    :'data-format' => field.format
-                  )
-                
-                when "date" then
-                  f.input_text(
-                    field.name, 
-                    field_name, 
-                    :value         => field_value,
-                    :class         => 'date',
-                    :placeholder   => field.description, 
-                    :'data-format' => field.format
-                  )
-                
-                when "select" then
-                  possible_values = possible_values.invert
-                  f.select(
-                    field.name, 
-                    field_name, 
-                    :values        => possible_values, 
-                    :selected      => field_value,
-                    :size          => 1, 
-                    :placeholder   => field.description, 
-                    :'data-format' => field.format
-                  )
-                
-                when "select_multiple" then
-                  possible_values = possible_values.invert
-                  f.select(
-                    field.name, 
-                    field_name, 
-                    :values        => possible_values, 
-                    :selected      => field_value,
-                    :multiple      => :multiple, 
-                    :placeholder   => field.description, 
-                    :'data-format' => field.format
-                  )
-              end
-            
+        # Display all the custom fields for this entry
+        @custom_fields_hash.each do |id, group|
+          f.g.div(:id => "group_#{id}") do
+            group[:fields].each do |field|
+              f.send(*field)
             end
           end
         end
-        
+
+        f.g.div(:class => 'button') do
+          f.g.input(
+            :type  => 'submit', 
+            :value => lang('section_entries.buttons.save')
+          )
+        end
       end
-    end
-    
-    f.g.div(:class => 'clearfix') do
-      f.g.div(:class => 'button') do
-        f.g.input(:type => 'submit', :value => lang('section_entries.buttons.save'))
-      end
-    end
-  end
-}
+      }
+</article>

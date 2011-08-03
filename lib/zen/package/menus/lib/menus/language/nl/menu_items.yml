@@ -10,15 +10,15 @@ labels:
   name     : 'Naam'
   url      : 'URL'
   order    : 'Volgorde'
-  css_class: 'CSS klasse'
-  css_id   : 'CSS ID'
+  html_class: 'CSS klasse'
+  html_id   : 'CSS ID'
 
 placeholders:
-  name     : 'De naam/label van het menu item.'
-  url      : 'De URL van het menu item.'
-  order    : 'De sorteer volgorde.'
-  css_class: 'Een klasse die gebruikt kan worden in CSS bestanden.'
-  css_id   : 'Een ID die gebruikt kan worden in CSS bestanden.'
+  name      : 'De naam/label van het menu item.'
+  url       : 'De URL van het menu item.'
+  order     : 'De sorteer volgorde.'
+  html_class: 'Een of meerdere klasses voor dit item.'
+  html_id   : 'Een ID voor dit item.'
 
 messages:
   no_items: 'Er zijn nog geen menu items aangemaakt.'
@@ -38,4 +38,4 @@ errors:
   save        : 'Het menu item kon niet worden aangepast.'
   delete      : 'Het menu item met ID #%s kon niet worden verwijderd.'
   no_delete   : 'U moet ten minste 1 item specificeren om te verwijderen.'
-  invalid_menu: 'Het opgegeven menu is ongeldig of bestaat niet meer.'
+  invalid_item: 'Het opgegeven menu item is ongeldig.'

@@ -20,10 +20,11 @@ success:
   delete: 'De geselecteerde groepen zijn verwijderd.'
 
 errors:
-  new      : 'De gebruikers groep kon niet worden aangemaakt.'
-  save     : 'De gebruikers groep kon niet worden aangepast.'
-  delete   : 'De gebruikers groep met ID #%s kon niet worden verwijderd.'
-  no_delete: 'U moet ten minste 1 groep specificeren om te verwijderen.'
+  new          : 'De gebruikers groep kon niet worden aangemaakt.'
+  save         : 'De gebruikers groep kon niet worden aangepast.'
+  delete       : 'De gebruikers groep met ID #%s kon niet worden verwijderd.'
+  no_delete    : 'U moet ten minste 1 groep specificeren om te verwijderen.'
+  invalid_group: 'De opgegeven gebruikers groep is ongeldig.'
 
 buttons:
   new   : 'Groep toevoegen'

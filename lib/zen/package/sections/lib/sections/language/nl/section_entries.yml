@@ -32,10 +32,11 @@ success:
   delete: 'Alle geselecteerde items zijn verwijderd.'
 
 errors:
-  new      : 'Het sectie item kon niet worden aangemaakt.'
-  save     : 'Het sectie item kon niet worden aangepast.'
-  delete   : 'Het sectie item met ID #%s kon niet worden verwijderd.'
-  no_delete: 'U moet ten minste 1 item specificeren om te verwijderen.'
+  new          : 'Het sectie item kon niet worden aangemaakt.'
+  save         : 'Het sectie item kon niet worden aangepast.'
+  delete       : 'Het sectie item met ID #%s kon niet worden verwijderd.'
+  no_delete    : 'U moet ten minste 1 item specificeren om te verwijderen.'
+  invalid_entry: 'Het opgegeven item is ongeldig.'
 
 buttons:
   new   : 'Sectie item toevoegen'

@@ -15,7 +15,7 @@ module Settings
       map '/admin/settings'
 
       # Load all required Javascript files
-      javascript ['zen/tabs']
+      javascript ['zen/lib/tabs']
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -60,9 +60,7 @@ module Settings
       # @since  0.1
       #
       def index
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(lang('settings.titles.index'))
 
@@ -71,7 +69,8 @@ module Settings
 
         # Organize the settings so that each item is a child
         # item of it's group.
-        ::Settings::Plugin::Settings::Registered[:settings].each do |name, setting|
+        ::Settings::Plugin::Settings::Registered[:settings].each \
+        do |name, setting|
           if !@settings_ordered.key?(setting.group)
             @settings_ordered[setting.group] = []
           end
@@ -93,9 +92,7 @@ module Settings
       # @since  0.1
       #
       def save
-        if !user_authorized?([:update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:update)
 
         post = request.params.dup
         post.delete('csrf_token')

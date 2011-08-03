@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html lang="#{plugin(:settings, :get, :language).value}">
     <head>
-        <meta charset="utf-8" />
-        
-        <!-- Load all stylesheets -->
-        #{::Zen::Asset.build(:stylesheet)}
-        
-        <title>#{@page_title}</title>
+        #{render_file(__DIR__('../view/head.xhtml'))}
     </head>
 
     <body id="login">

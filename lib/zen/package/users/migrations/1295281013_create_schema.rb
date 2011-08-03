@@ -4,10 +4,10 @@ Sequel.migration do
     create_table :users do
       primary_key :id
         
-      String :email,    :null      => false, :unique => true
+      String :email,    :null    => false, :unique => true
       String :name
       String :website
-      String :password, :null      => false
+      String :password, :null    => false
       String :status,   :default => 'closed'
       Time   :created_at
       Time   :updated_at

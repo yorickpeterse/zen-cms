@@ -1,11 +1,8 @@
-##
-# Task group used for building various elements such as the Gem and the documentation.
-#
-# @author Yorick Peterse
-# @since  0.2.5
-#
-namespace :build do
+require 'open3'
 
+# Task group used for building various elements such as the Gem and the
+# documentation.
+namespace :build do
   desc 'Builds the documentation using YARD'
   task :doc do
     zen_path = File.expand_path('../../../../', __FILE__)
@@ -17,46 +14,26 @@ namespace :build do
 
   desc 'Builds a new Gem'
   task :gem do
-    zen_path = File.expand_path('../../../../', __FILE__)
+    zen_path     = __DIR__('../../../')
+    gemspec_path = File.join(
+      zen_path,
+      "#{Zen::Gemspec.name}-#{Zen::Gemspec.version.version}.gem"
+    )
+
+    pkg_path = File.join(
+      zen_path,
+      'pkg',
+      "#{Zen::Gemspec.name}-#{Zen::Gemspec.version.version}.gem"
+    )
 
     # Build and install the gem
-    sh("gem build #{zen_path}/zen.gemspec")
-    sh("mv #{zen_path}/zen-#{Zen::Version}.gem #{zen_path}/pkg")
-    sh("gem install #{zen_path}/pkg/zen-#{Zen::Version}.gem")
+
+    sh('gem', 'build'     , File.join(zen_path, 'zen.gemspec'))
+    sh('mv' , gemspec_path, pkg_path)
+    sh('gem', 'install'   , pkg_path)
   end
 
-  desc 'Builds the MANIFEST file'
-  task :manifest do
-    zen_path     = File.expand_path('../../../../', __FILE__)
-    ignore_exts  = ['.gem', '.gemspec', '.swp']
-    ignore_files = ['.DS_Store', '.gitignore', '.rvmrc']
-    ignore_dirs  = ['.git', '.yardoc', 'spec', 'pkg', 'doc']
-    files        = ''
-    
-    Find.find(zen_path) do |f|
-      f[zen_path] = ''
-      f.gsub!(/^\//, '')
-
-      # Ignore directories
-      if !File.directory?(f) and !ignore_exts.include?(File.extname(f)) \
-      and !ignore_files.include?(File.basename(f))
-        files += "#{f}\n"
-      else
-        Find.prune if ignore_dirs.include?(f)
-      end
-    end
-    
-    # Time to write the MANIFEST file
-    begin
-      handle = File.open 'MANIFEST', 'w'
-      handle.write files.strip
-      puts "The MANIFEST file has been updated."
-    rescue
-      abort "The MANIFEST file could not be written."
-    end
-  end
-
-  # Shamelessly stolen from Ramaze
+  # Stolen from Ramaze
   desc 'Builds a list of all the people that have contributed to Zen'
   task :authors do
     authors = Hash.new(0)
@@ -74,4 +51,4 @@ namespace :build do
       end
     end
   end
-end
+end # namespace :build

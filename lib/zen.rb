@@ -3,7 +3,7 @@ require 'ramaze'
 require 'yaml'
 
 Ramaze.setup(:verbose => false) do
-  gem 'sequel'          , ['~> 3.24.1']
+  gem 'sequel'          , ['~> 3.26']
   gem 'bcrypt-ruby'     , ['~> 2.1.4'], :lib => 'bcrypt'
   gem 'sequel_sluggable', ['~> 0.0.6']
   gem 'loofah'          , ['~> 1.0.0']
@@ -12,8 +12,9 @@ end
 require __DIR__('zen/version')
 
 ##
-# Main module for Zen, all other modules and classes will be placed inside this module.
-# This module loads all required classes and is used for starting the application.
+# Main module for Zen, all other modules and classes will be placed inside this
+# module. This module loads all required classes and is used for starting the
+# application.
 #
 # @author Yorick Peterse
 # @since  0.1
@@ -25,8 +26,8 @@ module Zen
 
   class << self
     ##
-    # Variable that will contain a database connection that was established using
-    # Sequel.connect.
+    # Variable that will contain a database connection that was established
+    # using Sequel.connect.
     #
     # @author Yorick Peterse
     # @since  0.2.6
@@ -63,15 +64,8 @@ module Zen
         css = File.join(p, 'admin/css/global.css')
         js  = File.join(p, 'admin/js/global.js')
 
-        # Load the CSS file if it's there
-        if File.exist?(css)
-          ::Zen::Asset.stylesheet(['global'], :global => true)
-        end
-
-        # Load the JS file if it's there
-        if File.exist?(js)
-          ::Zen::Asset.javascript(['global'], :global => true)
-        end
+        Zen::Asset.stylesheet(['global'], :global => true) if File.exist?(css)
+        Zen::Asset.javascript(['global'], :global => true) if File.exist?(js)
       end
     end
 
@@ -85,9 +79,10 @@ module Zen
       # Migrate all settings
       begin
         plugin(:settings, :migrate)
-      rescue
+      rescue => e
         Ramaze::Log.warn(
-          "Failed to migrate the settings, make sure the database table is up to date"
+          'Failed to migrate the settings, make sure the database ' + \
+            'table is up to date'
         )
       end
     end
@@ -110,7 +105,6 @@ Zen::Language.load('zen_general')
 
 # Load all additional files
 require __DIR__('zen/plugin/helper')
-require __DIR__('zen/plugin/controller')
 require __DIR__('zen/plugin/markup/lib/markup')
 
 require __DIR__('zen/package')
@@ -123,7 +117,7 @@ require __DIR__('zen/controller/admin_controller')
 require __DIR__('zen/controller/main_controller')
 require __DIR__('zen/controller/preview')
 
-# Load the cache for the settings. This has to be done outside any of the init methods as
-# that would make it impossible to set a custom cache.
+# Load the cache for the settings. This has to be done outside any of the init
+# methods as that would make it impossible to set a custom cache.
 Ramaze::Cache.options.names.push(:settings)
 Ramaze::Cache.options.settings = Ramaze::Cache::LRU

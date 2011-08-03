@@ -37,7 +37,7 @@ module Settings
       attr_accessor :type
       
       # The possible values for the setting
-      attr_accessor :values
+      attr_writer :values
       
       # The default value of the setting
       attr_accessor :default
@@ -110,6 +110,23 @@ module Settings
         end
 
         return val
+      end
+
+      ##
+      # Retrieves the possible values for the setting. If the value is a Proc or Lambda 
+      # (or anything else that responds to call()) it will be called and it's return 
+      # value is used.
+      # 
+      # @author Yorick Peterse
+      # @since  0.2.8
+      # @return [Mixed]
+      #
+      def values
+        if @values.respond_to?(:call)
+          return @values.call
+        else
+          return @values
+        end
       end
     end # SettingBase
   end # Plugin

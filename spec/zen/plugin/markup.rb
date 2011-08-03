@@ -1,17 +1,10 @@
 require File.expand_path('../../../helper', __FILE__)
 require 'rdiscount'
-require 'redcloth'
 
 describe("Zen::Plugin::Markup") do
 
   it("Convert Markdown to HTML") do
     html = plugin(:markup, :markdown, 'hello **world**').strip
-
-    html.should === '<p>hello <strong>world</strong></p>'
-  end
-
-  it("Convert Textile to HTML") do
-    html = plugin(:markup, :textile, 'hello *world*').strip
 
     html.should === '<p>hello <strong>world</strong></p>'
   end
@@ -26,6 +19,26 @@ describe("Zen::Plugin::Markup") do
     html = plugin(:markup, :html, '<p>hello world</p>')
 
     html.should === '<p>hello world</p>'
+  end
+
+  it('Specify a non existing engine') do
+    begin
+      plugin(:markup, :foobar, 'hello')
+    rescue => e
+      e.message.should === 'The markup engine "foobar" is invalid.'
+    end
+  end
+
+  it('Specify an engine without a message') do
+    Zen::Plugin::Markup::Engines['foobar'] = 'foobar'
+
+    begin
+      plugin(:markup, :foobar, 'hello')
+    rescue => e
+      e.message.should === 'The engine "foobar" has no matching method.'
+    end
+
+    Zen::Plugin::Markup::Engines.delete('foobar')
   end
 
 end

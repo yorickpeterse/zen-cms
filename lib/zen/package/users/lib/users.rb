@@ -1,3 +1,5 @@
+Ramaze::HelpersHelper.options.paths.push(__DIR__('users'))
+
 require __DIR__('users/model/user')
 require __DIR__('users/model/user_group')
 require __DIR__('users/model/access_rule')
@@ -28,7 +30,7 @@ authorization."
     :title    => lang('users.titles.index'),
     :url      => 'admin/users',
     :children => [
-      {:title => lang('user_groups.titles.index') , :url => 'admin/user-groups' },
+      {:title => lang('user_groups.titles.index') , :url => 'admin/user-groups'},
       {:title => lang('access_rules.titles.index'), :url => 'admin/access-rules'}
     ]
   }]

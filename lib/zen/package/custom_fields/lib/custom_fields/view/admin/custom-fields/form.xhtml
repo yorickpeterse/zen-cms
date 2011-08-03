@@ -1,107 +1,113 @@
-<div class='tabs'>
-    <ul>
-        <li>
-            <a href="#general" title="#{lang('custom_fields.tabs.general')}">
-                #{lang('custom_fields.tabs.general')}
-            </a>
-        </li>
-        <li>
-            <a href="#settings" title="#{lang('custom_fields.tabs.settings')}">
-                #{lang('custom_fields.tabs.settings')}
-            </a>
-        </li>
-    </ul>
-</div>
+<article>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
 
-#{
-form_for(
-  @custom_field, :method => :post, :action => @form_save_url, :id => :custom_field_form
-) do |f|
+    <div class="tabs">
+        <ul>
+            <li>
+                <a href="#general"
+                title="#{lang('custom_fields.tabs.general')}">
+                    #{lang('custom_fields.tabs.general')}
+                </a>
+            </li>
+            <li>
+                <a href="#settings"
+                title="#{lang('custom_fields.tabs.settings')}">
+                    #{lang('custom_fields.tabs.settings')}
+                </a>
+            </li>
+        </ul>
+    </div>
 
-  f.input_hidden(:id, @custom_field.id)
-  f.input_hidden(:custom_field_group_id, @custom_field_group_id)
-  f.input_hidden(:csrf_token, get_csrf_token)
-  
-  f.g.div(:id => 'general') do
+    #{
+    form_for(
+      @custom_field,
+      :method => :post,
+      :action => CustomFields::Controller::CustomFields.r(:save),
+      :id     => :custom_field_form
+    ) do |f|
+      f.input_hidden(:id                   , @custom_field.id)
+      f.input_hidden(:custom_field_group_id, @custom_field_group_id)
+      f.input_hidden(:csrf_token           , get_csrf_token)
 
-    f.input_text(
-      lang('custom_fields.labels.name'),
-      :name
-    )
+      f.g.div(:id => 'general') do
+        f.input_text(
+          lang('custom_fields.labels.name'),
+          :name
+        )
 
-    f.input_text(
-      lang('custom_fields.labels.slug'),
-      :slug
-    )
-    
-    f.select(
-      lang('custom_fields.labels.type'),
-      :type, 
-      :values   => @field_type_hash, 
-      :size     => 1,
-      :selected => @custom_field.type
-    )
-    
-    f.select(
-      lang('custom_fields.labels.format'),
-      :format, 
-      :values   => Zen::Plugin::Markup::Engines, 
-      :size     => 1,
-      :selected => @custom_field.format
-    )
-  
-    f.textarea(
-      lang('custom_fields.labels.description'),
-      :description, 
-      :rows => 8
-    )
+        f.input_text(
+          lang('custom_fields.labels.slug'),
+          :slug
+        )
 
-    f.textarea(
-      lang('custom_fields.labels.possible_values'),
-      :possible_values, 
-      :rows => 8
-    )
-   
-  end
-  
-  f.g.div(:id => 'settings') do
+        f.select(
+          lang('custom_fields.labels.custom_field_type_id'),
+          :custom_field_type_id,
+          :values   => @custom_field_types,
+          :size     => 1,
+          :selected => @custom_field.custom_field_type_id
+        )
 
-    f.input_radio(
-      lang('custom_fields.labels.required'),
-      :required, 
-      @custom_field.required,
-      :values => @boolean_hash 
-    )
-      
-    f.input_radio(
-      lang('custom_fields.labels.visual_editor'),
-      :visual_editor, 
-      @custom_field.visual_editor,
-      :values => @boolean_hash
-    )
-      
-    f.input_text(
-      lang('custom_fields.labels.textarea_rows'),
-      :textarea_rows
-    )
-    
-    f.input_text(
-      lang('custom_fields.labels.text_limit'),
-      :text_limit
-    )
-    
-    f.input_text(
-      lang('custom_fields.labels.sort_order'),
-      :sort_order
-    )
+        f.select(
+          lang('custom_fields.labels.format'),
+          :format,
+          :values   => Zen::Plugin::Markup::Engines,
+          :size     => 1,
+          :selected => @custom_field.format
+        )
 
-  end
-  
-  f.g.div(:class => 'clearfix') do
-    f.g.div(:class => 'button') do
-      f.g.input(:type => 'submit', :value => lang('custom_fields.buttons.save'))
+        f.textarea(
+          lang('custom_fields.labels.description'),
+          :description,
+          :rows => 8
+        )
+
+        f.textarea(
+          lang('custom_fields.labels.possible_values'),
+          :possible_values,
+          :rows => 8
+        )
+      end
+
+      f.g.div(:id => 'settings') do
+        f.input_radio(
+          lang('custom_fields.labels.required'),
+          :required,
+          @custom_field.required,
+          :values => @boolean_hash.invert
+        )
+
+        f.input_radio(
+          lang('custom_fields.labels.text_editor'),
+          :text_editor,
+          @custom_field.text_editor,
+          :values => @boolean_hash.invert
+        )
+
+        f.input_text(
+          lang('custom_fields.labels.textarea_rows'),
+          :textarea_rows
+        )
+
+        f.input_text(
+          lang('custom_fields.labels.text_limit'),
+          :text_limit
+        )
+
+        f.input_text(
+          lang('custom_fields.labels.sort_order'),
+          :sort_order
+        )
+      end
+
+      f.g.div(:class => 'button') do
+        f.g.input(
+          :type  => 'submit',
+          :value => lang('custom_fields.buttons.save')
+        )
+      end
     end
-  end
-
-end
-}
+    }
+</article>

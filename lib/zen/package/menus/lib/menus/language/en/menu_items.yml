@@ -10,15 +10,15 @@ labels:
   name       : 'Name'
   url        : 'URL'
   order      : 'Order'
-  css_class  : 'CSS class'
-  css_id     : 'CSS ID'
+  html_class : 'HTML class'
+  html_id    : 'HTML ID'
 
 placeholders:
   name       : 'The text that will be displayed in the link.'
   url        : 'The location to which the link will point.'
   order      : 'A number that indicates the sort order.'
-  css_class  : 'Specify a class name to use for stylesheets.'
-  css_id     : 'Specify an ID to use for stylesheets.'
+  html_class : 'Specify a class name (or multiple names) to apply to this item.'
+  html_id    : 'Specify an ID to apply to this item.'
 
 messages:
   no_items : 'No menu items have been added yet.'
@@ -38,4 +38,4 @@ errors:
   save          : 'The menu item could not be modified.'
   delete        : 'The menu item with ID #%s could not be deleted.'
   no_delete     : 'You need to specify at least one item to delete.'
-  invalid_menu  : 'The specified menu was invalid or no longer exists.'
+  invalid_item  : 'The specified menu item is invalid.'

@@ -3,13 +3,12 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing users. Users in this case are people
-    # that have access to the backend. However, users might be able
-    # to access the backend but that doesn't mean they can actuall use it.
-    # The permission system will block anybody that don't have the correct
-    # permissions for each module. In case of a module like a forum it's
-    # probably better to add some additional checks to ensure people
-    # can't mess around with your system.
+    # Controller for managing users. Users in this case are people that have
+    # access to the backend. However, users might be able to access the backend
+    # but that doesn't mean they can actuall use it. The permission system will
+    # block anybody that don't have the correct permissions for each module. In
+    # case of a module like a forum it's probably better to add some additional
+    # checks to ensure people can't mess around with your system.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -17,7 +16,8 @@ module Users
     class Users < Zen::Controller::AdminController
       include ::Users::Model
 
-      map('/admin/users')
+      helper :users
+      map '/admin/users'
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -48,10 +48,6 @@ module Users
       def initialize
         super
 
-        @form_save_url   = Users.r(:save)
-        @form_delete_url = Users.r(:delete)
-        @form_login_url  = Users.r(:login)
-
         Zen::Language.load('users')
 
         # Set the page title
@@ -78,13 +74,11 @@ module Users
       # @since  0.1
       #
       def index
-        if !user_authorized?([:read])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read)
 
         set_breadcrumbs(lang('users.titles.index'))
 
-        @users = User.all
+        @users = paginate(User)
       end
 
       ##
@@ -100,22 +94,22 @@ module Users
       # @since  0.1
       #
       def edit(id)
-        if !user_authorized?([:read, :update])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :update)
 
         set_breadcrumbs(
-          anchor_to(lang('users.titles.index'), Users.r(:index)),
+          Users.a(lang('users.titles.index'), :index),
           lang('users.titles.edit')
         )
 
         if flash[:form_data]
           @user = flash[:form_data]
         else
-          @user = User[id.to_i]
+          @user = validate_user(id)
         end
 
         @user_group_pks = UserGroup.pk_hash(:name)
+
+        render_view(:form)
       end
 
       ##
@@ -130,17 +124,17 @@ module Users
       # @since  0.1
       #
       def new
-        if !user_authorized?([:read, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:read, :create)
 
         set_breadcrumbs(
-          anchor_to(lang('users.titles.index'), Users.r(:index)),
+          Users.a(lang('users.titles.index'), :index),
           lang('users.titles.new')
         )
 
         @user           = User.new
         @user_group_pks = UserGroup.pk_hash(:name)
+
+        render_view(:form)
       end
 
       ##
@@ -154,7 +148,8 @@ module Users
           # Let's see if we can authenticate
           if user_login(request.subset(:email, :password))
             # Update the last time the user logged in
-            User[:email => request.params['email']].update(:last_login => Time.new)
+            User[:email => request.params['email']] \
+              .update(:last_login => Time.new)
 
             message(:success, lang('users.success.login'))
             redirect(::Sections::Controller::Sections.r(:index))
@@ -190,20 +185,29 @@ module Users
       # @since  0.1
       #
       def save
-        if !user_authorized?([:update, :create])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
-
         post = request.subset(
-          :id, :email, :name, :website, :new_password, :confirm_password, :status,
-          :language, :frontend_language, :date_format
+          :id,
+          :email,
+          :name,
+          :website,
+          :new_password,
+          :confirm_password,
+          :status,
+          :language,
+          :frontend_language,
+          :date_format,
+          :user_group_pks
         )
 
         if post['id'] and !post['id'].empty?
-          @user       = User[post['id']]
+          require_permissions(:update)
+
+          user        = validate_user(post['id'])
           save_action = :save
         else
-          @user       = User.new
+          require_permissions(:create)
+
+          user        = User.new
           save_action = :new
         end
 
@@ -228,18 +232,20 @@ module Users
         flash_error   = lang("users.errors.#{save_action}")
 
         begin
-          @user.update(post)
+          user.update(post)
           message(:success, flash_success)
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
 
-          flash[:form_data]   = @user
-          flash[:form_errors] = @user.errors
+          flash[:form_data]   = user
+          flash[:form_errors] = user.errors
+
+          redirect_referrer
         end
 
-        if @user.id
-          redirect(Users.r(:edit, @user.id))
+        if user.id
+          redirect(Users.r(:edit, user.id))
         else
           redirect_referrer
         end
@@ -256,9 +262,7 @@ module Users
       # @since  0.1
       #
       def delete
-        if !user_authorized?([:delete])
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
+        require_permissions(:delete)
 
         if !request.params['user_ids'] or request.params['user_ids'].empty?
           message(:error, lang('users.errors.no_delete'))
@@ -272,6 +276,8 @@ module Users
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error,lang('users.errors.delete') % id)
+
+            redirect_referrer
           end
         end
 

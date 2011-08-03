@@ -26,16 +26,21 @@ module Users
 
       plugin :timestamps, :create => :created_at, :update => :updated_at
       
-      many_to_many :user_groups, :class => "Users::Model::UserGroup", :eager => [:access_rules]
-      one_to_many :access_rules, :class => "Users::Model::AccessRule"
+      many_to_many(
+        :user_groups, 
+        :class => "Users::Model::UserGroup", 
+        :eager => [:access_rules]
+      )
+      
+      one_to_many(:access_rules, :class => "Users::Model::AccessRule")
       
       ##
       # Try to authenticate the user based on the specified credentials.
       # If the user credentials were incorrect false will be returned,
       # true otherwise.
       #
-      # Note that this method will NOT perform any sanitizing, that should be handled
-      # by the controller instead.
+      # Note that this method will NOT perform any sanitizing, that should be 
+      # handled by the controller instead.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -53,9 +58,7 @@ module Users
         if !user.nil? and user.password == password and user.status == 'open'
           # Overwrite all the global settings with the user specific ones
           [:language, :frontend_language, :date_format].each do |setting|
-            # "plugin" is already defined by Sequel so we'll have to call the plugin
-            # manually.
-            value = ::Zen::Plugin[:settings].plugin.new(:get, setting).call.value
+            value = Zen::Plugin.plugin(:settings, :get, setting).value
 
             if user.respond_to?(setting)
               got = user.send(setting)
@@ -104,13 +107,17 @@ module Users
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @todo   Email validation using regular expressions is bad, a DNS call would be
-      # much better.
+      # @todo   Email validation using regular expressions is bad, a DNS call 
+      # would be much better.
       #
       def validate
         validates_presence [:email, :name]
         validates_presence :status unless new?
-        validates_format(/[a-zA-Z0-9\.\_\%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,4}/, :email)
+        validates_presence :password if new?
+        
+        validates_format(
+          /[a-zA-Z0-9\.\_\%\+\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,4}/, :email
+        )
       end
     end
   end

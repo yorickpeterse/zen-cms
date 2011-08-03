@@ -5,13 +5,13 @@ require __DIR__('package/base')
 #:nodoc:
 module Zen
   ##
-  # Module used for registering extensions and themes, setting their details and the
-  # whole shebang. Packages follow the same directory structure as Rubygems and can
-  # actually be installed using either Rubygems or by storing them in a custom directory.
-  # As long as you require the correct file you're good to go.
+  # Module used for registering extensions and themes, setting their details and
+  # the whole shebang. Packages follow the same directory structure as Rubygems
+  # and can actually be installed using either Rubygems or by storing them in a
+  # custom directory. As long as you require the correct file you're good to go.
   #
-  # Packages are added or "described" using a simple block and the add() method as
-  # following:
+  # Packages are added or "described" using a simple block and the add() method
+  # as following:
   #
   #     Zen::Package.add do |ext|
   #       # ....
@@ -29,12 +29,13 @@ module Zen
   #
   # ## ACL
   #
-  # Packages allow developers to register controllers for the ACL system that ships with
-  # Zen. Doing this means a user can set controller specific rules in the backend without
-  # having to write any code. In order to register a set of controllers you'll need to
-  # set the "controllers" attribute in the package block to a hash. The keys of this hash
-  # should be a human readable name of the controller and the values the full namespace
-  # of the controller as either a string or a constants:
+  # Packages allow developers to register controllers for the ACL system that
+  # ships with Zen. Doing this means a user can set controller specific rules
+  # in the backend without having to write any code. In order to register a set
+  # of controllers you'll need to set the "controllers" attribute in the package
+  # block to a hash. The keys of this hash should be a human readable name of
+  # the controller and the values the full namespace of the controller as either
+  # a string or a constants:
   #
   #     Zen::Package.add do |pkg|
   #       pkg.controllers = {
@@ -44,12 +45,15 @@ module Zen
   #
   # ## Menu Items
   #
-  # The package system easily allows modules to add navigation/sub-navigation elements
-  # to the backend menu. Each extension can have an attribute named "menu", this attribute
-  # is an array of hashes. Each hash must have the following 2 keys (they're symbols):
+  # The package system easily allows modules to add navigation/sub-navigation 
+  # elements to the backend menu. Each extension can have an attribute named 
+  # "menu", this attribute is an array of hashes. Each hash must have the 
+  # following 2 keys (they're symbols):
   #
-  # * title: the value used for both the title tag and the text of the anchor element
-  # * url: the URI the navigation item will point to. Leading slash isn't required
+  # * title: the value used for both the title tag and the text of the anchor 
+  #   element
+  # * url: the URI the navigation item will point to. Leading slash isn't 
+  #   required
   #
   # Optionally you can specify child elements using the "children" key. This key
   # will again contain an array of hashes just like regular navigation elements.
@@ -64,21 +68,23 @@ module Zen
   #       :children => [{:title => "Child", :url => "admin/dashboard/child"}]
   #     }]
   #
-  # Once a certain number of navigation elements have been added you can generate the
-  # HTML for a fully fledged navigation menu using the build_menu() method. This method
-  # uses Gestalt to build the HTML and also takes care of permissions for each user/module.
+  # Once a certain number of navigation elements have been added you can 
+  # generate the HTML for a fully fledged navigation menu using the 
+  # build_menu() method. This method uses Gestalt to build the HTML and also 
+  # takes care of permissions for each user/module.
   #
   # ## Migrations
   #
-  # If your package uses it's own database tables it's best to use migrations as these make
-  # it very easy to install/uninstall the extension. Migrations should be put in the root
-  # directory of your extension. For example, if your extension is in "foobar" the
-  # migrations should be located in "foobar/migrations", the lib directory in "foobar/lib",
-  # etc.
+  # If your package uses it's own database tables it's best to use migrations as 
+  # these make it very easy to install/uninstall the extension. Migrations 
+  # should be put in the root directory of your extension. For example, if your 
+  # extension is in "foobar" the migrations should be located in 
+  # "foobar/migrations", the lib directory in "foobar/lib", etc.
   #
-  # Migrations can be executed using the Thor task "package:migrate" or "db:migrate",
-  # the latter will install all packages while the first one will only install the
-  # specified packages. For more information on these tasks execute the following command:
+  # Migrations can be executed using the Thor task "package:migrate" or 
+  # "db:migrate", the latter will install all packages while the first one will 
+  # only install the specified packages. For more information on these tasks 
+  # execute the following command:
   #
   #     $ rake -T
   #
@@ -87,8 +93,8 @@ module Zen
   #
   module Package
     ##
-    # Hash containing all the registered packages. The keys of this hash are the names
-    # of all packages and the values the instances of Zen::Package::Base.
+    # Hash containing all the registered packages. The keys of this hash are the 
+    # names of all packages and the values the instances of Zen::Package::Base.
     #
     # @author Yorick Peterse
     # @since  0.2.5
@@ -104,8 +110,9 @@ module Zen
     Controllers = []
 
     ##
-    # Adds a new package along with all it's details such as the name, author, version
-    # and so on. Extensions can be added using a simple block as following:
+    # Adds a new package along with all it's details such as the name, author, 
+    # version and so on. Extensions can be added using a simple block as 
+    # following:
     #
     #     Zen::Package.add do |ext|
     #       ext.name   = "name"
@@ -121,12 +128,13 @@ module Zen
     # * url
     # * directory
     #
-    # You can also set "migration_dir" to a directory with all migrations. By default
-    # Zen will assume that it's 2 levels above your root directory.
+    # You can also set "migration_dir" to a directory with all migrations. By 
+    # default Zen will assume that it's 2 levels above your root directory.
     #
     # @author Yorick Peterse
     # @since  0.1
-    # @yield  [package] Object containing all setters and getters for each package.
+    # @yield  [package] Object containing all setters and getters for each 
+    # package.
     #
     def self.add
       package = Zen::Package::Base.new
@@ -185,12 +193,13 @@ module Zen
     # of which each list item can contain N sub items.
     #
     # @author Yorick Peterse
-    # @param  [String] css_class A string of CSS classes to apply to the main UL element.
+    # @param  [String] html_class A string of CSS classes to apply to the main UL 
+    # element.
     # @param  [Hash] permissions Hash containing the permissions as returned by
     # Ramaze::Helper::ACL.extension_permissions
     # @since  0.1
     #
-    def self.build_menu(css_class = '', permissions = {})
+    def self.build_menu(html_class = '', permissions = {})
       @g           = Ramaze::Gestalt.new
       @permissions = permissions
       menu_items   = []
@@ -209,7 +218,7 @@ module Zen
         item[:title]
       end
 
-      @g.ul :class => css_class do
+      @g.ul :class => html_class do
         if !menu_items.empty?
           menu_items.each do |m|
             self.nav_list(m)
