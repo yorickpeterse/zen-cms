@@ -15,10 +15,10 @@ Sequel.migration do
 
     alter_table(:comments) do
       add_foreign_key(
-        :comment_status_id, 
-        :comment_statuses, 
+        :comment_status_id,
+        :comment_statuses,
         :on_delete => :cascade,
-        :on_update => :cascade, 
+        :on_update => :cascade,
         :key       => :id
       )
     end
@@ -35,7 +35,7 @@ Sequel.migration do
       end
     end
   end
-  
+
   # Reverts the changes made in the up() block.
   down do
     statuses = {}
@@ -46,7 +46,7 @@ Sequel.migration do
     end
 
     # Put the old columns back in place
-    drop_column(:comments, :comment_status)
+    drop_column(:comments, :comment_status_id)
     add_column(:comments, :status, String, :default => 'closed')
 
     # Put the old statuses back in place

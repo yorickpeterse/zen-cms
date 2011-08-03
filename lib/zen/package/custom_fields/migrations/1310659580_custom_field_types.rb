@@ -25,7 +25,7 @@ Sequel.migration do
 
       String    :name           , :null => false
       String    :language_string, :null => false
-      String    :html_class
+      String    :css_class
 
       TrueClass :serialize   , :null => false, :default => false
       TrueClass :allow_markup, :null => false, :default => false
@@ -80,7 +80,7 @@ Sequel.migration do
         :language_string        => 'custom_fields.special.type_hash.textarea',
         :allow_markup           => true,
         :custom_field_method_id => field_methods['textarea'],
-        :html_class              => 'text_editor'
+        :css_class              => 'text_editor'
       },
       {
         :name                   => 'select',
@@ -97,7 +97,7 @@ Sequel.migration do
         :name                   => 'date',
         :language_string        => 'custom_fields.special.type_hash.date',
         :custom_field_method_id => field_methods['input_text'],
-        :html_class              => 'date'
+        :css_class              => 'date'
       }
     ]
 
@@ -133,7 +133,7 @@ Sequel.migration do
     end
 
     # Put the string based fields type back in place
-    add_column(:custom_fields, :type, String, :null => false)
+    add_column(:custom_fields, :type, String)
 
     fields.each do |field|
       Zen.database[:custom_fields].filter(:id => field[:id]).update(
