@@ -1,11 +1,6 @@
 require 'fileutils'
 
-##
 # Task group used for creating various prototypes.
-#
-# @author Yorick Peterse
-# @since  0.2.5
-#
 namespace :proto do
 
   desc 'Creates a new migration'

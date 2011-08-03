@@ -1,9 +1,4 @@
-##
 # Task group for managing packages.
-#
-# @author Yorick Peterse
-# @since  0.2.5
-#
 namespace :package do
 
   desc 'Lists all installed packages'

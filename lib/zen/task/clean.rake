@@ -1,11 +1,7 @@
 require 'fileutils'
 
-##
-# Task group used to remove various files that aren't needed when releasing gems and such.
-#
-# @author Yorick Peterse
-# @since  0.2.5
-#
+# Task group used to remove various files that aren't needed when releasing gems
+# and such.
 namespace :clean do
   desc 'Removes all the gems located in pkg/'
   task :gem do

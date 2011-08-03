@@ -1,9 +1,4 @@
-##
 # Task group for managing plugins.
-#
-# @author Yorick Peterse
-# @since  0.2.5
-#
 namespace :plugin do
 
   desc 'Lists all installed plugins'

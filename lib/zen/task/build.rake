@@ -1,12 +1,8 @@
-##
-# Task group used for building various elements such as the Gem and the 
-# documentation.
-#
-# @author Yorick Peterse
-# @since  0.2.5
-#
-namespace :build do
+require 'open3'
 
+# Task group used for building various elements such as the Gem and the
+# documentation.
+namespace :build do
   desc 'Builds the documentation using YARD'
   task :doc do
     zen_path = File.expand_path('../../../../', __FILE__)
@@ -44,4 +40,4 @@ namespace :build do
       end
     end
   end
-end
+end # namespace :build

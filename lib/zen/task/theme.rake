@@ -1,9 +1,4 @@
-##
 # Task group for managing themes.
-#
-# @author Yorick Peterse
-# @since  0.2.5
-#
 namespace :theme do
 
   desc 'Lists all installed themes'
