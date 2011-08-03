@@ -1,6 +1,8 @@
 require File.expand_path('../lib/zen', __FILE__)
 
-GEMSPEC = Gem::Specification::load(__DIR__('zen.gemspec'))
+module Zen
+  Gemspec = Gem::Specification::load(__DIR__('zen.gemspec'))
+end
 
 # Load all tasks
 Dir.glob(File.expand_path('../lib/zen/task/*.rake', __FILE__)).each do |f|

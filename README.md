@@ -88,8 +88,6 @@ in any of the following channels on Freenode:
 
 * \#forrst-chat
 * \#ramaze
-* \#codeigniter
-* \#mootools
 
 ## License
 

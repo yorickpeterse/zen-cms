@@ -26,6 +26,8 @@
 * The required permissions for the #save() methods of all controllers have been
   set correctly (issue #28).
 * The executable now uses OptionParser instead of Commander.
+* The total code coverage has been increased to 95.63% meaning Zen has become
+  even more stable than ever.
 
 ## 0.2.7 - June 16, 2011
 

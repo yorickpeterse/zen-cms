@@ -14,12 +14,23 @@ namespace :build do
 
   desc 'Builds a new Gem'
   task :gem do
-    zen_path = File.expand_path('../../../../', __FILE__)
+    zen_path     = __DIR__('../../../')
+    gemspec_path = File.join(
+      zen_path,
+      "#{Zen::Gemspec.name}-#{Zen::Gemspec.version.version}.gem"
+    )
+
+    pkg_path = File.join(
+      zen_path,
+      'pkg',
+      "#{Zen::Gemspec.name}-#{Zen::Gemspec.version.version}.gem"
+    )
 
     # Build and install the gem
-    sh("gem build #{zen_path}/zen.gemspec")
-    sh("mv #{zen_path}/zen-#{Zen::Version}.gem #{zen_path}/pkg")
-    sh("gem install #{zen_path}/pkg/zen-#{Zen::Version}.gem")
+
+    sh('gem', 'build'     , File.join(zen_path, 'zen.gemspec'))
+    sh('mv' , gemspec_path, pkg_path)
+    sh('gem', 'install'   , pkg_path)
   end
 
   # Stolen from Ramaze
