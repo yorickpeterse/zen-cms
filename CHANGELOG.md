@@ -1,4 +1,4 @@
-## 0.2.8 - August 5, 2011
+## 0.2.8 - August 3, 2011
 
 * Replaced RSpec with Bacon.
 * When retrieving section entries comments are now retrieved properly.
@@ -28,6 +28,7 @@
 * The executable now uses OptionParser instead of Commander.
 * The total code coverage has been increased to 95.63% meaning Zen has become
   even more stable than ever.
+* Fixed a few broken migrations.
 
 ## 0.2.7 - June 16, 2011
 
