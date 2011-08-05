@@ -46,13 +46,11 @@
         :size     => 1
       )
 
-      f.select(
+      f.input_checkbox(
         lang('users.labels.user_groups'),
         :user_group_pks,
-        :values   => @user_group_pks,
-        :selected => @user.user_group_pks,
-        :multiple => :multiple,
-        :size     => 1
+        @user.user_group_pks,
+        :values => @user_group_pks,
       )
 
       f.select(

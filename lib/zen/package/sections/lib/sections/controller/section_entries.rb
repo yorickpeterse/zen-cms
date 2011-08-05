@@ -224,7 +224,8 @@ module Sections
               :section_id,
               :user_id,
               :slug,
-              :section_entry_status_id
+              :section_entry_status_id,
+              :category_pks
             ))
 
             message(:success, flash_success)

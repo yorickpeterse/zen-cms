@@ -11,7 +11,7 @@
                 </a>
             </li>
             <li>
-                <a href="#categories" 
+                <a href="#categories"
                 title="#{lang('section_entries.tabs.categories')}">
                     #{lang('section_entries.tabs.categories')}
                 </a>
@@ -29,23 +29,23 @@
 
     #{
       form_for(
-        @entry, 
-        :method => :post, 
-        :action => Sections::Controller::SectionEntries.r(:save), 
+        @entry,
+        :method => :post,
+        :action => Sections::Controller::SectionEntries.r(:save),
         :id     => :section_entry_form
       ) do |f|
         f.input_hidden(:csrf_token, get_csrf_token)
         f.input_hidden(:section_id, @section_id)
         f.input_hidden(:id        , @entry.id)
-        
+
         f.g.div(:id => :basic) do
           f.input_text(
-            lang('section_entries.labels.title'), 
+            lang('section_entries.labels.title'),
             :title
           )
 
           f.input_text(
-            lang('section_entries.labels.slug'), 
+            lang('section_entries.labels.slug'),
             :slug
           )
 
@@ -57,31 +57,31 @@
               :class => 'date'
             )
           end
-        
+
           f.select(
-            lang('section_entries.labels.author'), 
-            :user_id, 
-            :values => ::Users::Model::User.pk_hash(:name)
+            lang('section_entries.labels.author'),
+            :user_id,
+            :values => ::Users::Model::User.pk_hash(:name),
+            :size   => 1
           )
-          
+
           f.select(
-            lang('section_entries.labels.status'), 
-            :section_entry_status_id, 
+            lang('section_entries.labels.status'),
+            :section_entry_status_id,
             :values   => ::Sections::Model::SectionEntry.status_hash,
-            :selected => @entry.section_entry_status_id, 
+            :selected => @entry.section_entry_status_id,
             :size     => 1
           )
         end
-        
+
         f.g.div(:id => :categories) do
           if !@possible_categories.empty?
             @possible_categories.each do |group, categories|
-              f.select(
-                group, 
-                :category_pks, 
-                :values   => categories, 
-                :multiple => :multiple,
-                :selected => @entry.category_pks
+              f.input_checkbox(
+                group,
+                :category_pks,
+                @entry.category_pks,
+                :values => categories.invert,
               )
             end
           else
@@ -100,7 +100,7 @@
 
         f.g.div(:class => 'button') do
           f.g.input(
-            :type  => 'submit', 
+            :type  => 'submit',
             :value => lang('section_entries.buttons.save')
           )
         end

@@ -107,7 +107,7 @@ module Users
           @user = validate_user(id)
         end
 
-        @user_group_pks = UserGroup.pk_hash(:name)
+        @user_group_pks = UserGroup.pk_hash(:name).invert
 
         render_view(:form)
       end
@@ -132,7 +132,7 @@ module Users
         )
 
         @user           = User.new
-        @user_group_pks = UserGroup.pk_hash(:name)
+        @user_group_pks = UserGroup.pk_hash(:name).invert
 
         render_view(:form)
       end
@@ -234,6 +234,8 @@ module Users
         begin
           user.update(post)
           message(:success, flash_success)
+
+          user.user_group_pks = post['user_group_pks'] if save_action === :new
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, flash_error)
@@ -271,7 +273,10 @@ module Users
 
         request.params['user_ids'].each do |id|
           begin
-            User[id].destroy
+            u                = User[id]
+            u.user_group_pks = []
+
+            u.destroy
             message(:success, lang('users.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)

@@ -85,20 +85,18 @@
       end # f.g.div(:id => 'comments')
 
       f.g.div(:id => 'groups') do
-        f.select(
+        f.input_checkbox(
           lang('sections.labels.custom_field_groups'),
           :custom_field_group_pks,
-          :values   => @custom_field_group_pk_hash,
-          :multiple => :multiple,
-          :selected => @section.custom_field_group_pks
+          @section.custom_field_group_pks,
+          :values => @custom_field_group_pk_hash,
         )
 
-        f.select(
+        f.input_checkbox(
           lang('sections.labels.category_groups'),
           :category_group_pks,
-          :values   => @category_group_pk_hash,
-          :multiple => :multiple,
-          :selected => @section.category_group_pks
+          @section.category_group_pks,
+          :values => @category_group_pk_hash,
         )
       end # f.g.div(:id => 'groups')
 
