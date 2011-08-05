@@ -1,3 +1,10 @@
+## Git Head
+
+* Started using checkboxes in favor of ``<select multiple="multiple">`` as
+  they're easier to use.
+* Fixed a small issue that would make it impossible to add/update categories of
+  a section entry.
+
 ## 0.2.8 - August 3, 2011
 
 * Replaced RSpec with Bacon.
