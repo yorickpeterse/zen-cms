@@ -9,15 +9,16 @@ module Zen
     # @since  0.2.5
     #
     module Helper
-
       ##
-      # Method that can be used to validate the class of a given variable. If the class
-      # isn't included in the whitelist an error will be triggered explaining the error.
+      # Method that can be used to validate the class of a given variable. If
+      # the class isn't included in the whitelist an error will be triggered
+      # explaining the error.
       #
       # @example
       #  username = 10
-      #  validate_type(username, :username, [String]) # => TypeError: "\"username\" can only
-      #  be an instance of String but got Integer."
+      #  validate_type(username, :username, [String])
+      #  => TypeError: "\"username\" can only be an instance of String but got
+      #  Integer."
       #
       # @author Yorick Peterse
       # @since  0.2.5
@@ -36,12 +37,11 @@ module Zen
 
         if !whitelist.include?(variable.class)
           raise(
-            TypeError, 
+            TypeError,
             "\"#{name}\" can only be an instance of #{classes} but got #{variable.class}"
           )
         end
       end
-
-    end
-  end
-end
+    end # Helper
+  end # Plugin
+end # Zen

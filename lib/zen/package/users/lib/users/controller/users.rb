@@ -217,19 +217,16 @@ module Users
             redirect_referrer
           else
             post['password'] = post['new_password']
-
-            post.delete('new_password')
-            post.delete('confirm_password')
           end
         end
 
+        post.delete('new_password')
+        post.delete('confirm_password')
         post.delete('id')
 
         post['user_group_pks'] ||= []
-        post['user_group_pks']   = post['user_group_pks'].map { |value| value.to_i }
-
-        flash_success = lang("users.success.#{save_action}")
-        flash_error   = lang("users.errors.#{save_action}")
+        flash_success            = lang("users.success.#{save_action}")
+        flash_error              = lang("users.errors.#{save_action}")
 
         begin
           user.update(post)

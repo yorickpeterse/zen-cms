@@ -3,7 +3,8 @@ module Zen
   #:nodoc:
   module Plugin
     ##
-    # Base class used to store the data about plugins such as the name, plugin class, etc.
+    # Base class used to store the data about plugins such as the name, plugin
+    # class, etc.
     #
     # @author Yorick Peterse
     # @since  0.2.5
@@ -41,6 +42,6 @@ module Zen
           raise(::Zen::ValidationError, "The plugin #{name} already exists.")
         end
       end
-    end
-  end
-end
+    end # Base
+  end # Plugin
+end # Zen

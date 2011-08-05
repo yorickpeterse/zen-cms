@@ -23,7 +23,8 @@ module Zen
   # * author: the name of the person who made the package.
   # * about: a small description of the package.
   # * url: the URL to the package's website.
-  # * directory: the root directory of the package, set this using __DIR__('path').
+  # * directory: the root directory of the package, set this using
+  #   __DIR__('path').
   #
   # Optionally you can also specify the attribute "menu" (more on that later).
   #
@@ -45,14 +46,14 @@ module Zen
   #
   # ## Menu Items
   #
-  # The package system easily allows modules to add navigation/sub-navigation 
-  # elements to the backend menu. Each extension can have an attribute named 
-  # "menu", this attribute is an array of hashes. Each hash must have the 
+  # The package system easily allows modules to add navigation/sub-navigation
+  # elements to the backend menu. Each extension can have an attribute named
+  # "menu", this attribute is an array of hashes. Each hash must have the
   # following 2 keys (they're symbols):
   #
-  # * title: the value used for both the title tag and the text of the anchor 
+  # * title: the value used for both the title tag and the text of the anchor
   #   element
-  # * url: the URI the navigation item will point to. Leading slash isn't 
+  # * url: the URI the navigation item will point to. Leading slash isn't
   #   required
   #
   # Optionally you can specify child elements using the "children" key. This key
@@ -68,22 +69,22 @@ module Zen
   #       :children => [{:title => "Child", :url => "admin/dashboard/child"}]
   #     }]
   #
-  # Once a certain number of navigation elements have been added you can 
-  # generate the HTML for a fully fledged navigation menu using the 
-  # build_menu() method. This method uses Gestalt to build the HTML and also 
+  # Once a certain number of navigation elements have been added you can
+  # generate the HTML for a fully fledged navigation menu using the
+  # build_menu() method. This method uses Gestalt to build the HTML and also
   # takes care of permissions for each user/module.
   #
   # ## Migrations
   #
-  # If your package uses it's own database tables it's best to use migrations as 
-  # these make it very easy to install/uninstall the extension. Migrations 
-  # should be put in the root directory of your extension. For example, if your 
-  # extension is in "foobar" the migrations should be located in 
+  # If your package uses it's own database tables it's best to use migrations as
+  # these make it very easy to install/uninstall the extension. Migrations
+  # should be put in the root directory of your extension. For example, if your
+  # extension is in "foobar" the migrations should be located in
   # "foobar/migrations", the lib directory in "foobar/lib", etc.
   #
-  # Migrations can be executed using the Thor task "package:migrate" or 
-  # "db:migrate", the latter will install all packages while the first one will 
-  # only install the specified packages. For more information on these tasks 
+  # Migrations can be executed using the Thor task "package:migrate" or
+  # "db:migrate", the latter will install all packages while the first one will
+  # only install the specified packages. For more information on these tasks
   # execute the following command:
   #
   #     $ rake -T
@@ -93,7 +94,7 @@ module Zen
   #
   module Package
     ##
-    # Hash containing all the registered packages. The keys of this hash are the 
+    # Hash containing all the registered packages. The keys of this hash are the
     # names of all packages and the values the instances of Zen::Package::Base.
     #
     # @author Yorick Peterse
@@ -110,8 +111,8 @@ module Zen
     Controllers = []
 
     ##
-    # Adds a new package along with all it's details such as the name, author, 
-    # version and so on. Extensions can be added using a simple block as 
+    # Adds a new package along with all it's details such as the name, author,
+    # version and so on. Extensions can be added using a simple block as
     # following:
     #
     #     Zen::Package.add do |ext|
@@ -128,12 +129,12 @@ module Zen
     # * url
     # * directory
     #
-    # You can also set "migration_dir" to a directory with all migrations. By 
+    # You can also set "migration_dir" to a directory with all migrations. By
     # default Zen will assume that it's 2 levels above your root directory.
     #
     # @author Yorick Peterse
     # @since  0.1
-    # @yield  [package] Object containing all setters and getters for each 
+    # @yield  [package] Object containing all setters and getters for each
     # package.
     #
     def self.add
@@ -193,7 +194,7 @@ module Zen
     # of which each list item can contain N sub items.
     #
     # @author Yorick Peterse
-    # @param  [String] html_class A string of CSS classes to apply to the main UL 
+    # @param  [String] html_class A string of CSS classes to apply to the main UL
     # element.
     # @param  [Hash] permissions Hash containing the permissions as returned by
     # Ramaze::Helper::ACL.extension_permissions

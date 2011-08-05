@@ -15,7 +15,6 @@ describe('Sections::Plugin::SectionEntries') do
 
   @entry_1 = Sections::Model::SectionEntry.create(
     :title                   => 'Spec',
-    :status                  => 'published',
     :user_id                 => user.id,
     :section_id              => @section.id,
     :slug                    => 'spec',
@@ -24,7 +23,6 @@ describe('Sections::Plugin::SectionEntries') do
 
   @entry_2 = Sections::Model::SectionEntry.create(
     :title                    => 'Spec 1',
-    :status                   => 'published',
     :user_id                  => user.id,
     :section_id               => @section.id,
     :slug                     => 'spec-1',

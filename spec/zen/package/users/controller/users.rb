@@ -65,6 +65,7 @@ describe("Users::Controller::Users") do
       fill_in('website', :with => 'spec.com')
       fill_in('new_password'    , :with => 'spec')
       fill_in('confirm_password', :with => 'spec')
+
       select(status, :from => 'status')
       click_on(save_button)
     end
@@ -85,7 +86,7 @@ describe("Users::Controller::Users") do
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should  === 'Spec user modified'
+    page.find_field('name').value.should  === 'Spec user modified'
   end
 
   it("Edit an existing user with invalid data") do
@@ -96,10 +97,11 @@ describe("Users::Controller::Users") do
     click_link('spec@email.com')
 
     within('#user_form') do
-      fill_in('name', :with => '')
+      fill_in('form_name', :with => '')
       click_on(save_button)
     end
 
+    page.find_field('form_name').value.empty?.should               === true
     page.has_selector?('label[for="form_name"] span.error').should === true
   end
 

@@ -14,7 +14,6 @@ describe("Comments::Controller::Comments") do
 
     @entry = Sections::Model::SectionEntry.create(
       :title      => 'Spec entry',
-      :status     => 'published',
       :user_id    => 1,
       :section_id => @section.id
     )
