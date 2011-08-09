@@ -3,12 +3,7 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing users. Users in this case are people that have
-    # access to the backend. However, users might be able to access the backend
-    # but that doesn't mean they can actuall use it. The permission system will
-    # block anybody that don't have the correct permissions for each module. In
-    # case of a module like a forum it's probably better to add some additional
-    # checks to ensure people can't mess around with your system.
+    # Controller for managing users.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -16,8 +11,8 @@ module Users
     class Users < Zen::Controller::AdminController
       include ::Users::Model
 
-      helper :users
-      map '/admin/users'
+      helper :users, :layout
+      map    '/admin/users'
 
       before_all do
         csrf_protection(:save, :delete) do
@@ -25,15 +20,8 @@ module Users
         end
       end
 
-      # Every action should use the admin layout except the 'login' method,
-      # that one will use a trimmed down version of the admin layout.
-      layout do |path, format|
-        if path == 'login'
-          :login
-        else
-          :admin
-        end
-      end
+      set_layout :admin => [:index, :edit, :new]
+      set_layout :login => [:login]
 
       ##
       # Load our language packs, set the form URLs and define our page title.
@@ -90,7 +78,7 @@ module Users
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the user to edit.
+      # @param  [Fixnum] id The ID of the user to edit.
       # @since  0.1
       #
       def edit(id)
@@ -174,7 +162,8 @@ module Users
       end
 
       ##
-      # Saves or creates a new user based on the POST data and a field named 'id'.
+      # Saves or creates a new user based on the POST data and a field named
+      # 'id'.
       #
       # This method requires the following permissions:
       #

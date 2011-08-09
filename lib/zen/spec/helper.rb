@@ -50,7 +50,7 @@ end
 #    puts 'hello'
 #  end
 #
-# puts out # => {:stdout => "hello\n", :stderr => ""}
+#  puts out # => {:stdout => "hello\n", :stderr => ""}
 #
 # @author Yorick Peterse
 # @since  0.2.8

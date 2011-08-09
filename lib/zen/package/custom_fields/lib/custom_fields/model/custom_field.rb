@@ -3,17 +3,7 @@ module CustomFields
   #:nodoc:
   module Model
     ##
-    # Model that represents a single custom field. This model has the following
-    # relations:
-    #
-    # * custom field values (one to many)
-    #
-    # The following plugins are loaded:
-    #
-    # * sluggable (source: "name")
-    #
-    # When creating or saving a new custom field several validation rules are used.
-    # For more information on these rules see the validate() method of this model.
+    # Model that represents a single custom field.
     #
     # @author Yorick Peterse
     # @since  0.1

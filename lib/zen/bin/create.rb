@@ -62,7 +62,7 @@ Example:
       # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Array] argv An array containing all the additional options that
-      # were specified in the command line.
+      #  were specified in the command line.
       #
       def run(argv = [])
         @options.parse!(argv)

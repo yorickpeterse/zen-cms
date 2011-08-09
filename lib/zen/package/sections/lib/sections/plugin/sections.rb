@@ -41,7 +41,9 @@ module Sections
         validate_type(@options[:offset] , :offset , [Fixnum, Integer])
 
         validate_type(
-          @options[:section], :section, [NilClass, Integer, Fixnum, String]
+          @options[:section],
+          :section,
+          [NilClass, Integer, Fixnum, String]
         )
       end
 
@@ -53,8 +55,8 @@ module Sections
       # @author Yorick Peterse
       # @since  0.2.5
       # @return [Array/Sections::Model::Section] List of all sections that were
-      # retrieved or an instance of Sections::Model::Section in case a specific
-      # section was retrieved from the database.
+      #  retrieved or an instance of Sections::Model::Section in case a specific
+      #  section was retrieved from the database.
       #
       def call
         # Retrieve a single section

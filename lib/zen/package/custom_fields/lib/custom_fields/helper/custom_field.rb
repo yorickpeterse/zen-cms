@@ -15,7 +15,7 @@ module Ramaze
       # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] custom_field_group_id An ID of a custom field group
-      # that has to be validated.
+      #  that has to be validated.
       # @return [CustomFields::Model::CustomFieldGroup]
       #
       def validate_custom_field_group(custom_field_group_id)
@@ -37,7 +37,7 @@ module Ramaze
       # @since  0.2.8
       # @param  [Fixnum] custom_field_id The ID of the custom field to validate.
       # @param  [Fixnum] custom_field_group_id The ID of the field group the
-      # field is supposed to belong to.
+      #  field is supposed to belong to.
       # @return [CustomFields::Model::CustomField]
       #
       def validate_custom_field(custom_field_id, custom_field_group_id)
@@ -54,14 +54,14 @@ module Ramaze
           return field
         end
       end
-      
+
       ##
       # Validates a custom field type and returns it if it's valid.
       #
       # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] custom_field_type_id The ID of the field type to
-      # validate.
+      #  validate.
       # @return [CustomFields::Model::CustomFieldType]
       #
       def validate_custom_field_type(custom_field_type_id)

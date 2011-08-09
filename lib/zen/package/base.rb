@@ -3,7 +3,7 @@ module Zen
   #:nodoc:
   module Package
     ##
-    # Base class used to store the data about packages such as the name, 
+    # Base class used to store the data about packages such as the name,
     # directory, etc.
     #
     # @author Yorick Peterse
@@ -33,7 +33,7 @@ module Zen
       # Path to the directory containing all migrations
       attr_accessor :migration_dir
 
-      # Array containing all controllers for the package. These classes will be 
+      # Array containing all controllers for the package. These classes will be
       # used by the ACL system.
       attr_accessor :controllers
 
@@ -46,11 +46,9 @@ module Zen
       def validate
         validates_presence([:name, :author, :about, :directory, :controllers])
         validates_format(:name, /[a-z0-9_\-]+/)
-        validates_filepath(:directory)
 
-        if !migration_dir.nil?
-          validates_filepath(:migration_dir)
-        end
+        validates_filepath(:directory)
+        validates_filepath(:migration_dir) if !migration_dir.nil?
 
         # Check if the package hasn't been registered yet
         if ::Zen::Package::Registered.key?(name.to_sym)

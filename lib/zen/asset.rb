@@ -228,17 +228,17 @@ module Zen
     # @param  [Array] files An array of files to load.
     # @param  [Hash] options A hash containing all the required options.
     # @option options [TrueClass] :global Specifies that all the files should be
-    # loaded globally.
+    #  loaded globally.
     # @option options [Symbol] :type The type of asset that's loaded, can either
-    # be :javascript or :stylesheet.
+    #  be :javascript or :stylesheet.
     # @option options [String] :prefix The prefix to use for all the assets.
     # @option options [TrueClass] :global When set to true the specified files
-    # will be loaded globally.
+    #  will be loaded globally.
     # @option options [Symbol/String] :controller The class of the controller
-    # for which the assets should be loaded.
+    #  for which the assets should be loaded.
     # @option options [Symbol/String/Array] :method A string or symbol that
-    # represents a single method for which to load the assets OR an array of
-    # methods.
+    #  represents a single method for which to load the assets OR an array of
+    #  methods.
     #
     def self.process(files, options)
       # Determine whether the files should be loaded globally

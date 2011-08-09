@@ -107,7 +107,7 @@ module Zen
     # @author Yorick Peterse
     # @since  0.2.4
     # @raise  [Zen::PluginError] Error raised whenever the plugin already exists
-    # or is missing a certain setter.
+    #  or is missing a certain setter.
     #
     def self.add
       plugin = Zen::Plugin::Base.new
@@ -131,7 +131,7 @@ module Zen
     # @since  0.2.4
     # @param  [String] name The name of the plugin to retrieve.
     # @raise  Zen::PluginError Error that's raised when no plugins have been
-    # added yet or the specified plugin doesn't exist.
+    #  added yet or the specified plugin doesn't exist.
     # @return [Struct] Instance of the plugin.
     #
     def self.[](name)
@@ -171,7 +171,7 @@ module Zen
       # @param  [String/Symbol] name The name of the plugin to call.
       # @param  [Array] data Any data to pass to the plugin's action (a lambda).
       # @param  [Proc] block A block that should be passed to the plugin instead
-      # of this method.
+      #  of this method.
       # @return [Mixed]
       #
       def plugin(name, *data, &block)

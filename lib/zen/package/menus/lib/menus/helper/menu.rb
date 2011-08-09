@@ -18,7 +18,7 @@ module Ramaze
       # @since  0.2a
       # @param  [Fixnum] menu_id The ID of the menu to validate.
       # @return [Menus::Model::Menu] The menu that was specified in case it's
-      # valid.
+      #  valid.
       #
       def validate_menu(menu_id)
         menu = ::Menus::Model::Menu[menu_id]
@@ -38,7 +38,7 @@ module Ramaze
       # @since  0.2.8
       # @param  [Fixnum] menu_item_id The ID of the menu item to validate.
       # @param  [Fixnum] menu_id The ID of the menu the item belongs to, used
-      # when redirecting the user.
+      #  when redirecting the user.
       # @return [Menus::Model::MenuItem]
       #
       def validate_menu_item(menu_item_id, menu_id)

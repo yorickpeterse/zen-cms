@@ -3,27 +3,20 @@ module CustomFields
   #:nodoc:
   module Model
     ##
-    # Model that represents a single custom field group. This model has
-    # the following relations:
-    #
-    # * custom fields (one to many, ordered by "sort_order")
-    # * sections (many to many)
-    #
-    # When creating or saving a group you are required to specify a "name" field.
-    # This field may also be no longer than 255 characters.
+    # Model that represents a single custom field group.
     #
     # @author Yorick Peterse
     # @since  0.1
     #
     class CustomFieldGroup < Sequel::Model
       one_to_many(
-        :custom_fields, 
-        :class => "CustomFields::Model::CustomField", 
+        :custom_fields,
+        :class => "CustomFields::Model::CustomField",
         :order => :sort_order
       )
 
       many_to_many(:sections, :class => "Sections::Model::Section")
-      
+
       ##
       # Validates rules used whenever the model is created or saved.
       #

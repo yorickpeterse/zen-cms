@@ -62,20 +62,20 @@ module Sections
       # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Hash] options Hash with a collection of custom configuration
-      # options that determine how and what entries should be retrieved.
+      #  options that determine how and what entries should be retrieved.
       # @option options [Fixnum/Integer] :limit
       # @option options [Fixnum/Integer] :offset
       # @option options [NilClass/String/Integer/Fixnum] :section
       # @option options [NilClass/String/Integer/Fixnum] :entry
       # @option options [TrueClass] :markup When set to true the markup of all
-      # entries will be converted to the desired output (usually this is HTML).
+      #  entries will be converted to the desired output (usually this is HTML).
       # @option options [TrueClass] :comments When set to true all comments for
-      # each entry will be retrieved. Set to false by default.
+      #  each entry will be retrieved. Set to false by default.
       # @option options [TrueClass] :comment_markup When set to true the markup
-      # of comments will be converted to the desired output.
+      #  of comments will be converted to the desired output.
       # @option options [TrueClass] :categories When set to true all categories
-      # for each entry will be retrieved as well. This is set to false by
-      # default.
+      #  for each entry will be retrieved as well. This is set to false by
+      #  default.
       #
       def initialize(options = {})
         @options = {
@@ -89,15 +89,19 @@ module Sections
           :categories     => false
         }.merge(options)
 
-        validate_type(@options[:limit]   , :limit   , [Fixnum, Integer])
-        validate_type(@options[:offset]  , :limit   , [Fixnum, Integer])
+        validate_type(@options[:limit] , :limit , [Fixnum, Integer])
+        validate_type(@options[:offset], :offset, [Fixnum, Integer])
 
         validate_type(
-          @options[:section], :section, [NilClass, String, Integer, Fixnum]
+          @options[:section],
+          :section,
+          [NilClass, String, Integer, Fixnum]
         )
 
         validate_type(
-          @options[:entry], :entry, [NilClass, String, Integer, Fixnum]
+          @options[:entry],
+          :entry,
+          [NilClass, String, Integer, Fixnum]
         )
 
         validate_type(@options[:markup]  , :markup  , [TrueClass, FalseClass])
@@ -127,7 +131,7 @@ module Sections
         if @options[:comments] === true
           eager_models.push(:comments)
         end
-        
+
         if @options[:categories] === true
           eager_models.push(:categories)
         end

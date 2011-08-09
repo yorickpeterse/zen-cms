@@ -53,7 +53,7 @@ module Menus
       #
       # @author Yorick Peterse
       # @since  0.2a
-      # @param  [Integer] menu_id The ID of the current navigation menu.
+      # @param  [Fixnum] menu_id The ID of the current navigation menu.
       #
       def index(menu_id)
         require_permissions(:read)
@@ -80,8 +80,8 @@ module Menus
       #
       # @author Yorick Peterse
       # @since  0.2a
-      # @param  [Integer] menu_id The ID of the current navigation menu.
-      # @param  [Integer] id The ID of the menu item to edit.
+      # @param  [Fixnum] menu_id The ID of the current navigation menu.
+      # @param  [Fixnum] id The ID of the menu item to edit.
       #
       def edit(menu_id, id)
         require_permissions(:read, :update)
@@ -115,7 +115,7 @@ module Menus
       #
       # @author Yorick Peterse
       # @since  0.2a
-      # @param  [Integer] menu_id  The ID of the current navigation menu.
+      # @param  [Fixnum] menu_id  The ID of the current navigation menu.
       #
       def new(menu_id)
         require_permissions(:create, :read)

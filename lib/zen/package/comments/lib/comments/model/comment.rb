@@ -3,15 +3,7 @@ module Comments
   #:nodoc:
   module Model
     ##
-    # Model that represents a single comment. This model has the following
-    # relations:
-    #
-    # * section entry (many to one)
-    # * user (many to one)
-    #
-    # The following plugins are used:
-    #
-    # * timestamps
+    # Model that represents a single comment.
     #
     # @author Yorick Peterse
     # @since  0.1

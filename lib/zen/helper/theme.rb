@@ -26,7 +26,7 @@ module Ramaze
       # @since  0.2.5
       # @param  [Symbol] file The name of the partial to render.
       # @param  [Hash] variables A hash with variables that should be made
-      # available for the partial.
+      #  available for the partial.
       #
       def partial(file, variables = {})
         theme = plugin(:settings, :get, :theme).value
@@ -66,8 +66,6 @@ module Ramaze
       def show_404(variables = {})
         theme    = ::Zen::Theme[plugin(:settings, :get, :theme).value]
         template = File.join(theme.template_dir, '404.xhtml')
-
-        # Render the template and replace the current buffer with it's output
         template = render_file(template, variables)
 
         respond(template, 404)

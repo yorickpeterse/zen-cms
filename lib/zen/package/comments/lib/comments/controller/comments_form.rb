@@ -4,8 +4,7 @@ module Comments
   module Controller
     ##
     # Frontend controller for the comments system used for saving user-submitted
-    # comments. When the anti-spam system is enabled Zen will use Defensio to
-    # check if the comment is spam or ham.
+    # comments.
     #
     # @author Yorick Peterse
     # @since  0.1

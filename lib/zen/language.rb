@@ -84,8 +84,11 @@ module Zen
     }
 
     options.dsl do
-      o 'Small string that defines the current language (e.g. "en").', :language, 'en'
-      o 'Array of paths to look for the language files'              , :paths   , []
+      o 'Small string that defines the current language (e.g. "en").',
+        :language, 'en'
+
+      o 'Array of paths to look for the language files',
+        :paths, []
     end
 
     ##
@@ -149,15 +152,26 @@ module Zen
     # Method that takes a hash or an array and converts it to a dot-based hash.
     # For example, the following hash:
     #
-    #     {:name => 'Name', :location => {:street => 'Street', :address => 'Address'}}
+    #     {
+    #       :name     => 'Name',
+    #       :location => {
+    #         :street  => 'Street',
+    #         :address => 'Address'
+    #       }
+    #     }
     #
     # would result in the following:
     #
-    #     {'name' => 'Name', 'location.street' => 'Street', 'location.address' => 'Address'}
+    #     {
+    #       'name'             => 'Name',
+    #       'location.street'  => 'Street',
+    #       'location.address' => 'Address'
+    #     }
     #
     # Using arrays would result in the following:
     #
-    #     to_dotted_hash(["Hello", "World"]) # => {'1' => 'Hello', '2' => 'World'}
+    #     out = to_dotted_hash(["Hello", "World"])
+    #     puts out # => {'1' => 'Hello', '2' => 'World'}
     #
     # While it looks a bit goofy this allows you to do the following:
     #
@@ -166,16 +180,18 @@ module Zen
     # @example
     #  self.to_dotted_hash({:name => "Yorick"}) # => {'name' => 'Yorick'}
     #
-    # The code for this method was mostly taken from a comment on Stack Overflow.
-    # This comment can be found here: <http://bit.ly/dHTjVR>
+    # The code for this method was mostly taken from a comment on Stack
+    # Overflow. This comment can be found here: <http://bit.ly/dHTjVR>
     #
     # @author Yorick Peterse
     # @since  0.2
-    # @param  [Hash/Array] source The hash or array to conver to a dot-based hash.
+    # @param  [Hash/Array] source The hash or array to conver to a dot-based
+    #  hash.
     # @param  [Hash] target The hash to store the new key/values in.
-    # @param  [String] namespace The namespace for the key (e.g. "user.location").
+    # @param  [String] namespace The namespace for the key
+    #  (e.g. "user.location").
     # @return [Hash] The converted hash where the keys are dot-based strings
-    # instead of regular strings/symbols with sub hashes.
+    #  instead of regular strings/symbols with sub hashes.
     #
     def self.to_dotted_hash(source, target = {}, namespace = nil)
       if namespace and !namespace.nil?
@@ -229,7 +245,7 @@ module Zen
       # @since  0.2
       # @param  [String] key The language key to select.
       # @param  [String] lang The language for which to retrieve the key,
-      # overwrites the language set in the session.
+      #  overwrites the language set in the session.
       # @return [Mixed]
       #
       def lang(key, lang = nil)

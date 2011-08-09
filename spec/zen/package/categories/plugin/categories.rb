@@ -27,7 +27,7 @@ describe("Categories::Plugin::Categories") do
   end
 
   it('Specify an invalid category group') do
-    should.raise? do
+    should.raise?(ArgumentError) do
       plugin(:categories, :group => 'does-not-exist')
     end
   end

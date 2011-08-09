@@ -30,17 +30,17 @@ module Categories
       # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Hash] options Hash containing a set of options used to
-      # determine how the categories should be retrieved and which one should
-      # be retrieved.
+      #  determine how the categories should be retrieved and which one should
+      #  be retrieved.
       # @option options [Integer] :limit The maximum amount of categories to
-      # retrieve.
+      #  retrieve.
       # @option options [Integer] :offset The row offset, useful for pagination
-      # systems.
+      #  systems.
       # @option options [String/Integer] :group The name or ID of the category
-      # group for which to retrieve all categories.
+      #  group for which to retrieve all categories.
       # @option options [String/Integer] :category The slug or ID of the
-      # category to retrieve. Setting this option will cause the plugin to
-      # ignore the offset and limit options.
+      #  category to retrieve. Setting this option will cause the plugin to
+      #  ignore the offset and limit options.
       #
       def initialize(options = {})
         @options = {
@@ -106,14 +106,17 @@ module Categories
           # group doesn't exist. If we were to return an empty value this may
           # confuse the developer.
           if category_group.nil?
-            raise("No category group could be found for \"#{@options[:group]}\"")
+            raise(
+              ArgumentError,
+              "No category group could be found for \"#{@options[:group]}\""
+            )
           end
 
           # Get all the categories according to our specified configuration
           # options and the category group that was retrieved earlier on.
-          categories = Category.filter(:category_group_id => category_group.id) \
-            .limit(@options[:limit], @options[:offset]) \
-            .all
+          categories = Category.filter(
+            :category_group_id => category_group.id
+          ).limit(@options[:limit], @options[:offset]).all
 
         # Retrieve the category for the specified ID or slug
         else

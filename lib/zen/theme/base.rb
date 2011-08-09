@@ -29,7 +29,8 @@ module Zen
       # Path to the directory containing all template partials
       attr_accessor :partial_dir
 
-      # Path to the theme's public directory (useful for CSS and Javascript files)
+      # Path to the theme's public directory (useful for CSS and Javascript
+      # files)
       attr_accessor :public_dir
 
       # Path to the directory containing all migrations for the theme
@@ -56,10 +57,12 @@ module Zen
 
         # Check if the theme hasn't already been registered
         if ::Zen::Theme::Registered.key?(name.to_sym)
-          raise(::Zen::ValidationError, "The theme #{name} has already been registered.")
+          raise(
+            ::Zen::ValidationError,
+            "The theme #{name} has already been registered."
+          )
         end
       end
-
-    end
-  end
-end
+    end # Base
+  end # Theme
+end # Zen

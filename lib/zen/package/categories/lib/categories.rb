@@ -12,17 +12,16 @@ Zen::Language.options.paths.push(__DIR__('categories'))
 Zen::Language.load('categories')
 Zen::Language.load('category_groups')
 
-# Describe what this package is all about
 Zen::Package.add do |p|
   p.name          = 'categories'
   p.author        = 'Yorick Peterse'
   p.url           = 'http://yorickpeterse.com/'
-  p.about         = "Module for managing categories. Categories can be used to 
+  p.about         = "Module for managing categories. Categories can be used to
 organize section entries."
 
   p.directory     = __DIR__('categories')
   p.migration_dir = __DIR__('../migrations')
-  
+
   p.menu = [{
     :title => lang('categories.titles.index'),
     :url   => "admin/category-groups"
@@ -35,13 +34,12 @@ organize section entries."
   }
 end
 
-# Register our plugins
 Zen::Plugin.add do |p|
   p.name   = 'categories'
   p.author = 'Yorick Peterse'
   p.url    = 'http://yorickpeterse.com/'
-  p.about  = 'Plugin that makes it easier to retrieve categories and category 
+  p.about  = 'Plugin that makes it easier to retrieve categories and category
 groups.'
-  
+
   p.plugin = Categories::Plugin::Categories
 end

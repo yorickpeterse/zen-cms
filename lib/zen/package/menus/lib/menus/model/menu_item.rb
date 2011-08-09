@@ -4,9 +4,6 @@ module Menus
   module Model
     ##
     # Model used for managing individual menu items in a group.
-    # This model uses the following plugins:
-    #
-    # * tree
     #
     # @author Yorick Peterse
     # @since  0.2a
@@ -18,7 +15,7 @@ module Menus
       many_to_one :parent, :class => self
 
       ##
-      # Specifies all validation rules that will be used when creating or 
+      # Specifies all validation rules that will be used when creating or
       # updating a menu item.
       #
       # @author Yorick Peterse
@@ -28,7 +25,7 @@ module Menus
         validates_presence :name
         validates_presence :url
         validates_integer  [:sort_order, :parent_id]
-        
+
         # Prevent people from entering random crap for class and ID names
         validates_format(/^[a-zA-Z\-_0-9]*/, [:html_class, :html_id])
       end

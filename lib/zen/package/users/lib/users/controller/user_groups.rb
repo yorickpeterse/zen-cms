@@ -77,7 +77,7 @@ module Users
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the user group to edit.
+      # @param  [Fixnum] id The ID of the user group to edit.
       # @since  0.1
       #
       def edit(id)

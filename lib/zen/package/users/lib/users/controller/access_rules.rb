@@ -3,15 +3,7 @@ module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing access rules. Each access rule can be used to
-    # specify whether or not a user can edit or create something.
-    #
-    # The following permissions are available:
-    #
-    # * create
-    # * read
-    # * update
-    # * delete
+    # Controller for managing access rules.
     #
     # @author Yorick Peterse
     # @since  0.1
