@@ -29,13 +29,13 @@ module Ramaze
       ##
       # Validates a section entry and returns it if it's valid.
       #
-      # 
+      #
       # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] section_entry_id The ID of the section entry to
-      # validate.
+      #  validate.
       # @param  [Fixnum] section_id The ID of the section to use when
-      # redirecting the user to the overview of all entries.
+      #  redirecting the user to the overview of all entries.
       # @return [Sections::Model::SectionEntry]
       #
       def validate_section_entry(section_entry_id, section_id)

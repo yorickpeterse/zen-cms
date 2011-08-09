@@ -90,12 +90,12 @@ module Ramaze
       # @author Yorick Peterse
       # @param  [Array] required Array of permissions that are required.
       # @param  [Boolean] require_all Boolean that specifies that the user
-      # should have ALL specified permissios. Setting this to false causes this
-      # method to return true if any of the permissions are set for the current
-      # user.
+      #  should have ALL specified permissios. Setting this to false causes this
+      #  method to return true if any of the permissions are set for the current
+      #  user.
       # @param  [String] controller When set this will overwrite the controller
-      # name of action.node. This is useful when you want to check the
-      # permissions of a different controller than the current one.
+      #  name of action.node. This is useful when you want to check the
+      #  permissions of a different controller than the current one.
       # @return [TrueClass/FalseClass]
       #
       def user_authorized?(required, require_all = true, controller = nil)
@@ -123,7 +123,7 @@ module Ramaze
       # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Users::Model::AccessRule] rule Database record containing the
-      # details of a single rule.
+      #  details of a single rule.
       # @param  [Array] available_rules All the available rules that can be used.
       #
       def process_permissions(rule, available_rules)

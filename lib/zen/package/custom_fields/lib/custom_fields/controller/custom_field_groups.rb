@@ -74,8 +74,8 @@ module CustomFields
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the custom field group to retrieve so
-      # that we can edit it.
+      # @param  [Fixnum] id The ID of the custom field group to retrieve so
+      #  that we can edit it.
       # @since  0.1
       #
       def edit(id)

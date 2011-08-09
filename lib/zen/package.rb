@@ -135,7 +135,7 @@ module Zen
     # @author Yorick Peterse
     # @since  0.1
     # @yield  [package] Object containing all setters and getters for each
-    # package.
+    #  package.
     #
     def self.add
       package = Zen::Package::Base.new
@@ -194,10 +194,10 @@ module Zen
     # of which each list item can contain N sub items.
     #
     # @author Yorick Peterse
-    # @param  [String] html_class A string of CSS classes to apply to the main UL
-    # element.
+    # @param  [String] html_class A string of CSS classes to apply to the main
+    #  UL element.
     # @param  [Hash] permissions Hash containing the permissions as returned by
-    # Ramaze::Helper::ACL.extension_permissions
+    #  Ramaze::Helper::ACL#extension_permissions
     # @since  0.1
     #
     def self.build_menu(html_class = '', permissions = {})

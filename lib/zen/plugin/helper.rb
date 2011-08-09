@@ -16,9 +16,7 @@ module Zen
       #
       # @example
       #  username = 10
-      #  validate_type(username, :username, [String])
-      #  => TypeError: "\"username\" can only be an instance of String but got
-      #  Integer."
+      #  validate_type(username, :username, [String]) # => TypeError
       #
       # @author Yorick Peterse
       # @since  0.2.5

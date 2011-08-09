@@ -18,7 +18,6 @@ module CustomFields
       helper :custom_field
       map    '/admin/custom-fields'
 
-      # Load all required Javascript files
       javascript ['zen/lib/tabs']
 
       before_all do
@@ -77,7 +76,7 @@ module CustomFields
       #
       # @author Yorick Peterse
       # @param  [Fixnum] custom_field_group_id The ID of the custom field group
-      # to which all fields belong.
+      #  to which all fields belong.
       # @since  0.1
       #
       def index(custom_field_group_id)
@@ -108,9 +107,9 @@ module CustomFields
       #
       # @author Yorick Peterse
       # @param  [Fixnum] custom_field_group_id The ID of the custom field
-      # group to which all fields belong.
+      #  group to which all fields belong.
       # @param  [Fixnum] id The ID of the custom field to retrieve so that we
-      # can edit it.
+      #  can edit it.
       # @since  0.1
       #
       def edit(custom_field_group_id, id)
@@ -149,7 +148,7 @@ module CustomFields
       #
       # @author Yorick Peterse
       # @param  [Fixnum] custom_field_group_id The ID of the custom field group
-      # to which all fields belong.
+      #  to which all fields belong.
       # @since  0.1
       #
       def new(custom_field_group_id)

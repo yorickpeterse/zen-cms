@@ -74,7 +74,7 @@ module CustomFields
       # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] custom_field_type_id The ID of the custom field type to
-      # edit.
+      #  edit.
       #
       def edit(custom_field_type_id)
         require_permissions(:read, :update)

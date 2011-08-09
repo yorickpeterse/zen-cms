@@ -142,7 +142,7 @@ module Zen
       # @author Yorick Peterse
       # @since  0.2.5
       # @param  [String] markup The markup in which all HTML tags should be
-      # escaped.
+      #  escaped.
       # @return [String] String containing the escaped HTML.
       #
       def plain(markup)

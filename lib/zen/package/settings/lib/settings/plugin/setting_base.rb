@@ -18,27 +18,33 @@ module Settings
       # @since  0.2.5
       #
       Types = [
-        'textbox', 'textarea', 'radio', 'checkbox', 'date', 'select', 'select_multiple'
+        'textbox',
+        'textarea',
+        'radio',
+        'checkbox',
+        'date',
+        'select',
+        'select_multiple'
       ]
 
       # The name of the setting
       attr_accessor :name
-      
+
       # The title of the setting, displayed in the GUI
       attr_accessor :title
-      
+
       # A small description about the setting
       attr_accessor :description
-      
+
       # The name of the settings group this setting belongs to
       attr_accessor :group
-      
+
       # The type of setting (e.g. textbox)
       attr_accessor :type
-      
+
       # The possible values for the setting
       attr_writer :values
-      
+
       # The default value of the setting
       attr_accessor :default
 
@@ -66,7 +72,10 @@ module Settings
 
         # Validate the group
         if !::Settings::Plugin::Settings::Registered[:groups].key?(group)
-          raise(::Zen::ValidationError, "The settings group #{group} doesn't exist.")
+          raise(
+            ::Zen::ValidationError,
+            "The settings group #{group} doesn't exist."
+          )
         end
       end
 
@@ -113,10 +122,10 @@ module Settings
       end
 
       ##
-      # Retrieves the possible values for the setting. If the value is a Proc or Lambda 
-      # (or anything else that responds to call()) it will be called and it's return 
-      # value is used.
-      # 
+      # Retrieves the possible values for the setting. If the value is a Proc or
+      # Lambda (or anything else that responds to call()) it will be called and
+      # it's return value is used.
+      #
       # @author Yorick Peterse
       # @since  0.2.8
       # @return [Mixed]

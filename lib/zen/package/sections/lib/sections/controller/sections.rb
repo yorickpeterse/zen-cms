@@ -3,13 +3,7 @@ module Sections
   #:nodoc:
   module Controller
     ##
-    # Sections can be seen as mini applications inside your website.  Examples
-    # of sections can be a blog, pages, a products listing, etc.  Before being
-    # able to properly add section entries you need to assign the following data
-    # to a section:
-    #
-    # * a category group
-    # * a custom field group
+    # Sections can be seen as mini applications inside your website.
     #
     # @author  Yorick Peterse
     # @since   0.1
@@ -20,7 +14,6 @@ module Sections
       map    '/admin'
       helper :section
 
-      # Load all required Javascript files
       javascript(['zen/lib/tabs'], :method => [:edit, :new])
 
       before_all do
@@ -99,8 +92,8 @@ module Sections
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] id The ID of the section to retrieve so that we can
-      # edit it.
+      # @param  [Fixnum] id The ID of the section to retrieve so that we can
+      #  edit it.
       # @since  0.1
       #
       def edit(id)

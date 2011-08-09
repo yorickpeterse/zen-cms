@@ -3,18 +3,7 @@ module Sections
   #:nodoc:
   module Model
     ##
-    # Model that represents a singe section entry. This model has the following
-    # relations:
-    #
-    # * comments (one to many)
-    # * custom field values (one to many), eager loads all custom fields
-    # * categories (many to many)
-    # * sections (many to one)
-    #
-    # The following plugins are loaded by this model
-    #
-    # * sluggable (source "title")
-    # * timestamps
+    # Model that represents a singe section entry.
     #
     # @author Yorick Peterse
     # @since  0.1

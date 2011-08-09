@@ -53,7 +53,7 @@ module Ramaze
       #
       # @author Yorick Peterse
       # @param  [String] separator The HTML character to use for separating each
-      # segment.
+      #  segment.
       # @return [String]
       #
       def get_breadcrumbs(separator = "&raquo;")

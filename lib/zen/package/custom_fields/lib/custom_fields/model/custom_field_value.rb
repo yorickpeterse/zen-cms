@@ -3,13 +3,7 @@ module CustomFields
   #:nodoc:
   module Model
     ##
-    # Model that represents a single custom field value. This model
-    # has the following relations:
-    #
-    # * custom field (many to one)
-    # * section entry (many to one)
-    #
-    # This model is basically just a join table with some extra columns.
+    # Model that represents a single custom field value.
     #
     # @author Yorick Peterse
     # @since  0.1

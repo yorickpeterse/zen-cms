@@ -19,7 +19,7 @@ module Ramaze
       # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] category_group_id The ID of the category group to
-      # validate.
+      #  validate.
       # @return [Categories::Model::CategoryGroup]
       #
       def validate_category_group(category_group_id)
@@ -43,7 +43,7 @@ module Ramaze
       # @since  0.2.8
       # @param  [Fixnum] category_id The ID of the category.
       # @param  [Fixnum] category_group_id The ID of the category group, used
-      # when redirecting the user.
+      #  when redirecting the user.
       # @return [Categories::Model::Category]
       #
       def validate_category(category_id, category_group_id)
@@ -66,9 +66,9 @@ module Ramaze
       # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum[ category_id The ID of the category, this one will be
-      # excluded from the hash.
+      #  excluded from the hash.
       # @param  [Fixnum] category_group_id The ID of a category group for which
-      # to retrieve all the possible parent items.
+      #  to retrieve all the possible parent items.
       # @return [Hash]
       #
       def parent_categories(category_id, category_group_id)

@@ -58,7 +58,7 @@ module Categories
       #
       # @author Yorick Peterse
       # @param  [Fixnum] category_group_id The ID of the category group that's
-      # currently being managed by the user.
+      #  currently being managed by the user.
       # @since  0.1
       #
       def index(category_group_id)
@@ -88,8 +88,8 @@ module Categories
       # * update
       #
       # @author Yorick Peterse
-      # @param  [Integer] category_group_id The category group ID.
-      # @param  [Integer] id The ID of the category to edit.
+      # @param  [Fixnum] category_group_id The category group ID.
+      # @param  [Fixnum] id The ID of the category to edit.
       # @since  0.1
       #
       def edit(category_group_id, id)
@@ -127,7 +127,7 @@ module Categories
       # * create
       #
       # @author Yorick Peterse
-      # @param  [Integer] category_group_id The ID of the category group.
+      # @param  [Fixnum] category_group_id The ID of the category group.
       # @since  0.1
       #
       def new(category_group_id)

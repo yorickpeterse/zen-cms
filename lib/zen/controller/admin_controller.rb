@@ -22,7 +22,7 @@ module Zen
     class AdminController < Zen::Controller::BaseController
       layout :admin
       engine :etanni
-      helper :blue_form_vendor, :breadcrumb, :user, :acl, :message, :paginate
+      helper :blue_form_vendor, :breadcrumb, :acl, :paginate
 
       # Configure the pagination
       trait :paginate => {

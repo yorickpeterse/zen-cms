@@ -3,8 +3,7 @@ module Menus
   #:nodoc:
   module Controller
     ##
-    # Controller for managing menu groups. Individual navigation items are
-    # managed using the menu items controller, simply named "menu_items".
+    # Controller for managing menu groups..
     #
     # @author Yorick Peterse
     # @since  0.2a
@@ -74,6 +73,7 @@ module Menus
       #
       # @author Yorick Peterse
       # @since  0.2a
+      # @param  [Fixnum] id The ID of the menu to edit.
       #
       def edit(id)
         require_permissions(:read, :update)

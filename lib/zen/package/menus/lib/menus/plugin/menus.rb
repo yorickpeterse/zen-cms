@@ -37,13 +37,13 @@ module Menus
       # @since 0.2.5
       # @param [Hash] options Hash with configuration options.
       # @option options [Integer/Fixnum] :limit The maximum amount of root items
-      # to retrieve.
+      #  to retrieve.
       # @option options [Integer/Fixnum] :offset The row offset for all root
-      # elements.
+      #  elements.
       # @option options [Fixnum/Integer/String] :menu The ID or slug of the menu
-      # for which to retrieve all menu items.
+      #  for which to retrieve all menu items.
       # @option options [Boolean] :sub When set to false sub items will be
-      # ignored. This option is set to true by default.
+      #  ignored. This option is set to true by default.
       #
       def initialize(options = {})
         @options = {
@@ -116,7 +116,7 @@ module Menus
       # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Object] item An instance of the MenuItem model as returned by
-      # Sequel.
+      #  Sequel.
       #
       def generate_item(item)
         attributes = {}

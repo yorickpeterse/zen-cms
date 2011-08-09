@@ -176,9 +176,6 @@ module Sections
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @todo The way this method handles the creation of field values might
-      # require some patches as it executes quite a few queries. I'll keep it
-      # as it is for now.
       #
       def save
         section_id = request.params['section_id']
