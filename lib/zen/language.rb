@@ -67,10 +67,6 @@ module Zen
   module Language
     include Ramaze::Optioned
 
-    class << self
-      include Innate::Trinity
-    end
-
     # Hash containing all the translations.
     Translations = {}
 
@@ -251,7 +247,7 @@ module Zen
       def lang(key, lang = nil)
         if lang.nil?
           begin
-            lang = action.node.session[:user].language
+            lang = Ramaze::Current.action.node.session[:user].language
           rescue
             lang = ::Zen::Language.options.language
           end

@@ -260,10 +260,7 @@ module Zen
       end
 
       @g.li do
-        # Easy way of disabling an item and not fucking up the menu
-        if !read_access
-          menu[:url] = '#'
-        end
+        menu[:url] = '#' if !read_access
 
         @g.a :href => menu[:url], :title => menu[:title] do
           menu[:title]
