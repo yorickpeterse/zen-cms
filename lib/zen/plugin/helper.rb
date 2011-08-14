@@ -30,13 +30,11 @@ module Zen
           whitelist = [whitelist]
         end
 
-        name    = name.to_s
-        classes = whitelist.join(' or ').to_s
-
         if !whitelist.include?(variable.class)
           raise(
             TypeError,
-            "\"#{name}\" can only be an instance of #{classes} but got #{variable.class}"
+            "\"#{name}\" can only be an instance of #{whitelist.join(' or ')} " \
+              "but got #{variable.class}"
           )
         end
       end
