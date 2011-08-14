@@ -16,8 +16,8 @@ Zen::Package.add do |p|
   p.name          = 'categories'
   p.author        = 'Yorick Peterse'
   p.url           = 'http://yorickpeterse.com/'
-  p.about         = "Module for managing categories. Categories can be used to
-organize section entries."
+  p.about         = "Module for managing categories. Categories can be used " \
+    "to organize section entries."
 
   p.directory     = __DIR__('categories')
   p.migration_dir = __DIR__('../migrations')
@@ -38,8 +38,8 @@ Zen::Plugin.add do |p|
   p.name   = 'categories'
   p.author = 'Yorick Peterse'
   p.url    = 'http://yorickpeterse.com/'
-  p.about  = 'Plugin that makes it easier to retrieve categories and category
-groups.'
+  p.about  = 'Plugin that makes it easier to retrieve categories and ' \
+    'category groups.'
 
   p.plugin = Categories::Plugin::Categories
 end

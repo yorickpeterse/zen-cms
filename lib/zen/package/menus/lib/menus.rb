@@ -11,11 +11,11 @@ Zen::Language.load('menus')
 Zen::Language.load('menu_items')
 
 Zen::Package.add do |p|
-  p.name          = 'menus' 
+  p.name          = 'menus'
   p.author        = 'Yorick Peterse'
   p.url           = 'http://zen-cms.com/userguide/menus'
-  p.about         = 'The Menus extension allows you to easily create navigation menus 
-for the frontend.'
+  p.about         = 'The Menus extension allows you to easily create ' \
+    'navigation menus for the frontend.'
 
   p.directory     = __DIR__('menus')
   p.migration_dir = __DIR__('../migrations')
@@ -26,7 +26,7 @@ for the frontend.'
   }]
 
   p.controllers = {
-    lang('menus.titles.index')      => Menus::Controller::Menus, 
+    lang('menus.titles.index')      => Menus::Controller::Menus,
     lang('menu_items.titles.index') => Menus::Controller::MenuItems
   }
 end

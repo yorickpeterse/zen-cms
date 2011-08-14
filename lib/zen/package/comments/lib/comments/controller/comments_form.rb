@@ -10,8 +10,6 @@ module Comments
     # @since  0.1
     #
     class CommentsForm < Zen::Controller::FrontendController
-      include ::Comments::Model
-
       map '/comments-form'
       helper :message
 
@@ -31,7 +29,7 @@ module Comments
       def save
         Zen::Language.load('comments')
 
-        comment = Comment.new
+        comment = ::Comments::Model::Comment.new
         post    = request.subset(
           :section_entry,
           :user_id,
@@ -43,7 +41,7 @@ module Comments
 
         # Get all the comment statuses.
         comment_statuses = {}
-        draft_status     = Sections::Model::SectionEntryStatus[
+        draft_status     = ::Sections::Model::SectionEntryStatus[
           :name => 'draft'
         ].id
 

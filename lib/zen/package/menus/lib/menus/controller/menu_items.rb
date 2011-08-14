@@ -9,8 +9,6 @@ module Menus
     # @since  0.2a
     #
     class MenuItems < ::Zen::Controller::AdminController
-      include ::Menus::Model
-
       map '/admin/menu-items'
       helper :menu
 
@@ -33,15 +31,7 @@ module Menus
       #
       def initialize
         super
-
-        Zen::Language.load('menu_items')
-        Zen::Language.load('menus')
-
-        # Set the page title based on the current method
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("menu_items.titles.#{method}") rescue nil
-        end
+        @page_title = lang("menu_items.titles.#{action.method}") rescue nil
       end
 
       ##
@@ -66,7 +56,7 @@ module Menus
         )
 
         @menu_id    = menu_id
-        @menu_items = MenuItem.filter(:menu_id => menu_id)
+        @menu_items = ::Menus::Model::MenuItem.filter(:menu_id => menu_id)
         @menu_items = paginate(@menu_items)
       end
 
@@ -129,7 +119,7 @@ module Menus
         )
 
         @menu_id   = menu_id
-        @menu_item = MenuItem.new
+        @menu_item = ::Menus::Model::MenuItem.new
 
         render_view(:form)
       end
@@ -172,7 +162,7 @@ module Menus
         else
           require_permissions(:create)
 
-          @menu_item  = MenuItem.new
+          @menu_item  = ::Menus::Model::MenuItem.new
           save_action = :new
         end
 
@@ -224,7 +214,7 @@ module Menus
 
         post['menu_item_ids'].each do |id|
           begin
-            MenuItem[id].destroy
+            ::Menus::Model::MenuItem[id].destroy
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('menu_items.errors.delete') % id)

@@ -9,8 +9,6 @@ module Sections
     # @since   0.1
     #
     class Sections < Zen::Controller::AdminController
-      include ::Sections::Model
-
       map    '/admin'
       helper :section
 
@@ -36,14 +34,7 @@ module Sections
       def initialize
         super
 
-        Zen::Language.load('sections')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("sections.titles.#{method}") rescue nil
-        end
-
+        @page_title   = lang("sections.titles.#{action.method}") rescue nil
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')
@@ -66,7 +57,7 @@ module Sections
 
         set_breadcrumbs(lang('sections.titles.index'))
 
-        @sections = paginate(Section)
+        @sections = paginate(::Sections::Model::Section)
       end
 
       ##
@@ -76,10 +67,10 @@ module Sections
       # @since  0.2.8
       #
       before(:edit, :new) do
-        @custom_field_group_pk_hash = CustomFields::Model::CustomFieldGroup \
+        @custom_field_group_pk_hash = ::CustomFields::Model::CustomFieldGroup \
           .pk_hash(:name).invert
 
-        @category_group_pk_hash = Categories::Model::CategoryGroup \
+        @category_group_pk_hash = ::Categories::Model::CategoryGroup \
           .pk_hash(:name).invert
       end
 
@@ -132,7 +123,7 @@ module Sections
           @page_title
         )
 
-        @section = Section.new
+        @section = ::Sections::Model::Section.new
 
         render_view(:form)
       end
@@ -173,7 +164,7 @@ module Sections
         else
           require_permissions(:create)
 
-          @section      = Section.new
+          @section      = ::Sections::Model::Section.new
           save_action   = :new
         end
 
@@ -242,7 +233,7 @@ module Sections
 
         request.params['section_ids'].each do |id|
           begin
-            Section[id.to_i].destroy
+            ::Sections::Model::Section[id.to_i].destroy
             message(:success, lang('sections.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)

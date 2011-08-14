@@ -12,8 +12,6 @@ module Categories
     # @since  0.1
     #
     class Categories < Zen::Controller::AdminController
-      include ::Categories::Model
-
       map '/admin/categories'
       helper :category
 
@@ -38,14 +36,7 @@ module Categories
       def initialize
         super
 
-        Zen::Language.load('categories')
-        Zen::Language.load('category_groups')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_s
-          @page_title = lang("categories.titles.#{method}") rescue nil
-        end
+        @page_title = lang("categories.titles.#{action.method}") rescue nil
       end
 
       ##
@@ -72,7 +63,7 @@ module Categories
         # Validate the category group
         category_group     = validate_category_group(category_group_id)
         @category_group_id = category_group_id
-        @categories        = Category.filter(
+        @categories        = ::Categories::Model::Category.filter(
           :category_group_id => category_group_id
         )
 
@@ -97,10 +88,13 @@ module Categories
 
         set_breadcrumbs(
           CategoryGroups.a(
-            lang('category_groups.titles.index'), :index
+            lang('category_groups.titles.index'),
+            :index
           ),
           Categories.a(
-            lang('categories.titles.index'), :index, category_group_id
+            lang('categories.titles.index'),
+            :index,
+            category_group_id
           ),
           lang('categories.titles.edit')
         )
@@ -135,10 +129,13 @@ module Categories
 
         set_breadcrumbs(
           CategoryGroups.a(
-            lang('category_groups.titles.index'), :index
+            lang('category_groups.titles.index'),
+            :index
           ),
           Categories.a(
-            lang('categories.titles.index'), :index, category_group_id
+            lang('categories.titles.index'),
+            :index,
+            category_group_id
           ),
           lang('categories.titles.new')
         )
@@ -146,7 +143,7 @@ module Categories
         validate_category_group(category_group_id)
 
         @category_group_id = category_group_id
-        @category          = Category.new
+        @category          = ::Categories::Model::Category.new
 
         render_view(:form)
       end
@@ -187,7 +184,7 @@ module Categories
         else
           require_permissions(:create)
 
-          category    = Category.new
+          category    = ::Categories::Model::Category.new
           save_action = :new
         end
 
@@ -246,7 +243,7 @@ module Categories
         # Delete each section
         request.params['category_ids'].each do |id|
           begin
-            Category[id].destroy
+            ::Categories::Model::Category[id].destroy
             message(:success, lang('categories.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)

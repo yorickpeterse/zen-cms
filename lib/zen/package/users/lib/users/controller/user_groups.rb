@@ -11,8 +11,6 @@ module Users
     # @since  0.1
     #
     class UserGroups < Zen::Controller::AdminController
-      include ::Users::Model
-
       helper :users
       map '/admin/user-groups'
 
@@ -35,14 +33,7 @@ module Users
       def initialize
         super
 
-        Zen::Language.load('user_groups')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("user_groups.titles.#{method}") rescue nil
-        end
-
+        @page_title   = lang("user_groups.titles.#{action.method}") rescue nil
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')
@@ -65,7 +56,7 @@ module Users
 
         set_breadcrumbs(lang('user_groups.titles.index'))
 
-        @user_groups = paginate(UserGroup)
+        @user_groups = paginate(::Users::Model::UserGroup)
       end
 
       ##
@@ -116,7 +107,7 @@ module Users
           lang('user_groups.titles.new')
         )
 
-        @user_group = UserGroup.new
+        @user_group = ::Users::Model::UserGroup.new
 
         render_view(:form)
       end
@@ -144,7 +135,7 @@ module Users
         else
           require_permissions(:create)
 
-          user_group  = UserGroup.new
+          user_group  = ::Users::Model::UserGroup.new
           save_action = :new
 
           post.delete('slug') if post['slug'].empty?
@@ -196,7 +187,7 @@ module Users
 
         request.params['user_group_ids'].each do |id|
           begin
-            UserGroup[id].destroy
+            ::Users::Model::UserGroup[id].destroy
             message(:success,  lang('user_groups.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)

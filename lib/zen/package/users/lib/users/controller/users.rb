@@ -9,8 +9,6 @@ module Users
     # @since  0.1
     #
     class Users < Zen::Controller::AdminController
-      include ::Users::Model
-
       helper :users, :layout
       map    '/admin/users'
 
@@ -36,14 +34,7 @@ module Users
       def initialize
         super
 
-        Zen::Language.load('users')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("users.titles.#{method}") rescue nil
-        end
-
+        @page_title  = lang("users.titles.#{action.method}") rescue nil
         @status_hash = {
           'open'   => lang('users.special.status_hash.open'),
           'closed' => lang('users.special.status_hash.closed')
@@ -66,7 +57,7 @@ module Users
 
         set_breadcrumbs(lang('users.titles.index'))
 
-        @users = paginate(User)
+        @users = paginate(::Users::Model::User)
       end
 
       ##
@@ -95,7 +86,7 @@ module Users
           @user = validate_user(id)
         end
 
-        @user_group_pks = UserGroup.pk_hash(:name).invert
+        @user_group_pks = ::Users::Model::UserGroup.pk_hash(:name).invert
 
         render_view(:form)
       end
@@ -119,8 +110,8 @@ module Users
           lang('users.titles.new')
         )
 
-        @user           = User.new
-        @user_group_pks = UserGroup.pk_hash(:name).invert
+        @user           = ::Users::Model::User.new
+        @user_group_pks = ::Users::Model::UserGroup.pk_hash(:name).invert
 
         render_view(:form)
       end
@@ -136,7 +127,7 @@ module Users
           # Let's see if we can authenticate
           if user_login(request.subset(:email, :password))
             # Update the last time the user logged in
-            User[:email => request.params['email']] \
+            ::Users::Model::User[:email => request.params['email']] \
               .update(:last_login => Time.new)
 
             message(:success, lang('users.success.login'))
@@ -197,7 +188,7 @@ module Users
         else
           require_permissions(:create)
 
-          user        = User.new
+          user        = ::Users::Model::User.new
           save_action = :new
           hook_name   = :new_user
         end
@@ -262,7 +253,7 @@ module Users
 
         request.params['user_ids'].each do |id|
           begin
-            u                = User[id]
+            u                = ::Users::Model::User[id]
             u.user_group_pks = []
 
             u.destroy

@@ -10,8 +10,6 @@ module Sections
     # @since  0.1
     #
     class SectionEntries < Zen::Controller::AdminController
-      include ::Sections::Model
-
       map '/admin/section-entries'
       helper :section
 
@@ -51,15 +49,7 @@ module Sections
       #
       def initialize
         super
-
-        Zen::Language.load('section_entries')
-        Zen::Language.load('sections')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("section_entries.titles.#{method}") rescue nil
-        end
+        @page_title = lang("section_entries.titles.#{action.method}") rescue nil
       end
 
       ##]
@@ -83,8 +73,11 @@ module Sections
 
         section     = validate_section(section_id)
         @section_id = section_id
-        @entries    = SectionEntry.filter(:section_id => section_id)
-        @entries    = paginate(@entries)
+        @entries    = ::Sections::Model::SectionEntry.filter(
+          :section_id => section_id
+        )
+
+        @entries = paginate(@entries)
       end
 
       ##
@@ -156,7 +149,10 @@ module Sections
         validate_section(section_id)
 
         @section_id          = section_id
-        @entry               = SectionEntry.new(:section_id => section_id)
+        @entry               = ::Sections::Model::SectionEntry.new(
+          :section_id => section_id
+        )
+
         @possible_categories = @entry.possible_categories
         @custom_fields_hash  = @entry.custom_fields_hash
 
@@ -185,7 +181,7 @@ module Sections
         if request.params['id'] and !request.params['id'].empty?
           require_permissions(:update)
 
-          @entry      = SectionEntry[request.params['id']]
+          @entry      = ::Sections::Model::SectionEntry[request.params['id']]
           save_action = :save
 
           # Section entries aren't considered to be updated whenever a custom
@@ -194,7 +190,10 @@ module Sections
         else
           require_permissions(:create)
 
-          @entry      = SectionEntry.new(:section_id => section_id)
+          @entry = ::Sections::Model::SectionEntry.new(
+            :section_id => section_id
+          )
+
           save_action = :new
         end
 
@@ -304,7 +303,7 @@ module Sections
 
         request.params['section_entry_ids'].each do |id|
           begin
-            SectionEntry[id].destroy
+            ::Sections::Model::SectionEntry[id].destroy
             message(:success, lang('section_entries.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)

@@ -20,7 +20,6 @@ module Categories
     # @since  0.2.5
     #
     class Categories
-      include ::Categories::Model
       include ::Zen::Plugin::Helper
 
       ##
@@ -97,9 +96,13 @@ module Categories
           # Get the group for an ID or a name
           if @options[:group].class == Integer \
           or @options[:group].class == Fixnum
-            category_group = CategoryGroup[@options[:group]]
+            category_group = ::Categories::Model::CategoryGroup[
+              @options[:group]
+            ]
           else
-            category_group = CategoryGroup[:name => @options[:group]]
+            category_group = ::Categories::Model::CategoryGroup[
+              :name => @options[:group]
+            ]
           end
 
           # Since we require a group in this case we'll raise an error if the
@@ -114,17 +117,20 @@ module Categories
 
           # Get all the categories according to our specified configuration
           # options and the category group that was retrieved earlier on.
-          categories = Category.filter(
-            :category_group_id => category_group.id
-          ).limit(@options[:limit], @options[:offset]).all
+          categories = ::Categories::Model::Category \
+            .filter(:category_group_id => category_group.id) \
+            .limit(@options[:limit], @options[:offset]) \
+            .all
 
         # Retrieve the category for the specified ID or slug
         else
           if @options[:category].class == Integer \
           or @options[:category].class == Fixnum
-            categories = Category[@options[:category]]
+            categories = ::Categories::Model::Category[@options[:category]]
           else
-            categories = Category[:slug => @options[:category]]
+            categories = ::Categories::Model::Category[
+              :slug => @options[:category]
+            ]
           end
         end
 

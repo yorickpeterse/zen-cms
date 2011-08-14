@@ -9,8 +9,6 @@ module CustomFields
     # @since  0.2.8
     #
     class CustomFieldTypes < Zen::Controller::AdminController
-      include ::CustomFields::Model
-
       map    '/admin/custom-field-types'
       helper :custom_field
 
@@ -30,13 +28,9 @@ module CustomFields
       def initialize
         super
 
-        Zen::Language.load('custom_field_types')
-
-        if !action.method.nil?
-          @page_title = lang(
-            "custom_field_types.titles.#{action.method}"
-          ) rescue nil
-        end
+        @page_title = lang(
+          "custom_field_types.titles.#{action.method}"
+        ) rescue nil
 
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
@@ -60,7 +54,9 @@ module CustomFields
 
         set_breadcrumbs(lang('custom_field_types.titles.index'))
 
-        @field_types = paginate(CustomFieldType.eager(:custom_field_method))
+        @field_types = paginate(
+          ::CustomFields::Model::CustomFieldType.eager(:custom_field_method)
+        )
       end
 
       ##
@@ -90,7 +86,8 @@ module CustomFields
           @custom_field_type = validate_custom_field_type(custom_field_type_id)
         end
 
-        @custom_field_methods = CustomFieldMethod.pk_hash(:name)
+        @custom_field_methods = ::CustomFields::Model::CustomFieldMethod \
+          .pk_hash(:name)
 
         render_view :form
       end
@@ -114,8 +111,10 @@ module CustomFields
           lang('custom_field_types.titles.new')
         )
 
-        @custom_field_methods = CustomFieldMethod.pk_hash(:name)
-        @custom_field_type    = CustomFieldType.new
+        @custom_field_methods = ::CustomFields::Model::CustomFieldMethod \
+          .pk_hash(:name)
+
+        @custom_field_type    = ::CustomFields::Model::CustomFieldType.new
 
         render_view :form
       end
@@ -149,7 +148,7 @@ module CustomFields
         else
           require_permissions(:create)
 
-          field_type  = CustomFieldType.new
+          field_type  = ::CustomFields::Model::CustomFieldType.new
           save_action = :new
         end
 
@@ -198,7 +197,7 @@ module CustomFields
 
         request.params['custom_field_type_ids'].each do |id|
           begin
-            CustomFieldType[id].destroy
+            ::CustomFields::Model::CustomFieldType[id].destroy
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('custom_field_types.errors.delete') % id)

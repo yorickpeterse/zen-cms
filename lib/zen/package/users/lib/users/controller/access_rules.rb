@@ -9,8 +9,6 @@ module Users
     # @since  0.1
     #
     class AccessRules < Zen::Controller::AdminController
-      include ::Users::Model
-
       helper :users
       map    '/admin/access-rules'
 
@@ -38,11 +36,7 @@ module Users
       def initialize
         super
 
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("access_rules.titles.#{method}") rescue nil
-        end
+        @page_title = lang("access_rules.titles.#{action.method}") rescue nil
 
         @rule_applies_hash = {
           lang('access_rules.labels.user')       => 'div_user_id',
@@ -106,7 +100,7 @@ module Users
 
         set_breadcrumbs(lang('access_rules.titles.index'))
 
-        @access_rules = paginate(AccessRule)
+        @access_rules = paginate(::Users::Model::AccessRule)
       end
 
       ##
@@ -157,7 +151,7 @@ module Users
           lang('access_rules.titles.new')
         )
 
-        @access_rule = AccessRule.new
+        @access_rule = ::Users::Model::AccessRule.new
 
         render_view(:form)
       end
@@ -202,7 +196,7 @@ module Users
         else
           require_permissions(:create)
 
-          access_rule = AccessRule.new
+          access_rule = ::Users::Model::AccessRule.new
           save_action = :new
         end
 
@@ -255,10 +249,8 @@ module Users
         end
 
         request.params['access_rule_ids'].each do |id|
-          @access_rule = AccessRule[id]
-
           begin
-            @access_rule.delete
+            ::Users::Model::AccessRule[id].delete
             session.delete(:access_rules)
             message(:success, lang('access_rules.success.delete'))
           rescue => e

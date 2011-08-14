@@ -6,7 +6,7 @@ Ramaze.setup(:verbose => false) do
   gem 'sequel'          , ['~> 3.26']
   gem 'bcrypt-ruby'     , ['~> 2.1.4'], :lib => 'bcrypt'
   gem 'sequel_sluggable', ['~> 0.0.6']
-  gem 'loofah'          , ['~> 1.0.0']
+  gem 'loofah'          , ['~> 1.2.0']
 end
 
 require __DIR__('zen/version')
@@ -42,7 +42,10 @@ module Zen
     #
     def root=(path)
       @root = path
-      Ramaze.options.roots.push(@root)
+
+      if !Ramaze.options.roots.include?(@root)
+        Ramaze.options.roots.push(@root)
+      end
     end
 
     ##
@@ -52,8 +55,6 @@ module Zen
     # @since  0.2.9
     #
     def start
-      Ramaze::Cache.setup
-
       Zen::Language.load('zen_general')
 
       require __DIR__('zen/model/settings')

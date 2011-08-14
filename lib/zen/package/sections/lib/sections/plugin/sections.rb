@@ -17,7 +17,6 @@ module Sections
     #
     class Sections
       include ::Zen::Plugin::Helper
-      include ::Sections::Model
 
       ##
       # Creates a new instance of the plugin and saves/validates the given
@@ -63,14 +62,16 @@ module Sections
         if !@options[:section].nil?
           # Retrieve a section by it's slug
           if @options[:section].class == String
-            sections = Section[:slug => @options[:section]]
+            sections = ::Sections::Model::Section[:slug => @options[:section]]
           # Retrieve a section by it's ID
           else
-            sections = Section[@options[:section]]
+            sections = ::Sections::Model::Section[@options[:section]]
           end
         # Retrieve mutliple sections
         else
-          sections = Section.limit(@options[:limit], @options[:offset]).all
+          sections = ::Sections::Model::Section \
+            .limit(@options[:limit], @options[:offset]) \
+            .all
         end
 
         # Convert every section to a hash

@@ -2,7 +2,7 @@ require 'ramaze'
 require 'stringio'
 
 Ramaze.setup(:verobse => false) do
-  gem 'capybara', ['~> 1.0.0']
+  gem 'capybara', ['~> 1.0.1']
   gem 'bacon'   , ['~> 1.1.0']
   gem 'webmock' , ['~> 1.6.4']
 end

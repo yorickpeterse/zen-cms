@@ -25,7 +25,6 @@ module Menus
     #
     class Menus
       include ::Zen::Plugin::Helper
-      include ::Menus::Model
 
       ##
       # Creates a new instance of the plugin and saves the configuration options.
@@ -70,15 +69,16 @@ module Menus
       def call
         # Retrieve the menu
         if @options[:menu].class == String
-          menu = Menu[:slug => @options[:menu]]
+          menu = ::Menus::Model::Menu[:slug => @options[:menu]]
         else
-          menu = Menu[@options[:menu]]
+          menu = ::Menus::Model::Menu[@options[:menu]]
         end
 
         return if !menu
 
         # Get all menu items
-        menu_items = MenuItem.filter(:menu_id => menu.id, :parent_id => nil) \
+        menu_items = ::Menus::Model::MenuItem \
+          .filter(:menu_id => menu.id, :parent_id => nil) \
           .limit(@options[:limit], @options[:offset]) \
           .order(:sort_order.send(@options[:order])) \
           .all

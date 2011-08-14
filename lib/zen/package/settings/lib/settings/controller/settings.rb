@@ -10,11 +10,8 @@ module Settings
     # @since  0.1
     #
     class Settings < Zen::Controller::AdminController
-      include ::Settings::Model
-
       map '/admin/settings'
 
-      # Load all required Javascript files
       javascript ['zen/lib/tabs']
 
       before_all do
@@ -37,12 +34,7 @@ module Settings
         super
 
         @form_save_url = Settings.r(:save)
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("settings.titles.#{method}") rescue nil
-        end
+        @page_title    = lang("settings.titles.#{action.method}") rescue nil
       end
 
       ##

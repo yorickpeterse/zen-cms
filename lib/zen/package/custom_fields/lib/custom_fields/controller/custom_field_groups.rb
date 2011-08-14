@@ -11,8 +11,6 @@ module CustomFields
     # @since   0.1
     #
     class CustomFieldGroups < Zen::Controller::AdminController
-      include ::CustomFields::Model
-
       helper :custom_field
       map    '/admin/custom-field-groups'
 
@@ -36,13 +34,9 @@ module CustomFields
       def initialize
         super
 
-        Zen::Language.load('custom_field_groups')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("custom_field_groups.titles.#{method}") rescue nil
-        end
+        @page_title = lang(
+          "custom_field_groups.titles.#{action.method}"
+        ) rescue nil
       end
 
       ##
@@ -62,7 +56,7 @@ module CustomFields
 
         set_breadcrumbs(lang('custom_field_groups.titles.index'))
 
-        @field_groups = paginate(CustomFieldGroup)
+        @field_groups = paginate(::CustomFields::Model::CustomFieldGroup)
       end
 
       ##
@@ -114,7 +108,7 @@ module CustomFields
           @page_title
         )
 
-        @field_group = CustomFieldGroup.new
+        @field_group = ::CustomFields::Model::CustomFieldGroup.new
 
         render_view(:form)
       end
@@ -144,7 +138,7 @@ module CustomFields
         else
           require_permissions(:create)
 
-          @field_group  = CustomFieldGroup.new
+          @field_group  = ::CustomFields::Model::CustomFieldGroup.new
           save_action   = :new
         end
 
@@ -200,7 +194,7 @@ module CustomFields
 
         request.params['custom_field_group_ids'].each do |id|
           begin
-            CustomFieldGroup[id].destroy
+            ::CustomFields::Model::CustomFieldGroup[id].destroy
             message(:success, lang('custom_field_groups.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)

@@ -10,16 +10,16 @@ Zen::Package.add do |p|
   p.name          = 'settings'
   p.author        = 'Yorick Peterse'
   p.url           = 'http://yorickpeterse.com/'
-  p.about         = 'Module for managing settings such as the default module, whether or 
-not to allow registration, etc.'
+  p.about         = 'Module for managing settings such as the default ' \
+    'module, whether or not to allow registration, etc.'
 
   p.directory     = __DIR__('settings')
   p.migration_dir = __DIR__('../migrations')
-  
+
   p.menu = [{
     :title => lang('settings.titles.index'),
     :url   => 'admin/settings'
-  }] 
+  }]
 
   p.controllers = {
     lang('settings.titles.index') => Settings::Controller::Settings
@@ -39,7 +39,9 @@ Zen::Plugin.add do |plugin|
   plugin.name       = 'settings'
   plugin.author     = 'Yorick Peterse'
   plugin.url        = 'http://yorickpeterse.com/'
-  plugin.about      = 'Plugin that can be used to register, retrieve and migrate settings.'
+  plugin.about      = 'Plugin that can be used to register, retrieve and ' \
+    'migrate settings.'
+
   plugin.plugin     = Settings::Plugin::Settings
 end
 

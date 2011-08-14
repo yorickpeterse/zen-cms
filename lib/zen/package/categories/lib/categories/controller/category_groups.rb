@@ -12,8 +12,6 @@ module Categories
     # @since  0.1
     #
     class CategoryGroups < Zen::Controller::AdminController
-      include ::Categories::Model
-
       helper :category
       map    '/admin/category-groups'
 
@@ -36,14 +34,7 @@ module Categories
       #
       def initialize
         super
-
-        Zen::Language.load('category_groups')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_s
-          @page_title = lang("category_groups.titles.#{method}") rescue nil
-        end
+        @page_title = lang("category_groups.titles.#{action.method}") rescue nil
       end
 
       ##
@@ -62,7 +53,7 @@ module Categories
 
         set_breadcrumbs(lang('category_groups.titles.index'))
 
-        @category_groups = paginate(CategoryGroup)
+        @category_groups = paginate(::Categories::Model::CategoryGroup)
       end
 
       ##
@@ -110,7 +101,7 @@ module Categories
           lang('category_groups.titles.new')
         )
 
-        @category_group = CategoryGroup.new
+        @category_group = ::Categories::Model::CategoryGroup.new
 
         render_view(:form)
       end
@@ -136,7 +127,7 @@ module Categories
         else
           require_permissions(:create)
 
-          category_group = CategoryGroup.new
+          category_group = ::Categories::Model::CategoryGroup.new
           save_action    = :new
         end
 
@@ -192,7 +183,7 @@ module Categories
 
         post['category_group_ids'].each do |id|
           begin
-            CategoryGroup[id].destroy
+            ::Categories::Model::CategoryGroup[id].destroy
             message(:success, lang('category_groups.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)

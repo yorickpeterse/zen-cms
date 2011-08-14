@@ -79,7 +79,6 @@ module Settings
     #
     class Settings
       include ::Zen::Plugin::Helper
-      include ::Settings::Model
 
       ##
       # Hash containing all registered settings and setting groups.
@@ -204,7 +203,7 @@ module Settings
       # @since  0.2.5
       #
       def migrate
-        settings = Setting.all.map { |s| s.name }
+        settings = ::Settings::Model::Setting.all.map { |s| s.name }
 
         Registered[:settings].each do |name, setting|
           name = name.to_s
@@ -248,7 +247,7 @@ module Settings
           Registered[:settings].delete(i)
         end
 
-        Setting.filter(:name => names).delete
+        ::Settings::Model::Setting.filter(:name => names).delete
       end
     end # Settings
   end # Plugin

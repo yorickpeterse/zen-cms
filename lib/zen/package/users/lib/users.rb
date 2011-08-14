@@ -20,12 +20,12 @@ Zen::Package.add do |p|
   p.name          = 'users'
   p.author        = 'Yorick Peterse'
   p.url           = 'http://yorickpeterse.com/'
-  p.about         = "Module for managing users along with handling authentication and 
-authorization."
-  
+  p.about         = "Module for managing users along with handling " \
+    "authentication and authorization."
+
   p.directory     = __DIR__('users')
   p.migration_dir = __DIR__('../migrations')
-  
+
   p.menu = [{
     :title    => lang('users.titles.index'),
     :url      => 'admin/users',
@@ -36,8 +36,8 @@ authorization."
   }]
 
   p.controllers = {
-    lang('users.titles.index')        => Users::Controller::Users, 
-    lang('user_groups.titles.index')  => Users::Controller::UserGroups, 
+    lang('users.titles.index')        => Users::Controller::Users,
+    lang('user_groups.titles.index')  => Users::Controller::UserGroups,
     lang('access_rules.titles.index') => Users::Controller::AccessRules
   }
 end

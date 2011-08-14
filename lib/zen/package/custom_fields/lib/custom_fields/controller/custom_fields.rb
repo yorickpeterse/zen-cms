@@ -13,8 +13,6 @@ module CustomFields
     # @since  0.1
     #
     class CustomFields < Zen::Controller::AdminController
-      include ::CustomFields::Model
-
       helper :custom_field
       map    '/admin/custom-fields'
 
@@ -33,7 +31,7 @@ module CustomFields
       # @since  0.2.8
       #
       before(:index, :edit, :new) do
-        @custom_field_types = CustomFieldType.type_hash
+        @custom_field_types = ::CustomFields::Model::CustomFieldType.type_hash
       end
 
       ##
@@ -51,15 +49,7 @@ module CustomFields
       def initialize
         super
 
-        Zen::Language.load('custom_fields')
-        Zen::Language.load('custom_field_groups')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("custom_fields.titles.#{method}") rescue nil
-        end
-
+        @page_title   = lang("custom_fields.titles.#{action.method}") rescue nil
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')
@@ -90,7 +80,7 @@ module CustomFields
         )
 
         @custom_field_group_id = custom_field_group_id
-        @custom_fields         = CustomField.filter(
+        @custom_fields         = ::CustomFields::Model::CustomField.filter(
           :custom_field_group_id => custom_field_group_id
         )
 
@@ -158,16 +148,19 @@ module CustomFields
 
         set_breadcrumbs(
           CustomFieldGroups.a(
-            lang('custom_field_groups.titles.index'), :index
+            lang('custom_field_groups.titles.index'),
+            :index
           ),
           CustomFields.a(
-            lang('custom_fields.titles.index'), :index, custom_field_group_id
+            lang('custom_fields.titles.index'),
+            :index,
+            custom_field_group_id
           ),
           lang('custom_fields.titles.new')
         )
 
         @custom_field_group_id = custom_field_group_id
-        @custom_field          = CustomField.new
+        @custom_field          = ::CustomFields::Model::CustomField.new
 
         render_view(:form)
       end
@@ -218,7 +211,7 @@ module CustomFields
         else
           require_permissions(:create)
 
-          custom_field = CustomField.new
+          custom_field = ::CustomFields::Model::CustomField.new
           save_action  = :new
         end
 
@@ -279,7 +272,7 @@ module CustomFields
 
         request.params['custom_field_ids'].each do |id|
           begin
-            CustomField[id].destroy
+            ::CustomFields::Model::CustomField[id].destroy
             message(:success, lang('custom_fields.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)

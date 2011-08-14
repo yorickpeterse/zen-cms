@@ -149,9 +149,7 @@ module Zen
     # @see    Zen::Plugin::SingletonMethods#plugin
     #
     def self.plugin(name, *data, &block)
-      if name.class != Symbol
-        name = name.to_sym
-      end
+      name = name.to_sym if name.class != Symbol
 
       return ::Zen::Plugin[name].plugin.new(*data, &block).call
     end

@@ -9,8 +9,6 @@ module Menus
     # @since  0.2a
     #
     class Menus < Zen::Controller::AdminController
-      include ::Menus::Model
-
       map '/admin/menus'
       helper :menu
 
@@ -32,14 +30,7 @@ module Menus
       #
       def initialize
         super
-
-        Zen::Language.load('menus')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_sym
-          @page_title = lang("menus.titles.#{method}") rescue nil
-        end
+        @page_title = lang("menus.titles.#{action.method}") rescue nil
       end
 
       ##
@@ -58,7 +49,7 @@ module Menus
 
         set_breadcrumbs(lang('menus.titles.index'))
 
-        @menus = paginate(Menu)
+        @menus = paginate(::Menus::Model::Menu)
       end
 
       ##
@@ -113,7 +104,7 @@ module Menus
           @page_title
         )
 
-        @menu = Menu.new
+        @menu = ::Menus::Model::Menu.new
 
         render_view(:form)
       end
@@ -152,7 +143,7 @@ module Menus
         else
           require_permissions(:create)
 
-          @menu       = Menu.new
+          @menu       = ::Menus::Model::Menu.new
           save_action = :new
 
           # Delete the slug if it's empty
@@ -212,7 +203,7 @@ module Menus
         # Time to delete all menus
         post['menu_ids'].each do |id|
           begin
-            Menu[id].destroy
+            ::Menus::Model::Menu[id].destroy
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('menus.errors.delete') % id)

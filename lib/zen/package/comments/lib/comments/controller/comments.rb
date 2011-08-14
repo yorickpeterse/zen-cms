@@ -10,8 +10,6 @@ module Comments
     # @since   0.1
     #
     class Comments < Zen::Controller::AdminController
-      include ::Comments::Model
-
       map '/admin/comments'
       helper :comment
 
@@ -29,14 +27,7 @@ module Comments
       #
       def initialize
         super
-
-        Zen::Language.load('comments')
-
-        # Set the page title
-        if !action.method.nil?
-          method      = action.method.to_s
-          @page_title = lang("comments.titles.#{method}") rescue nil
-        end
+        @page_title = lang("comments.titles.#{action.method}") rescue nil
       end
 
       ##
@@ -55,7 +46,9 @@ module Comments
 
         set_breadcrumbs(lang('comments.titles.index'))
 
-        @comments = paginate(Comment.eager(:comment_status))
+        @comments = paginate(
+          ::Comments::Model::Comment.eager(:comment_status)
+        )
       end
 
       ##
@@ -162,7 +155,7 @@ module Comments
         # Delete each section
         request.params['comment_ids'].each do |id|
           begin
-            Comment[id].destroy
+            ::Comments::Model::Comment[id].destroy
             message(:success, lang('comments.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)

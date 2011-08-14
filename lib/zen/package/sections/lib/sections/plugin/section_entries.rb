@@ -47,7 +47,6 @@ module Sections
     #
     class SectionEntries
       include ::Zen::Plugin::Helper
-      include ::Sections::Model
 
       ##
       # Creates a new instance of the plugin and validates/stores the given
@@ -128,19 +127,17 @@ module Sections
         eager_models = [:custom_field_values, :user]
         filter_hash  = {}
 
-        if @options[:comments] === true
-          eager_models.push(:comments)
-        end
-
-        if @options[:categories] === true
-          eager_models.push(:categories)
+        [:comments, :categories].each do |key|
+          eager_models.push(key) if @options[key] === true
         end
 
         # Get the section ID based on either the slug or ID.
         if !@options[:section].nil?
           # Retrieve the section by it's slug
           if @options[:section].class == String
-            section_id = Section[:slug => @options[:section]].id
+            section_id = ::Sections::Model::Section[
+              :slug => @options[:section]
+            ].id
           else
             section_id = @options[:section]
           end
@@ -164,7 +161,7 @@ module Sections
           ::Sections::Model::SectionEntryStatus[:name => 'published'].id
 
         # Get the entries
-        entries = SectionEntry.filter(filter_hash) \
+        entries = ::Sections::Model::SectionEntry.filter(filter_hash) \
           .eager(*eager_models) \
           .limit(@options[:limit], @options[:offset]) \
           .all
@@ -180,12 +177,13 @@ module Sections
 
           # Store all the custom field values
           entry.custom_field_values.each do |v|
-            name  = v.custom_field.slug.to_sym
+            field = v.custom_field
+            name  = field.slug.to_sym
             value = v.value
 
             # Convert the markup
             if @options[:markup] === true
-              value = plugin(:markup, v.custom_field.format, value)
+              value = plugin(:markup, field.format, value)
             end
 
             field_values[name] = value
@@ -198,16 +196,15 @@ module Sections
             end
 
             entry.comments.each do |c|
-              comment = c.values
-
-              if c.user
-                comment[:user] = c.user.values
-              end
+              comment        = c.values
+              comment[:user] = c.user.values if c.user
 
               # Convert the comment's markup
               if @options[:comment_markup]
                 comment[:comment] = plugin(
-                  :markup, comment_format, comment[:comment]
+                  :markup,
+                  comment_format,
+                  comment[:comment]
                 )
               end
 
@@ -216,9 +213,7 @@ module Sections
           end
 
           # Get the user data
-          if !entry.user.nil?
-            user = entry.user.values
-          end
+          user = entry.user.values if !entry.user.nil?
 
           # Get all categories
           if @options[:categories] === true
@@ -236,10 +231,7 @@ module Sections
           entries[index]     = entry
         end
 
-        # Do we only want a single entry?
-        if !@options[:entry].nil?
-          entries = entries[0]
-        end
+        entries = entries[0] if !@options[:entry].nil?
 
         return entries
       end
