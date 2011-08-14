@@ -163,7 +163,7 @@ module Zen
         end
       end
 
-      Registered[package.name.to_sym] = package
+      Registered[package.name] = package
     end
 
     ##

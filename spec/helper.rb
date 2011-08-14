@@ -27,13 +27,7 @@ Zen.database = Sequel.connect(
   :encoding  => 'utf8'
 )
 
-# Start Zen
-Zen.init
-
-# Require all packages
-require __DIR__('../lib/zen/package/all')
-
-Zen.post_init
+Zen.start
 
 module Zen
   Fixtures = __DIR__('fixtures/zen')

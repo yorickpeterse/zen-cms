@@ -20,40 +20,47 @@ require __DIR__('zen/version')
 # @since  0.1
 #
 module Zen
-  # Update several paths so we can load helpers/layouts from the Zen gem
-  Innate::HelpersHelper.options.paths.push(__DIR__('zen'))
-  Ramaze.options.roots.push(__DIR__('zen'))
-
   class << self
-    ##
-    # Variable that will contain a database connection that was established
-    # using Sequel.connect.
-    #
-    # @author Yorick Peterse
-    # @since  0.2.6
-    #
+    # The database connection to use for Sequel.
     attr_accessor :database
 
     ##
-    # String containing the path to the root directory of the Zen application.
+    # Returns the current root directory.
     #
     # @author Yorick Peterse
-    # @since  0.2.6
+    # @since  0.2.9
     #
-    attr_accessor :root
+    def root
+      @root
+    end
 
     ##
-    # Loads the database and the required models.
+    # Sets the root directory and adds the path to Ramaze.options.roots.
     #
-    # @author Yorick  Peterse
-    # @since  0.1
+    # @author Yorick Peterse
+    # @since  0.2.9
     #
-    def init
-      # Initialize the database
+    def root=(path)
+      @root = path
+      Ramaze.options.roots.push(@root)
+    end
+
+    ##
+    # Prepares Zen for the party of it's life.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    #
+    def start
+      Ramaze::Cache.setup
+
       Zen::Language.load('zen_general')
 
       require __DIR__('zen/model/settings')
       require __DIR__('zen/model/methods')
+
+      # Load all packages
+      require __DIR__('zen/package/all')
 
       # Load the global stylesheet and Javascript file if they're located in
       # ROOT/public/css/admin/global.css and ROOT/public/js/admin/global.js
@@ -67,15 +74,7 @@ module Zen
         Zen::Asset.stylesheet(['global'], :global => true) if File.exist?(css)
         Zen::Asset.javascript(['global'], :global => true) if File.exist?(js)
       end
-    end
 
-    ##
-    # Method executed after everything has been set up and loaded.
-    #
-    # @author Yorick Peterse
-    # @since  0.2.6
-    #
-    def post_init
       # Migrate all settings
       begin
         plugin(:settings, :migrate)
@@ -85,9 +84,14 @@ module Zen
             'table is up to date'
         )
       end
+
+      require __DIR__('zen/plugin/markup/lib/markup')
     end
   end # class << self
 end # Zen
+
+Ramaze::Cache.options.names.push(:settings)
+Ramaze::Cache.options.settings = Ramaze::Cache::LRU
 
 # Load all classes/modules provided by Zen itself.
 require __DIR__('zen/error')
@@ -101,16 +105,13 @@ require __DIR__('zen/asset')
 include Zen::Plugin::SingletonMethods
 include Zen::Language::SingletonMethods
 
-# Update the language path
+Ramaze::HelpersHelper.options.paths.push(__DIR__('zen'))
+Ramaze.options.roots.push(__DIR__('zen'))
 Zen::Language.options.paths.push(__DIR__('zen'))
-Zen::Language.load('zen_general')
-
-# Load all additional files
-require __DIR__('zen/plugin/helper')
-require __DIR__('zen/plugin/markup/lib/markup')
 
 require __DIR__('zen/package')
 require __DIR__('zen/theme')
+require __DIR__('zen/plugin/helper')
 
 # Load all the base controllers
 require __DIR__('zen/controller/base_controller')
@@ -118,8 +119,3 @@ require __DIR__('zen/controller/frontend_controller')
 require __DIR__('zen/controller/admin_controller')
 require __DIR__('zen/controller/main_controller')
 require __DIR__('zen/controller/preview')
-
-# Load the cache for the settings. This has to be done outside any of the init
-# methods as that would make it impossible to set a custom cache.
-Ramaze::Cache.options.names.push(:settings)
-Ramaze::Cache.options.settings = Ramaze::Cache::LRU

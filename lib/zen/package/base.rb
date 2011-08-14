@@ -33,7 +33,7 @@ module Zen
       # Path to the directory containing all migrations
       attr_accessor :migration_dir
 
-      # Array containing all controllers for the package. These classes will be
+      # Hash containing all controllers for the package. These classes will be
       # used by the ACL system.
       attr_accessor :controllers
 

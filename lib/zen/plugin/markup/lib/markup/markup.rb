@@ -51,12 +51,6 @@ module Zen
     class Markup
       include Ramaze::Helper::CGI
 
-      # Load the language pack in the class method scope rather than the
-      # instance's scope
-      class << self
-        include Zen::Language
-      end
-
       ##
       # Hash containing the keys of the engines to use and their human friendly
       # names (used in the backend). Note that the keys of this hash should be
@@ -66,10 +60,10 @@ module Zen
       # @since  0.2.5
       #
       Engines = {
-        'markdown' => lang('markup.engines.markdown'),
-        'textile'  => lang('markup.engines.textile'),
-        'plain'    => lang('markup.engines.plain'),
-        'html'     => lang('markup.engines.html')
+        'markdown' => Zen::Language.lang('markup.engines.markdown'),
+        'textile'  => Zen::Language.lang('markup.engines.textile'),
+        'plain'    => Zen::Language.lang('markup.engines.plain'),
+        'html'     => Zen::Language.lang('markup.engines.html')
       }
 
       ##
