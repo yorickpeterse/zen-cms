@@ -35,6 +35,15 @@ module Zen
   #
   # This would result in "Hello Ruby" being printed 10 times in the console.
   #
+  # ## Available Hooks
+  #
+  # Out of the box Zen ships with the following hooks:
+  #
+  # * new_comment
+  # * new_user
+  # * edit_user
+  # * new_section_entry
+  #
   # @author Yorick Peterse
   # @since  0.2.9
   #

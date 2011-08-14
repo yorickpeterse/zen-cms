@@ -255,6 +255,11 @@ module Sections
               end
             end
           end
+
+        if save_action === :new and !@entry.nil?
+          Zen::Hook.call(:new_section_entry, @entry)
+        end
+
         # The rescue statement is called whenever the following happens:
         #
         # 1. The fields for the section entry (title, slug, etc) are invalid

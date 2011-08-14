@@ -193,11 +193,13 @@ module Users
 
           user        = validate_user(post['id'])
           save_action = :save
+          hook_name   = :edit_user
         else
           require_permissions(:create)
 
           user        = User.new
           save_action = :new
+          hook_name   = :new_user
         end
 
         if !post['new_password'].nil? and !post['new_password'].empty?
@@ -220,6 +222,7 @@ module Users
         begin
           user.update(post)
           message(:success, flash_success)
+          Zen::Hook.call(hook_name, user)
 
           user.user_group_pks = post['user_group_pks'] if save_action === :new
         rescue => e
