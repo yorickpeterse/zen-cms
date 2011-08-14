@@ -1,5 +1,3 @@
-require __DIR__('../error/theme_error')
-
 #:nodoc:
 module Ramaze
   #:nodoc:

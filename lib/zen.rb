@@ -90,8 +90,10 @@ module Zen
 end # Zen
 
 # Load all classes/modules provided by Zen itself.
+require __DIR__('zen/error')
 require __DIR__('zen/validation')
 require __DIR__('zen/plugin')
+require __DIR__('zen/hook')
 require __DIR__('zen/language')
 require __DIR__('zen/asset')
 

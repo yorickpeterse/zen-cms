@@ -1,5 +1,3 @@
-require __DIR__('error/validation_error')
-
 #:nodoc:
 module Zen
   ##

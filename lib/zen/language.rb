@@ -1,5 +1,3 @@
-require __DIR__('error/language_error')
-
 #:nodoc:
 module Zen
   ##

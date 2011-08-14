@@ -1,5 +1,4 @@
 require 'ramaze/gestalt'
-require __DIR__('error/package_error')
 require __DIR__('package/base')
 
 #:nodoc:

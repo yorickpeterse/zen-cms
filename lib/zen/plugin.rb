@@ -1,4 +1,3 @@
-require __DIR__('error/plugin_error')
 require __DIR__('plugin/base')
 
 #:nodoc:

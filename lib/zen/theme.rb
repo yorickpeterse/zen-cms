@@ -1,4 +1,3 @@
-require __DIR__('error/theme_error')
 require __DIR__('theme/base')
 require 'pathname'
 
