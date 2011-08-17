@@ -75,6 +75,10 @@ module Sections
       # @option options [TrueClass] :categories When set to true all categories
       #  for each entry will be retrieved as well. This is set to false by
       #  default.
+      # @option options [Symbol] :order_by The name of the column to sort the
+      #  entries on. This should be a column in the section_entries table.
+      # @option options [Symbol] :order The sort order, can either be :asc or
+      #  :desc.
       #
       def initialize(options = {})
         @options = {
@@ -85,7 +89,9 @@ module Sections
           :markup         => true,
           :comments       => false,
           :comment_markup => true,
-          :categories     => false
+          :categories     => false,
+          :order_by       => :id,
+          :order          => :desc
         }.merge(options)
 
         validate_type(@options[:limit] , :limit , [Fixnum, Integer])
@@ -105,6 +111,13 @@ module Sections
 
         validate_type(@options[:markup]  , :markup  , [TrueClass, FalseClass])
         validate_type(@options[:comments], :comments, [TrueClass, FalseClass])
+
+        if ![:asc, :desc].include?(@options[:order])
+          raise(
+            Zen::ValidationError,
+            "The sort order #{@options[:order]} is invalid"
+          )
+        end
 
         if @options[:section].nil? and @options[:entry].nil?
           raise(
@@ -164,6 +177,7 @@ module Sections
         entries = ::Sections::Model::SectionEntry.filter(filter_hash) \
           .eager(*eager_models) \
           .limit(@options[:limit], @options[:offset]) \
+          .order(@options[:order_by].send(@options[:order])) \
           .all
 
         comment_format = nil

@@ -79,7 +79,8 @@ describe('Sections::Plugin::SectionEntries') do
       :section_entries,
       :section    => 'spec',
       :comments   => true,
-      :categories => true
+      :categories => true,
+      :order      => :asc
     )
 
     entries.count.should                      === 2
@@ -97,9 +98,23 @@ describe('Sections::Plugin::SectionEntries') do
     entries[0][:fields][:'spec-field'].strip.should === '<p>hello</p>'
   end
 
+  it('Retrieve all section entries but sort descending') do
+    entries = plugin(
+      :section_entries,
+      :section    => 'spec',
+      :comments   => true,
+      :categories => true
+    )
+
+    entries[0][:title].should === 'Spec 1'
+    entries[1][:title].should === 'Spec'
+  end
+
   it('Retrieve all section entries for an ID') do
     entries = plugin(
-      :section_entries, :section => @section.id
+      :section_entries,
+      :section => @section.id,
+      :order   => :asc
     )
 
     entries.count.should      === 2
@@ -128,7 +143,10 @@ describe('Sections::Plugin::SectionEntries') do
 
   it('Limit the amount of entries') do
     entries = plugin(
-      :section_entries, :section => 'spec', :limit => 1
+      :section_entries,
+      :section => 'spec',
+      :limit   => 1,
+      :order   => :asc
     )
 
     entries.count.should      === 1
@@ -137,7 +155,11 @@ describe('Sections::Plugin::SectionEntries') do
 
   it('Limit the amount of entries with an offset') do
     entries = plugin(
-      :section_entries, :section => 'spec', :limit => 1, :offset => 1
+      :section_entries,
+      :section => 'spec',
+      :limit   => 1,
+      :offset  => 1,
+      :order   => :asc
     )
 
     entries.count.should      === 1
