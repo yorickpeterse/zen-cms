@@ -199,7 +199,7 @@ module Zen
     #  Ramaze::Helper::ACL#extension_permissions
     # @since  0.1
     #
-    def self.build_menu(html_class = '', permissions = {})
+    def self.build_menu(html_class = nil, permissions = {})
       @g           = Ramaze::Gestalt.new
       @permissions = permissions
       menu_items   = []

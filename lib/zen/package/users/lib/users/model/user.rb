@@ -9,10 +9,6 @@ module Users
     # @since  0.1
     #
     class User < Sequel::Model
-      class << self
-        include ::Innate::Trinity
-      end
-
       plugin :timestamps, :create => :created_at, :update => :updated_at
 
       many_to_many(
@@ -55,7 +51,7 @@ module Users
             end
           end
 
-          action.node.session[:user] = user
+          Ramaze::Current.action.node.session[:user] = user
           return user
         else
           return false
@@ -71,7 +67,7 @@ module Users
       # @since  0.1
       # @param  [String] raw_password The raw password
       #
-      def password= raw_password
+      def password=(raw_password)
         pwd = BCrypt::Password.create(raw_password, :cost => 10)
         super(pwd)
       end
@@ -84,7 +80,7 @@ module Users
       # @return [String]
       #
       def password
-        BCrypt::Password.new(super)
+        return BCrypt::Password.new(super)
       end
 
       ##

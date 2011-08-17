@@ -173,7 +173,7 @@ module Zen
       if type === :stylesheet
         tag         = :link
         value       = :href
-        attrs[:rel] = 'stylesheet'
+        attrs[:rel] = :stylesheet
         files       = Stylesheets
       else
         tag   = :script

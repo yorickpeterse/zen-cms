@@ -1,9 +1,9 @@
+Zen::Language.options.paths.push(__DIR__('settings'))
+Zen::Language.load('settings')
+
 require __DIR__('settings/model/setting')
 require __DIR__('settings/controller/settings')
 require __DIR__('settings/plugin/settings')
-
-Zen::Language.options.paths.push(__DIR__('settings'))
-Zen::Language.load('settings')
 
 # Register the package
 Zen::Package.add do |p|

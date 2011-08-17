@@ -22,7 +22,7 @@ Zen::Package.add do |p|
 
   p.menu = [{
     :title => lang('menus.titles.index'),
-    :url   => "/admin/menus"
+    :url   => '/admin/menus'
   }]
 
   p.controllers = {

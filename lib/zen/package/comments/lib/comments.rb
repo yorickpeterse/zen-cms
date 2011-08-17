@@ -14,13 +14,13 @@ Zen::Package.add do |p|
   p.name          = 'comments'
   p.author        = 'Yorick Peterse'
   p.url           = 'http://yorickpeterse.com/'
-  p.about         = "Allow users to post comments"
+  p.about         = 'Allow users to post comments'
   p.directory     = __DIR__('comments')
   p.migration_dir = __DIR__('../migrations')
 
   p.menu = [{
     :title => lang('comments.titles.index'),
-    :url   => "admin/comments"
+    :url   => 'admin/comments'
   }]
 
   p.controllers = {

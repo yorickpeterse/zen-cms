@@ -4,6 +4,12 @@
   they're easier to use.
 * Fixed a small issue that would make it impossible to add/update categories of
   a section entry.
+* Core packages no longer include certain modules just to so that they don't
+  have to specify the full namespace to a class.
+* Added a hook system (``Zen::Hook``), see
+  8fc2f310a82b32d7cf75666cdb08046ada67a55b.
+* Merged ``Zen.init`` and ``Zen.post_init`` into ``Zen.start``.
+* Fixed various YARD formatting issues.
 
 ## 0.2.8 - August 3, 2011
 

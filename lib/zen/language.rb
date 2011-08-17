@@ -125,7 +125,7 @@ module Zen
 
             # Conver the hash to a dot based hash. This means that
             # {:person => {:age => 18}} would result in {'person.age' => 18}.
-            translation = self.to_dotted_hash({lang_name.to_s => translation})
+            translation = self.to_dotted_hash({lang_name => translation})
 
             Translations[language].merge!(translation)
           end
@@ -191,7 +191,7 @@ module Zen
       if namespace and !namespace.nil?
         prefix = "#{namespace}."
       else
-        prefix = ""
+        prefix = nil
       end
 
       if source.class == Hash

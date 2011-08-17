@@ -81,7 +81,7 @@ module Zen
         plugin(:settings, :migrate)
       rescue => e
         Ramaze::Log.warn(
-          'Failed to migrate the settings, make sure the database ' + \
+          'Failed to migrate the settings, make sure the database ' \
             'table is up to date'
         )
       end
