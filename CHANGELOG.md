@@ -10,6 +10,7 @@
   8fc2f310a82b32d7cf75666cdb08046ada67a55b.
 * Merged ``Zen.init`` and ``Zen.post_init`` into ``Zen.start``.
 * Fixed various YARD formatting issues.
+* The section entries plugin now allows developers to sort the results.
 
 ## 0.2.8 - August 3, 2011
 

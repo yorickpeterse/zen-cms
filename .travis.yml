@@ -1,6 +1,7 @@
 script: "gem install ramaze; rake test"
 rvm:
   - 1.9.2
+  - 1.9.3
 
 notifications:
   disabled: true
