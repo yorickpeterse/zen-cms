@@ -58,13 +58,8 @@
                           section_entry_status.name}"
                         )}
                     </td>
-                    <td>
-                        #{entry.created_at.strftime(date_format)}
-                    </td>
-                    <td>
-                        #{entry.updated_at.strftime(date_format) \
-                        if entry.updated_at}
-                    </td>
+                    <td>#{format_date(entry.created_at)}</td>
+                    <td>#{format_date(entry.updated_at)}</td>
                 </tr>
                 <?r end ?>
             </tbody>

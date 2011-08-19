@@ -48,17 +48,9 @@
                     <td>
                         #{lang("users.special.status_hash.#{user.status}")}
                     </td>
-                    <td>
-                        #{user.created_at.strftime(date_format)}
-                    </td>
-                    <td>
-                        #{user.updated_at.strftime(date_format) \
-                        if user.updated_at}
-                    </td>
-                    <td>
-                        #{user.last_login.strftime(date_format) \
-                        if user.last_login}
-                    </td>
+                    <td>#{format_date(user.created_at)}</td>
+                    <td>#{format_date(user.updated_at)}</td>
+                    <td>#{format_date(user.last_login)}</td>
                 </tr>
                 <?r end ?>
             </tbody>

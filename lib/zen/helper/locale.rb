@@ -24,6 +24,22 @@ module Ramaze
 
         return format
       end
+
+      ##
+      # Formats a date according to Ramaze::Helper::Locale#date_format.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @param  [#strftime] object An object that responds to #strftime().
+      # @return [String]
+      #
+      def format_date(object)
+        if object.respond_to?(:strftime)
+          return object.strftime(date_format)
+        else
+          return nil
+        end
+      end
     end # Locale
   end # Helper
 end # Ramaze

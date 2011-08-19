@@ -15,4 +15,11 @@ describe('Ramaze::Helper::Locale') do
     # Get the date format from the session
     page.body.include?(format).should === true
   end
+
+  it('Format a date') do
+    format = plugin(:settings, :get, :date_format).value
+    date   = Time.new
+
+    format_date(date).should === date.strftime(format)
+  end
 end
