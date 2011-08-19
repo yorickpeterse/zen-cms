@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 /**
- * CSS rules for the datepicker that ships with Zen. The datepciekr system can be found
- * here: https://github.com/arian/mootools-datepicker/
+ * CSS rules for the datepicker that ships with Zen. The datepicker plugin can
+ * be found here: https://github.com/arian/mootools-datepicker/
  *
  * @author Yorick Peterse
  * @since    0.2
@@ -14,11 +14,11 @@
     border:        5px solid #ddd;
     cursor:        move;
     display:       block;
-    height:        285px;
+    height:        295px;
     margin-top:    5px;
     padding:       5px;
     position:      absolute;
-    width:         270px;
+    width:         290px;
 
     -webkit-border-radius: 5px;
     -moz-border-radius:    5px;
@@ -35,9 +35,10 @@
         {
             font-size:  14px;
             margin:     0px auto;
-            padding:    10px 0px 5px 0px;
+            padding:    9px 0px 5px 0px;
             text-align: center;
         }
+
         .datepicker .header .title:hover
         {
             text-decoration: underline;
@@ -49,7 +50,7 @@
             display:    block;
             font-size:  24px;
             height:     10px;
-            padding:    2px 5px 5px 3px;
+            padding:    0px 5px 5px 3px;
             position:   absolute;
             top:        -1px;
             width:      10px;
@@ -161,3 +162,21 @@
             left: 80px;
             top:  55px;
         }
+
+    /* Resets various table elements in the datepicker */
+    .datepicker table
+    {
+        border: none;
+    }
+
+    .datepicker table td, .datepicker table th, .datepicker table thead
+    {
+        background:     none;
+        border-spacing: 0;
+        border:         none;
+    }
+
+    .datepicker table tr:hover
+    {
+        background: none;
+    }

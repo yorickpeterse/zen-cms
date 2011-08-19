@@ -213,7 +213,7 @@ module Sections
         begin
           Zen.database.transaction do
             # Update the entry itself
-            @entry.update(request.subset(
+            post_data = request.subset(
               :title,
               :created_at,
               :updated_at,
@@ -222,7 +222,24 @@ module Sections
               :slug,
               :section_entry_status_id,
               :category_pks
-            ))
+            )
+
+            # Transform the dates properly
+            if post_data[:created_at]
+              post_data[:created_at] = Time.strptime(
+                post_data[:created_at],
+                date_format
+              )
+            end
+
+            if post_data[:updated_at]
+              post_data[:updated_at] = Time.strptime(
+                post_data[:updated_at],
+                date_format
+              )
+            end
+
+            @entry.update(post_data)
 
             message(:success, flash_success)
 
