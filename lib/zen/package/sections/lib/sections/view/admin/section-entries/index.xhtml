@@ -41,7 +41,10 @@
                     <?r if user_authorized?([:update]) ?>
                     <td>
                         #{Sections::Controller::SectionEntries.a(
-                          entry.title, :edit, @section_id, entry.id
+                          entry.title,
+                          :edit,
+                          @section_id,
+                          entry.id
                         )}
                     </td>
                     <?r else ?>
@@ -56,12 +59,11 @@
                         )}
                     </td>
                     <td>
-                        #{entry.created_at.strftime(session[:user].date_format)}
+                        #{entry.created_at.strftime(date_format)}
                     </td>
                     <td>
-                        #{if entry.updated_at
-                            entry.updated_at.strftime(session[:user].date_format)
-                          end}
+                        #{entry.updated_at.strftime(date_format) \
+                        if entry.updated_at}
                     </td>
                 </tr>
                 <?r end ?>

@@ -11,7 +11,7 @@ module Zen
     # @since  0.1
     #
     class BaseController < Ramaze::Controller
-      helper :user, :csrf, :message, :cgi
+      helper :user, :csrf, :message, :cgi, :locale
     end # BaseController
   end # Controller
 end # Zen

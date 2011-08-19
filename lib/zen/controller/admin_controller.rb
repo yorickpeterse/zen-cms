@@ -97,6 +97,7 @@ module Zen
         [
           'vendor/mootools/core',
           'vendor/mootools/more',
+          'zen/lib/language',
           'zen/lib/asset',
           'zen/lib/html_table',
           'zen/index'

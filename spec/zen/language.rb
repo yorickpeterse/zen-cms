@@ -1,8 +1,40 @@
 require File.expand_path('../../helper', __FILE__)
-
-Zen::Language::Languages['nl'] = 'Nederlands'
+require File.expand_path('../../fixtures/zen/language', __FILE__)
 
 describe('Zen::Language') do
+  behaves_like :capybara
+
+  it('Change the current language') do
+    plugin(:settings, :get, :frontend_language).value = 'nl'
+
+    # Check if the frontend language is set properly.
+    visit('/spec-language')
+
+    page.body.include?('nl').should === true
+    page.body.include?('en').should === false
+
+    plugin(:settings, :get, :frontend_language).value = 'en'
+
+    visit('/spec-language')
+
+    page.body.include?('nl').should === false
+    page.body.include?('en').should === true
+
+    # Check if the backend language is set properly
+    visit('/admin/spec-language')
+
+    page.body.include?('nl').should === false
+    page.body.include?('en').should === true
+
+    plugin(:settings, :get, :language).value = 'nl'
+
+    visit('/admin/spec-language')
+
+    page.body.include?('nl').should === true
+    page.body.include?('en').should === false
+
+    plugin(:settings, :get, :language).value = 'en'
+  end
 
   it('Test an English language pack') do
     Zen::Language.load('spec')
@@ -43,13 +75,13 @@ describe('Zen::Language') do
   end
 
   it('Test a Dutch language pack') do
-    Zen::Language.options.language = 'nl'
+    plugin(:settings, :get, :language).value = 'nl'
 
     lang('spec.name').should       === 'Naam'
     lang('spec.age').should        === 'Leeftijd'
     lang('spec.parent.sub').should === 'Sub element'
 
-    Zen::Language.options.language = 'en'
+    plugin(:settings, :get, :language).value = 'en'
   end
 
 end

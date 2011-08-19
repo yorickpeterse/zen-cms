@@ -65,11 +65,8 @@
                     <td>#{user.email}</td>
                     <td>#{user.website}</td>
                     <?r end ?>
-                    <td>
-                        #{comment.created_at.strftime(
-                          session[:user].date_format
-                        )}
-                    </td>
+
+                    <td>#{comment.created_at.strftime(date_format)}</td>
                 </tr>
                 <?r end ?>
             </tbody>

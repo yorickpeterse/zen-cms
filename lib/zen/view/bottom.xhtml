@@ -1,1 +1,11 @@
+<script>
+var Zen =
+{
+    date_format: "#{date_format}",
+
+    // Pretty ugly but it saves a lot of HTTP requests.
+    translations: #{Zen::Language::Translations[Zen::Language.current].to_json}
+};
+</script>
+
 #{Zen::Asset.build(:javascript)}

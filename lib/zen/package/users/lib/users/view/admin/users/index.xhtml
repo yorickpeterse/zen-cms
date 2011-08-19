@@ -49,21 +49,15 @@
                         #{lang("users.special.status_hash.#{user.status}")}
                     </td>
                     <td>
-                        #{user.created_at.strftime(session[:user].date_format)}
+                        #{user.created_at.strftime(date_format)}
                     </td>
                     <td>
-                        #{
-                        if user.updated_at
-                          user.updated_at.strftime(session[:user].date_format)
-                        end
-                        }
+                        #{user.updated_at.strftime(date_format) \
+                        if user.updated_at}
                     </td>
                     <td>
-                        #{
-                        if user.last_login
-                          user.last_login.strftime(session[:user].date_format)
-                        end
-                        }
+                        #{user.last_login.strftime(date_format) \
+                        if user.last_login}
                     </td>
                 </tr>
                 <?r end ?>

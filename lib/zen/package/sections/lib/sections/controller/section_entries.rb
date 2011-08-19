@@ -10,7 +10,7 @@ module Sections
     # @since  0.1
     #
     class SectionEntries < Zen::Controller::AdminController
-      map '/admin/section-entries'
+      map    '/admin/section-entries'
       helper :section
 
       # Load all required Javascript files
@@ -52,7 +52,7 @@ module Sections
         @page_title = lang("section_entries.titles.#{action.method}") rescue nil
       end
 
-      ##]
+      ##
       # Show an overview of all entries for the current section.
       #
       # This method requires the following permissions:
@@ -148,8 +148,8 @@ module Sections
 
         validate_section(section_id)
 
-        @section_id          = section_id
-        @entry               = ::Sections::Model::SectionEntry.new(
+        @section_id  = section_id
+        @entry       = ::Sections::Model::SectionEntry.new(
           :section_id => section_id
         )
 

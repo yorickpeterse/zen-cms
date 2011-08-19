@@ -13,6 +13,15 @@ errors:
   invalid_request : 'The request could not be executed as the specified data is incorrect.'
   require_login   : 'You need to be logged in in order to view this page.'
 
+buttons:
+  bold:    'Bold'
+  italic:  'Italic'
+  link:    'Link'
+  ul:      'Unordered list'
+  ol:      'Ordered list'
+  preview: 'Preview'
+  close:   'Close'
+
 special:
   format_hash:
     html      : 'HTML'

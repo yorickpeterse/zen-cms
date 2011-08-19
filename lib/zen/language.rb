@@ -78,7 +78,7 @@ module Zen
     }
 
     options.dsl do
-      o 'Small string that defines the current language (e.g. "en").',
+      o 'Fallback language to use when it can not be retrieved from the user',
         :language, 'en'
 
       o 'Array of paths to look for the language files',
@@ -138,6 +138,47 @@ module Zen
           "No language file could be found for \"#{lang_name}\""
         )
       end
+    end
+
+    ##
+    # Returns the language code to use for either the frontend or backend.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @return [String]
+    #
+    def self.current
+      if !Ramaze::Current.actions.nil? and !Ramaze::Current.action.nil?
+        # The backend
+        if Ramaze::Current.action.node.request.env['SCRIPT_NAME'] \
+        =~ /^\/admin.*/
+          method = :language
+        # Probably the frontend
+        else
+          method = :frontend_language
+        end
+
+        if Ramaze::Current.action.node.session[:user].respond_to?(method)
+          lang = Ramaze::Current.action.node.session[:user].send(method)
+        end
+      end
+
+      # Make sure there always is a language set
+      if lang or lang.nil?
+        # Plugins aren't available yet when this class is loaded, use the
+        # fallback language if needed.
+        begin
+          if method
+            lang = plugin(:settings, :get, method).value
+          else
+            lang = plugin(:settings, :get, :language).value
+          end
+        rescue
+          lang = Zen::Language.options.language
+        end
+      end
+
+      return lang
     end
 
     private
@@ -243,26 +284,19 @@ module Zen
       # @return [Mixed]
       #
       def lang(key, lang = nil)
-        if lang.nil?
-          begin
-            lang = Ramaze::Current.action.node.session[:user].language
-          rescue
-            lang = ::Zen::Language.options.language
-          end
-        end
+        lang   = Zen::Language.current if lang.nil?
+        groups = []
 
-        groups       = []
-        translations = ::Zen::Language::Translations
-
-        if !translations or !translations.key?(lang)
+        if !Zen::Language::Translations \
+        or !Zen::Language::Translations.key?(lang)
           raise(
             Zen::LanguageError,
             "No translation files have been added for the language code \"#{lang}\""
           )
         end
 
-        if translations[lang][key]
-          return translations[lang][key]
+        if Zen::Language::Translations[lang][key]
+          return Zen::Language::Translations[lang][key]
         end
 
         raise(

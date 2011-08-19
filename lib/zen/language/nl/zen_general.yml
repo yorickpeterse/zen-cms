@@ -13,6 +13,15 @@ errors:
   invalid_request: 'De actie kon niet worden uitgevoerd omdat de data onjuist is.'
   require_login  : 'U moet ingelogd zijn om deze pagina te kunnen bekijken.'
 
+buttons:
+  bold:    'Vet'
+  italic:  'Cursief'
+  link:    'Link'
+  ul:      'Ongeorderde lijst'
+  ol:      'Georderde lijst'
+  preview: 'Voorbeeld'
+  close:   'Sluiten'
+
 special:
   format_hash:
     html    : 'HTML'
