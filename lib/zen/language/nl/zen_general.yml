@@ -14,13 +14,21 @@ errors:
   require_login  : 'U moet ingelogd zijn om deze pagina te kunnen bekijken.'
 
 buttons:
-  bold:    'Vet'
-  italic:  'Cursief'
-  link:    'Link'
-  ul:      'Ongeorderde lijst'
-  ol:      'Georderde lijst'
+  bold   : 'Vet'
+  italic : 'Cursief'
+  link   : 'Link'
+  ul     : 'Ongeorderde lijst'
+  ol     : 'Georderde lijst'
   preview: 'Voorbeeld'
-  close:   'Sluiten'
+  close  : 'Sluiten'
+
+datepicker:
+  select_a_time      : 'Selecteer een tijd'
+  use_mouse_wheel    : 'Gebruik het muis wiel om een waarde te selecteren'
+  time_confirm_button: 'Ok'
+  apply_range        : 'Ok'
+  cancel             : 'Annuleren'
+  week               : 'W'
 
 special:
   format_hash:

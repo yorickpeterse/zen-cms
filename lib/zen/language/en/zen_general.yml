@@ -14,13 +14,21 @@ errors:
   require_login   : 'You need to be logged in in order to view this page.'
 
 buttons:
-  bold:    'Bold'
-  italic:  'Italic'
-  link:    'Link'
-  ul:      'Unordered list'
-  ol:      'Ordered list'
+  bold   : 'Bold'
+  italic : 'Italic'
+  link   : 'Link'
+  ul     : 'Unordered list'
+  ol     : 'Ordered list'
   preview: 'Preview'
-  close:   'Close'
+  close  : 'Close'
+
+datepicker:
+  select_a_time      : 'Select a time'
+  use_mouse_wheel    : 'Use the mouse wheel to quickly change value'
+  time_confirm_button: 'Ok'
+  apply_range        : 'Ok'
+  cancel             : 'Cancel'
+  week               : 'W'
 
 special:
   format_hash:
