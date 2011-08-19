@@ -1,15 +1,13 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 describe("Categories::Plugin::Categories") do
-  extend Categories::Model
-
-  @group      = CategoryGroup.create(:name => 'Spec')
-  @category_1 = Category.create(
+  @group      = Categories::Model::CategoryGroup.create(:name => 'Spec')
+  @category_1 = Categories::Model::Category.create(
     :category_group_id => @group.id,
     :name              => 'Spec'
   )
 
-  @category_2 = Category.create(
+  @category_2 = Categories::Model::Category.create(
     :category_group_id => @group.id,
     :name              => 'Spec 1'
   )

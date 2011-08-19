@@ -2,49 +2,37 @@ require File.expand_path('../../../../../helper', __FILE__)
 require 'rdiscount'
 
 describe("Comments::Plugin::Comments") do
-  extend Sections::Model
-  extend Comments::Model
-  extend Users::Model
+  user      = Users::Model::User[:email => 'spec@domain.tld']
+  status_id = Comments::Model::CommentStatus[:name => 'open'].id
+  @section  = Sections::Model::Section.create(
+    :name                     => 'Spec',
+    :comment_allow            => true,
+    :comment_require_account  => false,
+    :comment_moderate         => false,
+    :comment_format           => 'markdown'
+  )
 
-  it("Create the test data") do
-    user      = User[:email => 'spec@domain.tld']
-    status_id = CommentStatus[:name => 'open'].id
+  @entry = Sections::Model::SectionEntry.create(
+    :title      => 'Spec',
+    :section_id => @section.id,
+    :user_id    => user.id
+  )
 
-    @section = Section.create(
-      :name                     => 'Spec',
-      :comment_allow            => true,
-      :comment_require_account  => false,
-      :comment_moderate         => false,
-      :comment_format           => 'markdown'
-    )
+  @comment_1 = Comments::Model::Comment.create(
+    :user_id           => user.id,
+    :comment           => 'Spec comment',
+    :comment_status_id => status_id,
+    :section_entry_id  => @entry.id,
+    :email             => user.email
+  )
 
-    @entry = SectionEntry.create(
-      :title      => 'Spec',
-      :section_id => @section.id,
-      :user_id    => user.id
-    )
-
-    @comment_1 = Comment.create(
-      :user_id           => user.id,
-      :comment           => 'Spec comment',
-      :comment_status_id => status_id,
-      :section_entry_id  => @entry.id,
-      :email             => user.email
-    )
-
-    @comment_2 = Comment.create(
-      :user_id           => user.id,
-      :comment           => 'Spec comment 1',
-      :comment_status_id => status_id,
-      :section_entry_id  => @entry.id,
-      :email             => user.email
-    )
-
-    @section.name.should      === 'Spec'
-    @entry.title.should       === 'Spec'
-    @comment_1.comment.should === 'Spec comment'
-    @comment_2.comment.should === 'Spec comment 1'
-  end
+  @comment_2 = Comments::Model::Comment.create(
+    :user_id           => user.id,
+    :comment           => 'Spec comment 1',
+    :comment_status_id => status_id,
+    :section_entry_id  => @entry.id,
+    :email             => user.email
+  )
 
   it("Retrieve all comments for an ID") do
     comments = plugin(:comments, :entry => @entry.slug)
@@ -91,16 +79,8 @@ describe("Comments::Plugin::Comments") do
     comments[0][:comment].include?('Spec comment 1').should === true
   end
 
-  it("Remove the test data") do
-    @comment_2.destroy
-    @comment_1.destroy
-    @entry.destroy
-    @section.destroy
-
-    Comment[:comment => 'Spec comment'].should   === nil
-    Comment[:comment => 'Spec comment 1'].should === nil
-    Section[:name => 'Spec'].should              === nil
-    SectionEntry[:title => 'Spec'].should        === nil
-  end
-
+  @comment_2.destroy
+  @comment_1.destroy
+  @entry.destroy
+  @section.destroy
 end

@@ -1,22 +1,20 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
 describe("Menus::Plugin::Menus") do
-  extend Menus::Model
-
-  @menu   = Menu.create(
+  @menu = Menus::Model::Menu.create(
     :name       => 'Spec',
     :html_class => 'spec_menu_class',
     :html_id    => 'spec_menu_id'
   )
 
-  @item_1 = MenuItem.create(
+  @item_1 = Menus::Model::MenuItem.create(
     :name       => 'Spec',
     :url        => '/',
     :menu_id    => @menu.id,
     :sort_order => 1
   )
 
-  @item_2 = MenuItem.create(
+  @item_2 = Menus::Model::MenuItem.create(
     :name       => 'Spec 2',
     :url        => '/2',
     :menu_id    => @menu.id,
@@ -25,7 +23,7 @@ describe("Menus::Plugin::Menus") do
     :html_class => 'html class'
   )
 
-  @item_3 = MenuItem.create(
+  @item_3 = Menus::Model::MenuItem.create(
     :name       => 'Spec 3',
     :url        => '/3',
     :menu_id    => @menu.id,
