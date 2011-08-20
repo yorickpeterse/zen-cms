@@ -3,11 +3,11 @@ require 'ramaze'
 require 'yaml'
 
 Ramaze.setup(:verbose => false) do
-  gem 'sequel'          , ['~> 3.26']
-  gem 'bcrypt-ruby'     , ['~> 2.1.4'], :lib => 'bcrypt'
-  gem 'sequel_sluggable', ['~> 0.0.6']
-  gem 'loofah'          , ['~> 1.2.0']
-  gem 'json'            , ['~> 1.5.3']
+  gem 'sequel'          , ['= 3.26']
+  gem 'bcrypt-ruby'     , ['= 2.1.4'], :lib => 'bcrypt'
+  gem 'sequel_sluggable', ['= 0.0.6']
+  gem 'loofah'          , ['= 1.2.0']
+  gem 'json'            , ['= 1.5.3']
 end
 
 require __DIR__('zen/version')
