@@ -115,6 +115,10 @@ module Zen
       # @return [String] The HTML returned by RDiscount.
       #
       def markdown(markup)
+        Ramaze.setup(:verbose => false) do
+          gem 'rdiscount'
+        end
+
         return RDiscount.new(markup).to_html
       end
 
@@ -127,6 +131,10 @@ module Zen
       # @return [String] The HTML returned by RedCloth.
       #
       def textile(markup)
+        Ramaze.setup(:verbose => false) do
+          gem 'RedCloth', :lib => 'redcloth'
+        end
+
         return RedCloth.new(markup).to_html
       end
 

@@ -11,6 +11,10 @@
 * Merged ``Zen.init`` and ``Zen.post_init`` into ``Zen.start``.
 * Fixed various YARD formatting issues.
 * The section entries plugin now allows developers to sort the results.
+* Localized all of the Javascript.
+* All specs now pass on 1.9.3.
+* Made it easier to format dates and do other locale based actions using
+  Ramaze::Helper::Locale.
 
 ## 0.2.8 - August 3, 2011
 
