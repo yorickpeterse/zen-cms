@@ -11,8 +11,9 @@ Gem::Specification.new do |s|
   s.email       = 'info@yorickpeterse.com'
   s.summary     = 'Zen is a modular CMS written using Ramaze.'
   s.homepage    = 'http://zen-cms.com/'
-  s.description = 'Zen is a modular CMS written using Ramaze. Unlike traditional
-CMS\' you are completely free to build whatever you want.'
+  s.description = 'Zen is a modular CMS written using Ramaze. ' \
+    'Zen gives you complete freedom to build whatever you want in whatever ' \
+    'way you might want to build it.'
 
   s.files                 = `cd #{path}; git ls-files`.split("\n").sort
   s.has_rdoc              = 'yard'
