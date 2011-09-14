@@ -13,20 +13,7 @@ module Sections
       map    '/admin/section-entries'
       helper :section
 
-      # Load all required Javascript files
-      javascript(
-        [
-          'zen/lib/tabs',
-          'zen/lib/editor',
-          'zen/lib/editor/markdown',
-          'zen/lib/editor/textile',
-          'vendor/datepicker'
-        ],
-        :method => [:edit, :new]
-      )
-
-      # Load all required CSS files
-      stylesheet(['zen/datepicker'], :method => [:edit, :new])
+      load_asset_group([:tabs, :editor, :datepicker], [:edit, :new])
 
       before_all do
         csrf_protection(:save, :delete) do

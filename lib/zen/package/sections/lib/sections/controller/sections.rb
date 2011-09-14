@@ -12,7 +12,7 @@ module Sections
       map    '/admin'
       helper :section
 
-      javascript(['zen/lib/tabs'], :method => [:edit, :new])
+      load_asset_group(:tabs, [:edit, :new])
 
       before_all do
         csrf_protection(:save, :delete) do

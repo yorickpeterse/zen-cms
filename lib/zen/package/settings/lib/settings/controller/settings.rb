@@ -12,7 +12,7 @@ module Settings
     class Settings < Zen::Controller::AdminController
       map '/admin/settings'
 
-      javascript ['zen/lib/tabs']
+      load_asset_group(:tabs)
 
       before_all do
         csrf_protection(:save, :delete) do

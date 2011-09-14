@@ -19,4 +19,13 @@ namespace :clean do
     FileUtils.rm_rf("#{zen_path}/doc")
     FileUtils.rm_rf("#{zen_path}/.yardoc")
   end
+
+  desc 'Removes all the minified assets'
+  task :assets do
+    path = File.expand_path('../../../../spec/public/minified/*', __FILE__)
+
+    Dir.glob(path).each do |file|
+      File.unlink(file)
+    end
+  end
 end

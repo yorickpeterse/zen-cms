@@ -16,7 +16,7 @@ module CustomFields
       helper :custom_field
       map    '/admin/custom-fields'
 
-      javascript ['zen/lib/tabs']
+      load_asset_group(:tabs, [:edit, :new])
 
       before_all do
         csrf_protection(:save, :delete) do

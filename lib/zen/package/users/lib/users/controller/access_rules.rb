@@ -12,9 +12,11 @@ module Users
       helper :users
       map    '/admin/access-rules'
 
-      javascript(
-        ['users/lib/access_rules', 'users/access_rules'],
-        :method => [:edit, :new]
+      serve(
+        :javascript,
+        ['admin/js/users/lib/access_rules', 'admin/js/users/access_rules'],
+        :methods => [:edit, :new],
+        :name    => 'users'
       )
 
       before_all do

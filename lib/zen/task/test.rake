@@ -1,5 +1,5 @@
 desc 'Runs all the Bacon specifications'
-task :test do
+task :test => ['clean:assets'] do
   spec_dir = __DIR__('../../../spec')
   db_path  = File.join(spec_dir, 'database.db')
 

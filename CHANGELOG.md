@@ -15,6 +15,7 @@
 * All specs now pass on 1.9.3.
 * Made it easier to format dates and do other locale based actions using
   Ramaze::Helper::Locale.
+* Dropped Zen::Asset in favor of Ramaze::Asset.
 
 ## 0.2.8 - August 3, 2011
 

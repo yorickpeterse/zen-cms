@@ -4,10 +4,11 @@ require 'yaml'
 
 Ramaze.setup(:verbose => false) do
   gem 'sequel'          , ['= 3.26']
-  gem 'bcrypt-ruby'     , ['= 2.1.4'], :lib => 'bcrypt'
+  gem 'bcrypt-ruby'     , ['= 3.0.1'], :lib => 'bcrypt'
   gem 'sequel_sluggable', ['= 0.0.6']
   gem 'loofah'          , ['= 1.2.0']
-  gem 'json'            , ['= 1.5.3']
+  gem 'json'            , ['= 1.6.0']
+  gem 'ramaze-asset'    , ['= 0.2.2'], :lib => 'ramaze/asset'
 end
 
 require __DIR__('zen/version')
@@ -24,6 +25,9 @@ module Zen
   class << self
     # The database connection to use for Sequel.
     attr_accessor :database
+
+    # Instance of Ramaze::Asset::Environment to use for all backend assets.
+    attr_accessor :asset
 
     ##
     # Returns the current root directory.
@@ -56,26 +60,24 @@ module Zen
     # @since  0.2.9
     #
     def start
+      if root.nil?
+        raise('You need to specify a valid root directory in Zen.root')
+      end
+
       Zen::Language.load('zen_general')
 
       require __DIR__('zen/model/settings')
       require __DIR__('zen/model/methods')
+
+      # Set up Ramaze::Asset
+      setup_assets
 
       # Load all packages
       require __DIR__('zen/package/all')
 
       # Load the global stylesheet and Javascript file if they're located in
       # ROOT/public/css/admin/global.css and ROOT/public/js/admin/global.js
-      publics = ::Ramaze.options.publics
-
-      publics.each do |p|
-        p   = File.join(Zen.root, p)
-        css = File.join(p, 'admin/css/global.css')
-        js  = File.join(p, 'admin/js/global.js')
-
-        Zen::Asset.stylesheet(['global'], :global => true) if File.exist?(css)
-        Zen::Asset.javascript(['global'], :global => true) if File.exist?(js)
-      end
+      load_global_assets
 
       # Migrate all settings
       begin
@@ -83,11 +85,93 @@ module Zen
       rescue => e
         Ramaze::Log.warn(
           'Failed to migrate the settings, make sure the database ' \
-            'table is up to date'
+          'table is up to date'
         )
       end
 
       require __DIR__('zen/plugin/markup/lib/markup')
+    end
+
+    private
+
+    ##
+    # Configures Ramaze::Asset and loads all the global assets.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    #
+    def setup_assets
+      cache_path = File.join(root, 'public', 'minified')
+
+      if !File.directory?(cache_path)
+        Dir.mkdir(cache_path)
+      end
+
+      Zen.asset = Ramaze::Asset::Environment.new(
+        :cache_path => cache_path,
+        :minify     => Ramaze.options.mode === :live
+      )
+
+      Zen.asset.serve(
+        :css,
+        [
+          'admin/css/zen/reset',
+          'admin/css/zen/grid',
+          'admin/css/zen/layout',
+          'admin/css/zen/general',
+          'admin/css/zen/forms',
+          'admin/css/zen/tables',
+          'admin/css/zen/buttons',
+          'admin/css/zen/messages'
+        ],
+        :name => 'zen_core'
+      )
+
+      Zen.asset.serve(
+        :javascript,
+        [
+          'admin/js/vendor/mootools/core',
+          'admin/js/vendor/mootools/more',
+          'admin/js/zen/lib/language',
+          'admin/js/zen/lib/html_table',
+          'admin/js/zen/index'
+        ],
+        :name => 'zen_core'
+      )
+
+      # Add all the asset groups.
+      require __DIR__('zen/asset_groups')
+
+      Zen.asset.build(:javascript)
+      Zen.asset.build(:css)
+    end
+
+    ##
+    # Loads a global CSS and JS file.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    #
+    def load_global_assets
+      publics    = Ramaze.options.publics
+      css_loaded = false
+      js_loaded  = false
+
+      publics.each do |p|
+        p   = File.join(Zen.root, p)
+        css = File.join(p, 'admin/css/global.css')
+        js  = File.join(p, 'admin/js/global.js')
+
+        if File.exist?(css) and css_loaded === false
+          Zen.asset.serve(:css, ['admin/css/global'])
+          css_loaded = true
+        end
+
+        if File.exist?(js) and js_loaded === false
+          Zen.asset.serve(:javascript, ['admin/js/global'])
+          js_loaded = true
+        end
+      end
     end
   end # class << self
 end # Zen
@@ -101,7 +185,6 @@ require __DIR__('zen/validation')
 require __DIR__('zen/plugin')
 require __DIR__('zen/hook')
 require __DIR__('zen/language')
-require __DIR__('zen/asset')
 
 # Load a set of modules into the global namespace
 include Zen::Plugin::SingletonMethods

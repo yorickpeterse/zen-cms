@@ -1,7 +1,7 @@
 require 'ramaze'
 
 Ramaze.setup(:verbose => false) do
-  gem 'simplecov', ['= 0.4.2']
+  gem 'simplecov', ['>= 0.4.2']
 end
 
 SimpleCov.configure do

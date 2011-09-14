@@ -7,9 +7,9 @@ require File.expand_path('../../lib/zen', __FILE__)
 Ramaze::Log.level = Logger::ERROR
 
 Ramaze.setup(:verbose => false) do
-  gem 'sqlite3'  , ['= 1.3.4']
-  gem 'rdiscount', ['= 1.6.8']
-  gem 'defensio' , ['= 0.9.1']
+  gem 'sqlite3'  , ['>= 1.3.4']
+  gem 'rdiscount', ['>= 1.6.8']
+  gem 'defensio' , ['>= 0.9.1']
 end
 
 # Update all paths

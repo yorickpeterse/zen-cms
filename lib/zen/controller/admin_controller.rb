@@ -22,7 +22,7 @@ module Zen
     class AdminController < Zen::Controller::BaseController
       layout :admin
       engine :etanni
-      helper :blue_form_vendor, :breadcrumb, :acl, :paginate
+      helper :blue_form_vendor, :breadcrumb, :acl, :paginate, :asset
 
       # Configure the pagination
       trait :paginate => {
@@ -36,7 +36,7 @@ module Zen
       # extension.
       #
       # @author Yorick Peterse
-      # @since  1.0
+      # @since  0.1
       #
       def initialize
         super
@@ -50,60 +50,6 @@ module Zen
           redirect('/admin/users/login')
         end
       end
-
-      ##
-      # Shortcut for Zen::Asset.stylesheet.
-      #
-      # @author Yorick Peterse
-      # @see    Zen::Asset.stylesheet
-      # @since  0.2.5
-      #
-      def self.stylesheet(files, options = {})
-        options = {:controller => self}.merge(options)
-
-        ::Zen::Asset.stylesheet(files, options)
-      end
-
-      ##
-      # Shortcut for Zen::Asset.javascript.
-      #
-      # @author Yorick Peterse
-      # @see    Zen::Asset.javascript
-      # @since  0.2.5
-      #
-      def self.javascript(files, options = {})
-        options = {:controller => self}.merge(options)
-
-        ::Zen::Asset.javascript(files, options)
-      end
-
-      # Load all default stylesheets
-      stylesheet(
-        [
-          'zen/reset',
-          'zen/grid',
-          'zen/layout',
-          'zen/general',
-          'zen/forms',
-          'zen/tables',
-          'zen/buttons',
-          'zen/messages'
-        ],
-        :global => true
-      )
-
-      # Load all default javascript files
-      javascript(
-        [
-          'vendor/mootools/core',
-          'vendor/mootools/more',
-          'zen/lib/language',
-          'zen/lib/asset',
-          'zen/lib/html_table',
-          'zen/index'
-        ],
-        :global => true
-      )
     end # AdminController
   end # Controller
 end # Zen
