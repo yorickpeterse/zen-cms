@@ -77,7 +77,7 @@ table
             margin-top: 3px;
         }
 
-    table tr.odd
+    table tr:nth-child(even)
     {
         background: #f2f2f2;
     }

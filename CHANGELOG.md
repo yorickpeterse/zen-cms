@@ -16,6 +16,7 @@
 * Made it easier to format dates and do other locale based actions using
   Ramaze::Helper::Locale.
 * Dropped Zen::Asset in favor of Ramaze::Asset.
+* Updated Mootools Core and Mootools More to version 1.4.
 
 ## 0.2.8 - August 3, 2011
 
