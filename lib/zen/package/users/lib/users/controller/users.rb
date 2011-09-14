@@ -170,7 +170,7 @@ module Users
           :email,
           :name,
           :website,
-          :new_password,
+          :password,
           :confirm_password,
           :status,
           :language,
@@ -193,16 +193,11 @@ module Users
           hook_name   = :new_user
         end
 
-        if !post['new_password'].nil? and !post['new_password'].empty?
-          if post['new_password'] != post['confirm_password']
-            message(:error, lang('users.errors.no_password_match'))
-            redirect_referrer
-          else
-            post['password'] = post['new_password']
-          end
+        if post['password'] != post['confirm_password']
+          message(:error, lang('users.errors.no_password_match'))
+          redirect_referrer
         end
 
-        post.delete('new_password')
         post.delete('confirm_password')
         post.delete('id')
 

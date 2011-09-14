@@ -63,7 +63,7 @@ describe("Users::Controller::Users") do
       fill_in('name'   , :with => 'Spec user')
       fill_in('email'  , :with => 'spec@email.com')
       fill_in('website', :with => 'spec.com')
-      fill_in('new_password'    , :with => 'spec')
+      fill_in('password'        , :with => 'spec')
       fill_in('confirm_password', :with => 'spec')
 
       select(status, :from => 'status')

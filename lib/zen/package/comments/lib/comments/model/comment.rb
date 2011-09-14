@@ -55,35 +55,12 @@ module Comments
       end
 
       ##
-      # Hook run before creating a new comment.
-      #
-      # @author Yorick Peterse
-      # @since  0.2.6
-      #
-      def before_create
-        prepare_comment
-        super
-      end
-
-      ##
       # Hook run before saving an existing comment.
       #
       # @author Yorick Peterse
       # @since  0.2.6
       #
       def before_save
-        prepare_comment
-        super
-      end
-
-      ##
-      # Cleans all the input data of nasty stuff and ensures certain fields have
-      # the correct values.
-      #
-      # @author Yorick Peterse
-      # @since  0.2.6
-      #
-      def prepare_comment
         [:name, :website, :email, :comment].each do |field|
           got = send(field)
 
@@ -99,6 +76,8 @@ module Comments
             :name => 'closed'
           ].id
         end
+
+        super
       end
     end # Comment
   end # Model

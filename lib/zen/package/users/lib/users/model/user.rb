@@ -59,17 +59,19 @@ module Users
       end
 
       ##
-      # Generates a new hash based on the specified password. Each
-      # password is generated with a cost of 15, this makes the login
-      # process slower but also more secure.
+      # Generates a new BCrypt hash and saves it in the model. The hash is
+      # *only* generated when the password isn't nil or empty.
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @param  [String] raw_password The raw password
+      # @param  [String] password The raw password
       #
-      def password=(raw_password)
-        pwd = BCrypt::Password.create(raw_password, :cost => 10)
-        super(pwd)
+      def password=(password)
+        return if password.nil? or password.empty?
+
+        password = BCrypt::Password.create(password, :cost => 10)
+
+        super(password)
       end
 
       ##
@@ -80,7 +82,23 @@ module Users
       # @return [String]
       #
       def password
-        return BCrypt::Password.new(super)
+        val = super
+
+        return BCrypt::Password.new(val) unless val.nil?
+      end
+
+      ##
+      # Hook run before creating or updating an object.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      #
+      def before_save
+        if self.status.nil? or self.status.empty?
+          self.status = 'open'
+        end
+
+        super
       end
 
       ##
@@ -91,10 +109,9 @@ module Users
       #
       def validate
         validates_presence [:email, :name]
-        validates_presence :status   unless new?
+        validates_unique   :email
         validates_presence :password if new?
-
-        validates_format(/^\S+@\S+\.\w{2,}/, :email)
+        validates_format   /^\S+@\S+\.\w{2,}/, :email
       end
     end # User
   end # Model
