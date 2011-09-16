@@ -1,4 +1,9 @@
-Zen::Language.options.paths.push(__DIR__('settings'))
+root = __DIR__('settings')
+
+Ramaze::HelpersHelper.options.paths.push(root)
+Ramaze.options.roots.push(root)
+Zen::Language.options.paths.push(root)
+
 Zen::Language.load('settings')
 
 require __DIR__('settings/model/setting')

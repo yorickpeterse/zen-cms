@@ -8,7 +8,7 @@ Ramaze.setup(:verbose => false) do
   gem 'sequel_sluggable', ['= 0.0.6']
   gem 'loofah'          , ['= 1.2.0']
   gem 'json'            , ['= 1.6.0']
-  gem 'ramaze-asset'    , ['= 0.2.2'], :lib => 'ramaze/asset'
+  gem 'ramaze-asset'    , ['= 0.2.3'], :lib => 'ramaze/asset'
 end
 
 require __DIR__('zen/version')
@@ -85,11 +85,14 @@ module Zen
       rescue => e
         Ramaze::Log.warn(
           'Failed to migrate the settings, make sure the database ' \
-          'table is up to date'
+            'table is up to date'
         )
       end
 
       require __DIR__('zen/plugin/markup/lib/markup')
+
+      Zen.asset.build(:javascript)
+      Zen.asset.build(:css)
     end
 
     private
@@ -141,9 +144,6 @@ module Zen
 
       # Add all the asset groups.
       require __DIR__('zen/asset_groups')
-
-      Zen.asset.build(:javascript)
-      Zen.asset.build(:css)
     end
 
     ##

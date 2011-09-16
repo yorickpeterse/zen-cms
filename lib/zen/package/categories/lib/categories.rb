@@ -1,4 +1,8 @@
-Ramaze::HelpersHelper.options.paths.push(__DIR__('categories'))
+root = __DIR__('categories')
+
+Ramaze::HelpersHelper.options.paths.push(root)
+Ramaze.options.roots.push(root)
+Zen::Language.options.paths.push(root)
 
 require __DIR__('categories/model/category_group')
 require __DIR__('categories/model/category')
@@ -6,7 +10,6 @@ require __DIR__('categories/controller/category_groups')
 require __DIR__('categories/controller/categories')
 require __DIR__('categories/plugin/categories')
 
-Zen::Language.options.paths.push(__DIR__('categories'))
 Zen::Language.load('categories')
 Zen::Language.load('category_groups')
 

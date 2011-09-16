@@ -1,5 +1,8 @@
-Ramaze::HelpersHelper.options.paths.push(__DIR__('sections'))
-Zen::Language.options.paths.push(__DIR__('sections'))
+root = __DIR__('sections')
+
+Ramaze::HelpersHelper.options.paths.push(root)
+Ramaze.options.roots.push(root)
+Zen::Language.options.paths.push(root)
 
 require __DIR__('sections/model/section')
 require __DIR__('sections/model/section_entry')

@@ -1,4 +1,8 @@
-Ramaze::HelpersHelper.options.paths.push(__DIR__('users'))
+root = __DIR__('users')
+
+Ramaze::HelpersHelper.options.paths.push(root)
+Ramaze.options.roots.push(root)
+Zen::Language.options.paths.push(root)
 
 require __DIR__('users/model/user')
 require __DIR__('users/model/user_group')
@@ -7,7 +11,6 @@ require __DIR__('users/controller/users')
 require __DIR__('users/controller/user_groups')
 require __DIR__('users/controller/access_rules')
 
-Zen::Language.options.paths.push(__DIR__('users'))
 Zen::Language.load('users')
 Zen::Language.load('user_groups')
 Zen::Language.load('access_rules')

@@ -1,4 +1,8 @@
-Ramaze::HelpersHelper.options.paths.push(__DIR__('menus'))
+root = __DIR__('menus')
+
+Ramaze::HelpersHelper.options.paths.push(root)
+Ramaze.options.roots.push(root)
+Zen::Language.options.paths.push(root)
 
 require __DIR__('menus/model/menu')
 require __DIR__('menus/model/menu_item')
@@ -6,7 +10,6 @@ require __DIR__('menus/controller/menus')
 require __DIR__('menus/controller/menu_items')
 require __DIR__('menus/plugin/menus')
 
-Zen::Language.options.paths.push(__DIR__('menus'))
 Zen::Language.load('menus')
 Zen::Language.load('menu_items')
 

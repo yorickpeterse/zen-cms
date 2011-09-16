@@ -16,7 +16,7 @@ module Users
         :javascript,
         ['admin/js/users/lib/access_rules', 'admin/js/users/access_rules'],
         :methods => [:edit, :new],
-        :name    => 'users'
+        :name    => 'access_rules'
       )
 
       before_all do

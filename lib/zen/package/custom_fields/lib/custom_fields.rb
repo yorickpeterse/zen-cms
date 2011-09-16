@@ -1,5 +1,8 @@
-Ramaze::HelpersHelper.options.paths.push(__DIR__('custom_fields'))
-Zen::Language.options.paths.push(__DIR__('custom_fields'))
+root = __DIR__('custom_fields')
+
+Ramaze::HelpersHelper.options.paths.push(root)
+Ramaze.options.roots.push(root)
+Zen::Language.options.paths.push(root)
 
 # Load all models
 require __DIR__('custom_fields/model/custom_field_method')

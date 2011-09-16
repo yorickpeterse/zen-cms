@@ -20,9 +20,7 @@ module Users
       one_to_many(:access_rules, :class => "Users::Model::AccessRule")
 
       ##
-      # Try to authenticate the user based on the specified credentials. If the
-      # user credentials were incorrect false will be returned, true
-      # otherwise.
+      # Try to authenticate the user based on the specified credentials..
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -75,7 +73,7 @@ module Users
       end
 
       ##
-      # Returns the current password
+      # Returns the current password.
       #
       # @author Yorick Peterse
       # @since  0.1

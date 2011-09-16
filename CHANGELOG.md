@@ -17,6 +17,8 @@
   Ramaze::Helper::Locale.
 * Dropped Zen::Asset in favor of Ramaze::Asset.
 * Updated Mootools Core and Mootools More to version 1.4.
+* Fixed an issue related to creating users without passwords (see
+  887049616099d7e202b34be63f6cbff8e8ab33b0).
 
 ## 0.2.8 - August 3, 2011
 

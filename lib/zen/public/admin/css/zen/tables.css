@@ -34,7 +34,7 @@ table
         /* Styles used to indicate the sort order of a column */
         table thead tr th div
         {
-            background:   url('../../images/zen/icons/asc.png')
+            background:   url('/admin/images/zen/icons/asc.png')
                 no-repeat center right;
 
             cursor:        pointer;
@@ -56,7 +56,7 @@ table
 
             table thead tr th.desc div
             {
-                background:   url('../../images/zen/icons/desc.png')
+                background:   url('/admin/images/zen/icons/desc.png')
                     no-repeat center right!important;
             }
 

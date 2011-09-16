@@ -34,7 +34,7 @@
 
     .window header
     {
-        background:    #ddd -webkit-gradient(linear, left bottom, left top, 
+        background:    #ddd -webkit-gradient(linear, left bottom, left top,
             from(#ddd), to(#eee));
         background:    #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
         border-top:    1px solid #fff;
@@ -56,7 +56,7 @@
 
         .window header .close
         {
-            background: url('../../images/zen/icons/close.png') no-repeat center left;
+            background: url('/admin/images/zen/icons/close.png') no-repeat center left;
             cursor:     pointer;
             float:      left;
             height:     16px;

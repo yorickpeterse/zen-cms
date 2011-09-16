@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-/**  
+/**
  * Forms
  *
  * @author Yorick Peterse
@@ -14,7 +14,7 @@ form label
 
     form label .error
     {
-        background:   url("../../images/zen/icons/error.png") no-repeat center left;
+        background:   url("/admin/images/zen/icons/error.png") no-repeat center left;
         color:        #eb5e4a;
         display:      block;
         margin-top:   8px;

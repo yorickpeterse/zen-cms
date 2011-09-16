@@ -1,4 +1,8 @@
-Ramaze::HelpersHelper.options.paths.push(__DIR__('comments'))
+root = __DIR__('comments')
+
+Ramaze::HelpersHelper.options.paths.push(root)
+Ramaze.options.roots.push(root)
+Zen::Language.options.paths.push(root)
 
 require __DIR__('comments/model/comment_status')
 require __DIR__('comments/model/comment')
@@ -7,7 +11,6 @@ require __DIR__('comments/controller/comments_form')
 require __DIR__('comments/plugin/comments')
 require __DIR__('comments/plugin/anti_spam')
 
-Zen::Language.options.paths.push(__DIR__('comments'))
 Zen::Language.load('comments')
 
 Zen::Package.add do |p|
