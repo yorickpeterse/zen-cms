@@ -12,8 +12,6 @@ Ramaze.setup(:verbose => false) do
   gem 'defensio' , ['>= 0.9.1']
 end
 
-# Update all paths
-Ramaze.options.roots = [__DIR__]
 Ramaze.options.mode  = :dev
 Zen.root             = __DIR__
 
