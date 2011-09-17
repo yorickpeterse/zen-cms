@@ -7,8 +7,8 @@ module Zen
     # @author Yorick Peterse
     # @since  0.2.9
     #
-    class Language < Zen::Controller::FrontendController
-      map '/admin/js/zen/language.js'
+    class Translations < Zen::Controller::FrontendController
+      map '/admin/js/zen/lib/translations.js'
 
       ##
       # Renders the translations as a Javascript variable.
