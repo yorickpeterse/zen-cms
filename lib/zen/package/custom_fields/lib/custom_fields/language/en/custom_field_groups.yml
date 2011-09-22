@@ -31,3 +31,9 @@ buttons:
   new   : 'Add group'
   delete: 'Delete selected groups'
   save  : 'Save group'
+
+permissions:
+  show  : 'Show field group'
+  edit  : 'Edit field group'
+  new   : 'Add field group'
+  delete: 'Delete field group'

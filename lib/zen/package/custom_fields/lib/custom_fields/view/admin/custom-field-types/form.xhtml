@@ -3,8 +3,7 @@
         <h1>#{get_breadcrumbs}</h1>
     </header>
 
-    #{
-    form_for(
+    #{form_for(
       @custom_field_type,
       :method => :post,
       :id     => :custom_field_type_form,
@@ -56,6 +55,5 @@
           :value => lang('custom_field_types.buttons.save')
         )
       end
-    end
-    }
+    end}
 </article>

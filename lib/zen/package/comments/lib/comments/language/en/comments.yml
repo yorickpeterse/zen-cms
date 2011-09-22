@@ -31,7 +31,8 @@ success:
   new      : 'The new comment has been created.'
   save     : 'The comment has been modified.'
   delete   : 'All selected comments have been deleted.'
-  moderate : "The comment has been posted but must be approved by an administrator before it's displayed."
+  moderate : "The comment has been posted but must be approved by an \
+administrator before it's displayed."
 
 errors:
   new                     : 'Failed to create the new comment.'
@@ -46,3 +47,14 @@ errors:
 buttons:
   delete : 'Delete selected comments'
   save   : 'Save comment'
+
+permissions:
+  show  : 'Show comment'
+  edit  : 'Edit comment'
+  delete: 'Delete comment'
+
+description: 'Manage comments.'
+
+plugin:
+  comments : 'Plugin that can be used to retrieve comments.'
+  anti_spam: 'Plugin used for checking if a comment is spam or ham.'

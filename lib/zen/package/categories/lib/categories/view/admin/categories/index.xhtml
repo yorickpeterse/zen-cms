@@ -14,7 +14,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_category]) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -29,7 +29,7 @@
             <tbody>
                 <?r @categories.each do |category| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_category_group]) ?>
                     <td>
                         <input type="checkbox" name="category_ids[]"
                         value="#{category.id}" />
@@ -38,7 +38,8 @@
 
                     <td>#{category.id}</td>
 
-                    <?r if user_authorized?([:update]) ?>
+                    <?r if user_authorized?([:edit_category_group]) ?>
+
                     <td>
                         #{Categories::Controller::Categories.a(
                           category.name,
@@ -47,8 +48,11 @@
                           category.id
                         )}
                     </td>
+
                     <?r else ?>
+
                     <td>#{category.name}</td>
+
                     <?r end ?>
 
                     <td>#{category.slug}</td>
@@ -61,17 +65,17 @@
             </tbody>
         </table>
 
-        #{
-        if @categories.respond_to?(:navigation) and @categories.page_count > 1
+        #{if @categories.respond_to?(:navigation) and @categories.page_count > 1
           @categories.navigation
-        end
-        }
+        end}
 
         <?r else ?>
+
         <p>#{lang('categories.messages.no_categories')}</p>
+
         <?r end ?>
 
-        <?r if user_authorized?([:create]) ?>
+        <?r if user_authorized?([:new_category]) ?>
         <div class="button">
             #{Categories::Controller::Categories.a(
               lang('categories.buttons.new'),
@@ -81,7 +85,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) and !@categories.empty? ?>
+        <?r if user_authorized?([:delete_category]) and !@categories.empty? ?>
         <div class="button">
             <input type="submit"
             value="#{lang('categories.buttons.delete')}" />

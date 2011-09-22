@@ -50,7 +50,7 @@ module CustomFields
       # @since  0.2.8
       #
       def index
-        require_permissions(:read)
+        require_permissions(:show_custom_field_type)
 
         set_breadcrumbs(lang('custom_field_types.titles.index'))
 
@@ -73,7 +73,7 @@ module CustomFields
       #  edit.
       #
       def edit(custom_field_type_id)
-        require_permissions(:read, :update)
+        require_permissions(:edit_custom_field_type)
 
         set_breadcrumbs(
           CustomFieldTypes.a(lang('custom_field_types.titles.index'), :index),
@@ -104,7 +104,7 @@ module CustomFields
       # @since  0.2.8
       #
       def new
-        require_permissions(:read, :create)
+        require_permissions(:new_custom_field_type)
 
         set_breadcrumbs(
           CustomFieldTypes.a(lang('custom_field_types.titles.index'), :index),
@@ -141,12 +141,12 @@ module CustomFields
         )
 
         if post['id'] and !post['id'].empty?
-          require_permissions(:update)
+          require_permissions(:edit_custom_field_type)
 
           field_type  = validate_custom_field_type(post['id'])
           save_action = :save
         else
-          require_permissions(:create)
+          require_permissions(:new_custom_field_type)
 
           field_type  = ::CustomFields::Model::CustomFieldType.new
           save_action = :new
@@ -187,7 +187,7 @@ module CustomFields
       # @since  0.2.8
       #
       def delete
-        require_permissions(:delete)
+        require_permissions(:delete_custom_field_type)
 
         if !request.params['custom_field_type_ids'] \
         or request.params['custom_field_type_ids'].empty?

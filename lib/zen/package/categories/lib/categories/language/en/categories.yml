@@ -34,3 +34,11 @@ buttons:
   new    : 'Add Category'
   save   : 'Save Category'
   delete : 'Delete selected categories'
+
+permissions:
+  show  : 'Show category'
+  edit  : 'Edit category'
+  new   : 'Add category'
+  delete: 'Delete category'
+
+plugin_description: 'Plugin used for retrieving categories and category groups.'

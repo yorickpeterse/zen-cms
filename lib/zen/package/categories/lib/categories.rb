@@ -1,8 +1,31 @@
-root = __DIR__('categories')
+Zen::Package.add do |p|
+  p.name       = :categories
+  p.title      = 'categories.titles.index'
+  p.author     = 'Yorick Peterse'
+  p.url        = 'http://yorickpeterse.com/'
+  p.about      = 'category_groups.description'
+  p.root       = __DIR__('categories')
+  p.migrations = __DIR__('../migrations')
 
-Ramaze::HelpersHelper.options.paths.push(root)
-Ramaze.options.roots.push(root)
-Zen::Language.options.paths.push(root)
+  p.menu(
+    'categories.titles.index',
+    '/admin/category-groups',
+    :permission => :show_category_group
+  )
+
+  p.permission :show_category_group  , 'category_groups.permissions.show'
+  p.permission :edit_category_group  , 'category_groups.permissions.edit'
+  p.permission :new_category_group   , 'category_groups.permissions.new'
+  p.permission :delete_category_group, 'category_groups.permissions.delete'
+
+  p.permission :show_category  , 'categories.permissions.show'
+  p.permission :edit_category  , 'categories.permissions.edit'
+  p.permission :new_category   , 'categories.permissions.new'
+  p.permission :delete_category, 'categories.permissions.delete'
+end
+
+Zen::Language.load('categories')
+Zen::Language.load('category_groups')
 
 require __DIR__('categories/model/category_group')
 require __DIR__('categories/model/category')
@@ -10,36 +33,10 @@ require __DIR__('categories/controller/category_groups')
 require __DIR__('categories/controller/categories')
 require __DIR__('categories/plugin/categories')
 
-Zen::Language.load('categories')
-Zen::Language.load('category_groups')
-
-Zen::Package.add do |p|
-  p.name          = 'categories'
-  p.author        = 'Yorick Peterse'
-  p.url           = 'http://yorickpeterse.com/'
-  p.about         = 'Module for managing categories. Categories can be used ' \
-    'to organize section entries.'
-
-  p.directory     = __DIR__('categories')
-  p.migration_dir = __DIR__('../migrations')
-
-  p.menu = [{
-    :title => lang('categories.titles.index'),
-    :url   => "admin/category-groups"
-  }]
-
-  p.controllers = {
-    lang('categories.titles.index')      => Categories::Controller::Categories,
-    lang('category_groups.titles.index') => Categories::Controller::CategoryGroups
-  }
-end
-
 Zen::Plugin.add do |p|
   p.name   = 'categories'
   p.author = 'Yorick Peterse'
   p.url    = 'http://yorickpeterse.com/'
-  p.about  = 'Plugin that makes it easier to retrieve categories and ' \
-    'category groups.'
-
+  p.about  = 'categories.plugin_description'
   p.plugin = Categories::Plugin::Categories
 end

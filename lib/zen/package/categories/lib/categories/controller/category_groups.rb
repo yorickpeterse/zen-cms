@@ -49,7 +49,7 @@ module Categories
       # @since  0.1
       #
       def index
-        require_permissions(:read)
+        require_permissions(:show_category_group)
 
         set_breadcrumbs(lang('category_groups.titles.index'))
 
@@ -67,7 +67,7 @@ module Categories
       # @since  0.1
       #
       def edit(id)
-        require_permissions(:read, :update)
+        require_permissions(:edit_category_group)
 
         set_breadcrumbs(
           CategoryGroups.a(lang('category_groups.titles.index'), :index),
@@ -94,7 +94,7 @@ module Categories
       # @since  0.1
       #
       def new
-        require_permissions(:create, :read)
+        require_permissions(:new_category_group)
 
         set_breadcrumbs(
           CategoryGroups.a(lang('category_groups.titles.index'), :index),
@@ -120,12 +120,12 @@ module Categories
         post = request.subset(:id, :name, :description)
 
         if post['id'] and !post['id'].empty?
-          require_permissions(:update)
+          require_permissions(:edit_category_group)
 
           category_group = validate_category_group(post['id'])
           save_action    = :save
         else
-          require_permissions(:create)
+          require_permissions(:new_category_group)
 
           category_group = ::Categories::Model::CategoryGroup.new
           save_action    = :new
@@ -172,7 +172,7 @@ module Categories
       # @since  0.1
       #
       def delete
-        require_permissions(:delete)
+        require_permissions(:delete_category_group)
 
         post = request.subset(:category_group_ids)
 

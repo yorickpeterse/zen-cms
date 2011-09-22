@@ -6,13 +6,14 @@
  * @author Yorick Peterse
  * @since  0.1
  */
-form label
+label
 {
+    cursor:        pointer;
     display:       block;
     margin-bottom: 5px;
 }
 
-    form label .error
+    label .error
     {
         background:   url("/admin/images/zen/icons/error.png") no-repeat center left;
         color:        #eb5e4a;
@@ -71,3 +72,15 @@ select
 {
     cursor: not-allowed;
 }
+
+fieldset
+{
+    border:  1px solid #ddd;
+    padding: 5px 10px;
+}
+
+    fieldset legend
+    {
+        font-size:   14px;
+        font-weight: bold;
+    }

@@ -7,10 +7,11 @@
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
         <?r if !@users.empty? ?>
+
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_user]) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -27,7 +28,7 @@
             <tbody>
                 <?r @users.each do |user| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_user]) ?>
                     <td>
                         <input type="checkbox" name="user_ids[]"
                         value="#{user.id}" />
@@ -37,17 +38,13 @@
                     <td>#{user.id}</td>
 
                     <td>
-                        #{
-                        if user_authorized?([:update])
+                        #{if user_authorized?([:edit_user])
                           Users::Controller::Users.a(user.email, :edit, user.id)
                         else
                           user.email
-                        end
-                        }
+                        end}
                     </td>
-                    <td>
-                        #{lang("users.special.status_hash.#{user.status}")}
-                    </td>
+                    <td>#{lang("users.special.status_hash.#{user.status}")}</td>
                     <td>#{format_date(user.created_at)}</td>
                     <td>#{format_date(user.updated_at)}</td>
                     <td>#{format_date(user.last_login)}</td>
@@ -56,23 +53,23 @@
             </tbody>
         </table>
 
-        #{
-        if @users.respond_to?(:navigation) and @users.page_count > 1
+        #{if @users.respond_to?(:navigation) and @users.page_count > 1
           @users.navigation
-        end
-        }
+        end}
 
         <?r else ?>
+
         <p>#{lang('users.messages.no_users')}</p>
+
         <?r end ?>
 
-        <?r if user_authorized?([:create]) ?>
+        <?r if user_authorized?([:new_user]) ?>
         <div class="button">
             #{Users::Controller::Users.a(lang('users.buttons.new'), :new)}
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) and !@users.empty? ?>
+        <?r if user_authorized?([:delete_user]) and !@users.empty? ?>
         <div class="button">
             <input type="submit" value="#{lang('users.buttons.delete')}" />
         </div>

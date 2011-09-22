@@ -7,10 +7,11 @@
         <input name="csrf_token" type="hidden" value="#{get_csrf_token}" />
 
         <?r if !@menu_items.empty? ?>
+
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_menu_item]) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -29,7 +30,7 @@
 
                 <?r @menu_items.each do |item| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_menu_item]) ?>
                     <td>
                         <input name="menu_item_ids[]" type="checkbox"
                         value="#{item.id}" />
@@ -38,15 +39,18 @@
 
                     <td>#{item.id}</td>
 
-                    <?r if user_authorized?([:update]) ?>
                     <td>
-                        #{Menus::Controller::MenuItems.a(
-                          item.name, :edit, @menu_id, item.id
-                        )}
+                        #{if user_authorized?([:edit_menu_item])
+                          Menus::Controller::MenuItems.a(
+                            item.name,
+                            :edit,
+                            @menu_id,
+                            item.id
+                          )
+                        else
+                          item.name
+                        end}
                     </td>
-                    <?r else ?>
-                    <td>#{item.name}</td>
-                    <?r end ?>
 
                     <td>
                         <a href="#{item.url}">#{item.url}</a>
@@ -62,17 +66,17 @@
             </tbody>
         </table>
 
-        #{
-        if @menu_items.respond_to?(:navigation) and @menu_items.page_count > 1
+        #{if @menu_items.respond_to?(:navigation) and @menu_items.page_count > 1
           @menu_items.navigation
-        end
-        }
+        end}
 
         <?r else ?>
+
         <p>#{lang('menu_items.messages.no_items')}</p>
+
         <?r end ?>
 
-        <?r if user_authorized?([:create, :read]) ?>
+        <?r if user_authorized?([:new_menu_item]) ?>
         <div class="button">
             #{Menus::Controller::MenuItems.a(
               lang('menu_items.buttons.new'), :new, @menu_id
@@ -80,7 +84,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) ?>
+        <?r if user_authorized?([:delete_menu_item]) and !@menu_items.empty? ?>
         <div class="button">
             <input type="submit" value="#{lang('menu_items.buttons.delete')}" />
         </div>

@@ -38,3 +38,9 @@ buttons:
   new   : 'Veld type toevoegen'
   delete: 'Geselecteerde types verwijderen'
   save  : 'Veld type opslaan'
+
+permissions:
+  show  : 'Veld type weergeven'
+  edit  : 'Veld type aanpassen'
+  new   : 'Veld type aanmaken'
+  delete: 'Veld type verwijderen'

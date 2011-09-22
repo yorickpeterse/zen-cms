@@ -54,3 +54,11 @@ buttons:
   new   : 'Gebruiker toevoegen'
   save  : 'Gebruiker opslaan'
   delete: 'Geselecteerde gebruikers verwijderen'
+
+description: 'Beheer gebruikers, gebruikers groepen en rechten.'
+
+permissions:
+  show  : 'Rechten weergeven'
+  edit  : 'Rechten aanpassen'
+  new   : 'Rechten aanmaken'
+  delete: 'Rechten verwijderen'

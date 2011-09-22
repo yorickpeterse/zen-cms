@@ -27,8 +27,7 @@
         </ul>
     </div>
 
-    #{
-      form_for(
+    #{form_for(
         @entry,
         :method => :post,
         :action => Sections::Controller::SectionEntries.r(:save),
@@ -104,6 +103,5 @@
             :value => lang('section_entries.buttons.save')
           )
         end
-      end
-      }
+      end}
 </article>

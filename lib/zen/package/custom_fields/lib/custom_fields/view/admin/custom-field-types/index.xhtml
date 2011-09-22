@@ -12,7 +12,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_custom_field_type]) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -34,7 +34,7 @@
             <tbody>
                 <?r @field_types.each do |type| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_custom_field_type]) ?>
                     <td>
                         <input type="checkbox" name="custom_field_type_ids[]"
                         id="custom_field_type_#{type.id}" value="#{type.id}" />
@@ -43,15 +43,15 @@
 
                     <td>#{type.id}</td>
                     <td>
-                        <?r if user_authorized?([:update]) ?>
-                        #{CustomFields::Controller::CustomFieldTypes.a(
-                          type.name,
-                          :edit,
-                          type.id
-                        )}
-                        <?r else ?>
-                        #{type.name}
-                        <?r end ?>
+                        #{if user_authorized?([:edit_custom_field_type])
+                          CustomFields::Controller::CustomFieldTypes.a(
+                            type.name,
+                            :edit,
+                            type.id
+                          )
+                        else
+                          type.name
+                        end}
                     </td>
                     <td>#{type.language_string}</td>
                     <td>#{type.html_class}</td>
@@ -63,18 +63,18 @@
             </tbody>
         </table>
 
-        #{
-        if @field_types.respond_to?(:navigation) \
+        #{if @field_types.respond_to?(:navigation) \
         and @field_types.page_count > 1
           @field_types.navigation
-        end
-        }
+        end}
 
         <?r else ?>
+
         <p>#{lang('custom_field_types.messages.no_field_types')}</p>
+
         <?r end ?>
 
-        <?r if user_authorized?([:create]) ?>
+        <?r if user_authorized?([:new_custom_field_type]) ?>
         <div class="button">
             #{CustomFields::Controller::CustomFieldTypes.a(
               lang('custom_field_types.buttons.new'),
@@ -83,7 +83,8 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) and !@field_types.empty? ?>
+        <?r if user_authorized?([:delete_custom_field_type]) \
+        and !@field_types.empty? ?>
         <div class="button">
             <input type="submit"
             value="#{lang('custom_field_types.buttons.delete')}" />

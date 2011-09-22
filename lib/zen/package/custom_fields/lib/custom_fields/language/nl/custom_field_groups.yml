@@ -31,3 +31,9 @@ buttons:
   new   : 'Groep aanmaken'
   save  : 'Groep opslaan'
   delete: 'Geselecteerde groepen verwijderen'
+
+permissions:
+  show  : 'Veld groep weergeven'
+  edit  : 'Veld groep aanpassen'
+  new   : 'Veld groep aanmaken'
+  delete: 'Veld groep verwijderen'

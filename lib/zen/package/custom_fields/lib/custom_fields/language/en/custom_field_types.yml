@@ -38,3 +38,9 @@ buttons:
   new   : 'Add field type'
   delete: 'Delete selected field types'
   save  : 'Save field type'
+
+permissions:
+  show  : 'Show field type'
+  edit  : 'Edit field type'
+  new   : 'Add field type'
+  delete: 'Delete field type'

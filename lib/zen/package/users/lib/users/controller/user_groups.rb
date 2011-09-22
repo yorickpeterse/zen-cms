@@ -20,12 +20,13 @@ module Users
         end
       end
 
+      serve(:javascript, ['/admin/js/users/permissions'], :minify => false)
+      serve(:css, ['/admin/css/users/permissions.css'], :minify => false)
+
+      load_asset_group(:tabs)
+
       ##
-      # Load our language packs, set the form URLs and define our page title.
-      #
-      # This method loads the following language files:
-      #
-      # * user_groups
+      # Creates a new instance of the controller.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -44,15 +45,11 @@ module Users
       # Show an overview of all user groups and allow the current user
       # to manage these groups
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def index
-        require_permissions(:read)
+        require_permissions(:show_user_group)
 
         set_breadcrumbs(lang('user_groups.titles.index'))
 
@@ -62,17 +59,12 @@ module Users
       ##
       # Edit an existing user group.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * update
-      #
       # @author Yorick Peterse
       # @param  [Fixnum] id The ID of the user group to edit.
       # @since  0.1
       #
       def edit(id)
-        require_permissions(:read, :update)
+        require_permissions(:edit_user_group)
 
         set_breadcrumbs(
           UserGroups.a(lang('user_groups.titles.index'), :index),
@@ -85,22 +77,19 @@ module Users
           @user_group = validate_user_group(id)
         end
 
+        @permissions = @user_group.permissions.map { |p| p.permission.to_sym }
+
         render_view(:form)
       end
 
       ##
       # Create a new user group.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * create
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def new
-        require_permissions(:read, :create)
+        require_permissions(:new_user_group)
 
         set_breadcrumbs(
           UserGroups.a(lang('user_groups.titles.index'), :index),
@@ -116,11 +105,6 @@ module Users
       # Saves or creates a new user group based on the POST data and a field
       # named 'id'.
       #
-      # This method requires the following permissions:
-      #
-      # * create
-      # * read
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
@@ -128,12 +112,12 @@ module Users
         post = request.subset(:id, :name, :slug, :description, :super_group)
 
         if post['id'] and !post['id'].empty?
-          require_permissions(:update)
+          require_permissions(:edit_user_group)
 
           user_group  = validate_user_group(post['id'])
           save_action = :save
         else
-          require_permissions(:create)
+          require_permissions(:new_user_group)
 
           user_group  = ::Users::Model::UserGroup.new
           save_action = :new
@@ -159,6 +143,15 @@ module Users
           redirect_referrer
         end
 
+        if user_authorized?([:edit_permission])
+          update_permissions(
+            :user_group_id,
+            user.id,
+            request.params['permissions'] || [],
+            user_group.permissions.map { |p| p.permission }
+          )
+        end
+
         if user_group.id
           redirect(UserGroups.r(:edit, user_group.id))
         else
@@ -169,15 +162,11 @@ module Users
       ##
       # Delete all specified user groups.
       #
-      # This method requires the following permissions:
-      #
-      # * delete
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def delete
-        require_permissions(:delete)
+        require_permissions(:delete_user_group)
 
         if !request.params['user_group_ids'] \
         or request.params['user_group_ids'].empty?

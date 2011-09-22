@@ -6,15 +6,16 @@
     <form method="post" action="#{Comments::Controller::Comments.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
-        <?r if @comments and !@comments.empty? ?>
+        <?r if !@comments.empty? ?>
 
         <table>
             <thead>
-                <?r if user_authorized?([:delete]) ?>
+                <?r if user_authorized?([:delete_comment]) ?>
                 <th class="no_sort">
                     <input type="checkbox" />
                 </th>
                 <?r end ?>
+
                 <th>#{lang('comments.labels.id')}</th>
                 <th>#{lang('comments.labels.comment')}</th>
                 <th>#{lang('comments.labels.entry')}</th>
@@ -27,7 +28,7 @@
             <tbody>
                 <?r @comments.each do |comment| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_comment]) ?>
                     <td>
                         <input type="checkbox" name="comment_ids[]"
                         value="#{comment.id}" />
@@ -36,7 +37,8 @@
 
                     <td>#{comment.id}</td>
 
-                    <?r if user_authorized?([:update]) ?>
+                    <?r if user_authorized?([:edit_comment]) ?>
+
                     <td>
                         #{Comments::Controller::Comments.a(
                           comment.comment[0, 15].to_s + '...',
@@ -44,8 +46,11 @@
                           comment.id
                         )}
                     </td>
+
                     <?r else ?>
+
                     <td>#{comment.comment[0, 15]}...</td>
+
                     <?r end ?>
 
                     <td>#{comment.section_entry.title}</td>
@@ -56,14 +61,26 @@
                     </td>
 
                     <?r if !comment.user ?>
+
                     <td>#{comment.name}</td>
                     <td>#{comment.email}</td>
-                    <td>#{comment.website}</td>
+                    <td>
+                        <?r if comment.website ?>
+                        <a href="#{comment.website}">#{comment.website}</a>
+                        <?r end ?>
+                    </td>
+
                     <?r else ?>
+
                     <?r user = comment.user ?>
                     <td>#{user.name}</td>
                     <td>#{user.email}</td>
-                    <td>#{user.website}</td>
+                    <td>
+                        <?r if user.website ?>
+                        <a href="#{user.website}">#{user.website}</a>
+                        <?r end ?>
+                    </td>
+
                     <?r end ?>
 
                     <td>#{format_date(comment.created_at)}</td>
@@ -72,17 +89,17 @@
             </tbody>
         </table>
 
-        #{
-        if @comments.respond_to?(:navigation) and @comments.page_count > 1
+        #{if @comments.respond_to?(:navigation) and @comments.page_count > 1
           @comments.navigation
-        end
-        }
+        end}
 
         <?r else ?>
+
         <p>#{lang('comments.messages.no_comments')}</p>
+
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) and !@comments.empty? ?>
+        <?r if user_authorized?([:delete_comment]) and !@comments.empty? ?>
         <div class="button">
             <input type="submit" value="#{lang('comments.buttons.delete')}" />
         </div>

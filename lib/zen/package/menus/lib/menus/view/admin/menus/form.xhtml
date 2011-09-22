@@ -3,49 +3,47 @@
         <h1>#{get_breadcrumbs}</h1>
     </header>
 
-    #{
-    form_for(
-      @menu, 
-      :method => :post, 
-      :action => Menus::Controller::Menus.r(:save), 
+    #{form_for(
+      @menu,
+      :method => :post,
+      :action => Menus::Controller::Menus.r(:save),
       :id     => :menu_form
-    ) do |f| 
+    ) do |f|
       f.input_hidden(:csrf_token, get_csrf_token)
       f.input_hidden(:id        , @menu.id)
 
       f.input_text(
-        lang('menus.labels.name'), 
-        :name, 
-        :placeholder => lang('menus.placeholders.name') 
+        lang('menus.labels.name'),
+        :name,
+        :placeholder => lang('menus.placeholders.name')
       )
 
       f.input_text(
-        lang('menus.labels.slug'), 
-        :slug, 
+        lang('menus.labels.slug'),
+        :slug,
         :placeholder => lang('menus.placeholders.slug')
       )
-        
+
       f.input_text(
-        lang('menus.labels.html_class'), 
-        :html_class, 
+        lang('menus.labels.html_class'),
+        :html_class,
         :placeholder => lang('menus.placeholders.html_class')
       )
 
       f.input_text(
-        lang('menus.labels.html_id'), 
-        :html_id, 
+        lang('menus.labels.html_id'),
+        :html_id,
         :placeholder => lang('menus.placeholders.html_id')
       )
 
       f.textarea(
-        lang('menus.labels.description'), 
-        :description, 
+        lang('menus.labels.description'),
+        :description,
         :rows => 8
       )
-      
+
       f.g.div(:class => "button") do
         f.g.input(:type => :submit, :value => lang('menus.buttons.save'))
       end
-    end
-    }
+    end}
 </article>

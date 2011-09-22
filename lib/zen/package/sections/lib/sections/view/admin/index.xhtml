@@ -11,7 +11,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_section]) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -22,9 +22,7 @@
                     <th>#{lang('sections.labels.slug')}</th>
                     <th>#{lang('sections.labels.comment_allow')}</th>
 
-                    <?r if user_authorized?(
-                      [:read], true, 'Sections::Controller::SectionEntries'
-                    ) ?>
+                    <?r if user_authorized?([:show_section_entry]) ?>
                     <th></th>
                     <?r end ?>
                 </tr>
@@ -32,7 +30,7 @@
             <tbody>
                 <?r @sections.each do |section| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_section]) ?>
                     <td>
                         <input type="checkbox" name="section_ids[]"
                         value="#{section.id}" />
@@ -41,24 +39,22 @@
 
                     <td>#{section.id}</td>
 
-                    <?r if user_authorized?([:update]) ?>
                     <td>
-                        #{Sections::Controller::Sections.a(
-                          section.name, :edit, section.id
-                        )}
+                        #{if user_authorized?([:edit_section])
+                          Sections::Controller::Sections.a(
+                            section.name,
+                            :edit,
+                            section.id
+                          )
+                        else
+                          section.name
+                        end}
                     </td>
-                    <?r else ?>
-                    <td>#{section.name}</td>
-                    <?r end ?>
 
                     <td>#{section.slug}</td>
-                    <td>
-                        #{@boolean_hash[section.comment_allow]}
-                    </td>
+                    <td>#{@boolean_hash[section.comment_allow]}</td>
 
-                    <?r if user_authorized?(
-                      [:read], true, 'Sections::Controller::SectionEntries'
-                    ) ?>
+                    <?r if user_authorized?([:show_section_entry]) ?>
                     <td>
                         #{Sections::Controller::SectionEntries.a(
                           lang('sections.labels.manage_entries'),
@@ -72,17 +68,17 @@
             </tbody>
         </table>
 
-        #{
-        if @sections.respond_to?(:navigation) and @sections.page_count > 1
+        #{if @sections.respond_to?(:navigation) and @sections.page_count > 1
           @sections.navigation
-        end
-        }
+        end}
 
         <?r else ?>
+
         <p>#{lang('sections.messages.no_sections')}</p>
+
         <?r end ?>
 
-        <?r if user_authorized?([:create]) ?>
+        <?r if user_authorized?([:new_section]) ?>
         <div class="button">
             #{Sections::Controller::Sections.a(
               lang('sections.buttons.new'), :new
@@ -90,7 +86,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) and !@sections.empty? ?>
+        <?r if user_authorized?([:delete_section]) and !@sections.empty? ?>
         <div class="button">
             <input type="submit" value="#{lang('sections.buttons.delete')}" />
         </div>

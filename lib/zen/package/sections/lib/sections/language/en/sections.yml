@@ -46,3 +46,15 @@ buttons:
   new     : 'Add section'
   delete  : 'Delete selected sections'
   save    : 'Save section'
+
+description: 'Manage sections and section entries.'
+
+permissions:
+  show  : 'Show section'
+  edit  : 'Edit section'
+  new   : 'Add section'
+  delete: 'Delete section'
+
+plugins:
+  sections       : 'Plugin used for retrieving sections.'
+  section_entries: 'Plugin used for retrieving all entries of a section.'

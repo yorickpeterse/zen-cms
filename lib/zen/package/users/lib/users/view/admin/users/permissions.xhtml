@@ -1,0 +1,32 @@
+<?r Zen::Package::Registered.each do |name, package| ?>
+<?r unless package.permissions.empty? ?>
+
+<fieldset class="package">
+    <legend>#{package.title}</legend>
+
+    <ul class="permissions">
+        <?r package.permissions.each do |name, title| ?>
+        <?r if @permissions.include?(name)
+          checked = 'checked="checked"'
+        else
+          checked = nil
+        end ?>
+
+        <li>
+            <input name="permissions[]" value="#{name}"
+            type="checkbox" #{checked} /> #{title}
+        </li>
+        <?r end ?>
+    </ul>
+
+    <div class="button allow">
+        <input type="button" value="#{lang('permissions.buttons.allow_all')}" />
+    </div>
+
+    <div class="button deny">
+        <input type="button" value="#{lang('permissions.buttons.deny_all')}" />
+    </div>
+</fieldset>
+
+<?r end ?>
+<?r end ?>

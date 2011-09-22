@@ -2,7 +2,7 @@
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
-  
+
     <div class="tabs">
         <ul>
             <?r @groups.each do |name, group| ?>
@@ -12,67 +12,69 @@
             <?r end ?>
         </ul>
     </div>
- 
-    #{
-    form_for(@settings_ordered, :method => :post, :action => @form_save_url, 
-    :id => :setting_form) do |f|
+
+    #{form_for(
+      @settings_ordered,
+      :method => :post,
+      :action => @form_save_url,
+      :id     => :setting_form
+    ) do |f|
       f.input_hidden(:csrf_token, get_csrf_token)
 
       @settings_ordered.each do |group, items|
         f.g.div(:id => "group_#{group}") do
           items.each do |s|
             value = plugin(:settings, :get, s.name).value
-            
+
             case s.type
               when 'textbox'
                 f.input_text(
-                  s.title, 
-                  s.name, 
+                  s.title,
+                  s.name,
                   :value => value
                 )
 
               when 'textarea'
                 f.textarea(
-                  s.title, 
-                  s.name, 
-                  :value => value, 
+                  s.title,
+                  s.name,
+                  :value => value,
                   :rows  => 8
                 )
 
               when 'radio'
                 f.input_radio(
-                  s.title, 
-                  s.name, 
-                  value, 
+                  s.title,
+                  s.name,
+                  value,
                   :values => s.values
                 )
 
               when 'checkbox'
                 f.input_checkbox(
-                  s.title, 
-                  s.name, 
-                  value, 
+                  s.title,
+                  s.name,
+                  value,
                   :values => s.values
                 )
 
               when 'select'
                 f.select(
-                  s.title, 
-                  s.name, 
-                  :values   => s.values, 
-                  :size     => 1, 
+                  s.title,
+                  s.name,
+                  :values   => s.values,
+                  :size     => 1,
                   :selected => value
                 )
             end
           end
         end
       end
-    
+
       f.g.div(:class => 'clearfix') do
         f.g.div(:class => 'button') do
           f.g.input(:type => 'submit', :value => lang('settings.buttons.save'))
         end
       end
-    end
-    }
+    end}
 </article>

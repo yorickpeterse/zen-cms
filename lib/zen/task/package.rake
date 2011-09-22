@@ -35,10 +35,10 @@ MSG
     package = Zen::Package::Registered[args[:name].to_sym]
 
     # Get the migrations directory
-    if package.respond_to?(:migration_dir) and !package.migration_dir.nil?
-      dir = package.migration_dir
+    if package.respond_to?(:migrations) and !package.migrations.nil?
+      dir = package.migrations
     else
-      dir = package.directory + '/../../migrations'
+      dir = package.root + '/../../migrations'
     end
 
     # Validate the directory

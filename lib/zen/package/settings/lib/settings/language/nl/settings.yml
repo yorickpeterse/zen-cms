@@ -18,7 +18,7 @@ placeholders:
   language           : 'De taal die gebruikt moet worden voor het admin gedeelte.'
   default_section    : 'De standaard sectie die moet worden gebruikt.'
   theme              : 'Het thema dat bezoekers zullen zien.'
-  enable_antispam    : 'Waarde die aangeeft of het anti-spam systeem moet worden gebruikt 
+  enable_antispam    : 'Waarde die aangeeft of het anti-spam systeem moet worden gebruikt
 voor reacties.'
   frontend_language  : 'De taal die gebruikt moet worden voor bezoekers.'
   date_format        : 'Het formaat van de datum voor het admin gedeelte.'
@@ -35,3 +35,10 @@ success:
 
 errors:
   save: 'De instellingen konden niet worden opgeslagen.'
+
+description       : 'Pakket voor het beheren van instellingen.'
+plugin_description: 'Plugin voor het ophalen en aanpassen van instellingen.'
+
+permissions:
+  show: 'Instelling weergeven'
+  edit: 'Instelling aanpassen'

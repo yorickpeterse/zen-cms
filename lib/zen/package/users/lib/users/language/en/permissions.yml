@@ -1,0 +1,11 @@
+---
+titles:
+  index: 'Permissions'
+
+permissions:
+  show: 'Show permissions'
+  edit: 'Edit permissions'
+
+buttons:
+  allow_all: 'Allow all'
+  deny_all : 'Deny all'

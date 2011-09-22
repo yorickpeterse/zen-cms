@@ -52,3 +52,11 @@ buttons:
   new   : 'Add custom field'
   delete: 'Delete selected fields'
   save  : 'Save custom field'
+
+description: 'Manage custom fields, field groups and field types.'
+
+permissions:
+  show  : 'Show custom field'
+  edit  : 'Edit custom field'
+  new   : 'Add custom field'
+  delete: 'Delete custom field'

@@ -52,3 +52,11 @@ buttons:
   new   : 'Veld toevoegen'
   delete: 'Geselecteerde velden verwijderen'
   save  : 'Veld opslaan'
+
+description: 'Beheer veld groepen, velden en veld types.'
+
+permissions:
+  show  : 'Veld weergeven'
+  edit  : 'Veld aanpassen'
+  new   : 'Veld aanmaken'
+  delete: 'Veld verwijderen'

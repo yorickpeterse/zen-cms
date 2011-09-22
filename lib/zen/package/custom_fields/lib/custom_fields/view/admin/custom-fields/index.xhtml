@@ -9,12 +9,12 @@
         <input type="hidden" name="custom_field_group_id"
         value="#{@custom_field_group_id}" />
 
-        <?r if @custom_fields and !@custom_fields.empty? ?>
+        <?r if !@custom_fields.empty? ?>
 
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_custom_field]) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -23,14 +23,16 @@
                     <th>#{lang('custom_fields.labels.id')}</th>
                     <th>#{lang('custom_fields.labels.name')}</th>
                     <th>#{lang('custom_fields.labels.slug')}</th>
-                    <th>#{lang('custom_fields.labels.custom_field_type_id')}</th>
+                    <th>
+                        #{lang('custom_fields.labels.custom_field_type_id')}
+                    </th>
                     <th>#{lang('custom_fields.labels.format')}</th>
                 </tr>
             </thead>
             <tbody>
                 <?r @custom_fields.each do |field| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_custom_field]) ?>
                     <td>
                         <input type="checkbox" name="custom_field_ids[]"
                         value="#{field.id}" />
@@ -39,15 +41,18 @@
 
                     <td>#{field.id}</td>
 
-                    <?r if user_authorized?([:update]) ?>
                     <td>
-                        #{CustomFields::Controller::CustomFields.a(
-                          field.name, :edit, @custom_field_group_id, field.id
-                        )}
+                        #{if user_authorized?([:edit_custom_field])
+                          CustomFields::Controller::CustomFields.a(
+                            field.name,
+                            :edit,
+                            @custom_field_group_id,
+                            field.id
+                          )
+                        else
+                          field.name
+                        end}
                     </td>
-                    <?r else ?>
-                    <td>#{field.name}</td>
-                    <?r end ?>
 
                     <td>#{field.slug}</td>
                     <td>#{@custom_field_types[field.custom_field_type_id]}</td>
@@ -57,18 +62,18 @@
             </tbody>
         </table>
 
-        #{
-        if @custom_fields.respond_to?(:navigation) \
+        #{if @custom_fields.respond_to?(:navigation) \
         and @custom_fields.page_count > 1
           @custom_fields.navigation
-        end
-        }
+        end}
 
         <?r else ?>
+
         <p>#{lang('custom_fields.messages.no_fields')}</p>
+
         <?r end ?>
 
-        <?r if user_authorized?([:create]) ?>
+        <?r if user_authorized?([:new_custom_field]) ?>
         <div class="button">
             #{CustomFields::Controller::CustomFields.a(
               lang('custom_fields.buttons.new'),
@@ -78,7 +83,8 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) and !@custom_fields.empty? ?>
+        <?r if user_authorized?([:delete_custom_field]) \
+        and !@custom_fields.empty? ?>
         <div class="button">
             <input type="submit"
             value="#{lang('custom_fields.buttons.delete')}" />

@@ -20,7 +20,7 @@ errors:
   delete       : 'Failed to delete the user group with ID #%s.'
   no_delete    : 'You have to specify at least one group to delete.'
   invalid_group: 'The specified user group is invalid.'
-  
+
 success:
   new    : 'The new user group has been created.'
   save   : 'The user group has been modified.'
@@ -30,3 +30,9 @@ buttons:
   new    : 'New group'
   delete : 'Delete selected groups'
   save   : 'Save group'
+
+permissions:
+  show  : 'Show group'
+  edit  : 'Edit group'
+  new   : 'Add group'
+  delete: 'Delete group'

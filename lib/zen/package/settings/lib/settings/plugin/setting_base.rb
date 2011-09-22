@@ -31,7 +31,7 @@ module Settings
       attr_accessor :name
 
       # The title of the setting, displayed in the GUI
-      attr_accessor :title
+      attr_writer :title
 
       # A small description about the setting
       attr_accessor :description
@@ -76,6 +76,21 @@ module Settings
             ::Zen::ValidationError,
             "The settings group #{group} doesn't exist."
           )
+        end
+      end
+
+      ##
+      # Returns the title of the setting and tries to translate it.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @return [String]
+      #
+      def title
+        begin
+          return lang(@title)
+        rescue
+          return @title
         end
       end
 

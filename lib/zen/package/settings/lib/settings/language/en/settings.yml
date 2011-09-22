@@ -23,8 +23,8 @@ placeholders:
   date_format         : 'A custom format used for all the dates displayed in the backend.'
 
 tabs:
-  general  : 'General'
-  security : 'Security'
+  general : 'General'
+  security: 'Security'
 
 buttons:
   save: 'Save'
@@ -34,3 +34,10 @@ success:
 
 errors:
   save: 'The settings could not be saved.'
+
+description       : 'Package for managing settings.'
+plugin_description: 'Plugin for retrieving and updating settings.'
+
+permissions:
+  show: 'Show setting'
+  edit: 'Edit setting'

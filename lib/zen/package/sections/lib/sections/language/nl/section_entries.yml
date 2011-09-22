@@ -42,3 +42,10 @@ buttons:
   new   : 'Sectie item toevoegen'
   save  : 'Sectie item opslaan'
   delete: 'Geselecteerde items verwijderen'
+
+
+permissions:
+  show  : 'Sectie item weergeven'
+  edit  : 'Sectie item aanpassen'
+  new   : 'Sectie item aanmaken'
+  delete: 'Sectie item verwijderen'

@@ -54,3 +54,11 @@ buttons:
   new    : 'Add user'
   delete : 'Delete selected users'
   save   : 'Save user'
+
+description: 'Manage users, user groups and permissions.'
+
+permissions:
+  show  : 'Show user'
+  edit  : 'Edit user'
+  new   : 'Add user'
+  delete: 'Delete user'

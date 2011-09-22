@@ -32,3 +32,11 @@ buttons:
   new   : 'Groep aanmaken'
   save  : 'Groep opslaan'
   delete: 'Geselecteerde groepen verwijderen'
+
+permissions:
+  show  : 'Groep weergeven'
+  edit  : 'Groep aanpassen'
+  new   : 'Groep aanmaken'
+  delete: 'Groep verwijderen'
+
+description: 'Beheren van categorie groepen en categoriën.'

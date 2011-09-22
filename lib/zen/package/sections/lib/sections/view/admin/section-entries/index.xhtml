@@ -12,7 +12,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_section_entry]) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -29,7 +29,7 @@
             <tbody>
                 <?r @entries.each do |entry| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_section_entry]) ?>
                     <td>
                         <input type="checkbox" name="section_entry_ids[]"
                         value="#{entry.id}" />
@@ -40,16 +40,17 @@
 
                     <?r if user_authorized?([:update]) ?>
                     <td>
-                        #{Sections::Controller::SectionEntries.a(
-                          entry.title,
-                          :edit,
-                          @section_id,
-                          entry.id
-                        )}
+                        #{if user_authorized?([:edit_section_entry])
+                          Sections::Controller::SectionEntries.a(
+                            entry.title,
+                            :edit,
+                            @section_id,
+                            entry.id
+                          )
+                        else
+                          entry.title
+                        end}
                     </td>
-                    <?r else ?>
-                    <td>#{entry.title}</td>
-                    <?r end ?>
 
                     <td>#{entry.slug}</td>
                     <td>
@@ -65,17 +66,15 @@
             </tbody>
         </table>
 
-        #{
-        if @entries.respond_to?(:navigation) and @entries.page_count > 1
+        #{if @entries.respond_to?(:navigation) and @entries.page_count > 1
           @entries.navigation
-        end
-        }
+        end}
 
         <?r else ?>
         <p>#{lang('section_entries.messages.no_entries')}</p>
         <?r end ?>
 
-        <?r if user_authorized?([:create]) ?>
+        <?r if user_authorized?([:new_section_entry]) ?>
         <div class="button">
             #{Sections::Controller::SectionEntries.a(
               lang('section_entries.buttons.new'), :new, @section_id
@@ -83,7 +82,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) and !@entries.empty? ?>
+        <?r if user_authorized?([:delete_section_entry]) and !@entries.empty? ?>
         <div class="button">
             <input type="submit"
             value="#{lang('section_entries.buttons.delete')}" />

@@ -38,3 +38,12 @@ errors:
   delete      : 'The menu with ID #%s could not be deleted.'
   no_delete   : 'You need to specify at least one menu to delete.'
   invalid_menu: 'The specified menu is invalid.'
+
+description       : 'Manage menus and menu items.'
+plugin_description: 'Plugin for retrieving and rendering menus.'
+
+permissions:
+  show  : 'Show menu'
+  edit  : 'Edit menu'
+  new   : 'Add menu'
+  delete: 'Delete menu'

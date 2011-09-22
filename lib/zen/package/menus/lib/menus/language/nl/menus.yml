@@ -38,3 +38,12 @@ errors:
   delete      : 'Het menu met ID #%s kon niet worden verwijderd.'
   no_delete   : 'U moet ten minste 1 menu specificeren om te verwijderen.'
   invalid_menu: 'Het opgegeven menu is ongeldig.'
+
+description       : "Beheer menu's."
+plugin_description: "Plugin voor het ophalen en weergeven van menu's."
+
+permissions:
+  show  : 'Menu weergeven'
+  edit  : 'Menu aanpassen'
+  new   : 'Menu toevoegen'
+  delete: 'Menu verwijderen'

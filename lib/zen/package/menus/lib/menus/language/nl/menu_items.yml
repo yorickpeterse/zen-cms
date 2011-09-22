@@ -39,3 +39,9 @@ errors:
   delete      : 'Het menu item met ID #%s kon niet worden verwijderd.'
   no_delete   : 'U moet ten minste 1 item specificeren om te verwijderen.'
   invalid_item: 'Het opgegeven menu item is ongeldig.'
+
+permissions:
+  show  : 'Menu item weergeven'
+  edit  : 'Menu item aanpassen'
+  new   : 'Menu item toevoegen'
+  delete: 'Menu item verwijderen'

@@ -1,0 +1,11 @@
+---
+titles:
+  index: 'Rechten'
+
+permissions:
+  show: 'Rechten weergeven'
+  edit: 'Rechten aanpassen'
+
+buttons:
+  allow_all: 'Sta alles toe'
+  deny_all : 'Sta niks toe'

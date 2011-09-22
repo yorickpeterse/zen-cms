@@ -51,7 +51,7 @@ module Sections
       # @since  0.1
       #
       def index(section_id)
-        require_permissions(:read)
+        require_permissions(:show_section_entry)
 
         set_breadcrumbs(
           Sections.a(lang('sections.titles.index'), :index),
@@ -81,7 +81,7 @@ module Sections
       # @since  0.1
       #
       def edit(section_id, entry_id)
-        require_permissions(:read, :update)
+        require_permissions(:edit_section_entry)
 
         set_breadcrumbs(
           Sections.a(
@@ -121,7 +121,7 @@ module Sections
       # @since  0.1
       #
       def new(section_id)
-        require_permissions(:read, :create)
+        require_permissions(:new_section_entry)
 
         set_breadcrumbs(
           Sections.a(
@@ -166,7 +166,7 @@ module Sections
         validate_section(section_id)
 
         if request.params['id'] and !request.params['id'].empty?
-          require_permissions(:update)
+          require_permissions(:edit_section_entry)
 
           @entry      = ::Sections::Model::SectionEntry[request.params['id']]
           save_action = :save
@@ -175,7 +175,7 @@ module Sections
           # field value is modified, this solves that problem
           request.params['updated_at'] = Time.new
         else
-          require_permissions(:create)
+          require_permissions(:new_section_entry)
 
           @entry = ::Sections::Model::SectionEntry.new(
             :section_id => section_id
@@ -297,7 +297,7 @@ module Sections
       # @since  0.1
       #
       def delete
-        require_permissions(:delete)
+        require_permissions(:delete_section_entry)
 
         if !request.params['section_entry_ids'] \
         or request.params['section_entry_ids'].empty?

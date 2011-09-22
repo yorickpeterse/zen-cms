@@ -20,8 +20,7 @@
         </ul>
     </div>
 
-    #{
-    form_for(
+    #{form_for(
       @custom_field,
       :method => :post,
       :action => CustomFields::Controller::CustomFields.r(:save),
@@ -108,6 +107,5 @@
           :value => lang('custom_fields.buttons.save')
         )
       end
-    end
-    }
+    end}
 </article>

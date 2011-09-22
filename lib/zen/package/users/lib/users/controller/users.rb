@@ -18,15 +18,16 @@ module Users
         end
       end
 
+      serve(:javascript, ['/admin/js/users/permissions'], :minify => false)
+      serve(:css, ['/admin/css/users/permissions.css'], :minify => false)
+
+      load_asset_group(:tabs)
+
       set_layout :admin => [:index, :edit, :new]
       set_layout :login => [:login]
 
       ##
-      # Load our language packs, set the form URLs and define our page title.
-      #
-      # This method loads the following language files:
-      #
-      # * users
+      # Creates a new instance of the controller.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -45,15 +46,11 @@ module Users
       # Show an overview of all users and allow the current user
       # to manage these users.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def index
-        require_permissions(:read)
+        require_permissions(:show_user)
 
         set_breadcrumbs(lang('users.titles.index'))
 
@@ -63,17 +60,12 @@ module Users
       ##
       # Edit an existing user based on the ID.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * update
-      #
       # @author Yorick Peterse
       # @param  [Fixnum] id The ID of the user to edit.
       # @since  0.1
       #
       def edit(id)
-        require_permissions(:read, :update)
+        require_permissions(:edit_user)
 
         set_breadcrumbs(
           Users.a(lang('users.titles.index'), :index),
@@ -87,6 +79,7 @@ module Users
         end
 
         @user_group_pks = ::Users::Model::UserGroup.pk_hash(:name).invert
+        @permissions    = @user.permissions.map { |p| p.permission.to_sym }
 
         render_view(:form)
       end
@@ -94,16 +87,11 @@ module Users
       ##
       # Create a new user.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * create
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def new
-        require_permissions(:read, :create)
+        require_permissions(:new_user)
 
         set_breadcrumbs(
           Users.a(lang('users.titles.index'), :index),
@@ -127,8 +115,9 @@ module Users
           # Let's see if we can authenticate
           if user_login(request.subset(:email, :password))
             # Update the last time the user logged in
-            ::Users::Model::User[:email => request.params['email']] \
-              .update(:last_login => Time.new)
+            ::Users::Model::User[:email => request.params['email']].update(
+              :last_login => Time.new
+            )
 
             message(:success, lang('users.success.login'))
             redirect(::Sections::Controller::Sections.r(:index))
@@ -153,13 +142,7 @@ module Users
       end
 
       ##
-      # Saves or creates a new user based on the POST data and a field named
-      # 'id'.
-      #
-      # This method requires the following permissions:
-      #
-      # * create
-      # * update
+      # Saves or creates a new user based on the POST data.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -180,13 +163,13 @@ module Users
         )
 
         if post['id'] and !post['id'].empty?
-          require_permissions(:update)
+          require_permissions(:edit_user)
 
           user        = validate_user(post['id'])
           save_action = :save
           hook_name   = :edit_user
         else
-          require_permissions(:create)
+          require_permissions(:new_user)
 
           user        = ::Users::Model::User.new
           save_action = :new
@@ -208,7 +191,6 @@ module Users
         begin
           user.update(post)
           message(:success, flash_success)
-          Zen::Hook.call(hook_name, user)
 
           user.user_group_pks = post['user_group_pks'] if save_action === :new
         rescue => e
@@ -221,6 +203,18 @@ module Users
           redirect_referrer
         end
 
+        # Add or update the permissions if the user is allowed to do so.
+        if user_authorized?([:edit_permission])
+          update_permissions(
+            :user_id,
+            user.id,
+            request.params['permissions'] || [],
+            user.permissions.map { |p| p.permission }
+          )
+        end
+
+        Zen::Hook.call(hook_name, user)
+
         if user.id
           redirect(Users.r(:edit, user.id))
         else
@@ -231,15 +225,11 @@ module Users
       ##
       # Delete all specified users.
       #
-      # This method requires the following permissions:
-      #
-      # * delete
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def delete
-        require_permissions(:delete)
+        require_permissions(:delete_user)
 
         if !request.params['user_ids'] or request.params['user_ids'].empty?
           message(:error, lang('users.errors.no_delete'))
@@ -255,7 +245,7 @@ module Users
             message(:success, lang('users.success.delete'))
           rescue => e
             Ramaze::Log.error(e.inspect)
-            message(:error,lang('users.errors.delete') % id)
+            message(:error, lang('users.errors.delete') % id)
 
             redirect_referrer
           end

@@ -45,7 +45,7 @@ module Menus
       # @since  0.2a
       #
       def index
-        require_permissions(:read)
+        require_permissions(:show_menu)
 
         set_breadcrumbs(lang('menus.titles.index'))
 
@@ -67,7 +67,7 @@ module Menus
       # @param  [Fixnum] id The ID of the menu to edit.
       #
       def edit(id)
-        require_permissions(:read, :update)
+        require_permissions(:edit_menu)
 
         set_breadcrumbs(
           Menus.a(lang('menus.titles.index'), :index),
@@ -97,7 +97,7 @@ module Menus
       # @since  0.2a
       #
       def new
-        require_permissions(:create, :read)
+        require_permissions(:new_menu)
 
         set_breadcrumbs(
           Menus.a(lang('menus.titles.index'), :index),
@@ -136,12 +136,12 @@ module Menus
 
         # Determine if we're creating a new group or modifying an existing one.
         if post.key?('id') and !post['id'].empty?
-          require_permissions(:update)
+          require_permissions(:edit_menu)
 
           @menu       = validate_menu(post['id'])
           save_action = :save
         else
-          require_permissions(:create)
+          require_permissions(:new_menu)
 
           @menu       = ::Menus::Model::Menu.new
           save_action = :new
@@ -190,7 +190,7 @@ module Menus
       # @since  0.2a
       #
       def delete
-        require_permissions(:delete)
+        require_permissions(:delete_menu)
 
         post = request.params.dup
 

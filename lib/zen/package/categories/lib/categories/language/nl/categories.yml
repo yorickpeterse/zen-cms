@@ -9,9 +9,9 @@ labels:
   name       : 'Naam'
   description: 'Beschrijving'
 
-  # TODO: "Ouder" is a rather uncommon translation of the word "parent" when dealing with
-  # a hierarchy. It should be replaced with a better word once I find out which one to
-  # use.
+  # TODO: "Ouder" is a rather uncommon translation of the word "parent" when
+  # dealing with a hierarchy. It should be replaced with a better word once I
+  # find out which one to use.
   parent: 'Ouder'
   slug  : 'Slug'
 
@@ -38,3 +38,13 @@ buttons:
   new   : 'Categorie aanmaken'
   save  : 'Categorie opslaan'
   delete: 'Geselecteerde categoriën verwijderen'
+
+permissions:
+  show  : 'Categorie weergeven'
+  edit  : 'Categorie aanpassen'
+  new   : 'Categorie aanmaken'
+  delete: 'Categorie verwijderen'
+
+
+plugin_description: 'Plugin voor het ophalen van categoriën en categorie \
+groepen.'

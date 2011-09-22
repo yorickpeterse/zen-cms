@@ -7,10 +7,11 @@
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
         <?r if !@user_groups.empty? ?>
+
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_user_group]) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -25,7 +26,7 @@
             <tbody>
                 <?r @user_groups.each do |group| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_user_group]) ?>
                     <td>
                         <input type="checkbox" name="user_group_ids[]"
                         value="#{group.id}" />
@@ -34,15 +35,15 @@
 
                     <td>#{group.id}</td>
                     <td>
-                        #{
-                        if user_authorized?([:update])
+                        #{if user_authorized?([:edit_user_group])
                           Users::Controller::UserGroups.a(
-                            group.name, :edit, group.id
+                            group.name,
+                            :edit,
+                            group.id
                           )
                         else
                           group.name
-                        end
-                        }
+                        end}
                     </td>
                     <td>#{group.slug}</td>
                     <td>#{@boolean_hash[group.super_group]}</td>
@@ -51,18 +52,18 @@
             </tbody>
         </table>
 
-        #{
-        if @user_groups.respond_to?(:navigation) \
+        #{if @user_groups.respond_to?(:navigation) \
         and @user_groups.page_count > 1
           @user_groups.navigation
-        end
-        }
+        end}
 
         <?r else ?>
+
         <p>#{lang('user_groups.messages.no_groups')}</p>
+
         <?r end ?>
 
-        <?r if user_authorized?([:create]) ?>
+        <?r if user_authorized?([:new_user_group]) ?>
         <div class="button">
             #{Users::Controller::UserGroups.a(
               lang('user_groups.buttons.new'),
@@ -71,7 +72,8 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) and !@user_groups.empty? ?>
+        <?r if user_authorized?([:delete_user_group]) \
+        and !@user_groups.empty? ?>
         <div class="button">
             <input type="submit"
             value="#{lang('user_groups.buttons.delete')}" />

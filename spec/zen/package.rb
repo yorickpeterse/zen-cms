@@ -2,22 +2,57 @@ require File.expand_path('../../helper', __FILE__)
 require File.join(Zen::Fixtures, 'package')
 
 describe('Zen::Package') do
-  behaves_like :capybara
+  it('Add a new package') do
+    Zen::Package.add do |p|
+      p.name       = :spec
+      p.title      = 'Spec'
+      p.author     = 'Yorick Peterse'
+      p.about      = 'A spec extension'
+      p.url        = 'http://zen-cms.com/'
+      p.root       = __DIR__
+      p.migrations = __DIR__
 
-  it('Select a specific package by it\'s name') do
-    package = Zen::Package[:spec]
+      p.menu('Spec', '/admin/spec', :permission => :show_menu) do |sub|
+        sub.menu('Sub spec', '/admin/spec/sub')
+      end
 
-    package.should.not                 === nil
-    package.name.should                === :spec
-    package.url.should                 === 'http://zen-cms.com/'
-    package.controllers['Spec'].should == SpecPackage
+      p.permission :foobar, 'Foobar'
+    end
+
+    pkg = Zen::Package[:spec]
+
+    pkg.name.should       === :spec
+    pkg.title.should      === 'Spec'
+    pkg.author.should     === 'Yorick Peterse'
+    pkg.root.should       === __DIR__
+    pkg.migrations.should === pkg.root
+
+    pkg.menu.title.should === 'Spec'
+    pkg.menu.url.should   === '/admin/spec'
+
+    pkg.menu.children[0].title.should === 'Sub spec'
+    pkg.menu.children[0].url.should   === '/admin/spec/sub'
+
+    pkg.permissions[:foobar].should   === 'Foobar'
   end
 
-  it ('Create a navigation menu of all packages') do
-    visit('/admin/spec')
+  it('Build a package\'s navigation items') do
+    pkg  = Zen::Package[:spec]
+    menu = pkg.menu.html
+    html = '<li><a href="/admin/spec" title="Spec">Spec</a>' \
+      '<ul><li><a href="/admin/spec/sub" title="Sub spec">Sub spec</a></li>' \
+      '</ul></li>'
 
-    page.has_selector?('a[href="/admin/spec"]').should === true
-    page.has_selector?('ul.spec_menu').should          === true
+    menu.should === html
   end
 
+  it('Build the navigation menu for all packages') do
+    menu = Zen::Package.build_menu
+    html = '<li><a href="/admin/spec" title="Spec">Spec</a>' \
+      '<ul><li><a href="/admin/spec/sub" title="Sub spec">Sub spec</a></li>' \
+      '</ul></li>'
+
+    menu.include?('<ul class="navigation">').should === true
+    menu.include?(html).should                      === true
+  end
 end

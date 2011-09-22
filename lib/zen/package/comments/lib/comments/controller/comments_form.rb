@@ -27,8 +27,6 @@ module Comments
       # @since  0.1
       #
       def save
-        Zen::Language.load('comments')
-
         comment = ::Comments::Model::Comment.new
         post    = request.subset(
           :section_entry,

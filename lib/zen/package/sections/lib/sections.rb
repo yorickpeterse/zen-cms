@@ -1,8 +1,27 @@
-root = __DIR__('sections')
+Zen::Package.add do |p|
+  p.name       = :sections
+  p.title      = 'sections.titles.index'
+  p.author     = 'Yorick Peterse'
+  p.url        = 'http://yorickpeterse.com/'
+  p.about      = 'sections.description'
+  p.root       = __DIR__('sections')
+  p.migrations = __DIR__('../migrations')
 
-Ramaze::HelpersHelper.options.paths.push(root)
-Ramaze.options.roots.push(root)
-Zen::Language.options.paths.push(root)
+  p.menu('sections.titles.index', '/admin', :permission => :show_section)
+
+  p.permission :show_section  , 'sections.permissions.show'
+  p.permission :edit_section  , 'sections.permissions.edit'
+  p.permission :new_section   , 'sections.permissions.new'
+  p.permission :delete_section, 'sections.permissions.delete'
+
+  p.permission :show_section_entry  , 'section_entries.permissions.show'
+  p.permission :edit_section_entry  , 'section_entries.permissions.edit'
+  p.permission :new_section_entry   , 'section_entries.permissions.new'
+  p.permission :delete_section_entry, 'section_entries.permissions.delete'
+end
+
+Zen::Language.load('sections')
+Zen::Language.load('section_entries')
 
 require __DIR__('sections/model/section')
 require __DIR__('sections/model/section_entry')
@@ -14,35 +33,10 @@ require __DIR__('sections/controller/section_entries')
 require __DIR__('sections/plugin/sections')
 require __DIR__('sections/plugin/section_entries')
 
-Zen::Language.load('sections')
-Zen::Language.load('section_entries')
-
-Zen::Package.add do |p|
-  p.name        = 'sections'
-  p.author      = 'Yorick Peterse'
-  p.url         = 'http://yorickpeterse.com/'
-  p.about       = 'The sections module allows users to create and manage sections.
-Sections can be seen as small web applications that live inside the CMS.
-For example, you could have a section for your blog and for your pages.'
-
-  p.directory     = __DIR__('sections')
-  p.migration_dir = __DIR__('../migrations')
-
-  p.menu = [{
-    :title => lang('sections.titles.index'),
-    :url   => 'admin'
-  }]
-
-  p.controllers = {
-    lang('sections.titles.index')        => Sections::Controller::Sections,
-    lang('section_entries.titles.index') => Sections::Controller::SectionEntries
-  }
-end
-
 Zen::Plugin.add do |p|
   p.name       = 'sections'
   p.author     = 'Yorick Peterse'
-  p.about      = 'Plugin for retrieving multiple or individual sections.'
+  p.about      = 'sections.plugins.sections'
   p.url        = 'http://yorickpeterse.com/'
   p.plugin     = Sections::Plugin::Sections
 end
@@ -50,7 +44,7 @@ end
 Zen::Plugin.add do |p|
   p.name       = 'section_entries'
   p.author     = 'Yorick Peterse'
-  p.about      = 'Plugin for retrieving multiple or individual section entries.'
+  p.about      = 'sections.plugins.section_entries'
   p.url        = 'http://yorickpeterse.com/'
   p.plugin     = Sections::Plugin::SectionEntries
 end
@@ -66,7 +60,7 @@ plugin(:settings, :register) do |setting|
     section_hash = {}
 
     begin
-      Sections::Model::Section.select(:name, :id).all.each do |s|
+      Sections::Model::Section.select(:name, :id).each do |s|
         section_hash[s.id] = s.name
       end
 

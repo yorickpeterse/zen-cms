@@ -1,54 +1,53 @@
-root = __DIR__('custom_fields')
+Zen::Package.add do |p|
+  p.name       = :custom_fields
+  p.title      = 'custom_fields.titles.index'
+  p.author     = 'Yorick Peterse'
+  p.url        = 'http://yorickpeterse.com/'
+  p.about      = 'custom_fields.description'
+  p.root       = __DIR__('custom_fields')
+  p.migrations = __DIR__('../migrations')
 
-Ramaze::HelpersHelper.options.paths.push(root)
-Ramaze.options.roots.push(root)
-Zen::Language.options.paths.push(root)
+  p.menu(
+    'custom_fields.titles.index',
+    '/admin/custom-field-groups',
+    :permission => :show_custom_field_group
+  ) do |sub|
+    sub.menu(
+      'custom_field_types.titles.index',
+      '/admin/custom-field-types',
+      :permission => :show_custom_field
+    )
+  end
 
-# Load all models
+  p.permission :show_custom_field_group, 'custom_field_groups.permissions.show'
+  p.permission :edit_custom_field_group, 'custom_field_groups.permissions.edit'
+  p.permission :new_custom_field_group , 'custom_field_groups.permissions.new'
+  p.permission :delete_custom_field_group,
+    'custom_field_groups.permissions.delete'
+
+  p.permission :show_custom_field_type  , 'custom_field_types.permissions.show'
+  p.permission :edit_custom_field_type  , 'custom_field_types.permissions.edit'
+  p.permission :new_custom_field_type   , 'custom_field_types.permissions.new'
+  p.permission :delete_custom_field_type, 'custom_field_types.permissions.delete'
+
+  p.permission :show_custom_field  , 'custom_fields.permissions.show'
+  p.permission :edit_custom_field  , 'custom_fields.permissions.edit'
+  p.permission :new_custom_field   , 'custom_fields.permissions.new'
+  p.permission :delete_custom_field, 'custom_fields.permissions.delete'
+end
+
+Zen::Language.load('custom_fields')
+Zen::Language.load('custom_field_groups')
+Zen::Language.load('custom_field_types')
+
 require __DIR__('custom_fields/model/custom_field_method')
 require __DIR__('custom_fields/model/custom_field_type')
 require __DIR__('custom_fields/model/custom_field')
 require __DIR__('custom_fields/model/custom_field_group')
 require __DIR__('custom_fields/model/custom_field_value')
 
-# Load all controllers
 require __DIR__('custom_fields/controller/custom_field_groups')
 require __DIR__('custom_fields/controller/custom_fields')
 require __DIR__('custom_fields/controller/custom_field_types')
 
 require __DIR__('custom_fields/blue_form_parameters')
-
-Zen::Language.load('custom_fields')
-Zen::Language.load('custom_field_groups')
-Zen::Language.load('custom_field_types')
-
-Zen::Package.add do |p|
-  p.name          = 'custom_fields'
-  p.author        = 'Yorick Peterse'
-  p.url           = 'http://yorickpeterse.com/'
-  p.about         = 'The Custom Fields module is used to manage custom ' \
-    'fields and custom field groups.'
-
-  p.directory     = __DIR__('custom_fields')
-  p.migration_dir = __DIR__('../migrations')
-
-  p.menu = [{
-    :title    => lang('custom_fields.titles.index'),
-    :url      => 'admin/custom-field-groups',
-    :children => [
-      {
-        :title => lang('custom_field_types.titles.index'),
-        :url   => 'admin/custom-field-types'
-      }
-    ]
-  }]
-
-  p.controllers = {
-    lang('custom_fields.titles.index') \
-      => CustomFields::Controller::CustomFields,
-    lang('custom_field_groups.titles.index') \
-      => CustomFields::Controller::CustomFieldGroups,
-    lang('custom_field_types.titles.index') \
-      => CustomFields::Controller::CustomFieldTypes
-  }
-end

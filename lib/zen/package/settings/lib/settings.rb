@@ -1,8 +1,21 @@
-root = __DIR__('settings')
+Zen::Package.add do |p|
+  p.name       = :settings
+  p.title      = 'settings.titles.index'
+  p.author     = 'Yorick Peterse'
+  p.url        = 'http://yorickpeterse.com/'
+  p.about      = 'settings.description'
+  p.root       = __DIR__('settings')
+  p.migrations = __DIR__('../migrations')
 
-Ramaze::HelpersHelper.options.paths.push(root)
-Ramaze.options.roots.push(root)
-Zen::Language.options.paths.push(root)
+  p.menu(
+    'settings.titles.index',
+    '/admin/settings',
+    :permission => :show_setting
+  )
+
+  p.permission :show_setting, 'settings.permissions.show'
+  p.permission :edit_setting, 'settings.permissions.edit'
+end
 
 Zen::Language.load('settings')
 
@@ -10,54 +23,23 @@ require __DIR__('settings/model/setting')
 require __DIR__('settings/controller/settings')
 require __DIR__('settings/plugin/settings')
 
-# Register the package
-Zen::Package.add do |p|
-  p.name          = 'settings'
-  p.author        = 'Yorick Peterse'
-  p.url           = 'http://yorickpeterse.com/'
-  p.about         = 'Module for managing settings such as the default ' \
-    'module, whether or not to allow registration, etc.'
-
-  p.directory     = __DIR__('settings')
-  p.migration_dir = __DIR__('../migrations')
-
-  p.menu = [{
-    :title => lang('settings.titles.index'),
-    :url   => 'admin/settings'
-  }]
-
-  p.controllers = {
-    lang('settings.titles.index') => Settings::Controller::Settings
-  }
-end
-
-# Create all variables required for the settings
-theme_hash = {}
-
-Zen::Theme::Registered.each do |name, theme|
-  name             = name.to_s
-  theme_hash[name] = name
-end
-
 # Register the plugin
 Zen::Plugin.add do |plugin|
-  plugin.name       = 'settings'
-  plugin.author     = 'Yorick Peterse'
-  plugin.url        = 'http://yorickpeterse.com/'
-  plugin.about      = 'Plugin that can be used to register, retrieve and ' \
-    'migrate settings.'
-
-  plugin.plugin     = Settings::Plugin::Settings
+  plugin.name   = 'settings'
+  plugin.author = 'Yorick Peterse'
+  plugin.url    = 'http://yorickpeterse.com/'
+  plugin.about  = 'settings.plugin_description'
+  plugin.plugin = Settings::Plugin::Settings
 end
 
 # Register all setting groups
 plugin(:settings, :register_group) do |group|
-  group.title = 'General'
+  group.title = 'settings.tabs.general'
   group.name  = 'general'
 end
 
 plugin(:settings, :register_group) do |group|
-  group.title = 'Security'
+  group.title = 'settings.tabs.security'
   group.name  = 'security'
 end
 
@@ -105,7 +87,16 @@ plugin(:settings, :register) do |setting|
   setting.name        = 'theme'
   setting.group       = 'general'
   setting.type        = 'select'
-  setting.values      = theme_hash
+  setting.values      = lambda do
+    theme_hash = {}
+
+    Zen::Theme::Registered.each do |name, theme|
+      name             = name.to_s
+      theme_hash[name] = name
+    end
+
+    return theme_hash
+  end
 end
 
 plugin(:settings, :register) do |setting|

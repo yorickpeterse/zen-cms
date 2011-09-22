@@ -43,16 +43,11 @@ module Settings
       # the descriptions, names and possible values are stored in
       # the language packs that come with this module.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * update
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def index
-        require_permissions(:read, :update)
+        require_permissions(:show_setting)
 
         set_breadcrumbs(lang('settings.titles.index'))
 
@@ -76,15 +71,11 @@ module Settings
       # is a new row we'll have to loop through them and execute quite
       # a few queries.
       #
-      # This method requires the following permissions:
-      #
-      # * update
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def save
-        require_permissions(:update)
+        require_permissions(:edit_setting)
 
         post = request.params.dup
         post.delete('csrf_token')
@@ -92,7 +83,6 @@ module Settings
 
         flash_success = lang('settings.success.save')
         flash_error   = lang('settings.errors.save')
-        success       = true
 
         # Update all settings
         post.each do |key, value|
@@ -103,11 +93,11 @@ module Settings
             message(:error, flash_error)
 
             flash[:form_errors] = setting.errors
-            success             = false
+            redirect_referrer
           end
         end
 
-        message(:success, flash_success) if success === true
+        message(:success, flash_success)
         redirect_referrer
       end
     end # Settings

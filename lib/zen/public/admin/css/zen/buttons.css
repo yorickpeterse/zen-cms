@@ -13,7 +13,7 @@
     margin-right: 10px;
 }
 
-    .button a, .button input[type="submit"], .button button
+    .button a, .button input, .button button
     {
         background: #ddd;
         background: #ddd -webkit-gradient(linear, left bottom, left top,
@@ -40,12 +40,12 @@
         padding: 3px 5px;
     }
 
-    .button input[type="submit"]
+    .button input
     {
         padding: 5px 6px 6px 6px;
     }
 
-    .button a:active, .button input[type="submit"]:active, .button button:active
+    .button a:active, .button input:active, .button button:active
     {
         background: #eee -webkit-gradient(linear, left bottom, left top,
             from(#eee), to(#ddd));

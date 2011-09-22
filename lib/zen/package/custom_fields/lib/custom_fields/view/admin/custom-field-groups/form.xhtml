@@ -2,34 +2,32 @@
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
-    
-    #{
-    form_for(
-      @field_group, 
-      :method => :post, 
-      :action => CustomFields::Controller::CustomFieldGroups.r(:save), 
+
+    #{form_for(
+      @field_group,
+      :method => :post,
+      :action => CustomFields::Controller::CustomFieldGroups.r(:save),
       :id     => :custom_field_group_form
     ) do |f|
       f.input_hidden(:id        , @field_group.id)
       f.input_hidden(:csrf_token, get_csrf_token)
-      
+
       f.input_text(
-        lang('custom_field_groups.labels.name'), 
+        lang('custom_field_groups.labels.name'),
         :name
       )
-        
+
       f.textarea(
-        lang('custom_field_groups.labels.description'), 
-        :description, 
+        lang('custom_field_groups.labels.description'),
+        :description,
         :rows => 8
       )
-      
+
       f.g.div(:class => 'button') do
         f.g.input(
-          :type  => 'submit', 
+          :type  => 'submit',
           :value => lang('custom_field_groups.buttons.save')
         )
       end
-    end
-    }
+    end}
 </article>

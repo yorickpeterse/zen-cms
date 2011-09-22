@@ -15,7 +15,22 @@ module Settings
       attr_accessor :name
 
       # The title of the group, displayed in the GUI
-      attr_accessor :title
+      attr_writer :title
+
+      ##
+      # Returns the title of the setting and tries to translate it.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @return [String]
+      #
+      def title
+        begin
+          return lang(@title)
+        rescue
+          return @title
+        end
+      end
 
       ##
       # Validates all attributes of this class.

@@ -1,0 +1,22 @@
+#permissions .package
+{
+    margin-bottom: 15px;
+}
+
+    #permissions .package .permissions
+    {
+        margin-bottom: 10px;
+    }
+
+        #permissions .package .permissions li
+        {
+            display:         inline-block;
+            margin-bottom:   5px;
+            list-style-type: none;
+            width:           18%;
+        }
+
+    #permissions .package .button
+    {
+        margin-bottom: 10px;
+    }

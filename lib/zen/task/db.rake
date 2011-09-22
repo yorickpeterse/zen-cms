@@ -11,10 +11,10 @@ namespace :db do
     # Get the details required to run a migration
     Zen::Package::Registered.each do |name, pkg|
       # Get the migration directory
-      if pkg.respond_to?(:migration_dir) and !pkg.migration_dir.nil?
-        dir = pkg.migration_dir
+      if pkg.respond_to?(:migrations) and !pkg.migrations.nil?
+        dir = pkg.migrations
       else
-        dir = pkg.directory + '/../../migrations'
+        dir = pkg.root + '/../../migrations'
       end
 
       if !File.directory?(dir)
@@ -42,10 +42,10 @@ namespace :db do
     # Get the details required to run a migration
     packages.each do |name, pkg|
       # Get the migration directory
-      if pkg.respond_to?(:migration_dir) and !pkg.migration_dir.nil?
-        dir = pkg.migration_dir
+      if pkg.respond_to?(:migrations) and !pkg.migrations.nil?
+        dir = pkg.migrations
       else
-        dir = pkg.directory + '/../../migrations'
+        dir = pkg.root + '/../../migrations'
       end
 
       if !File.directory?(dir)

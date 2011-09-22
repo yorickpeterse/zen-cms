@@ -8,7 +8,7 @@ module Menus
     # @author Yorick Peterse
     # @since  0.2a
     #
-    class MenuItems < ::Zen::Controller::AdminController
+    class MenuItems <  Zen::Controller::AdminController
       map '/admin/menu-items'
       helper :menu
 
@@ -46,7 +46,7 @@ module Menus
       # @param  [Fixnum] menu_id The ID of the current navigation menu.
       #
       def index(menu_id)
-        require_permissions(:read)
+        require_permissions(:show_menu_item)
 
         menu = validate_menu(menu_id)
 
@@ -74,7 +74,7 @@ module Menus
       # @param  [Fixnum] id The ID of the menu item to edit.
       #
       def edit(menu_id, id)
-        require_permissions(:read, :update)
+        require_permissions(:edit_menu_item)
 
         validate_menu(menu_id)
 
@@ -108,7 +108,7 @@ module Menus
       # @param  [Fixnum] menu_id  The ID of the current navigation menu.
       #
       def new(menu_id)
-        require_permissions(:create, :read)
+        require_permissions(:new_menu_item)
 
         validate_menu(menu_id)
 
@@ -155,12 +155,12 @@ module Menus
         # Determine if we're saving changes made to an existing menu item or
         # if we're going to create a new one.
         if post.key?('id') and !post['id'].empty?
-          require_permissions(:update)
+          require_permissions(:edit_menu_item)
 
           @menu_item  = validate_menu_item(post['id'], post['menu_id'])
           save_action = :save
         else
-          require_permissions(:create)
+          require_permissions(:new_menu_item)
 
           @menu_item  = ::Menus::Model::MenuItem.new
           save_action = :new
@@ -203,7 +203,7 @@ module Menus
       # @since  0.2a
       #
       def delete
-        require_permissions(:delete)
+        require_permissions(:delete_menu_item)
 
         post = request.subset(:menu_item_ids)
 

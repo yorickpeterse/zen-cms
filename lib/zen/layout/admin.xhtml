@@ -8,7 +8,7 @@
         <div id="top">
             <header class="container">
                 <nav id="main_nav" class="grid_12">
-                    #{Zen::Package.build_menu("left", extension_permissions)}
+                    #{Zen::Package.build_menu('left', session[:permissions])}
 
                     <ul class="right clearfix">
                         <li>

@@ -164,7 +164,7 @@ module Zen
       end
 
       # Make sure there always is a language set
-      if lang or lang.nil?
+      if !lang
         # Plugins aren't available yet when this class is loaded, use the
         # fallback language if needed.
         begin

@@ -3,11 +3,10 @@ module CustomFields
   #:nodoc:
   module Controller
     ##
-    # Controller for managing custom fields. Custom fields are one of
-    # the most important elements in Zen. Custom fields can be used to
-    # create radio buttons, textareas, the whole shebang. Before
-    # being able to use a custom field you'll need to add it to a group
-    # and bind that group to a section.
+    # Controller for managing custom fields. Custom fields are one of the most
+    # important elements in Zen. Custom fields can be used to create radio
+    # buttons, textareas, the whole shebang. Before being able to use a custom
+    # field you'll need to add it to a group and bind that group to a section.
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -70,7 +69,7 @@ module CustomFields
       # @since  0.1
       #
       def index(custom_field_group_id)
-        require_permissions(:read)
+        require_permissions(:show_custom_field)
 
         field_group = validate_custom_field_group(custom_field_group_id)
 
@@ -103,7 +102,7 @@ module CustomFields
       # @since  0.1
       #
       def edit(custom_field_group_id, id)
-        require_permissions(:read, :update)
+        require_permissions(:edit_custom_field)
 
         validate_custom_field_group(custom_field_group_id)
 
@@ -142,7 +141,7 @@ module CustomFields
       # @since  0.1
       #
       def new(custom_field_group_id)
-        require_permissions(:read, :create)
+        require_permissions(:new_custom_field)
 
         validate_custom_field_group(custom_field_group_id)
 
@@ -201,7 +200,7 @@ module CustomFields
         # Get or create a custom field group based on the ID from the hidden
         # field.
         if post['id'] and !post['id'].empty?
-          require_permissions(:update)
+          require_permissions(:edit_custom_field)
 
           custom_field = validate_custom_field(
             post['id'], post['custom_field_group_id']
@@ -209,7 +208,7 @@ module CustomFields
 
           save_action  = :save
         else
-          require_permissions(:create)
+          require_permissions(:new_custom_field)
 
           custom_field = ::CustomFields::Model::CustomField.new
           save_action  = :new
@@ -260,7 +259,7 @@ module CustomFields
       # @since  0.1
       #
       def delete
-        require_permissions(:delete)
+        require_permissions(:delete_custom_field)
 
         post = request.subset(:custom_field_ids, :custom_field_group_id)
 

@@ -30,3 +30,9 @@ buttons:
   new   : 'Groep toevoegen'
   delete: 'Geselecteerde groepen verwijderen'
   save  : 'Groep opslaan'
+
+permissions:
+  show  : 'Groep weergeven'
+  edit  : 'Groep aanpassen'
+  new   : 'Groep aanmaken'
+  delete: 'Groep verwijderen'

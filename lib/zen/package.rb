@@ -1,5 +1,5 @@
 require 'ramaze/gestalt'
-require __DIR__('package/base')
+require __DIR__('package/menu')
 
 #:nodoc:
 module Zen
@@ -9,89 +9,12 @@ module Zen
   # and can actually be installed using either Rubygems or by storing them in a
   # custom directory. As long as you require the correct file you're good to go.
   #
-  # Packages are added or "described" using a simple block and the add() method
-  # as following:
-  #
-  #     Zen::Package.add do |ext|
-  #       # ....
-  #     end
-  #
-  # When using this block you're required to set the following attributes:
-  #
-  # * name: the name of the package in lowercased letters and/or numbers.
-  # * author: the name of the person who made the package.
-  # * about: a small description of the package.
-  # * url: the URL to the package's website.
-  # * directory: the root directory of the package, set this using
-  #   __DIR__('path').
-  #
-  # Optionally you can also specify the attribute "menu" (more on that later).
-  #
-  # ## ACL
-  #
-  # Packages allow developers to register controllers for the ACL system that
-  # ships with Zen. Doing this means a user can set controller specific rules
-  # in the backend without having to write any code. In order to register a set
-  # of controllers you'll need to set the "controllers" attribute in the package
-  # block to a hash. The keys of this hash should be a human readable name of
-  # the controller and the values the full namespace of the controller as either
-  # a string or a constants:
-  #
-  #     Zen::Package.add do |pkg|
-  #       pkg.controllers = {
-  #         'Test Controller' => Test::Controller::TestController
-  #       }
-  #     end
-  #
-  # ## Menu Items
-  #
-  # The package system easily allows modules to add navigation/sub-navigation
-  # elements to the backend menu. Each extension can have an attribute named
-  # "menu", this attribute is an array of hashes. Each hash must have the
-  # following 2 keys (they're symbols):
-  #
-  # * title: the value used for both the title tag and the text of the anchor
-  #   element
-  # * url: the URI the navigation item will point to. Leading slash isn't
-  #   required
-  #
-  # Optionally you can specify child elements using the "children" key. This key
-  # will again contain an array of hashes just like regular navigation elements.
-  # For example, one could do the following:
-  #
-  #     ext.menu = [{:title => "Dashboard", :url => "admin/dashboard"}]
-  #
-  # Adding a number of child elements isn't very difficult either:
-  #
-  #     ext.menu = [{
-  #       :title    => "Dashboard", :url => "admin/dashboard",
-  #       :children => [{:title => "Child", :url => "admin/dashboard/child"}]
-  #     }]
-  #
-  # Once a certain number of navigation elements have been added you can
-  # generate the HTML for a fully fledged navigation menu using the
-  # build_menu() method. This method uses Gestalt to build the HTML and also
-  # takes care of permissions for each user/module.
-  #
-  # ## Migrations
-  #
-  # If your package uses it's own database tables it's best to use migrations as
-  # these make it very easy to install/uninstall the extension. Migrations
-  # should be put in the root directory of your extension. For example, if your
-  # extension is in "foobar" the migrations should be located in
-  # "foobar/migrations", the lib directory in "foobar/lib", etc.
-  #
-  # Migrations can be executed using the Thor task "package:migrate" or
-  # "db:migrate", the latter will install all packages while the first one will
-  # only install the specified packages. For more information on these tasks
-  # execute the following command:
-  #
-  #     $ rake -T
-  #
   # @author Yorick Peterse
   # @since  0.1
   #
-  module Package
+  class Package
+    include Zen::Validation
+
     ##
     # Hash containing all the registered packages. The keys of this hash are the
     # names of all packages and the values the instances of Zen::Package::Base.
@@ -101,177 +24,249 @@ module Zen
     #
     Registered = {}
 
+    # The name of the package.
+    attr_reader :name
+
+    # The author of the package.
+    attr_accessor :author
+
+    # The URL of the package.
+    attr_accessor :url
+
+    # The root directory of the package.
+    attr_reader :root
+
+    # The directory to all migrations.
+    attr_accessor :migrations
+
+    class << self
+      ##
+      # Adds a new package along with all it's details such as the name, author,
+      # version and so on. Extensions can be added using a simple block as
+      # following:
+      #
+      #     Zen::Package.add do |ext|
+      #       ext.name   = "name"
+      #       ext.author = "Author"
+      #     end
+      #
+      # @author Yorick Peterse
+      # @since  0.1
+      # @param  [Block|Proc] A block (or anything that can be converted to a
+      #  Proc) containing the details of teh package.
+      #
+      def add(&block)
+        package = self.new
+
+        yield(package)
+        package.validate
+
+        Registered[package.name] = package
+      end
+
+      ##
+      # Retrieves the package for the given name.
+      #
+      # @author Yorick Peterse
+      # @since  0.1
+      #
+      def [](name)
+        name = name.to_sym
+
+        if Registered.empty?
+          raise(PackageError, "No packages have been added yet.")
+        end
+
+        if !Registered.key?(name)
+          raise(PackageError, "The package \"#{name}\" doesn't exist.")
+        end
+
+        return Registered[name]
+      end
+
+      ##
+      # Builds the entire navigation menu for all packages.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @param  [String] html_class An HTML class to apply to the <ul> element.
+      # @param  [Array] permissions An array of permissions for the current
+      #  user.
+      # @return [String]
+      #
+      def build_menu(html_class = 'navigation', permissions = [])
+        g = Ramaze::Gestalt.new
+
+        g.ul(:class => html_class) do
+          # Sort the hash
+          keys = Registered.keys.sort
+
+          keys.each do |key|
+            g.out << Registered[key].menu.html(permissions)
+          end
+        end
+
+        return g.to_s
+      end
+    end # class << self
+
     ##
-    # Array containing all controllers of all packages.
+    # Sets the name of the package. The name of a package should be a short and
+    # unique name. A human readable version can be set using title=().
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @param  [#to_sym] name The name of the package.
+    #
+    def name=(name)
+      @name = name.to_sym
+    end
+
+    ##
+    # Sets the title of the package.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @param  [String] title The title or language key of the package.
+    #
+    def title=(title)
+      @title = title
+    end
+
+    ##
+    # Returns the title of the package. This method will try to translate it and
+    # fall back to the original value in case the language key doesn't exist.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @return [String]
+    #
+    def title
+      begin
+        return lang(@title)
+      rescue
+        return @title
+      end
+    end
+
+    ##
+    # Sets the description of the package.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @param  [String] about The description of the package.
+    #
+    def about=(about)
+      @about = about
+    end
+
+    ##
+    # Tries to translate the description and returns it.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @return [String]
+    #
+    def about
+      begin
+        return lang(@about)
+      rescue
+        return @about
+      end
+    end
+
+    ##
+    # Sets the root directory of the package.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @param  [String] root The path to the root directory.
+    #
+    def root=(root)
+      @root = root
+
+      if !Ramaze.options.roots.include?(@root)
+        Ramaze.options.roots << @root
+      end
+
+      if !Zen::Language.options.paths.include?(@root)
+        Zen::Language.options.paths << @root
+      end
+
+      if !Ramaze::HelpersHelper.options.paths.push.include?(@root)
+        Ramaze::HelpersHelper.options.paths << @root
+      end
+    end
+
+    ##
+    # Sets all the navigation items for the package. Sub items can be specified
+    # by calling this method and passing a block to it.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @see    Zen::Package::Menu#initialize()
+    # @return [Zen::Package::Menu] The current navigation menu if no new one is
+    #  specified.
+    #
+    def menu(title = nil, url = nil, options = {}, &block)
+      if title.nil? and url.nil? and !block_given?
+        return @menu
+      end
+
+      @menu = Zen::Package::Menu.new(title, url, options, &block)
+    end
+
+    ##
+    # Adds a new permission along with it's title or language key.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @param  [#to_sym] permission The name of the permission.
+    # @param  [String] title The title or language key of the permission, shown
+    #  in the admin interface.
+    #
+    def permission(permission, title)
+      @permissions                  ||= {}
+      @permissions[permission.to_sym] = title
+    end
+
+    ##
+    # Returns the permissions for the current package. This method will
+    # automatically try to translate the titles using the current language.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @return [Hash]
+    #
+    def permissions
+      perms = {}
+
+      @permissions.each do |perm, title|
+        begin
+          perms[perm] = lang(title)
+        rescue
+          perms[perm] = title
+        end
+      end
+
+      return perms
+    end
+
+    ##
+    # Validates all the attributes.
     #
     # @author Yorick Peterse
     # @since  0.2.5
     #
-    Controllers = []
+    def validate
+      validates_presence([:name, :title, :author, :about, :root])
 
-    ##
-    # Adds a new package along with all it's details such as the name, author,
-    # version and so on. Extensions can be added using a simple block as
-    # following:
-    #
-    #     Zen::Package.add do |ext|
-    #       ext.name   = "name"
-    #       ext.author = "Author"
-    #     end
-    #
-    # When adding a new extension the following setters are required:
-    #
-    # * name
-    # * author
-    # * version
-    # * about
-    # * url
-    # * directory
-    #
-    # You can also set "migration_dir" to a directory with all migrations. By
-    # default Zen will assume that it's 2 levels above your root directory.
-    #
-    # @author Yorick Peterse
-    # @since  0.1
-    # @yield  [package] Object containing all setters and getters for each
-    #  package.
-    #
-    def self.add
-      package = Zen::Package::Base.new
+      validates_filepath(:root)
+      validates_filepath(:migrations) unless migrations.nil?
 
-      yield package
-
-      # Validate the package
-      package.validate
-      package.name = package.name.to_sym
-
-      # Update the root but prevent duplicates
-      if !Ramaze.options.roots.include?(package.directory)
-        Ramaze.options.roots.push(package.directory)
-      end
-
-      # Update the language directory
-      if !Zen::Language.options.paths.include?(package.directory)
-        Zen::Language.options.paths.push(package.directory)
-      end
-
-      package.controllers.each do |name, controller|
-        controller = controller.to_s
-
-        if !Controllers.include?(controller)
-          Controllers.push(controller)
-        end
-      end
-
-      Registered[package.name] = package
-    end
-
-    ##
-    # Retrieves the package for the given name.
-    #
-    # @author Yorick Peterse
-    # @since  0.1
-    #
-    def self.[](name)
-      name = name.to_sym
-
-      if Registered.empty?
-        raise(PackageError, "No packages have been added yet.")
-      end
-
-      if !Registered.key?(name)
-        raise(PackageError, "The package \"#{name}\" doesn't exist.")
-      end
-
-      return Registered[name]
-    end
-
-    ##
-    # Builds a navigation menu for all installed extensions.
-    # Extensions can have an infinite amount of sub-navigation
-    # items. This method will generate an unordered list of items
-    # of which each list item can contain N sub items.
-    #
-    # @author Yorick Peterse
-    # @param  [String] html_class A string of CSS classes to apply to the main
-    #  UL element.
-    # @param  [Hash] permissions Hash containing the permissions as returned by
-    #  Ramaze::Helper::ACL#extension_permissions
-    # @since  0.1
-    #
-    def self.build_menu(html_class = nil, permissions = {})
-      @g           = Ramaze::Gestalt.new
-      @permissions = permissions
-      menu_items   = []
-
-      Registered.each do |name, pkg|
-        # Got a menu for us?
-        if !pkg.menu.nil?
-          pkg.menu.each do |m|
-            menu_items.push(m)
-          end
-        end
-      end
-
-      # Sort the menu alphabetical
-      menu_items = menu_items.sort_by do |item|
-        item[:title]
-      end
-
-      @g.ul :class => html_class do
-        if !menu_items.empty?
-          menu_items.each do |m|
-            self.nav_list(m)
-          end
-        end
-      end
-
-      return @g.to_s
-    end
-
-    private
-
-    ##
-    # Method that's used to generate the list items for each
-    # navigation menu along with all sub elements.
-    #
-    # @author Yorick Peterse
-    # @param  [Hash] menu Hash containing the navigation items (url, title, etc)
-    # @since  0.1
-    #
-    def self.nav_list(menu)
-      if menu[:url][0, 1] != '/'
-        menu[:url] = '/' + menu[:url]
-      end
-
-      # Get the controller for the current item
-      controller = Ramaze::AppMap.at('/').url_map.at(menu[:url]).to_s
-
-      if @permissions[controller].nil?
-        read_access = false
-      else
-        read_access = @permissions[controller].include?(:read)
-      end
-
-      # Ignore the menu item alltogether
-      if !read_access and !menu.key?(:children)
-        return
-      end
-
-      @g.li do
-        menu[:url] = '#' if !read_access
-
-        @g.a :href => menu[:url], :title => menu[:title] do
-          menu[:title]
-        end
-
-        if menu.key?(:children)
-          @g.ul do
-            menu[:children].each do |c|
-              self.nav_list(c)
-            end
-          end
-        end
+      # Check if the package hasn't been registered yet
+      if Zen::Package::Registered.key?(name.to_sym)
+        raise(Zen::ValidationError, "The package #{name} already exists.")
       end
     end
   end # Package

@@ -8,10 +8,11 @@
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
         <?r if !@category_groups.empty? ?>
+
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_category_group]) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -20,9 +21,7 @@
                     <th>#{lang('category_groups.labels.id')}</th>
                     <th>#{lang('category_groups.labels.name')}</th>
 
-                    <?r if user_authorized?(
-                      [:read], true, 'Categories::Controller::Categories'
-                    ) ?>
+                    <?r if user_authorized?([:show_category]) ?>
                     <th></th>
                     <?r end ?>
                 </tr>
@@ -30,7 +29,7 @@
             <tbody>
                 <?r @category_groups.each do |group| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?([:delete_category_group]) ?>
                     <td>
                         <input type="checkbox" name="category_group_ids[]"
                         value="#{group.id}" />
@@ -39,19 +38,21 @@
 
                     <td>#{group.id}</td>
 
-                    <?r if user_authorized?([:update]) ?>
+                    <?r if user_authorized?([:edit_category_group]) ?>
+
                     <td>
                         #{Categories::Controller::CategoryGroups.a(
                           group.name, :edit, group.id
                         )}
                     </td>
+
                     <?r else ?>
+
                     <td>#{group.name}</td>
+
                     <?r end ?>
 
-                    <?r if user_authorized?(
-                      [:read], true, 'Categories::Controller::Categories'
-                    ) ?>
+                    <?r if user_authorized?([:show_category]) ?>
                     <td>
                         #{Categories::Controller::Categories.a(
                           lang('category_groups.labels.manage'),
@@ -60,24 +61,23 @@
                         )}
                     </td>
                     <?r end ?>
-
                 </tr>
                 <?r end ?>
             </tbody>
         </table>
 
-        #{
-        if @category_groups.respond_to?(:navigation) \
+        #{if @category_groups.respond_to?(:navigation) \
         and @category_groups.page_count > 1
           @category_groups.navigation
-        end
-        }
+        end}
 
         <?r else ?>
+
         <p>#{lang('category_groups.messages.no_groups')}</p>
+
         <?r end ?>
 
-        <?r if user_authorized?([:create]) ?>
+        <?r if user_authorized?([:new_category_group]) ?>
         <div class="button">
             #{Categories::Controller::CategoryGroups.a(
               lang('category_groups.buttons.new'), :new
@@ -85,7 +85,8 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete]) and !@category_groups.empty? ?>
+        <?r if user_authorized?([:delete_category_group]) \
+        and !@category_groups.empty? ?>
         <div class="button">
             <input type="submit"
             value="#{lang('category_groups.buttons.delete')}" />

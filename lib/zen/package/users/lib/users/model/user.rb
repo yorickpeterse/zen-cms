@@ -13,11 +13,11 @@ module Users
 
       many_to_many(
         :user_groups,
-        :class => "Users::Model::UserGroup",
-        :eager => [:access_rules]
+        :class => 'Users::Model::UserGroup',
+        :eager => [:permissions]
       )
 
-      one_to_many(:access_rules, :class => "Users::Model::AccessRule")
+      one_to_many(:permissions, :class => 'Users::Model::Permission')
 
       ##
       # Try to authenticate the user based on the specified credentials..

@@ -67,6 +67,48 @@ module Ramaze
           return user
         end
       end
+
+      ##
+      # Updates the permissions for a user or a user group.
+      #
+      # @example
+      #  update_permissions(:user_id, 5, [:show_user], [:edit_user])
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @param  [Symbol] column The name of the column to use in the permissions
+      #  table. Can either be :user_id or :user_group_id.
+      # @param  [Fixnum] id The primary value of the column attribute.
+      # @param  [Array] new_perms An array of new permissions.
+      # @param  [Array] old_perms An array of existing permissions.
+      #
+      def update_permissions(column, id, new_perms = [], old_perms = [])
+        add_perms = []
+        rm_perms  = []
+
+        # Insert all the new permissions
+        new_perms.each do |perm|
+          if !old_perms.include?(perm)
+            add_perms << {column => id, :permission => perm}
+          end
+        end
+
+        # Remove permissions if they weren't checked
+        old_perms.each do |perm|
+          if !new_perms.include?(perm)
+            rm_perms << {column => id, :permission => perm}
+          end
+        end
+
+        ::Users::Model::Permission.insert_multiple(add_perms)
+        ::Users::Model::Permission.filter(
+          column      => rm_perms.map { |p| p[column] },
+          :permission => rm_perms.map { |p| p[:permission] }
+        ).delete
+
+        session[:super_group] = nil
+        session[:permissions] = nil
+      end
     end # Users
   end # Helper
 end # Ramaze

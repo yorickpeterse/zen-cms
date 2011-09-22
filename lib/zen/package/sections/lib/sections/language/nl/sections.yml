@@ -46,3 +46,15 @@ buttons:
   new   : 'Sectie toevoegen'
   save  : 'Sectie opslaan'
   delete: 'Geselecteerde secties verwijderen'
+
+description: 'Beheer secties en sectie items.'
+
+permissions:
+  show  : 'Sectie weergeven'
+  edit  : 'Sectie aanpassen'
+  new   : 'Sectie aanmaken'
+  delete: 'Sectie verwijderen'
+
+plugins:
+  sections       : 'Plugin voor het ophalen van secties.'
+  section_entries: 'Plugin die gebruikt kan worden om sectie items op te halen.'
