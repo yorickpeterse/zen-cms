@@ -69,7 +69,7 @@ module CustomFields
       # @since  0.1
       #
       def index(custom_field_group_id)
-        require_permissions(:show_custom_field)
+        authorize_user!(:show_custom_field)
 
         field_group = validate_custom_field_group(custom_field_group_id)
 
@@ -102,7 +102,7 @@ module CustomFields
       # @since  0.1
       #
       def edit(custom_field_group_id, id)
-        require_permissions(:edit_custom_field)
+        authorize_user!(:edit_custom_field)
 
         validate_custom_field_group(custom_field_group_id)
 
@@ -141,7 +141,7 @@ module CustomFields
       # @since  0.1
       #
       def new(custom_field_group_id)
-        require_permissions(:new_custom_field)
+        authorize_user!(:new_custom_field)
 
         validate_custom_field_group(custom_field_group_id)
 
@@ -200,7 +200,7 @@ module CustomFields
         # Get or create a custom field group based on the ID from the hidden
         # field.
         if post['id'] and !post['id'].empty?
-          require_permissions(:edit_custom_field)
+          authorize_user!(:edit_custom_field)
 
           custom_field = validate_custom_field(
             post['id'], post['custom_field_group_id']
@@ -208,7 +208,7 @@ module CustomFields
 
           save_action  = :save
         else
-          require_permissions(:new_custom_field)
+          authorize_user!(:new_custom_field)
 
           custom_field = ::CustomFields::Model::CustomField.new
           save_action  = :new
@@ -259,7 +259,7 @@ module CustomFields
       # @since  0.1
       #
       def delete
-        require_permissions(:delete_custom_field)
+        authorize_user!(:delete_custom_field)
 
         post = request.subset(:custom_field_ids, :custom_field_group_id)
 

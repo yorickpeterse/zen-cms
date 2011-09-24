@@ -14,7 +14,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete_custom_field]) ?>
+                    <?r if user_authorized?(:delete_custom_field) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -32,7 +32,7 @@
             <tbody>
                 <?r @custom_fields.each do |field| ?>
                 <tr>
-                    <?r if user_authorized?([:delete_custom_field]) ?>
+                    <?r if user_authorized?(:delete_custom_field) ?>
                     <td>
                         <input type="checkbox" name="custom_field_ids[]"
                         value="#{field.id}" />
@@ -42,7 +42,7 @@
                     <td>#{field.id}</td>
 
                     <td>
-                        #{if user_authorized?([:edit_custom_field])
+                        #{if user_authorized?(:edit_custom_field)
                           CustomFields::Controller::CustomFields.a(
                             field.name,
                             :edit,
@@ -73,7 +73,7 @@
 
         <?r end ?>
 
-        <?r if user_authorized?([:new_custom_field]) ?>
+        <?r if user_authorized?(:new_custom_field) ?>
         <div class="button">
             #{CustomFields::Controller::CustomFields.a(
               lang('custom_fields.buttons.new'),
@@ -83,7 +83,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete_custom_field]) \
+        <?r if user_authorized?(:delete_custom_field) \
         and !@custom_fields.empty? ?>
         <div class="button">
             <input type="submit"

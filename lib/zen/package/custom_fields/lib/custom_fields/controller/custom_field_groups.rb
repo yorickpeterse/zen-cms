@@ -52,7 +52,7 @@ module CustomFields
       # @since  0.1
       #
       def index
-        require_permissions(:show_custom_field_group)
+        authorize_user!(:show_custom_field_group)
 
         set_breadcrumbs(lang('custom_field_groups.titles.index'))
 
@@ -73,7 +73,7 @@ module CustomFields
       # @since  0.1
       #
       def edit(id)
-        require_permissions(:edit_custom_field_group)
+        authorize_user!(:edit_custom_field_group)
 
         set_breadcrumbs(
           CustomFieldGroups.a(lang('custom_field_groups.titles.index'), :index),
@@ -101,7 +101,7 @@ module CustomFields
       # @since  0.1
       #
       def new
-        require_permissions(:new_custom_field_group)
+        authorize_user!(:new_custom_field_group)
 
         set_breadcrumbs(
           CustomFieldGroups.a(lang('custom_field_groups.titles.index'), :index),
@@ -131,12 +131,12 @@ module CustomFields
         post = request.subset(:id, :name, :description)
 
         if post['id'] and !post['id'].empty?
-          require_permissions(:edit_custom_field_group)
+          authorize_user!(:edit_custom_field_group)
 
           @field_group  = validate_custom_field_group(post['id'])
           save_action   = :save
         else
-          require_permissions(:new_custom_field_group)
+          authorize_user!(:new_custom_field_group)
 
           @field_group  = ::CustomFields::Model::CustomFieldGroup.new
           save_action   = :new
@@ -184,7 +184,7 @@ module CustomFields
       # @since  0.1
       #
       def delete
-        require_permissions(:delete_custom_field_group)
+        authorize_user!(:delete_custom_field_group)
 
         if !request.params['custom_field_group_ids'] \
         or request.params['custom_field_group_ids'].empty?

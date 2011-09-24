@@ -11,7 +11,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete_menu]) ?>
+                    <?r if user_authorized?(:delete_menu) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -23,7 +23,7 @@
                     <th>#{lang('menus.labels.html_class')}</th>
                     <th>#{lang('menus.labels.html_id')}</th>
 
-                    <?r if user_authorized?([:show_menu_item]) ?>
+                    <?r if user_authorized?(:show_menu_item) ?>
                     <th></th>
                     <?r end ?>
                 </tr>
@@ -31,7 +31,7 @@
             <tbody>
                 <?r @menus.each do |menu| ?>
                 <tr>
-                    <?r if user_authorized?([:delete_menu]) ?>
+                    <?r if user_authorized?(:delete_menu) ?>
                     <td>
                         <input type="checkbox" name="menu_ids[]"
                         value="#{menu.id}" />
@@ -41,7 +41,7 @@
                     <td>#{menu.id}</td>
 
                     <td>
-                        #{if user_authorized?([:edit_menu])
+                        #{if user_authorized?(:edit_menu)
                           Menus::Controller::Menus.a(menu.name, :edit, menu.id)
                         else
                           menu.name
@@ -52,7 +52,7 @@
                     <td>#{menu.html_class}</td>
                     <td>#{menu.html_id}</td>
 
-                    <?r if user_authorized?([:show_menu_item]) ?>
+                    <?r if user_authorized?(:show_menu_item) ?>
                     <td>
                         #{Menus::Controller::MenuItems.a(
                           lang('menus.labels.manage_items'), :index, menu.id
@@ -74,7 +74,7 @@
 
         <?r end ?>
 
-        <?r if user_authorized?([:new_menu]) ?>
+        <?r if user_authorized?(:new_menu) ?>
         <div class="button">
             #{Menus::Controller::Menus.a(
               lang('menus.buttons.new'), :new
@@ -82,7 +82,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete_menu]) and !@menus.empty? ?>
+        <?r if user_authorized?(:delete_menu) and !@menus.empty? ?>
         <div class="button">
             <input type="submit" value="#{lang('menus.buttons.delete')}" />
         </div>

@@ -53,7 +53,7 @@ module Sections
       # @since  0.1
       #
       def index
-        require_permissions(:show_section)
+        authorize_user!(:show_section)
 
         set_breadcrumbs(lang('sections.titles.index'))
 
@@ -88,7 +88,7 @@ module Sections
       # @since  0.1
       #
       def edit(id)
-        require_permissions(:edit_section)
+        authorize_user!(:edit_section)
 
         set_breadcrumbs(
           Sections.a(lang('sections.titles.index'), :index),
@@ -116,7 +116,7 @@ module Sections
       # @since  0.1
       #
       def new
-        require_permissions(:new_section)
+        authorize_user!(:new_section)
 
         set_breadcrumbs(
           Sections.a(lang('sections.titles.index'), :index),
@@ -157,12 +157,12 @@ module Sections
         )
 
         if post['id'] and !post['id'].empty?
-          require_permissions(:edit_section)
+          authorize_user!(:edit_section)
 
           @section      = validate_section(post['id'])
           save_action   = :save
         else
-          require_permissions(:new_section)
+          authorize_user!(:new_section)
 
           @section      = ::Sections::Model::Section.new
           save_action   = :new
@@ -224,7 +224,7 @@ module Sections
       # @since  0.1
       #
       def delete
-        require_permissions(:delete_section)
+        authorize_user!(:delete_section)
 
         if !request.params['section_ids'] or request.params['section_ids'].empty?
           message(:error, lang('sections.errors.no_delete'))

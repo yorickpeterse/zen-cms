@@ -11,7 +11,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete_user_group]) ?>
+                    <?r if user_authorized?(:delete_user_group) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -26,7 +26,7 @@
             <tbody>
                 <?r @user_groups.each do |group| ?>
                 <tr>
-                    <?r if user_authorized?([:delete_user_group]) ?>
+                    <?r if user_authorized?(:delete_user_group) ?>
                     <td>
                         <input type="checkbox" name="user_group_ids[]"
                         value="#{group.id}" />
@@ -35,7 +35,7 @@
 
                     <td>#{group.id}</td>
                     <td>
-                        #{if user_authorized?([:edit_user_group])
+                        #{if user_authorized?(:edit_user_group)
                           Users::Controller::UserGroups.a(
                             group.name,
                             :edit,
@@ -63,7 +63,7 @@
 
         <?r end ?>
 
-        <?r if user_authorized?([:new_user_group]) ?>
+        <?r if user_authorized?(:new_user_group) ?>
         <div class="button">
             #{Users::Controller::UserGroups.a(
               lang('user_groups.buttons.new'),
@@ -72,7 +72,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete_user_group]) \
+        <?r if user_authorized?(:delete_user_group) \
         and !@user_groups.empty? ?>
         <div class="button">
             <input type="submit"

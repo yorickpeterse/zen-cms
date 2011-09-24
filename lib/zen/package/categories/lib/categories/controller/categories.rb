@@ -53,7 +53,7 @@ module Categories
       # @since  0.1
       #
       def index(category_group_id)
-        require_permissions(:show_category)
+        authorize_user!(:show_category)
 
         set_breadcrumbs(
           CategoryGroups.a(lang('category_groups.titles.index'), :index),
@@ -84,7 +84,7 @@ module Categories
       # @since  0.1
       #
       def edit(category_group_id, id)
-        require_permissions(:edit_category)
+        authorize_user!(:edit_category)
 
         set_breadcrumbs(
           CategoryGroups.a(
@@ -125,7 +125,7 @@ module Categories
       # @since  0.1
       #
       def new(category_group_id)
-        require_permissions(:new_category)
+        authorize_user!(:new_category)
 
         set_breadcrumbs(
           CategoryGroups.a(
@@ -176,12 +176,12 @@ module Categories
         # Retrieve the category and set the notifications based on if the ID has
         # been specified or not.
         if post['id'] and !post['id'].empty?
-          require_permissions(:edit_category)
+          authorize_user!(:edit_category)
 
           category    = validate_category(post['id'], post['category_group_id'])
           save_action = :save
         else
-          require_permissions(:new_category)
+          authorize_user!(:new_category)
 
           category    = ::Categories::Model::Category.new
           save_action = :new
@@ -228,7 +228,7 @@ module Categories
       # @since  0.1
       #
       def delete
-        require_permissions(:delete_category)
+        authorize_user!(:delete_category)
 
         post = request.subset(:category_ids, :category_group_id)
 

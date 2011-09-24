@@ -10,7 +10,7 @@
 
         <table>
             <thead>
-                <?r if user_authorized?([:delete_comment]) ?>
+                <?r if user_authorized?(:delete_comment) ?>
                 <th class="no_sort">
                     <input type="checkbox" />
                 </th>
@@ -28,7 +28,7 @@
             <tbody>
                 <?r @comments.each do |comment| ?>
                 <tr>
-                    <?r if user_authorized?([:delete_comment]) ?>
+                    <?r if user_authorized?(:delete_comment) ?>
                     <td>
                         <input type="checkbox" name="comment_ids[]"
                         value="#{comment.id}" />
@@ -37,7 +37,7 @@
 
                     <td>#{comment.id}</td>
 
-                    <?r if user_authorized?([:edit_comment]) ?>
+                    <?r if user_authorized?(:edit_comment) ?>
 
                     <td>
                         #{Comments::Controller::Comments.a(
@@ -99,7 +99,7 @@
 
         <?r end ?>
 
-        <?r if user_authorized?([:delete_comment]) and !@comments.empty? ?>
+        <?r if user_authorized?(:delete_comment) and !@comments.empty? ?>
         <div class="button">
             <input type="submit" value="#{lang('comments.buttons.delete')}" />
         </div>

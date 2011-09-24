@@ -12,7 +12,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete_category_group]) ?>
+                    <?r if user_authorized?(:delete_category_group) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -21,7 +21,7 @@
                     <th>#{lang('category_groups.labels.id')}</th>
                     <th>#{lang('category_groups.labels.name')}</th>
 
-                    <?r if user_authorized?([:show_category]) ?>
+                    <?r if user_authorized?(:show_category) ?>
                     <th></th>
                     <?r end ?>
                 </tr>
@@ -29,7 +29,7 @@
             <tbody>
                 <?r @category_groups.each do |group| ?>
                 <tr>
-                    <?r if user_authorized?([:delete_category_group]) ?>
+                    <?r if user_authorized?(:delete_category_group) ?>
                     <td>
                         <input type="checkbox" name="category_group_ids[]"
                         value="#{group.id}" />
@@ -38,7 +38,7 @@
 
                     <td>#{group.id}</td>
 
-                    <?r if user_authorized?([:edit_category_group]) ?>
+                    <?r if user_authorized?(:edit_category_group) ?>
 
                     <td>
                         #{Categories::Controller::CategoryGroups.a(
@@ -52,7 +52,7 @@
 
                     <?r end ?>
 
-                    <?r if user_authorized?([:show_category]) ?>
+                    <?r if user_authorized?(:show_category) ?>
                     <td>
                         #{Categories::Controller::Categories.a(
                           lang('category_groups.labels.manage'),
@@ -77,7 +77,7 @@
 
         <?r end ?>
 
-        <?r if user_authorized?([:new_category_group]) ?>
+        <?r if user_authorized?(:new_category_group) ?>
         <div class="button">
             #{Categories::Controller::CategoryGroups.a(
               lang('category_groups.buttons.new'), :new
@@ -85,7 +85,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete_category_group]) \
+        <?r if user_authorized?(:delete_category_group) \
         and !@category_groups.empty? ?>
         <div class="button">
             <input type="submit"

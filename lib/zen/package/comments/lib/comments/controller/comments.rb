@@ -42,7 +42,7 @@ module Comments
       # @since  0.1
       #
       def index
-        require_permissions(:show_comment)
+        authorize_user!(:show_comment)
 
         set_breadcrumbs(lang('comments.titles.index'))
 
@@ -64,7 +64,7 @@ module Comments
       # @since  0.1
       #
       def edit(id)
-        require_permissions(:edit_comment)
+        authorize_user!(:edit_comment)
 
         set_breadcrumbs(
           Comments.a(lang('comments.titles.index'), :index),
@@ -92,7 +92,7 @@ module Comments
       # @since  0.1
       #
       def save
-        require_permissions(:edit_comment)
+        authorize_user!(:edit_comment)
 
         # Copy the POST data so we can work with it without messing things up
         post = request.subset(
@@ -143,7 +143,7 @@ module Comments
       # @since  0.1
       #
       def delete
-        require_permissions(:delete_comment)
+        authorize_user!(:delete_comment)
 
         # Obviously we'll require some IDs
         if !request.params['comment_ids'] \

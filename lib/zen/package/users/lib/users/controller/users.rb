@@ -50,7 +50,7 @@ module Users
       # @since  0.1
       #
       def index
-        require_permissions(:show_user)
+        authorize_user!(:show_user)
 
         set_breadcrumbs(lang('users.titles.index'))
 
@@ -65,7 +65,7 @@ module Users
       # @since  0.1
       #
       def edit(id)
-        require_permissions(:edit_user)
+        authorize_user!(:edit_user)
 
         set_breadcrumbs(
           Users.a(lang('users.titles.index'), :index),
@@ -91,7 +91,7 @@ module Users
       # @since  0.1
       #
       def new
-        require_permissions(:new_user)
+        authorize_user!(:new_user)
 
         set_breadcrumbs(
           Users.a(lang('users.titles.index'), :index),
@@ -163,13 +163,13 @@ module Users
         )
 
         if post['id'] and !post['id'].empty?
-          require_permissions(:edit_user)
+          authorize_user!(:edit_user)
 
           user        = validate_user(post['id'])
           save_action = :save
           hook_name   = :edit_user
         else
-          require_permissions(:new_user)
+          authorize_user!(:new_user)
 
           user        = ::Users::Model::User.new
           save_action = :new
@@ -204,7 +204,7 @@ module Users
         end
 
         # Add or update the permissions if the user is allowed to do so.
-        if user_authorized?([:edit_permission])
+        if user_authorized?(:edit_permission)
           update_permissions(
             :user_id,
             user.id,
@@ -229,7 +229,7 @@ module Users
       # @since  0.1
       #
       def delete
-        require_permissions(:delete_user)
+        authorize_user!(:delete_user)
 
         if !request.params['user_ids'] or request.params['user_ids'].empty?
           message(:error, lang('users.errors.no_delete'))

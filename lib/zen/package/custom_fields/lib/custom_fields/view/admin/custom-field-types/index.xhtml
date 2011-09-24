@@ -12,7 +12,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete_custom_field_type]) ?>
+                    <?r if user_authorized?(:delete_custom_field_type) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -34,7 +34,7 @@
             <tbody>
                 <?r @field_types.each do |type| ?>
                 <tr>
-                    <?r if user_authorized?([:delete_custom_field_type]) ?>
+                    <?r if user_authorized?(:delete_custom_field_type) ?>
                     <td>
                         <input type="checkbox" name="custom_field_type_ids[]"
                         id="custom_field_type_#{type.id}" value="#{type.id}" />
@@ -43,7 +43,7 @@
 
                     <td>#{type.id}</td>
                     <td>
-                        #{if user_authorized?([:edit_custom_field_type])
+                        #{if user_authorized?(:edit_custom_field_type)
                           CustomFields::Controller::CustomFieldTypes.a(
                             type.name,
                             :edit,
@@ -74,7 +74,7 @@
 
         <?r end ?>
 
-        <?r if user_authorized?([:new_custom_field_type]) ?>
+        <?r if user_authorized?(:new_custom_field_type) ?>
         <div class="button">
             #{CustomFields::Controller::CustomFieldTypes.a(
               lang('custom_field_types.buttons.new'),
@@ -83,7 +83,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete_custom_field_type]) \
+        <?r if user_authorized?(:delete_custom_field_type) \
         and !@field_types.empty? ?>
         <div class="button">
             <input type="submit"

@@ -11,7 +11,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete_user]) ?>
+                    <?r if user_authorized?(:delete_user) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -28,7 +28,7 @@
             <tbody>
                 <?r @users.each do |user| ?>
                 <tr>
-                    <?r if user_authorized?([:delete_user]) ?>
+                    <?r if user_authorized?(:delete_user) ?>
                     <td>
                         <input type="checkbox" name="user_ids[]"
                         value="#{user.id}" />
@@ -38,7 +38,7 @@
                     <td>#{user.id}</td>
 
                     <td>
-                        #{if user_authorized?([:edit_user])
+                        #{if user_authorized?(:edit_user)
                           Users::Controller::Users.a(user.email, :edit, user.id)
                         else
                           user.email
@@ -63,13 +63,13 @@
 
         <?r end ?>
 
-        <?r if user_authorized?([:new_user]) ?>
+        <?r if user_authorized?(:new_user) ?>
         <div class="button">
             #{Users::Controller::Users.a(lang('users.buttons.new'), :new)}
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete_user]) and !@users.empty? ?>
+        <?r if user_authorized?(:delete_user) and !@users.empty? ?>
         <div class="button">
             <input type="submit" value="#{lang('users.buttons.delete')}" />
         </div>

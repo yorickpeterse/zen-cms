@@ -14,7 +14,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete_category]) ?>
+                    <?r if user_authorized?(:delete_category) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -29,7 +29,7 @@
             <tbody>
                 <?r @categories.each do |category| ?>
                 <tr>
-                    <?r if user_authorized?([:delete_category_group]) ?>
+                    <?r if user_authorized?(:delete_category_group) ?>
                     <td>
                         <input type="checkbox" name="category_ids[]"
                         value="#{category.id}" />
@@ -38,7 +38,7 @@
 
                     <td>#{category.id}</td>
 
-                    <?r if user_authorized?([:edit_category_group]) ?>
+                    <?r if user_authorized?(:edit_category_group) ?>
 
                     <td>
                         #{Categories::Controller::Categories.a(
@@ -75,7 +75,7 @@
 
         <?r end ?>
 
-        <?r if user_authorized?([:new_category]) ?>
+        <?r if user_authorized?(:new_category) ?>
         <div class="button">
             #{Categories::Controller::Categories.a(
               lang('categories.buttons.new'),
@@ -85,7 +85,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete_category]) and !@categories.empty? ?>
+        <?r if user_authorized?(:delete_category) and !@categories.empty? ?>
         <div class="button">
             <input type="submit"
             value="#{lang('categories.buttons.delete')}" />

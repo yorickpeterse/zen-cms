@@ -12,7 +12,7 @@
         <table>
             <thead>
                 <tr>
-                    <?r if user_authorized?([:delete_custom_field_group]) ?>
+                    <?r if user_authorized?(:delete_custom_field_group) ?>
                     <th class="no_sort">
                         <input type="checkbox" />
                     </th>
@@ -22,7 +22,7 @@
                     <th>#{lang('custom_field_groups.labels.name')}</th>
                     <th>#{lang('custom_field_groups.labels.sections')}</th>
 
-                    <?r if user_authorized?([:show_custom_field]) ?>
+                    <?r if user_authorized?(:show_custom_field) ?>
                     <th></th>
                     <?r end ?>
                 </tr>
@@ -30,7 +30,7 @@
             <tbody>
                 <?r @field_groups.each do |group| ?>
                 <tr>
-                    <?r if user_authorized?([:delete]) ?>
+                    <?r if user_authorized?(:delete) ?>
                     <td>
                         <input type="checkbox" name="custom_field_group_ids[]"
                         value="#{group.id}" />
@@ -39,7 +39,7 @@
 
                     <td>#{group.id}</td>
 
-                    <?r if user_authorized?([:edit_custom_field_group]) ?>
+                    <?r if user_authorized?(:edit_custom_field_group) ?>
 
                     <td>
                         #{CustomFields::Controller::CustomFieldGroups.a(
@@ -63,7 +63,7 @@
                         end}
                     </td>
 
-                    <?r if user_authorized?([:show_custom_field]) ?>
+                    <?r if user_authorized?(:show_custom_field) ?>
                     <td>
                         #{CustomFields::Controller::CustomFields.a(
                           lang('custom_field_groups.labels.manage_fields'),
@@ -88,7 +88,7 @@
 
         <?r end ?>
 
-        <?r if user_authorized?([:new_custom_field_group]) ?>
+        <?r if user_authorized?(:new_custom_field_group) ?>
         <div class="button">
             #{CustomFields::Controller::CustomFieldGroups.a(
               lang('custom_field_groups.buttons.new'),
@@ -97,7 +97,7 @@
         </div>
         <?r end ?>
 
-        <?r if user_authorized?([:delete_custom_field_group]) \
+        <?r if user_authorized?(:delete_custom_field_group) \
         and !@field_groups.empty? ?>
         <div class="button">
             <input type="submit"

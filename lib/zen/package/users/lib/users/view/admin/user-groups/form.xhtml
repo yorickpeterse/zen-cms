@@ -13,7 +13,7 @@
                 </a>
             </li>
 
-            <?r if user_authorized?([:show_permission]) ?>
+            <?r if user_authorized?(:show_permission) ?>
             <li>
                 <a href="#permissions"
                 title="#{lang('permissions.titles.index')}">
@@ -59,7 +59,7 @@
         )
       end
 
-      if user_authorized?([:show_permission])
+      if user_authorized?(:show_permission)
         f.g.div(:id => 'permissions') do
           render_file(__DIR__('../users/permissions.xhtml'))
         end

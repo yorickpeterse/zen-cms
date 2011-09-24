@@ -47,7 +47,7 @@ module Settings
       # @since  0.1
       #
       def index
-        require_permissions(:show_setting)
+        authorize_user!(:show_setting)
 
         set_breadcrumbs(lang('settings.titles.index'))
 
@@ -75,7 +75,7 @@ module Settings
       # @since  0.1
       #
       def save
-        require_permissions(:edit_setting)
+        authorize_user!(:edit_setting)
 
         post = request.params.dup
         post.delete('csrf_token')

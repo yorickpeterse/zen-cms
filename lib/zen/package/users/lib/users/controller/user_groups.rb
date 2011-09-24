@@ -49,7 +49,7 @@ module Users
       # @since  0.1
       #
       def index
-        require_permissions(:show_user_group)
+        authorize_user!(:show_user_group)
 
         set_breadcrumbs(lang('user_groups.titles.index'))
 
@@ -64,7 +64,7 @@ module Users
       # @since  0.1
       #
       def edit(id)
-        require_permissions(:edit_user_group)
+        authorize_user!(:edit_user_group)
 
         set_breadcrumbs(
           UserGroups.a(lang('user_groups.titles.index'), :index),
@@ -89,7 +89,7 @@ module Users
       # @since  0.1
       #
       def new
-        require_permissions(:new_user_group)
+        authorize_user!(:new_user_group)
 
         set_breadcrumbs(
           UserGroups.a(lang('user_groups.titles.index'), :index),
@@ -112,12 +112,12 @@ module Users
         post = request.subset(:id, :name, :slug, :description, :super_group)
 
         if post['id'] and !post['id'].empty?
-          require_permissions(:edit_user_group)
+          authorize_user!(:edit_user_group)
 
           user_group  = validate_user_group(post['id'])
           save_action = :save
         else
-          require_permissions(:new_user_group)
+          authorize_user!(:new_user_group)
 
           user_group  = ::Users::Model::UserGroup.new
           save_action = :new
@@ -143,7 +143,7 @@ module Users
           redirect_referrer
         end
 
-        if user_authorized?([:edit_permission])
+        if user_authorized?(:edit_permission)
           update_permissions(
             :user_group_id,
             user.id,
@@ -166,7 +166,7 @@ module Users
       # @since  0.1
       #
       def delete
-        require_permissions(:delete_user_group)
+        authorize_user!(:delete_user_group)
 
         if !request.params['user_group_ids'] \
         or request.params['user_group_ids'].empty?
