@@ -4,10 +4,121 @@ require __DIR__('package/menu')
 #:nodoc:
 module Zen
   ##
-  # Module used for registering extensions and themes, setting their details and
-  # the whole shebang. Packages follow the same directory structure as Rubygems
-  # and can actually be installed using either Rubygems or by storing them in a
-  # custom directory. As long as you require the correct file you're good to go.
+  # Zen::Package allows developers to register so called "packages". Packages
+  # are collections of controllers, models, views and pretty much anything else
+  # that goes in a typical Ramaze application. In fact, you can actually
+  # distribute entire Ramaze applications as a package (though it would most
+  # likely require some modifications).
+  #
+  # A package is registered by calling ``Zen::Package.add`` and passing a block
+  # to it. This block will be yielded on a new instance of ``Zen::Package``:
+  #
+  #     Zen::Package.add do |p|
+  #
+  #     end
+  #
+  # When adding a package you must **always** set the following attributes:
+  #
+  # * name: the name of the package, should be a symbol
+  # * title: the title of the package. This should be a language key such as
+  #   "users.titles.index" as this allows users to view the package name in
+  #   their chosen language.
+  # * author: the name of the package's author.
+  # * about: a description of the package, just like the title attribute this
+  #   should be a language key, "users.description" is an example of such a key.
+  # * root: the root directory of the package, this path should point to the
+  #   directory containing your ``helper/`` and ``language/`` directories as
+  #   well as any ``public/`` directories.
+  #
+  # Setting these (and other) attributes is very easy:
+  #
+  #     Zen::Package.add do |p|
+  #       p.name   = :some_package
+  #       p.title  = 'some_package.titles.index'
+  #       p.author = 'John Doe'
+  #       p.root   = __DIR__('some_package')
+  #     end
+  #
+  # Besides the required attributes listed above you can also set the following
+  # ones:
+  #
+  # * url: a URL that points to the website of the package.
+  # * migrations: a directory containing all Sequel migrations.
+  #
+  # ## Package Structure
+  #
+  # Packages should have the same structure as generic Rubygems. In it's most
+  # basic form this means you'll end up with a structure that looks like the
+  # following:
+  #
+  #     root/
+  #     |
+  #     |__ lib/
+  #        |__ package.rb
+  #        |__ package/
+  #           |__ controller/
+  #           |__ helper/
+  #
+  # There's no requirement for the location of your migrations but it's
+  # recommended to place it in the same directory as the ``lib/`` directory as
+  # this is the convention followed by Zen itself.
+  #
+  # The advantage of this structure is that when a package is shipped via
+  # Rubygems it can be loaded in exactly the same way as a normal gem. Say the
+  # "some_package" example described earlier would be distributed via Rubygems,
+  # all a developer would have to do to load the package is the following:
+  #
+  #     require 'some_package'
+  #
+  # It's not recommended to place packages or gems in the ``Zen`` namespace
+  # unless they modify or add core features such as more validation methods for
+  # ``Zen::Validation``.
+  #
+  # ## Menu Management
+  #
+  # Menus can be added by calling the method ``menu()`` on the object passed to
+  # the block. This method takes a URL, a title/label and a hash of options.
+  # Note that just like the ``name`` attribute the title/label should be a
+  # language key.
+  #
+  #     Zen::Package.add do |p|
+  #       # ...
+  #
+  #       p.menu('some_package.titles.index', '/admin/some-packages')
+  #
+  #       # ...
+  #     end
+  #
+  # For more information see ``Zen::Package#menu()`` and ``Zen::Package::Menu``.
+  #
+  # ## Permissions
+  #
+  # When creating a package you can add a number of permissions. These
+  # permissions can be assigned to a user or user group in the admin interface.
+  # Permissions allow you to restrict access to certain actions to specific
+  # users/user groups. A permission can be added by calling ``permission()`` on
+  # the object passed to the block. Again the title of the permission should be
+  # a langauge key so it can be displayed in a custom language:
+  #
+  #     Zen::Package.add do |p|
+  #       # ...
+  #
+  #       p.permission(:show_some_package, 'packages.titles.index')
+  #
+  #       # ...
+  #     end
+  #
+  # For more information on how to specify permission requirements in your
+  # controllers see ``Ramaze::Helper::ACL``.
+  #
+  # ## Migrations
+  #
+  # Zen comes with two tasks that allow users and developers to update their
+  # database, ``rake db:migrate`` and ``rake package:migrate``. For these tasks
+  # to work there of course have to be migrations. When registering a package
+  # you can set the ``migrations`` attribute. This attribute should contain a
+  # path to a directory containing a group of timestamp based migrations such as
+  # "1316770622_hello_world.rb".
   #
   # @author Yorick Peterse
   # @since  0.1
@@ -67,6 +178,9 @@ module Zen
       ##
       # Retrieves the package for the given name.
       #
+      # @example
+      #  Zen::Package[:users]
+      #
       # @author Yorick Peterse
       # @since  0.1
       #
@@ -86,6 +200,9 @@ module Zen
 
       ##
       # Builds the entire navigation menu for all packages.
+      #
+      # @example
+      #  Zen::Package.build_menu('left', [:edit_user, :show_user, :show_setting])
       #
       # @author Yorick Peterse
       # @since  0.2.9
@@ -202,6 +319,13 @@ module Zen
     # Sets all the navigation items for the package. Sub items can be specified
     # by calling this method and passing a block to it.
     #
+    # @example
+    #  Zen::Package.add do |p|
+    #    p.menu('Hello,' ,'/admin/hello') do |sub|
+    #      sub.menu('Sub menu', '/admin/hello/sub')
+    #    end
+    #  end
+    #
     # @author Yorick Peterse
     # @since  0.2.9
     # @see    Zen::Package::Menu#initialize()
@@ -218,6 +342,12 @@ module Zen
 
     ##
     # Adds a new permission along with it's title or language key.
+    #
+    # @example
+    #  Zen::Package.add do |p|
+    #    p.permission :show_user, 'users.titles.index'
+    #    p.permission :edit_user, 'users.titles.edit'
+    #  end
     #
     # @author Yorick Peterse
     # @since  0.2.9
