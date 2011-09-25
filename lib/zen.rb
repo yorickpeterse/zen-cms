@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'ramaze'
 require 'yaml'
 
