@@ -4,36 +4,36 @@ require File.expand_path('../../fixtures/zen/language', __FILE__)
 describe('Zen::Language') do
   behaves_like :capybara
 
+  # Ensure the user object is put back in the correct state after each
+  # specification.
+  after do
+    Users::Model::User[:email => 'spec@domain.tld'].update(
+      :language          => 'en',
+      :frontend_language => 'en'
+    )
+  end
+
   it('Change the current language') do
-    plugin(:settings, :get, :frontend_language).value = 'nl'
-
     # Check if the frontend language is set properly.
-    visit('/spec-language')
+    visit('/spec-language/frontend_dutch')
 
-    page.body.include?('nl').should === true
-    page.body.include?('en').should === false
+    page.body.include?('<p>nl</p>').should === true
+    page.body.include?('<p>en<p>').should  === false
 
-    plugin(:settings, :get, :frontend_language).value = 'en'
+    visit('/spec-language/frontend_english')
 
-    visit('/spec-language')
+    page.body.include?('<p>nl</p>').should === false
+    page.body.include?('<p>en</p>').should === true
 
-    page.body.include?('nl').should === false
-    page.body.include?('en').should === true
+    visit('/admin/spec-language/backend_english')
 
-    # Check if the backend language is set properly
-    visit('/admin/spec-language')
+    page.body.include?('<p>nl</p>').should === false
+    page.body.include?('<p>en</p>').should === true
 
-    page.body.include?('nl').should === false
-    page.body.include?('en').should === true
+    visit('/admin/spec-language/backend_dutch')
 
-    plugin(:settings, :get, :language).value = 'nl'
-
-    visit('/admin/spec-language')
-
-    page.body.include?('nl').should === true
-    page.body.include?('en').should === false
-
-    plugin(:settings, :get, :language).value = 'en'
+    page.body.include?('<p>nl</p>').should === true
+    page.body.include?('<p>en</p>').should === false
   end
 
   it('Test an English language pack') do
@@ -83,5 +83,4 @@ describe('Zen::Language') do
 
     plugin(:settings, :get, :language).value = 'en'
   end
-
 end

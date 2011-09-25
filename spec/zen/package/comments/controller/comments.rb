@@ -3,24 +3,20 @@ require File.expand_path('../../../../../helper', __FILE__)
 describe("Comments::Controller::Comments") do
   behaves_like :capybara
 
-  it("Create all test data") do
-    @section = Sections::Model::Section.create(
-      :name                    => 'Spec section',
-      :comment_allow           => true,
-      :comment_require_account => false,
-      :comment_moderate        => false,
-      :comment_format          => 'markdown'
-    )
+  user_id  = Users::Model::User[:email => 'spec@domain.tld'].id
+  @section = Sections::Model::Section.create(
+    :name                    => 'Spec section',
+    :comment_allow           => true,
+    :comment_require_account => false,
+    :comment_moderate        => false,
+    :comment_format          => 'markdown'
+  )
 
-    @entry = Sections::Model::SectionEntry.create(
-      :title      => 'Spec entry',
-      :user_id    => 1,
-      :section_id => @section.id
-    )
-
-    @section.name.should === 'Spec section'
-    @entry.title.should  === 'Spec entry'
-  end
+  @entry = Sections::Model::SectionEntry.create(
+    :title      => 'Spec entry',
+    :user_id    => user_id,
+    :section_id => @section.id
+  )
 
   it('Submit a form without a CSRF token') do
     response = page.driver.post(
@@ -122,12 +118,6 @@ describe("Comments::Controller::Comments") do
     page.has_selector?('table tbody tr').should === false
   end
 
-  it("Delete all test data") do
-    @entry.destroy
-    @section.destroy
-
-    Sections::Model::Section.filter[:name => 'Spec section'].should     === nil
-    Sections::Model::SectionEntry.filter[:title => 'Spec entry'].should === nil
-  end
-
+  @entry.destroy
+  @section.destroy
 end

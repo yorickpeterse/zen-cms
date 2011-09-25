@@ -14,7 +14,7 @@ describe("Categories::Controller::Categories") do
     response.status.should                                         === 403
   end
 
-  it("No categories should exist") do
+  it('No categories should exist') do
     index_url = Categories::Controller::Categories \
       .r(:index, @group.id).to_s
 

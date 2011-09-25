@@ -38,7 +38,6 @@
 
                     <td>#{entry.id}</td>
 
-                    <?r if user_authorized?(:update) ?>
                     <td>
                         #{if user_authorized?(:edit_section_entry)
                           Sections::Controller::SectionEntries.a(

@@ -17,10 +17,12 @@ module Users
     # @since  0.1
     #
     class UserGroup < Sequel::Model
-      many_to_many(:users     , :class => 'Users::Model::User')
-      one_to_many(:permissions, :class => 'Users::Model::Permission')
+      many_to_many :users     , :class => 'Users::Model::User'
+      one_to_many  :permissions, :class => 'Users::Model::Permission'
 
       plugin :sluggable , :source => :name, :freeze => false
+      plugin :association_dependencies, :permissions => :delete,
+        :users => :nullify
 
       ##
       # Validation rules for each user group used when

@@ -6,14 +6,15 @@
 
     <ul class="permissions">
         <?r package.permissions.each do |name, title| ?>
-        <?r if @permissions.include?(name)
+        <?r if @permissions.respond_to?(:include?) \
+        and @permissions.include?(name)
           checked = 'checked="checked"'
         else
           checked = nil
         end ?>
 
         <li>
-            <input name="permissions[]" value="#{name}"
+        <input name="permissions[]" value="#{name}" id="permission_#{name}"
             type="checkbox" #{checked} /> #{title}
         </li>
         <?r end ?>

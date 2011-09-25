@@ -5,6 +5,16 @@ require 'fileutils'
 describe('Zen::Controller::MainController') do
   behaves_like :capybara
 
+  after do
+    # Let's make sure the 404 template is back where it belongs.
+    template = File.join(Zen::Theme[:spec_theme].template_dir, '404.xhtml')
+    old      = template + '.old'
+
+    if File.exist?(old) and !File.exist?(template)
+      FileUtils.mv(old, template)
+    end
+  end
+
   # Set the default section/template group to use.
   it('Create the test data') do
     section = Sections::Model::Section.create(
@@ -77,5 +87,4 @@ describe('Zen::Controller::MainController') do
 
     Sections::Model::Section[:slug => 'default-section'].nil?.should === true
   end
-
 end

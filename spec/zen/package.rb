@@ -2,6 +2,8 @@ require File.expand_path('../../helper', __FILE__)
 require File.join(Zen::Fixtures, 'package')
 
 describe('Zen::Package') do
+  behaves_like :capybara
+
   it('Add a new package') do
     Zen::Package.add do |p|
       p.name       = :spec

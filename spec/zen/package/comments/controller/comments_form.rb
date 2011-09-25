@@ -10,33 +10,30 @@ describe("Comments::Controller::CommentsForm") do
 
   after do
     Comments::Model::Comment.destroy
+
     plugin(:settings, :get, :defensio_key).value = nil
   end
 
-  it('Create the test data') do
-    user_id      = Users::Model::User[:name => 'Spec'].id
-    entry_status = Sections::Model::SectionEntryStatus[:name => 'published'].id
+  plugin(:settings, :get, :enable_antispam).value   = false
+  plugin(:settings, :get, :frontend_language).value = 'en'
 
-    @section = Sections::Model::Section.create(
-      :name                    => 'Spec section',
-      :comment_allow           => true,
-      :comment_require_account => true,
-      :comment_moderate        => false,
-      :comment_format          => 'plain'
-    )
+  user_id      = Users::Model::User[:name => 'Spec'].id
+  entry_status = Sections::Model::SectionEntryStatus[:name => 'published'].id
 
-    @section_entry = Sections::Model::SectionEntry.create(
-      :title                   => 'Spec entry',
-      :user_id                 => user_id,
-      :section_entry_status_id => entry_status,
-      :section_id              => @section.id
-    )
+  @section = Sections::Model::Section.create(
+    :name                    => 'Spec section',
+    :comment_allow           => true,
+    :comment_require_account => true,
+    :comment_moderate        => false,
+    :comment_format          => 'plain',
+  )
 
-    @section.name.should        === 'Spec section'
-    @section_entry.title.should === 'Spec entry'
-
-    Comments::Model::Comment.all.empty?.should === true
-  end
+  @section_entry = Sections::Model::SectionEntry.create(
+    :title                   => 'Spec entry',
+    :user_id                 => user_id,
+    :section_entry_status_id => entry_status,
+    :section_id              => @section.id
+  )
 
   it('Submit a comment') do
     visit(SpecCommentsForm.r(:index).to_s)
@@ -332,12 +329,6 @@ describe("Comments::Controller::CommentsForm") do
     WebMock.reset!
   end
 
-  it('Delete the test data') do
-    @section_entry.destroy
-    @section.destroy
-
-    Sections::Model::Section[:name => 'Spec section'].should     === nil
-    Sections::Model::SectionEntry[:title => 'Spec entry'].should === nil
-  end
-
+  @section_entry.destroy
+  @section.destroy
 end

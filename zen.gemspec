@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_dependency('sequel_sluggable', ['= 0.0.6'])
   s.add_dependency('rake'            , ['= 0.9.2'])
   s.add_dependency('loofah'          , ['= 1.2.0'])
-  s.add_dependency('json'            , ['= 1.6.0'])
+  s.add_dependency('json'            , ['= 1.6.1'])
   s.add_dependency('ramaze-asset'    , ['= 0.2.3'])
 
   s.add_development_dependency('rdiscount', ['>= 1.6.8'])

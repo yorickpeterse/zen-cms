@@ -2,7 +2,7 @@ require File.expand_path('../../../../../helper', __FILE__)
 
 Zen::Language.load('user_groups')
 
-describe("Users::Controller::UserGroups") do
+describe('Users::Controller::UserGroups') do
   behaves_like :capybara
 
   it('Submit a form without a CSRF token') do
@@ -14,7 +14,7 @@ describe("Users::Controller::UserGroups") do
     response.status.should                                         === 403
   end
 
-  it("A single user group should exist") do
+  it('A single user group should exist') do
     index_url = Users::Controller::UserGroups.r(:index).to_s
     message   = lang('user_groups.messages.no_groups')
 
@@ -25,7 +25,7 @@ describe("Users::Controller::UserGroups") do
     page.all('table tbody tr').count.should     === 1
   end
 
-  it("Create a new user group") do
+  it('Create a new user group') do
     index_url   = Users::Controller::UserGroups.r(:index).to_s
     save_button = lang('user_groups.buttons.save')
     new_button  = lang('user_groups.buttons.new')
@@ -43,22 +43,31 @@ describe("Users::Controller::UserGroups") do
     page.find('#form_super_group_0').checked?.should === 'checked'
   end
 
-  it("Edit an existing user group") do
-    index_url    = Users::Controller::UserGroups.r(:index).to_s
-    save_button  = lang('user_groups.buttons.save')
+  it('Edit an existing user group') do
+    index_url   = Users::Controller::UserGroups.r(:index).to_s
+    save_button = lang('user_groups.buttons.save')
+    group       = Users::Model::UserGroup[:name => 'Spec group']
+    path        = "/admin/user-groups/edit/#{group.id}"
 
     visit(index_url)
     click_link('Spec group')
 
+    current_path.should === path
+
     within('#user_group_form') do
       fill_in('name', :with => 'Spec group modified')
+      check('permission_show_user')
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should === 'Spec group modified'
+    current_path.should === path
+
+    page.has_selector?('span.error').should            === false
+    page.find('input[name="name"]').value.should       === 'Spec group modified'
+    page.find('#permission_show_user').checked?.should === 'checked'
   end
 
-  it("Edit an existing user group with invalid data") do
+  it('Edit an existing user group with invalid data') do
     index_url    = Users::Controller::UserGroups.r(:index).to_s
     save_button  = lang('user_groups.buttons.save')
 
@@ -73,7 +82,7 @@ describe("Users::Controller::UserGroups") do
     page.has_selector?('label[for="form_name"] span.error').should === true
   end
 
-  it("Delete an existing user group") do
+  it('Delete a group without an ID') do
     index_url     = Users::Controller::UserGroups.r(:index).to_s
     delete_button = lang('user_groups.buttons.delete')
 
@@ -84,7 +93,7 @@ describe("Users::Controller::UserGroups") do
     page.all('table tbody tr').count.should                     === 2
   end
 
-  it("Delete an existing user group") do
+  it('Delete an existing user group') do
     index_url     = Users::Controller::UserGroups.r(:index).to_s
     delete_button = lang('user_groups.buttons.delete')
 

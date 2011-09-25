@@ -18,6 +18,12 @@ module Users
       #
       def validate
         validates_presence(:permission)
+
+        if self.user_id.nil?
+          validates_presence(:user_group_id)
+        else
+          validates_presence(:user_id)
+        end
       end
     end # Permission
   end # Model

@@ -6,6 +6,10 @@ Sequel.migration do
     create_table(:permissions) do
       String :permission, :null => false
 
+      # I'd love to use foreign keys here but I kept getting SQLite3 constraint
+      # warnings that made *zero* sense as the data was correct (manually
+      # inserting the data works just fine). Patches are welcome but do note
+      # that I don't consider this a very high priority.
       Integer :user_id
       Integer :user_group_id
     end

@@ -83,10 +83,12 @@ describe("Users::Controller::Users") do
 
     within('#user_form') do
       fill_in('name', :with => 'Spec user modified')
+      check('permission_show_user')
       click_on(save_button)
     end
 
-    page.find_field('name').value.should  === 'Spec user modified'
+    page.find('#permission_show_user').checked?.should === 'checked'
+    page.find_field('name').value.should               === 'Spec user modified'
   end
 
   it("Edit an existing user with invalid data") do

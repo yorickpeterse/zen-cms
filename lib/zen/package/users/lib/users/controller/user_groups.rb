@@ -146,7 +146,7 @@ module Users
         if user_authorized?(:edit_permission)
           update_permissions(
             :user_group_id,
-            user.id,
+            user_group.id,
             request.params['permissions'] || [],
             user_group.permissions.map { |p| p.permission }
           )

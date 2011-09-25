@@ -1,4 +1,5 @@
 require 'ramaze/gestalt'
+require __DIR__('../helper/acl')
 
 module Zen
   class Package
@@ -10,6 +11,9 @@ module Zen
     # @since  0.2.9
     #
     class Menu
+      include Ramaze::Trinity
+      include Ramaze::Helper::ACL
+
       # A string containing the URL of the current element.
       attr_reader :url
 
@@ -78,10 +82,7 @@ module Zen
       def html(permissions = [])
         # Skip the navigation menu and all it's child elements if the user isn't
         # allowed to view it.
-        if @options[:permission] \
-        and !permissions.include?(@options[:permission].to_s)
-          return
-        end
+        return if !user_authorized?(@options[:permission])
 
         g        = Ramaze::Gestalt.new
         children = []

@@ -9,15 +9,13 @@ module Users
     # @since  0.1
     #
     class User < Sequel::Model
-      plugin :timestamps, :create => :created_at, :update => :updated_at
-
-      many_to_many(
-        :user_groups,
-        :class => 'Users::Model::UserGroup',
+      many_to_many :user_groups, :class => 'Users::Model::UserGroup',
         :eager => [:permissions]
-      )
 
-      one_to_many(:permissions, :class => 'Users::Model::Permission')
+      one_to_many :permissions, :class => 'Users::Model::Permission'
+
+      plugin :timestamps, :create => :created_at, :update => :updated_at
+      plugin :association_dependencies, :permissions => :delete
 
       ##
       # Try to authenticate the user based on the specified credentials..
