@@ -4,7 +4,7 @@ require __DIR__('setting_base')
 #:nodoc:
 module Settings
   #:nodoc:
-  module Plugin
+  class Plugin
     ##
     # The settings plugin is a plugin that can be used to register and migrate
     # settings without having to manually insert the data. Previously you'd have

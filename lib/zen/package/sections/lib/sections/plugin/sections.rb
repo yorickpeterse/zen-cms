@@ -1,7 +1,7 @@
 #:nodoc:
 module Sections
   #:nodoc:
-  module Plugin
+  class Plugin
     ##
     # Plugin that can be used to display sections and their details. If you want
     # to display section entries instead you should use the plugin

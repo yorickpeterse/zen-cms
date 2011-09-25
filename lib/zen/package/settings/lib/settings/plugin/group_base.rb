@@ -1,7 +1,7 @@
 #:nodoc:
 module Settings
   #:nodoc:
-  module Plugin
+  class Plugin
     ##
     # Base class used for setting groups.
     #

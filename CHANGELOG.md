@@ -19,6 +19,8 @@
   887049616099d7e202b34be63f6cbff8e8ab33b0).
 * New API for Zen::Package.
 * ACL system has been re-written from scratch.
+* Merged Zen::Theme::Base with Zen::Theme and Zen::Plugin::Base with
+  Zen::Plugin.
 
 ## 0.2.8 - August 3, 2011
 

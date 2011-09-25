@@ -1,7 +1,7 @@
 #:nodoc
 module Zen
   #:nodoc
-  module Plugin
+  class Plugin
     ##
     # The Markup plugin is used to convert the given markup using the specified
     # engine.  Out of the box this plugin is capable of doing the following:
@@ -33,7 +33,7 @@ module Zen
     # you've just added. In this case it will be named "rdoc":
     #
     #     module Zen
-    #       module Plugin
+    #       class Plugin
     #         class Markup
     #           def rdoc(markup)
     #             # Do something with the markup in the variable "markup"

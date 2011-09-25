@@ -1,7 +1,7 @@
 #:nodoc:
 module Comments
   #:nodoc:
-  module Plugin
+  class Plugin
     ##
     # A plugin that can be used to verify a comment against an external (or
     # internal) service to see if it's spam or ham.
@@ -39,7 +39,7 @@ module Comments
     #     Comments::Plugin::AntiSpam::Registered[:cake] = 'cake-gem'
     #
     #     module Comments
-    #       module Plugin
+    #       class Plugin
     #         class AntiSpam
     #           def cake
     #

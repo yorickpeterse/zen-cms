@@ -163,10 +163,8 @@ module Zen
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @param  [Block|Proc] A block (or anything that can be converted to a
-      #  Proc) containing the details of teh package.
       #
-      def add(&block)
+      def add
         package = self.new
 
         yield(package)

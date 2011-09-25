@@ -1,7 +1,7 @@
 #:nodoc
 module Categories
   #:nodoc
-  module Plugin
+  class Plugin
     ##
     # The Categories plugin can be used to display a list of categories
     #

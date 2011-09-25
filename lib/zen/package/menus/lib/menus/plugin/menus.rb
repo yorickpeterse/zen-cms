@@ -3,7 +3,7 @@ require 'ramaze/gestalt'
 #:nodoc:
 module Menus
   #:nodoc:
-  module Plugin
+  class Plugin
     ##
     # Plugin for displaying navigation menus. This plugin will take care of
     # recursively displaying all sub items and various other tasks, you merely

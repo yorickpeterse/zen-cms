@@ -1,7 +1,7 @@
 #:nodoc:
 module Zen
   #:nodoc:
-  module Plugin
+  class Plugin
     ##
     # Module containing various methods that can be used for developing plugins.
     #

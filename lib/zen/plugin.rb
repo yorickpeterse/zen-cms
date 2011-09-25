@@ -1,5 +1,3 @@
-require __DIR__('plugin/base')
-
 #:nodoc:
 module Zen
   ##
@@ -90,7 +88,9 @@ module Zen
   # @author Yorick Peterse
   # @since  0.2.4
   #
-  module Plugin
+  class Plugin
+    include Zen::Validation
+
     ##
     # Hash containing all registered plugins. The keys are the names of the
     # plugins and the values are instances of Zen::Plugin::Base.
@@ -100,58 +100,98 @@ module Zen
     #
     Registered = {}
 
-    ##
-    # Adds a new plugin with the given details.
-    #
-    # @author Yorick Peterse
-    # @since  0.2.4
-    # @raise  [Zen::PluginError] Error raised whenever the plugin already exists
-    #  or is missing a certain setter.
-    #
-    def self.add
-      plugin = Zen::Plugin::Base.new
+    # The name of the plugin
+    attr_reader :name
 
-      yield plugin
+    # The author of the plugin
+    attr_accessor :author
 
-      # Validate the plugin
-      plugin.validate
-      plugin.name = plugin.name.to_sym
+    # A small description of the plugin
+    attr_accessor :about
 
-      Registered[plugin.name] = plugin
-    end
+    # The URL to the plugin's website
+    attr_accessor :url
 
-    ##
-    # Returns a plugin for the given name.
-    #
-    # @example
-    #  Zen::Plugin[:markup]
-    #
-    # @author Yorick Peterse
-    # @since  0.2.4
-    # @param  [String] name The name of the plugin to retrieve.
-    # @raise  Zen::PluginError Error that's raised when no plugins have been
-    #  added yet or the specified plugin doesn't exist.
-    # @return [Struct] Instance of the plugin.
-    #
-    def self.[](name)
-      name = name.to_sym if name.class != Symbol
+    # The class of the plugin
+    attr_accessor :plugin
 
-      if !Registered[name]
-        raise(Zen::PluginError, "The plugin #{name} doesn't exist.")
+    class << self
+      ##
+      # Adds a new plugin with the given details.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.4
+      # @raise  [Zen::PluginError] Error raised whenever the plugin already exists
+      #  or is missing a certain setter.
+      #
+      def add
+        plugin = self.new
+
+        yield plugin
+        plugin.validate
+
+        Registered[plugin.name] = plugin
       end
 
-      return Registered[name]
+      ##
+      # Returns a plugin for the given name.
+      #
+      # @example
+      #  Zen::Plugin[:markup]
+      #
+      # @author Yorick Peterse
+      # @since  0.2.4
+      # @param  [String] name The name of the plugin to retrieve.
+      # @raise  Zen::PluginError Error that's raised when no plugins have been
+      #  added yet or the specified plugin doesn't exist.
+      # @return [Struct] Instance of the plugin.
+      #
+      def [](name)
+        name = name.to_sym if name.class != Symbol
+
+        if !Registered[name]
+          raise(Zen::PluginError, "The plugin #{name} doesn't exist.")
+        end
+
+        return Registered[name]
+      end
+
+      ##
+      # @author Yorick Peterse
+      # @since  0.2.8
+      # @see    Zen::Plugin::SingletonMethods#plugin
+      #
+      def plugin(name, *data, &block)
+        name = name.to_sym if name.class != Symbol
+
+        return ::Zen::Plugin[name].plugin.new(*data, &block).call
+      end
+    end # class << self
+
+    ##
+    # Sets the name of the plugin.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @param  [#to_sym] name The name of the plugin.
+    #
+    def name=(name)
+      @name = name.to_sym
     end
 
     ##
-    # @author Yorick Peterse
-    # @since  0.2.8
-    # @see    Zen::Plugin::SingletonMethods#plugin
+    # Validates all the attributes.
     #
-    def self.plugin(name, *data, &block)
-      name = name.to_sym if name.class != Symbol
+    # @author Yorick Peterse
+    # @since  0.2.5
+    #
+    def validate
+      validates_presence([:name, :author, :about, :plugin])
 
-      return ::Zen::Plugin[name].plugin.new(*data, &block).call
+      # Check if the theme doesn't exist
+      if ::Zen::Plugin::Registered.key?(name.to_sym)
+        raise(::Zen::ValidationError, "The plugin #{name} already exists.")
+      end
     end
 
     #:nodoc:

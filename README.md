@@ -3,17 +3,17 @@
 Zen is a modular CMS written on top of the awesome Ramaze framework. Zen was
 built out of the frustration with Expression Engine, a popular CMS built on top
 of the Codeigniter framework which in turn is written using PHP. While I really
-like Codeigniter, ExpressionEngine and EllisLab there were several problems
-that bothered me. So I set out to write a system that's loosely based on
+like Codeigniter, ExpressionEngine and EllisLab there were several problems that
+bothered me. So I set out to write a system that's loosely based on
 ExpressionEngine but fits my needs. Because of this certain features may seem
 similar to those provided by EE and while at certain points there are
 similarities there are also pretty big differences.
 
 ## Requirements
 
-* Ramaze 2011.01.30 or newer
-* Ruby 1.9.2
-* A database (MySQL, PostgreSQL, etc)
+* Ramaze 2011.07.25 or newer.
+* Ruby 1.9.2 or newer.
+* A SQL database.
 
 ## Installation
 
@@ -36,8 +36,11 @@ it won't work. If you happen to have any problems getting Zen running using your
 database of choice feel free to submit a ticket or post it on the mailing
 list.
 
-The Zen website itself is tested and served using MySQL, SQLite3 works just as
-fine and PostgreSQL will be tested in the near future.
+The following database engines are known to work with Zen:
+
+* MySQL
+* SQLite3
+* PostgreSQL
 
 ## Running Zen
 
@@ -62,7 +65,7 @@ other branches, e.g. "rspec2" will be used for individual features.
 
 Besides following this model developers are also expected to write tests using
 either RSpec or Capybara for their features. Capybara is used to test
-controllers and browser based tests while RSpec is used to test libraries,
+controllers and browser based actions while RSpec is used to test libraries,
 helpers, etc.
 
 ## Coding Standards
@@ -73,10 +76,7 @@ helpers, etc.
 * No tabs at all times.
 * Markdown is used for all markup.
 * The maximum width of each line should be no more than 80 characters, this
-  makes it easier to read code in terminals or when using split view modes. The
-  limit used to be 90 characters but this was decreased to fit the Ruby coding
-  standards. Existing code using the 90 character limit will be changed over
-  time.
+  makes it easier to read code in terminals or when using split view modes.
 
 ## Community
 
@@ -88,6 +88,7 @@ in any of the following channels on Freenode:
 
 * \#forrst-chat
 * \#ramaze
+* \#ruby-lang
 
 ## License
 

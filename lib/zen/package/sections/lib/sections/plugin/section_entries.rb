@@ -1,7 +1,7 @@
 #:nodoc:
 module Sections
   #:nodoc:
-  module Plugin
+  class Plugin
     ##
     # The SectionEntries plugin can be used to retrieve section entries as well
     # as the associated comments and user data. This allows you to relatively
