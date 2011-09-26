@@ -74,7 +74,9 @@ module Comments
 
         # Now that we have the entry and the section we can start retrieving
         # all the comments.
-        comments = Comment.filter(:section_entry_id => entry.id) \
+        open     = CommentStatus[:name => 'open'].id
+        comments = Comment \
+          .filter(:section_entry_id => entry.id, :comment_status_id => open) \
           .limit(@options[:limit], @options[:offset]) \
           .all
 

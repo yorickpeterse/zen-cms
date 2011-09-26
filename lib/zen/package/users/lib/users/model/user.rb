@@ -75,7 +75,7 @@ module Users
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @return [String]
+      # @return [BCrypt::Password|NilClass]
       #
       def password
         val = super
