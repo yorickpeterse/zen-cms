@@ -260,7 +260,7 @@ module Sections
           end
 
         if save_action === :new and !@entry.nil?
-          Zen::Hook.call(:new_section_entry, @entry)
+          Zen::Event.call(:new_section_entry, @entry)
         end
 
         # The rescue statement is called whenever the following happens:

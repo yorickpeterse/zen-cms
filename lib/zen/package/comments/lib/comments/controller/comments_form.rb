@@ -117,7 +117,7 @@ module Comments
         # Save the comment
         begin
           comment.save
-          Zen::Hook.call(:new_comment, comment)
+          Zen::Event.call(:new_comment, comment)
 
           if section.comment_moderate == true
             message(:success, lang('comments.success.moderate'))

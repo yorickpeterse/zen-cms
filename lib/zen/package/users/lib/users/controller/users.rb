@@ -213,7 +213,7 @@ module Users
           )
         end
 
-        Zen::Hook.call(hook_name, user)
+        Zen::Event.call(hook_name, user)
 
         if user.id
           redirect(Users.r(:edit, user.id))

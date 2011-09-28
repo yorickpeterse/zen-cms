@@ -182,7 +182,7 @@ Ramaze::Cache.options.settings = Ramaze::Cache::LRU
 require __DIR__('zen/error')
 require __DIR__('zen/validation')
 require __DIR__('zen/plugin')
-require __DIR__('zen/hook')
+require __DIR__('zen/event')
 require __DIR__('zen/language')
 
 # Load a set of modules into the global namespace
