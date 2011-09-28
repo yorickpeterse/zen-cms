@@ -3,17 +3,15 @@ module Comments
   #:nodoc:
   module Model
     ##
-    # Model that represents a single comment.
+    # Model for managing and retrieving comments.
     #
     # @author Yorick Peterse
     # @since  0.1
     #
     class Comment < Sequel::Model
-      include ::Zen::Language
-
-      many_to_one :section_entry,   :class => "Sections::Model::SectionEntry"
-      many_to_one :user,            :class => "Users::Model::User"
-      many_to_one  :comment_status, :class => 'Comments::Model::CommentStatus'
+      many_to_one :section_entry , :class => 'Sections::Model::SectionEntry'
+      many_to_one :user          , :class => 'Users::Model::User'
+      many_to_one :comment_status, :class => 'Comments::Model::CommentStatus'
 
       plugin :timestamps, :create => :created_at, :update => :updated_at
 
@@ -24,8 +22,8 @@ module Comments
       # @since  0.1
       #
       def validate
-        validates_presence [:comment, :section_entry_id]
-        validates_integer  [:comment_status_id, :section_entry_id]
+        validates_presence([:comment, :section_entry_id])
+        validates_integer([:comment_status_id, :section_entry_id])
 
         if user_id.nil?
           validates_presence :email
@@ -43,12 +41,12 @@ module Comments
       # @return [Hash]
       #
       def self.status_hash
-        ::Zen::Language.load('comments')
-
         statuses = {}
 
         ::Comments::Model::CommentStatus.all.each do |status|
-          statuses[status.id] = lang("comments.labels.#{status.name}")
+          statuses[status.id] = Zen::Language.lang(
+            "comments.labels.#{status.name}"
+          )
         end
 
         return statuses
@@ -65,7 +63,8 @@ module Comments
           got = send(field)
 
           if !got.nil?
-            send("#{field}=", Loofah.fragment(got).scrub!(:whitewash) \
+            send("#{field}=", Loofah.fragment(got) \
+              .scrub!(:whitewash) \
               .scrub!(:nofollow).to_s)
           end
         end

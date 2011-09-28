@@ -33,14 +33,15 @@ module Comments
       # @since  0.2.5
       # @param  [Hash] options Hash with a set of options that determine how
       #  the comments should be retrieved.
-      # @option options [String/Integer] :entry The slug or ID of the entry for
+      # @option options [String/Fixnum] :entry The slug or ID of the entry for
       #  which to retrieve all comments.
-      # @option options [Integer] :limit The maximum amount of comments to
+      # @option options [Fixnum] :limit The maximum amount of comments to
       #  retrieve.
-      # @option options [Integer] :offset The row offset, useful for pagination
+      # @option options [Fixnum] :offset The row offset, useful for pagination
       #  systems.
-      # @option options [Boolean] :markup When set to true (default) the markup
-      #  used in each comment will be converted to the appropriate format.
+      # @option options [TrueClass|FalseClass] :markup When set to true
+      #  (default) the markup used in each comment will be converted to the
+      #  appropriate format.
       #
       def initialize(options = {})
         @options = {
@@ -82,9 +83,7 @@ module Comments
 
         # Don't bother with all code below this if/end if we don't want to
         # convert the markup of each comment.
-        if @options[:markup] === false
-          return comments
-        end
+        return comments if @options[:markup] === false
 
         # Get the section for the comments. This is required to determine what
         # markup is used for the comments.
@@ -102,9 +101,7 @@ module Comments
           comment[:user] = {}
 
           if !user.nil?
-            user.values.each do |k, v|
-              comment[:user][k] = v
-            end
+            user.values.each { |k, v| comment[:user][k] = v }
           end
 
           comments[index] = comment

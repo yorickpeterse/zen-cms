@@ -6,18 +6,18 @@ module Comments
     # Frontend controller for the comments system used for saving user-submitted
     # comments.
     #
+    # ## Available Events
+    #
+    # * new_comment
+    #
     # @author Yorick Peterse
     # @since  0.1
     #
     class CommentsForm < Zen::Controller::FrontendController
-      map '/comments-form'
+      map    '/comments-form'
       helper :message
 
-      before_all do
-        csrf_protection(:save) do
-          respond(lang('zen_general.errors.not_authorized'), 403)
-        end
-      end
+      csrf_protection :save
 
       ##
       # Creates a new comment for the section entry. Once the comment has been
@@ -97,14 +97,26 @@ module Comments
           comment.comment_status_id = comment_statuses['closed']
         end
 
+        # Get the details for the anti spam plugin
+        if !post['user_id'].nil? and !post['user_id'].empty?
+          user  = ::Users::Model::User[post['user_id']]
+          name  = user.name
+          email = user.email
+          url   = user.website
+        else
+          name  = post['name']
+          email = post['email']
+          url   = post['website']
+        end
+
         # Require anti-spam validation?
         if plugin(:settings, :get, :enable_antispam).value === '1'
           engine = plugin(:settings, :get, :anti_spam_system).value.to_sym
-          spam   = plugin(:anti_spam, engine, nil, nil, nil, post['comment'])
+          spam   = plugin(:anti_spam, engine, name, email, url, post['comment'])
 
-          # Time to validate the Defensio response
+          # Is it spam?
           if spam === false
-            if section.comment_moderate == true
+            if section.comment_moderate === true
               comment.comment_status_id = comment_statuses['closed']
             else
               comment.comment_status_id = comment_statuses['open']
@@ -117,18 +129,20 @@ module Comments
         # Save the comment
         begin
           comment.save
-          Zen::Event.call(:new_comment, comment)
-
-          if section.comment_moderate == true
-            message(:success, lang('comments.success.moderate'))
-          else
-            message(:success, lang('comments.success.new'))
-          end
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, lang('comments.errors.new'))
+
+          redirect_referrer
         end
 
+        if section.comment_moderate == true
+          message(:success, lang('comments.success.moderate'))
+        else
+          message(:success, lang('comments.success.new'))
+        end
+
+        Zen::Event.call(:new_comment, comment)
         redirect_referrer
       end
     end # CommentsForm

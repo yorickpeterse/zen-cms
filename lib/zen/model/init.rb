@@ -9,43 +9,34 @@ Sequel.extension :pagination
 Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
 {
   :exact_length => {
-    :message    => lambda do |length|
-      lang('zen_models.exact_length') & length
-    end
+    :message    => lambda { |length| lang('zen_models.exact_length') & length }
   },
 
-  :format    => {
+  :format => {
     :message => lang('zen_models.format')
   },
 
   :includes  => {
-    :message => lambda do |arg|
-      lang('zen_models.includes') % arg.inspect
-    end,
+    :message   => lambda { |arg| lang('zen_models.includes') % arg.inspect },
     :allow_nil => false
   },
 
-  :integer     => {
+  :integer => {
     :message   => lang('zen_models.integer'),
-    :allow_nil => true
+    :allow_nil => false
   },
 
-  :length_range =>
-  {
+  :length_range => {
     :message => lang('zen_models.length_range')
   },
 
   :max_length => {
-    :message  => lambda do |length|
-      lang('zen_models.max_length') % length
-    end,
+    :message   => lambda { |length| lang('zen_models.max_length') % length },
     :allow_nil => true
   },
 
   :min_length => {
-    :message  => lambda do |length|
-      lang('zen_models.min_length') % length
-    end
+    :message  => lambda { |length| lang('zen_models.min_length') % length }
   },
 
   :not_string => {
@@ -57,9 +48,7 @@ Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
   },
 
   :type      => {
-    :message => lambda do |type|
-      lang('zen_models.type') % type
-    end
+    :message => lambda { |type| lang('zen_models.type') % type }
   },
 
   :presence  => {

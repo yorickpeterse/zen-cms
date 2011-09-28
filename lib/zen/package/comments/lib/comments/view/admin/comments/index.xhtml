@@ -36,22 +36,17 @@
                     <?r end ?>
 
                     <td>#{comment.id}</td>
-
-                    <?r if user_authorized?(:edit_comment) ?>
-
                     <td>
-                        #{Comments::Controller::Comments.a(
-                          comment.comment[0, 15].to_s + '...',
-                          :edit,
-                          comment.id
-                        )}
+                        #{if user_authorized?(:edit_comment)
+                          Comments::Controller::Comments.a(
+                            comment.comment[0, 15].to_s + '...',
+                            :edit,
+                            comment.id
+                          )
+                        else
+                          comment.comment[0, 15] + '...'
+                        end}
                     </td>
-
-                    <?r else ?>
-
-                    <td>#{comment.comment[0, 15]}...</td>
-
-                    <?r end ?>
 
                     <td>#{comment.section_entry.title}</td>
                     <td>

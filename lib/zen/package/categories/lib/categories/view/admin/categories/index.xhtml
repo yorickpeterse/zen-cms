@@ -6,8 +6,6 @@
     <form method="post"
     action="#{Categories::Controller::Categories.r(:delete)}">
         <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
-        <input type="hidden" name="category_group_id"
-        value="#{@category_group_id}" />
 
         <?r if !@categories.empty? ?>
 
@@ -37,24 +35,18 @@
                     <?r end ?>
 
                     <td>#{category.id}</td>
-
-                    <?r if user_authorized?(:edit_category_group) ?>
-
                     <td>
-                        #{Categories::Controller::Categories.a(
-                          category.name,
-                          :edit,
-                          @category_group_id,
-                          category.id
-                        )}
+                        #{if user_authorized?(:edit_category_group)
+                          Categories::Controller::Categories.a(
+                            category.name,
+                            :edit,
+                            @category_group_id,
+                            category.id
+                          )
+                        else
+                          category.name
+                        end}
                     </td>
-
-                    <?r else ?>
-
-                    <td>#{category.name}</td>
-
-                    <?r end ?>
-
                     <td>#{category.slug}</td>
                     <td>
                         #{category.parent.name \

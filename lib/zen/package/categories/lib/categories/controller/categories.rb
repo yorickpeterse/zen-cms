@@ -16,7 +16,7 @@ module Categories
     # * new_category
     # * delete_category
     #
-    # ## Used Events
+    # ## Available Events
     #
     # * new_category
     # * edit_category
@@ -199,7 +199,7 @@ module Categories
       def delete
         authorize_user!(:delete_category)
 
-        post = request.subset(:category_ids, :category_group_id)
+        post = request.subset(:category_ids)
 
         # Obviously we'll require some IDs
         if post['category_ids'].nil? or post['category_ids'].empty?
@@ -226,7 +226,7 @@ module Categories
         end
 
         message(:success, lang('categories.success.delete'))
-        redirect(Categories.r(:index, post['category_group_id']))
+        redirect_referrer
       end
     end # Categories
   end # Controller

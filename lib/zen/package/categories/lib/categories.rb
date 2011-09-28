@@ -2,7 +2,7 @@ Zen::Package.add do |p|
   p.name       = :categories
   p.title      = 'categories.titles.index'
   p.author     = 'Yorick Peterse'
-  p.url        = 'http://yorickpeterse.com/'
+  p.url        = 'http://zen-cms.com/'
   p.about      = 'category_groups.description'
   p.root       = __DIR__('categories')
   p.migrations = __DIR__('../migrations')

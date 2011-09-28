@@ -65,7 +65,7 @@ module Zen
 
       Zen::Language.load('zen_general')
 
-      require __DIR__('zen/model/settings')
+      require __DIR__('zen/model/init')
       require __DIR__('zen/model/methods')
 
       # Set up Ramaze::Asset

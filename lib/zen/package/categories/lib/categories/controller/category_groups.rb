@@ -6,14 +6,14 @@ module Categories
     # Controller used for managing category groups. Individual categories are
     # managed by the Categories controller.
     #
-    # ## User Permissions
+    # ## Used Permissions
     #
     # * show_category_group
     # * edit_category_group
     # * new_category_group
     # * delete_category_group
     #
-    # ## Used Events
+    # ## Available Events
     #
     # * new_category_group
     # * edit_category_group
@@ -168,7 +168,7 @@ module Categories
         end
 
         message(:success, lang('category_groups.success.delete'))
-        redirect(CategoryGroups.r(:index))
+        redirect_referrer
       end
     end # CategoryGroups
   end # Controller
