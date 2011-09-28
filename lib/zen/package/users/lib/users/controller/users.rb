@@ -114,10 +114,7 @@ module Users
         if request.post?
           # Let's see if we can authenticate
           if user_login(request.subset(:email, :password))
-            # Update the last time the user logged in
-            ::Users::Model::User[:email => request.params['email']].update(
-              :last_login => Time.new
-            )
+            user.update(:last_login => Time.new)
 
             message(:success, lang('users.success.login'))
             redirect(::Sections::Controller::Sections.r(:index))

@@ -31,13 +31,13 @@ module Categories
       # @param  [Hash] options Hash containing a set of options used to
       #  determine how the categories should be retrieved and which one should
       #  be retrieved.
-      # @option options [Integer] :limit The maximum amount of categories to
+      # @option options [Fixnum] :limit The maximum amount of categories to
       #  retrieve.
-      # @option options [Integer] :offset The row offset, useful for pagination
+      # @option options [Fixnum] :offset The row offset, useful for pagination
       #  systems.
-      # @option options [String/Integer] :group The name or ID of the category
+      # @option options [String/Fixnum] :group The name or ID of the category
       #  group for which to retrieve all categories.
-      # @option options [String/Integer] :category The slug or ID of the
+      # @option options [String/Fixnum] :category The slug or ID of the
       #  category to retrieve. Setting this option will cause the plugin to
       #  ignore the offset and limit options.
       #
@@ -69,11 +69,11 @@ module Categories
         allowed     = [Integer, String, Fixnum]
 
         # Validate the types
-        if !@options[:group].nil?
+        unless @options[:group].nil?
           validate_type(@options[:group], :group, allowed)
         end
 
-        if !@options[:category].nil?
+        unless @options[:category].nil?
           validate_type(@options[:category], :category, allowed)
         end
 
@@ -135,11 +135,11 @@ module Categories
         end
 
         # Convert all categories to a hash
-        if categories.class == Array
+        if categories.is_a?(Array)
           categories.each_with_index do |cat, index|
             categories[index] = cat.values
           end
-        else
+        elsif categories.respond_to?(:values)
           categories = categories.values
         end
 

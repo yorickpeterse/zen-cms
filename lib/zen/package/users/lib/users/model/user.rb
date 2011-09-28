@@ -29,7 +29,9 @@ module Users
         email    = creds['email']
         password = creds['password']
 
-        return false if email.nil? or password.nil?
+        if email.nil? or password.nil?
+          return false
+        end
 
         user = self[:email => email]
 
@@ -47,7 +49,6 @@ module Users
             end
           end
 
-          Ramaze::Current.action.node.session[:user] = user
           return user
         else
           return false

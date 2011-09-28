@@ -3,10 +3,21 @@ module Categories
   #:nodoc:
   module Controller
     ##
-    # Category groups can be used to group a number of categories into a single
-    # container. These groups are assigned to a section (rather than individual
-    # categories). It's important to remember that a section entry can't use a
-    # category group until it has been added to a section.
+    # Controller used for managing category groups. Individual categories are
+    # managed by the Categories controller.
+    #
+    # ## User Permissions
+    #
+    # * show_category_group
+    # * edit_category_group
+    # * new_category_group
+    # * delete_category_group
+    #
+    # ## Used Events
+    #
+    # * new_category_group
+    # * edit_category_group
+    # * delete_category_group
     #
     # @author Yorick Peterse
     # @since  0.1
@@ -14,36 +25,15 @@ module Categories
     class CategoryGroups < Zen::Controller::AdminController
       helper :category
       map    '/admin/category-groups'
+      title  'category_groups.titles.%s'
 
-      before_all do
-        csrf_protection(:save, :delete) do
-          respond(lang('zen_general.errors.csrf'), 403)
-        end
-      end
-
-      ##
-      # The constructor is used to set various options such as the form URLs and
-      # load the language pack for the categories module.
-      #
-      # The following language files are loaded:
-      #
-      # * category_groups
-      #
-      # @author Yorick Peterse
-      # @since  0.1
-      #
-      def initialize
-        super
-        @page_title = lang("category_groups.titles.#{action.method}") rescue nil
-      end
+      # Protects CategoryGroups#save() and CategoryGroups#delete() against CSRF
+      # attacks.
+      csrf_protection :save, :delete
 
       ##
       # Show an overview of all existing category groups and allow the user
       # to create new category groups or manage individual categories.
-      #
-      # This method requires the following permissions:
-      #
-      # * read
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -57,14 +47,11 @@ module Categories
       end
 
       ##
-      # Edit an existing category group based on the ID specified in the URL.
-      # This method requires the following permissions:
-      #
-      # * read
-      # * update
+      # Allows a user to edit an existing category group.
       #
       # @author Yorick Peterse
       # @since  0.1
+      # @param  [Fixnum] id The ID of the category group to edit.
       #
       def edit(id)
         authorize_user!(:edit_category_group)
@@ -74,21 +61,13 @@ module Categories
           lang('category_groups.titles.edit')
         )
 
-        if flash[:form_data]
-          @category_group = flash[:form_data]
-        else
-          @category_group = validate_category_group(id)
-        end
+        @category_group = flash[:form_data] || validate_category_group(id)
 
         render_view(:form)
       end
 
       ##
-      # Create a new category group. This method requires the following
-      # permissions:
-      #
-      # * create
-      # * read
+      # Allows the user to add a new category group.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -107,11 +86,9 @@ module Categories
       end
 
       ##
-      # Save or create a new category group based on the current POST data.
-      # This method requires the following permissions:
-      #
-      # * create
-      # * update
+      # Creates a new category or updates the data of an existing category. If a
+      # category ID is specified (in the POST key "id") that existing category
+      # will be updated, otherwise a new one will be created.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -124,25 +101,24 @@ module Categories
 
           category_group = validate_category_group(post['id'])
           save_action    = :save
+          event          = :new_category_group
         else
           authorize_user!(:new_category_group)
 
           category_group = ::Categories::Model::CategoryGroup.new
           save_action    = :new
+          event          = :edit_category_group
         end
 
-        # Set the messages
-        flash_success = lang("category_groups.success.#{save_action}")
-        flash_error   = lang("category_groups.errors.#{save_action}")
+        success = lang("category_groups.success.#{save_action}")
+        error   = lang("category_groups.errors.#{save_action}")
 
         post.delete('id')
 
-        # Try to run the query
         begin
           category_group.update(post)
-          message(:success, flash_success)
         rescue => e
-          message(:error, flash_error)
+          message(:error, error)
           Ramaze::Log.error(e.inspect)
 
           flash[:form_data]   = category_group
@@ -151,22 +127,15 @@ module Categories
           redirect_referrer
         end
 
-        if !category_group.nil? and category_group.id
-          redirect(CategoryGroups.r(:edit, category_group.id))
-        else
-          redirect(CategoryGroups.r(:new))
-        end
+        Zen::Event.call(event, category_group)
+
+        message(:success, success)
+        redirect(CategoryGroups.r(:edit, category_group.id))
       end
 
       ##
-      # Delete all specified category groups and their categories. In
-      # order to delete a number of groups an array of fields, named
-      # "category_group_ids" is required. This array will contain all the
-      # primary values of each group that has to be deleted.
-      #
-      # This method requires the following permissions:
-      #
-      # * delete
+      # Deletes a number of category groups. The IDs of these groups should be
+      # specified in the POST array "category_group_ids".
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -176,23 +145,29 @@ module Categories
 
         post = request.subset(:category_group_ids)
 
-        if !post['category_group_ids'] or post['category_group_ids'].empty?
+        if post['category_group_ids'].nil? or post['category_group_ids'].empty?
           message(:error, lang('category_groups.errors.no_delete'))
           redirect(CategoryGroups.r(:index))
         end
 
         post['category_group_ids'].each do |id|
+          group = ::Categories::Model::CategoryGroup[id]
+
+          next if group.nil?
+
           begin
-            ::Categories::Model::CategoryGroup[id].destroy
-            message(:success, lang('category_groups.success.delete'))
+            group.destroy
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('category_groups.errors.delete') % id)
 
             redirect_referrer
           end
+
+          Zen::Event.call(:delete_category_group, group)
         end
 
+        message(:success, lang('category_groups.success.delete'))
         redirect(CategoryGroups.r(:index))
       end
     end # CategoryGroups

@@ -17,7 +17,7 @@ module Ramaze
       #
       def date_format
         begin
-          format = session[:user].date_format
+          format = user.date_format
         rescue
           format = plugin(:settings, :get, :date_format).value
         end

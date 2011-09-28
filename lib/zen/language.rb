@@ -158,8 +158,14 @@ module Zen
           method = :frontend_language
         end
 
-        if Ramaze::Current.action.node.session[:user].respond_to?(method)
-          lang = Ramaze::Current.action.node.session[:user].send(method)
+        # Extract the language from the current User object.
+        if Ramaze::Helper.const_defined?(:UserHelper)
+          model = Ramaze::Current.action.node.request \
+            .env[::Ramaze::Helper::UserHelper::RAMAZE_HELPER_USER]
+
+          if model.respond_to?(method)
+            lang = model.send(method)
+          end
         end
       end
 

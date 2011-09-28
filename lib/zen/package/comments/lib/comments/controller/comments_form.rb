@@ -87,7 +87,7 @@ module Comments
         end
 
         # Comments require an account?
-        if section.comment_require_account === true and session[:user].nil?
+        if section.comment_require_account === true and !logged_in?
           message(:error, lang('comments.errors.comments_require_account'))
           redirect_referrer
         end

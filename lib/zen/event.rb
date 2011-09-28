@@ -39,15 +39,6 @@ module Zen
   #
   # This would result in "Hello Ruby" being printed 10 times in the console.
   #
-  # ## Available Events
-  #
-  # Out of the box Zen ships with the following events:
-  #
-  # * new_comment
-  # * new_user
-  # * edit_user
-  # * new_section_entry
-  #
   # @author Yorick Peterse
   # @since  0.2.9
   #
@@ -59,6 +50,9 @@ module Zen
     ##
     # Runs all the events for the name and passes the arguments to each event.
     # Each event is run in it's own thread and is wrapped in a mutex.
+    #
+    # @example
+    #  Zen::Event.call(:new_user, User[1])
     #
     # @author Yorick Peterse
     # @since  0.2.9
@@ -90,7 +84,13 @@ module Zen
     end
 
     ##
-    # Adds a new event to the list of events for the given name.
+    # Adds a new event to the list of events for the given name. If the event
+    # does not exist it will be created automatically.
+    #
+    # @example
+    #  Zen::Event.add(:new_user) do |user|
+    #    puts user.name
+    #  end
     #
     # @author Yorick Peterse
     # @since  0.2.9

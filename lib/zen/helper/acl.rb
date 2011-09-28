@@ -95,10 +95,10 @@ module Ramaze
         end
 
         super_group = false
-        perms       = session[:user].permissions.map { |p| p.permission }
+        perms       = user.permissions.map { |p| p.permission }
         group_ids   = []
 
-        session[:user].user_groups.each do |group|
+        user.user_groups.each do |group|
           super_group = true if group.super_group === true
           group_ids << group.id
         end
