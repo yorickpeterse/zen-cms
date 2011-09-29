@@ -23,26 +23,8 @@ module Categories
       def validate
         validates_presence([:name, :category_group_id])
         validates_max_length(255, [:name, :slug])
+        validates_presence(:slug) unless new?
         validates_unique(:slug)
-      end
-
-      private
-
-      ##
-      # Overrides the #to_slug() method of the sluggable plugin so that it works
-      # with empty strings and nil values.
-      #
-      # @author Yorick Peterse
-      # @since  28-09-2011
-      # @param  [String|NilClass] value The value to convert to a slug.
-      # @return [String]
-      #
-      def to_slug(value)
-        if value.nil? or value.empty?
-          value = name
-        end
-
-        return value.chomp.downcase.gsub(/[^a-z0-9]+/, '-')
       end
     end # Category
   end # Model

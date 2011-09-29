@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
   s.add_dependency('sequel'          , ['= 3.26'])
   s.add_dependency('ramaze'          , ['= 2011.07.25'])
   s.add_dependency('bcrypt-ruby'     , ['= 3.0.1'])
-  s.add_dependency('sequel_sluggable', ['= 0.0.6'])
   s.add_dependency('rake'            , ['= 0.9.2'])
   s.add_dependency('loofah'          , ['= 1.2.0'])
   s.add_dependency('json'            , ['= 1.6.1'])

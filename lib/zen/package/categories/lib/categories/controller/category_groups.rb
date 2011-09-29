@@ -80,7 +80,11 @@ module Categories
           lang('category_groups.titles.new')
         )
 
-        @category_group = ::Categories::Model::CategoryGroup.new
+        if flash[:form_data]
+          @category_group = flash[:form_data]
+        else
+          @category_group = ::Categories::Model::CategoryGroup.new
+        end
 
         render_view(:form)
       end

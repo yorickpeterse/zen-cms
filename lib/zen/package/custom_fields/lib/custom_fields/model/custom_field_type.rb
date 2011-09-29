@@ -9,10 +9,8 @@ module CustomFields
     # @since  0.2.8
     #
     class CustomFieldType < Sequel::Model
-      many_to_one(
-        :custom_field_method, 
+      many_to_one :custom_field_method,
         :class => 'CustomFields::Model::CustomFieldMethod'
-      )
 
       ##
       # Returns a hash where the keys are the IDs of all custom field types and
@@ -25,7 +23,7 @@ module CustomFields
       #
       def self.type_hash
         rows = {}
-        
+
         CustomFieldType.select(:id, :language_string).each do |row|
           rows[row.id] = lang(row.language_string)
         end

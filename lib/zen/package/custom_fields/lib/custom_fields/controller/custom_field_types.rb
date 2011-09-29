@@ -5,33 +5,32 @@ module CustomFields
     ##
     # Controller that can be used to manage individual custom field types.
     #
+    # ## Used Permissions
+    #
+    # * show_custom_field_type
+    # * edit_custom_field_type
+    # * new_custom_field_type
+    # * delete_custom_field_type
+    #
+    # ## Available Events
+    #
+    # * new_custom_field_type
+    # * edit_custom_field_type
+    # * delete_custom_field_type
+    #
     # @author Yorick Peterse
     # @since  0.2.8
     #
     class CustomFieldTypes < Zen::Controller::AdminController
       map    '/admin/custom-field-types'
       helper :custom_field
+      title  'custom_field_types.titles.%s'
 
-      before_all do
-        csrf_protection(:save, :delete) do
-          respond(lang('zen_general.errors.csrf'), 403)
-        end
-      end
+      csrf_protection :save, :delete
 
-      ##
-      # Creates a new instance of the controller, loads all the required
-      # language files and sets the page title.
-      #
-      # @author Yorick Peterse
-      # @since  0.2.8
-      #
-      def initialize
-        super
-
-        @page_title = lang(
-          "custom_field_types.titles.#{action.method}"
-        ) rescue nil
-
+      # Blck that's executed before CustomFieldTypes#edit() and
+      # CustomFieldTypes#new().
+      before(:index, :edit, :new) do
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')
@@ -42,9 +41,6 @@ module CustomFields
       # Shows an overview of all the available custom field types and allows the
       # user to create new ones, edit existing ones or delete a group of field
       # types.
-      #
-      # This method requires read permissions for a user to be able to view all
-      # the field types.
       #
       # @author Yorick Peterse
       # @since  0.2.8
@@ -62,17 +58,11 @@ module CustomFields
       ##
       # Allows a user to edit an existing custom field type.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * update
-      #
       # @author Yorick Peterse
       # @since  0.2.8
-      # @param  [Fixnum] custom_field_type_id The ID of the custom field type to
-      #  edit.
+      # @param  [Fixnum] id The ID of the custom field type to edit.
       #
-      def edit(custom_field_type_id)
+      def edit(id)
         authorize_user!(:edit_custom_field_type)
 
         set_breadcrumbs(
@@ -80,25 +70,15 @@ module CustomFields
           lang('custom_field_types.titles.edit')
         )
 
-        if flash[:form_data]
-          @custom_field_type = flash[:form_data]
-        else
-          @custom_field_type = validate_custom_field_type(custom_field_type_id)
-        end
-
+        @custom_field_type = flash[:form_data] || validate_custom_field_type(id)
         @custom_field_methods = ::CustomFields::Model::CustomFieldMethod \
           .pk_hash(:name)
 
-        render_view :form
+        render_view(:form)
       end
 
       ##
       # Allows a user to add a new custom field type.
-      #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * create
       #
       # @author Yorick Peterse
       # @since  0.2.8
@@ -114,14 +94,17 @@ module CustomFields
         @custom_field_methods = ::CustomFields::Model::CustomFieldMethod \
           .pk_hash(:name)
 
-        @custom_field_type    = ::CustomFields::Model::CustomFieldType.new
+        if flash[:form_data]
+          @custom_field_type = flash[:form_data]
+        else
+          @custom_field_type = ::CustomFields::Model::CustomFieldType.new
+        end
 
-        render_view :form
+        render_view(:form)
       end
 
       ##
-      # Saves the data submitted by CustomFieldTypes#edit() and
-      # CustomFieldTypes#add().
+      # Creates a new custom field type or edits an existing one.
       #
       # This method requires either create or update permissions based on the
       # supplied data.
@@ -145,11 +128,13 @@ module CustomFields
 
           field_type  = validate_custom_field_type(post['id'])
           save_action = :save
+          event       = :edit_custom_field_type
         else
           authorize_user!(:new_custom_field_type)
 
           field_type  = ::CustomFields::Model::CustomFieldType.new
           save_action = :new
+          event       = :new_custom_field_type
         end
 
         post.delete('id')
@@ -159,7 +144,6 @@ module CustomFields
 
         begin
           field_type.update(post)
-          message(:success, success)
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, error)
@@ -170,18 +154,15 @@ module CustomFields
           redirect_referrer
         end
 
-        if field_type.id
-          redirect(CustomFieldTypes.r(:edit, field_type.id))
-        else
-          redirect_referrer
-        end
+        Zen::Event.call(event, field_type)
+
+        message(:success, success)
+        redirect(CustomFieldTypes.r(:edit, field_type.id))
       end
 
       ##
-      # Deletes a number of custom field types.
-      #
-      # This method requires delete permissions for a user to be able to remove
-      # a number of database records.
+      # Deletes a number of custom field types. These types should be specified
+      # in the POST array "custom_field_type_ids".
       #
       # @author Yorick Peterse
       # @since  0.2.8
@@ -196,14 +177,18 @@ module CustomFields
         end
 
         request.params['custom_field_type_ids'].each do |id|
+          type = ::CustomFields::Model::CustomFieldType[id]
+
           begin
-            ::CustomFields::Model::CustomFieldType[id].destroy
+            type.destroy
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('custom_field_types.errors.delete') % id)
 
             redirect_referrer
           end
+
+          Zen::Event.call(:delete_custom_field_type, type)
         end
 
         message(:success, lang('custom_field_types.success.delete'))

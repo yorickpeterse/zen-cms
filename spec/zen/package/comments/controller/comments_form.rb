@@ -63,7 +63,7 @@ describe("Comments::Controller::CommentsForm") do
     url      = Comments::Controller::CommentsForm.r(:save).to_s
     response = page.driver.post(url)
 
-    response.body.should   === lang('zen_general.errors.not_authorized')
+    response.body.should   === lang('zen_general.errors.csrf')
     response.status.should === 403
   end
 

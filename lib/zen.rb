@@ -4,12 +4,12 @@ require 'yaml'
 Ramaze.setup(:verbose => false) do
   gem 'sequel'          , ['= 3.26']
   gem 'bcrypt-ruby'     , ['= 3.0.1'], :lib => 'bcrypt'
-  gem 'sequel_sluggable', ['= 0.0.6']
   gem 'loofah'          , ['= 1.2.0']
   gem 'json'            , ['= 1.6.1']
   gem 'ramaze-asset'    , ['= 0.2.3'], :lib => 'ramaze/asset'
 end
 
+require __DIR__('vendor/sequel_sluggable')
 require __DIR__('zen/version')
 
 ##

@@ -11,8 +11,7 @@ module Menus
     class Menu < Sequel::Model
       plugin :sluggable, :source => :name, :freeze => false
 
-      # Define our relations
-      one_to_many :menu_items, :class => "Menus::Model::MenuItem"
+      one_to_many :menu_items, :class => 'Menus::Model::MenuItem'
 
       ##
       # Specifies all validates rules used when creating or updating a menu.
@@ -23,9 +22,9 @@ module Menus
       # @since  0.2a
       #
       def validate
-        validates_presence :name
-        validates_presence :slug unless new?
-        validates_unique   :slug
+        validates_presence(:name)
+        validates_presence(:slug) unless new?
+        validates_unique(:slug)
 
         # Prevent people from entering random crap for class and ID names
         validates_format(/^[a-zA-Z\-_0-9]*/, [:html_class, :html_id])

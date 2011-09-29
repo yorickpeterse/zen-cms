@@ -23,7 +23,7 @@ Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
 
   :integer => {
     :message   => lang('zen_models.integer'),
-    :allow_nil => false
+    :allow_nil => true
   },
 
   :length_range => {

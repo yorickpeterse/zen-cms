@@ -86,7 +86,12 @@ module Categories
         validate_category_group(category_group_id)
 
         @category_group_id = category_group_id
-        @category          = ::Categories::Model::Category.new
+
+        if flash[:form_data]
+          @category = flash[:form_data]
+        else
+          @category = ::Categories::Model::Category.new
+        end
 
         render_view(:form)
       end
@@ -204,7 +209,7 @@ module Categories
         # Obviously we'll require some IDs
         if post['category_ids'].nil? or post['category_ids'].empty?
           message(:error, lang('categories.errors.no_delete'))
-          redirect(Categories.r(:index, post['category_group_id']))
+          redirect_referrer
         end
 
         # Remove each category and call the event.

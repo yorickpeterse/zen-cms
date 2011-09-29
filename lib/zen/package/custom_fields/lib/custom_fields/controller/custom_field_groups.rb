@@ -3,50 +3,35 @@ module CustomFields
   #:nodoc:
   module Controller
     ##
-    # Controller for managing custom field groups. These groups are used to
-    # organize individual fields into a larger group which in turn will be
-    # assigned to a section.
+    # Controller that allows users to manage custom field groups. Individual
+    # fields are managed by the CustomFields controller.
     #
-    # @author  Yorick Peterse
-    # @since   0.1
+    # ## Used Permissions
+    #
+    # * show_custom_field_group
+    # * new_custom_field_group
+    # * edit_custom_field_group
+    # * delete_custom_field_group
+    #
+    # ## Available Events
+    #
+    # * new_custom_field_group
+    # * edit_custom_field_group
+    # * delete_custom_field_group
+    #
+    # @author Yorick Peterse
+    # @since  0.1
     #
     class CustomFieldGroups < Zen::Controller::AdminController
       helper :custom_field
       map    '/admin/custom-field-groups'
+      title  'custom_field_groups.titles.%s'
 
-      before_all do
-        csrf_protection(:save, :delete) do
-          respond(lang('zen_general.errors.csrf'), 403)
-        end
-      end
+      csrf_protection :save, :delete
 
       ##
-      # Constructor method, called upon initialization. It's used to set the URL
-      # to which forms send their data and load the language pack.
-      #
-      # This method loads the following language files:
-      #
-      # * custom_field_groups
-      #
-      # @author Yorick Peterse
-      # @since  0.1
-      #
-      def initialize
-        super
-
-        @page_title = lang(
-          "custom_field_groups.titles.#{action.method}"
-        ) rescue nil
-      end
-
-      ##
-      # Show an overview of all existing custom field groups. Using this
-      # overview a user can manage an existing field group, delete it or create
-      # a new one.
-      #
-      # This method requires the following permissions:
-      #
-      # * read
+      # Shows an overview that allows the user to manage existing field groups
+      # and create new ones.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -62,11 +47,6 @@ module CustomFields
       ##
       # Show a form that lets the user edit an existing custom field group.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * update
-      #
       # @author Yorick Peterse
       # @param  [Fixnum] id The ID of the custom field group to retrieve so
       #  that we can edit it.
@@ -80,22 +60,13 @@ module CustomFields
           @page_title
         )
 
-        if flash[:form_data]
-          @field_group = flash[:form_data]
-        else
-          @field_group = validate_custom_field_group(id)
-        end
+        @field_group = flash[:form_data] || validate_custom_field_group(id)
 
         render_view(:form)
       end
 
       ##
-      # Show a form that lets the user create a new custom field group.
-      #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * create
+      # Allows a user to create a new custom field group.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -108,21 +79,19 @@ module CustomFields
           @page_title
         )
 
-        @field_group = ::CustomFields::Model::CustomFieldGroup.new
+        if flash[:form_data]
+          @field_group = flash[:form_data]
+        else
+          @field_group = ::CustomFields::Model::CustomFieldGroup.new
+        end
 
         render_view(:form)
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back
-      # to the proper URL. Based on the value of a hidden field named 'id' we'll
-      # determine if the data will be used to create a new group or to update an
-      # existing one.
-      #
-      # This method requires the following permissions:
-      #
-      # * create
-      # * update
+      # Saves or creates a new custom field group. If a valid ID is specified in
+      # the POST key "id" an existing row will be updated instead of creating a
+      # new one.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -133,52 +102,43 @@ module CustomFields
         if post['id'] and !post['id'].empty?
           authorize_user!(:edit_custom_field_group)
 
-          @field_group  = validate_custom_field_group(post['id'])
-          save_action   = :save
+          field_group = validate_custom_field_group(post['id'])
+          save_action = :save
+          event       = :new_custom_field_group
         else
           authorize_user!(:new_custom_field_group)
 
-          @field_group  = ::CustomFields::Model::CustomFieldGroup.new
-          save_action   = :new
+          field_group = ::CustomFields::Model::CustomFieldGroup.new
+          save_action = :new
+          event       = :edit_custom_field_group
         end
 
         post.delete('id')
 
-        # Set the messages
-        flash_success = lang("custom_field_groups.success.#{save_action}")
-        flash_error   = lang("custom_field_groups.errors.#{save_action}")
+        success = lang("custom_field_groups.success.#{save_action}")
+        error   = lang("custom_field_groups.errors.#{save_action}")
 
         begin
-          @field_group.update(post)
-          message(:success, flash_success)
+          field_group.update(post)
         rescue => e
           Ramaze::Log.error(e.inspect)
-          message(:error, flash_error)
+          message(:error, error)
 
-          flash[:form_errors] = @field_group.errors
-          flash[:form_data]   = @field_group
+          flash[:form_errors] = field_group.errors
+          flash[:form_data]   = field_group
 
           redirect_referrer
         end
 
-        if !@field_group.nil? and @field_group.id
-          redirect(CustomFieldGroups.r(:edit, @field_group.id))
-        else
-          redirect_referrer
-        end
+        Zen::Event.call(event, field_group)
+
+        message(:success, success)
+        redirect(CustomFieldGroups.r(:edit, field_group.id))
       end
 
       ##
-      # Delete an existing custom field group.
-      #
-      # In order to delete a custom field group you'll need to send a POST
-      # request that contains a field named 'custom_field_group_ids[]'. This
-      # field should contain the primary values of each field group that has to
-      # be deleted.
-      #
-      # This method requires the following permissions:
-      #
-      # * delete
+      # Delete an existing custom field group. The IDs of the groups to remove
+      # should be specified in a POST array called "custom_field_group_ids".
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -193,17 +153,23 @@ module CustomFields
         end
 
         request.params['custom_field_group_ids'].each do |id|
+          group = ::CustomFields::Model::CustomFieldGroup[id]
+
+          next if group.nil?
+
           begin
-            ::CustomFields::Model::CustomFieldGroup[id].destroy
-            message(:success, lang('custom_field_groups.success.delete'))
+            group.destroy
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('custom_field_groups.errors.delete') % id)
 
             redirect_referrer
           end
+
+          Zen::Event.call(:delete_custom_field_group, group)
         end
 
+        message(:success, lang('custom_field_groups.success.delete'))
         redirect_referrer
       end
     end # CustomFieldGroups

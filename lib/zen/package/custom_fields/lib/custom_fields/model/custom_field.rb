@@ -3,22 +3,18 @@ module CustomFields
   #:nodoc:
   module Model
     ##
-    # Model that represents a single custom field.
+    # Model for managing retrieving custom fields.
     #
     # @author Yorick Peterse
     # @since  0.1
     #
     class CustomField < Sequel::Model
-      one_to_many(
-        :custom_field_values,
+      one_to_many :custom_field_values,
         :class => "CustomFields::Model::CustomFieldValue"
-      )
 
-      many_to_one(
-        :custom_field_type,
+      many_to_one :custom_field_type,
         :class => 'CustomFields::Model::CustomFieldType',
         :eager => :custom_field_method
-      )
 
       plugin :sluggable, :source => :name, :freeze => false
 
@@ -37,7 +33,6 @@ module CustomFields
         ])
 
         validates_max_length(255, [:name])
-
         validates_type(TrueClass, [:required, :text_editor])
 
         validates_integer([

@@ -8,48 +8,40 @@ module CustomFields
     # buttons, textareas, the whole shebang. Before being able to use a custom
     # field you'll need to add it to a group and bind that group to a section.
     #
+    # ## Used Permissions
+    #
+    # * show_custom_field
+    # * new_custom_field
+    # * edit_custom_field
+    # * delete_custom_field
+    #
+    # ## Available Events
+    #
+    # * new_custom_field
+    # * edit_custom_field
+    # * delete_custom_field
+    #
     # @author Yorick Peterse
     # @since  0.1
     #
     class CustomFields < Zen::Controller::AdminController
       helper :custom_field
       map    '/admin/custom-fields'
+      title  'custom_fields.titles.%s'
 
-      load_asset_group(:tabs, [:edit, :new])
-
-      before_all do
-        csrf_protection(:save, :delete) do
-          respond(lang('zen_general.errors.csrf'), 403)
-        end
-      end
+      csrf_protection  :save; :delete
+      load_asset_group :tabs, [:edit, :new]
 
       ##
-      # Hook that is executed before the index(), edit() and new() methods.
+      # Hook that is executed before the CustomFields#index(),
+      # CustomFields#edit() and CustomFields#new() methods.
       #
       # @author Yorick Peterse
       # @since  0.2.8
       #
       before(:index, :edit, :new) do
         @custom_field_types = ::CustomFields::Model::CustomFieldType.type_hash
-      end
-
-      ##
-      # Constructor method, called upon initialization. It's used to set the
-      # URL to which forms send their data and load the language pack.
-      #
-      # This method loads the following language files:
-      #
-      # * custom_fields
-      # * custom_field_groups
-      #
-      # @author Yorick Peterse
-      # @since  0.1
-      #
-      def initialize
-        super
-
-        @page_title   = lang("custom_fields.titles.#{action.method}") rescue nil
-        @boolean_hash = {
+        @boolean_hash       = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')
         }
@@ -59,10 +51,6 @@ module CustomFields
       # Show an overview of all existing custom fields. Using this overview a
       # user can manage an existing field, delete it or create a new one.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      #
       # @author Yorick Peterse
       # @param  [Fixnum] custom_field_group_id The ID of the custom field group
       #  to which all fields belong.
@@ -71,13 +59,12 @@ module CustomFields
       def index(custom_field_group_id)
         authorize_user!(:show_custom_field)
 
-        field_group = validate_custom_field_group(custom_field_group_id)
-
         set_breadcrumbs(
           CustomFieldGroups.a(lang('custom_field_groups.titles.index'), :index),
           lang('custom_fields.titles.index')
         )
 
+        field_group = validate_custom_field_group(custom_field_group_id)
         @custom_field_group_id = custom_field_group_id
         @custom_fields         = ::CustomFields::Model::CustomField.filter(
           :custom_field_group_id => custom_field_group_id
@@ -89,13 +76,8 @@ module CustomFields
       ##
       # Show a form that lets the user edit an existing custom field group.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * update
-      #
       # @author Yorick Peterse
-      # @param  [Fixnum] custom_field_group_id The ID of the custom field
+      # @param  [Fixnum] id The ID of the custom field
       #  group to which all fields belong.
       # @param  [Fixnum] id The ID of the custom field to retrieve so that we
       #  can edit it.
@@ -108,10 +90,13 @@ module CustomFields
 
         set_breadcrumbs(
           CustomFieldGroups.a(
-            lang('custom_field_groups.titles.index'), :index
+            lang('custom_field_groups.titles.index'),
+            :index
           ),
           CustomFields.a(
-            lang('custom_fields.titles.index'), :index, custom_field_group_id
+            lang('custom_fields.titles.index'),
+            :index,
+            custom_field_group_id
           ),
           lang('custom_fields.titles.edit')
         )
@@ -129,11 +114,6 @@ module CustomFields
 
       ##
       # Show a form that lets the user create a new custom field group.
-      #
-      # This method requires the following permissions:
-      #
-      # * create
-      # * read
       #
       # @author Yorick Peterse
       # @param  [Fixnum] custom_field_group_id The ID of the custom field group
@@ -159,7 +139,12 @@ module CustomFields
         )
 
         @custom_field_group_id = custom_field_group_id
-        @custom_field          = ::CustomFields::Model::CustomField.new
+
+        if flash[:form_data]
+          @custom_field = flash[:form_data]
+        else
+          @custom_field = ::CustomFields::Model::CustomField.new
+        end
 
         render_view(:form)
       end
@@ -169,11 +154,6 @@ module CustomFields
       # to the proper URL. Based on the value of a hidden field named 'id' we'll
       # determine if the data will be used to create a new custom field or to
       # update an existing one.
-      #
-      # This method requires the following permissions:
-      #
-      # * create
-      # * update
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -206,26 +186,26 @@ module CustomFields
             post['id'], post['custom_field_group_id']
           )
 
-          save_action  = :save
+          save_action = :save
+          event       = :edit_custom_field
         else
           authorize_user!(:new_custom_field)
 
           custom_field = ::CustomFields::Model::CustomField.new
           save_action  = :new
+          event        = :new_custom_field
         end
 
-        post.delete('slug') if post['slug'].empty?
         post.delete('id')
 
-        flash_success = lang("custom_fields.success.#{save_action}")
-        flash_error   = lang("custom_fields.errors.#{save_action}")
+        success = lang("custom_fields.success.#{save_action}")
+        error   = lang("custom_fields.errors.#{save_action}")
 
         begin
           custom_field.update(post)
-          message(:success, flash_success)
         rescue => e
           Ramaze::Log.error(e.inspect)
-          message(:error, flash_error)
+          message(:error, error)
 
           flash[:form_data]   = custom_field
           flash[:form_errors] = custom_field.errors
@@ -233,15 +213,12 @@ module CustomFields
           redirect_referrer
         end
 
-        if custom_field.id
-          redirect(
-            CustomFields.r(
-              :edit, post['custom_field_group_id'], custom_field.id
-            )
-          )
-        else
-          redirect_referrer
-        end
+        Zen::Event.call(event, custom_field)
+
+        message(:success, success)
+        redirect(
+          CustomFields.r(:edit, post['custom_field_group_id'], custom_field.id)
+        )
       end
 
       ##
@@ -251,36 +228,35 @@ module CustomFields
       # request that contains a field named 'custom_field_ids[]'. This field
       # should contain the primary values of each field that has to be deleted.
       #
-      # This method requires the following permissions:
-      #
-      # * delete
-      #
       # @author Yorick Peterse
       # @since  0.1
       #
       def delete
         authorize_user!(:delete_custom_field)
 
-        post = request.subset(:custom_field_ids, :custom_field_group_id)
+        post = request.subset(:custom_field_ids)
 
-        if !request.params['custom_field_ids'] \
-        or request.params['custom_field_ids'].empty?
+        if post['custom_field_ids'].nil? or post['custom_field_ids'].empty?
           message(:error, lang('custom_fields.errors.no_delete'))
-          redirect(CustomFields.r(:index, post['custom_field_group_id']))
+          redirect_referrer
         end
 
         request.params['custom_field_ids'].each do |id|
+          custom_field = ::CustomFields::Model::CustomField[id]
+
           begin
-            ::CustomFields::Model::CustomField[id].destroy
-            message(:success, lang('custom_fields.success.delete'))
+            custom_field.destroy
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('custom_fields.errors.delete') % id)
 
             redirect_referrer
           end
+
+          Zen::Event.call(:delete_custom_field, custom_field)
         end
 
+        message(:success, lang('custom_fields.success.delete'))
         redirect_referrer
       end
     end # CustomFields

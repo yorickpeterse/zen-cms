@@ -202,8 +202,6 @@ module CustomFields
 
         return params
       end
-
-      private
     end # class << self
   end # BlueFormParameters
 end # CustomFields
