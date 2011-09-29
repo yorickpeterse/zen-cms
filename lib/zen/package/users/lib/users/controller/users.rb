@@ -5,37 +5,39 @@ module Users
     ##
     # Controller for managing users.
     #
+    # ## Used Permissions
+    #
+    # * show_user
+    # * new_user
+    # * edit_user
+    # * delete_user
+    #
+    # ## Available Events
+    #
+    # * new_user
+    # * edit_user
+    # * delete_user
+    #
     # @author Yorick Peterse
     # @since  0.1
     #
     class Users < Zen::Controller::AdminController
       helper :users, :layout
       map    '/admin/users'
+      title  'users.titles.%s'
 
-      before_all do
-        csrf_protection(:save, :delete) do
-          respond(lang('zen_general.errors.csrf'), 403)
-        end
-      end
+      csrf_protection :save, :delete
 
-      serve(:javascript, ['/admin/js/users/permissions'], :minify => false)
-      serve(:css, ['/admin/css/users/permissions.css'], :minify => false)
+      serve :javascript, ['/admin/js/users/permissions'], :minify => false
+      serve :css, ['/admin/css/users/permissions.css'], :minify => false
 
-      load_asset_group(:tabs)
+      load_asset_group :tabs
 
       set_layout :admin => [:index, :edit, :new]
       set_layout :login => [:login]
 
-      ##
-      # Creates a new instance of the controller.
-      #
-      # @author Yorick Peterse
-      # @since  0.1
-      #
-      def initialize
-        super
-
-        @page_title  = lang("users.titles.#{action.method}") rescue nil
+      # Hook that's executed before Users#index(), Users#edit() and Users#new().
+      before(:index, :edit, :new) do
         @status_hash = {
           'open'   => lang('users.special.status_hash.open'),
           'closed' => lang('users.special.status_hash.closed')
@@ -72,12 +74,7 @@ module Users
           lang('users.titles.edit')
         )
 
-        if flash[:form_data]
-          @user = flash[:form_data]
-        else
-          @user = validate_user(id)
-        end
-
+        @user           = flash[:form_data] || validate_user(id)
         @user_group_pks = ::Users::Model::UserGroup.pk_hash(:name).invert
         @permissions    = @user.permissions.map { |p| p.permission.to_sym }
 
@@ -98,7 +95,7 @@ module Users
           lang('users.titles.new')
         )
 
-        @user           = ::Users::Model::User.new
+        @user           = flash[:form_data] || ::Users::Model::User.new
         @user_group_pks = ::Users::Model::UserGroup.pk_hash(:name).invert
 
         render_view(:form)
@@ -164,13 +161,13 @@ module Users
 
           user        = validate_user(post['id'])
           save_action = :save
-          hook_name   = :edit_user
+          event       = :edit_user
         else
           authorize_user!(:new_user)
 
           user        = ::Users::Model::User.new
           save_action = :new
-          hook_name   = :new_user
+          event       = :new_user
         end
 
         if post['password'] != post['confirm_password']
@@ -182,17 +179,15 @@ module Users
         post.delete('id')
 
         post['user_group_pks'] ||= []
-        flash_success            = lang("users.success.#{save_action}")
-        flash_error              = lang("users.errors.#{save_action}")
+        success            = lang("users.success.#{save_action}")
+        error              = lang("users.errors.#{save_action}")
 
         begin
           user.update(post)
-          message(:success, flash_success)
-
           user.user_group_pks = post['user_group_pks'] if save_action === :new
         rescue => e
           Ramaze::Log.error(e.inspect)
-          message(:error, flash_error)
+          message(:error, error)
 
           flash[:form_data]   = user
           flash[:form_errors] = user.errors
@@ -210,13 +205,10 @@ module Users
           )
         end
 
-        Zen::Event.call(hook_name, user)
+        Zen::Event.call(event, user)
 
-        if user.id
-          redirect(Users.r(:edit, user.id))
-        else
-          redirect_referrer
-        end
+        message(:success, success)
+        redirect(Users.r(:edit, user.id))
       end
 
       ##
@@ -234,20 +226,24 @@ module Users
         end
 
         request.params['user_ids'].each do |id|
-          begin
-            u                = ::Users::Model::User[id]
-            u.user_group_pks = []
+          user = ::Users::Model::User[id]
 
-            u.destroy
-            message(:success, lang('users.success.delete'))
+          next if user.nil?
+
+          begin
+            user.user_group_pks = []
+            user.destroy
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('users.errors.delete') % id)
 
             redirect_referrer
           end
+
+          Zen::Event.call(:delete_user, user)
         end
 
+        message(:success, lang('users.success.delete'))
         redirect_referrer
       end
     end # Users

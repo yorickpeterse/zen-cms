@@ -53,7 +53,7 @@ module Sections
       #
       # @author Yorick Peterse
       # @since  0.2.5
-      # @return [Array/Sections::Model::Section] List of all sections that were
+      # @return [Array|Sections::Model::Section] List of all sections that were
       #  retrieved or an instance of Sections::Model::Section in case a specific
       #  section was retrieved from the database.
       #

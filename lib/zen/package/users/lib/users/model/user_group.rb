@@ -17,10 +17,10 @@ module Users
     # @since  0.1
     #
     class UserGroup < Sequel::Model
-      many_to_many :users     , :class => 'Users::Model::User'
+      many_to_many :users      , :class => 'Users::Model::User'
       one_to_many  :permissions, :class => 'Users::Model::Permission'
 
-      plugin :sluggable , :source => :name, :freeze => false
+      plugin :sluggable, :source => :name, :freeze => false
       plugin :association_dependencies, :permissions => :delete,
         :users => :nullify
 
@@ -32,11 +32,11 @@ module Users
       # @since  0.1
       #
       def validate
-        validates_presence [:name, :super_group]
-        validates_presence :slug unless new?
-        validates_unique   :slug
+        validates_presence([:name, :super_group])
+        validates_presence(:slug) unless new?
+        validates_unique(:slug)
 
-        validates_type TrueClass, :super_group
+        validates_type(TrueClass, :super_group)
       end
     end # UserGroup
   end # Model

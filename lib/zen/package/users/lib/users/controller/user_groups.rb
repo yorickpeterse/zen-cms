@@ -7,34 +7,36 @@ module Users
     # to a group but it can certainly make it easier when adding custom
     # permissions or granting a user full access to the backend.
     #
+    # ## Used Permissions
+    #
+    # * show_user_group
+    # * edit_user_group
+    # * new_user_group
+    # * delete_user_group
+    #
+    # ## Available Events
+    #
+    # * new_user_group
+    # * edit_user_group
+    # * delete_user_group
+    #
     # @author Yorick Peterse
     # @since  0.1
     #
     class UserGroups < Zen::Controller::AdminController
       helper :users
-      map '/admin/user-groups'
+      map    '/admin/user-groups'
+      title  'user_groups.titles.%s'
 
-      before_all do
-        csrf_protection(:save, :delete) do
-          respond(lang('zen_general.errors.csrf'), 403)
-        end
-      end
+      csrf_protection  :save, :delete
+      load_asset_group :tabs
 
-      serve(:javascript, ['/admin/js/users/permissions'], :minify => false)
-      serve(:css, ['/admin/css/users/permissions.css'], :minify => false)
+      serve :javascript, ['/admin/js/users/permissions'], :minify => false
+      serve :css, ['/admin/css/users/permissions.css'], :minify => false
 
-      load_asset_group(:tabs)
-
-      ##
-      # Creates a new instance of the controller.
-      #
-      # @author Yorick Peterse
-      # @since  0.1
-      #
-      def initialize
-        super
-
-        @page_title   = lang("user_groups.titles.#{action.method}") rescue nil
+      # Hook that is executed before UserGroups#index(), UserGroups#edit() and
+      # UserGroups#new().
+      before(:index, :edit, :new) do
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')
@@ -71,12 +73,7 @@ module Users
           lang('user_groups.titles.edit')
         )
 
-        if flash[:form_data]
-          @user_group = flash[:form_data]
-        else
-          @user_group = validate_user_group(id)
-        end
-
+        @user_group  = flash[:form_data] || validate_user_group(id)
         @permissions = @user_group.permissions.map { |p| p.permission.to_sym }
 
         render_view(:form)
@@ -96,7 +93,7 @@ module Users
           lang('user_groups.titles.new')
         )
 
-        @user_group = ::Users::Model::UserGroup.new
+        @user_group = flash[:form_data] || ::Users::Model::UserGroup.new
 
         render_view(:form)
       end
@@ -116,26 +113,25 @@ module Users
 
           user_group  = validate_user_group(post['id'])
           save_action = :save
+          event       = :edit_user_group
         else
           authorize_user!(:new_user_group)
 
           user_group  = ::Users::Model::UserGroup.new
           save_action = :new
-
-          post.delete('slug') if post['slug'].empty?
+          event       = :new_user_group
         end
 
         post.delete('id')
 
-        flash_success = lang("user_groups.success.#{save_action}")
-        flash_error   = lang("user_groups.errors.#{save_action}")
+        success = lang("user_groups.success.#{save_action}")
+        error   = lang("user_groups.errors.#{save_action}")
 
         begin
           user_group.update(post)
-          message(:success, flash_success)
         rescue => e
           Ramaze::Log.error(e.inspect)
-          message(:error, flash_error)
+          message(:error, error)
 
           flash[:form_data]   = user_group
           flash[:form_errors] = user_group.errors
@@ -152,11 +148,10 @@ module Users
           )
         end
 
-        if user_group.id
-          redirect(UserGroups.r(:edit, user_group.id))
-        else
-          redirect_referrer
-        end
+        Zen::Event.call(event, user_group)
+
+        message(:success, success)
+        redirect(UserGroups.r(:edit, user_group.id))
       end
 
       ##
@@ -175,17 +170,23 @@ module Users
         end
 
         request.params['user_group_ids'].each do |id|
+          group = ::Users::Model::UserGroup[id]
+
+          next if group.nil?
+
           begin
-            ::Users::Model::UserGroup[id].destroy
-            message(:success,  lang('user_groups.success.delete'))
+            group.destroy
           rescue => e
             Ramaze::Log.error(e.inspect)
             message(:error, lang('user_groups.errors.delete') % id)
 
             redirect_referrer
           end
+
+          Zen::Event.call(:delete_user_group, group)
         end
 
+        message(:success,  lang('user_groups.success.delete'))
         redirect_referrer
       end
     end # UserGroups

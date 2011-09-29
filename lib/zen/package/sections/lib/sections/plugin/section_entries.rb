@@ -62,10 +62,10 @@ module Sections
       # @since  0.2.5
       # @param  [Hash] options Hash with a collection of custom configuration
       #  options that determine how and what entries should be retrieved.
-      # @option options [Fixnum/Integer] :limit
-      # @option options [Fixnum/Integer] :offset
-      # @option options [NilClass/String/Integer/Fixnum] :section
-      # @option options [NilClass/String/Integer/Fixnum] :entry
+      # @option options [Fixnum|Integer] :limit
+      # @option options [Fixnum|Integer] :offset
+      # @option options [NilClass|String/Integer/Fixnum] :section
+      # @option options [NilClass|String/Integer/Fixnum] :entry
       # @option options [TrueClass] :markup When set to true the markup of all
       #  entries will be converted to the desired output (usually this is HTML).
       # @option options [TrueClass] :comments When set to true all comments for
@@ -133,7 +133,7 @@ module Sections
       #
       # @author Yorick Peterse
       # @since  0.2.5
-      # @return [Array/Hash]
+      # @return [Array|Hash]
       #
       def call
         # Create the list with models to load using eager()

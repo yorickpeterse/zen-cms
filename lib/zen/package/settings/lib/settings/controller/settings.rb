@@ -6,42 +6,30 @@ module Settings
     # Controller for managing settings. Each setting is saved as a separate
     # row in the database, making management and retrieving them easier.
     #
+    # ## Used Permissions
+    #
+    # * show_setting
+    # * edit_setting
+    #
+    # ## Available Events
+    #
+    # * edit_setting
+    #
     # @author Yorick Peterse
     # @since  0.1
     #
     class Settings < Zen::Controller::AdminController
-      map '/admin/settings'
+      map   '/admin/settings'
+      title 'settings.titles.%s'
 
-      load_asset_group(:tabs)
-
-      before_all do
-        csrf_protection(:save, :delete) do
-          respond(lang('zen_general.errors.csrf'), 403)
-        end
-      end
+      csrf_protection  :save
+      load_asset_group :tabs
 
       ##
-      # Load our language packs, set the form URLs and define our page title.
-      #
-      # This method loads the following language files:
-      #
-      # * settings
-      #
-      # @author Yorick Peterse
-      # @since  0.1
-      #
-      def initialize
-        super
-
-        @form_save_url = Settings.r(:save)
-        @page_title    = lang("settings.titles.#{action.method}") rescue nil
-      end
-
-      ##
-      # Show all settings and allow the user to change them.
-      # The values of each setting item are stored in the database,
-      # the descriptions, names and possible values are stored in
-      # the language packs that come with this module.
+      # Show all settings and allow the user to change them. The values of each
+      # setting item are stored in the database, the descriptions, names and
+      # possible values are stored in the language packs that come with this
+      # module.
       #
       # @author Yorick Peterse
       # @since  0.1
@@ -56,8 +44,8 @@ module Settings
 
         # Organize the settings so that each item is a child
         # item of it's group.
-        ::Settings::Plugin::Settings::Registered[:settings].each \
-        do |name, setting|
+        ::Settings::Plugin::Settings::Registered[:settings] \
+        .each do |name, setting|
           if !@settings_ordered.key?(setting.group)
             @settings_ordered[setting.group] = []
           end
@@ -77,27 +65,31 @@ module Settings
       def save
         authorize_user!(:edit_setting)
 
-        post = request.params.dup
+        post = request.params
         post.delete('csrf_token')
         post.delete('id')
 
-        flash_success = lang('settings.success.save')
-        flash_error   = lang('settings.errors.save')
+        success = lang('settings.success.save')
+        error   = lang('settings.errors.save')
 
         # Update all settings
         post.each do |key, value|
+          setting = plugin(:settings, :get, key)
+
           begin
-            plugin(:settings, :get, key).value = value
+            setting.value = value
           rescue => e
             Ramaze::Log.error(e.inspect)
-            message(:error, flash_error)
+            message(:error, error)
 
             flash[:form_errors] = setting.errors
             redirect_referrer
           end
+
+          Zen::Event.call(:edit_setting, setting)
         end
 
-        message(:success, flash_success)
+        message(:success, success)
         redirect_referrer
       end
     end # Settings

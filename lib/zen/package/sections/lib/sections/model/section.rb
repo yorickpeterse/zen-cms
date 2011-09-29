@@ -9,23 +9,17 @@ module Sections
     # @since  0.1
     #
     class Section < Sequel::Model
-      one_to_many(
-        :section_entries,
-        :class => "Sections::Model::SectionEntry",
+      one_to_many :section_entries,
+        :class => 'Sections::Model::SectionEntry',
         :eager => [:custom_field_values, :section_entry_status]
-      )
 
-      many_to_many(
-        :custom_field_groups,
-        :class => "CustomFields::Model::CustomFieldGroup"
-      )
+      many_to_many :custom_field_groups,
+        :class => 'CustomFields::Model::CustomFieldGroup'
 
-      many_to_many(
-        :category_groups,
-        :class => "Categories::Model::CategoryGroup"
-      )
+      many_to_many :category_groups,
+        :class => 'Categories::Model::CategoryGroup'
 
-      plugin(:sluggable, :source => :name, :freeze => false)
+      plugin :sluggable, :source => :name, :freeze => false
 
       ##
       # Specifies all validation rules for each section.

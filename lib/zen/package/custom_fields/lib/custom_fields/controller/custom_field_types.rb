@@ -179,6 +179,8 @@ module CustomFields
         request.params['custom_field_type_ids'].each do |id|
           type = ::CustomFields::Model::CustomFieldType[id]
 
+          next if type.nil?
+
           begin
             type.destroy
           rescue => e

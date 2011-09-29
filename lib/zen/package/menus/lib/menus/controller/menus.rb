@@ -176,6 +176,8 @@ module Menus
         post['menu_ids'].each do |id|
           menu = ::Menus::Model::Menu[id]
 
+          next if menu.nil?
+
           begin
             menu.destroy
           rescue => e

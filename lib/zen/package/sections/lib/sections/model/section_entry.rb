@@ -9,39 +9,27 @@ module Sections
     # @since  0.1
     #
     class SectionEntry < Sequel::Model
-      one_to_many(
-        :comments,
-        :class => "Comments::Model::Comment"
-      )
+      one_to_many :comments,
+        :class => 'Comments::Model::Comment'
 
-      one_to_many(
-        :custom_field_values,
-        :class => "CustomFields::Model::CustomFieldValue",
+      one_to_many :custom_field_values,
+        :class => 'CustomFields::Model::CustomFieldValue',
         :eager => [:custom_field]
-      )
 
-      many_to_one(
-        :user,
-        :class => "Users::Model::User"
-      )
+      many_to_one :user,
+        :class => 'Users::Model::User'
 
-      many_to_many(
-        :categories,
-        :class => "Categories::Model::Category"
-      )
+      many_to_many :categories,
+        :class => 'Categories::Model::Category'
 
-      many_to_one(
-        :section,
-        :class => "Sections::Model::Section"
-      )
+      many_to_one :section,
+        :class => 'Sections::Model::Section'
 
-      many_to_one(
-        :section_entry_status,
+      many_to_one :section_entry_status,
         :class => 'Sections::Model::SectionEntryStatus'
-      )
 
-      plugin(:sluggable , :source => :title     , :freeze => false)
-      plugin(:timestamps, :create => :created_at, :update => false)
+      plugin :sluggable , :source => :title     , :freeze => false
+      plugin :timestamps, :create => :created_at, :update => false
 
       ##
       # Specify our validation rules.
@@ -92,18 +80,20 @@ module Sections
       # @return [Array]
       #
       def custom_fields
-        return CustomFields::Model::CustomField.select_all(
-          :custom_fields
-        ).join(
-          :custom_field_groups,
-          :custom_field_groups__id => :custom_fields__custom_field_group_id
-        ).join(
-          :custom_field_groups_sections,
-          :custom_field_groups_sections__custom_field_group_id \
-            => :custom_field_groups__id
-        ).filter(
-          :custom_field_groups_sections__section_id => section_id
-        ).all
+        return CustomFields::Model::CustomField.select_all(:custom_fields) \
+          .join(
+            :custom_field_groups,
+            :custom_field_groups__id => :custom_fields__custom_field_group_id
+          ) \
+          .join(
+            :custom_field_groups_sections,
+            :custom_field_groups_sections__custom_field_group_id \
+              => :custom_field_groups__id
+          ) \
+          .filter(
+            :custom_field_groups_sections__section_id => section_id
+          ) \
+          .all
       end
 
       ##

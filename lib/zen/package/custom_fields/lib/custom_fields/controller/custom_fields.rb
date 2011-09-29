@@ -244,6 +244,8 @@ module CustomFields
         request.params['custom_field_ids'].each do |id|
           custom_field = ::CustomFields::Model::CustomField[id]
 
+          next if custom_field.nil?
+
           begin
             custom_field.destroy
           rescue => e
