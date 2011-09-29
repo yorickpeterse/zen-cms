@@ -1,4 +1,6 @@
+#:nodoc:
 module Sequel
+  #:nodoc:
   module Plugins
 
     # The Sluggable plugin creates hook that automatically sets
@@ -7,6 +9,7 @@ module Sequel
     #
     # You need to have "target" column in your model.
     module Sluggable
+      #:nodoc:
       DEFAULT_TARGET_COLUMN = :slug
 
       # Plugin configuration
@@ -46,6 +49,7 @@ module Sequel
 
       end
 
+      #:nodoc:
       module ClassMethods
         attr_reader :sluggable_options
 
@@ -92,6 +96,7 @@ module Sequel
         end
       end
 
+      #:nodoc:
       module InstanceMethods
 
         # Sets a slug column to the slugged value
