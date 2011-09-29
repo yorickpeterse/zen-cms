@@ -6,7 +6,7 @@ describe('Zen::Event') do
   end
 
   it('Register a event') do
-    Zen::Event.add(:test) {}
+    Zen::Event.listen(:test) {}
 
     Zen::Event::Registered.key?(:test).should === true
   end
@@ -14,7 +14,7 @@ describe('Zen::Event') do
   it('Run a single event') do
     data = 0
 
-    Zen::Event.add(:test) do |number|
+    Zen::Event.listen(:test) do |number|
       data = number
     end
 
@@ -28,11 +28,11 @@ describe('Zen::Event') do
   it('Run multiple events') do
     data = 0
 
-    Zen::Event.add(:test) do |number|
+    Zen::Event.listen(:test) do |number|
       data += number
     end
 
-    Zen::Event.add(:test) do |number|
+    Zen::Event.listen(:test) do |number|
       data += (number * 2)
     end
 

@@ -9,49 +9,11 @@ ExpressionEngine but fits my needs. Because of this certain features may seem
 similar to those provided by EE and while at certain points there are
 similarities there are also pretty big differences.
 
-## Requirements
-
-* Ramaze 2011.07.25 or newer.
-* Ruby 1.9.2 or newer.
-* A SQL database.
-
-## Installation
-
-Installing Zen using Rubygems is probably the easiest way:
-
-    $ gem install zen
-    $ zen create application_name
-
-If you like to hack with the core of Zen it's best to install it using Git:
-
-    $ git clone git://github.com/zen-cms/Zen-Core.git
-    $ cd zen-core
-    $ rake build:gem
-
-## Database Support
-
-Technically Zen should run on any given DBMS that's supported by Sequel as Zen
-doesn't use any DBMS specific field types. However, there might be a chance that
-it won't work. If you happen to have any problems getting Zen running using your
-database of choice feel free to submit a ticket or post it on the mailing
-list.
-
-The following database engines are known to work with Zen:
-
-* MySQL
-* SQLite3
-* PostgreSQL
-
-## Running Zen
-
-Zen can be run using any webserver as long as it supports Rack. Thin, Unicorn or
-Passenger, they should all work. The main website of Zen is served using Unicorn
-and Nginx, development is done using WEBRick and Unicorn.
-
 ## Documentation
 
-The documentation (both the userguide and the API docs) can be found on the
-website, located [here][zen documentation].
+* {file:introduction Introduction}
+* {file:installation Installation}
+* {Categories::Controller::Categories Categories}
 
 ## Hacking/Contributing
 

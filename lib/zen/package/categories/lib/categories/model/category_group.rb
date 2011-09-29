@@ -1,4 +1,3 @@
-#:nodoc:
 module Categories
   #:nodoc:
   module Model

@@ -1,3 +1,5 @@
+# Changelog
+
 ## Git Head
 
 * Started using checkboxes in favor of select boxes as they're easier to use.

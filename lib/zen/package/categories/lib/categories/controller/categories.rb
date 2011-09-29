@@ -1,15 +1,40 @@
-#:nodoc:
 module Categories
   #:nodoc:
   module Controller
     ##
-    # Controller for managing and creating categories. A category is always
-    # related to a category group and thus none of the methods in this
-    # controller will work without a category group ID being specified in the
-    # URL. The only exceptions to this are Categories#save() and
-    # Categories#delete() as they require them to be specified in the POST data.
+    # Categories are data containers that work similar to tags. Categories can
+    # be used to group section entries that share similar topics together. A
+    # category is always related to a category group and thus you must first
+    # create such a group before you can add individual categories. Read the
+    # chapter about {Categories::Controller::CategoryGroups Category groups} for
+    # more information.
+    #
+    # When creating a category you can also specify a parent category. This
+    # allows you to create a tree structure of parent and child categories.
+    #
+    # In order to manage categories you can go to ``/admin/categories/X`` where
+    # ``X`` is the ID of the category group for which you want to manage the
+    # categories.
+    #
+    # ## Available Fields
+    #
+    # When creating or updating a category you can specify the following fields:
+    #
+    # * **Name** (required): the name of the category. This name can be anything
+    #   and there's no restriction to it's format. An example of such a name
+    #   would be "Code" or "Products".
+    # * **Slug**: a URL friendly version of a category name. If no slug is
+    #   specified one will be generated based on the category name
+    # * **Description**: a description of the category. While not required it
+    #   can help you remember what the category is meant for in case the name
+    #   doesn't already make this clear enough.
+    #
+    # Note that both the name of a category and it's slug can not be longer than
+    # 255 characters.
     #
     # ## Used Permissions
+    #
+    # This controller uses the following permissions:
     #
     # * show_category
     # * edit_category
@@ -18,9 +43,53 @@ module Categories
     #
     # ## Available Events
     #
+    # The Categories controller allows you to use the following events:
+    #
     # * new_category
     # * edit_category
     # * delete_category
+    #
+    # All of these events will receive an instance of
+    # {Categories::Model::Category}, including the ``delete_category`` event. Do
+    # note that the last event, ``delete_category`` will receive an instance of
+    # this model *after* ``#destroy()`` has been invoked on the instance. This
+    # means that you can not save any changes made to the object as the database
+    # no longer exists.
+    #
+    # Say you want to notify a user whenever a category is removed you could do
+    # the following:
+    #
+    #     # "mail" can be installed by running gem install mail.
+    #     require 'mail'
+    #
+    #     Zen::Event.listen(:delete_category) do |category|
+    #       user = Users::Model::User[:name => 'admin']
+    #       Mail.deliver do
+    #         from    'example@domain.com'
+    #         to      user.email
+    #         subject "Category \"#{category.name}\" has been removed"
+    #           "has been removed from the database."
+    #       end
+    #     end
+    #
+    # As mentioned before the category is already removed when it's passed to
+    # the ``delete_category`` event. This means that the following will **not**
+    # work:
+    #
+    #     Zen::Event.listen(:delete_category) do |category|
+    #       category.description = '...'
+    #       category.save
+    #     end
+    #
+    # ## Categories Plugin
+    #
+    # The categories comes with a plugin that can be used to easily display a
+    # list of categories. This plugin is simply called ``:categories``:
+    #
+    #     plugin(:categories, :group => 'my-group')
+    #
+    # For more information on all the available options for this plugin see
+    # {Categories::Plugin::Categories#initialize}.
     #
     # @author Yorick Peterse
     # @since  0.1

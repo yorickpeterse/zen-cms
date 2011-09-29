@@ -1,10 +1,39 @@
-#:nodoc:
+##
+# Package for managing categories and category groups.
+#
+# This package provides the following controllers:
+#
+# * {Categories::Controller::CategoryGroups}
+# * {Categories::Controller::Categories}
+#
+# The following models come with this package:
+#
+# * {Categories::Model::CategoryGroup}
+# * {Categories::Model::Category}
+#
+# It also provides the following plugins:
+#
+# * {Categories::Plugin::Categories}
+#
+# @author Yorick Peterse
+# @since  0.1
+#
 module Categories
   #:nodoc:
   module Controller
     ##
-    # Controller used for managing category groups. Individual categories are
-    # managed by the Categories controller.
+    # Category groups are containers for individual categories. A category group
+    # can be assigned to multiple sections and it can have multiple categories.
+    #
+    # ## Available Fields
+    #
+    # The following fields can be set:
+    #
+    # * **Name**: the name of the category group. It can be any name in any
+    #   format as long as it's not longer than 255 characters.
+    # * **Description**: the description of the category group. While not
+    #   required it can be used to make it easier to remember that purpose a
+    #   category group has.
     #
     # ## Used Permissions
     #
@@ -13,14 +42,36 @@ module Categories
     # * new_category_group
     # * delete_category_group
     #
-    # ## Available Events
+    # ## Events
     #
-    # * new_category_group
-    # * edit_category_group
-    # * delete_category_group
+    # All available events receive an instance of
+    # {Categories::Model::CategoyGroup}.  However, the ``delete_category_group``
+    # event will receive an instance that has already been removed from the
+    # database. This means that you can not make changes to the object and call
+    # ``#save()``.
+    #
+    # @example Logging when a new category group is created
+    #  Zen::Event.listen(:new_category_group) do |group|
+    #    Ramaze::Log.info("New category: \"#{group.name}\"")
+    #  end
+    #
+    # @example Automatically adding a category group to a section
+    #  Zen::Event.listen(:new_category_group) do |group|
+    #    section = Sections::Model::Section[5]
+    #
+    #    begin
+    #      section.add_category_group(group)
+    #    rescue => e
+    #      Ramaze::Log.error(e.inspect)
+    #    end
+    #  end
     #
     # @author Yorick Peterse
     # @since  0.1
+    # @map    /admin/category-groups
+    # @event  new_category_group
+    # @event  edit_category_group
+    # @event  delete_category_group
     #
     class CategoryGroups < Zen::Controller::AdminController
       helper :category
@@ -35,8 +86,11 @@ module Categories
       # Show an overview of all existing category groups and allow the user
       # to create new category groups or manage individual categories.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission show_category_group
+      # @request    GET /admin/category-groups/
+      # @request    GET /admin/category-groups/index/
       #
       def index
         authorize_user!(:show_category_group)
@@ -49,9 +103,11 @@ module Categories
       ##
       # Allows a user to edit an existing category group.
       #
-      # @author Yorick Peterse
-      # @since  0.1
-      # @param  [Fixnum] id The ID of the category group to edit.
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @param      [Fixnum] id The ID of the category group to edit.
+      # @permission edit_category_group
+      # @request    GET /admin/category-groups/edit/N/ where N is an ID
       #
       def edit(id)
         authorize_user!(:edit_category_group)
@@ -71,6 +127,8 @@ module Categories
       #
       # @author Yorick Peterse
       # @since  0.1
+      # @permission new_category_group
+      # @request    GET /admin/category-group/new/
       #
       def new
         authorize_user!(:new_category_group)
@@ -94,8 +152,13 @@ module Categories
       # category ID is specified (in the POST key "id") that existing category
       # will be updated, otherwise a new one will be created.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @request    POST /admin/category-groups/save/
+      # @permission edit_category_group
+      # @permission new_category_group
+      # @event      new_category_group
+      # @event      edit_category_group
       #
       def save
         post = request.subset(:id, :name, :description)
@@ -141,8 +204,11 @@ module Categories
       # Deletes a number of category groups. The IDs of these groups should be
       # specified in the POST array "category_group_ids".
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @request    POST /admin/category-groups/delete/
+      # @permission delete_category_group
+      # @event      delete_category_group
       #
       def delete
         authorize_user!(:delete_category_group)

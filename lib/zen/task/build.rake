@@ -1,13 +1,15 @@
-require 'open3'
-
-# Task group used for building various elements such as the Gem and the
-# documentation.
 namespace :build do
   desc 'Builds the documentation using YARD'
   task :doc do
-    zen_path = File.expand_path('../../../../', __FILE__)
-    command  = "yard doc #{zen_path}/lib -m markdown -M rdiscount -o #{zen_path}/doc "
-    command += "-r #{zen_path}/README.md --private --protected"
+    zen_path   = File.expand_path('../../../../', __FILE__)
+    doc_files  = Dir.glob(File.join(zen_path, 'guide', '*.md')).join(' ')
+    yard_files = Dir.glob(File.join(zen_path, 'lib', 'yard', '**', '*.rb')) \
+      .join(' ')
+
+    # Build the command to generate the docs
+    command = "yard doc #{zen_path}/lib -m markdown -M rdiscount" \
+    " -o #{zen_path}/doc -r #{zen_path}/README.md -e #{yard_files}" \
+    " --private --protected - #{doc_files}"
 
     sh(command)
   end
@@ -27,7 +29,6 @@ namespace :build do
     )
 
     # Build and install the gem
-
     sh('gem', 'build'     , File.join(zen_path, 'zen.gemspec'))
     sh('mv' , gemspec_path, pkg_path)
     sh('gem', 'install'   , pkg_path)

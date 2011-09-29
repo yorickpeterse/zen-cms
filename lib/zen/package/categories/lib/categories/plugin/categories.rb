@@ -26,6 +26,12 @@ module Categories
       # Creates a new instance of the plugin and stores the configuration
       # options.
       #
+      # @example Retrieving by group
+      #  plugin(:categories, :limit => 10, :group => 5)
+      #
+      # @example Retrieving a category
+      #  plugin(:category, :category => 'my-category')
+      #
       # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Hash] options Hash containing a set of options used to

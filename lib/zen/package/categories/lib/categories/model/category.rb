@@ -1,4 +1,3 @@
-#:nodoc:
 module Categories
   #:nodoc:
   module Model
@@ -23,7 +22,6 @@ module Categories
       def validate
         validates_presence([:name, :category_group_id])
         validates_max_length(255, [:name, :slug])
-        validates_presence(:slug) unless new?
         validates_unique(:slug)
       end
     end # Category
