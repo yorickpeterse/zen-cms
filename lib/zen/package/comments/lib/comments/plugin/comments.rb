@@ -1,4 +1,3 @@
-#:nodoc
 module Comments
   #:nodoc
   class Plugin
@@ -6,13 +5,20 @@ module Comments
     # The Comments plugin can be used to display a list of comments for a given
     # section entry.
     #
-    # ## Usage
+    # This plugin can be called as following:
     #
-    # If we want to retrieve all comments for the entry "hello-world":
+    #     plugin(:comments)
     #
-    #     plugin(:comments, :entry => 'hello-world').each do |comment|
-    #       comment[:website]
-    #     end
+    # Retrieving comments can be done by specifying a section entry's ID or
+    # slug:
+    #
+    #     # Retrieve by ID
+    #     plugin(:comments, :entry => 5)
+    #
+    #     # Retrieve by slug
+    #     plugin(:comments, :entry => 'hello-world')
+    #
+    # For a full list of all available options see {#initialize}.
     #
     # For more information about all available options see
     # Comments::Plugin::Comments#initialize
@@ -33,7 +39,7 @@ module Comments
       # @since  0.2.5
       # @param  [Hash] options Hash with a set of options that determine how
       #  the comments should be retrieved.
-      # @option options [String/Fixnum] :entry The slug or ID of the entry for
+      # @option options [String|Fixnum] :entry The slug or ID of the entry for
       #  which to retrieve all comments.
       # @option options [Fixnum] :limit The maximum amount of comments to
       #  retrieve.

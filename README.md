@@ -13,7 +13,21 @@ similarities there are also pretty big differences.
 
 * {file:introduction Introduction}
 * {file:installation Installation}
-* {Categories::Controller::Categories Categories}
+* {file:changelog Changelog}
+* {Categories Categories}
+  * {Categories::Controller::CategoryGroups Managing Category Groups}
+  * {Categories::Controller::Categories Managing Categories}
+* {Comments Comments}
+  * {Comments::Controller::Comments Managing Comments}
+  * {Comments::Controller::CommentsForm Submitting Comments}
+* {CustomFields Custom Fields}
+  * {CustomFields::Controller::CustomFieldGroups Managing Groups}
+  * {CustomFields::Controller::CustomFields Managing Fields}
+  * {CustomFields::Controller::CustomFieldTypes Managing Types}
+  * {CustomFields::BlueFormParameters Generating BlueForm Parameters}
+* {Menus Menus}
+  * {Menus::Controller::Menus Menu Management}
+  * {Menus::Controller::MenuItems Managing Menu Items}
 
 ## Hacking/Contributing
 

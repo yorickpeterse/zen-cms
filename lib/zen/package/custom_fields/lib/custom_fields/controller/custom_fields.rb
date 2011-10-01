@@ -1,12 +1,55 @@
-#:nodoc:
 module CustomFields
   #:nodoc:
   module Controller
     ##
-    # Controller for managing custom fields. Custom fields are one of the most
-    # important elements in Zen. Custom fields can be used to create radio
-    # buttons, textareas, the whole shebang. Before being able to use a custom
-    # field you'll need to add it to a group and bind that group to a section.
+    # Custom fields allow you to create fields for your entries in their own
+    # format and with their own types. This means you're not restricted to the
+    # typical "Title" and "Body" fields you'd get when using other systems.
+    #
+    # Custom fields can be managed to by going to a custom field group and
+    # clicking the link "Manage custom fields" (see
+    # {CustomFields::Controller::CustomFieldGroups} for more information). Once
+    # you've reached this page you'll see an overview of all your custom fields
+    # or a message saying no fields were found (if this is the case).
+    #
+    # ![Custom Fields](../../_static/custom_fields.png)
+    #
+    # Editing a custom field can be done by clicking on the name of the field,
+    # creating a new one can be done by clicking on the button "Add custom
+    # field". In both cases you'll be shown a form that looks like the one in
+    # the image below.
+    #
+    # ![Custom Field General](../../_static/edit_custom_field_general.png)
+    # ![Custom Field Settings](../../_static/edit_custom_field_settings.png)
+    #
+    # In this form you can specify the following fields:
+    #
+    # * **Name** (required): the name of the custom field, can be anything you
+    #   like. Examples are "Body" and "Date picker".
+    # * **Slug**: a URL friendly version of the name. If none is specified one
+    #   will be generated automatically.
+    # * **Field type** (required): the type of custom field.
+    # * **Format** (required): the markup engine to use for the custom field. If
+    #   a custom field type doesn't allow the use of markup this setting will
+    #   be ignored.
+    # * **Description**: a description of the custom field.
+    # * **Possible values**: in case a custom field type allows you to specify
+    #   multiple values (such as a checkbox) you can specify a value on each
+    #   line. These values can be specified as following:
+    #
+    #       key|value
+    #
+    #   Example:
+    #
+    #       Yes!|yes
+    #
+    # * **Requires a value**: whether or not this field requires a value.
+    # * **Enable a text editor**: when set to "Yes" the user can use the markup
+    #   editor when adding/editing a value of a field.
+    # * **Textarea rows**: the amount of rows when the field type is a textarea.
+    # * **Character limit**: the maximum amount of characters a user can enter
+    #   in the field.
+    # * **Sort order**: a number that indicates the sort order of the field.
     #
     # ## Used Permissions
     #
@@ -15,14 +58,25 @@ module CustomFields
     # * edit_custom_field
     # * delete_custom_field
     #
-    # ## Available Events
+    # ## Events
     #
-    # * new_custom_field
-    # * edit_custom_field
-    # * delete_custom_field
+    # All events in this controller receive an instance of
+    # {CustomFields::Model::CustomField}. Just like other packages the event
+    # ``delete_custom_field`` receives an instance that has already been
+    # destroyed, thus you won't be able to make any changes to the object and
+    # save them in the database.
+    #
+    # @example Logging when a field is created
+    #  Zen::Event.listen(:new_custom_field) do |field|
+    #    Ramaze::Log.info("New custom field: #{field.inspect} by #{user.name}")
+    #  end
     #
     # @author Yorick Peterse
     # @since  0.1
+    # @map    /admin/custom-fields
+    # @event  new_custom_field
+    # @event  edit_custom_field
+    # @event  delete_custom_field
     #
     class CustomFields < Zen::Controller::AdminController
       helper :custom_field
@@ -54,7 +108,8 @@ module CustomFields
       # @author Yorick Peterse
       # @param  [Fixnum] custom_field_group_id The ID of the custom field group
       #  to which all fields belong.
-      # @since  0.1
+      # @since      0.1
+      # @permission show_custom_field
       #
       def index(custom_field_group_id)
         authorize_user!(:show_custom_field)
@@ -81,7 +136,8 @@ module CustomFields
       #  group to which all fields belong.
       # @param  [Fixnum] id The ID of the custom field to retrieve so that we
       #  can edit it.
-      # @since  0.1
+      # @since      0.1
+      # @permission edit_custom_field
       #
       def edit(custom_field_group_id, id)
         authorize_user!(:edit_custom_field)
@@ -118,7 +174,8 @@ module CustomFields
       # @author Yorick Peterse
       # @param  [Fixnum] custom_field_group_id The ID of the custom field group
       #  to which all fields belong.
-      # @since  0.1
+      # @since      0.1
+      # @permission new_custom_field
       #
       def new(custom_field_group_id)
         authorize_user!(:new_custom_field)
@@ -150,13 +207,14 @@ module CustomFields
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back
-      # to the proper URL. Based on the value of a hidden field named 'id' we'll
-      # determine if the data will be used to create a new custom field or to
-      # update an existing one.
+      # Saves the changes made by {#edit} and {#new}.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @event      new_custom_field
+      # @event      edit_custom_field
+      # @permission edit_custom_field (when editing a field)
+      # @permission new_custom_field (when creating a new field)
       #
       def save
         post = request.subset(
@@ -228,8 +286,10 @@ module CustomFields
       # request that contains a field named 'custom_field_ids[]'. This field
       # should contain the primary values of each field that has to be deleted.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @event      delete_custom_field
+      # @permission delete_custom_field
       #
       def delete
         authorize_user!(:delete_custom_field)

@@ -1,0 +1,12 @@
+./lib/zen/**/*.rb ./lib/zen.rb
+-m markdown
+-M rdiscount
+-o ./doc
+-r ./README.md
+-e ./lib/yard/tags.rb
+--private
+--protected
+--asset ./guide/_static:_static
+-
+./guide/*.md
+LICENSE

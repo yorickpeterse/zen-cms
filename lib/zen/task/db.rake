@@ -88,8 +88,10 @@ namespace :db do
     end
 
     user = Users::Model::User.new(
-      :email => 'admin@website.tld', :name => 'Administrator',
-      :password => password, :status => 'open'
+      :email    => 'admin@website.tld',
+      :name     => 'Administrator',
+      :password => password,
+      :status   => 'open'
     ).save
 
     user.user_group_pks = [group.id]

@@ -3,18 +3,27 @@ module Categories
   #:nodoc
   class Plugin
     ##
-    # The Categories plugin can be used to display a list of categories
+    # The Categories plugin is a plugin that makes it easy to retrieve a list of
+    # categories (or a single category) for a given group or category. This
+    # plugin can be called as following:
     #
-    # ## Usage
+    #     plugin(:categories)
     #
-    # A basic example of how to use this plugin looks like the following:
+    # Retrieving categories can be done by either specifying a slug of a
+    # group/category or an ID:
     #
-    #     plugin(:categories, :group => 'blog').each do |category|
-    #       puts category[:name]
-    #     end
+    #     # Retrieves all categories for the group with an ID of 5.
+    #     plugin(:categories, :group => 5)
     #
-    # For more information about the available options see
-    # Zen::Plugin::Categories#initialize().
+    #     # Retrieves all categories for the group with a slug of "example"
+    #     plugin(:categories, :group => 'example')
+    #
+    # Simply said, if the value passed to ``:group`` is a number it's assumed to
+    # be an ID, otherwise the categories will be retrieved using a
+    # group/category slug.
+    #
+    # A full list of all the available options can be found in the {#initialize}
+    # method's documentation.
     #
     # @author Yorick Peterse
     # @since  0.2.5
@@ -41,7 +50,7 @@ module Categories
       #  retrieve.
       # @option options [Fixnum] :offset The row offset, useful for pagination
       #  systems.
-      # @option options [String/Fixnum] :group The name or ID of the category
+      # @option options [String|Fixnum] :group The name or ID of the category
       #  group for which to retrieve all categories.
       # @option options [String/Fixnum] :category The slug or ID of the
       #  category to retrieve. Setting this option will cause the plugin to

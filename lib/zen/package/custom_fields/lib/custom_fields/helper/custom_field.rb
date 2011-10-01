@@ -1,4 +1,3 @@
-#:nodoc:
 module Ramaze
   #:nodocL
   module Helper

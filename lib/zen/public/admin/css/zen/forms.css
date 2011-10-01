@@ -70,7 +70,8 @@ select
 
 *[disabled], *[disabled="disabled"]
 {
-    cursor: not-allowed;
+    background: #f2f2f2;
+    cursor:     not-allowed;
 }
 
 fieldset

@@ -9,22 +9,30 @@ module Categories
     # chapter about {Categories::Controller::CategoryGroups Category groups} for
     # more information.
     #
-    # When creating a category you can also specify a parent category. This
-    # allows you to create a tree structure of parent and child categories.
+    # In order to manage categories you must first navigate to the category
+    # groups overview. In this overview you can click the link "Manage
+    # categories" of a certain group to add, edit or remove categories. Once
+    # you've reached the categories overview you'll be presented with an
+    # overview that looks like the following image:
     #
-    # In order to manage categories you can go to ``/admin/categories/X`` where
-    # ``X`` is the ID of the category group for which you want to manage the
-    # categories.
+    # ![Categories Overview](../../_static/categories.png)
     #
-    # ## Available Fields
+    # ## Adding/Editing Categories
     #
-    # When creating or updating a category you can specify the following fields:
+    # Editing a category can be done by clicking on the name of that category.
+    # If you want to create a new category instead you should click the button
+    # "Add category". In both cases you'll end up with the following form:
+    #
+    # ![New Category](../../_static/new_category.png)
+    #
+    # In this form you can specify the following fields:
     #
     # * **Name** (required): the name of the category. This name can be anything
     #   and there's no restriction to it's format. An example of such a name
     #   would be "Code" or "Products".
     # * **Slug**: a URL friendly version of a category name. If no slug is
-    #   specified one will be generated based on the category name
+    #   specified one will be generated based on the category name.
+    # * **Parent**: the name of the parent category.
     # * **Description**: a description of the category. While not required it
     #   can help you remember what the category is meant for in case the name
     #   doesn't already make this clear enough.
@@ -41,15 +49,9 @@ module Categories
     # * new_category
     # * delete_category
     #
-    # ## Available Events
+    # ## Events
     #
-    # The Categories controller allows you to use the following events:
-    #
-    # * new_category
-    # * edit_category
-    # * delete_category
-    #
-    # All of these events will receive an instance of
+    # All available events will receive an instance of
     # {Categories::Model::Category}, including the ``delete_category`` event. Do
     # note that the last event, ``delete_category`` will receive an instance of
     # this model *after* ``#destroy()`` has been invoked on the instance. This
@@ -83,8 +85,9 @@ module Categories
     #
     # ## Categories Plugin
     #
-    # The categories comes with a plugin that can be used to easily display a
-    # list of categories. This plugin is simply called ``:categories``:
+    # The categories package comes with a plugin that can be used to easily
+    # display a list of categories. This plugin is simply called
+    # ``:categories``:
     #
     #     plugin(:categories, :group => 'my-group')
     #
@@ -93,6 +96,10 @@ module Categories
     #
     # @author Yorick Peterse
     # @since  0.1
+    # @map    /admin/categories
+    # @event  new_category
+    # @event  edit_category
+    # @event  delete_category
     #
     class Categories < Zen::Controller::AdminController
       map    '/admin/categories'
@@ -109,7 +116,8 @@ module Categories
       # @author Yorick Peterse
       # @param  [Fixnum] category_group_id The ID of the category group for
       #  which to retrieve all categories.
-      # @since  0.1
+      # @since      0.1
+      # @permission show_category
       #
       def index(category_group_id)
         authorize_user!(:show_category)
@@ -132,9 +140,10 @@ module Categories
       ##
       # Allows the user to create a new category.
       #
-      # @author Yorick Peterse
-      # @param  [Fixnum] category_group_id The ID of the category group.
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @param      [Fixnum] category_group_id The ID of the category group.
+      # @since      0.1
+      # @permission new_category
       #
       def new(category_group_id)
         authorize_user!(:new_category)
@@ -168,10 +177,11 @@ module Categories
       ##
       # Edit an existing category based on the ID specified in the URL.
       #
-      # @author Yorick Peterse
-      # @param  [Fixnum] category_group_id The category group ID.
-      # @param  [Fixnum] id The ID of the category to edit.
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @param      [Fixnum] category_group_id The category group ID.
+      # @param      [Fixnum] id The ID of the category to edit.
+      # @since      0.1
+      # @permission edit_category
       #
       def edit(category_group_id, id)
         authorize_user!(:edit_category)
@@ -206,8 +216,12 @@ module Categories
       # Save the changes made to an existing category or create a new one based
       # on the current POST data.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission edit_category (when editing a category)
+      # @permission new_category (when creating a category)
+      # @event      edit_category
+      # @event      new_category
       #
       def save
         post = request.subset(
@@ -267,8 +281,10 @@ module Categories
       # is required. This array will contain all the primary values of each
       # group that has to be deleted.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission delete_category
+      # @event      delete_category
       #
       def delete
         authorize_user!(:delete_category)

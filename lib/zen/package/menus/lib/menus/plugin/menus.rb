@@ -1,6 +1,5 @@
 require 'ramaze/gestalt'
 
-#:nodoc:
 module Menus
   #:nodoc:
   class Plugin

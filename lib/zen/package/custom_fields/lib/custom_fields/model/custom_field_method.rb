@@ -1,4 +1,3 @@
-#:nodoc:
 module CustomFields
   #:nodoc:
   module Model
@@ -9,7 +8,7 @@ module CustomFields
     # @since  0.2.8
     #
     class CustomFieldMethod < Sequel::Model
-    
+
     end # CustomFieldType
   end # Model
 end # CustomFields

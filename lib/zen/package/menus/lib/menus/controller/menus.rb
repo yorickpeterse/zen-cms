@@ -1,4 +1,24 @@
-#:nodoc:
+##
+# Package for managing menus and menu items.
+#
+# ## Controllers
+#
+# * {Menus::Controller::Menus}
+# * {Menus::Controller::MenuItems}
+#
+# ## Helpers
+#
+# * {Ramaze::Helper::Menu}
+#
+# ## Models
+#
+# * {Menus::Model::Menu}
+# * {Menus::Model::MenuItem}
+#
+# ## Plugins
+#
+# * {Menus::Plugin::Menus}
+#
 module Menus
   #:nodoc:
   module Controller

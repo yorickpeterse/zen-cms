@@ -50,8 +50,7 @@ Depending on your own setup the following may be required as well:
 
 ## Special Thanks
 
-Zen wasn't made by locking myself up in a basement for 6 months, while
-developing the system I had a lot of help from various people and I'd like to
+While developing Zen I had a lot of help from various people and I'd like to
 thank them for that. In particular I'd like to thank the following people:
 
 * Michael Fellinger (manveru, creator of Ramaze/Innate) for his help and for
@@ -60,3 +59,4 @@ thank them for that. In particular I'd like to thank the following people:
 * \#ramaze on Freenode, lots of people in there helped me getting started with
   Ramaze when I first started working with it around september 2010.
 * EllisLab for creating ExpressionEngine, the system Zen was inspired by.
+* Loren Segal for creating YARD.

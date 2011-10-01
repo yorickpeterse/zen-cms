@@ -1,4 +1,3 @@
-#:nodoc:
 module Comments
   #:nodoc:
   module Model
@@ -14,21 +13,6 @@ module Comments
       many_to_one :comment_status, :class => 'Comments::Model::CommentStatus'
 
       plugin :timestamps, :create => :created_at, :update => :updated_at
-
-      ##
-      # Specify the validation rules for each comment.
-      #
-      # @author Yorick Peterse
-      # @since  0.1
-      #
-      def validate
-        validates_presence([:comment, :section_entry_id])
-        validates_integer([:comment_status_id, :section_entry_id])
-
-        if user_id.nil?
-          validates_presence :email
-        end
-      end
 
       ##
       # Returns a hash containing all available statuses for each comment.
@@ -50,6 +34,21 @@ module Comments
         end
 
         return statuses
+      end
+
+      ##
+      # Specify the validation rules for each comment.
+      #
+      # @author Yorick Peterse
+      # @since  0.1
+      #
+      def validate
+        validates_presence([:comment, :section_entry_id])
+        validates_integer([:comment_status_id, :section_entry_id])
+
+        if user_id.nil?
+          validates_presence([:name, :email])
+        end
       end
 
       ##

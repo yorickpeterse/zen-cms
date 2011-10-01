@@ -1,4 +1,3 @@
-#:nodoc:
 module Menus
   #:nodoc:
   module Model

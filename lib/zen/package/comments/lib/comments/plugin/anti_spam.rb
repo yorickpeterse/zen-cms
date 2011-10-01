@@ -1,4 +1,3 @@
-#:nodoc:
 module Comments
   #:nodoc:
   class Plugin
@@ -27,12 +26,13 @@ module Comments
     # ## Adding Systems
     #
     # Adding a system is done in two steps. First you should update the hash
-    # Comments::PLugin::AntiSpam::Registered so that it includes your system.
+    # {Comments::Plugin::AntiSpam::Registered} so that it includes your system.
     # The keys of this hash are symbols that match the name of the engine used
-    # when calling the plugin() method. The values are the Gems to require.
+    # when calling the plugin() method. The values are the Gems to require (if
+    # any). If your system doesn't require a gem simply set the value to nil.
     #
     # Once this has been done you should add a method to the class
-    # Comments::Plugin::AntiSpam who's name matches the key set in the
+    # {Comments::Plugin::AntiSpam} who's name matches the key set in the
     # Registered hash. If your anti-spam solution is called "cake" then you'd
     # do something like the following:
     #
@@ -50,6 +50,15 @@ module Comments
     #
     # The return value of the method added should be a boolean, true for spam
     # and false for ham.
+    #
+    # An instance of this plugin contains the following instance variables that
+    # you can use when validating a comment:
+    #
+    # * **engine**: the name of the anti-spam engine.
+    # * **author**: the name of the person that submitted the comment.
+    # * **email**: the Email address of the author.
+    # * **url**: the website of the author (if any).
+    # * **comment**: the actual comment.
     #
     # @author Yorick Peterse
     # @since  0.2.6
@@ -93,15 +102,9 @@ module Comments
           )
         end
 
-        begin
-          require Registered[@engine]
-        rescue ::LoadError
-          raise(
-            ::Zen::PluginError,
-            "You need to install the gem \"#{Registered[@engine]}\" in order to " +
-              "use the anti-spam engine \"#{@engine}\""
-          )
-        end
+        gem = Registered[@engine]
+
+        require(gem) unless gem.nil?
       end
 
       ##
@@ -109,7 +112,7 @@ module Comments
       #
       # @author Yorick Peterse
       # @since  0.2.6
-      # @return [TrueClass/FalseClass]
+      # @return [TrueClass|FalseClass]
       #
       def call
         return send(@engine)
@@ -120,7 +123,7 @@ module Comments
       #
       # @author Yorick Peterse
       # @since  0.2.6
-      # @return [TrueClass/FalseClass]
+      # @return [TrueClass|FalseClass]
       #
       def defensio
         spam    = true

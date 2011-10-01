@@ -1,17 +1,21 @@
 ##
 # Package for managing categories and category groups.
 #
-# This package provides the following controllers:
+# ## Controllers
 #
 # * {Categories::Controller::CategoryGroups}
 # * {Categories::Controller::Categories}
 #
-# The following models come with this package:
+# ## Helpers
+#
+# * {Ramaze::Helper::Category}
+#
+# ## Models
 #
 # * {Categories::Model::CategoryGroup}
 # * {Categories::Model::Category}
 #
-# It also provides the following plugins:
+# ## Plugins
 #
 # * {Categories::Plugin::Categories}
 #
@@ -25,9 +29,33 @@ module Categories
     # Category groups are containers for individual categories. A category group
     # can be assigned to multiple sections and it can have multiple categories.
     #
-    # ## Available Fields
+    # In order to manage a category group you must first go to the overview that
+    # shows all existing group (or a message telling you no groups have been
+    # added if this is the case). This can be done by clicking the "Categories"
+    # button in the top navigation menu or by manually pointing your browser to
+    # ``/admin/category-groups``. This overview looks like the image displayed
+    # below.
     #
-    # The following fields can be set:
+    # ![Category Group Overview](../../_static/category_groups.png)
+    #
+    # Editing an existing group can be done by clicking on the name of a group
+    # while managing the categories of a group is done by clicking the link
+    # "Manage Categories" (the text may differ depending on the language you're
+    # using). If you want to delete a number of groups all you'd have to do is
+    # clicking the checkboxes of each row you'd wish to delete followed by
+    # pressing the button "Delete selected groups". This will trigger an action
+    # that removes all category groups and the categories that belong to those
+    # groups.
+    #
+    # ## Adding/Editing Groups
+    #
+    # By clicking the name of a group or the "Add group" button you can edit an
+    # existing group or create a new one. The form used to manage such a group
+    # looks like the one in the image below.
+    #
+    # ![New Category Group](../../_static/new_category_group.png)
+    #
+    # In this form you can set the following fields:
     #
     # * **Name**: the name of the category group. It can be any name in any
     #   format as long as it's not longer than 255 characters.
@@ -89,8 +117,6 @@ module Categories
       # @author     Yorick Peterse
       # @since      0.1
       # @permission show_category_group
-      # @request    GET /admin/category-groups/
-      # @request    GET /admin/category-groups/index/
       #
       def index
         authorize_user!(:show_category_group)
@@ -107,7 +133,6 @@ module Categories
       # @since      0.1
       # @param      [Fixnum] id The ID of the category group to edit.
       # @permission edit_category_group
-      # @request    GET /admin/category-groups/edit/N/ where N is an ID
       #
       def edit(id)
         authorize_user!(:edit_category_group)
@@ -128,7 +153,6 @@ module Categories
       # @author Yorick Peterse
       # @since  0.1
       # @permission new_category_group
-      # @request    GET /admin/category-group/new/
       #
       def new
         authorize_user!(:new_category_group)
@@ -154,9 +178,8 @@ module Categories
       #
       # @author     Yorick Peterse
       # @since      0.1
-      # @request    POST /admin/category-groups/save/
-      # @permission edit_category_group
-      # @permission new_category_group
+      # @permission edit_category_group (when editing a group)
+      # @permission new_category_group (when creating a group)
       # @event      new_category_group
       # @event      edit_category_group
       #
@@ -206,7 +229,6 @@ module Categories
       #
       # @author     Yorick Peterse
       # @since      0.1
-      # @request    POST /admin/category-groups/delete/
       # @permission delete_category_group
       # @event      delete_category_group
       #

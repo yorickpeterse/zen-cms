@@ -1,4 +1,3 @@
-#:nodoc:
 module Comments
   #:nodoc:
   module Model

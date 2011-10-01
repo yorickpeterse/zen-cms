@@ -1,4 +1,3 @@
-#:nodoc:
 module CustomFields
   #:nodoc:
   module Model
