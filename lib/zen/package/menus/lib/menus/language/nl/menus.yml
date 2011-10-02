@@ -9,8 +9,8 @@ labels:
   name        : 'Naam'
   slug        : 'Slug'
   description : 'Beschrijving'
-  html_class   : 'CSS klasse'
-  html_id      : 'CSS ID'
+  html_class  : 'HTML klasse'
+  html_id     : 'HTML ID'
   manage_items: 'Menu items beheren'
 
 placeholders:

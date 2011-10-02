@@ -5,13 +5,13 @@ titles:
   new  : 'Menu item aanmaken'
 
 labels:
-  id       : '#'
-  parent_id: 'Hoofd item'
-  name     : 'Naam'
-  url      : 'URL'
-  order    : 'Volgorde'
-  html_class: 'CSS klasse'
-  html_id   : 'CSS ID'
+  id        : '#'
+  parent_id : 'Hoofd item'
+  name      : 'Naam'
+  url       : 'URL'
+  order     : 'Volgorde'
+  html_class: 'HTML klasse'
+  html_id   : 'HTML ID'
 
 placeholders:
   name      : 'De naam/label van het menu item.'

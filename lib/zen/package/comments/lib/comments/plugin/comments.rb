@@ -58,9 +58,9 @@ module Comments
         }.merge(options)
 
         # Validate the :entry option
-        validate_type(@options[:limit] , :limit , [Integer, Fixnum])
-        validate_type(@options[:offset], :offset, [Integer, Fixnum])
-        validate_type(@options[:entry] , :entry , [Integer, String, Fixnum])
+        validate_type(@options[:limit] , :limit , [Fixnum])
+        validate_type(@options[:offset], :offset, [Fixnum])
+        validate_type(@options[:entry] , :entry , [String, Fixnum])
         validate_type(@options[:markup], :markup, [FalseClass, TrueClass])
       end
 

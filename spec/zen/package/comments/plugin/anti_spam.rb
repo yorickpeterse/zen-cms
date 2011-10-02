@@ -48,7 +48,7 @@ describe("Comments::Plugin::AntiSpam") do
   it('Load an engine\'s Gem that does not exist') do
     Comments::Plugin::AntiSpam::Registered[:defensio] = 'test'
 
-    should.raise?(Zen::PluginError) do
+    should.raise?(LoadError) do
       plugin(:anti_spam, :defensio, nil, nil, nil, spam_comment)
     end
 

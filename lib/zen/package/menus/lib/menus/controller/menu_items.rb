@@ -2,7 +2,34 @@ module Menus
   #:nodoc:
   module Controller
     ##
-    # Controller for managing individual navigation items that belong to a menu.
+    # The MenuItems controller allows users to manage menu items of a menu
+    # group. In order to manage menu items you must first navigate to a menu
+    # group and click the link "Manage menu items" (see
+    # {Menus::Controller::Menus} for more information). Once you've reached this
+    # page you'll see an overview that looks like the image below.
+    #
+    # ![Menu Items](../../_static/menu_items.png)
+    #
+    # Editing or creating a menu item can be done by either clicking the name of
+    # a menu item or by clicking the "Add menu item" button. In both cases
+    # you'll end up with a form looking like the one in the following image:
+    #
+    # ![Edit Menu Item](../../_static/edit_menu_item.png)
+    #
+    # In this form you can specify the following fields:
+    #
+    # * **Name**: the name of the menu item.
+    # * **URL**: the URL of the menu item.
+    # * **Order**: a number that indicates the sort order when the menu is
+    #   built.
+    # * **Parent**: a parent menu item. This allows you to easily create sub
+    #   menus.
+    # * **HTML class**: a space separated list of classes to apply to the HTML
+    #   element.
+    # * **HTML ID**: a single ID to apply to the HTML element.
+    #
+    # Note that the name, URL, HTML class and HTML ID fields have a maximum
+    # length of 255 characters.
     #
     # ## Used Permissions
     #
@@ -11,14 +38,26 @@ module Menus
     # * edit_menu_item
     # * delete_menu_item
     #
-    # ## Available Events
+    # ## Events
     #
-    # * new_menu_item
-    # * edit_menu_item
-    # * delete_menu_item
+    # All events in this controller receive an instance of
+    # {Menus::Model::MenuItem}. Just like other packages the event
+    # ``delete_menu_item`` receives an instance that has already been destroyed.
+    #
+    # @example Automatically prefix URLs with http
+    #  Zen::Event.listen(:new_menu_item) do |item|
+    #    unless item.url =~ /^http/
+    #      item.url = 'http://' + item.url
+    #      item.save
+    #    end
+    #  end
     #
     # @author Yorick Peterse
     # @since  0.2a
+    # @map    /admin/menu-items
+    # @event  new_menu_item
+    # @event  edit_menu_item
+    # @event  delete_menu_item
     #
     class MenuItems <  Zen::Controller::AdminController
       map    '/admin/menu-items'
@@ -30,9 +69,10 @@ module Menus
       ##
       # Shows an overview of all the menu items for a menu group.
       #
-      # @author Yorick Peterse
-      # @since  0.2a
-      # @param  [Fixnum] menu_id The ID of the current navigation menu.
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @param      [Fixnum] menu_id The ID of the current navigation menu.
+      # @permission show_menu_item
       #
       def index(menu_id)
         authorize_user!(:show_menu_item)
@@ -53,9 +93,10 @@ module Menus
       ##
       # Allow the user to create a new menu item for the current menu.
       #
-      # @author Yorick Peterse
-      # @since  0.2a
-      # @param  [Fixnum] menu_id The ID of the current navigation menu.
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @param      [Fixnum] menu_id The ID of the current navigation menu.
+      # @permission new_menu_item
       #
       def new(menu_id)
         authorize_user!(:new_menu_item)
@@ -82,10 +123,11 @@ module Menus
       ##
       # Allow the user to edit an existing navigation item.
       #
-      # @author Yorick Peterse
-      # @since  0.2a
-      # @param  [Fixnum] menu_id The ID of the current navigation menu.
-      # @param  [Fixnum] id The ID of the menu item to edit.
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @param      [Fixnum] menu_id The ID of the current navigation menu.
+      # @param      [Fixnum] id The ID of the menu item to edit.
+      # @permission edit_menu_item
       #
       def edit(menu_id, id)
         authorize_user!(:edit_menu_item)
@@ -113,8 +155,12 @@ module Menus
       # Saves an existing menu iten or creates a new one using the supplied
       # POST data.
       #
-      # @author Yorick Peterse
-      # @since  0.2a
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @permission edit_menu_item (when editing an item)
+      # @permission new_menu_item (when creating an item)
+      # @event      edit_menu_item
+      # @event      new_menu_item
       #
       def save
         post = request.subset(
@@ -175,12 +221,12 @@ module Menus
 
       ##
       # Delete all specified menu items based on the values in the POST array
-      # "menu_item_ids". This method requires the following permissions:
+      # "menu_item_ids".
       #
-      # * delete
-      #
-      # @author Yorick Peterse
-      # @since  0.2a
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @permission delete_menu_item
+      # @event      delete_menu_item
       #
       def delete
         authorize_user!(:delete_menu_item)

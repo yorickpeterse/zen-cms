@@ -8,16 +8,20 @@ module Menus
     # recursively displaying all sub items and various other tasks, you merely
     # have to set a few options and then you can sit back and enjoy.
     #
-    # ## Usage
+    # The basic usage of this plugin is as following:
     #
-    #     menu = plugin(:menus, :menu => 'userguide', :sub => true)
+    #     plugin(:menus, :menu => 'userguide')
     #
-    # Calling this plugin will result in a string with HTML being returned. If
-    # you were to use this plugin in an Etanni template you'd have to wrap the
-    # call in #{} in order to actually display the menu.
+    # This would retrieve all menu items for the menu "userguide". Just like
+    # other plugins you can specify a slug (as a string) or an ID (as an
+    # instance of Fixnum).
     #
-    # For more information about all the available options see
-    # Menus::Plugin::Menus#initialize().
+    # By default sub items are not displayed, in order to do so you have to set
+    # the ``:sub`` option to true:
+    #
+    #     plugin(:menus, :menu => 'userguide', :sub => true)
+    #
+    # For more information about all the available options see {#initialize}.
     #
     # @author Yorick Peterse
     # @since  0.2.5
@@ -28,17 +32,14 @@ module Menus
       ##
       # Creates a new instance of the plugin and saves the configuration options.
       #
-      # @example
-      #  plugin = Menus::Plugin::Menus.new(:limit => 10, :offset => 0, :sub => false)
-      #
       # @author Yorick Peterse
-      # @since 0.2.5
+      # @since  0.2.5
       # @param [Hash] options Hash with configuration options.
-      # @option options [Integer/Fixnum] :limit The maximum amount of root items
+      # @option options [Fixnum] :limit The maximum amount of root items
       #  to retrieve.
-      # @option options [Integer/Fixnum] :offset The row offset for all root
+      # @option options [Fixnum] :offset The row offset for all root
       #  elements.
-      # @option options [Fixnum/Integer/String] :menu The ID or slug of the menu
+      # @option options [Fixnum|String] :menu The ID or slug of the menu
       #  for which to retrieve all menu items.
       # @option options [Boolean] :sub When set to false sub items will be
       #  ignored. This option is set to true by default.
@@ -52,10 +53,10 @@ module Menus
           :order  => :asc
         }.merge(options)
 
-        validate_type(@options[:limit] , :limit , [Integer, Fixnum])
-        validate_type(@options[:offset], :offset, [Integer, Fixnum])
-        validate_type(@options[:menu]  , :menu  , [String , Integer, Fixnum])
-        validate_type(@options[:order] , :order , [String , Symbol])
+        validate_type(@options[:limit] , :limit , [Fixnum])
+        validate_type(@options[:offset], :offset, [Fixnum])
+        validate_type(@options[:menu]  , :menu  , [String, Fixnum])
+        validate_type(@options[:order] , :order , [String, Symbol])
       end
 
       ##
@@ -67,7 +68,7 @@ module Menus
       #
       def call
         # Retrieve the menu
-        if @options[:menu].class == String
+        if @options[:menu].is_a?(String)
           menu = ::Menus::Model::Menu[:slug => @options[:menu]]
         else
           menu = ::Menus::Model::Menu[@options[:menu]]

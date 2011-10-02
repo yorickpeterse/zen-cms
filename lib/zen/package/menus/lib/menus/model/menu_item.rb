@@ -23,10 +23,10 @@ module Menus
       def validate
         validates_presence(:name)
         validates_presence(:url)
+        validates_max_length(255, [:name, :url, :html_class, :html_id])
         validates_integer([:sort_order, :parent_id])
-
-        # Prevent people from entering random crap for class and ID names
-        validates_format(/^[a-zA-Z\-_0-9]*/, [:html_class, :html_id])
+        validates_format(/^[a-zA-Z\-_0-9\s]*$/, :html_class)
+        validates_format(/^[a-zA-Z\-_0-9]*$/  , :html_id)
       end
 
       ##

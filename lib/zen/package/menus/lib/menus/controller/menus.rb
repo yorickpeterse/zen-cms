@@ -23,7 +23,39 @@ module Menus
   #:nodoc:
   module Controller
     ##
-    # Controller for managing menu groups.
+    # The Menus controller allows you to create custom menu groups. You can
+    # create large menu structures without having to write a single line of
+    # code. In order to start managing your menus you must first navigate to
+    # ``/admin/menus`` (there's a navigation item called "Menus" that you can
+    # also use). Once you've reached this page you'll see an overview of all
+    # your existing menus or a message telling you that no menus were found (if
+    # this is the case). An example of such an overview can be seen in the image
+    # below.
+    #
+    # ![Menus Overview](../../_static/menus.png)
+    #
+    # This overview allows you to edit, create or remove menu groups as well as
+    # managing the menu items of a group. Editing a group can be done by
+    # clicking the name of the group, creating a new one can be done by clicking
+    # the button "Add menu". In both cases you'll end up with the form shown in
+    # the image below.
+    #
+    # ![Edit Menu](../../_static/edit_menu.png)
+    #
+    # In this form you can use the following fields:
+    #
+    # * **Name** (required): the name of the menu.
+    # * **Slug**: a URL friendly version of the name. If none is specified it
+    #   will be generated automatically based on the name of the menu.
+    # * **HTML class**: a space separated list of classes to apply to the HTML
+    #   element. The format of this field should match the regular exresspion
+    #   ``^[a-zA-Z\-_0-9\s]*$``
+    # * **HTML ID**: an ID to apply to the HTML element. This value should match
+    #   the regular expression ``^[a-zA-Z\-_0-9]*$``.
+    # * **Description**: the description of the menu.
+    #
+    # Note that all fields except the description field have a maximum length of
+    # 255 characters.
     #
     # ## Used Permissions
     #
@@ -32,14 +64,36 @@ module Menus
     # * edit_menu
     # * delete_menu
     #
-    # ## Available Events
+    # ## Events
     #
-    # * new_menu
-    # * edit_menu
-    # * delete_menu
+    # All events in this controller receive an instance of {Menus::Model::Menu}.
+    # Just like other packages the event ``delete_menu`` receives an instance
+    # that has already been destroyed.
+    #
+    # @example Automatically add a menu item
+    #  Zen::Event.listen(:new_menu) do |menu|
+    #    menu.add_menu_item(:name => 'Home', :url => '/', :html_id => 'home')
+    #  end
+    #
+    # @example Remove duplicate menu items when editing a menu
+    #  Zen::Event.listen(:edit_menu) do |menu|
+    #    urls = []
+    #
+    #    menu.items.each do |item|
+    #      if urls.include?(item.url)
+    #        item.destroy
+    #      else
+    #        urls << item.url
+    #      end
+    #    end
+    #  end
     #
     # @author Yorick Peterse
     # @since  0.2a
+    # @map    /admin/menus
+    # @event  new_menu
+    # @event  edit_menu
+    # @event  delete_menu
     #
     class Menus < Zen::Controller::AdminController
       map    '/admin/menus'
@@ -52,8 +106,9 @@ module Menus
       # Shows an overview of all exisitng menus and a few properties of these
       # groups such as the name, slug and the amount of items in that group.
       #
-      # @author Yorick Peterse
-      # @since  0.2a
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @permission show_menu
       #
       def index
         authorize_user!(:show_menu)
@@ -68,13 +123,9 @@ module Menus
       # group has been created users can start adding navigation items to the
       # group.
       #
-      # This method requires the following permissions:
-      #
-      # * create
-      # * read
-      #
-      # @author Yorick Peterse
-      # @since  0.2a
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @permission new_menu
       #
       def new
         authorize_user!(:new_menu)
@@ -94,9 +145,10 @@ module Menus
       # and slug) of a menu group. This method can not be used to manage all
       # menu items for this group.
       #
-      # @author Yorick Peterse
-      # @since  0.2a
-      # @param  [Fixnum] id The ID of the menu to edit.
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @param      [Fixnum] id The ID of the menu to edit.
+      # @permission edit_menu
       #
       def edit(id)
         authorize_user!(:edit_menu)
@@ -116,14 +168,14 @@ module Menus
       end
 
       ##
-      # Saves the changes made to an existing menu group or creates a new group
-      # using the supplied POST data. In order to detect this forms that contain
-      # data of an existing group should have a hidden field named "id", the
-      # value of this field is the primary value of the menu group of which the
-      # changes should be saved.
+      # Saves any changes made to an existing menu or creates a new menu.
       #
-      # @author Yorick Peterse
-      # @since  0.2a
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @event      edit_menu
+      # @event      new_menu
+      # @permission edit_menu (when editing an existing menu)
+      # @permission new_menu (when creating a new menu)
       #
       def save
         post = request.subset(
@@ -179,8 +231,10 @@ module Menus
       # values. These primary values should be stored in a POST array called
       # "menu_ids".
       #
-      # @author Yorick Peterse
-      # @since  0.2a
+      # @author     Yorick Peterse
+      # @since      0.2a
+      # @event      delete_menu
+      # @permission delete_menu
       #
       def delete
         authorize_user!(:delete_menu)

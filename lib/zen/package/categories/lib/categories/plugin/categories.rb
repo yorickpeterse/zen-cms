@@ -52,7 +52,7 @@ module Categories
       #  systems.
       # @option options [String|Fixnum] :group The name or ID of the category
       #  group for which to retrieve all categories.
-      # @option options [String/Fixnum] :category The slug or ID of the
+      # @option options [String|Fixnum] :category The slug or ID of the
       #  category to retrieve. Setting this option will cause the plugin to
       #  ignore the offset and limit options.
       #
@@ -81,7 +81,7 @@ module Categories
 
         group_class = @options[:group].class
         cat_class   = @options[:category].class
-        allowed     = [Integer, String, Fixnum]
+        allowed     = [String, Fixnum]
 
         # Validate the types
         unless @options[:group].nil?
@@ -92,8 +92,8 @@ module Categories
           validate_type(@options[:category], :category, allowed)
         end
 
-        validate_type(@options[:limit] , :limit , [Fixnum, Integer])
-        validate_type(@options[:offset], :offset, [Fixnum, Integer])
+        validate_type(@options[:limit] , :limit , [Fixnum])
+        validate_type(@options[:offset], :offset, [Fixnum])
       end
 
       ##
@@ -109,8 +109,7 @@ module Categories
         # Retrieve the categories for a given group]]
         if !@options[:group].nil?
           # Get the group for an ID or a name
-          if @options[:group].class == Integer \
-          or @options[:group].class == Fixnum
+          if @options[:group].is_a?(Fixnum)
             category_group = ::Categories::Model::CategoryGroup[
               @options[:group]
             ]
@@ -139,8 +138,7 @@ module Categories
 
         # Retrieve the category for the specified ID or slug
         else
-          if @options[:category].class == Integer \
-          or @options[:category].class == Fixnum
+          if @options[:category].is_a?(Fixnum)
             categories = ::Categories::Model::Category[@options[:category]]
           else
             categories = ::Categories::Model::Category[
