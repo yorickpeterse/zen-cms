@@ -45,7 +45,7 @@ module Zen
     attr_accessor :author
 
     # A small description of the theme
-    attr_accessor :about
+    attr_writer :about
 
     # The URL to the theme's homepage
     attr_accessor :url
@@ -115,6 +115,22 @@ module Zen
     #
     def name=(name)
       @name = name.to_sym
+    end
+
+    ##
+    # Returns the description of the theme either in it's raw form or as a
+    # translation.
+    #
+    # @author Yorick Peterse
+    # @since  0.2.9
+    # @return [String]
+    #
+    def about
+      begin
+        return lang(@about)
+      rescue
+        return @about
+      end
     end
 
     ##

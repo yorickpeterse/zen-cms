@@ -1,11 +1,7 @@
-require 'fileutils'
-
-# Task group used to remove various files that aren't needed when releasing gems
-# and such.
 namespace :clean do
   desc 'Removes all the gems located in pkg/'
   task :gem do
-    glob_pattern = File.expand_path('../../../../pkg/*.gem', __FILE__)
+    glob_pattern = __DIR__('../../../pkg/*.gem')
 
     Dir.glob(glob_pattern).each do |gem|
       File.unlink(gem)
@@ -14,15 +10,17 @@ namespace :clean do
 
   desc 'Removes all YARD files'
   task :yard do
-    zen_path = File.expand_path('../../../../', __FILE__)
+    require 'fileutils'
 
-    FileUtils.rm_rf("#{zen_path}/doc")
-    FileUtils.rm_rf("#{zen_path}/.yardoc")
+    root = __DIR__('../../../')
+
+    FileUtils.rm_rf("#{root}/doc")
+    FileUtils.rm_rf("#{root}/.yardoc")
   end
 
-  desc 'Removes all the minified assets'
+  desc 'Removes all the minified assets used for the specs'
   task :assets do
-    path = File.expand_path('../../../../spec/public/minified/*', __FILE__)
+    path = __DIR__('../../../spec/public/minified/*')
 
     Dir.glob(path).each do |file|
       File.unlink(file)

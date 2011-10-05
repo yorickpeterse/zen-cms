@@ -1,4 +1,3 @@
-#:nodoc:
 module Sections
   #:nodoc:
   module Model

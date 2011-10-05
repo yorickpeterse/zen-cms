@@ -1,4 +1,3 @@
-#:nodoc:
 module Sections
   #:nodoc:
   module Model
@@ -39,8 +38,9 @@ module Sections
       #
       def validate
         validates_presence([:title, :user_id])
-        validates_presence(:slug) unless new?
         validates_integer(:section_entry_status_id)
+
+        validates_max_length(255, [:title, :slug])
 
         # Check if the slug is unique for the current section
         if !SectionEntry \

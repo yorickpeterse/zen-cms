@@ -1,4 +1,3 @@
-#:nodoc:
 module Sections
   #:nodoc:
   class Plugin
@@ -39,8 +38,7 @@ module Sections
     #       end
     #     end
     #
-    # For a full list of available options see
-    # Sections::Plugin::SectionEntries.initialize.
+    # For a full list of available options see {#initialize}.
     #
     # @author Yorick Peterse
     # @since  0.2.5
@@ -49,7 +47,7 @@ module Sections
       include ::Zen::Plugin::Helper
 
       ##
-      # Creates a new instance of the plugin and validates/stores the given
+      # Creates a new instance of the plugin and validates|stores the given
       # configuration options. Please note that you always need to either
       # specify a section from which to retrieve all entries or a single entry
       # in order to use this plugin. You can retrieve a list of entries (or just
@@ -62,10 +60,10 @@ module Sections
       # @since  0.2.5
       # @param  [Hash] options Hash with a collection of custom configuration
       #  options that determine how and what entries should be retrieved.
-      # @option options [Fixnum|Integer] :limit
-      # @option options [Fixnum|Integer] :offset
-      # @option options [NilClass|String/Integer/Fixnum] :section
-      # @option options [NilClass|String/Integer/Fixnum] :entry
+      # @option options [Fixnum] :limit The amount of rows to retrieve.
+      # @option options [Fixnum] :offset The row offset.
+      # @option options [NilClass|String|Fixnum] :section
+      # @option options [NilClass|String|Fixnum] :entry
       # @option options [TrueClass] :markup When set to true the markup of all
       #  entries will be converted to the desired output (usually this is HTML).
       # @option options [TrueClass] :comments When set to true all comments for
@@ -94,19 +92,19 @@ module Sections
           :order          => :desc
         }.merge(options)
 
-        validate_type(@options[:limit] , :limit , [Fixnum, Integer])
-        validate_type(@options[:offset], :offset, [Fixnum, Integer])
+        validate_type(@options[:limit] , :limit , [Fixnum])
+        validate_type(@options[:offset], :offset, [Fixnum])
 
         validate_type(
           @options[:section],
           :section,
-          [NilClass, String, Integer, Fixnum]
+          [NilClass, String, Fixnum]
         )
 
         validate_type(
           @options[:entry],
           :entry,
-          [NilClass, String, Integer, Fixnum]
+          [NilClass, String, Fixnum]
         )
 
         validate_type(@options[:markup]  , :markup  , [TrueClass, FalseClass])

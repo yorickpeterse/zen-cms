@@ -8,13 +8,13 @@ module Menus
     # {Menus::Controller::Menus} for more information). Once you've reached this
     # page you'll see an overview that looks like the image below.
     #
-    # ![Menu Items](../../_static/menu_items.png)
+    # ![Menu Items](../../_static/menus/menu_items.png)
     #
     # Editing or creating a menu item can be done by either clicking the name of
     # a menu item or by clicking the "Add menu item" button. In both cases
     # you'll end up with a form looking like the one in the following image:
     #
-    # ![Edit Menu Item](../../_static/edit_menu_item.png)
+    # ![Edit Menu Item](../../_static/menus/edit_menu_item.png)
     #
     # In this form you can specify the following fields:
     #

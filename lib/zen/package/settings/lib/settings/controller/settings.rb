@@ -1,22 +1,31 @@
-#:nodoc:
+##
+# Package for managing and registering settings.
+#
+# ## Controllers
+#
+# * {Settings::Controller::Settings}
+#
+# ## Models
+#
+# * {Settings::Model::Setting}
+#
+# ## Plugins
+#
+# * {Settings::Plugin::Settings}
+#
 module Settings
   #:nodoc:
   module Controller
     ##
-    # Controller for managing settings. Each setting is saved as a separate
-    # row in the database, making management and retrieving them easier.
-    #
-    # ## Used Permissions
-    #
-    # * show_setting
-    # * edit_setting
-    #
-    # ## Available Events
-    #
-    # * edit_setting
+    # Controller for managing settings. Settings are used to store the name of
+    # the website, what anti-spam system to use and so on. These settings can be
+    # managed via the admin interface rather than having to edit configuration
+    # files.
     #
     # @author Yorick Peterse
     # @since  0.1
+    # @map    /admin/settings
+    # @event  edit_setting
     #
     class Settings < Zen::Controller::AdminController
       map   '/admin/settings'
@@ -26,13 +35,11 @@ module Settings
       load_asset_group :tabs
 
       ##
-      # Show all settings and allow the user to change them. The values of each
-      # setting item are stored in the database, the descriptions, names and
-      # possible values are stored in the language packs that come with this
-      # module.
+      # Show all settings and allow the user to change them.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission show_setting
       #
       def index
         authorize_user!(:show_setting)
@@ -55,12 +62,13 @@ module Settings
       end
 
       ##
-      # Saves the values of each setting. Since each setting
-      # is a new row we'll have to loop through them and execute quite
-      # a few queries.
+      # Updates all the settings in both the database and the cache
+      # (Ramaze::Cache.settings).
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission edit_setting
+      # @event      edit_setting
       #
       def save
         authorize_user!(:edit_setting)

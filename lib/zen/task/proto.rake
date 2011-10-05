@@ -1,10 +1,8 @@
-require 'fileutils'
-
-# Task group used for creating various prototypes.
 namespace :proto do
-
   desc 'Creates a new migration'
   task :migration, :directory, :name do |task, args|
+    require 'fileutils'
+
     # Validate the input
     if !args[:directory]
       abort 'You need to specify a directory for the migration.'
@@ -29,5 +27,4 @@ namespace :proto do
       puts "Failed to create the migration: #{e.message}"
     end
   end
-
 end

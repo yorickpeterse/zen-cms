@@ -1,26 +1,72 @@
-#:nodoc:
 module Sections
   #:nodoc:
   module Controller
     ##
-    # Section entries can be seen as blog entries, products, all sorts of things.
-    # Each section belongs to a section and can't be created without one.
+    # Section entries are collections of custom field values as well as some
+    # meta data related to a section. In a typical application a blog can be
+    # seen as a section and blog articles would be section entries.
     #
-    # ## Used Permissions
+    # Section entries can be managed by going to a section and clicking the link
+    # "Manage entries". This will bring you to an overview of all existing
+    # entries that looks like the one in the image below.
+    #
+    # ![Section Entries](../../_static/sections/entries.png)
+    #
+    # Editing an entry can be done by clicking on it's name, creating a new one
+    # can be done by clicking on the "Add section entry" button. In both cases
+    # you'll see a form that looks similar to the one displayed in the images
+    # below.
+    #
+    # ![Edit Entry](../../_static/sections/edit_entry.png)
+    # ![Categories](../../_static/sections/edit_entry_categories.png)
+    # ![General](../../_static/sections/edit_entry_general.png)
+    # ![Meta](../../_static/sections/edit_entry_meta.png)
+    #
+    # In the images above there are four tabs displayed. "Basic", "Categories",
+    # "General" and "Meta". The first two are always available, the last two
+    # tabs are tabs specific to the custom field groups assigned to a section
+    # the entry belongs to. This means that you might have other tabs depending
+    # on the names of your field groups.
+    #
+    # Regardless of what field groups and categories you have assigned you can
+    # always specify the following fields:
+    #
+    # * **Title** (required): the title of your entry.
+    # * **Slug**: a URL friendly version of the title. If no slug is specified
+    #   one will be generated manually.
+    # * **Created at**: The date on which the entry was created. This field is
+    #   filled in automatically when an entry is created.
+    # * **Author** (required): the name of the person who wrote the entry.
+    # * **Status** (required): the status of an entry. If an entry has a status
+    #   other than "Published" it will not be displayed when using the
+    #   sectio_entries plugin.
+    #
+    # Depending on whether or not you have category and field groups assigned
+    # you can also use these fields. In the images above there's a "Body" field
+    # which is required and converts the text to HTML using Markdown.
+    #
+    # ## Permissions
+    #
+    # This controller uses the following permissions:
     #
     # * show_section_entry
     # * new_section_entry
     # * edit_section_entry
     # * delete_section_entry
     #
-    # ## Available Permissions
+    # ## Events
     #
-    # * new_section_entry
-    # * edit_section_entry
-    # * delete_section_entry
+    # All events in this controller receive an instance of
+    # {Sections::Model::SectionEntry}. The event ``delete_section_entry``
+    # receives an instance of this model that has already been destroyed using
+    # ``#destroy()``.
     #
     # @author Yorick Peterse
     # @since  0.1
+    # @map    /admin/section-entries
+    # @event  new_section_entry
+    # @event  edit_section_entry
+    # @event  delete_section_entry
     #
     class SectionEntries < Zen::Controller::AdminController
       map    '/admin/section-entries'
@@ -33,9 +79,10 @@ module Sections
       ##
       # Show an overview of all entries for the current section.
       #
-      # @author Yorick Peterse
-      # @param  [Fixnum] section_id The ID of the current section.
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @param      [Fixnum] section_id The ID of the current section.
+      # @since      0.1
+      # @permission show_section_entry
       #
       def index(section_id)
         authorize_user!(:show_section_entry)
@@ -57,14 +104,10 @@ module Sections
       ##
       # Show a form that lets the user create a new section entry.
       #
-      # This method requires the following permissions:
-      #
-      # * read
-      # * create
-      #
-      # @author Yorick Peterse
-      # @param  [Fixnum] section_id The ID of the current section.
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @param      [Fixnum] section_id The ID of the current section.
+      # @since      0.1
+      # @permission new_section_entry
       #
       def new(section_id)
         authorize_user!(:new_section_entry)
@@ -100,10 +143,11 @@ module Sections
       ##
       # Show a form that lets the user edit an existing section entry.
       #
-      # @author Yorick Peterse
-      # @param  [Fixnum] section_id The ID of the current section.
-      # @param  [Fixnum] entry_id The ID of the current section entry.
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @param      [Fixnum] section_id The ID of the current section.
+      # @param      [Fixnum] entry_id The ID of the current section entry.
+      # @since      0.1
+      # @permission edit_section_entry
       #
       def edit(section_id, entry_id)
         authorize_user!(:edit_section_entry)
@@ -134,13 +178,15 @@ module Sections
       end
 
       ##
-      # Method used for processing the form data and redirecting the user back
-      # to the proper URL. Based on the value of a hidden field named "id" we'll
-      # determine if the data will be used to create a new section or to update
-      # an existing one.
+      # Saves any changes made to an existing entry and all the field values or
+      # creates a new entry.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @event      new_section_entry
+      # @event      edit_section_entry
+      # @permission edit_section_entry (when editing an entry)
+      # @permission new_section_entry (when creating a new entry)
       #
       def save
         section_id = request.params['section_id']
@@ -261,8 +307,10 @@ module Sections
       # Delete a set of section entries based on the supplied POST
       # field "section_entry_ids".
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission delete_section_entry
+      # @event      delete_section_entry
       #
       def delete
         authorize_user!(:delete_section_entry)

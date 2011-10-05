@@ -1,17 +1,12 @@
-# Task group for managing packages.
 namespace :package do
-
   desc 'Lists all installed packages'
   task :list do
     Zen::Package::Registered.each do |name, pkg|
-      message = <<-MSG
-#{name}
---------------------
-#{pkg.about}
-
-MSG
-
-      puts message
+      if pkg.about.nil? or pkg.about.empty?
+        puts "* #{name}"
+      else
+        puts "* #{name}\n  #{pkg.about}"
+      end
     end
   end
 
@@ -21,6 +16,8 @@ MSG
       abort "You need to specify the name of a package to migrate"
     end
 
+    name = args[:name].to_sym
+
     if !args[:version]
       version = nil
     else
@@ -28,17 +25,17 @@ MSG
     end
 
     # Validate the package name
-    if !Zen::Package::Registered[args[:name].to_sym]
-      abort "The package name \"#{args[:name]}\" is invalid."
+    if !Zen::Package::Registered[name]
+      abort "The package name \"#{name}\" is invalid."
     end
 
-    package = Zen::Package::Registered[args[:name].to_sym]
+    package = Zen::Package::Registered[name]
 
     # Get the migrations directory
     if package.respond_to?(:migrations) and !package.migrations.nil?
       dir = package.migrations
     else
-      dir = package.root + '/../../migrations'
+      abort 'The specified package has no migrations directory set'
     end
 
     # Validate the directory
@@ -57,5 +54,4 @@ MSG
       )
     end
   end
-
 end

@@ -1,7 +1,4 @@
-# Task group for database related tasks such as migrating and removing the
-# database.
 namespace :db do
-
   desc 'Migrates the database to the newest version'
   task :migrate do
     if Zen::Package::Registered.empty?
@@ -14,7 +11,8 @@ namespace :db do
       if pkg.respond_to?(:migrations) and !pkg.migrations.nil?
         dir = pkg.migrations
       else
-        dir = pkg.root + '/../../migrations'
+        puts "Skipping #{package.title} as it has no migrations directory"
+        next
       end
 
       if !File.directory?(dir)
@@ -83,16 +81,16 @@ namespace :db do
       ).save
     end
 
-    if !user.nil?
+    unless user.nil?
       abort "The default user has already been inserted."
     end
 
-    user = Users::Model::User.new(
+    user = Users::Model::User.create(
       :email    => 'admin@website.tld',
       :name     => 'Administrator',
       :password => password,
       :status   => 'open'
-    ).save
+    )
 
     user.user_group_pks = [group.id]
 
@@ -101,7 +99,6 @@ namespace :db do
 Email: admin@website.tld
 Passowrd: #{password}
 
-You can login by going to http://domain.tld/admin/users/login/
-"
+You can login by going to http://domain.tld/admin/users/login/"
   end
 end

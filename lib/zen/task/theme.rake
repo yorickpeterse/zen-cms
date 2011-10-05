@@ -1,17 +1,12 @@
-# Task group for managing themes.
 namespace :theme do
-
   desc 'Lists all installed themes'
   task :list do
     Zen::Theme::Registered.each do |name, pkg|
-      message = <<-MSG
-#{name}
---------------------
-#{pkg.about}
-
-MSG
-
-      puts message
+      if pkg.about.nil? or pkg.about.empty?
+        puts "* #{name}"
+      else
+        puts "* #{name}\n  #{pkg.about}"
+      end
     end
   end
 
@@ -57,5 +52,4 @@ MSG
       )
     end
   end
-
 end

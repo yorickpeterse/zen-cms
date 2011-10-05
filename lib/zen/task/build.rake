@@ -1,30 +1,23 @@
 namespace :build do
   desc 'Builds the documentation using YARD'
-  task :doc do
-    root = File.expand_path('../../../../', __FILE__)
+  task :doc => ['clean:yard'] do
+    root = __DIR__('../../../')
     Dir.chdir(root)
 
-    sh('rm -rf doc; yard doc')
+    sh('yard doc')
   end
 
   desc 'Builds a new Gem'
   task :gem do
-    root         = __DIR__('../../../')
-    gemspec_path = File.join(
-      root,
-      "#{Zen::Gemspec.name}-#{Zen::Gemspec.version.version}.gem"
-    )
-
-    pkg_path = File.join(
-      root,
-      'pkg',
-      "#{Zen::Gemspec.name}-#{Zen::Gemspec.version.version}.gem"
-    )
+    root = __DIR__('../../../')
+    name = "#{Zen::Gemspec.name}-#{Zen::Gemspec.version.version}.gem"
+    path = File.join(root, name)
+    pkg  = File.join(root, 'pkg', name)
 
     # Build and install the gem
-    sh('gem', 'build'     , File.join(root, 'zen.gemspec'))
-    sh('mv' , gemspec_path, pkg_path)
-    sh('gem', 'install'   , pkg_path)
+    sh('gem', 'build', File.join(root, 'zen.gemspec'))
+    sh('mv' , path, pkg)
+    sh('gem', 'install', pkg)
   end
 
   # Stolen from Ramaze

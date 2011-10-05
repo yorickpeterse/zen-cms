@@ -36,7 +36,7 @@ module Categories
     # ``/admin/category-groups``. This overview looks like the image displayed
     # below.
     #
-    # ![Category Group Overview](../../_static/category_groups.png)
+    # ![Category Group Overview](../../_static/categories/category_groups.png)
     #
     # Editing an existing group can be done by clicking on the name of a group
     # while managing the categories of a group is done by clicking the link
@@ -53,7 +53,7 @@ module Categories
     # existing group or create a new one. The form used to manage such a group
     # looks like the one in the image below.
     #
-    # ![New Category Group](../../_static/new_category_group.png)
+    # ![New Category Group](../../_static/categories/new_category_group.png)
     #
     # In this form you can set the following fields:
     #

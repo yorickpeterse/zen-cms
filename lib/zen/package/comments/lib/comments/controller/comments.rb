@@ -42,7 +42,7 @@ module Comments
     # ``/admin/comments``. This page will show an overview of all existing
     # comments (or a message if no comments were found).
     #
-    # ![Comments](../../_static/comments.png)
+    # ![Comments](../../_static/comments/comments.png)
     #
     # Comments can be edited by clicking on their name. Deleting comments can be
     # done by checking the checkboxes in each row followed by clicking the
@@ -50,7 +50,7 @@ module Comments
     #
     # ## Editing Comments
     #
-    # ![Edit Comment](../../_static/edit_comment.png)
+    # ![Edit Comment](../../_static/comments/edit_comment.png)
     #
     # When editing a comment you can specify/update the following fields:
     #

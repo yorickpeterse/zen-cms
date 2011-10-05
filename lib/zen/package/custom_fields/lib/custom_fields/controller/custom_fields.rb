@@ -12,15 +12,15 @@ module CustomFields
     # you've reached this page you'll see an overview of all your custom fields
     # or a message saying no fields were found (if this is the case).
     #
-    # ![Custom Fields](../../_static/custom_fields.png)
+    # ![Custom Fields](../../_static/custom_fields/custom_fields.png)
     #
     # Editing a custom field can be done by clicking on the name of the field,
     # creating a new one can be done by clicking on the button "Add custom
     # field". In both cases you'll be shown a form that looks like the one in
     # the image below.
     #
-    # ![Custom Field General](../../_static/edit_custom_field_general.png)
-    # ![Custom Field Settings](../../_static/edit_custom_field_settings.png)
+    # ![General](../../_static/custom_fields/edit_custom_field_general.png)
+    # ![Settings](../../_static/custom_fields/edit_custom_field_settings.png)
     #
     # In this form you can specify the following fields:
     #

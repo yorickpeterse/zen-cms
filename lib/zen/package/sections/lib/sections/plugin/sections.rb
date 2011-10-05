@@ -1,4 +1,3 @@
-#:nodoc:
 module Sections
   #:nodoc:
   class Plugin
@@ -7,10 +6,12 @@ module Sections
     # to display section entries instead you should use the plugin
     # Sections::Plugin::SectionEntries.
     #
-    # ## Usage
+    # Basic usage:
     #
     #     section = plugin(:sections, :section => 10)
     #     section.name # => "My Section"
+    #
+    # For more information on all the available options see {#initialize}.
     #
     # @author Yorick Peterse
     # @since  0.2.5
@@ -28,6 +29,11 @@ module Sections
       # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Hash] options Hash with a set of configuration files to use.
+      # @option options [Fixnum] :limit The maximum amount of rows to retrieve.
+      # @option options [Fixnum] :offset The row offset to use.
+      # @option options [String|Fixnum] :section Either an ID of a slug of the
+      #  section to retrieve. If the value is a Fixnum it's assumed to be the
+      #  ID, otherwise the section will be retrieved by it's slug.
       #
       def initialize(options = {})
         @options = {
@@ -36,13 +42,13 @@ module Sections
           :section => nil
         }.merge(options)
 
-        validate_type(@options[:limit]  , :limit  , [Fixnum, Integer])
-        validate_type(@options[:offset] , :offset , [Fixnum, Integer])
+        validate_type(@options[:limit] , :limit , [Fixnum])
+        validate_type(@options[:offset], :offset, [Fixnum])
 
         validate_type(
           @options[:section],
           :section,
-          [NilClass, Integer, Fixnum, String]
+          [NilClass, Fixnum, String]
         )
       end
 

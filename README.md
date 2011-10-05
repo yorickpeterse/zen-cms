@@ -28,6 +28,13 @@ similarities there are also pretty big differences.
 * {Menus Menus}
   * {Menus::Controller::Menus Menu Management}
   * {Menus::Controller::MenuItems Managing Menu Items}
+* {Sections Sections & Section Entries}
+  * {Sections::Controller::Sections Managing Sections}
+  * {Sections::Controller::SectionEntries Managing Section Entries}
+* {Settings}
+* {Users Users, User Groups and Permissions}
+  * {Users::Controller::Users Managing Users}
+  * {Users::Controller::UserGroups Managing User Groups}
 
 ## Hacking/Contributing
 
