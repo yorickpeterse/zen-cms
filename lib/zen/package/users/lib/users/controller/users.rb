@@ -56,8 +56,8 @@ module Users
     # * **Confirm password** (required for new users): an extra field to confirm
     #   that the specified password is the right one. This field should match
     #   the password specified in the "Password" field.
-    # * **Status** (required): field that indicates if a user is active or not.
-    #   If the status is set to "Closed" the user will not be able to log in.
+    # * **Status**: field that indicates if a user is active or not. If the
+    #   status is set to "Closed" the user will not be able to log in.
     # * **User Groups**: all the user groups the user belongs to.
     # * **Language**: the language to use for the admin interface.
     # * **Frontend language**: the language to use for the frontend of the

@@ -105,7 +105,7 @@ module Users
       # @since  0.1
       #
       def validate
-        validates_presence([:email, :name, :status])
+        validates_presence([:email, :name])
         validates_unique(:email)
         validates_presence(:password) if new?
         validates_format(/^\S+@\S+\.\w{2,}/, :email)
