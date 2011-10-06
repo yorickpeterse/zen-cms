@@ -1,4 +1,3 @@
-#:nodoc:
 module Settings
   #:nodoc:
   module Model

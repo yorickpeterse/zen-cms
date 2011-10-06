@@ -1,6 +1,5 @@
 require File.expand_path('../lib/zen/version', __FILE__)
 
-# Get all the files from the manifest
 path = File.expand_path('../', __FILE__)
 
 Gem::Specification.new do |s|
@@ -18,15 +17,15 @@ Gem::Specification.new do |s|
   s.files                 = `cd #{path}; git ls-files`.split("\n").sort
   s.has_rdoc              = 'yard'
   s.executables           = ['zen']
-  s.required_ruby_version = '>= 1.8.6'
+  s.required_ruby_version = '>= 1.9.2'
 
-  s.add_dependency('sequel'          , ['= 3.26'])
-  s.add_dependency('ramaze'          , ['= 2011.07.25'])
-  s.add_dependency('bcrypt-ruby'     , ['= 3.0.1'])
-  s.add_dependency('rake'            , ['= 0.9.2'])
-  s.add_dependency('loofah'          , ['= 1.2.0'])
-  s.add_dependency('json'            , ['= 1.6.1'])
-  s.add_dependency('ramaze-asset'    , ['= 0.2.3'])
+  s.add_dependency('sequel'      , ['= 3.26'])
+  s.add_dependency('ramaze'      , ['= 2011.07.25'])
+  s.add_dependency('bcrypt-ruby' , ['= 3.0.1'])
+  s.add_dependency('rake'        , ['= 0.9.2'])
+  s.add_dependency('loofah'      , ['= 1.2.0'])
+  s.add_dependency('json'        , ['= 1.6.1'])
+  s.add_dependency('ramaze-asset', ['= 0.2.3'])
 
   s.add_development_dependency('rdiscount', ['>= 1.6.8'])
   s.add_development_dependency('bacon'    , ['>= 1.1.0'])

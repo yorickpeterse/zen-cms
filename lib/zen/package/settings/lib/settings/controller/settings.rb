@@ -20,7 +20,51 @@ module Settings
     # Controller for managing settings. Settings are used to store the name of
     # the website, what anti-spam system to use and so on. These settings can be
     # managed via the admin interface rather than having to edit configuration
-    # files.
+    # files. Settings can be managed by going to ``/admin/settings``. This page
+    # shows an overview of all the available settings organized in a number of
+    # groups where each group is placed under it's own tab. An example of this
+    # overview can be seen in the image below.
+    #
+    # ![General](../../_static/settings/overview_general.png)
+    # ![Security](../../_static/settings/overview_security.png)
+    #
+    # Out of the box Zen ships with the following settings:
+    #
+    # * **Website name**: the name of the website.
+    # * **Website description**: a short description of the website.
+    # * **Language**: the default language to use for the admin interface.
+    # * **Frontend Language**: the default language to use for the frontend of
+    #   your website.
+    # * **Theme**: the theme to use for the frontend.
+    # * **Date format**: the default date format to use in the backend.
+    # * **Default section**: the section to call when a visitor reaches your
+    #   homepage.
+    # * **Enable anti-spam**: whether or not comments should be verified to see
+    #   if they're spam or ham.
+    # * **Anti-spam system**: the anti-spam system to use. Zen by default only
+    #   comes with Defensio support.
+    # * **Defensio key**: the API key for the Defensio anti-spam system.
+    #
+    # ## Used Permissions
+    #
+    # This controller uses the following permissions:
+    #
+    # * show_setting
+    # * edit_setting
+    #
+    # ## Events
+    #
+    # Unlike other controllers events in this controller do not receive an
+    # instance of a model. Instead they'll receive an instance of
+    # {Settings::Plugin::SettingBase}. In order to update the value of a setting
+    # you'll simply call ``#value=()`` and specify a new value.
+    #
+    # @example Trimming the value of a setting
+    #  Zen::Event(:edit_setting) do |setting|
+    #    if setting.name === 'website_name'
+    #      setting.value = setting.value.strip
+    #    end
+    #  end
     #
     # @author Yorick Peterse
     # @since  0.1

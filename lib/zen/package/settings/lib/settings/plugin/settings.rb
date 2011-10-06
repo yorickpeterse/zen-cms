@@ -1,7 +1,6 @@
 require __DIR__('group_base')
 require __DIR__('setting_base')
 
-#:nodoc:
 module Settings
   #:nodoc:
   class Plugin

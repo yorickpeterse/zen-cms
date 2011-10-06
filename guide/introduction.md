@@ -28,19 +28,15 @@ A few of the possibilities offered by Zen are:
 
 ## Requirements
 
-* Ruby 1.9.2 (MRI) (JRuby and Rubinius support is something I'm working on).
+* Ruby >= 1.9.2 (Rubinius, jruby and others are not supported).
 * Ramaze 2011.01.30 or newer, earlier versions will most likely cause problems.
 * Any SQL database supported by Sequel. Zen has been tested and confirmed to
   work on MySQL, SQLite3 and PostgreSQL.
-* A Rack compatible server such as Thin, Unicorn or Mongrel.
-
-Depending on your own setup the following may be required as well:
-
+* A Rack compatible server such as Thin or Unicorn.
 * A library to convert your markup of choice to HTML. Zen by default has support
-  for Textile using Redcloth and Markdown using RDiscount. However, These gems
-  have to be installed manually.Depending on your database you may need to
-  install additional gems.  If you're using MySQL it's recommended to use the
-  mysql2 gem instead of the mysql one.
+  for Textile using Redcloth and Markdown using RDiscount. RDiscount and
+  RedCloth are installed automatically when needed.
+* A gem for your favorite DBMS such as mysql2 for MySQL and pg for PostgreSQL.
 
 ## Websites Using Zen
 

@@ -1,4 +1,3 @@
-#:nodoc:
 module Settings
   #:nodoc:
   class Plugin
@@ -40,7 +39,6 @@ module Settings
       #
       def validate
         validates_presence([:name, :title])
-        validates_format(:name, /[a-z0-9_\-]+/)
 
         if ::Settings::Plugin::Settings::Registered[:groups].key?(name)
           raise(

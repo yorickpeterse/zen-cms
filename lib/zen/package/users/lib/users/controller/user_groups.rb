@@ -1,27 +1,63 @@
-#:nodoc:
 module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing all user groups. It's not required to add a user
-    # to a group but it can certainly make it easier when adding custom
-    # permissions or granting a user full access to the backend.
+    # User groups allow you to group types of users together and assign
+    # permissions to the entire group of users without having to modify each
+    # individual user.
+    #
+    # User groups can be managed by going to ``/admin/user-groups``. This page
+    # will show an overview of all existing groups or a message saying no groups
+    # have been added yet.
+    #
+    # ![User Groups](../../_static/users/user_groups_overview.png)
+    #
+    # Editing a user group can be done by clicking on the name of the group,
+    # creating a new one can be done by clicking the button "New group". When
+    # creating or editing a group you'll be presented with the form shown in the
+    # images below.
+    #
+    # ![Edit Group](../../_static/users/edit_user_group.png)
+    # ![Group Permissions](../../_static/users/edit_user_group_permissions.png)
+    #
+    # In this form you can fill in the following fields:
+    #
+    # * **Name** (required): the name of the user group.
+    # * **Slug**: a URL friendly version of the name. If no name is specified
+    #   one will be generated automatically.
+    # * **Super group** (required): when set to "Yes" all users that are
+    #   assigned to this group will have access to *everything* regardless of
+    #   their individual settings.
+    # * **Description**: a description of the user group.
+    #
+    # Besides these fields you can also specify all the permissions o the user
+    # group similar to how they're managed for individual users. Note that user
+    # specific rules will only overwrite group based rules if a group blocks
+    # something while a user specific rules allows something. Simply said, rules
+    # are added to the list but aren't removed based on their source.
     #
     # ## Used Permissions
+    #
+    # This controller uses the following permissions:
     #
     # * show_user_group
     # * edit_user_group
     # * new_user_group
     # * delete_user_group
     #
-    # ## Available Events
+    # ## Events
     #
-    # * new_user_group
-    # * edit_user_group
-    # * delete_user_group
+    # All events in this controller receive an instance of
+    # {Users::Model::UserGroup}. Just like other controllers the event
+    # ``delete_user_group`` will receive a user group that has already been
+    # destroyed using ``#destroy()``.
     #
     # @author Yorick Peterse
     # @since  0.1
+    # @map    /admin/user-groups
+    # @event  new_user_group
+    # @event  edit_user_group
+    # @event  delete_user_group
     #
     class UserGroups < Zen::Controller::AdminController
       helper :users
@@ -47,8 +83,9 @@ module Users
       # Show an overview of all user groups and allow the current user
       # to manage these groups
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission show_user_group
       #
       def index
         authorize_user!(:show_user_group)
@@ -61,9 +98,10 @@ module Users
       ##
       # Edit an existing user group.
       #
-      # @author Yorick Peterse
-      # @param  [Fixnum] id The ID of the user group to edit.
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @param      [Fixnum] id The ID of the user group to edit.
+      # @since      0.1
+      # @permission edit_user_group
       #
       def edit(id)
         authorize_user!(:edit_user_group)
@@ -82,8 +120,9 @@ module Users
       ##
       # Create a new user group.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission new_user_group
       #
       def new
         authorize_user!(:new_user_group)
@@ -102,8 +141,12 @@ module Users
       # Saves or creates a new user group based on the POST data and a field
       # named 'id'.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission new_user_group (when creating a new group)
+      # @permission edit_user_group (when editing a group)
+      # @event      new_user_group
+      # @event      edit_user_group
       #
       def save
         post = request.subset(:id, :name, :slug, :description, :super_group)
@@ -155,10 +198,12 @@ module Users
       end
 
       ##
-      # Delete all specified user groups.
+      # Deletes all specified user groups.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission delete_user_group
+      # @event      delete_user_group
       #
       def delete
         authorize_user!(:delete_user_group)

@@ -1,25 +1,106 @@
-#:nodoc:
+##
+# Package for managing users, user groups and the permissions of users and user
+# groups.
+#
+# ## Controllers
+#
+# * {Users::Controller::Users}
+# * {Users::Controller::UserGroups}
+#
+# ## Helpers
+#
+# * {Ramaze::Helper::Users}
+#
+# ## Models
+#
+# * {Users::Model::User}
+# * {Users::Model::UserGroup}
+# * {Users::Model::Permission}
+#
 module Users
   #:nodoc:
   module Controller
     ##
-    # Controller for managing users.
+    # Zen makes it easy for users to manage their own account as well as other
+    # users depending on their permissions. In Zen there's no special type of
+    # user such as an administrator or a contributor, instead users have access
+    # to various parts of your websites based on their permissions and the
+    # groups they have been assigned to (see {Users::Controller::UserGroups
+    # Managing User Groups} for more information).
+    #
+    # Users can be managed in the admin interface by going to ``/admin/users``.
+    # Just like other parts of the application you may not be able to manage
+    # users (or only partially) depending on your permissions.
+    #
+    # When navigating to the user overview (assuming you have the correct
+    # permissions) you should see a page that looks like the one shown in the
+    # image below.
+    #
+    # ![Users](../../_static/users/overview.png)
+    #
+    # This overview allows you to edit users (by clicking on their Email
+    # addresses), create new ones or delete existing users. When editing or
+    # creating a user you'll be presented a form as shown in the images below.
+    #
+    # ![Edit User](../../_static/users/edit_user.png)
+    # ![Edit Permissions](../../_static/users/edit_user_permissions.png)
+    #
+    # In this form the following fields can be filled:
+    #
+    # * **Name** (required): the full name of the user.
+    # * **Email** (required): the Email address of the user, used for logging
+    #   in.
+    # * **Website**: the website of the user (if he/she has any).
+    # * **Password** (required for new users): the raw password the user will
+    #   use in order to log in.
+    # * **Confirm password** (required for new users): an extra field to confirm
+    #   that the specified password is the right one. This field should match
+    #   the password specified in the "Password" field.
+    # * **Status** (required): field that indicates if a user is active or not.
+    #   If the status is set to "Closed" the user will not be able to log in.
+    # * **User Groups**: all the user groups the user belongs to.
+    # * **Language**: the language to use for the admin interface.
+    # * **Frontend language**: the language to use for the frontend of the
+    #   application.
+    # * **Date format**: the date format to use in the admin interface.
+    #
+    # Besides these fields there's also the tab "Permissions". This tab contains
+    # a collection of all installed packages and their permissions. This makes
+    # it possible to fine tune the access of a certain user.
     #
     # ## Used Permissions
+    #
+    # This controller uses the following permissions:
     #
     # * show_user
     # * new_user
     # * edit_user
     # * delete_user
     #
-    # ## Available Events
+    # ## Events
     #
-    # * new_user
-    # * edit_user
-    # * delete_user
+    # Events in this controller receive an instance of {Users::Model::User}, the
+    # ``delete_user`` event receives an instance that has already been
+    # destroyed. Keep in mind that changing the Email address or password of a
+    # user will cause their session to no longer be valid, requiring them to log
+    # in again.
+    #
+    # @example Sending an Email for a new user
+    #  Zen::Event.listen(:new_user) do |user|
+    #    Mail.deliver do
+    #      from    'user@domain.tld'
+    #      to      user.email
+    #      subject 'Your new account'
+    #      body    "Dear #{user.name}, your account has been created."
+    #    end
+    #  end
     #
     # @author Yorick Peterse
     # @since  0.1
+    # @map    /admin/users
+    # @event  new_user
+    # @event  edit_user
+    # @event  delete_user
     #
     class Users < Zen::Controller::AdminController
       helper :users, :layout
@@ -48,8 +129,9 @@ module Users
       # Show an overview of all users and allow the current user
       # to manage these users.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission show_user
       #
       def index
         authorize_user!(:show_user)
@@ -62,9 +144,10 @@ module Users
       ##
       # Edit an existing user based on the ID.
       #
-      # @author Yorick Peterse
-      # @param  [Fixnum] id The ID of the user to edit.
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @param      [Fixnum] id The ID of the user to edit.
+      # @since      0.1
+      # @permission edit_user
       #
       def edit(id)
         authorize_user!(:edit_user)
@@ -84,8 +167,9 @@ module Users
       ##
       # Create a new user.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission new_user
       #
       def new
         authorize_user!(:new_user)
@@ -138,8 +222,12 @@ module Users
       ##
       # Saves or creates a new user based on the POST data.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission new_user (when creating a new user)
+      # @permission edit_user (when editing a user)
+      # @event      new_user
+      # @event      edit_user
       #
       def save
         post = request.subset(
@@ -214,8 +302,10 @@ module Users
       ##
       # Delete all specified users.
       #
-      # @author Yorick Peterse
-      # @since  0.1
+      # @author     Yorick Peterse
+      # @since      0.1
+      # @permission delete_user
+      # @event      delete_user
       #
       def delete
         authorize_user!(:delete_user)

@@ -1,4 +1,3 @@
-#:nodoc:
 module Settings
   #:nodoc:
   class Plugin
@@ -110,8 +109,8 @@ module Settings
       end
 
       ##
-      # Retrieves the setting. If it exists in the cache the cache's value is used,
-      # otherwise it will be retrieved from the SQL database and cached.
+      # Retrieves the setting. If it exists in the cache the cache's value is
+      # used, otherwise it will be retrieved from the SQL database and cached.
       #
       # @author Yorick Peterse
       # @since  0.2.6.1

@@ -33,7 +33,6 @@ module Users
       #
       def validate
         validates_presence([:name, :super_group])
-        validates_presence(:slug) unless new?
         validates_unique(:slug)
 
         validates_type(TrueClass, :super_group)
