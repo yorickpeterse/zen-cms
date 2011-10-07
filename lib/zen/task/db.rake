@@ -1,6 +1,8 @@
 namespace :db do
   desc 'Migrates the database to the newest version'
   task :migrate do
+    require File.expand_path('../../../zen', __FILE__)
+
     if Zen::Package::Registered.empty?
       abort "No packages have been registered."
     end
@@ -31,6 +33,8 @@ namespace :db do
 
   desc 'Deletes the entire database'
   task :delete do
+    require File.expand_path('../../../zen', __FILE__)
+
     if Zen::Package::Registered.empty?
       abort "No packages have been registered."
     end
@@ -64,6 +68,8 @@ namespace :db do
 
   desc 'Creates a default administrator with a random password'
   task :user do
+    require File.expand_path('../../../zen', __FILE__)
+
     password = (0..12).map do
       letter = ('a'..'z').to_a[rand(26)]
       number = (0..9).to_a[rand(26)]

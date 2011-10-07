@@ -1,6 +1,8 @@
 namespace :package do
   desc 'Lists all installed packages'
   task :list do
+    require File.expand_path('../../../zen', __FILE__)
+
     Zen::Package::Registered.each do |name, pkg|
       if pkg.about.nil? or pkg.about.empty?
         puts "* #{name}"
@@ -12,6 +14,8 @@ namespace :package do
 
   desc 'Migrates a package to a certain version'
   task :migrate, :name, :version do |task, args|
+    require File.expand_path('../../../zen', __FILE__)
+
     if !args[:name]
       abort "You need to specify the name of a package to migrate"
     end

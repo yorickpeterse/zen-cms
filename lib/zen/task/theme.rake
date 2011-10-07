@@ -1,6 +1,8 @@
 namespace :theme do
   desc 'Lists all installed themes'
   task :list do
+    require File.expand_path('../../../zen', __FILE__)
+
     Zen::Theme::Registered.each do |name, pkg|
       if pkg.about.nil? or pkg.about.empty?
         puts "* #{name}"
@@ -12,6 +14,8 @@ namespace :theme do
 
   desc 'Migrates a theme to the given version'
   task :migrate, :name, :version do |task, args|
+    require File.expand_path('../../../zen', __FILE__)
+
     if !args[:name]
       abort 'You need to specify the name of the theme.'
     end

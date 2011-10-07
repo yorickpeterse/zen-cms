@@ -1,7 +1,7 @@
 namespace :build do
   desc 'Builds the documentation using YARD'
   task :doc => ['clean:yard'] do
-    root = __DIR__('../../../')
+    root = File.expand_path('../../../../', __FILE__)
     Dir.chdir(root)
 
     sh('yard doc')
@@ -9,7 +9,7 @@ namespace :build do
 
   desc 'Builds a new Gem'
   task :gem do
-    root = __DIR__('../../../')
+    root = File.expand_path('../../../../', __FILE__)
     name = "#{Zen::Gemspec.name}-#{Zen::Gemspec.version.version}.gem"
     path = File.join(root, name)
     pkg  = File.join(root, 'pkg', name)

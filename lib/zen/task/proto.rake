@@ -1,6 +1,7 @@
 namespace :proto do
   desc 'Creates a new migration'
   task :migration, :directory, :name do |task, args|
+    require File.expand_path('../../../zen', __FILE__)
     require 'fileutils'
 
     # Validate the input

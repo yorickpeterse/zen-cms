@@ -1,8 +1,9 @@
 require 'rubygems'
-require File.expand_path('../lib/zen', __FILE__)
 
-Zen::Gemspec = Gem::Specification::load(__DIR__('zen.gemspec'))
+Zen::Gemspec = Gem::Specification::load(
+  File.expand_path('../zen.gemspec', __FILE__)
+)
 
-Dir.glob(__DIR__('lib/zen/task/*.rake')).each do |task|
-  import task
+Dir.glob(File.expand_path('../lib/zen/task/*.rake', __FILE__)).each do |task|
+  import(task)
 end

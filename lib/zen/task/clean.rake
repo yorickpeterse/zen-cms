@@ -1,7 +1,7 @@
 namespace :clean do
   desc 'Removes all the gems located in pkg/'
   task :gem do
-    glob_pattern = __DIR__('../../../pkg/*.gem')
+    glob_pattern = File.expand_path('../../../../pkg/*.gem', __FILE__)
 
     Dir.glob(glob_pattern).each do |gem|
       File.unlink(gem)
@@ -12,7 +12,7 @@ namespace :clean do
   task :yard do
     require 'fileutils'
 
-    root = __DIR__('../../../')
+    root = File.expand_path('../../../../', __FILE__)
 
     FileUtils.rm_rf("#{root}/doc")
     FileUtils.rm_rf("#{root}/.yardoc")
@@ -20,7 +20,7 @@ namespace :clean do
 
   desc 'Removes all the minified assets used for the specs'
   task :assets do
-    path = __DIR__('../../../spec/public/minified/*')
+    path = File.expand_path('../../../../spec/public/minified/*', __FILE__)
 
     Dir.glob(path).each do |file|
       File.unlink(file)
