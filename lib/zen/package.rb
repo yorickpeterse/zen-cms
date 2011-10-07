@@ -82,11 +82,7 @@ module Zen
   # language key.
   #
   #     Zen::Package.add do |p|
-  #       # ...
-  #
   #       p.menu('some_package.titles.index', '/admin/some-packages')
-  #
-  #       # ...
   #     end
   #
   # For more information see ``Zen::Package#menu()`` and ``Zen::Package::Menu``.
@@ -101,11 +97,7 @@ module Zen
   # a langauge key so it can be displayed in a custom language:
   #
   #     Zen::Package.add do |p|
-  #       # ...
-  #
   #       p.permission(:show_some_package, 'packages.titles.index')
-  #
-  #       # ...
   #     end
   #
   # For more information on how to specify permission requirements in your

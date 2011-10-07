@@ -1,6 +1,5 @@
 #:nodoc
 module Zen
-  #:nodoc
   class Plugin
     ##
     # The Markup plugin is used to convert the given markup using the specified
