@@ -89,6 +89,8 @@ small portion of what it can do.
 * {Zen::Plugin Plugins}
 * {Zen::Theme Themes}
 * {Zen::Language Localization}
+* {Zen::Event Events}
+* {Zen::Validation Validating Objects}
 * {file:asset_management Asset Management}
 * {file:javascript Javascript API}
 
