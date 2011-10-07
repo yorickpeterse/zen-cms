@@ -59,9 +59,12 @@ small portion of what it can do.
 * {Categories Categories}
   * {Categories::Controller::CategoryGroups Managing Category Groups}
   * {Categories::Controller::Categories Managing Categories}
+  * {Categories::Plugin::Categories Categories Plugin}
 * {Comments Comments}
   * {Comments::Controller::Comments Managing Comments}
   * {Comments::Controller::CommentsForm Submitting Comments}
+  * {Comments::Plugin::AntiSpam Anti Spam Plugin}
+  * {Comments::Plugin::Comments Comments Plugin}
 * {CustomFields Custom Fields}
   * {CustomFields::Controller::CustomFieldGroups Managing Groups}
   * {CustomFields::Controller::CustomFields Managing Fields}
@@ -70,10 +73,15 @@ small portion of what it can do.
 * {Menus Menus}
   * {Menus::Controller::Menus Menu Management}
   * {Menus::Controller::MenuItems Managing Menu Items}
+  * {Menus::Plugin::Menus Menus Plugin}
 * {Sections Sections & Section Entries}
   * {Sections::Controller::Sections Managing Sections}
   * {Sections::Controller::SectionEntries Managing Section Entries}
+  * {Sections::Plugin::Sections Sections Plugin}
+  * {Sections::Plugin::SectionEntries Section Entries Plugin}
 * {Settings}
+  * {Settings::Controller::Settings Managing Settings}
+  * {Settings::Plugin::Settings Settings Plugin}
 * {Users Users, User Groups and Permissions}
   * {Users::Controller::Users Managing Users}
   * {Users::Controller::UserGroups Managing User Groups}
@@ -81,6 +89,8 @@ small portion of what it can do.
 * {Zen::Plugin Plugins}
 * {Zen::Theme Themes}
 * {Zen::Language Localization}
+* {file:asset_management Asset Management}
+* {file:javascript Javascript API}
 
 ## Community
 

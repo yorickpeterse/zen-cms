@@ -47,3 +47,5 @@ require __DIR__('users/controller/user_groups')
 # user model is loaded after this class is loaded (but before it's
 # initialized)
 Zen::Controller::BaseController.trait(:user_model => Users::Model::User)
+
+Zen::Controller::AdminController.helper(:acl)

@@ -1,63 +1,93 @@
 #:nodoc:
 module Zen
   ##
-  # The language module is used for writing and using text translations.
-  # Translations are stored in a simple YAML file inside a directory called
-  # "language" followed by a directory who's name matches the language code for
-  # which it's translations should be used. Say we wanted to translate "Login"
-  # and "Register" into different languages our YAML file would look like the
+  # Zen comes with a system that allows developers to localize labels, field
+  # names, and so on.  This can be extremely useful when you're developing a
+  # package and want people to be able to use it even if they don't speak
+  # English. Zen comes with a fairly easy to use language system that's based on
+  # a collection of YAML files. Before you can use a language pack in your
+  # package you'll have to make sure that the "language" directory exists in
+  # your package directory. If so your structure should look something like the
   # following:
   #
+  #     .
+  #     |__ lib/
+  #        |
+  #        |__ my-package.rb
+  #        |__ my-package/
+  #           |
+  #           |__ language/
+  #
+  # Inside the language directory there should be a directory who's name matches
+  # the language key it represents. For example, a directory with translations
+  # for English would be called "en". Language files for Dutch would be called
+  # "nl" and so on. The name of the YAML files is also important and will be
+  # used as the main key when retrieving language files. For example, if the
+  # file is named "hello" it's content will be available under the hello
+  # "namespace" (more on this later).
+  #
+  # As mentioned before language files are stored as YAML files. It doesn't
+  # really matter what's in them but it's generally a good idea to format them
+  # as following:
+  #
   #     ---
-  #     login: "Login"
-  #     register: "Register"
+  #     titles:
+  #       index: 'Overview'
+  #       edit:  'Edit Something'
   #
-  # If we save this file under parent_directory/language/en/tutorial.yml we
-  # could then load that file as following:
+  # Retrieving language keys is done using the lang() method. This method takes
+  # a single parameter, a string that specifies which key should be retrieved.
+  # If we wanted to retrieve the key "edit" from the YAML file above you'd have
+  # to do the following (assuming the YAML file is named "hello"):
   #
-  #     Zen::Language.load('tutorial')
+  #     lang('hello.titles.edit')
   #
-  # ## Loading Translations
+  # As you can see sub-levels are specified using a dot between the levels. A
+  # key B who's parent is A could be retrieved by doing ``lang('A.B')``.
   #
-  # The load() method will look for a YAML file of which the name matches the
-  # given string and can be found in the directory for the current language.
-  # This means that if we were to switch our language without creating a
-  # translation file for that language we wouldn't be able to use it
-  # (makes sense right?).
+  # <div class="note todo">
+  #     <p>
+  #         <strong>Note</strong>: The lang() method is injected into the global
+  #         namespace, you don't have to include a module in order to be able to
+  #         use the method.
+  #     </p>
+  # </div>
   #
-  # Once your translation file is in place and it's loaded it can be used using
-  # the lang() method. Example:
+  # ## Loading Language Files
   #
-  #     lang('tutorial.login') # => "Login"
+  # In order to load a language file you'll need to do two things: add the
+  # language directory to the available paths if this hasn't been done yet and
+  # actually loading the file. The first can be done as following:
   #
-  # ## Directory Structure
+  #     Zen::Language.options.paths.push('path/to/directory')
   #
-  # As mentioned earlier language files are saved in a certain directory. The
-  # structure of this directory looks like the following:
+  # This instructs the language system to look in the directory
+  # ``path/to/directory`` for a directory named "language" containing all the
+  # language files. Once this has been done you can load a language file using
+  # ``Zen::Language.load``. The parameter of this method is the name of the YAML
+  # file to load for the current language. Say there was a file
+  # ``path/to/directory/language/en/test.yml``
   #
-  #     parent directory
-  #       |
-  #       |__ language
-  #          |
-  #          |__ language key (e.g. "en")
-  #             |
-  #             |__ filename.yml
+  # ## Example
   #
-  # When loading a language file this module will loop through a certain number
-  # of paths. The array containing all base directories to loop through can be
-  # updated as following:
+  # Let's assume we have a file located at
+  # ``/home/yorickpeterse/foobar/language/en/foobar.yml`` with the following
+  # content:
   #
-  #     Zen::Language.options.paths.push('/path/to/directory')
+  #     ---
+  #     username: 'Username'
+  #     location:
+  #       street:  'Street'
+  #       country: 'Country'
   #
-  # It's important that you _don't_ add a /language segment to the path, this
-  # will be done automatically.
+  # We can load these keys as following:
   #
-  # ## Options
+  #     Zen::Language.options.paths.push('/home/yorickpeterse/foobar/')
+  #     Zen::Language.load('foobar')
   #
-  # * language: Small string that defines the current language (e.g. "en").
-  # * paths: Array of paths to look for a language directory. Note that this
-  #   should be the parent directory of the directory called "language", not the
-  #   actual directory itself.
+  #     lang('foobar.username')         # => "Username"
+  #     lang('foobar.location.street')  # => "Street"
+  #     lang('foobar.location.country') # => "Country"
   #
   # @author Yorick Peterse
   # @since  0.2

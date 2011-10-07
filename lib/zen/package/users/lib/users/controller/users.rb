@@ -10,6 +10,7 @@
 # ## Helpers
 #
 # * {Ramaze::Helper::Users}
+# * {Ramaze::Helper::ACL}
 #
 # ## Models
 #

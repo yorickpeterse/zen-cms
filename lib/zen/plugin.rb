@@ -121,8 +121,8 @@ module Zen
       #
       # @author Yorick Peterse
       # @since  0.2.4
-      # @raise  [Zen::PluginError] Error raised whenever the plugin already exists
-      #  or is missing a certain setter.
+      # @raise  [Zen::PluginError] Error raised whenever the plugin already
+      #  exists or is missing a certain setter.
       #
       def add
         plugin = self.new

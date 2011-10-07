@@ -1,5 +1,5 @@
 require 'ramaze/gestalt'
-require __DIR__('../helper/acl')
+require __DIR__('../package/users/lib/users/helper/acl')
 
 module Zen
   class Package
