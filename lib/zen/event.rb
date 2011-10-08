@@ -5,11 +5,10 @@ module Zen
   # Events are small Procs that are executed before or after something has
   # happened. Events can be useful when you want to send an Email after a
   # certain record has been added without having to monkey patch a particular
-  # model (which would overwrite any existing events).
-  #
-  # It's important to remember that events are based on the idea of "fire and
-  # forget". This means that Zen will not do anything with any return values or
-  # wait for an event to finish executing.
+  # model (which would overwrite any existing events). Events can also be used
+  # to modify data at certain points in your application. For example, you might
+  # have an event that changes a comment's status before inserting it into the
+  # database.
   #
   # Adding a event can be done by calling Zen::Event.listen as following:
   #
@@ -22,22 +21,34 @@ module Zen
   # if the event is called and passed two parameters both parameters will be
   # passed to the event's block.
   #
-  # Events are executed in their own thread and are automatically wrapped in a
-  # mutex. While this will not make it a lot faster or actually run concurrently
-  # (thanks to the GIL) it's a nice way of ensuring events are isolated from
-  # each other.
+  # Events are called in sequence and each event will receive the same
+  # parameters (given they take the same parameters). This means that if you
+  # have 5 events each event could potentially receive different data depending
+  # on whether a previous event modified the data. This is illustrated in the
+  # following example:
   #
-  # ## Example
+  #     obj = Struct.new(:name).new('Python')
   #
-  #     Zen::Event.listen(:greet) do |amount, name|
-  #       amount.times do
-  #         puts "Hello #{name}"
-  #       end
+  #     Zen::Event.listen(:event_1) do |obj|
+  #       obj.name = 'Ruby'
   #     end
   #
-  #     Zen::Event.call(:greet, 10, 'Ruby')
+  #     Zen::Event.listen(:event_1) do |obj|
+  #       obj.name = 'Perl'
+  #     end
   #
-  # This would result in "Hello Ruby" being printed 10 times in the console.
+  #     Zen::Event.call(:event_1, obj)
+  #
+  #     puts obj.name # => "Perl"
+  #
+  # @example Prints "Hello Ruby" 10 times
+  #  Zen::Event.listen(:greet) do |amount, name|
+  #    amount.times do
+  #      puts "Hello #{name}"
+  #    end
+  #  end
+  #
+  #  Zen::Event.call(:greet, 10, 'Ruby')
   #
   # @author Yorick Peterse
   # @since  0.2.9
@@ -60,25 +71,11 @@ module Zen
     # @param  [Array] *args An array of arguments to pass to each event.
     #
     def self.call(event, *args)
-      event    = event.to_sym
-      threads = []
-      mutex   = Mutex.new
+      event = event.to_sym
 
       if Registered.key?(event)
-        # Each event is executed in it's own thread.
         Registered[event].each do |event|
-          threads << Thread.new do
-            mutex.synchronize do
-              event.call(*args)
-            end
-          end
-        end
-
-        # Wait for all the threads (if there are any) to finish.
-        if !threads.empty?
-          threads.each do |thread|
-            thread.join
-          end
+          event.call(*args)
         end
       end
     end
