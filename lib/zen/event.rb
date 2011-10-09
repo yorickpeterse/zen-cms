@@ -58,47 +58,66 @@ module Zen
     # those events.
     Registered = {}
 
-    ##
-    # Runs all the events for the name and passes the arguments to each event.
-    # Each event is run in it's own thread and is wrapped in a mutex.
-    #
-    # @example
-    #  Zen::Event.call(:new_user, User[1])
-    #
-    # @author Yorick Peterse
-    # @since  0.2.9
-    # @param  [#to_sym] event The name of the event to invoke.
-    # @param  [Array] *args An array of arguments to pass to each event.
-    #
-    def self.call(event, *args)
-      event = event.to_sym
+    class << self
+      ##
+      # Runs all the events for the name and passes the arguments to each event.
+      # Each event is run in it's own thread and is wrapped in a mutex.
+      #
+      # @example
+      #  Zen::Event.call(:new_user, User[1])
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @param  [#to_sym] event The name of the event to invoke.
+      # @param  [Array] *args An array of arguments to pass to each event.
+      #
+      def call(event, *args)
+        event = event.to_sym
 
-      if Registered.key?(event)
-        Registered[event].each do |event|
-          event.call(*args)
+        if Registered.key?(event)
+          Registered[event].each do |event|
+            event.call(*args)
+          end
         end
       end
-    end
 
-    ##
-    # Adds a new event to the list of events for the given name. If the event
-    # does not exist it will be created automatically.
-    #
-    # @example
-    #  Zen::Event.listen(:new_user) do |user|
-    #    puts user.name
-    #  end
-    #
-    # @author Yorick Peterse
-    # @since  0.2.9
-    # @param  [#to_sym] event The name of the event.
-    # @param  [Proc] block A block to execute when the event is invoked.
-    #
-    def self.listen(event, &block)
-      event               = event.to_sym
-      Registered[event] ||= []
+      ##
+      # Adds a new event to the list of events for the given name. If the event
+      # does not exist it will be created automatically.
+      #
+      # @example
+      #  Zen::Event.listen(:new_user) do |user|
+      #    puts user.name
+      #  end
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @param  [#to_sym] event The name of the event.
+      # @param  [Proc] block A block to execute when the event is invoked.
+      #
+      def listen(event, &block)
+        event               = event.to_sym
+        Registered[event] ||= []
 
-      Registered[event].push(block)
-    end
+        Registered[event].push(block)
+      end
+
+      ##
+      # Removes all events for the given names.
+      #
+      # @example
+      #  Zen::Event.delete(:before_new_user, :after_new_user)
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @param  [Array] *names The names of the events to remove. Each name
+      #  should be a symbol or something that responds to #to_sym().
+      #
+      def delete(*names)
+        names.each do |name|
+          Registered.delete(name.to_sym)
+        end
+      end
+    end # class << self
   end # Event
 end # Zen

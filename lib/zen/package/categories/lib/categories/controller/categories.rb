@@ -52,11 +52,11 @@ module Categories
     # ## Events
     #
     # All available events will receive an instance of
-    # {Categories::Model::Category}, including the ``delete_category`` event. Do
-    # note that the last event, ``delete_category`` will receive an instance of
-    # this model *after* ``#destroy()`` has been invoked on the instance. This
-    # means that you can not save any changes made to the object as the database
-    # no longer exists.
+    # {Categories::Model::Category}. Do note that the event
+    # ``after_delete_category`` will receive an instance of this model *after*
+    # ``#destroy()`` has been invoked on the instance. This means that you can
+    # not save any changes made to the object as the database no longer
+    # exists.
     #
     # Say you want to notify a user whenever a category is removed you could do
     # the following:
@@ -74,32 +74,15 @@ module Categories
     #       end
     #     end
     #
-    # As mentioned before the category is already removed when it's passed to
-    # the ``delete_category`` event. This means that the following will **not**
-    # work:
-    #
-    #     Zen::Event.listen(:delete_category) do |category|
-    #       category.description = '...'
-    #       category.save
-    #     end
-    #
-    # ## Categories Plugin
-    #
-    # The categories package comes with a plugin that can be used to easily
-    # display a list of categories. This plugin is simply called
-    # ``:categories``:
-    #
-    #     plugin(:categories, :group => 'my-group')
-    #
-    # For more information on all the available options for this plugin see
-    # {Categories::Plugin::Categories#initialize}.
-    #
     # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/categories
-    # @event  new_category
-    # @event  edit_category
-    # @event  delete_category
+    # @event  before_new_category
+    # @event  after_new_category
+    # @event  before_edit_category
+    # @event  after_edit_category
+    # @event  before_delete_category
+    # @event  after_delete_category
     #
     class Categories < Zen::Controller::AdminController
       map    '/admin/categories'
@@ -220,8 +203,10 @@ module Categories
       # @since      0.1
       # @permission edit_category (when editing a category)
       # @permission new_category (when creating a category)
-      # @event      edit_category
-      # @event      new_category
+      # @event      before_edit_category
+      # @event      after_edit_category
+      # @event      before_new_category
+      # @event      after_new_category
       #
       def save
         post = request.subset(
@@ -240,15 +225,17 @@ module Categories
         if post['id'] and !post['id'].empty?
           authorize_user!(:edit_category)
 
-          category    = validate_category(post['id'], post['category_group_id'])
-          save_action = :save
-          event       = :edit_category
+          category     = validate_category(post['id'], post['category_group_id'])
+          save_action  = :save
+          before_event = :before_edit_category
+          after_event  = :after_edit_category
         else
           authorize_user!(:new_category)
 
-          category    = ::Categories::Model::Category.new
-          save_action = :new
-          event       = :new_category
+          category     = ::Categories::Model::Category.new
+          save_action  = :new
+          before_event = :before_new_category
+          after_event  = :after_new_category
         end
 
         post.delete('id')
@@ -258,7 +245,10 @@ module Categories
 
         # Try to update the category
         begin
-          category.update(post)
+          post.each { |k, v| category.send("#{k}=", v) }
+          Zen::Event.call(before_event, category)
+
+          category.save
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, error)
@@ -269,7 +259,7 @@ module Categories
           redirect_referrer
         end
 
-        Zen::Event.call(event, category)
+        Zen::Event.call(after_event, category)
 
         message(:success, success)
         redirect(Categories.r(:edit, category.category_group_id, category.id))
@@ -284,7 +274,8 @@ module Categories
       # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_category
-      # @event      delete_category
+      # @event      before_delete_category
+      # @event      after_delete_category
       #
       def delete
         authorize_user!(:delete_category)
@@ -303,6 +294,8 @@ module Categories
 
           next if category.nil?
 
+          Zen::Event.call(:before_delete_category, category)
+
           begin
             category.destroy
           rescue => e
@@ -312,7 +305,7 @@ module Categories
             redirect_referrer
           end
 
-          Zen::Event.call(:delete_category, category)
+          Zen::Event.call(:after_delete_category, category)
         end
 
         message(:success, lang('categories.success.delete'))

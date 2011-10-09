@@ -5,31 +5,54 @@ Zen::Language.load('category_groups')
 describe("Categories::Controller::CategoryGroups") do
   behaves_like :capybara
 
+  index_url     = Categories::Controller::CategoryGroups.r(:index).to_s
+  new_url       = Categories::Controller::CategoryGroups.r(:new).to_s
+  edit_url      = Categories::Controller::CategoryGroups.r(:edit).to_s
+  save_button   = lang('category_groups.buttons.save')
+  delete_button = lang('category_groups.buttons.delete')
+
+  after do
+    Zen::Event.delete(
+      :before_new_category_group,
+      :after_new_category_group,
+      :before_edit_category_group,
+      :after_edit_category_group,
+      :before_delete_category_group,
+      :after_delete_category_group
+    )
+  end
+
   it('Submit a form without a CSRF token') do
     response = page.driver.post(
       Categories::Controller::CategoryGroups.r(:save).to_s
     )
 
-    response.body.include?(lang('zen_general.errors.csrf')).should === true
-    response.status.should                                         === 403
+    response.body.include?(lang('zen_general.errors.csrf')).should == true
+    response.status.should                                         == 403
   end
 
   it("No category groups should exist") do
-    index_url  = Categories::Controller::CategoryGroups.r(:index).to_s
-    message    = lang('category_groups.messages.no_groups')
+    message = lang('category_groups.messages.no_groups')
 
     visit(index_url)
 
-    page.has_content?(message).should           === true
-    page.has_selector?('table tbody tr').should === false
+    page.has_content?(message).should           == true
+    page.has_selector?('table tbody tr').should == false
   end
 
   it("Create a new category group") do
-    index_url   = Categories::Controller::CategoryGroups.r(:index).to_s
-    new_url     = Categories::Controller::CategoryGroups.r(:new).to_s
-    edit_url    = Categories::Controller::CategoryGroups.r(:edit).to_s
     new_button  = lang('category_groups.buttons.new')
-    save_button = lang('category_groups.buttons.save')
+    name        = 'Spec category group'
+    event_name  = nil
+    event_name2 = nil
+
+    Zen::Event.listen(:before_new_category_group) do |group|
+      event_name = group.name
+    end
+
+    Zen::Event.listen(:after_new_category_group) do |group|
+      event_name2 = group.name
+    end
 
     visit(index_url)
     click_link(new_button)
@@ -37,18 +60,30 @@ describe("Categories::Controller::CategoryGroups") do
     current_path.should == new_url
 
     within('#category_group_form') do
-      fill_in('name', :with => 'Spec category group')
+      fill_in('name', :with => name)
       click_on(save_button)
     end
 
     current_path.should                          =~ /#{edit_url}\/[0-9]+/
-    page.find('input[name="name"]').value.should === 'Spec category group'
+    page.find('input[name="name"]').value.should == name
+
+    # Check if the events were run properly
+    event_name.should  == name
+    event_name2.should == event_name
   end
 
   it("Edit an existing category group") do
-    index_url   = Categories::Controller::CategoryGroups.r(:index).to_s
-    edit_url    = Categories::Controller::CategoryGroups.r(:edit).to_s
-    save_button = lang('category_groups.buttons.save')
+    event_name  = nil
+    event_name2 = nil
+    name        = 'Spec category group 123'
+
+    Zen::Event.listen(:before_edit_category_group) do |group|
+      event_name = group.name
+    end
+
+    Zen::Event.listen(:after_edit_category_group) do |group|
+      event_name2 = group.name
+    end
 
     visit(index_url)
     click_link('Spec category group')
@@ -56,19 +91,29 @@ describe("Categories::Controller::CategoryGroups") do
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
     within('#category_group_form') do
-      fill_in('name', :with => 'Spec category group modified')
+      fill_in('name', :with => name)
+      click_on(save_button)
+    end
+
+    page.find('input[name="name"]').value.should == name
+
+    event_name.should  == name
+    event_name2.should == event_name
+
+    # This time an event should modify the name of a group
+    Zen::Event.listen(:before_edit_category_group) do |group|
+      group.name = 'Spec category group modified'
+    end
+
+    within('#category_group_form') do
       click_on(save_button)
     end
 
     page.find('input[name="name"]') \
-      .value.should === 'Spec category group modified'
+      .value.should == 'Spec category group modified'
   end
 
   it("Edit an existing category group with invalid data") do
-    index_url   = Categories::Controller::CategoryGroups.r(:index).to_s
-    edit_url    = Categories::Controller::CategoryGroups.r(:edit).to_s
-    save_button = lang('category_groups.buttons.save')
-
     visit(index_url)
     click_link('Spec category group')
 
@@ -79,30 +124,38 @@ describe("Categories::Controller::CategoryGroups") do
       click_on(save_button)
     end
 
-    page.has_selector?('span.error').should === true
+    page.has_selector?('span.error').should == true
   end
 
   it('Try to delete a category group without specifying an ID') do
-    index_url     = Categories::Controller::CategoryGroups.r(:index).to_s
-    delete_button = lang('category_groups.buttons.delete')
-
     visit(index_url)
     click_on(delete_button)
 
-    page.has_selector?('input[name="category_group_ids[]"]').should === true
+    page.has_selector?('input[name="category_group_ids[]"]').should == true
   end
 
   it("Delete an existing category group") do
-    index_url     = Categories::Controller::CategoryGroups.r(:index).to_s
-    delete_button = lang('category_groups.buttons.delete')
-    message       = lang('category_groups.messages.no_groups')
+    message     = lang('category_groups.messages.no_groups')
+    event_name  = nil
+    event_name2 = nil
+
+    Zen::Event.listen(:before_delete_category_group) do |group|
+      event_name = group.name
+    end
+
+    Zen::Event.listen(:after_delete_category_group) do |group|
+      event_name2 = group.name
+    end
 
     visit(index_url)
     check('category_group_ids[]')
 
     click_on(delete_button)
 
-    page.has_content?(message).should           === true
-    page.has_selector?('table tbody tr').should === false
+    page.has_content?(message).should           == true
+    page.has_selector?('table tbody tr').should == false
+
+    event_name.should  == 'Spec category group modified'
+    event_name2.should == event_name
   end
 end
