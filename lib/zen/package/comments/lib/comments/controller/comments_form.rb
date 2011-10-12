@@ -58,7 +58,7 @@ module Comments
     #
     # In the above example the BlueForm helper was used but you're free to use
     # plain old HTML or another helper if you like. If you want to use a helper
-    # you'll have to load it into ``Zen::Controller::MainController``. This can
+    # you'll have to load it into {Zen::Controller::MainController}. This can
     # be done as following:
     #
     #     Zen::Controller::MainController.helper(:some_helper_name)
@@ -78,7 +78,8 @@ module Comments
     # @author Yorick Peterse
     # @since  0.1
     # @map    /comments-form
-    # @event  new_comment
+    # @event  before_new_comment
+    # @event  after_new_comment
     #
     class CommentsForm < Zen::Controller::FrontendController
       map    '/comments-form'
@@ -92,7 +93,8 @@ module Comments
       #
       # @author Yorick Peterse
       # @since  0.1
-      # @event  new_comment
+      # @event  before_new_comment
+      # @event  after_new_comment
       #
       def save
         comment = ::Comments::Model::Comment.new
@@ -196,6 +198,7 @@ module Comments
 
         # Save the comment
         begin
+          Zen::Event.call(:before_new_comment, comment)
           comment.save
         rescue => e
           Ramaze::Log.error(e.inspect)
@@ -213,7 +216,7 @@ module Comments
           message(:success, lang('comments.success.new'))
         end
 
-        Zen::Event.call(:new_comment, comment)
+        Zen::Event.call(:after_new_comment, comment)
         redirect_referrer
       end
     end # CommentsForm

@@ -60,21 +60,19 @@ module CustomFields
     #
     # All events in this controller will receive an instance of
     # {CustomFields::Model::CustomFieldType}. Just like other packages the event
-    # ``delete_custom_field_type`` receives an instance that has already been
-    # destroyed. This means that this event can not be used to make changes to
-    # the object and save them.
-    #
-    # @example Logging when a type is removed
-    #  Zen::Event.listen(:delete_custom_field_type) do |type|
-    #    Ramaze::Log.info("Field type ##{type.id} has been removed")
-    #  end
+    # ``after_delete_custom_field_type`` receives an instance that has already
+    # been destroyed. This means that this event can not be used to make changes
+    # to the object and save them.
     #
     # @author Yorick Peterse
     # @since  0.2.8
     # @map    /admin/custom-field-types
-    # @event  new_custom_field_type
-    # @event  edit_custom_field_type
-    # @event  delete_custom_field_type
+    # @event  before_new_custom_field_type
+    # @event  after_new_custom_field_type
+    # @event  before_edit_custom_field_type
+    # @event  after_edit_custom_field_type
+    # @event  before_delete_custom_field_type
+    # @event  after_delete_custom_field_type
     #
     class CustomFieldTypes < Zen::Controller::AdminController
       map    '/admin/custom-field-types'
@@ -169,8 +167,10 @@ module CustomFields
       #
       # @author     Yorick Peterse
       # @since      0.2.8
-      # @event      edit_custom_field_type
-      # @event      new_custom_field_type
+      # @event      before_edit_custom_field_type
+      # @event      after_edit_custom_field_type
+      # @event      before_new_custom_field_type
+      # @event      after_new_custom_field_type
       # @permission edit_custom_field_type (when editing a field type)
       # @permission new_custom_field_type (when creating a field type)
       #
@@ -188,15 +188,17 @@ module CustomFields
         if post['id'] and !post['id'].empty?
           authorize_user!(:edit_custom_field_type)
 
-          field_type  = validate_custom_field_type(post['id'])
-          save_action = :save
-          event       = :edit_custom_field_type
+          field_type   = validate_custom_field_type(post['id'])
+          save_action  = :save
+          before_event = :before_edit_custom_field_type
+          after_event  = :after_edit_custom_field_type
         else
           authorize_user!(:new_custom_field_type)
 
-          field_type  = ::CustomFields::Model::CustomFieldType.new
-          save_action = :new
-          event       = :new_custom_field_type
+          field_type   = ::CustomFields::Model::CustomFieldType.new
+          save_action  = :new
+          before_event = :before_new_custom_field_type
+          after_event  = :after_new_custom_field_type
         end
 
         post.delete('id')
@@ -205,7 +207,10 @@ module CustomFields
         error   = lang("custom_field_types.errors.#{save_action}")
 
         begin
-          field_type.update(post)
+          post.each { |k, v| field_type.send("#{k}=", v) }
+          Zen::Event.call(before_event, field_type)
+
+          field_type.save
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, error)
@@ -216,7 +221,7 @@ module CustomFields
           redirect_referrer
         end
 
-        Zen::Event.call(event, field_type)
+        Zen::Event.call(after_event, field_type)
 
         message(:success, success)
         redirect(CustomFieldTypes.r(:edit, field_type.id))
@@ -228,7 +233,8 @@ module CustomFields
       #
       # @author     Yorick Peterse
       # @since      0.2.8
-      # @event      delete_custom_field_type
+      # @event      before_delete_custom_field_type
+      # @event      after_delete_custom_field_type
       # @permission delete_custom_field_type
       #
       def delete
@@ -244,6 +250,7 @@ module CustomFields
           type = ::CustomFields::Model::CustomFieldType[id]
 
           next if type.nil?
+          Zen::Event.call(:before_delete_custom_field_type, type)
 
           begin
             type.destroy
@@ -254,7 +261,7 @@ module CustomFields
             redirect_referrer
           end
 
-          Zen::Event.call(:delete_custom_field_type, type)
+          Zen::Event.call(:after_delete_custom_field_type, type)
         end
 
         message(:success, lang('custom_field_types.success.delete'))

@@ -33,9 +33,9 @@ namespace :build do
       io.puts "Following persons have contributed to Zen."
       io.puts '(Sorted by number of submitted patches, then alphabetically)'
       io.puts ''
-      authors.sort_by{|(n,e),c| [-c, n.downcase] }.each do |(name, email), count|
+      authors.sort_by { |(n,e),c| [-c, n.downcase] }.each do |(name, email), count|
         io.puts("%6d %s <%s>" % [count, name, email])
       end
     end
   end
-end # namespace :build
+end

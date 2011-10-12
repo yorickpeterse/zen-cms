@@ -15,25 +15,17 @@ describe('Zen::Controller::MainController') do
     end
   end
 
-  # Set the default section/template group to use.
-  it('Create the test data') do
-    section = Sections::Model::Section.create(
-      :name                    => 'Default section',
-      :slug                    => 'default-section',
-      :comment_allow           => false,
-      :comment_require_account => false,
-      :comment_moderate        => false,
-      :comment_format          => 'plain'
-    )
+  section = Sections::Model::Section.create(
+    :name                    => 'Default section',
+    :slug                    => 'default-section',
+    :comment_allow           => false,
+    :comment_require_account => false,
+    :comment_moderate        => false,
+    :comment_format          => 'plain'
+  )
 
-    plugin(:settings, :get, :default_section).value = section.id
-    plugin(:settings, :get, :theme).value           = 'spec_theme'
-
-    section.name.should === 'Default section'
-    section.slug.should === 'default-section'
-
-    plugin(:settings, :get, :theme).value.should === 'spec_theme'
-  end
+  plugin(:settings, :get, :default_section).value = section.id
+  plugin(:settings, :get, :theme).value           = 'spec_theme'
 
   it('Request the homepage') do
     visit('/')
@@ -78,13 +70,8 @@ describe('Zen::Controller::MainController') do
     FileUtils.mv(template + '.old', template)
   end
 
-  # Reset the default section and remove it
-  it('Remove all the test data') do
-    Sections::Model::Section.destroy
+  Sections::Model::Section.destroy
 
-    plugin(:settings, :get, :default_section).value = nil
-    plugin(:settings, :get, :theme).value           = nil
-
-    Sections::Model::Section[:slug => 'default-section'].nil?.should === true
-  end
+  plugin(:settings, :get, :default_section).value = nil
+  plugin(:settings, :get, :theme).value           = nil
 end

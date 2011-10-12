@@ -62,21 +62,19 @@ module CustomFields
     #
     # All events in this controller receive an instance of
     # {CustomFields::Model::CustomField}. Just like other packages the event
-    # ``delete_custom_field`` receives an instance that has already been
+    # ``after_delete_custom_field`` receives an instance that has already been
     # destroyed, thus you won't be able to make any changes to the object and
     # save them in the database.
-    #
-    # @example Logging when a field is created
-    #  Zen::Event.listen(:new_custom_field) do |field|
-    #    Ramaze::Log.info("New custom field: #{field.inspect} by #{user.name}")
-    #  end
     #
     # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/custom-fields
-    # @event  new_custom_field
-    # @event  edit_custom_field
-    # @event  delete_custom_field
+    # @event  before_new_custom_field
+    # @event  after_new_custom_field
+    # @event  before_edit_custom_field
+    # @event  after_edit_custom_field
+    # @event  before_delete_custom_field
+    # @event  after_delete_custom_field
     #
     class CustomFields < Zen::Controller::AdminController
       helper :custom_field
@@ -86,13 +84,6 @@ module CustomFields
       csrf_protection  :save; :delete
       load_asset_group :tabs, [:edit, :new]
 
-      ##
-      # Hook that is executed before the CustomFields#index(),
-      # CustomFields#edit() and CustomFields#new() methods.
-      #
-      # @author Yorick Peterse
-      # @since  0.2.8
-      #
       before(:index, :edit, :new) do
         @custom_field_types = ::CustomFields::Model::CustomFieldType.type_hash
         @boolean_hash       = {
@@ -211,8 +202,10 @@ module CustomFields
       #
       # @author     Yorick Peterse
       # @since      0.1
-      # @event      new_custom_field
-      # @event      edit_custom_field
+      # @event      before_new_custom_field
+      # @event      after_new_custom_field
+      # @event      before_edit_custom_field
+      # @event      after_edit_custom_field
       # @permission edit_custom_field (when editing a field)
       # @permission new_custom_field (when creating a new field)
       #
@@ -244,14 +237,16 @@ module CustomFields
             post['id'], post['custom_field_group_id']
           )
 
-          save_action = :save
-          event       = :edit_custom_field
+          save_action  = :save
+          before_event = :before_edit_custom_field
+          after_event  = :after_edit_custom_field
         else
           authorize_user!(:new_custom_field)
 
           custom_field = ::CustomFields::Model::CustomField.new
           save_action  = :new
-          event        = :new_custom_field
+          before_event = :before_new_custom_field
+          after_event  = :after_new_custom_field
         end
 
         post.delete('id')
@@ -260,7 +255,10 @@ module CustomFields
         error   = lang("custom_fields.errors.#{save_action}")
 
         begin
-          custom_field.update(post)
+          post.each { |k, v| custom_field.send("#{k}=", v) }
+          Zen::Event.call(before_event, custom_field)
+
+          custom_field.save
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, error)
@@ -271,7 +269,7 @@ module CustomFields
           redirect_referrer
         end
 
-        Zen::Event.call(event, custom_field)
+        Zen::Event.call(after_event, custom_field)
 
         message(:success, success)
         redirect(
@@ -288,7 +286,8 @@ module CustomFields
       #
       # @author     Yorick Peterse
       # @since      0.1
-      # @event      delete_custom_field
+      # @event      before_delete_custom_field
+      # @event      after_delete_custom_field
       # @permission delete_custom_field
       #
       def delete
@@ -305,6 +304,7 @@ module CustomFields
           custom_field = ::CustomFields::Model::CustomField[id]
 
           next if custom_field.nil?
+          Zen::Event.call(:before_delete_custom_field, custom_field)
 
           begin
             custom_field.destroy
@@ -315,7 +315,7 @@ module CustomFields
             redirect_referrer
           end
 
-          Zen::Event.call(:delete_custom_field, custom_field)
+          Zen::Event.call(:after_delete_custom_field, custom_field)
         end
 
         message(:success, lang('custom_fields.success.delete'))

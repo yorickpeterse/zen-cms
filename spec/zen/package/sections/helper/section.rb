@@ -3,30 +3,25 @@ require File.expand_path('../../../../../helper', __FILE__)
 describe('Ramaze::Helper::Section') do
   behaves_like :capybara
 
-  it('Create the test data') do
-    status_id = Sections::Model::SectionEntryStatus[:name => 'published'].id
-    user_id   = Users::Model::User[:email => 'spec@domain.tld'].id
-    @section  = Sections::Model::Section.create(
-      :name                    => 'Spec section',
-      :comment_allow           => false,
-      :comment_require_account => false,
-      :comment_moderate        => false,
-      :comment_format          => 'markdown'
-    )
+  status_id = Sections::Model::SectionEntryStatus[:name => 'published'].id
+  user_id   = Users::Model::User[:email => 'spec@domain.tld'].id
+  section   = Sections::Model::Section.create(
+    :name                    => 'Spec section',
+    :comment_allow           => false,
+    :comment_require_account => false,
+    :comment_moderate        => false,
+    :comment_format          => 'markdown'
+  )
 
-    @entry = Sections::Model::SectionEntry.create(
-      :title                   => 'Spec entry',
-      :user_id                 => user_id,
-      :section_entry_status_id => status_id,
-      :section_id              => @section.id
-    )
-
-    @section.name.should === 'Spec section'
-    @entry.title.should  === 'Spec entry'
-  end
+  entry = Sections::Model::SectionEntry.create(
+    :title                   => 'Spec entry',
+    :user_id                 => user_id,
+    :section_entry_status_id => status_id,
+    :section_id              => section.id
+  )
 
   it('Validate a valid section') do
-    url = Sections::Controller::Sections.r(:edit, @section.id).to_s
+    url = Sections::Controller::Sections.r(:edit, section.id).to_s
 
     visit(url)
 
@@ -34,7 +29,7 @@ describe('Ramaze::Helper::Section') do
   end
 
   it('Validate an invalid section') do
-    url   = Sections::Controller::Sections.r(:edit, @section.id + 1).to_s
+    url   = Sections::Controller::Sections.r(:edit, section.id + 1).to_s
     index = Sections::Controller::Sections.r(:index).to_s
 
     visit(url)
@@ -44,7 +39,7 @@ describe('Ramaze::Helper::Section') do
 
   it('Validate a valid section entry') do
     url = Sections::Controller::SectionEntries.r(
-      :edit, @section.id, @entry.id
+      :edit, section.id, entry.id
     ).to_s
 
     visit(url)
@@ -53,9 +48,9 @@ describe('Ramaze::Helper::Section') do
   end
 
   it('Validate an invalid section entry') do
-    index = Sections::Controller::SectionEntries.r(:index, @section.id).to_s
+    index = Sections::Controller::SectionEntries.r(:index, section.id).to_s
     url   = Sections::Controller::SectionEntries.r(
-      :edit, @section.id, @entry.id + 1
+      :edit, section.id, entry.id + 1
     ).to_s
 
     visit(url)
@@ -63,12 +58,6 @@ describe('Ramaze::Helper::Section') do
     current_path.should === index
   end
 
-  it('Delete the test data') do
-    @entry.destroy
-    @section.destroy
-
-    Sections::Model::SectionEntry[:title => 'Spec entry'].should === nil
-    Sections::Model::Section[:name => 'Spec section'].should     === nil
-  end
-
+  entry.destroy
+  section.destroy
 end

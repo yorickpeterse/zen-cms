@@ -91,9 +91,12 @@ module Menus
     # @author Yorick Peterse
     # @since  0.2a
     # @map    /admin/menus
-    # @event  new_menu
-    # @event  edit_menu
-    # @event  delete_menu
+    # @event  before_new_menu
+    # @event  after_new_menu
+    # @event  before_edit_menu
+    # @event  after_edit_menu
+    # @event  before_delete_menu
+    # @event  after_delete_menu
     #
     class Menus < Zen::Controller::AdminController
       map    '/admin/menus'
@@ -172,8 +175,10 @@ module Menus
       #
       # @author     Yorick Peterse
       # @since      0.2a
-      # @event      edit_menu
-      # @event      new_menu
+      # @event      before_edit_menu
+      # @event      after_edit_menu
+      # @event      before_new_menu
+      # @event      after_new_menu
       # @permission edit_menu (when editing an existing menu)
       # @permission new_menu (when creating a new menu)
       #
@@ -191,15 +196,17 @@ module Menus
         if post.key?('id') and !post['id'].empty?
           authorize_user!(:edit_menu)
 
-          menu        = validate_menu(post['id'])
-          save_action = :save
-          event       = :edit_menu
+          menu         = validate_menu(post['id'])
+          save_action  = :save
+          before_event = :before_edit_menu
+          after_event  = :after_edit_menu
         else
           authorize_user!(:new_menu)
 
-          menu        = ::Menus::Model::Menu.new
-          save_action = :new
-          event       = :new_menu
+          menu         = ::Menus::Model::Menu.new
+          save_action  = :new
+          before_event = :before_new_menu
+          after_event  = :after_new_menu
         end
 
         post.delete('id')
@@ -209,7 +216,10 @@ module Menus
 
         # Let's see if we can insert/update the data
         begin
-          menu.update(post)
+          post.each { |k, v| menu.send("#{k}=", v) }
+          Zen::Event.call(before_event, menu)
+
+          menu.save
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, error)
@@ -220,7 +230,7 @@ module Menus
           redirect_referrer
         end
 
-        Zen::Event.call(event, menu)
+        Zen::Event.call(after_event, menu)
 
         message(:success, success)
         redirect(Menus.r(:edit, menu.id))
@@ -233,7 +243,8 @@ module Menus
       #
       # @author     Yorick Peterse
       # @since      0.2a
-      # @event      delete_menu
+      # @event      before_delete_menu
+      # @event      after_delete_menu
       # @permission delete_menu
       #
       def delete
@@ -251,6 +262,7 @@ module Menus
           menu = ::Menus::Model::Menu[id]
 
           next if menu.nil?
+          Zen::Event.call(:before_delete_menu, menu)
 
           begin
             menu.destroy
@@ -261,7 +273,7 @@ module Menus
             redirect_referrer
           end
 
-          Zen::Event.call(:delete_menu, menu)
+          Zen::Event.call(:after_delete_menu, menu)
         end
 
         message(:success, lang('menus.success.delete'))

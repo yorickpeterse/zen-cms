@@ -3,6 +3,13 @@ require File.expand_path('../../../../../helper', __FILE__)
 describe('CustomFields::Controller::CustomFieldTypes') do
   behaves_like :capybara
 
+  index_url     = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
+  new_url       = CustomFields::Controller::CustomFieldTypes.r(:new).to_s
+  edit_url      = CustomFields::Controller::CustomFieldTypes.r(:edit).to_s
+  new_button    = lang('custom_field_types.buttons.new')
+  save_button   = lang('custom_field_types.buttons.save')
+  delete_button = lang('custom_field_types.buttons.delete')
+
   it('Submit a form without a CSRF token') do
     response = page.driver.post(
       CustomFields::Controller::CustomFieldTypes.r(:save).to_s
@@ -13,9 +20,8 @@ describe('CustomFields::Controller::CustomFieldTypes') do
   end
 
   it('A number of field types should exist') do
-    index_url = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
-    message   = lang('custom_field_types.messages.no_field_types')
-    rows      = CustomFields::Model::CustomFieldType.count
+    message = lang('custom_field_types.messages.no_field_types')
+    rows    = CustomFields::Model::CustomFieldType.count
 
     visit(index_url)
 
@@ -26,12 +32,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
   end
 
   it('Create a new custom field type') do
-    index_url   = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
-    new_url     = CustomFields::Controller::CustomFieldTypes.r(:new).to_s
-    edit_url    = CustomFields::Controller::CustomFieldTypes.r(:edit).to_s
-    new_button  = lang('custom_field_types.buttons.new')
-    save_button = lang('custom_field_types.buttons.save')
-    method_id   = CustomFields::Model::CustomFieldMethod[
+    method_id = CustomFields::Model::CustomFieldMethod[
       :name => 'input_text'
     ].id.to_s
 
@@ -77,10 +78,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
   end
 
   it('Edit a custom field type') do
-    index_url   = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
-    edit_url    = CustomFields::Controller::CustomFieldTypes.r(:edit).to_s
-    save_button = lang('custom_field_types.buttons.save')
-    method_id   = CustomFields::Model::CustomFieldMethod[
+    method_id = CustomFields::Model::CustomFieldMethod[
       :name => 'textarea'
     ].id.to_s
 
@@ -99,7 +97,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
       )
 
       fill_in('form_html_class', :with => 'spec_class_modified')
-      select('textarea'       , :from => 'custom_field_method_id')
+      select('textarea'        , :from => 'custom_field_method_id')
 
       click_on(save_button)
     end
@@ -117,10 +115,6 @@ describe('CustomFields::Controller::CustomFieldTypes') do
   end
 
   it('Edit a custom field type with invalid data') do
-    index_url   = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
-    edit_url    = CustomFields::Controller::CustomFieldTypes.r(:edit).to_s
-    save_button = lang('custom_field_types.buttons.save')
-
     visit(index_url)
     click_link('Spec type')
 
@@ -135,9 +129,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
   end
 
   it('Try to delete a field type without a specified ID') do
-    index_url     = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
-    delete_button = lang('custom_field_types.buttons.delete')
-    type_id       = CustomFields::Model::CustomFieldType[
+    type_id = CustomFields::Model::CustomFieldType[
       :name => 'Spec type modified'
     ].id
 
@@ -149,10 +141,8 @@ describe('CustomFields::Controller::CustomFieldTypes') do
   end
 
   it('Delete a custom field type') do
-    index_url     = CustomFields::Controller::CustomFieldTypes.r(:index).to_s
-    delete_button = lang('custom_field_types.buttons.delete')
-    rows          = CustomFields::Model::CustomFieldType.count - 1
-    type_id       = CustomFields::Model::CustomFieldType[
+    rows    = CustomFields::Model::CustomFieldType.count - 1
+    type_id = CustomFields::Model::CustomFieldType[
       :name => 'Spec type modified'
     ].id
 
@@ -165,5 +155,97 @@ describe('CustomFields::Controller::CustomFieldTypes') do
 
     page.has_content?('Spec type modified').should === false
     page.all('table tbody tr').count.should        === rows
+  end
+
+  it('Call the event new_custom_field_type (before and after)') do
+    event_name = nil
+
+    Zen::Event.listen(:before_new_custom_field_type) do |type|
+      type.name += ' with event'
+    end
+
+    Zen::Event.listen(:after_new_custom_field_type) do |type|
+      event_name = type.name
+    end
+
+    visit(index_url)
+    click_on(new_button)
+
+    within('#custom_field_type_form') do
+      fill_in('form_name', :with => 'Field type')
+
+      fill_in(
+        'form_language_string',
+        :with => 'custom_fields.special.type_hash.textarea'
+      )
+
+      select('textarea', :from => 'custom_field_method_id')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should       == false
+    page.find('input[name="name"]').value.should  == 'Field type with event'
+    event_name.should                             == 'Field type with event'
+
+    Zen::Event.delete(
+      :before_new_custom_field_type,
+      :after_new_custom_field_type
+    )
+  end
+
+  it('Call the event edit_custom_field_type (before and after)') do
+    event_name = nil
+
+    Zen::Event.listen(:before_edit_custom_field_type) do |type|
+      type.name = 'Field type modified'
+    end
+
+    Zen::Event.listen(:after_edit_custom_field_type) do |type|
+      event_name = type.name
+    end
+
+    visit(index_url)
+    click_on('Field type with event')
+
+    within('#custom_field_type_form') do
+      click_on(save_button)
+    end
+
+    page.find('input[name="name"]').value.should == 'Field type modified'
+    event_name.should                            == 'Field type modified'
+
+    Zen::Event.delete(
+      :before_edit_custom_field_type,
+      :after_edit_custom_field_type
+    )
+  end
+
+  it('Call the event delete_custom_field_type (before and after)') do
+    event_name  = nil
+    event_name2 = nil
+    type_id     = CustomFields::Model::CustomFieldType[
+      :name => 'Field type modified'
+    ].id
+
+    Zen::Event.listen(:before_delete_custom_field_type) do |type|
+      event_name = type.name
+    end
+
+    Zen::Event.listen(:after_delete_custom_field_type) do |type|
+      event_name2 = type.name
+    end
+
+    visit(index_url)
+    check("custom_field_type_#{type_id}")
+    click_on(delete_button)
+
+    page.has_content?('Field type modified').should == false
+    event_name.should                               == 'Field type modified'
+    event_name2.should                              == event_name
+
+    Zen::Event.delete(
+      :before_delete_custom_field_type,
+      :after_delete_custom_field_type
+    )
   end
 end # describe

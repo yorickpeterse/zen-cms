@@ -83,32 +83,25 @@ module Sections
     # ## Events
     #
     # All events in this controller receive an instance of
-    # {Sections::Model::Section}. The event ``delete_section`` receives an
+    # {Sections::Model::Section}. The event ``after_delete_section`` receives an
     # instance that has already been removed, thus you can't make any changes to
     # it and save those in the database.
     #
-    # @example Create a dummy section entry
-    #  Zen::Event.listen(:new_section) do |section|
-    #    section.add_section_entry(:title   => 'My Entry', :user_id => user.id)
-    #  end
+    # Example of creating a dummy section entry:
     #
-    # @example Create a template directory for the section
-    #  Zen::Event.listen(:new_section) do |section|
-    #    theme = plugin(:settings, :get, :theme).value
-    #    theme = Zen::Theme[theme]
-    #    dir   = File.join(theme.templates, section.slug)
-    #
-    #    unless File.directory?(dir)
-    #      Dir.mkdir(dir)
-    #    end
-    #  end
+    #     Zen::Event.listen(:new_section) do |section|
+    #       section.add_section_entry(:title   => 'My Entry', :user_id => user.id)
+    #     end
     #
     # @author Yorick Peterse
     # @since  0.1
     # @map    /admin
-    # @event  new_section
-    # @event  edit_section
-    # @event  delete_section
+    # @event  before_new_section
+    # @event  after_new_section
+    # @event  before_edit_section
+    # @event  after_edit_section
+    # @event  before_delete_section
+    # @event  after_delete_section
     #
     class Sections < Zen::Controller::AdminController
       map    '/admin'
@@ -195,8 +188,10 @@ module Sections
       #
       # @author     Yorick Peterse
       # @since      0.1
-      # @event      new_section
-      # @event      edit_section
+      # @event      before_new_section
+      # @event      after_new_section
+      # @event      before_edit_section
+      # @event      ater_edit_section
       # @permission new_section (when creating a section)
       # @permission edit_section (when editing a section)
       #
@@ -217,15 +212,17 @@ module Sections
         if post['id'] and !post['id'].empty?
           authorize_user!(:edit_section)
 
-          section     = validate_section(post['id'])
-          save_action = :save
-          event       = :edit_section
+          section      = validate_section(post['id'])
+          save_action  = :save
+          before_event = :before_edit_section
+          after_event  = :after_edit_section
         else
           authorize_user!(:new_section)
 
-          section     = ::Sections::Model::Section.new
-          save_action = :new
-          event       = :new_section
+          section      = ::Sections::Model::Section.new
+          save_action  = :new
+          before_event = :before_new_section
+          after_event  = :after_new_section
         end
 
         success = lang("sections.success.#{save_action}")
@@ -237,7 +234,10 @@ module Sections
         post.delete('id')
 
         begin
-          section.update(post)
+          post.each { |k, v| section.send("#{k}=", v) }
+          Zen::Event.call(before_event, section)
+
+          section.save
 
           if save_action === :new
             section.custom_field_group_pks = post['custom_field_group_pks']
@@ -253,7 +253,7 @@ module Sections
           redirect_referrer
         end
 
-        Zen::Event.call(event, section)
+        Zen::Event.call(after_event, section)
 
         message(:success, success)
         redirect(Sections.r(:edit, section.id))
@@ -265,13 +265,15 @@ module Sections
       #
       # @author     Yorick Peterse
       # @since      0.1
-      # @event      delete_section
+      # @event      before_delete_section
+      # @event      after_delete_section
       # @permission delete_section
       #
       def delete
         authorize_user!(:delete_section)
 
-        if !request.params['section_ids'] or request.params['section_ids'].empty?
+        if !request.params['section_ids'] \
+        or request.params['section_ids'].empty?
           message(:error, lang('sections.errors.no_delete'))
           redirect_referrer
         end
@@ -280,6 +282,7 @@ module Sections
           section = ::Sections::Model::Section[id]
 
           next if section.nil?
+          Zen::Event.call(:before_delete_section, section)
 
           begin
             section.destroy
@@ -290,7 +293,7 @@ module Sections
             redirect_referrer
           end
 
-          Zen::Event.call(:delete_section, section)
+          Zen::Event.call(:after_delete_section, section)
         end
 
         message(:success, lang('sections.success.delete'))

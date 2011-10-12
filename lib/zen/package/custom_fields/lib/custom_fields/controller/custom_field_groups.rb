@@ -65,21 +65,19 @@ module CustomFields
     # ## Events
     #
     # All events in this controller receive an instance of
-    # {CustomFields::Model::CustomFieldGroup}. The ``delete_custom_field_group``
-    # event will receive an instance of this model that has already been
-    # destroyed.
-    #
-    # @example Logging when a group is changed
-    #  Zen::Event.listen(:edit_custom_field_group) do |group|
-    #    Ramaze::Log.info("Field group ##{group.id} was edited by #{user.name}")
-    #  end
+    # {CustomFields::Model::CustomFieldGroup}. The
+    # ``after_delete_custom_field_group`` event will receive an instance of this
+    # model that has already been destroyed.
     #
     # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/custom-field-groups
-    # @event  new_custom_field_group
-    # @event  edit_custom_field_group
-    # @event  delete_custom_field_group
+    # @event  before_new_custom_field_group
+    # @event  after_new_custom_field_group
+    # @event  before_edit_custom_field_group
+    # @event  after_edit_custom_field_group
+    # @event  before_delete_custom_field_group
+    # @event  after_delete_custom_field_group
     #
     class CustomFieldGroups < Zen::Controller::AdminController
       helper :custom_field
@@ -159,8 +157,10 @@ module CustomFields
       # @since      0.1
       # @permission edit_custom_field_group (when editing a group)
       # @permission new_custom_field_group (when creating a group)
-      # @event      edit_custom_field_group
-      # @event      new_custom_field_group
+      # @event      before_edit_custom_field_group
+      # @event      after_edit_custom_field_group
+      # @event      before_new_custom_field_group
+      # @event      after_new_custom_field_group
       #
       def save
         post = request.subset(:id, :name, :description)
@@ -168,15 +168,17 @@ module CustomFields
         if post['id'] and !post['id'].empty?
           authorize_user!(:edit_custom_field_group)
 
-          field_group = validate_custom_field_group(post['id'])
-          save_action = :save
-          event       = :new_custom_field_group
+          field_group  = validate_custom_field_group(post['id'])
+          save_action  = :save
+          before_event = :before_edit_custom_field_group
+          after_event  = :after_edit_custom_field_group
         else
           authorize_user!(:new_custom_field_group)
 
-          field_group = ::CustomFields::Model::CustomFieldGroup.new
-          save_action = :new
-          event       = :edit_custom_field_group
+          field_group  = ::CustomFields::Model::CustomFieldGroup.new
+          save_action  = :new
+          before_event = :before_new_custom_field_group
+          after_event  = :after_new_custom_field_group
         end
 
         post.delete('id')
@@ -185,7 +187,10 @@ module CustomFields
         error   = lang("custom_field_groups.errors.#{save_action}")
 
         begin
-          field_group.update(post)
+          post.each { |k, v| field_group.send("#{k}=", v) }
+          Zen::Event.call(before_event, field_group)
+
+          field_group.save
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, error)
@@ -196,7 +201,7 @@ module CustomFields
           redirect_referrer
         end
 
-        Zen::Event.call(event, field_group)
+        Zen::Event.call(after_event, field_group)
 
         message(:success, success)
         redirect(CustomFieldGroups.r(:edit, field_group.id))
@@ -209,7 +214,8 @@ module CustomFields
       # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_custom_field_group
-      # @event      delete_custom_field_group
+      # @event      before_delete_custom_field_group
+      # @event      after_delete_custom_field_group
       #
       def delete
         authorize_user!(:delete_custom_field_group)
@@ -224,6 +230,7 @@ module CustomFields
           group = ::CustomFields::Model::CustomFieldGroup[id]
 
           next if group.nil?
+          Zen::Event.call(:before_delete_custom_field_group, group)
 
           begin
             group.destroy
@@ -234,7 +241,7 @@ module CustomFields
             redirect_referrer
           end
 
-          Zen::Event.call(:delete_custom_field_group, group)
+          Zen::Event.call(:after_delete_custom_field_group, group)
         end
 
         message(:success, lang('custom_field_groups.success.delete'))

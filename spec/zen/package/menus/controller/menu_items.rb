@@ -5,12 +5,15 @@ Zen::Language.load('menu_items')
 describe("Menus::Controller::MenuItems") do
   behaves_like :capybara
 
-  @menu = Menus::Model::Menu.create(:name => 'Spec menu')
+  menu          = Menus::Model::Menu.create(:name => 'Spec menu')
+  index_url     = Menus::Controller::MenuItems.r(:index, menu.id).to_s
+  edit_url      = Menus::Controller::MenuItems.r(:edit, menu.id).to_s
+  new_button    = lang('menu_items.buttons.new')
+  save_button   = lang('menu_items.buttons.save')
+  delete_button = lang('menu_items.buttons.delete')
 
   it("No menu items should exist") do
-    menu_id   = @menu.id
-    index_url = Menus::Controller::MenuItems.r(:index, menu_id).to_s
-    message   = lang('menu_items.messages.no_items')
+    message = lang('menu_items.messages.no_items')
 
     visit(index_url)
 
@@ -28,12 +31,6 @@ describe("Menus::Controller::MenuItems") do
   end
 
   it("Create a new menu item") do
-    menu_id     = @menu.id
-    index_url   = Menus::Controller::MenuItems.r(:index, menu_id).to_s
-    edit_url    = Menus::Controller::MenuItems.r(:edit, menu_id).to_s
-    new_button  = lang('menu_items.buttons.new')
-    save_button = lang('menu_items.buttons.save')
-
     visit(index_url)
     click_link(new_button)
 
@@ -48,10 +45,6 @@ describe("Menus::Controller::MenuItems") do
   end
 
   it("Edit an existing menu item") do
-    menu_id     = @menu.id
-    index_url   = Menus::Controller::MenuItems.r(:index, menu_id).to_s
-    save_button = lang('menu_items.buttons.save')
-
     visit(index_url)
     click_link('Spec menu item')
 
@@ -64,10 +57,6 @@ describe("Menus::Controller::MenuItems") do
   end
 
   it('Edit an existing menu item with invalid data') do
-    menu_id     = @menu.id
-    index_url   = Menus::Controller::MenuItems.r(:index, menu_id).to_s
-    save_button = lang('menu_items.buttons.save')
-
     visit(index_url)
     click_link('Spec menu item')
 
@@ -82,10 +71,6 @@ describe("Menus::Controller::MenuItems") do
   end
 
   it('Try to delete a set of items without IDs') do
-    menu_id       = @menu.id
-    index_url     = Menus::Controller::MenuItems.r(:index, menu_id).to_s
-    delete_button = lang('menu_items.buttons.delete')
-
     visit(index_url)
     click_on(delete_button)
 
@@ -93,10 +78,7 @@ describe("Menus::Controller::MenuItems") do
   end
 
   it("Delete an existing menu item") do
-    menu_id       = @menu.id
-    index_url     = Menus::Controller::MenuItems.r(:index, menu_id).to_s
-    message       = lang('menu_items.messages.no_items')
-    delete_button = lang('menu_items.buttons.delete')
+    message = lang('menu_items.messages.no_items')
 
     visit(index_url)
     check('menu_item_ids[]')
@@ -106,5 +88,81 @@ describe("Menus::Controller::MenuItems") do
     page.has_content?(message).should           === true
   end
 
-  @menu.destroy
+  it('Call the event new_menu_item (before and after)') do
+    event_name = nil
+
+    Zen::Event.listen(:before_new_menu_item) do |menu|
+      menu.name += ' with event'
+    end
+
+    Zen::Event.listen(:after_new_menu_item) do |menu|
+      event_name = menu.name
+    end
+
+    visit(index_url)
+    click_on(new_button)
+
+    within('#menu_item_form') do
+      fill_in('name', :with => 'Menu item')
+      fill_in('url' , :with => '/')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Menu item with event'
+
+    Zen::Event.delete(:before_new_menu_item, :after_new_menu_item)
+  end
+
+  it('Call the event edit_menu_item (before and after)') do
+    event_name = nil
+
+    Zen::Event.listen(:before_edit_menu_item) do |menu|
+      menu.name = 'Menu item modified'
+    end
+
+    Zen::Event.listen(:after_edit_menu_item) do |menu|
+      event_name = menu.name
+    end
+
+    visit(index_url)
+    click_on('Menu item with event')
+
+    within('#menu_item_form') do
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Menu item modified'
+    event_name.should                            == 'Menu item modified'
+
+    Zen::Event.delete(:before_edit_menu_item, :after_edit_menu_item)
+  end
+
+  it('Call the event delete_menu_item (before and after)') do
+    event_name  = nil
+    event_name2 = nil
+    message     = lang('menu_items.messages.no_items')
+
+    Zen::Event.listen(:before_delete_menu_item) do |menu|
+      event_name = menu.name
+    end
+
+    Zen::Event.listen(:after_delete_menu_item) do |menu|
+      event_name2 = menu.name
+    end
+
+    visit(index_url)
+    check('menu_item_ids[]')
+    click_on(delete_button)
+
+    page.has_selector?('table tbody tr').should == false
+    page.has_content?(message).should           == true
+    event_name.should                           == 'Menu item modified'
+    event_name2.should                          == event_name
+
+    Zen::Event.delete(:before_delete_menu_item, :after_edit_menu_item)
+  end
+
+  menu.destroy
 end # describe

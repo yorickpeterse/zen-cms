@@ -1,10 +1,13 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-describe("Comments::Controller::Comments") do
+describe('Comments::Controller::Comments') do
   behaves_like :capybara
 
-  user_id  = Users::Model::User[:email => 'spec@domain.tld'].id
-  @section = Sections::Model::Section.create(
+  index_url   = Comments::Controller::Comments.r(:index).to_s
+  edit_url    = Comments::Controller::Comments.r(:edit).to_s
+  save_button = lang('comments.buttons.save')
+  user_id     = Users::Model::User[:email => 'spec@domain.tld'].id
+  section     = Sections::Model::Section.create(
     :name                    => 'Spec section',
     :comment_allow           => true,
     :comment_require_account => false,
@@ -12,52 +15,67 @@ describe("Comments::Controller::Comments") do
     :comment_format          => 'markdown'
   )
 
-  @entry = Sections::Model::SectionEntry.create(
+  entry = Sections::Model::SectionEntry.create(
     :title      => 'Spec entry',
     :user_id    => user_id,
-    :section_id => @section.id
+    :section_id => section.id
   )
+
+  after do
+    Zen::Event.delete(
+      :before_edit_comment,
+      :after_edit_comment,
+      :before_delete_comment,
+      :after_delete_comment
+    )
+  end
 
   it('Submit a form without a CSRF token') do
     response = page.driver.post(
       Comments::Controller::Comments.r(:save).to_s
     )
 
-    response.body.include?(lang('zen_general.errors.csrf')).should === true
-    response.status.should                                         === 403
+    response.body.include?(lang('zen_general.errors.csrf')).should == true
+    response.status.should                                         == 403
   end
 
-  it("No comments should exist") do
-    index_url = Comments::Controller::Comments.r(:index).to_s
-    message   = lang('comments.messages.no_comments')
+  it('No comments should exist') do
+    message = lang('comments.messages.no_comments')
 
     visit(index_url)
 
-    page.has_content?(message).should           === true
-    page.has_selector?('table tbody tr').should === false
+    page.has_content?(message).should           == true
+    page.has_selector?('table tbody tr').should == false
   end
 
-  it("Create a new comment") do
+  it('Create a new comment') do
     comment = Comments::Model::Comment.create(
       :user_id          => 1,
-      :section_entry_id => @entry.id,
+      :section_entry_id => entry.id,
       :email            => 'spec@domain.tld',
       :comment          => 'Spec comment'
     )
 
-    index_url = Comments::Controller::Comments.r(:index).to_s
-    message   = lang('comments.messages.no_comments')
+    message        = lang('comments.messages.no_comments')
 
     visit(index_url)
 
-    page.has_content?(message).should           === false
-    page.has_selector?('table tbody tr').should === true
+    page.has_content?(message).should           == false
+    page.has_selector?('table tbody tr').should == true
   end
 
-  it("Edit an existing comment") do
-    index_url   = Comments::Controller::Comments.r(:index).to_s
-    edit_url    = Comments::Controller::Comments.r(:edit).to_s
-    save_button = lang('comments.buttons.save')
+  it('Edit an existing comment') do
+    event_comment  = nil
+    event_comment2 = nil
+    comment        = 'Spec modified 123'
+
+    Zen::Event.listen(:before_edit_comment) do |comment|
+      event_comment = comment.comment
+    end
+
+    Zen::Event.listen(:after_edit_comment) do |comment|
+      event_comment2 = comment.comment
+    end
 
     visit(index_url)
     click_link('Spec comment')
@@ -65,23 +83,35 @@ describe("Comments::Controller::Comments") do
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
     within('#comment_form') do
-      fill_in('comment', :with => 'Spec comment modified')
+      fill_in('comment', :with => comment)
       select(lang('comments.labels.open'), :from => 'comment_status_id')
       click_on(save_button)
     end
 
-    page.find('textarea[name="comment"]').value \
-      .should === 'Spec comment modified'
+    page.find('textarea[name="comment"]').value.should == comment
 
     page.find('select[name="comment_status_id"] option[selected]').text \
-      .should === lang('comments.labels.open')
+      .should == lang('comments.labels.open')
+
+    event_comment.should  == comment
+    event_comment2.should == event_comment
+
+    Zen::Event.delete(:before_edit_comment, :after_edit_comment)
+
+    # Modify the comment using an event
+    Zen::Event.listen(:before_edit_comment) do |comment|
+      comment.comment = 'Spec comment modified'
+    end
+
+    within('#comment_form') do
+      click_on(save_button)
+    end
+
+    page.find('textarea[name="comment"]') \
+      .value.should == 'Spec comment modified'
   end
 
-  it("Edit an existing comment with invalid data") do
-    index_url   = Comments::Controller::Comments.r(:index).to_s
-    edit_url    = Comments::Controller::Comments.r(:edit).to_s
-    save_button = lang('comments.buttons.save')
-
+  it('Edit an existing comment with invalid data') do
     visit(index_url)
     click_link('Spec comment')
 
@@ -92,32 +122,43 @@ describe("Comments::Controller::Comments") do
       click_on(save_button)
     end
 
-    page.has_selector?('span.error').should === true
+    page.has_selector?('span.error').should == true
   end
 
   it('Try to delete a set of comments without IDs') do
-    index_url     = Comments::Controller::Comments.r(:index).to_s
     delete_button = lang('comments.buttons.delete')
 
     visit(index_url)
     click_on(delete_button)
 
-    page.has_selector?('input[name="comment_ids[]"]').should === true
+    page.has_selector?('input[name="comment_ids[]"]').should == true
   end
 
-  it("Delete an existing comment") do
-    index_url     = Comments::Controller::Comments.r(:index).to_s
-    delete_button = lang('comments.buttons.delete')
-    message       = lang('comments.messages.no_comments')
+  it('Delete an existing comment') do
+    delete_button  = lang('comments.buttons.delete')
+    message        = lang('comments.messages.no_comments')
+    event_comment  = nil
+    event_comment2 = nil
+
+    Zen::Event.listen(:before_delete_comment) do |comment|
+      event_comment = comment.comment
+    end
+
+    Zen::Event.listen(:after_delete_comment) do |comment|
+      event_comment2 = comment.comment
+    end
 
     visit(index_url)
     check('comment_ids[]')
     click_on(delete_button)
 
-    page.has_content?(message).should           === true
-    page.has_selector?('table tbody tr').should === false
+    page.has_content?(message).should           == true
+    page.has_selector?('table tbody tr').should == false
+
+    event_comment.should  == 'Spec comment modified'
+    event_comment2.should == event_comment
   end
 
-  @entry.destroy
-  @section.destroy
+  entry.destroy
+  section.destroy
 end

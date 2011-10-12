@@ -12,15 +12,18 @@ describe("Comments::Controller::CommentsForm") do
     Comments::Model::Comment.destroy
 
     plugin(:settings, :get, :defensio_key).value = nil
+
+    Zen::Event.delete(:before_new_comment, :after_new_comment)
   end
 
+  # Set up all the required data
   plugin(:settings, :get, :enable_antispam).value   = false
   plugin(:settings, :get, :frontend_language).value = 'en'
 
   user_id      = Users::Model::User[:name => 'Spec'].id
   entry_status = Sections::Model::SectionEntryStatus[:name => 'published'].id
 
-  @section = Sections::Model::Section.create(
+  section = Sections::Model::Section.create(
     :name                    => 'Spec section',
     :comment_allow           => true,
     :comment_require_account => true,
@@ -28,19 +31,27 @@ describe("Comments::Controller::CommentsForm") do
     :comment_format          => 'plain',
   )
 
-  @section_entry = Sections::Model::SectionEntry.create(
+  section_entry = Sections::Model::SectionEntry.create(
     :title                   => 'Spec entry',
     :user_id                 => user_id,
     :section_entry_status_id => entry_status,
-    :section_id              => @section.id
+    :section_id              => section.id
   )
+
+  it('Submit a comment without a CSRF token') do
+    url      = Comments::Controller::CommentsForm.r(:save).to_s
+    response = page.driver.post(url)
+
+    response.body.should   == lang('zen_general.errors.csrf')
+    response.status.should == 403
+  end
 
   it('Submit a comment') do
     visit(SpecCommentsForm.r(:index).to_s)
 
     # Submit the form
     within('#spec_comments_form') do
-      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
@@ -49,22 +60,47 @@ describe("Comments::Controller::CommentsForm") do
       click_on('Submit')
     end
 
-    # Let's see if the comment exists
     comment = Comments::Model::Comment[:comment => 'Spec comment']
 
-    comment.name.should      === 'Spec user'
-    comment.comment.should   === 'Spec comment'
-    comment.website.should   === 'http://zen-cms.com/'
-    comment.email.should     === 'spec@domain.tld'
-    comment.section_entry_id === @section_entry.id
+    comment.name.should      == 'Spec user'
+    comment.comment.should   == 'Spec comment'
+    comment.website.should   == 'http://zen-cms.com/'
+    comment.email.should     == 'spec@domain.tld'
+    comment.section_entry_id == section_entry.id
   end
 
-  it('Submit a comment without a CSRF token') do
-    url      = Comments::Controller::CommentsForm.r(:save).to_s
-    response = page.driver.post(url)
+  it('Submit a comment with custom events') do
+    event_comment = nil
 
-    response.body.should   === lang('zen_general.errors.csrf')
-    response.status.should === 403
+    Zen::Event.listen(:before_new_comment) do |comment|
+      comment.comment = 'Spec comment event'
+    end
+
+    Zen::Event.listen(:after_new_comment) do |comment|
+      event_comment = comment.comment
+    end
+
+    visit(SpecCommentsForm.r(:index).to_s)
+
+    # Submit the form
+    within('#spec_comments_form') do
+      fill_in('section_entry', :with => section_entry.id)
+      fill_in('name'         , :with => 'Spec user')
+      fill_in('website'      , :with => 'http://zen-cms.com/')
+      fill_in('email'        , :with => 'spec@domain.tld')
+      fill_in('comment'      , :with => 'Spec comment')
+
+      click_on('Submit')
+    end
+
+    comment = Comments::Model::Comment[:comment => 'Spec comment event']
+
+    comment.name.should      == 'Spec user'
+    comment.comment.should   == 'Spec comment event'
+    comment.website.should   == 'http://zen-cms.com/'
+    comment.email.should     == 'spec@domain.tld'
+    comment.section_entry_id == section_entry.id
+    event_comment.should     == 'Spec comment event'
   end
 
   it('Submit a comment with an invalid entry') do
@@ -73,7 +109,7 @@ describe("Comments::Controller::CommentsForm") do
     visit(url)
 
     within('#spec_comments_form') do
-      fill_in('section_entry', :with => @section_entry.id + 1)
+      fill_in('section_entry', :with => section_entry.id + 1)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
@@ -83,21 +119,21 @@ describe("Comments::Controller::CommentsForm") do
     end
 
     page.body.include?(lang('comments.errors.invalid_entry')) \
-      .should === true
+      .should == true
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Submit a comment for an invalid section') do
-    old_id = @section_entry.section_id
+    old_id = section_entry.section_id
     url    = SpecCommentsForm.r(:index).to_s
 
-    @section_entry.update(:section_id => nil)
+    section_entry.update(:section_id => nil)
 
     visit(url)
 
     within('#spec_comments_form') do
-      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
@@ -107,21 +143,21 @@ describe("Comments::Controller::CommentsForm") do
     end
 
     page.body.include?(lang('comments.errors.invalid_entry')) \
-      .should === true
+      .should == true
 
-    current_path.should === url
+    current_path.should == url
 
-    @section_entry.update(:section_id => old_id)
+    section_entry.update(:section_id => old_id)
   end
 
   it('Submit a comment for a section that does not allow comments') do
     url = SpecCommentsForm.r(:index).to_s
 
-    @section.update(:comment_allow => false)
+    section.update(:comment_allow => false)
     visit(url)
 
     within('#spec_comments_form') do
-      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'S)ec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
@@ -131,11 +167,11 @@ describe("Comments::Controller::CommentsForm") do
     end
 
     page.body.include?(lang('comments.errors.comments_not_allowed')) \
-      .should === true
+      .should == true
 
-    current_path.should === url
+    current_path.should == url
 
-    @section.update(:comment_allow => true)
+    section.update(:comment_allow => true)
   end
 
   it('Submit a comment when not logged in') do
@@ -145,7 +181,7 @@ describe("Comments::Controller::CommentsForm") do
     visit(url)
 
     within('#spec_comments_form') do
-      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
@@ -155,16 +191,16 @@ describe("Comments::Controller::CommentsForm") do
     end
 
     page.body.include?(lang('comments.errors.comments_require_account')) \
-      .should === true
+      .should == true
 
-    current_path.should === url
+    current_path.should == url
 
     # Log back in
     capybara_login
   end
 
   it('Submit a comment with moderation turned on') do
-    @section.update(:comment_moderate => true)
+    section.update(:comment_moderate => true)
 
     url           = SpecCommentsForm.r(:index).to_s
     closed_status = Comments::Model::CommentStatus[:name => 'closed']
@@ -172,7 +208,7 @@ describe("Comments::Controller::CommentsForm") do
     visit(url)
 
     within('#spec_comments_form') do
-      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
@@ -181,13 +217,13 @@ describe("Comments::Controller::CommentsForm") do
       click_on('Submit')
     end
 
-    page.body.include?(lang('comments.success.moderate')).should === true
-    current_path.should                                          === url
+    page.body.include?(lang('comments.success.moderate')).should == true
+    current_path.should                                          == url
 
     Comments::Model::Comment[:comment => 'Spec comment'] \
-      .comment_status_id.should === closed_status.id
+      .comment_status_id.should == closed_status.id
 
-    @section.update(:comment_moderate => false)
+    section.update(:comment_moderate => false)
   end
 
   it('Submit a comment and mark it as ham') do
@@ -216,7 +252,7 @@ describe("Comments::Controller::CommentsForm") do
     visit(url)
 
     within('#spec_comments_form') do
-      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec alternative')
       fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
@@ -225,11 +261,11 @@ describe("Comments::Controller::CommentsForm") do
       click_on('Submit')
     end
 
-    page.body.include?(lang('comments.success.new')).should === true
-    current_path.should                                     === url
+    page.body.include?(lang('comments.success.new')).should == true
+    current_path.should                                     == url
 
     Comments::Model::Comment[:name => 'Spec alternative'] \
-      .comment_status_id.should === open_status.id
+      .comment_status_id.should == open_status.id
 
     plugin(:settings, :get, :enable_antispam).value = '0'
     WebMock.reset!
@@ -255,7 +291,7 @@ describe("Comments::Controller::CommentsForm") do
 
     plugin(:settings, :get, :enable_antispam).value = '1'
 
-    @section.update(:comment_moderate => true)
+    section.update(:comment_moderate => true)
 
     url           = SpecCommentsForm.r(:index).to_s
     closed_status = Comments::Model::CommentStatus[:name => 'closed']
@@ -263,7 +299,7 @@ describe("Comments::Controller::CommentsForm") do
     visit(url)
 
     within('#spec_comments_form') do
-      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec alternative')
       fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
@@ -272,16 +308,16 @@ describe("Comments::Controller::CommentsForm") do
       click_on('Submit')
     end
 
-    page.body.include?(lang('comments.success.moderate')).should === true
-    current_path.should                                          === url
+    page.body.include?(lang('comments.success.moderate')).should == true
+    current_path.should                                          == url
 
     Comments::Model::Comment[:name => 'Spec alternative'] \
-      .comment_status_id.should === closed_status.id
+      .comment_status_id.should == closed_status.id
 
     plugin(:settings, :get, :enable_antispam).value = '0'
     WebMock.reset!
 
-    @section.update(:comment_moderate => false)
+    section.update(:comment_moderate => false)
   end
 
   it('Submit a comment and mark it as spam') do
@@ -310,7 +346,7 @@ describe("Comments::Controller::CommentsForm") do
     visit(url)
 
     within('#spec_comments_form') do
-      fill_in('section_entry', :with => @section_entry.id)
+      fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec alternative')
       fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
@@ -319,16 +355,16 @@ describe("Comments::Controller::CommentsForm") do
       click_on('Submit')
     end
 
-    page.body.include?(lang('comments.success.new')).should === true
-    current_path.should                                     === url
+    page.body.include?(lang('comments.success.new')).should == true
+    current_path.should                                     == url
 
     Comments::Model::Comment[:name => 'Spec alternative'] \
-      .comment_status_id.should === spam_status.id
+      .comment_status_id.should == spam_status.id
 
     plugin(:settings, :get, :enable_antispam).value = '0'
     WebMock.reset!
   end
 
-  @section_entry.destroy
-  @section.destroy
+  section_entry.destroy
+  section.destroy
 end

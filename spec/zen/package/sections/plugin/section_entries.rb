@@ -5,7 +5,7 @@ describe('Sections::Plugin::SectionEntries') do
   status_id      = Sections::Model::SectionEntryStatus[:name => 'published'].id
   comment_status = Comments::Model::CommentStatus[:name => 'open'].id
 
-  @section = Sections::Model::Section.create(
+  section = Sections::Model::Section.create(
     :name                     => 'Spec',
     :comment_allow            => true,
     :comment_require_account  => false,
@@ -13,58 +13,58 @@ describe('Sections::Plugin::SectionEntries') do
     :comment_format           => 'plain'
   )
 
-  @entry_1 = Sections::Model::SectionEntry.create(
+  entry_1 = Sections::Model::SectionEntry.create(
     :title                   => 'Spec',
     :user_id                 => user.id,
-    :section_id              => @section.id,
+    :section_id              => section.id,
     :slug                    => 'spec',
     :section_entry_status_id => status_id
   )
 
-  @entry_2 = Sections::Model::SectionEntry.create(
+  entry_2 = Sections::Model::SectionEntry.create(
     :title                    => 'Spec 1',
     :user_id                  => user.id,
-    :section_id               => @section.id,
+    :section_id               => section.id,
     :slug                     => 'spec-1',
     :section_entry_status_id  => status_id
   )
 
-  @comment = Comments::Model::Comment.create(
+  comment = Comments::Model::Comment.create(
     :user_id           => user.id,
     :comment_status_id => comment_status,
-    :section_entry_id  => @entry_2.id,
+    :section_entry_id  => entry_2.id,
     :comment           => 'Comment',
     :email             => user.email
   )
 
-  @category_group = Categories::Model::CategoryGroup.create(
+  category_group = Categories::Model::CategoryGroup.create(
     :name => 'spec category group'
   )
 
-  @category = Categories::Model::Category.create(
+  category = Categories::Model::Category.create(
     :name              => 'spec category',
-    :category_group_id => @category_group.id
+    :category_group_id => category_group.id
   )
 
   type   = CustomFields::Model::CustomFieldType[:name => 'textbox']
-  @group = CustomFields::Model::CustomFieldGroup.create(
+  group = CustomFields::Model::CustomFieldGroup.create(
     :name => 'Spec group'
   )
 
-  @field = CustomFields::Model::CustomField.create(
+  field = CustomFields::Model::CustomField.create(
     :name                  => 'Spec field',
     :format                => 'markdown',
     :text_editor           => false,
     :required              => false,
-    :custom_field_group_id => @group.id,
+    :custom_field_group_id => group.id,
     :custom_field_type_id  => type.id
   )
 
-  @section.category_group_pks = [@category_group.id]
+  section.category_group_pks = [category_group.id]
 
-  @entry_1.add_category(@category)
-  @entry_1.add_custom_field_value(
-    :custom_field_id => @field.id,
+  entry_1.add_category(category)
+  entry_1.add_custom_field_value(
+    :custom_field_id => field.id,
     :value           => 'hello'
   )
 
@@ -113,7 +113,7 @@ describe('Sections::Plugin::SectionEntries') do
   it('Retrieve all section entries for an ID') do
     entries = plugin(
       :section_entries,
-      :section => @section.id,
+      :section => section.id,
       :order   => :asc
     )
 
@@ -128,17 +128,17 @@ describe('Sections::Plugin::SectionEntries') do
 
     entry.class.should   == Hash
     entry[:title].should === 'Spec'
-    entry[:id].should    === @entry_1.id
+    entry[:id].should    === entry_1.id
   end
 
   it('Retrieve a single entry by it\'s ID') do
     entry = plugin(
-      :section_entries, :entry => @entry_1.id
+      :section_entries, :entry => entry_1.id
     )
 
     entry.class.should   == Hash
     entry[:title].should === 'Spec'
-    entry[:id].should    === @entry_1.id
+    entry[:id].should    === entry_1.id
   end
 
   it('Limit the amount of entries') do
@@ -167,14 +167,14 @@ describe('Sections::Plugin::SectionEntries') do
   end
 
   [
-    @field,
-    @group,
-    @category,
-    @category_group,
-    @comment,
-    @entry_2,
-    @entry_1,
-    @section
+    field,
+    group,
+    category,
+    category_group,
+    comment,
+    entry_2,
+    entry_1,
+    section
   ].each do |k|
     k.destroy
   end

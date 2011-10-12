@@ -35,7 +35,6 @@ module Sections
           :comment_format
         ])
 
-        validates_presence(:slug) unless new?
         validates_max_length(255, [:name, :slug])
 
         validates_type(
