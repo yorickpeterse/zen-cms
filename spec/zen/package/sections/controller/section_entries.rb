@@ -1,8 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Zen::Language.load('section_entries')
-
-# Run the actual test
 describe("Sections::Controller::SectionEntries") do
   behaves_like :capybara
 

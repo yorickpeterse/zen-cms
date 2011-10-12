@@ -55,9 +55,12 @@ module Users
     # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/user-groups
-    # @event  new_user_group
-    # @event  edit_user_group
-    # @event  delete_user_group
+    # @event  before_new_user_group
+    # @event  after_new_user_user
+    # @event  before_edit_user_group
+    # @event  after_edit_user_group
+    # @event  before_delete_user_group
+    # @event  after_delete_user_group
     #
     class UserGroups < Zen::Controller::AdminController
       helper :users
@@ -70,8 +73,6 @@ module Users
       serve :javascript, ['/admin/js/users/permissions'], :minify => false
       serve :css, ['/admin/css/users/permissions.css'], :minify => false
 
-      # Hook that is executed before UserGroups#index(), UserGroups#edit() and
-      # UserGroups#new().
       before(:index, :edit, :new) do
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
@@ -145,8 +146,10 @@ module Users
       # @since      0.1
       # @permission new_user_group (when creating a new group)
       # @permission edit_user_group (when editing a group)
-      # @event      new_user_group
-      # @event      edit_user_group
+      # @event      before_new_user_group
+      # @event      after_new_user_group
+      # @event      before_edit_user_group
+      # @event      after_edit_user_group
       #
       def save
         post = request.subset(:id, :name, :slug, :description, :super_group)
@@ -154,15 +157,17 @@ module Users
         if post['id'] and !post['id'].empty?
           authorize_user!(:edit_user_group)
 
-          user_group  = validate_user_group(post['id'])
-          save_action = :save
-          event       = :edit_user_group
+          user_group   = validate_user_group(post['id'])
+          save_action  = :save
+          before_event = :before_edit_user_group
+          after_event  = :after_edit_user_group
         else
           authorize_user!(:new_user_group)
 
-          user_group  = ::Users::Model::UserGroup.new
-          save_action = :new
-          event       = :new_user_group
+          user_group   = ::Users::Model::UserGroup.new
+          save_action  = :new
+          before_event = :before_new_user_group
+          after_event  = :after_new_user_group
         end
 
         post.delete('id')
@@ -171,7 +176,10 @@ module Users
         error   = lang("user_groups.errors.#{save_action}")
 
         begin
-          user_group.update(post)
+          post.each { |k, v| user_group.send("#{k}=", v) }
+          Zen::Event.call(before_event, user_group)
+
+          user_group.save
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, error)
@@ -191,7 +199,7 @@ module Users
           )
         end
 
-        Zen::Event.call(event, user_group)
+        Zen::Event.call(after_event, user_group)
 
         message(:success, success)
         redirect(UserGroups.r(:edit, user_group.id))
@@ -203,7 +211,8 @@ module Users
       # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_user_group
-      # @event      delete_user_group
+      # @event      before_delete_user_group
+      # @event      after_delete_user_group
       #
       def delete
         authorize_user!(:delete_user_group)
@@ -218,6 +227,7 @@ module Users
           group = ::Users::Model::UserGroup[id]
 
           next if group.nil?
+          Zen::Event.call(:before_delete_user_group, group)
 
           begin
             group.destroy
@@ -228,7 +238,7 @@ module Users
             redirect_referrer
           end
 
-          Zen::Event.call(:delete_user_group, group)
+          Zen::Event.call(:after_delete_user_group, group)
         end
 
         message(:success,  lang('user_groups.success.delete'))

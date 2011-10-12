@@ -60,7 +60,7 @@ module Settings
     # you'll simply call ``#value=()`` and specify a new value.
     #
     # @example Trimming the value of a setting
-    #  Zen::Event(:edit_setting) do |setting|
+    #  Zen::Event(:after_edit_setting) do |setting|
     #    if setting.name === 'website_name'
     #      setting.value = setting.value.strip
     #    end
@@ -69,7 +69,7 @@ module Settings
     # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/settings
-    # @event  edit_setting
+    # @event  after_edit_setting
     #
     class Settings < Zen::Controller::AdminController
       map   '/admin/settings'
@@ -112,7 +112,7 @@ module Settings
       # @author     Yorick Peterse
       # @since      0.1
       # @permission edit_setting
-      # @event      edit_setting
+      # @event      after_edit_setting
       #
       def save
         authorize_user!(:edit_setting)
@@ -138,7 +138,7 @@ module Settings
             redirect_referrer
           end
 
-          Zen::Event.call(:edit_setting, setting)
+          Zen::Event.call(:after_edit_setting, setting)
         end
 
         message(:success, success)

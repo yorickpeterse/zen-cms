@@ -81,7 +81,7 @@ module Users
     # ## Events
     #
     # Events in this controller receive an instance of {Users::Model::User}, the
-    # ``delete_user`` event receives an instance that has already been
+    # ``after_delete_user`` event receives an instance that has already been
     # destroyed. Keep in mind that changing the Email address or password of a
     # user will cause their session to no longer be valid, requiring them to log
     # in again.
@@ -99,9 +99,12 @@ module Users
     # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/users
-    # @event  new_user
-    # @event  edit_user
-    # @event  delete_user
+    # @event  before_new_user
+    # @event  after_new_user
+    # @event  before_edit_user
+    # @event  after_edit_user
+    # @event  before_delete_user
+    # @event  after_delete_user
     #
     class Users < Zen::Controller::AdminController
       helper :users, :layout
@@ -227,8 +230,10 @@ module Users
       # @since      0.1
       # @permission new_user (when creating a new user)
       # @permission edit_user (when editing a user)
-      # @event      new_user
-      # @event      edit_user
+      # @event      before_new_user
+      # @event      after_new_user
+      # @event      before_edit_user
+      # @event      after_edit_user
       #
       def save
         post = request.subset(
@@ -248,15 +253,17 @@ module Users
         if post['id'] and !post['id'].empty?
           authorize_user!(:edit_user)
 
-          user        = validate_user(post['id'])
-          save_action = :save
-          event       = :edit_user
+          user         = validate_user(post['id'])
+          save_action  = :save
+          before_event = :before_edit_user
+          after_event  = :after_edit_user
         else
           authorize_user!(:new_user)
 
-          user        = ::Users::Model::User.new
-          save_action = :new
-          event       = :new_user
+          user         = ::Users::Model::User.new
+          save_action  = :new
+          before_event = :before_new_user
+          after_event  = :after_new_user
         end
 
         if post['password'] != post['confirm_password']
@@ -272,7 +279,10 @@ module Users
         error              = lang("users.errors.#{save_action}")
 
         begin
-          user.update(post)
+          post.each { |k, v| user.send("#{k}=", v) }
+          Zen::Event.call(before_event, user)
+
+          user.save
           user.user_group_pks = post['user_group_pks'] if save_action === :new
         rescue => e
           Ramaze::Log.error(e.inspect)
@@ -294,7 +304,7 @@ module Users
           )
         end
 
-        Zen::Event.call(event, user)
+        Zen::Event.call(after_event, user)
 
         message(:success, success)
         redirect(Users.r(:edit, user.id))
@@ -306,7 +316,8 @@ module Users
       # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_user
-      # @event      delete_user
+      # @event      before_delete_user
+      # @event      after_delete_user
       #
       def delete
         authorize_user!(:delete_user)
@@ -320,6 +331,7 @@ module Users
           user = ::Users::Model::User[id]
 
           next if user.nil?
+          Zen::Event.call(:before_delete_user, user)
 
           begin
             user.user_group_pks = []
@@ -331,7 +343,7 @@ module Users
             redirect_referrer
           end
 
-          Zen::Event.call(:delete_user, user)
+          Zen::Event.call(:after_delete_user, user)
         end
 
         message(:success, lang('users.success.delete'))
