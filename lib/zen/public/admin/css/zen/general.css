@@ -16,32 +16,32 @@ body
 }
 
 /* Headings */
-h1 
+h1
 {
     font-size:25px;
 }
 
-h2 
+h2
 {
     font-size:23px;
 }
 
-h3 
+h3
 {
     font-size:21px;
 }
 
-h4 
+h4
 {
     font-size:19px;
 }
 
-h5 
+h5
 {
     font-size:17px;
 }
 
-h6 
+h6
 {
     font-size:15px;
 }
@@ -52,7 +52,7 @@ h1, h2, h3, h4, h5, h6
 }
 
 /* General */
-p, dl, hr, ol, ul, pre, table, address, fieldset 
+p, dl, hr, ol, ul, pre, table, address, fieldset
 {
     margin-bottom: 20px;
 }
@@ -90,7 +90,8 @@ pre
 }
 
 /* Icons and other re-usable images. */
-.icon_edit,.icon_delete,.icon_add, .icon_success, .icon_error, .icon_info, .icon_view
+.icon_edit, .icon_delete, .icon_add, .icon_success, .icon_error, .icon_info,
+.icon_view
 {
     margin-right: 10px;
     padding:      5px 3px 5px 25px;
