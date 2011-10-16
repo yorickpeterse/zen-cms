@@ -49,8 +49,8 @@ module Users
     #
     # All events in this controller receive an instance of
     # {Users::Model::UserGroup}. Just like other controllers the event
-    # ``delete_user_group`` will receive a user group that has already been
-    # destroyed using ``#destroy()``.
+    # ``after_delete_user_group`` will receive a user group that has already
+    # been destroyed using ``#destroy()``.
     #
     # @author Yorick Peterse
     # @since  0.1

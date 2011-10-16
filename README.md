@@ -1,4 +1,4 @@
-# README
+# Zen
 
 Zen is a flexible Content Management System that gives you full control over
 your content and presentation without limiting your possibilities. One of the
@@ -38,19 +38,7 @@ small portion of what it can do.
 * A well documented, tested and easy to understand API.
 * A database structure that doesn't make you cry.
 
-## Requirements
-
-* Ruby >= 1.9.2 (Rubinius, jruby and others are not supported).
-* Ramaze 2011.07.25 or newer.
-* Any SQL database supported by Sequel. Zen has been tested and confirmed to
-  work on MySQL, SQLite3 and PostgreSQL. You'll also need the required gems for
-  these DBMS' such as "mysql2" for MySQL and "pg" for PostgreSQL.
-* A Rack compatible server such as Thin or Unicorn.
-* A library to convert your markup of choice to HTML. Zen by default has support
-  for Textile using Redcloth and Markdown using RDiscount. RDiscount and
-  RedCloth are installed automatically when needed.
-
-## Documentation
+## Chapters
 
 * {file:installation Installation}
 * {file:getting_started Getting Started}
@@ -93,6 +81,18 @@ small portion of what it can do.
 * {Zen::Validation Validating Objects}
 * {file:asset_management Asset Management}
 * {file:javascript Javascript API}
+
+## Requirements
+
+* Ruby >= 1.9.2 (Rubinius, jruby and others are not supported).
+* Ramaze 2011.07.25 or newer.
+* Any SQL database supported by Sequel. Zen has been tested and confirmed to
+  work on MySQL, SQLite3 and PostgreSQL. You'll also need the required gems for
+  these DBMS' such as "mysql2" for MySQL and "pg" for PostgreSQL.
+* A Rack compatible server such as Thin or Unicorn.
+* A library to convert your markup of choice to HTML. Zen by default has support
+  for Textile using Redcloth and Markdown using RDiscount. RDiscount and
+  RedCloth are installed automatically when needed.
 
 ## Community
 
