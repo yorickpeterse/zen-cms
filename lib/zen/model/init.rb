@@ -1,10 +1,11 @@
 Zen::Language.load('zen_models')
 
-Sequel::Model.plugin :validation_helpers
-Sequel::Model.plugin :association_pks
+Sequel::Model.plugin(:validation_helpers)
+Sequel::Model.plugin(:association_pks)
 
-Sequel.extension :migration
-Sequel.extension :pagination
+Sequel.extension(:migration)
+Sequel.extension(:pagination)
+Sequel.extension(:inflector)
 
 Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
 {

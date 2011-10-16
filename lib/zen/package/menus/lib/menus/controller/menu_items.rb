@@ -88,9 +88,12 @@ module Menus
         )
 
         @menu_id    = menu_id
-        @menu_items = paginate(
-          ::Menus::Model::MenuItem.filter(:menu_id => menu_id)
-        )
+        @menu_items = search do |query|
+          ::Menus::Model::MenuItem.search(query).filter(:menu_id => menu_id)
+        end
+
+        @menu_items ||= ::Menus::Model::MenuItem.filter(:menu_id => menu_id)
+        @menu_items   = paginate(@menu_items)
       end
 
       ##

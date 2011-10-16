@@ -73,7 +73,7 @@ describe("Users::Controller::Users") do
 
   it("Edit an existing user") do
     visit(index_url)
-    click_link('spec@email.com')
+    click_link('Spec user')
 
     within('#user_form') do
       fill_in('name', :with => 'Spec user modified')
@@ -87,7 +87,7 @@ describe("Users::Controller::Users") do
 
   it("Edit an existing user with invalid data") do
     visit(index_url)
-    click_link('spec@email.com')
+    click_link('Spec user')
 
     within('#user_form') do
       fill_in('form_name', :with => '')
@@ -160,7 +160,7 @@ describe("Users::Controller::Users") do
     end
 
     visit(index_url)
-    click_on('spec@email.com')
+    click_on('User with event')
 
     within('#user_form') do
       click_on(save_button)

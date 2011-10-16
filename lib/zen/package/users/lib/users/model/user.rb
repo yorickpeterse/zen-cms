@@ -9,6 +9,8 @@ module Users
     # @since  0.1
     #
     class User < Sequel::Model
+      include Zen::Model::Helper
+
       many_to_many :user_groups, :class => 'Users::Model::UserGroup',
         :eager => [:permissions]
 
@@ -16,6 +18,20 @@ module Users
 
       plugin :timestamps, :create => :created_at, :update => :updated_at
       plugin :association_dependencies, :permissions => :delete
+
+      ##
+      # Searches for a set of users that match the given query.
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @param  [String] query The search query.
+      # @return [Mixed]
+      #
+      def self.search(query)
+        return filter(
+          search_column(:name, query) | search_column(:email, query)
+        )
+      end
 
       ##
       # Try to authenticate the user based on the specified credentials..

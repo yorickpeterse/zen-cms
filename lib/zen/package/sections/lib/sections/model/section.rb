@@ -8,6 +8,8 @@ module Sections
     # @since  0.1
     #
     class Section < Sequel::Model
+      include Zen::Model::Helper
+
       one_to_many :section_entries,
         :class => 'Sections::Model::SectionEntry',
         :eager => [:custom_field_values, :section_entry_status]
@@ -19,6 +21,26 @@ module Sections
         :class => 'Categories::Model::CategoryGroup'
 
       plugin :sluggable, :source => :name, :freeze => false
+
+      ##
+      # Searches for a number of sections of which the title or description
+      # matches the search query.
+      #
+      # @example
+      #  Sections::Model::Section.search('pages')
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @param  [String] query The search query.
+      # @return [Mixed]
+      #
+      def self.search(query)
+        return [] if query.empty?
+
+        return filter(
+          search_column(:name, query) | search_column(:description, query)
+        )
+      end
 
       ##
       # Specifies all validation rules for each section.

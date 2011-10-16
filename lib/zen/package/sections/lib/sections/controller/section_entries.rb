@@ -97,7 +97,12 @@ module Sections
 
         section     = validate_section(section_id)
         @section_id = section_id
-        @entries    = ::Sections::Model::SectionEntry.filter(
+        @entries    = search do |query|
+          ::Sections::Model::SectionEntry.search(query) \
+            .filter(:section_id => section_id)
+        end
+
+        @entries  ||= ::Sections::Model::SectionEntry.filter(
           :section_id => section_id
         )
 

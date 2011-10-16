@@ -99,7 +99,12 @@ module CustomFields
 
         set_breadcrumbs(lang('custom_field_groups.titles.index'))
 
-        @field_groups = paginate(::CustomFields::Model::CustomFieldGroup)
+        @field_groups = search do |query|
+          ::CustomFields::Model::CustomFieldGroup.search(query)
+        end
+
+        @field_groups ||= ::CustomFields::Model::CustomFieldGroup
+        @field_groups   = paginate(@field_groups)
       end
 
       ##

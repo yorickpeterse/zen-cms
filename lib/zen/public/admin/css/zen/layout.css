@@ -167,3 +167,14 @@
     {
         display: none;
     }
+
+/* Styles for the search form */
+#search_form
+{
+    float: right;
+}
+
+    #search_form input[type="text"]
+    {
+        min-width: 250px;
+    }

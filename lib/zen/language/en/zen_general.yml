@@ -6,12 +6,18 @@ labels:
   profile      : 'Profile'
 
 errors:
-  csrf            : 'The specified request can not be executed without a valid CSRF token.'
-  not_authorized  : 'You are not authorized to access the current page.'
-  no_templates    : 'No templates were found for the given action.'
-  no_theme        : 'No theme has been specified.'
-  invalid_request : 'The request could not be executed as the specified data is incorrect.'
-  require_login   : 'You need to be logged in in order to view this page.'
+  csrf: 'The specified request can not be executed without a valid CSRF token.'
+  not_authorized : 'You are not authorized to access the current page.'
+  no_templates   : 'No templates were found for the given action.'
+  no_theme       : 'No theme has been specified.'
+  invalid_request: 'The request could not be executed as the specified data is \
+incorrect.'
+
+  require_login : 'You need to be logged in in order to view this page.'
+  invalid_search: 'The specified search query is invalid.'
+
+placeholders:
+  search: 'Search keywords'
 
 buttons:
   bold   : 'Bold'

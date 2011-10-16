@@ -128,7 +128,12 @@ module Categories
 
         set_breadcrumbs(lang('category_groups.titles.index'))
 
-        @category_groups = paginate(::Categories::Model::CategoryGroup)
+        @category_groups = search do |query|
+          ::Categories::Model::CategoryGroup.search(query)
+        end
+
+        @category_groups ||= ::Categories::Model::CategoryGroup
+        @category_groups   = paginate(@category_groups)
       end
 
       ##

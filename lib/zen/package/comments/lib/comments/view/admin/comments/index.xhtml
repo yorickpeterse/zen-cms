@@ -1,4 +1,6 @@
 <section>
+    #{render_search_form(::Comments::Controller::Comments.r(:index))}
+
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
@@ -55,8 +57,6 @@
                         )}
                     </td>
 
-                    <?r if !comment.user ?>
-
                     <td>#{comment.name}</td>
                     <td>#{comment.email}</td>
                     <td>
@@ -64,19 +64,6 @@
                         <a href="#{comment.website}">#{comment.website}</a>
                         <?r end ?>
                     </td>
-
-                    <?r else ?>
-
-                    <?r user = comment.user ?>
-                    <td>#{user.name}</td>
-                    <td>#{user.email}</td>
-                    <td>
-                        <?r if user.website ?>
-                        <a href="#{user.website}">#{user.website}</a>
-                        <?r end ?>
-                    </td>
-
-                    <?r end ?>
 
                     <td>#{format_date(comment.created_at)}</td>
                 </tr>

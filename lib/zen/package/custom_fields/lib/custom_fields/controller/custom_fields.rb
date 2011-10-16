@@ -112,7 +112,13 @@ module CustomFields
 
         field_group = validate_custom_field_group(custom_field_group_id)
         @custom_field_group_id = custom_field_group_id
-        @custom_fields         = ::CustomFields::Model::CustomField.filter(
+        @custom_fields         = search do |query|
+          ::CustomFields::Model::CustomField \
+            .search(query) \
+            .filter(:custom_field_group_id => custom_field_group_id)
+        end
+
+        @custom_fields ||= ::CustomFields::Model::CustomField.filter(
           :custom_field_group_id => custom_field_group_id
         )
 

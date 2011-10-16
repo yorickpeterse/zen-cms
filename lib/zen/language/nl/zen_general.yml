@@ -6,12 +6,16 @@ labels:
   profile     : 'Profiel'
 
 errors:
-  csrf           : 'De actie kan niet worden uitgevoerd zonder een geldige CSRF token.'
-  not_authorized : 'U bent niet toegestaan om de huidige pagina te bekijken.'
-  no_templates   : 'Er konden geen sjablonen worden gevonden voor de huidige actie.'
+  csrf: 'De actie kan niet worden uitgevoerd zonder een geldige CSRF token.'
+  not_authorized: 'U bent niet toegestaan om de huidige pagina te bekijken.'
+  no_templates: 'Er konden geen sjablonen worden gevonden voor de huidige actie.'
   no_theme       : 'Er is geen thema ingesteld.'
   invalid_request: 'De actie kon niet worden uitgevoerd omdat de data onjuist is.'
   require_login  : 'U moet ingelogd zijn om deze pagina te kunnen bekijken.'
+  invalid_search : 'De opgegeven zoek actie is ongeldig.'
+
+placeholders:
+  search: 'Zoektermen'
 
 buttons:
   bold   : 'Vet'

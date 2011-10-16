@@ -187,6 +187,7 @@ require __DIR__('zen/validation')
 require __DIR__('zen/plugin')
 require __DIR__('zen/event')
 require __DIR__('zen/language')
+require __DIR__('zen/model/helper')
 
 # Load a set of modules into the global namespace
 include Zen::Plugin::SingletonMethods
