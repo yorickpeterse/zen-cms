@@ -77,6 +77,29 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.find_field('form_custom_field_method_id').value.should === method_id
   end
 
+  it('Search for a custom field type') do
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    visit(index_url)
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec type')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should       == false
+    page.has_content?('Spec type').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should       == false
+    page.has_content?('Spec type').should == false
+  end
+
   it('Edit a custom field type') do
     method_id = CustomFields::Model::CustomFieldMethod[
       :name => 'textarea'

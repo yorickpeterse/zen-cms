@@ -44,6 +44,29 @@ describe("Menus::Controller::MenuItems") do
     current_path.should =~ /#{edit_url}\/[0-9]+/
   end
 
+  it('Search for a menu item') do
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    visit(index_url)
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec menu item')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should            == false
+    page.has_content?('Spec menu item').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should            == false
+    page.has_content?('Spec menu item').should == false
+  end
+
   it("Edit an existing menu item") do
     visit(index_url)
     click_link('Spec menu item')

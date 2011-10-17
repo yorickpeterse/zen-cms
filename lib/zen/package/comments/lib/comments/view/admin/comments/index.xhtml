@@ -40,31 +40,16 @@
                     <td>#{comment.id}</td>
                     <td>
                         #{if user_authorized?(:edit_comment)
-                          Comments::Controller::Comments.a(
-                            comment.comment[0, 15].to_s + '...',
-                            :edit,
-                            comment.id
-                          )
+                          comment.summary(true)
                         else
-                          comment.comment[0, 15] + '...'
+                          comment.summary
                         end}
                     </td>
-
                     <td>#{comment.section_entry.title}</td>
-                    <td>
-                        #{lang(
-                          "comments.labels.#{comment.comment_status.name}"
-                        )}
-                    </td>
-
-                    <td>#{comment.name}</td>
-                    <td>#{comment.email}</td>
-                    <td>
-                        <?r if comment.website ?>
-                        <a href="#{comment.website}">#{comment.website}</a>
-                        <?r end ?>
-                    </td>
-
+                    <td>#{comment.status_name}</td>
+                    <td>#{comment.user_name}</td>
+                    <td>#{comment.user_email}</td>
+                    <td>#{comment.user_website(true)}</td>
                     <td>#{format_date(comment.created_at)}</td>
                 </tr>
                 <?r end ?>

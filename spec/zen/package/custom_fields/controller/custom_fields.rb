@@ -72,6 +72,29 @@ describe('CustomFields::Controller::CustomFields') do
     page.find_field('form_sort_order').value.should      == '2'
   end
 
+  it('Search for a custom field') do
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    visit(index_url)
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec field')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should        == false
+    page.has_content?('Spec field').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should        == false
+    page.has_content?('Spec field').should == false
+  end
+
   it("Edit an existing custom field") do
     type_select    = lang('custom_fields.special.type_hash.textarea')
     textarea_field = CustomFields::Model::CustomFieldType[:name => 'textarea']

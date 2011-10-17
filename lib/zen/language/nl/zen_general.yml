@@ -25,6 +25,7 @@ buttons:
   ol     : 'Georderde lijst'
   preview: 'Voorbeeld'
   close  : 'Sluiten'
+  search : 'Zoeken'
 
 datepicker:
   select_a_time      : 'Selecteer een tijd'

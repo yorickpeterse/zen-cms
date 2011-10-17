@@ -178,3 +178,8 @@
     {
         min-width: 250px;
     }
+
+    #search_form .button
+    {
+        margin-right: 0px;
+    }

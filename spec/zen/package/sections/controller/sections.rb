@@ -57,6 +57,29 @@ describe("Sections::Controller::Sections") do
     page.find('input[name="name"]').value.should === 'Spec section'
   end
 
+  it('Search for a section') do
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    visit(index_url)
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec section')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should          == false
+    page.has_content?('Spec section').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should          == false
+    page.has_content?('Spec section').should == false
+  end
+
   it("Edit an existing section") do
     visit(index_url)
     click_link('Spec section')

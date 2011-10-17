@@ -27,6 +27,7 @@ buttons:
   ol     : 'Ordered list'
   preview: 'Preview'
   close  : 'Close'
+  search : 'Search'
 
 datepicker:
   select_a_time      : 'Select a time'

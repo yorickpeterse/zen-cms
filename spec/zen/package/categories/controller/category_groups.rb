@@ -72,6 +72,29 @@ describe("Categories::Controller::CategoryGroups") do
     event_name2.should == event_name
   end
 
+  it('Search for a category group') do
+    visit(index_url)
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec category group')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should                 == false
+    page.has_content?('Spec category group').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should                 == false
+    page.has_content?('Spec category group').should == false
+    page.has_selector?('table tbody tr').should     == false
+  end
+
   it("Edit an existing category group") do
     event_name  = nil
     event_name2 = nil

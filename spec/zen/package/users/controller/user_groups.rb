@@ -43,6 +43,29 @@ describe('Users::Controller::UserGroups') do
     page.find('#form_super_group_0').checked?.should === 'checked'
   end
 
+  it('Search for a user group') do
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    visit(index_url)
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec group')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should        == false
+    page.has_content?('Spec group').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should        == false
+    page.has_content?('Spec group').should == false
+  end
+
   it('Edit an existing user group') do
     group = Users::Model::UserGroup[:name => 'Spec group']
     path  = Users::Controller::UserGroups.r(:edit, group.id).to_s

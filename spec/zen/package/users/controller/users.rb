@@ -71,6 +71,29 @@ describe("Users::Controller::Users") do
     page.find('input[name="email"]').value.should == 'spec@email.com'
   end
 
+  it('Search for a user') do
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    visit(index_url)
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec user')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should       == false
+    page.has_content?('Spec user').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should       == false
+    page.has_content?('Spec user').should == false
+  end
+
   it("Edit an existing user") do
     visit(index_url)
     click_link('Spec user')
