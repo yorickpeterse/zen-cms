@@ -8,6 +8,8 @@ module Sections
     # @since  0.1
     #
     class SectionEntry < Sequel::Model
+      include Zen::Model::Helper
+
       one_to_many :comments,
         :class => 'Comments::Model::Comment'
 
@@ -29,6 +31,19 @@ module Sections
 
       plugin :sluggable , :source => :title     , :freeze => false
       plugin :timestamps, :create => :created_at, :update => false
+
+      ##
+      # Searches for a set of section entries based on the specified search
+      # query.
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @param  [String] query The search query.
+      # @return [Mixed]
+      #
+      def self.search(query)
+        return filter(search_column(:title, query))
+      end
 
       ##
       # Specify our validation rules.

@@ -113,7 +113,14 @@ module Categories
         # Validate the category group
         category_group     = validate_category_group(category_group_id)
         @category_group_id = category_group_id
-        @categories        = ::Categories::Model::Category.filter(
+
+        @categories = search do |query|
+          ::Categories::Model::Category.search(query).filter(
+            :category_group_id => category_group_id
+          )
+        end
+
+        @categories ||= ::Categories::Model::Category.filter(
           :category_group_id => category_group_id
         )
 

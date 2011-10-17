@@ -1,4 +1,4 @@
-<article>
+<section>
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
@@ -12,51 +12,50 @@
         f.input_hidden(:csrf_token, get_csrf_token)
         f.input_hidden(:id        , @comment.id)
 
-        if !@comment.user
-          name    = @comment.name
-          website = @comment.website
-          email   = @comment.email
-        else
-          name    = @comment.user.name
-          website = @comment.user.website
-          email   = @comment.user.email
-        end
-
         f.input_text(
           lang('comments.labels.name'),
           :name,
-          :value    => name,
+          :value    => @comment.user_name,
           :disabled => :disabled
         )
+
+        if @comment.user.nil?
 
         f.input_text(
           lang('comments.labels.website'),
           :website,
-          :value => website
+          :value     => @comment.website,
+          :maxlength => 255
         )
 
         f.input_text(
           lang('comments.labels.email'),
           :email,
-          :value => email
+          :value     => @comment.email,
+          :required  => :required,
+          :maxlength => 255
         )
+
+        end
 
         f.select(
           lang('comments.labels.status'),
           :comment_status_id,
           :values   => Comments::Model::Comment.status_hash,
           :selected => @comment.comment_status_id,
-          :size     => 1
+          :size     => 1,
+          :required => :required
         )
 
         f.textarea(
           lang('comments.labels.comment'),
           :comment,
-          :rows => 10
+          :rows     => 10,
+          :required => :required
         )
 
         f.g.div(:class => 'button') do
           f.g.input(:type => 'submit', :value => lang('comments.buttons.save'))
         end
       end}
-</article>
+</section>

@@ -8,11 +8,40 @@ module Comments
     # @since  0.1
     #
     class Comment < Sequel::Model
+      include Zen::Model::Helper
+
       many_to_one :section_entry , :class => 'Sections::Model::SectionEntry'
       many_to_one :user          , :class => 'Users::Model::User'
       many_to_one :comment_status, :class => 'Comments::Model::CommentStatus'
 
       plugin :timestamps, :create => :created_at, :update => :updated_at
+
+      ##
+      # Searches for a number of comments based on the given search query. The
+      # following fields can be searched:
+      #
+      # * comments.comment
+      # * comments.email
+      # * comments.name
+      # * users.email
+      # * users.name
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @param  [String] query The search query.
+      # @return [Array]
+      #
+      def self.search(query)
+        return filter(
+            search_column(:comment, query) |
+            search_column(:users__email, query) |
+            search_column(:comments__email, query) |
+            search_column(:comments__name, query) |
+            search_column(:users__name, query)
+          ) \
+          .eager(:user, :comment_status) \
+          .left_join(:users, :comments__user_id => :users__id)
+      end
 
       ##
       # Returns a hash containing all available statuses for each comment.
@@ -45,6 +74,7 @@ module Comments
       def validate
         validates_presence([:comment, :section_entry_id])
         validates_integer([:comment_status_id, :section_entry_id])
+        validates_max_length(255, [:name, :email, :website])
 
         if user_id.nil?
           validates_presence([:name, :email])
@@ -76,6 +106,98 @@ module Comments
         end
 
         super
+      end
+
+      ##
+      # Gets the name of the author of the comment. This name is either
+      # retrieved from the current comment row or from an associated user
+      # object.
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @return [String]
+      #
+      def user_name
+        if user.nil?
+          return name
+        else
+          return user.name
+        end
+      end
+
+      ##
+      # Gets the Email address of the author of the comment.
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @return [String]
+      #
+      def user_email
+        if user.nil?
+          return email
+        else
+          return user.email
+        end
+      end
+
+      ##
+      # Gets the website of the author of the comment and optionally creates an
+      # anchor tag for it.
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @param  [TrueClass|FalseClass] with_link When set to true the website
+      #  will be returned as an ``<a>`` tag.
+      # @return [String]
+      #
+      def user_website(with_link = false)
+        if user.nil?
+          website = website
+        else
+          website = user.website
+        end
+
+        if !website.nil? and !website.empty? and with_link == true
+          website = '<a href="%s" title="%s">%s</a>' % [
+            website,
+            website,
+            website
+          ]
+        end
+
+        return website
+      end
+
+      ##
+      # Returns the first 15 characters of a comment, optionally wrapped in a
+      # link that points to the form to edit the comment.
+      #
+      # @author Yorick Peterse
+      # @since  17-10-2011
+      # @param  [TrueClass|FalseClass] with_link When set to true the comment
+      #  will be wrapped in an ``<a>`` tag.
+      # @return [String]
+      #
+      def summary(with_link = false)
+        _comment = comment || ''
+        _comment = _comment[0, 15] + '...'
+
+        if with_link == true
+          return ::Comments::Controller::Comments.a(_comment, :edit, id)
+        else
+          return _comment
+        end
+      end
+
+      ##
+      # Returns the name of the comment status.
+      #
+      # @author Yorick Peterse
+      # @since  17-10-2011
+      # @return [String]
+      #
+      def status_name
+        return lang("comments.labels.#{comment_status.name}")
       end
     end # Comment
   end # Model

@@ -49,6 +49,29 @@ describe("Menus::Controller::Menus") do
     page.find('input[name="html_id"]').value.should    === 'spec_id'
   end
 
+  it('Search for a menu') do
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    visit(index_url)
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec menu')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should       == false
+    page.has_content?('Spec menu').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should       == false
+    page.has_content?('Spec menu').should == false
+  end
+
   it("Edit an existing menu") do
     visit(index_url)
     click_link('Spec menu')

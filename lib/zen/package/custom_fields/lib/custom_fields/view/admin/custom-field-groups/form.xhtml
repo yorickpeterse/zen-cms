@@ -1,4 +1,4 @@
-<article>
+<section>
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
@@ -14,7 +14,9 @@
 
       f.input_text(
         lang('custom_field_groups.labels.name'),
-        :name
+        :name,
+        :required  => :required,
+        :maxlength => 255
       )
 
       f.textarea(
@@ -30,4 +32,4 @@
         )
       end
     end}
-</article>
+</section>

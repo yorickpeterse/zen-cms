@@ -114,7 +114,7 @@ module Users
       csrf_protection :save, :delete
 
       serve :javascript, ['/admin/js/users/permissions'], :minify => false
-      serve :css, ['/admin/css/users/permissions.css'], :minify => false
+      serve :css, ['/admin/css/users/permissions'], :minify => false
 
       load_asset_group :tabs
 
@@ -142,7 +142,12 @@ module Users
 
         set_breadcrumbs(lang('users.titles.index'))
 
-        @users = paginate(::Users::Model::User)
+        @users = search do |query|
+          ::Users::Model::User.search(query)
+        end
+
+        @users ||= ::Users::Model::User
+        @users   = paginate(@users)
       end
 
       ##

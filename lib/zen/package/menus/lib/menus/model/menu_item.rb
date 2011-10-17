@@ -8,10 +8,28 @@ module Menus
     # @since  0.2a
     #
     class MenuItem < Sequel::Model
+      include Zen::Model::Helper
+
       plugin :tree, :order => :sort_order
 
       many_to_one :menu  , :class => 'Menus::Model::Menu'
       many_to_one :parent, :class => self
+
+      ##
+      # Searches for a set of menu items.
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @param  [String] query The search query.
+      # @return [Mixed]
+      #
+      def self.search(query)
+        return filter(
+          search_column(:name, query) |
+          search_column(:html_class, query) |
+          search_column(:html_id, query)
+        )
+      end
 
       ##
       # Specifies all validation rules that will be used when creating or

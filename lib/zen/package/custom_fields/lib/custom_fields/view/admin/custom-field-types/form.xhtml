@@ -1,4 +1,4 @@
-<article>
+<section>
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
@@ -14,17 +14,23 @@
 
       f.input_text(
         lang('custom_field_types.labels.name'),
-        :name
+        :name,
+        :required  => :required,
+        :maxlength => 255
       )
 
       f.input_text(
         lang('custom_field_types.labels.language_string'),
-        :language_string
+        :language_string,
+        :required  => :required,
+        :maxlength => 255
       )
 
       f.input_text(
         lang('custom_field_types.labels.html_class'),
-        :html_class
+        :html_class,
+        :maxlength => 255,
+        :pattern   => '^[a-zA-Z\\\-_0-9\\\s]*$'
       )
 
       f.input_radio(
@@ -46,7 +52,8 @@
         :custom_field_method_id,
         :values   => @custom_field_methods,
         :size     => 1,
-        :selected => @custom_field_type.custom_field_method_id
+        :selected => @custom_field_type.custom_field_method_id,
+        :required => :required
       )
 
       f.g.div(:class => 'button') do
@@ -56,4 +63,4 @@
         )
       end
     end}
-</article>
+</section>

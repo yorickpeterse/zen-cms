@@ -209,7 +209,9 @@ module Zen
           keys = Registered.keys.sort
 
           keys.each do |key|
-            g.out << Registered[key].menu.html(permissions)
+            unless Registered[key].menu.nil?
+              g.out << Registered[key].menu.html(permissions)
+            end
           end
         end
 

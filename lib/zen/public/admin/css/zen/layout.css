@@ -97,7 +97,7 @@
     -moz-border-radius:    5px;
 }
 
-    #container article
+    #container section
     {
         padding: 15px;
     }
@@ -166,4 +166,20 @@
     .pager span
     {
         display: none;
+    }
+
+/* Styles for the search form */
+#search_form
+{
+    float: right;
+}
+
+    #search_form input[type="text"]
+    {
+        min-width: 250px;
+    }
+
+    #search_form .button
+    {
+        margin-right: 0px;
     }

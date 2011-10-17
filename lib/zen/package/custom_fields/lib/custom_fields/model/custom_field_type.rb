@@ -8,8 +8,23 @@ module CustomFields
     # @since  0.2.8
     #
     class CustomFieldType < Sequel::Model
+      include Zen::Model::Helper
+
       many_to_one :custom_field_method,
         :class => 'CustomFields::Model::CustomFieldMethod'
+
+      ##
+      # Searches for a set of custom field types.
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @param  [String] query The search query.
+      # @return [Mixed]
+      #
+      def self.search(query)
+        return filter(search_column(:custom_field_types__name, query)) \
+          .eager(:custom_field_method)
+      end
 
       ##
       # Returns a hash where the keys are the IDs of all custom field types and

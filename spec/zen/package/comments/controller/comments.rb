@@ -56,12 +56,42 @@ describe('Comments::Controller::Comments') do
       :comment          => 'Spec comment'
     )
 
-    message        = lang('comments.messages.no_comments')
+    message = lang('comments.messages.no_comments')
 
     visit(index_url)
 
     page.has_content?(message).should           == false
     page.has_selector?('table tbody tr').should == true
+  end
+
+  it('Search for a comment') do
+    visit(index_url)
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec comment')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should          == false
+    page.has_content?('Spec comment').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'spec@domain.tld')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should          == false
+    page.has_content?('Spec comment').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should          == false
+    page.has_content?('Spec comment').should == false
   end
 
   it('Edit an existing comment') do

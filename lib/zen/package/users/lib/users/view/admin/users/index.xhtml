@@ -1,4 +1,6 @@
-<article>
+<section>
+    #{render_search_form(Users::Controller::Users.r(:index))}
+
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
@@ -18,6 +20,7 @@
                     <?r end ?>
 
                     <th>#{lang('users.labels.id')}</th>
+                    <th>#{lang('users.labels.name')}</th>
                     <th>#{lang('users.labels.email')}</th>
                     <th>#{lang('users.labels.status')}</th>
                     <th>#{lang('users.labels.created_at')}</th>
@@ -39,11 +42,12 @@
 
                     <td>
                         #{if user_authorized?(:edit_user)
-                          Users::Controller::Users.a(user.email, :edit, user.id)
+                          Users::Controller::Users.a(user.name, :edit, user.id)
                         else
-                          user.email
+                          user.name
                         end}
                     </td>
+                    <td>#{user.email}</td>
                     <td>#{lang("users.special.status_hash.#{user.status}")}</td>
                     <td>#{format_date(user.created_at)}</td>
                     <td>#{format_date(user.updated_at)}</td>
@@ -75,4 +79,4 @@
         </div>
         <?r end ?>
     </form>
-</article>
+</section>

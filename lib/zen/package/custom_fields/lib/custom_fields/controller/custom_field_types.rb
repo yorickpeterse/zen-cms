@@ -104,9 +104,14 @@ module CustomFields
 
         set_breadcrumbs(lang('custom_field_types.titles.index'))
 
-        @field_types = paginate(
-          ::CustomFields::Model::CustomFieldType.eager(:custom_field_method)
-        )
+        @field_types = search do |query|
+          ::CustomFields::Model::CustomFieldType.search(query)
+        end
+
+        @field_types ||= ::CustomFields::Model::CustomFieldType \
+          .eager(:custom_field_method)
+
+        @field_types = paginate(@field_types)
       end
 
       ##

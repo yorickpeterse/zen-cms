@@ -71,9 +71,32 @@ describe("Users::Controller::Users") do
     page.find('input[name="email"]').value.should == 'spec@email.com'
   end
 
+  it('Search for a user') do
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    visit(index_url)
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec user')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should       == false
+    page.has_content?('Spec user').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should       == false
+    page.has_content?('Spec user').should == false
+  end
+
   it("Edit an existing user") do
     visit(index_url)
-    click_link('spec@email.com')
+    click_link('Spec user')
 
     within('#user_form') do
       fill_in('name', :with => 'Spec user modified')
@@ -87,7 +110,7 @@ describe("Users::Controller::Users") do
 
   it("Edit an existing user with invalid data") do
     visit(index_url)
-    click_link('spec@email.com')
+    click_link('Spec user')
 
     within('#user_form') do
       fill_in('form_name', :with => '')
@@ -160,7 +183,7 @@ describe("Users::Controller::Users") do
     end
 
     visit(index_url)
-    click_on('spec@email.com')
+    click_on('User with event')
 
     within('#user_form') do
       click_on(save_button)

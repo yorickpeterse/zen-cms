@@ -1,4 +1,4 @@
-<article>
+<section>
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
@@ -37,12 +37,15 @@
       f.g.div(:id => 'general') do
         f.input_text(
           lang('sections.labels.name'),
-          :name
+          :name,
+          :required  => :required,
+          :maxlength => 255
         )
 
         f.input_text(
           lang('sections.labels.slug'),
-          :slug
+          :slug,
+          :maxlength => 255
         )
 
         f.textarea(
@@ -57,21 +60,24 @@
           lang('sections.labels.comment_allow'),
           :comment_allow,
           @section.comment_allow,
-          :values => @boolean_hash.invert
+          :values   => @boolean_hash.invert,
+          :required => :required
         )
 
         f.input_radio(
           lang('sections.labels.comment_require_account'),
           :comment_require_account,
           @section.comment_require_account,
-          :values => @boolean_hash.invert
+          :values   => @boolean_hash.invert,
+          :required => :required
         )
 
         f.input_radio(
           lang('sections.labels.comment_moderate'),
           :comment_moderate,
           @section.comment_moderate,
-          :values => @boolean_hash.invert
+          :values   => @boolean_hash.invert,
+          :required => :required
         )
 
         f.select(
@@ -79,7 +85,8 @@
           :comment_format,
           :values   => Zen::Plugin::Markup::Engines,
           :selected => @section.comment_format,
-          :size     => 1
+          :size     => 1,
+          :required => :required
         )
       end # f.g.div(:id => 'comments')
 
@@ -103,4 +110,4 @@
         f.g.input(:type => 'submit', :value => lang('sections.buttons.save'))
       end
     end}
-</article>
+</section>

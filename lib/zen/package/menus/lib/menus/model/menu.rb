@@ -8,9 +8,27 @@ module Menus
     # @since  0.2a
     #
     class Menu < Sequel::Model
+      include Zen::Model::Helper
+
       plugin :sluggable, :source => :name, :freeze => false
 
       one_to_many :menu_items, :class => 'Menus::Model::MenuItem'
+
+      ##
+      # Searches for a set of menus.
+      #
+      # @author Yorick Peterse
+      # @since  16-10-2011
+      # @param  [String] query The search query.
+      # @return [Mixed]
+      #
+      def self.search(query)
+        return filter(
+          search_column(:name, query) |
+          search_column(:html_class, query) |
+          search_column(:html_id, query)
+        )
+      end
 
       ##
       # Specifies all validates rules used when creating or updating a menu.

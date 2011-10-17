@@ -118,7 +118,12 @@ module Menus
 
         set_breadcrumbs(lang('menus.titles.index'))
 
-        @menus = paginate(::Menus::Model::Menu)
+        @menus = search do |query|
+          ::Menus::Model::Menu.search(query)
+        end
+
+        @menus ||= ::Menus::Model::Menu
+        @menus   = paginate(@menus)
       end
 
       ##

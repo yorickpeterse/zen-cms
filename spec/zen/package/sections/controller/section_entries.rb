@@ -93,6 +93,29 @@ describe("Sections::Controller::SectionEntries") do
     page.find_field('Spec field').value.should    == 'Spec field value'
   end
 
+  it('Search for a section entry') do
+    search_button = lang('zen_general.buttons.search')
+    error         = lang('zen_general.errors.invalid_search')
+
+    visit(index_url)
+
+    within('#search_form') do
+      fill_in('query', :with => 'Spec entry')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should        == false
+    page.has_content?('Spec entry').should == true
+
+    within('#search_form') do
+      fill_in('query', :with => 'does not exist')
+      click_on(search_button)
+    end
+
+    page.has_content?(error).should        == false
+    page.has_content?('Spec entry').should == false
+  end
+
   it("Edit an existing section entry") do
     visit(index_url)
     click_link('Spec entry')

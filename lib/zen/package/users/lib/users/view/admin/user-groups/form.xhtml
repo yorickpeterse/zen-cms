@@ -1,4 +1,4 @@
-<article>
+<section>
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
@@ -35,19 +35,23 @@
       f.g.div(:id => 'user_group_tab') do
         f.input_text(
           lang('user_groups.labels.name'),
-          :name
+          :name,
+          :required  => :required,
+          :maxlength => 255
         )
 
         f.input_text(
           lang('user_groups.labels.slug'),
-          :slug
+          :slug,
+          :maxlength => 255
         )
 
         f.input_radio(
           lang('user_groups.labels.super_group'),
           :super_group,
           @user_group.super_group,
-          :values => @boolean_hash.invert
+          :values   => @boolean_hash.invert,
+          :required => :required
         )
 
         f.textarea(
@@ -70,4 +74,4 @@
         )
       end
     end}
-</article>
+</section>

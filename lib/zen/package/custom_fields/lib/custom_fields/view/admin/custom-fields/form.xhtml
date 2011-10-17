@@ -1,4 +1,4 @@
-<article>
+<section>
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
@@ -33,12 +33,15 @@
       f.g.div(:id => 'general') do
         f.input_text(
           lang('custom_fields.labels.name'),
-          :name
+          :name,
+          :required  => :required,
+          :maxlength => 255
         )
 
         f.input_text(
           lang('custom_fields.labels.slug'),
-          :slug
+          :slug,
+          :maxlength => 255
         )
 
         f.select(
@@ -46,7 +49,8 @@
           :custom_field_type_id,
           :values   => @custom_field_types,
           :size     => 1,
-          :selected => @custom_field.custom_field_type_id
+          :selected => @custom_field.custom_field_type_id,
+          :required => :required
         )
 
         f.select(
@@ -87,17 +91,20 @@
 
         f.input_text(
           lang('custom_fields.labels.textarea_rows'),
-          :textarea_rows
+          :textarea_rows,
+          :pattern => '\\\d*'
         )
 
         f.input_text(
           lang('custom_fields.labels.text_limit'),
-          :text_limit
+          :text_limit,
+          :pattern => '\\\d*'
         )
 
         f.input_text(
           lang('custom_fields.labels.sort_order'),
-          :sort_order
+          :sort_order,
+          :pattern => '\\\d*'
         )
       end
 
@@ -108,4 +115,4 @@
         )
       end
     end}
-</article>
+</section>

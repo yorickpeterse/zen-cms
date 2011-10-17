@@ -1,4 +1,8 @@
-<article>
+<section>
+    #{render_search_form(
+      ::CustomFields::Controller::CustomFieldTypes.r(:index)
+    )}
+
     <header>
         <h1>#{get_breadcrumbs}</h1>
     </header>
@@ -91,4 +95,4 @@
         </div>
         <?r end ?>
     </form>
-</article>
+</section>
