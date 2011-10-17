@@ -45,7 +45,7 @@ module CustomFields
           :custom_field_type_id
         ])
 
-        validates_max_length(255, [:name])
+        validates_max_length(255, [:name, :slug])
         validates_type(TrueClass, [:required, :text_editor])
 
         validates_integer([

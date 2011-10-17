@@ -14,7 +14,9 @@
 
       f.input_text(
         lang('custom_field_groups.labels.name'),
-        :name
+        :name,
+        :required  => :required,
+        :maxlength => 255
       )
 
       f.textarea(

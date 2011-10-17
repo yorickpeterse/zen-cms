@@ -124,6 +124,7 @@ module Users
         validates_presence([:email, :name])
         validates_unique(:email)
         validates_presence(:password) if new?
+        validates_max_length(255, [:email, :name, :website])
         validates_format(/^\S+@\S+\.\w{2,}/, :email)
       end
     end # User

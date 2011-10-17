@@ -36,17 +36,23 @@
       f.g.div(:id => 'user_tab') do
         f.input_text(
           lang('users.labels.name'),
-          :name
+          :name,
+          :required  => :required,
+          :maxlength => 255
         )
 
         f.input_text(
           lang('users.labels.email'),
-          :email
+          :email,
+          :required  => :required,
+          :maxlength => 255,
+          :pattern   => '^\\\S+@\\\S+\\\.\\\w{2,}'
         )
 
         f.input_text(
           lang('users.labels.website'),
-          :website
+          :website,
+          :maxlength => 255
         )
 
         f.input_password(

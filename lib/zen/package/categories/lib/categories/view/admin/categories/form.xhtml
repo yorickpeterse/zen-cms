@@ -25,7 +25,8 @@
         f.input_text(
           lang('categories.labels.slug'),
           :slug,
-          :placeholder => lang('categories.placeholders.slug')
+          :placeholder => lang('categories.placeholders.slug'),
+          :maxlength   => 255
         )
 
         f.select(

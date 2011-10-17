@@ -15,25 +15,32 @@
       f.input_text(
         lang('menus.labels.name'),
         :name,
-        :placeholder => lang('menus.placeholders.name')
+        :placeholder => lang('menus.placeholders.name'),
+        :required    => :required,
+        :maxlength   => 255
       )
 
       f.input_text(
         lang('menus.labels.slug'),
         :slug,
-        :placeholder => lang('menus.placeholders.slug')
+        :placeholder => lang('menus.placeholders.slug'),
+        :maxlength   => 255
       )
 
       f.input_text(
         lang('menus.labels.html_class'),
         :html_class,
-        :placeholder => lang('menus.placeholders.html_class')
+        :placeholder => lang('menus.placeholders.html_class'),
+        :maxlength   => 255,
+        :pattern     => '^[a-zA-Z\\\-_0-9\\\s]*$'
       )
 
       f.input_text(
         lang('menus.labels.html_id'),
         :html_id,
-        :placeholder => lang('menus.placeholders.html_id')
+        :placeholder => lang('menus.placeholders.html_id'),
+        :maxlength   => 255,
+        :pattern     => '^[a-zA-Z\\\-_0-9]*$'
       )
 
       f.textarea(

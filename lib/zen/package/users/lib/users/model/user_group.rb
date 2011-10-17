@@ -39,6 +39,7 @@ module Users
       #
       def validate
         validates_presence([:name, :super_group])
+        validates_max_length(255, :name)
         validates_unique(:slug)
 
         validates_type(TrueClass, :super_group)

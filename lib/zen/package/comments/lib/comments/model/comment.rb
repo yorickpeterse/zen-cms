@@ -74,6 +74,7 @@ module Comments
       def validate
         validates_presence([:comment, :section_entry_id])
         validates_integer([:comment_status_id, :section_entry_id])
+        validates_max_length(255, [:name, :email, :website])
 
         if user_id.nil?
           validates_presence([:name, :email])

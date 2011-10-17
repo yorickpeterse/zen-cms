@@ -40,12 +40,15 @@
         f.g.div(:id => :basic) do
           f.input_text(
             lang('section_entries.labels.title'),
-            :title
+            :title,
+            :required  => :required,
+            :maxlength => 255
           )
 
           f.input_text(
             lang('section_entries.labels.slug'),
-            :slug
+            :slug,
+            :maxlength => 255
           )
 
           # Only show the date field when modifying an existing entry
@@ -60,8 +63,9 @@
           f.select(
             lang('section_entries.labels.author'),
             :user_id,
-            :values => ::Users::Model::User.pk_hash(:name),
-            :size   => 1
+            :values   => ::Users::Model::User.pk_hash(:name),
+            :size     => 1,
+            :required => :required
           )
 
           f.select(
