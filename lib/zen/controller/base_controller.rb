@@ -12,7 +12,13 @@ module Zen
     #
     class BaseController < Ramaze::Controller
       helper :user, :csrf, :message, :cgi, :locale, :controller,
-        :blue_form_vendor
+        :blue_form_vendor, :paginate
+
+      # Configure the pagination helper
+      trait :paginate => {
+        :limit => 20,
+        :var   => 'page'
+      }
     end # BaseController
   end # Controller
 end # Zen

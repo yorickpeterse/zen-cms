@@ -47,3 +47,9 @@ special:
   boolean_hash:
     'true'    : 'Yes'
     'false'   : 'No'
+
+markup:
+  html     : 'HTML'
+  markdown : 'Markdown'
+  textile  : 'Textile'
+  plain    : 'Plain text'

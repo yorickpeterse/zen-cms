@@ -24,24 +24,9 @@ require __DIR__('comments/model/comment_status')
 require __DIR__('comments/model/comment')
 require __DIR__('comments/controller/comments')
 require __DIR__('comments/controller/comments_form')
-require __DIR__('comments/plugin/comments')
-require __DIR__('comments/plugin/anti_spam')
+require __DIR__('comments/anti_spam')
 
-Zen::Plugin.add do |p|
-  p.name    = 'comments'
-  p.author  = 'Yorick Peterse'
-  p.url     = 'http://yorickpeterse.com/'
-  p.about   = 'comments.plugin.comments'
-  p.plugin  = Comments::Plugin::Comments
-end
-
-Zen::Plugin.add do |p|
-  p.name    = 'anti_spam'
-  p.author  = 'Yorick Peterse'
-  p.url     = 'http://yorickpeterse.com/'
-  p.about   = 'comments.plugins.anti_spam'
-  p.plugin  = Comments::Plugin::AntiSpam
-end
+Zen::Controller::FrontendController.helper(:comment_frontend)
 
 plugin(:settings, :register) do |setting|
   setting.title       = 'comments.labels.anti_spam_system'
@@ -50,7 +35,7 @@ plugin(:settings, :register) do |setting|
   setting.group       = 'security'
   setting.type        = 'select'
   setting.default     = 'defensio'
-  setting.values      = {'defensio' => lang('comments.labels.defensio')}
+  setting.values      = lambda { Comments::AntiSpam::Registered }
 end
 
 plugin(:settings, :register) do |setting|

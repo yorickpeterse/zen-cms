@@ -22,13 +22,7 @@ module Zen
     class AdminController < Zen::Controller::BaseController
       layout :admin
       engine :etanni
-      helper :breadcrumb, :paginate, :asset, :search
-
-      # Configure the pagination
-      trait :paginate => {
-        :limit => 20,
-        :var   => 'page'
-      }
+      helper :breadcrumb, :asset, :search
 
       ##
       # The initialize method is called upon class initalization and is used to

@@ -42,7 +42,10 @@ module Zen
 
         begin
           respond(
-            plugin(:markup, request.params['engine'], request.params['markup']),
+            Zen::Markup.convert(
+              request.params['engine'],
+              request.params['markup']
+            ),
             200
           )
         rescue

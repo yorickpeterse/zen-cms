@@ -1,6 +1,0 @@
----
-engines:
-  html     : 'HTML'
-  markdown : 'Markdown'
-  textile  : 'Textile'
-  plain    : 'Plain text'

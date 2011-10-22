@@ -31,12 +31,5 @@ require __DIR__('categories/model/category_group')
 require __DIR__('categories/model/category')
 require __DIR__('categories/controller/category_groups')
 require __DIR__('categories/controller/categories')
-require __DIR__('categories/plugin/categories')
 
-Zen::Plugin.add do |p|
-  p.name   = 'categories'
-  p.author = 'Yorick Peterse'
-  p.url    = 'http://yorickpeterse.com/'
-  p.about  = 'categories.plugin_description'
-  p.plugin = Categories::Plugin::Categories
-end
+Zen::Controller::FrontendController.helper(:category_frontend)

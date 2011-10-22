@@ -195,7 +195,7 @@ module Sections
 
             # Convert the markup
             if @options[:markup] === true
-              value = plugin(:markup, field.format, value)
+              value = Zen::Markup.convert(field.format, value)
             end
 
             field_values[name] = value

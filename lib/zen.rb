@@ -66,8 +66,6 @@ module Zen
         raise('You need to specify a valid root directory in Zen.root')
       end
 
-      Zen::Language.load('zen_general')
-
       require __DIR__('zen/model/init')
       require __DIR__('zen/model/methods')
 
@@ -90,8 +88,6 @@ module Zen
             'table is up to date'
         )
       end
-
-      require __DIR__('zen/plugin/markup/lib/markup')
 
       Zen.asset.build(:javascript)
       Zen.asset.build(:css)
@@ -183,20 +179,23 @@ Ramaze::Cache.options.settings = Ramaze::Cache::LRU
 
 # Load all classes/modules provided by Zen itself.
 require __DIR__('zen/error')
+require __DIR__('zen/language')
 require __DIR__('zen/validation')
 require __DIR__('zen/plugin')
 require __DIR__('zen/event')
-require __DIR__('zen/language')
 require __DIR__('zen/model/helper')
-
-# Load a set of modules into the global namespace
-include Zen::Plugin::SingletonMethods
-include Zen::Language::SingletonMethods
 
 Ramaze::HelpersHelper.options.paths.push(__DIR__('zen'))
 Ramaze.options.roots.push(__DIR__('zen'))
 Zen::Language.options.paths.push(__DIR__('zen'))
 
+Zen::Language.load('zen_general')
+
+# Load a set of modules into the global namespace
+include Zen::Plugin::SingletonMethods
+include Zen::Language::SingletonMethods
+
+require __DIR__('zen/markup')
 require __DIR__('zen/package')
 require __DIR__('zen/theme')
 require __DIR__('zen/plugin/helper')

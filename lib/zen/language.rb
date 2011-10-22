@@ -115,180 +115,182 @@ module Zen
         :paths, []
     end
 
-    ##
-    # Tries to load a language file for the given name. If no language files
-    # were found based on the name and the current language an exception will
-    # be raised.
-    #
-    # Note that this method will load the language pack for *all* languages.
-    #
-    # @example
-    #  Zen::Language.load('user')
-    #
-    # @author Yorick Peterse
-    # @since  0.1
-    # @param  [String] lang_name The name of the language file to load.
-    #
-    def self.load(lang_name)
-      lang_name  = lang_name.to_s
-      file_found = false
+    class << self
+      ##
+      # Tries to load a language file for the given name. If no language files
+      # were found based on the name and the current language an exception will
+      # be raised.
+      #
+      # Note that this method will load the language pack for *all* languages.
+      #
+      # @example
+      #  Zen::Language.load('user')
+      #
+      # @author Yorick Peterse
+      # @since  0.1
+      # @param  [String] lang_name The name of the language file to load.
+      #
+      def load(lang_name)
+        lang_name  = lang_name.to_s
+        file_found = false
 
-      Languages.each do |language, label|
-        Loaded[language]       ||= []
-        Translations[language] ||= {}
+        Languages.each do |language, label|
+          Loaded[language]       ||= []
+          Translations[language] ||= {}
 
-        # Abort of the file has already been loaded
-        if Loaded.key?(language) and Loaded[language].include?(lang_name)
-          file_found = true
-          break
-        end
+          # Abort of the file has already been loaded
+          if Loaded.key?(language) and Loaded[language].include?(lang_name)
+            file_found = true
+            break
+          end
 
-        self.options.paths.each do |path|
-          path += "/language/#{language}/#{lang_name}.yml"
+          self.options.paths.each do |path|
+            path += "/language/#{language}/#{lang_name}.yml"
 
-          # Load the file and save it
-          if File.exist?(path)
-            file_found  = true
-            translation = YAML.load_file(path)
+            # Load the file and save it
+            if File.exist?(path)
+              file_found  = true
+              translation = YAML.load_file(path)
 
-            Loaded[language].push(lang_name)
+              Loaded[language].push(lang_name)
 
-            # Conver the hash to a dot based hash. This means that
-            # {:person => {:age => 18}} would result in {'person.age' => 18}.
-            translation = self.to_dotted_hash({lang_name => translation})
+              # Conver the hash to a dot based hash. This means that
+              # {:person => {:age => 18}} would result in {'person.age' => 18}.
+              translation = to_dotted_hash({lang_name => translation})
 
-            Translations[language].merge!(translation)
+              Translations[language].merge!(translation)
+            end
           end
         end
-      end
 
-      if file_found === false
-        raise(
-          Zen::LanguageError,
-          "No language file could be found for \"#{lang_name}\""
-        )
-      end
-    end
-
-    ##
-    # Returns the language code to use for either the frontend or backend.
-    #
-    # @author Yorick Peterse
-    # @since  0.2.9
-    # @return [String]
-    #
-    def self.current
-      if !Ramaze::Current.actions.nil? and !Ramaze::Current.action.nil?
-        # The backend
-        if Ramaze::Current.action.node.request.env['SCRIPT_NAME'] \
-        =~ /^\/admin.*/
-          method = :language
-        # Probably the frontend
-        else
-          method = :frontend_language
-        end
-
-        # Extract the language from the current User object.
-        if Ramaze::Helper.const_defined?(:UserHelper)
-          model = Ramaze::Current.action.node.request \
-            .env[::Ramaze::Helper::UserHelper::RAMAZE_HELPER_USER]
-
-          if model.respond_to?(method)
-            lang = model.send(method)
-          end
+        if file_found === false
+          raise(
+            Zen::LanguageError,
+            "No language file could be found for \"#{lang_name}\""
+          )
         end
       end
 
-      # Make sure there always is a language set
-      if !lang
-        # Plugins aren't available yet when this class is loaded, use the
-        # fallback language if needed.
-        begin
-          if method
-            lang = plugin(:settings, :get, method).value
+      ##
+      # Returns the language code to use for either the frontend or backend.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @return [String]
+      #
+      def current
+        if !Ramaze::Current.actions.nil? and !Ramaze::Current.action.nil?
+          # The backend
+          if Ramaze::Current.action.node.request.env['SCRIPT_NAME'] \
+          =~ /^\/admin.*/
+            method = :language
+          # Probably the frontend
           else
-            lang = plugin(:settings, :get, :language).value
+            method = :frontend_language
           end
-        rescue
-          lang = Zen::Language.options.language
+
+          # Extract the language from the current User object.
+          if Ramaze::Helper.const_defined?(:UserHelper)
+            model = Ramaze::Current.action.node.request \
+              .env[::Ramaze::Helper::UserHelper::RAMAZE_HELPER_USER]
+
+            if model.respond_to?(method)
+              lang = model.send(method)
+            end
+          end
         end
+
+        # Make sure there always is a language set
+        if !lang
+          # Plugins aren't available yet when this class is loaded, use the
+          # fallback language if needed.
+          begin
+            if method
+              lang = plugin(:settings, :get, method).value
+            else
+              lang = plugin(:settings, :get, :language).value
+            end
+          rescue
+            lang = Zen::Language.options.language
+          end
+        end
+
+        return lang
       end
 
-      return lang
-    end
+      private
 
-    private
-
-    ##
-    # Method that takes a hash or an array and converts it to a dot-based hash.
-    # For example, the following hash:
-    #
-    #     {
-    #       :name     => 'Name',
-    #       :location => {
-    #         :street  => 'Street',
-    #         :address => 'Address'
-    #       }
-    #     }
-    #
-    # would result in the following:
-    #
-    #     {
-    #       'name'             => 'Name',
-    #       'location.street'  => 'Street',
-    #       'location.address' => 'Address'
-    #     }
-    #
-    # Using arrays would result in the following:
-    #
-    #     out = to_dotted_hash(["Hello", "World"])
-    #     puts out # => {'1' => 'Hello', '2' => 'World'}
-    #
-    # While it looks a bit goofy this allows you to do the following:
-    #
-    #     lang('1') # => 'Hello'
-    #
-    # @example
-    #  self.to_dotted_hash({:name => "Yorick"}) # => {'name' => 'Yorick'}
-    #
-    # The code for this method was mostly taken from a comment on Stack
-    # Overflow. This comment can be found here: <http://bit.ly/dHTjVR>
-    #
-    # @author Yorick Peterse
-    # @since  0.2
-    # @param  [Hash/Array] source The hash or array to conver to a dot-based
-    #  hash.
-    # @param  [Hash] target The hash to store the new key/values in.
-    # @param  [String] namespace The namespace for the key
-    #  (e.g. "user.location").
-    # @return [Hash] The converted hash where the keys are dot-based strings
-    #  instead of regular strings/symbols with sub hashes.
-    #
-    def self.to_dotted_hash(source, target = {}, namespace = nil)
-      if namespace and !namespace.nil?
-        prefix = "#{namespace}."
-      else
-        prefix = nil
-      end
-
-      if source.class == Hash
-        source.each do |k, v|
-          self.to_dotted_hash(v, target, "#{prefix}#{k}")
-        end
-      elsif source.class == Array
-        source.each_with_index do |v, i|
-          self.to_dotted_hash(v, target, "#{prefix}#{i}")
-        end
-      else
-        if !namespace.nil?
-          target[namespace] = source
+      ##
+      # Method that takes a hash or an array and converts it to a dot-based hash.
+      # For example, the following hash:
+      #
+      #     {
+      #       :name     => 'Name',
+      #       :location => {
+      #         :street  => 'Street',
+      #         :address => 'Address'
+      #       }
+      #     }
+      #
+      # would result in the following:
+      #
+      #     {
+      #       'name'             => 'Name',
+      #       'location.street'  => 'Street',
+      #       'location.address' => 'Address'
+      #     }
+      #
+      # Using arrays would result in the following:
+      #
+      #     out = to_dotted_hash(["Hello", "World"])
+      #     puts out # => {'1' => 'Hello', '2' => 'World'}
+      #
+      # While it looks a bit goofy this allows you to do the following:
+      #
+      #     lang('1') # => 'Hello'
+      #
+      # @example
+      #  self.to_dotted_hash({:name => "Yorick"}) # => {'name' => 'Yorick'}
+      #
+      # The code for this method was mostly taken from a comment on Stack
+      # Overflow. This comment can be found here: <http://bit.ly/dHTjVR>
+      #
+      # @author Yorick Peterse
+      # @since  0.2
+      # @param  [Hash/Array] source The hash or array to conver to a dot-based
+      #  hash.
+      # @param  [Hash] target The hash to store the new key/values in.
+      # @param  [String] namespace The namespace for the key
+      #  (e.g. "user.location").
+      # @return [Hash] The converted hash where the keys are dot-based strings
+      #  instead of regular strings/symbols with sub hashes.
+      #
+      def to_dotted_hash(source, target = {}, namespace = nil)
+        if namespace and !namespace.nil?
+          prefix = "#{namespace}."
         else
-          target = source
+          prefix = nil
         end
-      end
 
-      return target
-    end
+        if source.class == Hash
+          source.each do |k, v|
+            to_dotted_hash(v, target, "#{prefix}#{k}")
+          end
+        elsif source.class == Array
+          source.each_with_index do |v, i|
+            to_dotted_hash(v, target, "#{prefix}#{i}")
+          end
+        else
+          if !namespace.nil?
+            target[namespace] = source
+          else
+            target = source
+          end
+        end
+
+        return target
+      end
+    end # class << self
 
     #:nodoc:
     module SingletonMethods

@@ -10,7 +10,9 @@ module Comments
     class Comment < Sequel::Model
       include Zen::Model::Helper
 
-      many_to_one :section_entry , :class => 'Sections::Model::SectionEntry'
+      many_to_one :section_entry, :class => 'Sections::Model::SectionEntry',
+        :eager => [:section]
+
       many_to_one :user          , :class => 'Users::Model::User'
       many_to_one :comment_status, :class => 'Comments::Model::CommentStatus'
 
@@ -187,6 +189,21 @@ module Comments
         else
           return _comment
         end
+      end
+
+      ##
+      # Returns the text of the comment in HTML based on the markup engine used
+      # by the section that the comment belongs to.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @return [String]
+      #
+      def comment_html
+        return Zen::Markup.convert(
+          section_entry.section.comment_format,
+          comment
+        )
       end
 
       ##

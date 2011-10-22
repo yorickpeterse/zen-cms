@@ -45,3 +45,9 @@ special:
   boolean_hash:
     'true' : 'Ja'
     'false': 'Nee'
+
+markup:
+  html     : 'HTML'
+  markdown : 'Markdown'
+  textile  : 'Textile'
+  plain    : 'Platte tekst'

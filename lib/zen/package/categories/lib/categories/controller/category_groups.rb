@@ -9,15 +9,12 @@
 # ## Helpers
 #
 # * {Ramaze::Helper::Category}
+# * {Ramaze::Helper::CategoryFrontend}
 #
 # ## Models
 #
 # * {Categories::Model::CategoryGroup}
 # * {Categories::Model::Category}
-#
-# ## Plugins
-#
-# * {Categories::Plugin::Categories}
 #
 # @author Yorick Peterse
 # @since  0.1
