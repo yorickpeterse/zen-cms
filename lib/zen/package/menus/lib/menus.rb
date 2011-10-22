@@ -27,12 +27,5 @@ require __DIR__('menus/model/menu')
 require __DIR__('menus/model/menu_item')
 require __DIR__('menus/controller/menus')
 require __DIR__('menus/controller/menu_items')
-require __DIR__('menus/plugin/menus')
 
-Zen::Plugin.add do |p|
-  p.name    = 'menus'
-  p.author  = 'Yorick Peterse'
-  p.url     = 'http://yorickpeterse.com/'
-  p.about   = 'menus.plugin_description'
-  p.plugin  = Menus::Plugin::Menus
-end
+Zen::Controller::FrontendController.helper(:menu_frontend)
