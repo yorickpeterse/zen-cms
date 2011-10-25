@@ -199,7 +199,7 @@ module Comments
       # @since  0.2.9
       # @return [String]
       #
-      def comment_html
+      def html
         return Zen::Markup.convert(
           section_entry.section.comment_format,
           comment

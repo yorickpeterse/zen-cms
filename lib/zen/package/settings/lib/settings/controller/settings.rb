@@ -91,12 +91,11 @@ module Settings
         set_breadcrumbs(lang('settings.titles.index'))
 
         @settings_ordered = {}
-        @groups           = ::Settings::Plugin::Settings::Registered[:groups]
+        @groups           = ::Settings::SettingsGroup::Registered
 
         # Organize the settings so that each item is a child
         # item of it's group.
-        ::Settings::Plugin::Settings::Registered[:settings] \
-        .each do |name, setting|
+        ::Settings::Setting::Registered.each do |name, setting|
           if !@settings_ordered.key?(setting.group)
             @settings_ordered[setting.group] = []
           end
@@ -126,7 +125,7 @@ module Settings
 
         # Update all settings
         post.each do |key, value|
-          setting = plugin(:settings, :get, key)
+          setting = get_setting(key)
 
           begin
             setting.value = value

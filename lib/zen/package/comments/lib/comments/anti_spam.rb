@@ -113,7 +113,7 @@ module Comments
         end
 
         spam    = true
-        api_key = plugin(:settings, :get, :defensio_key).value
+        api_key = get_setting(:defensio_key).value
 
         if api_key.nil? or api_key.empty?
           raise('You need to specify an API key for the defensio system')

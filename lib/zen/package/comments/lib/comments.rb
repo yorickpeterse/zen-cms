@@ -28,7 +28,7 @@ require __DIR__('comments/anti_spam')
 
 Zen::Controller::FrontendController.helper(:comment_frontend)
 
-plugin(:settings, :register) do |setting|
+Settings::Setting.add do |setting|
   setting.title       = 'comments.labels.anti_spam_system'
   setting.description = 'comments.placeholders.anti_spam_system'
   setting.name        = 'anti_spam_system'
@@ -38,7 +38,7 @@ plugin(:settings, :register) do |setting|
   setting.values      = lambda { Comments::AntiSpam::Registered }
 end
 
-plugin(:settings, :register) do |setting|
+Settings::Setting.add do |setting|
   setting.title       = 'comments.labels.defensio_key'
   setting.description = 'comments.placeholders.defensio_key'
   setting.name        = 'defensio_key'

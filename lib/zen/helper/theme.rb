@@ -27,7 +27,7 @@ module Ramaze
       #  available for the partial.
       #
       def partial(file, variables = {})
-        theme = plugin(:settings, :get, :theme).value
+        theme = get_setting(:theme).value
         theme = Zen::Theme[theme]
 
         if !theme.respond_to?(:partial_dir) or theme.partial_dir.nil?
@@ -62,7 +62,7 @@ module Ramaze
       # @param  [Hash] variables Hash with variables to pass to the 404 template.
       #
       def show_404(variables = {})
-        theme    = ::Zen::Theme[plugin(:settings, :get, :theme).value]
+        theme    = ::Zen::Theme[get_setting(:theme).value]
         template = File.join(theme.template_dir, '404.xhtml')
         template = render_file(template, variables)
 

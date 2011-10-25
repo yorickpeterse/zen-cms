@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="#{plugin(:settings, :get, :language).value}">
+<html lang="#{get_setting(:language).value}">
     <head>
         #{render_file(__DIR__('../view/head.xhtml'))}
     </head>

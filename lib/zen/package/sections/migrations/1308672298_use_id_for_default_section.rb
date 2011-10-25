@@ -2,7 +2,7 @@ Sequel.migration do
   # Updates the database with the changes specified in the block.
   up do
     # Make sure the settings table has been migrated
-    ::Zen::Plugin.plugin(:settings, :migrate)
+    ::Settings::Setting.migrate
 
     if !Zen.database[:sections].all.empty?
       default_section = Zen.database[:settings] \

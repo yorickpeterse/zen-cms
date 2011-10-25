@@ -206,9 +206,9 @@ module Zen
           # fallback language if needed.
           begin
             if method
-              lang = plugin(:settings, :get, method).value
+              lang = get_setting(method).value
             else
-              lang = plugin(:settings, :get, :language).value
+              lang = get_setting(:language).value
             end
           rescue
             lang = Zen::Language.options.language

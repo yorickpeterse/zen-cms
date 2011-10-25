@@ -60,8 +60,8 @@ describe('Ramaze::Helper::CommentFrontend') do
     comments = get_comments(entry.id).all
 
     comments.count.should                 == 2
-    comments[0].comment_html.strip.should == '<p>Spec comment</p>'
-    comments[1].comment_html.strip.should == '<p>Spec comment 1</p>'
+    comments[0].html.strip.should == '<p>Spec comment</p>'
+    comments[1].html.strip.should == '<p>Spec comment 1</p>'
   end
 
   it('Retrieve a single comment') do

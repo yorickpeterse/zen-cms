@@ -100,7 +100,7 @@
         f.select(
           lang('users.labels.date_format'),
           :date_format,
-          :values   => plugin(:settings, :get, 'date_format').values,
+          :values   => get_setting(:date_format).values,
           :selected => @user.date_format,
           :size     => 1
         )

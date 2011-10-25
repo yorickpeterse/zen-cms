@@ -1,6 +1,16 @@
 require File.expand_path('../../../../../helper', __FILE__)
+require File.join(
+  Zen::Fixtures,
+  'package',
+  'sections',
+  'helper',
+  'section_frontend'
+)
 
-describe('Sections::Plugin::SectionEntries') do
+describe('Ramaze::Helper::SectionFrontend') do
+  extend       Ramaze::Helper::SectionFrontend
+  behaves_like :capybara
+
   user           = Users::Model::User[:email => 'spec@domain.tld']
   status_id      = Sections::Model::SectionEntryStatus[:name => 'published'].id
   comment_status = Comments::Model::CommentStatus[:name => 'open'].id
@@ -68,102 +78,71 @@ describe('Sections::Plugin::SectionEntries') do
     :value           => 'hello'
   )
 
-  it('Raise when no section or entry has been specified') do
-    should.raise?(ArgumentError) do
-      plugin(:section_entries)
-    end
-  end
-
   it('Retrieve all section entries') do
-    entries = plugin(
-      :section_entries,
-      :section    => 'spec',
+    entries = get_entries(
+      section.slug,
       :comments   => true,
       :categories => true,
       :order      => :asc
     )
 
-    entries.count.should                      === 2
-    entries[0].class.should                   ==  Hash
-    entries[0][:title].should                 === 'Spec'
-    entries[1][:title].should                 === 'Spec 1'
-    entries[1][:user][:name].should           === 'Spec'
+    entries.length.should                 == 2
+    entries[0].title.should               == 'Spec'
+    entries[1].title.should               == 'Spec 1'
+    entries[1].user.name.should           == 'Spec'
 
-    entries[1][:comments].empty?.should       === false
-    entries[1][:comments][0][:comment].should === 'Comment'
+    entries[1].comments.empty?.should     == false
+    entries[1].comments[0].comment.should == 'Comment'
 
-    entries[0][:categories].empty?.should     === false
-    entries[0][:categories][0][:name].should  === 'spec category'
+    entries[0].categories.empty?.should   == false
+    entries[0].categories[0].name.should  == 'spec category'
 
-    entries[0][:fields][:'spec-field'].strip.should === '<p>hello</p>'
+    entries[0].fields[:'spec-field'].strip.should == '<p>hello</p>'
   end
 
   it('Retrieve all section entries but sort descending') do
-    entries = plugin(
-      :section_entries,
-      :section    => 'spec',
-      :comments   => true,
-      :categories => true
-    )
+    entries = get_entries(section.slug, :comments => true, :categories => true)
 
-    entries[0][:title].should === 'Spec 1'
-    entries[1][:title].should === 'Spec'
+    entries[0].title.should == 'Spec 1'
+    entries[1].title.should == 'Spec'
   end
 
   it('Retrieve all section entries for an ID') do
-    entries = plugin(
-      :section_entries,
-      :section => section.id,
-      :order   => :asc
-    )
+    entries = get_entries(section.id, :order => :asc)
 
-    entries.count.should      === 2
-    entries[0].class.should   ==  Hash
-    entries[0][:title].should === 'Spec'
-    entries[1][:title].should === 'Spec 1'
+    entries.length.should   == 2
+    entries[0].title.should == 'Spec'
+    entries[1].title.should == 'Spec 1'
   end
 
   it('Retrieve a single entry by it\'s slug') do
-    entry = plugin(:section_entries, :entry => 'spec')
+    entry = get_entry(entry_1.slug)
 
-    entry.class.should   == Hash
-    entry[:title].should === 'Spec'
-    entry[:id].should    === entry_1.id
+    entry.title.should == 'Spec'
+    entry.id.should    == entry_1.id
   end
 
   it('Retrieve a single entry by it\'s ID') do
-    entry = plugin(
-      :section_entries, :entry => entry_1.id
-    )
+    entry = get_entry(entry_1.id)
 
-    entry.class.should   == Hash
-    entry[:title].should === 'Spec'
-    entry[:id].should    === entry_1.id
+    entry.title.should == 'Spec'
+    entry.id.should    == entry_1.id
   end
 
-  it('Limit the amount of entries') do
-    entries = plugin(
-      :section_entries,
-      :section => 'spec',
-      :limit   => 1,
-      :order   => :asc
-    )
+  it('Paginate a set of entries') do
+    visit('/spec-section-frontend')
 
-    entries.count.should      === 1
-    entries[0][:title].should === 'Spec'
-  end
+    page.has_selector?('p').should         == true
+    page.has_selector?('.pager').should    == true
+    page.all('p').length.should            == 1
+    page.find('p:first-child').text.should == entry_2.title
 
-  it('Limit the amount of entries with an offset') do
-    entries = plugin(
-      :section_entries,
-      :section => 'spec',
-      :limit   => 1,
-      :offset  => 1,
-      :order   => :asc
-    )
+    visit('/spec-section-frontend?page=2')
 
-    entries.count.should      === 1
-    entries[0][:title].should === 'Spec 1'
+    page.has_selector?('p').should         == true
+    page.has_selector?('.pager').should    == true
+    page.all('p').length.should            == 1
+    page.find('p:first-child').text.should == entry_1.title
   end
 
   [

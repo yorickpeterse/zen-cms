@@ -26,31 +26,13 @@ Zen::Language.load('section_entries')
 require __DIR__('sections/model/section')
 require __DIR__('sections/model/section_entry')
 require __DIR__('sections/model/section_entry_status')
-
 require __DIR__('sections/controller/sections')
 require __DIR__('sections/controller/section_entries')
 
-require __DIR__('sections/plugin/sections')
-require __DIR__('sections/plugin/section_entries')
-
-Zen::Plugin.add do |p|
-  p.name       = 'sections'
-  p.author     = 'Yorick Peterse'
-  p.about      = 'sections.plugins.sections'
-  p.url        = 'http://yorickpeterse.com/'
-  p.plugin     = Sections::Plugin::Sections
-end
-
-Zen::Plugin.add do |p|
-  p.name       = 'section_entries'
-  p.author     = 'Yorick Peterse'
-  p.about      = 'sections.plugins.section_entries'
-  p.url        = 'http://yorickpeterse.com/'
-  p.plugin     = Sections::Plugin::SectionEntries
-end
+Zen::Controller::FrontendController.helper(:section_frontend)
 
 # Register all the settings
-plugin(:settings, :register) do |setting|
+Settings::Setting.add do |setting|
   setting.title       = lang('settings.labels.default_section')
   setting.description = lang('settings.placeholders.default_section')
   setting.name        = 'default_section'

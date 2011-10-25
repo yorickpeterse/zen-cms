@@ -81,7 +81,7 @@ module Zen
 
       # Migrate all settings
       begin
-        plugin(:settings, :migrate)
+        Settings::Setting.migrate
       rescue => e
         Ramaze::Log.warn(
           'Failed to migrate the settings, make sure the database ' \

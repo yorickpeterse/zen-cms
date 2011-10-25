@@ -25,13 +25,13 @@ module Zen
       #
       def index(*uri)
         @request_uri = []
-        theme        = plugin(:settings, :get, :theme).value
+        theme        = get_setting(:theme).value
 
         # Clean the URI of nasty input
         uri.each { |v| @request_uri.push(h(v)) }
 
         if !@request_uri[0] or @request_uri[0].empty?
-          section         = plugin(:settings, :get, :default_section).value
+          section         = get_setting(:default_section).value
           section         = ::Sections::Model::Section[section].slug
           @request_uri[0] = section
         end

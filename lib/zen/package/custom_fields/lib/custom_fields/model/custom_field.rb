@@ -15,7 +15,7 @@ module CustomFields
 
       many_to_one :custom_field_type,
         :class => 'CustomFields::Model::CustomFieldType',
-        :eager => :custom_field_method
+        :eager => [:custom_field_method]
 
       plugin :sluggable, :source => :name, :freeze => false
 

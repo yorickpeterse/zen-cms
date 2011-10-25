@@ -54,7 +54,7 @@ module Users
         if !user.nil? and user.password == password and user.status == 'open'
           # Overwrite all the global settings with the user specific ones
           [:language, :frontend_language, :date_format].each do |setting|
-            value = Zen::Plugin.plugin(:settings, :get, setting).value
+            value = get_setting(setting).value
 
             if user.respond_to?(setting)
               got = user.send(setting)

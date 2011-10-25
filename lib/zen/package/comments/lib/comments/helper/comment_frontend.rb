@@ -17,7 +17,7 @@ module Ramaze
       #
       # @example Looping over a set of comments
       #  get_comments(5).each do |comment|
-      #    puts comment.comment_html
+      #    puts comment.html
       #  end
       #
       # @example Paginating the comments

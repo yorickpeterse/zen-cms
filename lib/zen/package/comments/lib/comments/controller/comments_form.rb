@@ -180,9 +180,15 @@ module Comments
         end
 
         # Require anti-spam validation?
-        if plugin(:settings, :get, :enable_antispam).value === '1'
-          engine = plugin(:settings, :get, :anti_spam_system).value.to_sym
-          spam   = plugin(:anti_spam, engine, name, email, url, post['comment'])
+        if get_setting(:enable_antispam).value === '1'
+          engine = get_setting(:anti_spam_system).value
+          spam   = Comments::AntiSpam.validate(
+            engine,
+            name,
+            email,
+            url,
+            post['comment']
+          )
 
           # Is it spam?
           if spam === false

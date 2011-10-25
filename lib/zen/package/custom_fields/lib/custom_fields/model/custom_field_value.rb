@@ -8,7 +8,9 @@ module CustomFields
     # @since  0.1
     #
     class CustomFieldValue < Sequel::Model
-      many_to_one :custom_field , :class => 'CustomFields::Model::CustomField'
+      many_to_one :custom_field , :class => 'CustomFields::Model::CustomField',
+        :eager => [:custom_field_type]
+
       many_to_one :section_entry, :class => 'Sections::Model::SectionEntry'
 
       ##
@@ -44,6 +46,18 @@ module CustomFields
         end
 
         return val
+      end
+
+      ##
+      # Retrieves the value of the custom field and converts it to the output
+      # based on the markup engine specified in the custom field.
+      #
+      # @author Yorick Peterse
+      # @since  0.2.9
+      # @return [String]
+      #
+      def html
+        return Zen::Markup.convert(custom_field.format, value)
       end
     end # CustomFieldValue
   end # Model

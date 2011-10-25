@@ -32,6 +32,10 @@ module Sections
       plugin :sluggable , :source => :title     , :freeze => false
       plugin :timestamps, :create => :created_at, :update => false
 
+      # A hash that will contain all the custom fields and the values of these
+      # fields for a single entry.
+      attr_accessor :fields
+
       ##
       # Searches for a set of section entries based on the specified search
       # query.
