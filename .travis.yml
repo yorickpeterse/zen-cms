@@ -1,10 +1,11 @@
-script: "gem install ramaze; rake test"
+script: "rake setup; rake test"
 rvm:
   - 1.9.2
   - 1.9.3
 
 notifications:
-  disabled: true
+  email:
+    - yorickpeterse@gmail.com
 
 branches:
   only:
