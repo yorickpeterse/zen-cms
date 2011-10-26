@@ -71,7 +71,7 @@ module Ramaze
       # @param  [Array] *args An array of permissions that are required.
       #
       def authorize_user!(*args)
-        if !user_authorized?(args)
+        if !user_authorized?(*args)
           respond(lang('zen_general.errors.not_authorized'), 403)
         end
       end
@@ -95,7 +95,7 @@ module Ramaze
         end
 
         super_group = false
-        perms       = user.permissions.map { |p| p.permission }
+        perms       = user.permissions.map { |p| p.permission.to_sym }
         group_ids   = []
 
         user.user_groups.each do |group|
