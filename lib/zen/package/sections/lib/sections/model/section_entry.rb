@@ -195,6 +195,9 @@ module Sections
         groups.each do |group|
           result[group.id] ||= {:name => group.name, :fields => []}
 
+          # Don't process the fields if there aren't any to begin with.
+          next unless fields.key?(group.id)
+
           fields[group.id].each do |field|
             m = field.custom_field_type.custom_field_method.name
 
