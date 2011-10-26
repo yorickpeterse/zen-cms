@@ -57,7 +57,7 @@ module CustomFields
       # @return [String]
       #
       def html
-        return Zen::Markup.convert(custom_field.format, value)
+        return ::Zen::Markup.convert(custom_field.format, value)
       end
     end # CustomFieldValue
   end # Model

@@ -56,7 +56,7 @@
         f.select(
           lang('custom_fields.labels.format'),
           :format,
-          :values   => Zen::Plugin::Markup::Engines,
+          :values   => ::Zen::Markup::Registered,
           :size     => 1,
           :selected => @custom_field.format
         )

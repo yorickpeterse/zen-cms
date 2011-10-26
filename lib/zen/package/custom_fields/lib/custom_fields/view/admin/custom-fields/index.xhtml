@@ -60,7 +60,7 @@
 
                     <td>#{field.slug}</td>
                     <td>#{@custom_field_types[field.custom_field_type_id]}</td>
-                    <td>#{Zen::Plugin::Markup::Engines[field.format]}</td>
+                    <td>#{Zen::Markup::Registered[field.format]}</td>
                 </tr>
                 <?r end ?>
             </tbody>

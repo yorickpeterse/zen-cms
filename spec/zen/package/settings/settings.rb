@@ -6,7 +6,7 @@ describe('Settings::Setting') do
     setting = get_setting('spec')
 
     setting.title.should       === 'Spec'
-    setting.group.should       === 'general_spec'
+    setting.group.should       === :general_spec
     setting.values.should      === [1,2,3]
     setting.description.should === 'An example of a setting with a select box.'
   end

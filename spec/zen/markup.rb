@@ -1,7 +1,7 @@
 require File.expand_path('../../helper', __FILE__)
 require 'rdiscount'
 
-describe("Zen::Plugin::Markup") do
+describe("Zen::Markup") do
 
   it("Convert Markdown to HTML") do
     html = Zen::Markup.convert(:markdown, 'hello **world**').strip
