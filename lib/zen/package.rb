@@ -195,7 +195,7 @@ module Zen
       #  Zen::Package.build_menu('left', [:edit_user, :show_user, :show_setting])
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [String] html_class An HTML class to apply to the <ul> element.
       # @param  [Array] permissions An array of permissions for the current
       #  user.
@@ -224,7 +224,7 @@ module Zen
     # unique name. A human readable version can be set using title=().
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [#to_sym] name The name of the package.
     #
     def name=(name)
@@ -235,7 +235,7 @@ module Zen
     # Sets the title of the package.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [String] title The title or language key of the package.
     #
     def title=(title)
@@ -247,7 +247,7 @@ module Zen
     # fall back to the original value in case the language key doesn't exist.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @return [String]
     #
     def title
@@ -262,7 +262,7 @@ module Zen
     # Sets the description of the package.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [String] about The description of the package.
     #
     def about=(about)
@@ -273,7 +273,7 @@ module Zen
     # Tries to translate the description and returns it.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @return [String]
     #
     def about
@@ -288,7 +288,7 @@ module Zen
     # Sets the root directory of the package.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [String] root The path to the root directory.
     #
     def root=(root)
@@ -319,7 +319,7 @@ module Zen
     #  end
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @see    Zen::Package::Menu#initialize()
     # @return [Zen::Package::Menu] The current navigation menu if no new one is
     #  specified.
@@ -342,7 +342,7 @@ module Zen
     #  end
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [#to_sym] permission The name of the permission.
     # @param  [String] title The title or language key of the permission, shown
     #  in the admin interface.
@@ -357,7 +357,7 @@ module Zen
     # automatically try to translate the titles using the current language.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @return [Hash]
     #
     def permissions

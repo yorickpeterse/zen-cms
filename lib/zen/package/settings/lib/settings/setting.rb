@@ -237,7 +237,7 @@ module Settings
     # Sets the name of the setting and converts it to a symbol.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [#to_sym] name The name of the setting.
     #
     def name=(name)
@@ -248,7 +248,7 @@ module Settings
     # Sets the name of the group this setting belongs to.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [#to_sym] group The name of the settings group.
     #
     def group=(group)
@@ -259,7 +259,7 @@ module Settings
     # Returns the title of the setting and tries to translate it.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @return [String]
     #
     def title

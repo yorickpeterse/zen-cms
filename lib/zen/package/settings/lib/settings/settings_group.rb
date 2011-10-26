@@ -12,7 +12,7 @@ module Settings
     # Hash containing all registered setting groups.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     Registered = {}
 
@@ -48,7 +48,7 @@ module Settings
     # Sets the name of the group and converts it to a symbol.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [#to_sym] name The name of the settings group.
     #
     def name=(name)
@@ -59,7 +59,7 @@ module Settings
     # Returns the title of the setting and tries to translate it.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @return [String]
     #
     def title

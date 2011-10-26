@@ -5,7 +5,7 @@ module Ramaze
     # your templates.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     module CategoryFrontend
       ##
@@ -35,7 +35,7 @@ module Ramaze
       #  categories.navigation
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [String|Fixnum] group The ID or name of a category group for
       #  which to retrieve all categories.
       # @param  [Hash] options A hash containing various options to customize

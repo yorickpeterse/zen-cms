@@ -6,7 +6,7 @@ module Ramaze
     # Helper that allows you to render navigation menus in your templates.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     module MenuFrontend
       ##
@@ -22,7 +22,7 @@ module Ramaze
       #  render_menu('main', :sub => false)
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [String|Fixnum] menu The slug or ID of a menu to render.
       # @param  [Hash] options A hash containing various options to customize
       #  the return value.
@@ -79,7 +79,7 @@ module Ramaze
       # Generates the HTML for a single menu item.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [Menus::Model::MenuItem] item The menu item to render.
       # @param  [Ramaze::Gestalt] g An instance of ``Ramaze::Gestalt`` to use
       #  for building the HTML.

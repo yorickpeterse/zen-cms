@@ -94,7 +94,7 @@ module Zen
       #  Zen::Markup.conver(:markdown, 'Hello **world**')
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [#to_s] engine The markup engine to use.
       # @param  [String] markup The markup to convert.
       # @return [String]

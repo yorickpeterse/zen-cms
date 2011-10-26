@@ -1,8 +1,8 @@
 # Asset Management
 
 Zen comes with an asset manager powered by [Ramaze::Asset][ramaze-asset]. Before
-v0.2.9 Zen used to come with it's own asset manager (``Zen::Asset``) but this
-module is no longer available as of v0.2.9.
+v0.3 Zen used to come with it's own asset manager (``Zen::Asset``) but this
+module is no longer available as of v0.3.
 
 Assets can be loaded using the attribute ``Zen.asset``. This attribute contains
 an instance of ``Ramaze::Asset::Environment`` and will automatically minify

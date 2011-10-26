@@ -269,7 +269,7 @@ module Zen
     # Sets the name of the theme.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [#to_sym] name The name of the theme as a symbol.
     #
     def name=(name)
@@ -281,7 +281,7 @@ module Zen
     # translation.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @return [String]
     #
     def about
@@ -296,7 +296,7 @@ module Zen
     # Sets the public directory of the theme.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [String] dir The public directory.
     #
     def public=(dir)

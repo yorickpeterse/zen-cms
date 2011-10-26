@@ -104,7 +104,7 @@ module Users
       # Hook run before creating or updating an object.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       #
       def before_save
         if self.status.nil? or self.status.empty?

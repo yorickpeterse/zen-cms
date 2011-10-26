@@ -6,14 +6,14 @@ module Ramaze
     # method.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     module Asset
       ##
       # Extends the including class with the ClassMethods module.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [Class] klass The klass that included this module.
       #
       def self.included(klass)
@@ -25,7 +25,7 @@ module Ramaze
       # the class that included Ramaze::Helper::Asset.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       #
       module ClassMethods
         ##
@@ -33,7 +33,7 @@ module Ramaze
         # loads all the given assets for the calling class.
         #
         # @author Yorick Peterse
-        # @since  0.2.9
+        # @since  0.3
         # @see    Ramaze::Asset::Environment#serve()
         #
         def serve(type, files, options = {})
@@ -49,7 +49,7 @@ module Ramaze
         #  load_asset_group([:editor, :datepicker])
         #
         # @author Yorick Peterse
-        # @since  0.2.9
+        # @since  0.3
         # @see    Ramaze::Asset::Environment#load_asset_group()
         # @param  [Array] methods An array of methods to load the assets for.
         #

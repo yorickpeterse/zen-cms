@@ -5,7 +5,7 @@ module Settings
   # {Settings::Setting::Registered}.
   #
   # @author Yorick Peterse
-  # @since  0.2.9
+  # @since  0.3
   #
   module SingletonMethods
     ##
@@ -15,7 +15,7 @@ module Settings
     #  get_setting(:website_name)
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     # @param  [#to_sym] name The name of the setting to retrieve.
     #
     def get_setting(name)

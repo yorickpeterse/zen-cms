@@ -55,7 +55,7 @@ module Comments
   #
   #
   # @author Yorick Peterse
-  # @since  0.2.9
+  # @since  0.3
   #
   module AntiSpam
     # Array containing the method names of the various supported engines and
@@ -79,7 +79,7 @@ module Comments
       #  )
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [#to_sym] engine The name of the anti spam engine to use.
       # @param  [String] author The name of the author of the comment.
       # @param  [String] email The Email address of the author.
@@ -102,7 +102,7 @@ module Comments
       # Validates a comment using Defensio.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @see    Comments::AntiSpam.validate
       #
       def defensio(author, email, url, comment)

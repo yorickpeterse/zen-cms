@@ -4,7 +4,7 @@ module Ramaze
     # Helper that provides the means to retrieve comments in your templates.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     module CommentFrontend
       ##
@@ -30,7 +30,7 @@ module Ramaze
       #  comments.navigation
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [String|Fixnum] entry Either the slug of an entry or the ID of an
       #  entry for which to retrieve all comments.
       # @param  [Hash] options A hash containing various options to customize

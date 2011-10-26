@@ -51,7 +51,7 @@ module Zen
   #  Zen::Event.call(:greet, 10, 'Ruby')
   #
   # @author Yorick Peterse
-  # @since  0.2.9
+  # @since  0.3
   #
   module Event
     # Hash containing all the event names and a list of procs to execute for all
@@ -67,7 +67,7 @@ module Zen
       #  Zen::Event.call(:new_user, User[1])
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [#to_sym] event The name of the event to invoke.
       # @param  [Array] *args An array of arguments to pass to each event.
       #
@@ -91,7 +91,7 @@ module Zen
       #  end
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [#to_sym] event The name of the event.
       # @param  [Proc] block A block to execute when the event is invoked.
       #
@@ -109,7 +109,7 @@ module Zen
       #  Zen::Event.delete(:before_new_user, :after_new_user)
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [Array] *names The names of the events to remove. Each name
       #  should be a symbol or something that responds to #to_sym().
       #

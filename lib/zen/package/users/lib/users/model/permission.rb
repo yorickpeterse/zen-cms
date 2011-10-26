@@ -4,7 +4,7 @@ module Users
     # Model for managing permissions.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     class Permission < Sequel::Model
       many_to_one :user      , :class => 'Users::Model::User'
@@ -14,7 +14,7 @@ module Users
       # Validates the model's attributes before saving it.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       #
       def validate
         validates_presence(:permission)

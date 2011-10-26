@@ -4,7 +4,7 @@ module Ramaze
     # Helper for retrieving section entries in your templates.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     module SectionFrontend
       ##
@@ -29,7 +29,7 @@ module Ramaze
       #  get_entries('pages', :order_by => :created_at, :order => :asc)
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [String|Fixnum] section The ID or slug of an section for which
       #  to retrieve a number of entries.
       # @param  [Hash] options A hash containing various options to customize
@@ -126,7 +126,7 @@ module Ramaze
       #  entry = get_entry('home', :comments => true)
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [String|Fixnum] entry The ID or slug of an entry to retrieve.
       # @return [Mixed]
       #

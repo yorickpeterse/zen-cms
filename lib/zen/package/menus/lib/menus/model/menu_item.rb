@@ -51,7 +51,7 @@ module Menus
       # and not the same as the current ID.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [Fixnum] parent_id The ID of the parent navigation item.
       #
       def parent_id=(parent_id)

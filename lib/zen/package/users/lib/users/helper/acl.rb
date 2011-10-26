@@ -26,7 +26,7 @@ module Ramaze
     module ACL
       ##
       # Checks if a user has all the specified permissions and returns a
-      # TrueClass or FalseClass based on the results. Note that since Zen 0.2.9
+      # TrueClass or FalseClass based on the results. Note that since Zen 0.3
       # *all* permissions set will be required, you're no longer able to
       # specify a list of which only 1 permission is required.
       #
@@ -83,7 +83,7 @@ module Ramaze
       # them in the session.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @return [Array] An array where the first item is a TrueClass or
       #  FalseClass that indicates if the user is member of a super group or
       #  not. The second item is an array of all the user's permissions (each

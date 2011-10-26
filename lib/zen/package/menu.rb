@@ -8,7 +8,7 @@ module Zen
     # number of sub elements.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     class Menu
       include Ramaze::Trinity
@@ -25,7 +25,7 @@ module Zen
       # navigation items.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [String] title The title or language key of the navigation
       #  element.
       # @param  [String] url The URL of the navigation element.
@@ -47,7 +47,7 @@ module Zen
       # Adds a new child element to the navigation menu.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @see    Zen::Package::Menu#initialize()
       #
       def menu(title, url, options = {}, &block)
@@ -59,7 +59,7 @@ module Zen
       # translated, otherwise the original value will be used.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @return [String]
       #
       def title
@@ -74,7 +74,7 @@ module Zen
       # Builds the HTML for the current navigation menu using Ramaze::Gestalt.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [Array] permissions An array of permissions for the current
       #  user.
       # @return [String|NilClass] The HTML of the navigation menu.

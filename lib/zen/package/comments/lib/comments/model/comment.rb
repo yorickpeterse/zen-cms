@@ -196,7 +196,7 @@ module Comments
       # by the section that the comment belongs to.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @return [String]
       #
       def html

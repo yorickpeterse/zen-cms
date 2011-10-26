@@ -5,7 +5,7 @@ module Zen
     # object contains all the translations for the current language.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     class Translations < Zen::Controller::FrontendController
       map '/admin/js/zen/lib/translations.js'
@@ -14,7 +14,7 @@ module Zen
       # Renders the translations as a Javascript variable.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       #
       def index
         lang = JSON.dump(Zen::Language::Translations[Zen::Language.current])

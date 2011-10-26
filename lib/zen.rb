@@ -35,7 +35,7 @@ module Zen
     # Returns the current root directory.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     def root
       @root
@@ -45,7 +45,7 @@ module Zen
     # Sets the root directory and adds the path to Ramaze.options.roots.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     def root=(path)
       @root = path
@@ -59,7 +59,7 @@ module Zen
     # Prepares Zen for the party of it's life.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     def start
       if root.nil?
@@ -99,7 +99,7 @@ module Zen
     # Configures Ramaze::Asset and loads all the global assets.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     def setup_assets
       cache_path = File.join(root, 'public', 'minified')
@@ -148,7 +148,7 @@ module Zen
     # Loads a global CSS and JS file.
     #
     # @author Yorick Peterse
-    # @since  0.2.9
+    # @since  0.3
     #
     def load_global_assets
       publics    = Ramaze.options.publics

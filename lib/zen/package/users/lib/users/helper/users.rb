@@ -75,7 +75,7 @@ module Ramaze
       #  update_permissions(:user_id, 5, [:show_user], [:edit_user])
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @param  [Symbol] column The name of the column to use in the permissions
       #  table. Can either be :user_id or :user_group_id.
       # @param  [Fixnum] id The primary value of the column attribute.

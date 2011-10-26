@@ -53,7 +53,7 @@ module CustomFields
       # based on the markup engine specified in the custom field.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @return [String]
       #
       def html

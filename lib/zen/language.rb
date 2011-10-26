@@ -175,7 +175,7 @@ module Zen
       # Returns the language code to use for either the frontend or backend.
       #
       # @author Yorick Peterse
-      # @since  0.2.9
+      # @since  0.3
       # @return [String]
       #
       def current
