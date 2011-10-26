@@ -1,9 +1,9 @@
-require File.expand_path('../../../../../helper', __FILE__)
+require File.expand_path('../../../../helper', __FILE__)
 require File.join(Zen::Fixtures, 'package/settings/plugin/settings')
 
-describe("Settings::Plugin::Settings") do
+describe('Settings::Setting') do
   it("Retrieve a setting") do
-    setting = plugin(:settings, :get, 'spec')
+    setting = get_setting('spec')
 
     setting.title.should       === 'Spec'
     setting.group.should       === 'general_spec'
@@ -12,7 +12,7 @@ describe("Settings::Plugin::Settings") do
   end
 
   it("Migrate all settings") do
-    plugin(:settings, :migrate)
+    Settings::Setting.migrate
 
     setting  = Settings::Model::Setting[:name => 'spec']
     setting1 = Settings::Model::Setting[:name => 'spec_textbox']
@@ -22,10 +22,9 @@ describe("Settings::Plugin::Settings") do
   end
 
   it("Remove all settings") do
-    plugin(:settings, :remove, ['spec', 'spec_textbox'])
+    Settings::Setting.remove(['spec', 'spec_textbox'])
 
     Settings::Model::Setting[:name => 'spec'].should         === nil
     Settings::Model::Setting[:name => 'spec_textbox'].should === nil
   end
-
 end

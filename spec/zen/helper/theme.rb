@@ -6,12 +6,12 @@ describe('Ramaze::Helper::Theme') do
 
   # Set the theme
   before do
-    plugin(:settings, :get, :theme).value = 'spec_theme'
+    get_setting(:theme).value = 'spec_theme'
   end
 
   # Reset
   after do
-    plugin(:settings, :get, :theme).value = nil
+    get_setting(:theme).value = nil
   end
 
   it('Render a partial template') do
@@ -54,5 +54,4 @@ describe('Ramaze::Helper::Theme') do
       e.message.should === "The template #{theme} doesn't exist."
     end
   end
-
 end

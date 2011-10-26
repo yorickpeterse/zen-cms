@@ -5,20 +5,20 @@ describe("Comments::Controller::CommentsForm") do
   behaves_like :capybara
 
   before do
-    plugin(:settings, :get, :defensio_key).value = 'test'
+    get_setting(:defensio_key).value = 'test'
   end
 
   after do
     Comments::Model::Comment.destroy
 
-    plugin(:settings, :get, :defensio_key).value = nil
+    get_setting(:defensio_key).value = nil
 
     Zen::Event.delete(:before_new_comment, :after_new_comment)
   end
 
   # Set up all the required data
-  plugin(:settings, :get, :enable_antispam).value   = false
-  plugin(:settings, :get, :frontend_language).value = 'en'
+  get_setting(:enable_antispam).value   = false
+  get_setting(:frontend_language).value = 'en'
 
   user_id      = Users::Model::User[:name => 'Spec'].id
   entry_status = Sections::Model::SectionEntryStatus[:name => 'published'].id
@@ -244,7 +244,7 @@ describe("Comments::Controller::CommentsForm") do
       'http://api.defensio.com/2.0/users/test/documents.yaml'
     ).to_return(:body => yaml_response)
 
-    plugin(:settings, :get, :enable_antispam).value = '1'
+    get_setting(:enable_antispam).value = '1'
 
     url         = SpecCommentsForm.r(:index).to_s
     open_status = Comments::Model::CommentStatus[:name => 'open']
@@ -267,7 +267,7 @@ describe("Comments::Controller::CommentsForm") do
     Comments::Model::Comment[:name => 'Spec alternative'] \
       .comment_status_id.should == open_status.id
 
-    plugin(:settings, :get, :enable_antispam).value = '0'
+    get_setting(:enable_antispam).value = '0'
     WebMock.reset!
   end
 
@@ -289,7 +289,7 @@ describe("Comments::Controller::CommentsForm") do
       'http://api.defensio.com/2.0/users/test/documents.yaml'
     ).to_return(:body => yaml_response)
 
-    plugin(:settings, :get, :enable_antispam).value = '1'
+    get_setting(:enable_antispam).value = '1'
 
     section.update(:comment_moderate => true)
 
@@ -314,7 +314,7 @@ describe("Comments::Controller::CommentsForm") do
     Comments::Model::Comment[:name => 'Spec alternative'] \
       .comment_status_id.should == closed_status.id
 
-    plugin(:settings, :get, :enable_antispam).value = '0'
+    get_setting(:enable_antispam).value = '0'
     WebMock.reset!
 
     section.update(:comment_moderate => false)
@@ -338,7 +338,7 @@ describe("Comments::Controller::CommentsForm") do
       'http://api.defensio.com/2.0/users/test/documents.yaml'
     ).to_return(:body => yaml_response)
 
-    plugin(:settings, :get, :enable_antispam).value = '1'
+    get_setting(:enable_antispam).value = '1'
 
     url         = SpecCommentsForm.r(:index).to_s
     spam_status = Comments::Model::CommentStatus[:name => 'spam']
@@ -361,7 +361,7 @@ describe("Comments::Controller::CommentsForm") do
     Comments::Model::Comment[:name => 'Spec alternative'] \
       .comment_status_id.should == spam_status.id
 
-    plugin(:settings, :get, :enable_antispam).value = '0'
+    get_setting(:enable_antispam).value = '0'
     WebMock.reset!
   end
 

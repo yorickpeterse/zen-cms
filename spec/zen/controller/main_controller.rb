@@ -24,32 +24,32 @@ describe('Zen::Controller::MainController') do
     :comment_format          => 'plain'
   )
 
-  plugin(:settings, :get, :default_section).value = section.id
-  plugin(:settings, :get, :theme).value           = 'spec_theme'
+  get_setting(:default_section).value = section.id
+  get_setting(:theme).value           = 'spec_theme'
 
   it('Request the homepage') do
     visit('/')
 
-    page.body.include?('This is the homepage.').should === true
+    page.body.include?('This is the homepage.').should == true
   end
 
   it('Request a page without a theme set') do
-    plugin(:settings, :get, :theme).value = nil
+    get_setting(:theme).value = nil
 
     visit('/')
 
-    page.body.include?(lang('zen_general.errors.no_theme')).should === true
+    page.body.include?(lang('zen_general.errors.no_theme')).should == true
 
-    plugin(:settings, :get, :theme).value = 'spec_theme'
+    get_setting(:theme).value = 'spec_theme'
   end
 
   it('Request a non existing template') do
     visit('/does-not-exist')
 
     page.body.include?('The requested page could not be found!') \
-      .should === true
+      .should == true
 
-    page.status_code.should === 404
+    page.status_code.should == 404
   end
 
   it('Request a non existing template without a 404 template') do
@@ -63,15 +63,15 @@ describe('Zen::Controller::MainController') do
     visit('/does-not-exist')
 
     page.body.include?(lang('zen_general.errors.no_templates')) \
-      .should === true
+      .should == true
 
-    page.status_code.should === 404
+    page.status_code.should == 404
 
     FileUtils.mv(template + '.old', template)
   end
 
   Sections::Model::Section.destroy
 
-  plugin(:settings, :get, :default_section).value = nil
-  plugin(:settings, :get, :theme).value           = nil
+  get_setting(:default_section).value = nil
+  get_setting(:theme).value           = nil
 end

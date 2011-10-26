@@ -11,7 +11,7 @@ describe('Zen::Controller::Preview') do
     visit(logout)
     visit(url)
 
-    current_path.should === Users::Controller::Users.r(:login).to_s
+    current_path.should == Users::Controller::Users.r(:login).to_s
   end
 
   it('Access an authorized URL') do
@@ -20,7 +20,6 @@ describe('Zen::Controller::Preview') do
     capybara_login
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
-
 end

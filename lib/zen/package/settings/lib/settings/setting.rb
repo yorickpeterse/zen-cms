@@ -13,9 +13,9 @@ module Settings
   # backend interface. In order to register a new group you'd write the
   # following code:
   #
-  #     plugin(:settings, :register_group) do |group|
+  #     Settings::SettingsGroup.add do |group|
   #       group.title = 'My Group'
-  #       group.name  = 'my_group'
+  #       group.name  = :my_group
   #     end
   #
   # When registering a group you only need to specify a title and a name. The
@@ -25,11 +25,11 @@ module Settings
   #
   # Once a setting group has been added we can add a setting as following:
   #
-  #     plugin(:settings, :register) do |setting|
+  #     Settings::Setting.add do |setting|
   #       setting.title       = 'My Setting'
   #       setting.description = 'This is my setting!'
-  #       setting.name        = 'my_setting'
-  #       setting.group       = 'my_group'
+  #       setting.name        = :my_setting
+  #       setting.group       = :my_group
   #       setting.type        = 'select'
   #       setting.values      = ['yorick', 'zen']
   #       setting.default     = 'yorick'
@@ -55,14 +55,14 @@ module Settings
   # you do want to migrate them however you can simple execute the following
   # code:
   #
-  #     plugin(:settings, :migrate)
+  #     Settings::Setting.migrate
   #
   # ## Removing Settings
   #
   # If you ever need to remove a setting both from the database and the system
   # you can do so as following:
   #
-  #     plugin(:settings, :remove, ['name1', 'name2'])
+  #     Settings::Setting.remove([:name, :name1])
   #
   # You don't have to specify an array of names, you can also specify the name
   # of a single setting to delete.
@@ -155,7 +155,8 @@ module Settings
         settings = ::Settings::Model::Setting.all.map { |s| s.name }
 
         Registered.each do |name, setting|
-          name = name.to_s
+          name  = name.to_s
+          group = setting.group.to_s
 
           if !settings.include?(name)
             # For some reason using the Settings model generates nil errors
@@ -163,7 +164,7 @@ module Settings
             # the non-model way.
             Zen.database[:settings].insert(
               :name    => name,
-              :group   => setting.group,
+              :group   => group,
               :default => setting.default,
               :type    => setting.type
             )
@@ -171,7 +172,7 @@ module Settings
           # Update everything but the value
           else
             Zen.database[:settings].filter[:name => name].update(
-              :group   => setting.group,
+              :group   => group,
               :default => setting.default,
               :type    => setting.type
             )

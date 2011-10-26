@@ -30,20 +30,20 @@ describe('Comments::AntiSpam') do
   end
 
   it('Validate a spam comment using Defensio') do
-    plugin(:settings, :get, :defensio_key).value = 'test'
+    get_setting(:defensio_key).value = 'test'
 
     Comments::AntiSpam.validate(:defensio, nil, nil, nil, spam_comment) \
       .should == true
   end
 
   it('Validate a comment using Defensio without an API key') do
-    plugin(:settings, :get, :defensio_key).value = nil
+    get_setting(:defensio_key).value = nil
 
     should.raise? do
       Comments::AntiSpam.validate(:defensio, nil, nil, nil, spam_comment)
     end
 
-    plugin(:settings, :get, :defensio_key).value = 'test'
+    get_setting(:defensio_key).value = 'test'
   end
 
   WebMock.reset!

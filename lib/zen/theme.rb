@@ -126,22 +126,22 @@ module Zen
   #
   # ## Retrieving Data
   #
-  # Zen comes with a bunch of plugins that can be used to make it easy to
+  # Zen comes with a bunch of helpers that can be used to make it easy to
   # retrieve data such as section entries and comments. On top of that you can
   # also directly use all the classes provided by Zen since you're free to use
-  # any Ruby in your templates. For example, say you want to retrieve a list of
-  # entries in our ``index.xhtml`` template you could do something like the
+  # any Ruby in your templates. For example, say you want to retrieve a list
+  # of entries in our ``index.xhtml`` template you could do something like the
   # following:
   #
-  #     <?r entries = plugin(:section_entries, :section => 'blog', :limit => 50) ?>
+  #     <?r entries = get_entries('blog', :limit => 50) ?>
   #
   #     <?r entries.each do |entry| ?>
   #     <article>
   #         <header>
-  #             <h1>#{entry[:title]}</h1>
+  #             <h1>#{entry.title}</h1>
   #         </header>
   #
-  #         #{entry[:fields][:body]}
+  #         #{entry.fields[:body]}
   #     </article>
   #     <?r end ?>
   #

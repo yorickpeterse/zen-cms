@@ -8,18 +8,18 @@ describe('Ramaze::Helper::Locale') do
   it('Get the date format') do
     visit('/admin/spec-locale-helper')
 
-    format = plugin(:settings, :get, :date_format).value
+    format = get_setting(:date_format).value
 
-    date_format.should === format
+    date_format.should == format
 
     # Get the date format from the session
-    page.body.include?(format).should === true
+    page.body.include?(format).should == true
   end
 
   it('Format a date') do
-    format = plugin(:settings, :get, :date_format).value
+    format = get_setting(:date_format).value
     date   = Time.new
 
-    format_date(date).should === date.strftime(format)
+    format_date(date).should == date.strftime(format)
   end
 end

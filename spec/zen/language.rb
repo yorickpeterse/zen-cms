@@ -75,12 +75,12 @@ describe('Zen::Language') do
   end
 
   it('Test a Dutch language pack') do
-    plugin(:settings, :get, :language).value = 'nl'
+    get_setting(:language).value = 'nl'
 
     lang('spec.name').should       === 'Naam'
     lang('spec.age').should        === 'Leeftijd'
     lang('spec.parent.sub').should === 'Sub element'
 
-    plugin(:settings, :get, :language).value = 'en'
+    get_setting(:language).value = 'en'
   end
 end
