@@ -108,6 +108,18 @@ describe("Users::Controller::Users") do
     page.find_field('name').value.should               == 'Spec user modified'
   end
 
+  it('Remove a permission from a user') do
+    visit(index_url)
+    click_link('Spec user')
+
+    within('#user_form') do
+      uncheck('permission_show_user')
+      click_on(save_button)
+    end
+
+    page.find('#permission_show_user').checked?.should != 'checked'
+  end
+
   it("Edit an existing user with invalid data") do
     visit(index_url)
     click_link('Spec user')

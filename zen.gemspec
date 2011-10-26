@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency('ramaze-asset', ['= 0.2.3'])
 
   s.add_development_dependency('rdiscount', ['>= 1.6.8'])
+  s.add_development_dependency('RedCloth' , ['>= 4.2.8'])
   s.add_development_dependency('bacon'    , ['>= 1.1.0'])
   s.add_development_dependency('yard'     , ['>= 0.7.2'])
   s.add_development_dependency('capybara' , ['>= 1.0.1'])

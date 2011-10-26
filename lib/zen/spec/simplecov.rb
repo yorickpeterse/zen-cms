@@ -14,10 +14,10 @@ SimpleCov.configure do
   add_group 'Helpers'    , 'zen/helper'
   add_group 'Controllers', 'zen/controller'
 
-  # Don't actually test the coverage of the tests themselves
   add_filter 'spec'
   add_filter 'lib/zen/model/settings'
   add_filter 'vendor'
+  add_filter 'lib/zen/model/init'
 end
 
 SimpleCov.start

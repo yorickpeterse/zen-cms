@@ -12,25 +12,6 @@ module Ramaze
     #
     module Users
       ##
-      # Checks if an access rule is valid and returns it if ithis is the case.
-      #
-      # @author Yorick Peterse
-      # @since  0.2.8
-      # @param  [Fixnum] access_rule_id The ID of the access rule to validate.
-      # @return [Users::Model::AccessRule]
-      #
-      def validate_access_rule(access_rule_id)
-        rule = ::Users::Model::AccessRule[access_rule_id]
-
-        if rule.nil?
-          message(:error, lang('access_rules.errors.invalid_rule'))
-          redirect(::Users::Controller::AccessRules.r(:index))
-        else
-          return rule
-        end
-      end
-
-      ##
       # Checks if a user group is valid and returns it if this is the case.
       #
       # @author Yorick Peterse

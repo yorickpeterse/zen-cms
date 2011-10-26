@@ -51,9 +51,9 @@ describe("Comments::Controller::CommentsForm") do
 
     # Submit the form
     within('#spec_comments_form') do
+      fill_in('user_id'      , :with => user_id)
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
-      fill_in('website'      , :with => 'http://zen-cms.com/')
       fill_in('email'        , :with => 'spec@domain.tld')
       fill_in('comment'      , :with => 'Spec comment')
 
@@ -62,11 +62,10 @@ describe("Comments::Controller::CommentsForm") do
 
     comment = Comments::Model::Comment[:comment => 'Spec comment']
 
-    comment.name.should      == 'Spec user'
-    comment.comment.should   == 'Spec comment'
-    comment.website.should   == 'http://zen-cms.com/'
-    comment.email.should     == 'spec@domain.tld'
-    comment.section_entry_id == section_entry.id
+    comment.user_name.should  == 'Spec'
+    comment.comment.should    == 'Spec comment'
+    comment.user_email.should == 'spec@domain.tld'
+    comment.section_entry_id  == section_entry.id
   end
 
   it('Submit a comment with custom events') do
