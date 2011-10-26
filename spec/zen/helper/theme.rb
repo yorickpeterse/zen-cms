@@ -17,16 +17,16 @@ describe('Ramaze::Helper::Theme') do
   it('Render a partial template') do
     visit('/helper/partial')
 
-    page.body.include?('This is a partial.').should === true
+    page.body.include?('This is a partial.').should == true
   end
 
   it('Show a 404 page') do
     visit('/helper/404')
 
     page.body.include?('The requested page could not be found!') \
-      .should === true
+      .should == true
 
-    page.status_code.should === 404
+    page.status_code.should == 404
   end
 
   it('Show an error when no partial directory exists') do
@@ -36,7 +36,7 @@ describe('Ramaze::Helper::Theme') do
     begin
       visit('/helper/partial')
     rescue => e
-      e.message.should === 'The theme spec_theme has no partial directory set.'
+      e.message.should == 'The theme spec_theme has no partial directory set.'
     end
 
     Zen::Theme['spec_theme'].partial_dir = dir
@@ -51,7 +51,7 @@ describe('Ramaze::Helper::Theme') do
     begin
       visit('/helper/wrong_partial')
     rescue => e
-      e.message.should === "The template #{theme} doesn't exist."
+      e.message.should == "The template #{theme} doesn't exist."
     end
   end
 end

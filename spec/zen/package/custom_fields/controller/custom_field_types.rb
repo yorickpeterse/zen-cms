@@ -15,8 +15,8 @@ describe('CustomFields::Controller::CustomFieldTypes') do
       CustomFields::Controller::CustomFieldTypes.r(:save).to_s
     )
 
-    response.body.include?(lang('zen_general.errors.csrf')).should === true
-    response.status.should                                         === 403
+    response.body.include?(lang('zen_general.errors.csrf')).should == true
+    response.status.should                                         == 403
   end
 
   it('A number of field types should exist') do
@@ -25,10 +25,10 @@ describe('CustomFields::Controller::CustomFieldTypes') do
 
     visit(index_url)
 
-    current_path.should                          === index_url
-    page.has_content?(message).should            === false
-    page.has_selector?('table tbody tr').should  === true
-    page.all('table tbody tr').count.should      === rows
+    current_path.should                          == index_url
+    page.has_content?(message).should            == false
+    page.has_selector?('table tbody tr').should  == true
+    page.all('table tbody tr').count.should      == rows
   end
 
   it('Create a new custom field type') do
@@ -39,7 +39,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     visit(index_url)
     click_link(new_button)
 
-    current_path.should === new_url
+    current_path.should == new_url
 
     # Submit the form
     within('#custom_field_type_form') do
@@ -65,16 +65,16 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     # Validate the results
     current_path.should =~ /#{edit_url}\/\d+/
 
-    page.find_field('form_name').value.should === 'Spec type'
+    page.find_field('form_name').value.should == 'Spec type'
 
     page.find_field('form_language_string') \
-      .value.should === 'custom_fields.special.type_hash.textbox'
+      .value.should == 'custom_fields.special.type_hash.textbox'
 
-    page.find_field('form_html_class').value.should      === 'spec_class'
-    page.find_field('form_serialize_0').checked?.should === 'checked'
+    page.find_field('form_html_class').value.should      == 'spec_class'
+    page.find_field('form_serialize_0').checked?.should == 'checked'
 
-    page.find_field('form_allow_markup_0').checked?.should      === 'checked'
-    page.find_field('form_custom_field_method_id').value.should === method_id
+    page.find_field('form_allow_markup_0').checked?.should      == 'checked'
+    page.find_field('form_custom_field_method_id').value.should == method_id
   end
 
   it('Search for a custom field type') do
@@ -128,13 +128,13 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     # Validate the results
     current_path.should =~ /#{edit_url}\/\d+/
 
-    page.find_field('form_name').value.should      === 'Spec type modified'
-    page.find_field('form_html_class').value.should === 'spec_class_modified'
+    page.find_field('form_name').value.should      == 'Spec type modified'
+    page.find_field('form_html_class').value.should == 'spec_class_modified'
 
     page.find_field('form_language_string') \
-      .value.should === 'custom_fields.special.type_hash.textarea'
+      .value.should == 'custom_fields.special.type_hash.textarea'
 
-    page.find_field('custom_field_method_id').value.should === method_id
+    page.find_field('custom_field_method_id').value.should == method_id
   end
 
   it('Edit a custom field type with invalid data') do
@@ -148,7 +148,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
       click_on(save_button)
     end
 
-    page.has_selector?('span.error').should === true
+    page.has_selector?('span.error').should == true
   end
 
   it('Try to delete a field type without a specified ID') do
@@ -160,7 +160,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     click_on(delete_button)
 
     page.has_selector?("input[id=\"custom_field_type_#{type_id}\"]") \
-      .should === true
+      .should == true
   end
 
   it('Delete a custom field type') do
@@ -176,8 +176,8 @@ describe('CustomFields::Controller::CustomFieldTypes') do
 
     click_on(delete_button)
 
-    page.has_content?('Spec type modified').should === false
-    page.all('table tbody tr').count.should        === rows
+    page.has_content?('Spec type modified').should == false
+    page.all('table tbody tr').count.should        == rows
   end
 
   it('Call the event new_custom_field_type (before and after)') do

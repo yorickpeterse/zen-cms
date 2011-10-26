@@ -244,7 +244,7 @@ module Sections
 
           section.save
 
-          if save_action === :new
+          if save_action == :new
             section.custom_field_group_pks = post['custom_field_group_pks']
             section.category_group_pks     = post['category_group_pks']
           end

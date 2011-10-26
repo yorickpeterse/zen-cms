@@ -29,7 +29,7 @@ module Bacon
 
     #:nodoc:
     def spaces
-      if Counter[:context_depth] === 0
+      if Counter[:context_depth] == 0
         Counter[:context_depth] = 1
       end
 

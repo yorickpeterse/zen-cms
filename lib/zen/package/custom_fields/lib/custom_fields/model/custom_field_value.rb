@@ -23,7 +23,7 @@ module CustomFields
       def value=(val)
         type = custom_field.custom_field_type
 
-        if !type.nil? and type.serialize === true
+        if !type.nil? and type.serialize == true
           val = [Marshal.dump(val)].pack('m')
         end
 
@@ -41,7 +41,7 @@ module CustomFields
         val  = super
         type = custom_field.custom_field_type
 
-        if !type.nil? and type.serialize === true
+        if !type.nil? and type.serialize == true
           val = Marshal.load(val.unpack('m')[0]) rescue Marshal.load(val)
         end
 

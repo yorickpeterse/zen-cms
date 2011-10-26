@@ -64,7 +64,7 @@ Example:
         op.order!(argv)
 
         # exit() doesn't work for specs.
-        return if stop === true
+        return if stop == true
         return puts op if !argv[0]
 
         # Run the command if it exists

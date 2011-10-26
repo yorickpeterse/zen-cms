@@ -15,8 +15,8 @@ describe('Users::Controller::UserGroups') do
       Users::Controller::UserGroups.r(:save).to_s
     )
 
-    response.body.include?(lang('zen_general.errors.csrf')).should === true
-    response.status.should                                         === 403
+    response.body.include?(lang('zen_general.errors.csrf')).should == true
+    response.status.should                                         == 403
   end
 
   it('A single user group should exist') do
@@ -24,9 +24,9 @@ describe('Users::Controller::UserGroups') do
 
     visit(index_url)
 
-    page.has_content?(message).should           === false
-    page.has_selector?('table tbody tr').should === true
-    page.all('table tbody tr').count.should     === 1
+    page.has_content?(message).should           == false
+    page.has_selector?('table tbody tr').should == true
+    page.all('table tbody tr').count.should     == 1
   end
 
   it('Create a new user group') do
@@ -39,8 +39,8 @@ describe('Users::Controller::UserGroups') do
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should     === 'Spec group'
-    page.find('#form_super_group_0').checked?.should === 'checked'
+    page.find('input[name="name"]').value.should     == 'Spec group'
+    page.find('#form_super_group_0').checked?.should == 'checked'
   end
 
   it('Search for a user group') do
@@ -73,7 +73,7 @@ describe('Users::Controller::UserGroups') do
     visit(index_url)
     click_link('Spec group')
 
-    current_path.should === path
+    current_path.should == path
 
     within('#user_group_form') do
       fill_in('name', :with => 'Spec group modified')
@@ -81,11 +81,11 @@ describe('Users::Controller::UserGroups') do
       click_on(save_button)
     end
 
-    current_path.should === path
+    current_path.should == path
 
-    page.has_selector?('span.error').should            === false
-    page.find('input[name="name"]').value.should       === 'Spec group modified'
-    page.find('#permission_show_user').checked?.should === 'checked'
+    page.has_selector?('span.error').should            == false
+    page.find('input[name="name"]').value.should       == 'Spec group modified'
+    page.find('#permission_show_user').checked?.should == 'checked'
   end
 
   it('Edit an existing user group with invalid data') do
@@ -97,15 +97,15 @@ describe('Users::Controller::UserGroups') do
       click_on(save_button)
     end
 
-    page.has_selector?('label[for="form_name"] span.error').should === true
+    page.has_selector?('label[for="form_name"] span.error').should == true
   end
 
   it('Delete a group without an ID') do
     visit(index_url)
     click_on(delete_button)
 
-    page.has_selector?('input[name="user_group_ids[]"]').should === true
-    page.all('table tbody tr').count.should                     === 2
+    page.has_selector?('input[name="user_group_ids[]"]').should == true
+    page.all('table tbody tr').count.should                     == 2
   end
 
   it('Delete an existing user group') do
@@ -117,7 +117,7 @@ describe('Users::Controller::UserGroups') do
 
     click_on(delete_button)
 
-    page.all('table tbody tr').count.should === 1
+    page.all('table tbody tr').count.should == 1
   end
 
   it('Call the event new_user_group (before and after)') do

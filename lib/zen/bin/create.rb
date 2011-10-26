@@ -69,12 +69,12 @@ Example:
 
         app = argv.delete_at(0)
 
-        return if @stop === true
+        return if @stop == true
         return puts @options if app.nil?
 
         proto = __DIR__('../../../proto/app')
 
-        if File.directory?(app) and Options[:force] === false
+        if File.directory?(app) and Options[:force] == false
           return $stderr.puts "The application #{app} already exists, use -f " \
             + "to overwrite it."
         else

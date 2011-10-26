@@ -163,7 +163,7 @@ module Zen
           end
         end
 
-        if file_found === false
+        if file_found == false
           raise(
             Zen::LanguageError,
             "No language file could be found for \"#{lang_name}\""

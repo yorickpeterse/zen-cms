@@ -94,7 +94,7 @@ module Comments
     #       email = comment.user.email
     #       spam  = Comments::Model::CommentStatus[:name => 'spam']
     #
-    #       if comment.comment_status_id === spam.id
+    #       if comment.comment_status_id == spam.id
     #         Mail.deliver do
     #           from    'example@domain.tld'
     #           to      email

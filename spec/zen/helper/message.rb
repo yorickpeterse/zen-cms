@@ -7,18 +7,18 @@ describe('Ramaze::Helper::Message') do
   it('Display a success message') do
     visit('/admin/spec-message-helper/success')
 
-    page.body.include?('success message').should === true
+    page.body.include?('success message').should == true
   end
 
   it('Display an info message') do
     visit('/admin/spec-message-helper/info')
 
-    page.body.include?('info message').should === true
+    page.body.include?('info message').should == true
   end
 
   it('Display an error message') do
     visit('/admin/spec-message-helper/error')
 
-    page.body.include?('error message').should === true
+    page.body.include?('error message').should == true
   end
 end

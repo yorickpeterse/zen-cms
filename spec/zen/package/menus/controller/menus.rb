@@ -17,8 +17,8 @@ describe("Menus::Controller::Menus") do
 
     visit(index_url)
 
-    page.has_content?(message).should           === true
-    page.has_selector?('table tbody tr').should === false
+    page.has_content?(message).should           == true
+    page.has_selector?('table tbody tr').should == false
   end
 
   it('Submit a form without a CSRF token') do
@@ -26,15 +26,15 @@ describe("Menus::Controller::Menus") do
       Menus::Controller::Menus.r(:save).to_s
     )
 
-    response.body.include?(lang('zen_general.errors.csrf')).should === true
-    response.status.should                                         === 403
+    response.body.include?(lang('zen_general.errors.csrf')).should == true
+    response.status.should                                         == 403
   end
 
   it("Create a new menu") do
     visit(index_url)
     click_link(new_button)
 
-    current_path.should === new_url
+    current_path.should == new_url
 
     within('#menu_form') do
       fill_in('name'     , :with => 'Spec menu')
@@ -44,9 +44,9 @@ describe("Menus::Controller::Menus") do
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should      === 'Spec menu'
-    page.find('input[name="html_class"]').value.should === 'spec_class'
-    page.find('input[name="html_id"]').value.should    === 'spec_id'
+    page.find('input[name="name"]').value.should      == 'Spec menu'
+    page.find('input[name="html_class"]').value.should == 'spec_class'
+    page.find('input[name="html_id"]').value.should    == 'spec_id'
   end
 
   it('Search for a menu') do
@@ -83,7 +83,7 @@ describe("Menus::Controller::Menus") do
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should === 'Spec menu modified'
+    page.find('input[name="name"]').value.should == 'Spec menu modified'
   end
 
   it("Edit an existing menu with invalid data") do
@@ -97,15 +97,15 @@ describe("Menus::Controller::Menus") do
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should === ''
-    page.has_selector?('span.error').should      === true
+    page.find('input[name="name"]').value.should == ''
+    page.has_selector?('span.error').should      == true
   end
 
   it('Try to delete a set of menus without IDs') do
     visit(index_url)
     click_on(delete_button)
 
-    page.has_selector?('input[name="menu_ids[]"]').should === true
+    page.has_selector?('input[name="menu_ids[]"]').should == true
   end
 
   it("Delete an existing menu") do
@@ -115,8 +115,8 @@ describe("Menus::Controller::Menus") do
     check('menu_ids[]')
     click_on(delete_button)
 
-    page.has_content?(message).should           === true
-    page.has_selector?('table tbody tr').should === false
+    page.has_content?(message).should           == true
+    page.has_selector?('table tbody tr').should == false
   end
 
   it('Call the event new_menu (before and after)') do

@@ -61,7 +61,7 @@ module Settings
     #
     # @example Trimming the value of a setting
     #  Zen::Event(:after_edit_setting) do |setting|
-    #    if setting.name === 'website_name'
+    #    if setting.name == 'website_name'
     #      setting.value = setting.value.strip
     #    end
     #  end

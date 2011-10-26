@@ -23,19 +23,19 @@ describe('Zen::Package') do
 
     pkg = Zen::Package[:spec]
 
-    pkg.name.should       === :spec
-    pkg.title.should      === 'Spec'
-    pkg.author.should     === 'Yorick Peterse'
-    pkg.root.should       === __DIR__
-    pkg.migrations.should === pkg.root
+    pkg.name.should       == :spec
+    pkg.title.should      == 'Spec'
+    pkg.author.should     == 'Yorick Peterse'
+    pkg.root.should       == __DIR__
+    pkg.migrations.should == pkg.root
 
-    pkg.menu.title.should === 'Spec'
-    pkg.menu.url.should   === '/admin/spec'
+    pkg.menu.title.should == 'Spec'
+    pkg.menu.url.should   == '/admin/spec'
 
-    pkg.menu.children[0].title.should === 'Sub spec'
-    pkg.menu.children[0].url.should   === '/admin/spec/sub'
+    pkg.menu.children[0].title.should == 'Sub spec'
+    pkg.menu.children[0].url.should   == '/admin/spec/sub'
 
-    pkg.permissions[:foobar].should   === 'Foobar'
+    pkg.permissions[:foobar].should   == 'Foobar'
   end
 
   it('Build a package\'s navigation items') do
@@ -45,7 +45,7 @@ describe('Zen::Package') do
       '<ul><li><a href="/admin/spec/sub" title="Sub spec">Sub spec</a></li>' \
       '</ul></li>'
 
-    menu.should === html
+    menu.should == html
   end
 
   it('Build the navigation menu for all packages') do
@@ -54,7 +54,7 @@ describe('Zen::Package') do
       '<ul><li><a href="/admin/spec/sub" title="Sub spec">Sub spec</a></li>' \
       '</ul></li>'
 
-    menu.include?('<ul class="navigation">').should === true
-    menu.include?(html).should                      === true
+    menu.include?('<ul class="navigation">').should == true
+    menu.include?(html).should                      == true
   end
 end

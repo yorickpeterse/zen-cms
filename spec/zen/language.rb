@@ -17,38 +17,38 @@ describe('Zen::Language') do
     # Check if the frontend language is set properly.
     visit('/spec-language/frontend_dutch')
 
-    page.body.include?('<p>nl</p>').should === true
-    page.body.include?('<p>en<p>').should  === false
+    page.body.include?('<p>nl</p>').should == true
+    page.body.include?('<p>en<p>').should  == false
 
     visit('/spec-language/frontend_english')
 
-    page.body.include?('<p>nl</p>').should === false
-    page.body.include?('<p>en</p>').should === true
+    page.body.include?('<p>nl</p>').should == false
+    page.body.include?('<p>en</p>').should == true
 
     visit('/admin/spec-language/backend_english')
 
-    page.body.include?('<p>nl</p>').should === false
-    page.body.include?('<p>en</p>').should === true
+    page.body.include?('<p>nl</p>').should == false
+    page.body.include?('<p>en</p>').should == true
 
     visit('/admin/spec-language/backend_dutch')
 
-    page.body.include?('<p>nl</p>').should === true
-    page.body.include?('<p>en</p>').should === false
+    page.body.include?('<p>nl</p>').should == true
+    page.body.include?('<p>en</p>').should == false
   end
 
   it('Test an English language pack') do
     Zen::Language.load('spec')
 
-    lang('spec.name').should === 'Name'
-    lang('spec.age').should  === 'Age'
+    lang('spec.name').should == 'Name'
+    lang('spec.age').should  == 'Age'
 
-    lang('spec.parent.sub').should === 'Sub item'
+    lang('spec.parent.sub').should == 'Sub item'
   end
 
   it('Load an already loaded language file') do
     Zen::Language.load('spec')
 
-    lang('spec.name').should === 'Name'
+    lang('spec.name').should == 'Name'
   end
 
   it('Load a non existing language file') do
@@ -70,16 +70,16 @@ describe('Zen::Language') do
   end
 
   it('Access an array using a language string') do
-    lang('spec.array.0').should === 'first'
-    lang('spec.array.1').should === 'second'
+    lang('spec.array.0').should == 'first'
+    lang('spec.array.1').should == 'second'
   end
 
   it('Test a Dutch language pack') do
     get_setting(:language).value = 'nl'
 
-    lang('spec.name').should       === 'Naam'
-    lang('spec.age').should        === 'Leeftijd'
-    lang('spec.parent.sub').should === 'Sub element'
+    lang('spec.name').should       == 'Naam'
+    lang('spec.age').should        == 'Leeftijd'
+    lang('spec.parent.sub').should == 'Sub element'
 
     get_setting(:language).value = 'en'
   end

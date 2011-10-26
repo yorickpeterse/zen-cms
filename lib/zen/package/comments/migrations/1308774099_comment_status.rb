@@ -28,7 +28,7 @@ Sequel.migration do
       status_id = Zen.database[:comment_statuses].insert({:name => status})
 
       comments.each do |comment|
-        if comment[:status] === status
+        if comment[:status] == status
           Zen.database[:comments].filter(:id => comment[:id]) \
             .update(:comment_status_id => status_id)
         end

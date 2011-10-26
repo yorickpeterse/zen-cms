@@ -7,7 +7,7 @@ Sequel.migration do
     add_column(:users, :date_format, String, :default => '%Y-%m-%d %H:%M:%S')
 
     users.each do |user|
-      if user[:date_format] === '%Y-%m-%d %H:%I:%S'
+      if user[:date_format] == '%Y-%m-%d %H:%I:%S'
         format = '%Y-%m-%d %H:%M:%S'
       else
         format = user[:date_format]
@@ -27,7 +27,7 @@ Sequel.migration do
     add_column(:users, :date_format, String, :default => '%Y-%m-%d %H:%I:%S')
 
     users.each do |user|
-      if user[:date_format] === '%Y-%m-%d %H:%M:%S'
+      if user[:date_format] == '%Y-%m-%d %H:%M:%S'
         format = '%Y-%m-%d %H:%I:%S'
       else
         format = user[:date_format]

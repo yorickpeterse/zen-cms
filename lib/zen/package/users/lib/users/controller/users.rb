@@ -288,7 +288,7 @@ module Users
           Zen::Event.call(before_event, user)
 
           user.save
-          user.user_group_pks = post['user_group_pks'] if save_action === :new
+          user.user_group_pks = post['user_group_pks'] if save_action == :new
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, error)

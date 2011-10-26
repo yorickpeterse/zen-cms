@@ -25,7 +25,7 @@ describe('Ramaze::Helper::Section') do
 
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Validate an invalid section') do
@@ -34,7 +34,7 @@ describe('Ramaze::Helper::Section') do
 
     visit(url)
 
-    current_path.should === index
+    current_path.should == index
   end
 
   it('Validate a valid section entry') do
@@ -44,7 +44,7 @@ describe('Ramaze::Helper::Section') do
 
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Validate an invalid section entry') do
@@ -55,7 +55,7 @@ describe('Ramaze::Helper::Section') do
 
     visit(url)
 
-    current_path.should === index
+    current_path.should == index
   end
 
   entry.destroy

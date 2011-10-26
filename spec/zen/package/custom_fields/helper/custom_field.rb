@@ -17,15 +17,15 @@ describe('Ramaze::Helper::CustomField') do
     :custom_field_type_id  => type.id
   )
 
-  @group.name.should === 'Spec group'
-  @field.name.should === 'Spec field'
+  @group.name.should == 'Spec group'
+  @field.name.should == 'Spec field'
 
   it('Validate a valid custom field group') do
     url = CustomFields::Controller::CustomFieldGroups.r(:edit, @group.id).to_s
 
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Validate an invalid custom field group') do
@@ -37,7 +37,7 @@ describe('Ramaze::Helper::CustomField') do
 
     visit(url)
 
-    current_path.should === index
+    current_path.should == index
   end
 
   it('Validate a valid custom field') do
@@ -46,7 +46,7 @@ describe('Ramaze::Helper::CustomField') do
 
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Validate an invalid custom field') do
@@ -57,7 +57,7 @@ describe('Ramaze::Helper::CustomField') do
 
     visit(url)
 
-    current_path.should === index
+    current_path.should == index
   end
 
   it('Validate a valid custom field type') do
@@ -66,7 +66,7 @@ describe('Ramaze::Helper::CustomField') do
 
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Validate an invalid custom field type') do
@@ -76,7 +76,7 @@ describe('Ramaze::Helper::CustomField') do
       CustomFields::Controller::CustomFieldTypes.r(:edit, type.id + 100).to_s
     )
 
-    current_path.should === CustomFields::Controller::CustomFieldTypes.r(
+    current_path.should == CustomFields::Controller::CustomFieldTypes.r(
       :index
     ).to_s
   end

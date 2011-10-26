@@ -31,7 +31,7 @@ describe('Ramaze::Helper::Menu') do
 
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Validate an invalid menu') do
@@ -40,7 +40,7 @@ describe('Ramaze::Helper::Menu') do
 
     visit(url)
 
-    current_path.should === index
+    current_path.should == index
   end
 
   it('Validate a valid menu item') do
@@ -48,7 +48,7 @@ describe('Ramaze::Helper::Menu') do
 
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Validate an invalid menu item') do
@@ -57,15 +57,15 @@ describe('Ramaze::Helper::Menu') do
 
     visit(url)
 
-    current_path.should === index
+    current_path.should == index
   end
 
   it('Generate a navigation tree') do
     tree = menu_item_tree(@item.id)
 
-    tree[nil].should           === '--'
-    tree[@child.id].should     === "&nbsp;&nbsp;#{@child.name}"
-    tree[@sub_child.id].should === "&nbsp;&nbsp;&nbsp;&nbsp;#{@sub_child.name}"
+    tree[nil].should           == '--'
+    tree[@child.id].should     == "&nbsp;&nbsp;#{@child.name}"
+    tree[@sub_child.id].should == "&nbsp;&nbsp;&nbsp;&nbsp;#{@sub_child.name}"
   end
 
   @sub_child.destroy

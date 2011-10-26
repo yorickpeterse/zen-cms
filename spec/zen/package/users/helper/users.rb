@@ -19,7 +19,7 @@ describe('Ramaze::Helper::Users') do
 
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Validate an invalid user') do
@@ -28,7 +28,7 @@ describe('Ramaze::Helper::Users') do
 
     visit(url)
 
-    current_path.should === index
+    current_path.should == index
   end
 
   it('Validate a valid user group') do
@@ -36,7 +36,7 @@ describe('Ramaze::Helper::Users') do
 
     visit(url)
 
-    current_path.should === url
+    current_path.should == url
   end
 
   it('Validate an invalid user group') do
@@ -45,7 +45,7 @@ describe('Ramaze::Helper::Users') do
 
     visit(url)
 
-    current_path.should === index
+    current_path.should == index
   end
 
   @group.destroy

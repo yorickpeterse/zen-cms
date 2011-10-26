@@ -110,7 +110,7 @@ module Zen
 
       Zen.asset = Ramaze::Asset::Environment.new(
         :cache_path => cache_path,
-        :minify     => Ramaze.options.mode === :live
+        :minify     => Ramaze.options.mode == :live
       )
 
       Zen.asset.serve(
@@ -160,12 +160,12 @@ module Zen
         css = File.join(p, 'admin/css/global.css')
         js  = File.join(p, 'admin/js/global.js')
 
-        if File.exist?(css) and css_loaded === false
+        if File.exist?(css) and css_loaded == false
           Zen.asset.serve(:css, ['admin/css/global'])
           css_loaded = true
         end
 
-        if File.exist?(js) and js_loaded === false
+        if File.exist?(js) and js_loaded == false
           Zen.asset.serve(:javascript, ['admin/js/global'])
           js_loaded = true
         end

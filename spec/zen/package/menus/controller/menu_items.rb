@@ -17,8 +17,8 @@ describe("Menus::Controller::MenuItems") do
 
     visit(index_url)
 
-    page.has_content?(message).should           === true
-    page.has_selector?('table tbody tr').should === false
+    page.has_content?(message).should           == true
+    page.has_selector?('table tbody tr').should == false
   end
 
   it('Submit a form without a CSRF token') do
@@ -26,8 +26,8 @@ describe("Menus::Controller::MenuItems") do
       Menus::Controller::MenuItems.r(:save).to_s
     )
 
-    response.body.include?(lang('zen_general.errors.csrf')).should === true
-    response.status.should                                         === 403
+    response.body.include?(lang('zen_general.errors.csrf')).should == true
+    response.status.should                                         == 403
   end
 
   it("Create a new menu item") do
@@ -76,7 +76,7 @@ describe("Menus::Controller::MenuItems") do
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should === 'Spec menu item modified'
+    page.find('input[name="name"]').value.should == 'Spec menu item modified'
   end
 
   it('Edit an existing menu item with invalid data') do
@@ -89,15 +89,15 @@ describe("Menus::Controller::MenuItems") do
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should === 'xxx'
-    page.has_selector?('span.error').should      === true
+    page.find('input[name="name"]').value.should == 'xxx'
+    page.has_selector?('span.error').should      == true
   end
 
   it('Try to delete a set of items without IDs') do
     visit(index_url)
     click_on(delete_button)
 
-    page.has_selector?('input[name="menu_item_ids[]"]').should === true
+    page.has_selector?('input[name="menu_item_ids[]"]').should == true
   end
 
   it("Delete an existing menu item") do
@@ -107,8 +107,8 @@ describe("Menus::Controller::MenuItems") do
     check('menu_item_ids[]')
     click_on(delete_button)
 
-    page.has_selector?('table tbody tr').should === false
-    page.has_content?(message).should           === true
+    page.has_selector?('table tbody tr').should == false
+    page.has_content?(message).should           == true
   end
 
   it('Call the event new_menu_item (before and after)') do

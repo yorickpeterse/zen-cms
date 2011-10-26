@@ -10,15 +10,15 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[0].should === :input_text
-    params[1].should === stubbed[:custom_field].name
-    params[2].should === "custom_field_value_#{stubbed[:custom_field].id}"
+    params[0].should == :input_text
+    params[1].should == stubbed[:custom_field].name
+    params[2].should == "custom_field_value_#{stubbed[:custom_field].id}"
 
-    params[3][:value].should         === stubbed[:custom_field_value].value
-    params[3][:maxlength].should     === stubbed[:custom_field].text_limit
-    params[3][:'data-format'].should === nil
-    params[3][:placeholder].should   === stubbed[:custom_field].description
-    params[3].key?(:class).should    === false
+    params[3][:value].should         == stubbed[:custom_field_value].value
+    params[3][:maxlength].should     == stubbed[:custom_field].text_limit
+    params[3][:'data-format'].should == nil
+    params[3][:placeholder].should   == stubbed[:custom_field].description
+    params[3].key?(:class).should    == false
   end
 
   it('Generate the parameters for input_password()') do
@@ -28,12 +28,12 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[0].should === :input_password
-    params[1].should === stubbed[:custom_field].name
-    params[2].should === "custom_field_value_#{stubbed[:custom_field].id}"
+    params[0].should == :input_password
+    params[1].should == stubbed[:custom_field].name
+    params[2].should == "custom_field_value_#{stubbed[:custom_field].id}"
 
-    params[3][:value].should              === stubbed[:custom_field_value].value
-    params[3].key?(:'data-format').should === false
+    params[3][:value].should              == stubbed[:custom_field_value].value
+    params[3].key?(:'data-format').should == false
   end
 
   it('Generate the parameters for textarea()') do
@@ -48,13 +48,13 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[0].should === :textarea
-    params[1].should === stubbed[:custom_field].name
-    params[2].should === "custom_field_value_#{stubbed[:custom_field].id}"
+    params[0].should == :textarea
+    params[1].should == stubbed[:custom_field].name
+    params[2].should == "custom_field_value_#{stubbed[:custom_field].id}"
 
-    params[3][:class].should         === 'text_editor'
-    params[3][:'data-format'].should === stubbed[:custom_field].format
-    params[3][:rows].should          === stubbed[:custom_field].textarea_rows
+    params[3][:class].should         == 'text_editor'
+    params[3][:'data-format'].should == stubbed[:custom_field].format
+    params[3][:rows].should          == stubbed[:custom_field].textarea_rows
 
     # Try again but with the text editor disabled.
     stubbed = stub_custom_field('textarea',)
@@ -63,7 +63,7 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[3][:class].empty?.should === true
+    params[3][:class].empty?.should == true
   end
 
   it('Generate the parameters for input_radio()') do
@@ -77,13 +77,13 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[0].should === :input_radio
-    params[1].should === stubbed[:custom_field].name
-    params[2].should === "custom_field_value_#{stubbed[:custom_field].id}"
-    params[3].should === stubbed[:custom_field_value].value
+    params[0].should == :input_radio
+    params[1].should == stubbed[:custom_field].name
+    params[2].should == "custom_field_value_#{stubbed[:custom_field].id}"
+    params[3].should == stubbed[:custom_field_value].value
 
-    params[4][:values]['ruby'].should   === 'Ruby'
-    params[4][:values]['python'].should === 'Python'
+    params[4][:values]['ruby'].should   == 'Ruby'
+    params[4][:values]['python'].should == 'Python'
 
     # Check if the correct parameters are generated with a different set of
     # possible values.
@@ -97,8 +97,8 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[4][:values]['ruby'].should   === 'ruby'
-    params[4][:values]['python'].should === 'python'
+    params[4][:values]['ruby'].should   == 'ruby'
+    params[4][:values]['python'].should == 'python'
   end
 
   it('Generate the parameters for input_checkbox()') do
@@ -114,13 +114,13 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[0].should === :input_radio
-    params[1].should === stubbed[:custom_field].name
-    params[2].should === "custom_field_value_#{stubbed[:custom_field].id}"
+    params[0].should == :input_radio
+    params[1].should == stubbed[:custom_field].name
+    params[2].should == "custom_field_value_#{stubbed[:custom_field].id}"
 
     params[3].class.should              == Array
-    params[3].include?('Ruby').should   === true
-    params[3].include?('Python').should === true
+    params[3].include?('Ruby').should   == true
+    params[3].include?('Python').should == true
   end
 
   it('Generate the parameters for select()') do
@@ -134,14 +134,14 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[0].should === :select
-    params[1].should === stubbed[:custom_field].name
-    params[2].should === "custom_field_value_#{stubbed[:custom_field].id}"
+    params[0].should == :select
+    params[1].should == stubbed[:custom_field].name
+    params[2].should == "custom_field_value_#{stubbed[:custom_field].id}"
 
-    params[3][:selected].should         === stubbed[:custom_field_value].value
-    params[3][:size].should             === 1
-    params[3][:values]['ruby'].should   === 'Ruby'
-    params[3][:values]['python'].should === 'Python'
+    params[3][:selected].should         == stubbed[:custom_field_value].value
+    params[3][:size].should             == 1
+    params[3][:values]['ruby'].should   == 'Ruby'
+    params[3][:values]['python'].should == 'Python'
 
     # Create the parameters using the same string as the keys and values.
     stubbed = stub_custom_field(
@@ -154,8 +154,8 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[3][:values]['ruby'].should   === 'ruby'
-    params[3][:values]['python'].should === 'python'
+    params[3][:values]['ruby'].should   == 'ruby'
+    params[3][:values]['python'].should == 'python'
   end
 
   it('Generate the parameters for select_multiple()') do
@@ -171,13 +171,13 @@ describe('CustomFields::BlueFormParameters') do
       stubbed[:custom_field_value]
     )
 
-    params[0].should === :select
-    params[1].should === stubbed[:custom_field].name
-    params[2].should === "custom_field_value_#{stubbed[:custom_field].id}"
+    params[0].should == :select
+    params[1].should == stubbed[:custom_field].name
+    params[2].should == "custom_field_value_#{stubbed[:custom_field].id}"
 
-    params[3][:selected].should         === ['Ruby', 'Python']
-    params[3][:values]['Ruby'].should   === 'ruby'
-    params[3][:values]['Python'].should === 'python'
-    params[3][:multiple].should         === :multiple
+    params[3][:selected].should         == ['Ruby', 'Python']
+    params[3][:values]['Ruby'].should   == 'ruby'
+    params[3][:values]['Python'].should == 'python'
+    params[3][:multiple].should         == :multiple
   end
 end # describe

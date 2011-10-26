@@ -50,7 +50,7 @@ module Ramaze
         required.each do |req|
           req = req.to_sym if req.respond_to?(:to_sym)
 
-          if !permissions.include?(req) and super_group === false
+          if !permissions.include?(req) and super_group == false
             return false
           end
         end
@@ -99,7 +99,7 @@ module Ramaze
         group_ids   = []
 
         user.user_groups.each do |group|
-          super_group = true if group.super_group === true
+          super_group = true if group.super_group == true
           group_ids << group.id
         end
 

@@ -400,7 +400,7 @@ module Ramaze
           if !args[:values].empty?
             @g.p do
               # Let's create the label and the hidden field
-              if show_label === true
+              if show_label == true
                 label_for(id, label, name)
               end
 
@@ -454,7 +454,7 @@ module Ramaze
                 #
                 @g.span(:class => span_class) do
                   @g.input(opts)
-                  " #{checkbox_text}" if show_value === true
+                  " #{checkbox_text}" if show_value == true
                 end
               end
             end

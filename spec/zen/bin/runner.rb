@@ -8,7 +8,7 @@ describe('Zen::Bin::Runner') do
       Zen::Bin::Runner.run
     end
 
-    output[:stdout].include?(Zen::Bin::Runner::Banner).should === true
+    output[:stdout].include?(Zen::Bin::Runner::Banner).should == true
   end
 
   it('Show the help message using -h') do
@@ -16,7 +16,7 @@ describe('Zen::Bin::Runner') do
       Zen::Bin::Runner.run(['-h'])
     end
 
-    output[:stdout].include?(Zen::Bin::Runner::Banner).should === true
+    output[:stdout].include?(Zen::Bin::Runner::Banner).should == true
   end
 
   it('Show the version number') do
@@ -24,7 +24,7 @@ describe('Zen::Bin::Runner') do
       Zen::Bin::Runner.run(['-v'])
     end
 
-    output[:stdout].strip.should === Zen::Version
+    output[:stdout].strip.should == Zen::Version
   end
 
   it('Run a command') do
@@ -32,7 +32,7 @@ describe('Zen::Bin::Runner') do
       Zen::Bin::Runner.run(['create'])
     end
 
-    output[:stdout].strip.include?(Zen::Bin::Create::Banner).should === true
+    output[:stdout].strip.include?(Zen::Bin::Create::Banner).should == true
   end
 
   it('Run a command') do
@@ -40,8 +40,8 @@ describe('Zen::Bin::Runner') do
       Zen::Bin::Runner.run(['invalid'])
     end
 
-    output[:stdout].empty?.should === true
-    output[:stderr].strip.should  === 'The specified command is invalid'
+    output[:stdout].empty?.should == true
+    output[:stderr].strip.should  == 'The specified command is invalid'
   end
 
 end

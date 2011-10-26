@@ -15,8 +15,8 @@ describe("Sections::Controller::Sections") do
       Sections::Controller::Sections.r(:save).to_s
     )
 
-    response.body.include?(lang('zen_general.errors.csrf')).should === true
-    response.status.should                                         === 403
+    response.body.include?(lang('zen_general.errors.csrf')).should == true
+    response.status.should                                         == 403
   end
 
   it("No sections should exist") do
@@ -37,7 +37,7 @@ describe("Sections::Controller::Sections") do
     current_path.should == new_url
 
     # Check if the tabs are there
-    page.has_selector?('.tabs ul').should === true
+    page.has_selector?('.tabs ul').should == true
 
     # Fill in the form
     within('#section_form') do
@@ -54,7 +54,7 @@ describe("Sections::Controller::Sections") do
 
     # Validate the new page
     current_path.should =~ /#{edit_url}\/[0-9]+/
-    page.find('input[name="name"]').value.should === 'Spec section'
+    page.find('input[name="name"]').value.should == 'Spec section'
   end
 
   it('Search for a section') do
@@ -91,8 +91,8 @@ describe("Sections::Controller::Sections") do
       click_on(save_button)
     end
 
-    page.find('input[name="name"]').value.should === 'Spec section modified'
-    page.find('input[name="slug"]').value.should === 'spec-section'
+    page.find('input[name="name"]').value.should == 'Spec section modified'
+    page.find('input[name="slug"]').value.should == 'spec-section'
   end
 
   it("Edit an existing section with invalid data") do
@@ -106,14 +106,14 @@ describe("Sections::Controller::Sections") do
       click_on(save_button)
     end
 
-    page.has_selector?('span.error').should === true
+    page.has_selector?('span.error').should == true
   end
 
   it('Delete a section without an ID specified') do
     visit(index_url)
     click_on(delete_button)
 
-    page.has_selector?('input[name="section_ids[]"]').should === true
+    page.has_selector?('input[name="section_ids[]"]').should == true
   end
 
   it("Delete an existing section") do
@@ -122,7 +122,7 @@ describe("Sections::Controller::Sections") do
     check('section_ids[]')
     click_on(delete_button)
 
-    page.has_selector?('table tbody tr').should === false
+    page.has_selector?('table tbody tr').should == false
   end
 
   it('Call the event new_section (before and after)') do

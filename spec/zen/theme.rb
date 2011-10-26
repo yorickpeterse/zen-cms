@@ -32,9 +32,9 @@ describe("Zen::Theme") do
   it("Retrieve our theme") do
     theme = Zen::Theme[:spec]
 
-    theme.name.should         === :spec
-    theme.author.should       === 'Yorick Peterse'
-    theme.template_dir.should === __DIR__
+    theme.name.should         == :spec
+    theme.author.should       == 'Yorick Peterse'
+    theme.template_dir.should == __DIR__
   end
 
 end

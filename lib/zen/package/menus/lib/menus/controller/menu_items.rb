@@ -182,7 +182,7 @@ module Menus
           :menu_id
         )
 
-        if post['parent_id'].empty? or post['parent_id'] === post['id']
+        if post['parent_id'].empty? or post['parent_id'] == post['id']
           post['parent_id'] = nil
         end
 

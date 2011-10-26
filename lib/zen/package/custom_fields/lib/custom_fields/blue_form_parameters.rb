@@ -105,7 +105,7 @@ module CustomFields
         end
 
         if !field.format.nil? and !field.format.empty? \
-        and type.allow_markup === true
+        and type.allow_markup == true
           params.last[:'data-format'] = field.format
         end
 
@@ -151,7 +151,7 @@ module CustomFields
 
         # Remove the class "text]editor" if the field does not allow the text
         # editor to be used.
-        if field.text_editor === false
+        if field.text_editor == false
           params.last[:class].gsub!('text_editor', '')
         end
 

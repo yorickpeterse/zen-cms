@@ -32,6 +32,6 @@ describe('Ramaze::Helper::Breadcrumb') do
   end
 
   it('Return no breadcrumbs') do
-    get_breadcrumbs.nil?.should === true
+    get_breadcrumbs.nil?.should == true
   end
 end

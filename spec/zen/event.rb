@@ -8,7 +8,7 @@ describe('Zen::Event') do
   it('Register a event') do
     Zen::Event.listen(:test) {}
 
-    Zen::Event::Registered.key?(:test).should === true
+    Zen::Event::Registered.key?(:test).should == true
   end
 
   it('Run a single event') do
@@ -19,10 +19,10 @@ describe('Zen::Event') do
     end
 
     Zen::Event.call(:test, 10)
-    data.should === 10
+    data.should == 10
 
     Zen::Event.call(:test, 12)
-    data.should === 12
+    data.should == 12
   end
 
   it('Run multiple events') do
@@ -39,6 +39,6 @@ describe('Zen::Event') do
     Zen::Event.call(:test, 10)
     Zen::Event.call(:test, 20)
 
-    data.should === 90
+    data.should == 90
   end
 end

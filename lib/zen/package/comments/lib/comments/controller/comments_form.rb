@@ -136,7 +136,7 @@ module Comments
         end
 
         # Validate the section entry
-        if entry.nil? or entry.section_entry_status_id === draft_status
+        if entry.nil? or entry.section_entry_status_id == draft_status
           message(:error, lang('comments.errors.invalid_entry'))
           redirect_referrer
         end
@@ -151,19 +151,19 @@ module Comments
         end
 
         # Comments allowed?
-        if section.comment_allow === false
+        if section.comment_allow == false
           message(:error, lang('comments.errors.comments_not_allowed'))
           redirect_referrer
         end
 
         # Comments require an account?
-        if section.comment_require_account === true and !logged_in?
+        if section.comment_require_account == true and !logged_in?
           message(:error, lang('comments.errors.comments_require_account'))
           redirect_referrer
         end
 
         # Require moderation?
-        if section.comment_moderate === true
+        if section.comment_moderate == true
           comment.comment_status_id = comment_statuses['closed']
         end
 
@@ -180,7 +180,7 @@ module Comments
         end
 
         # Require anti-spam validation?
-        if get_setting(:enable_antispam).value === '1'
+        if get_setting(:enable_antispam).value == '1'
           engine = get_setting(:anti_spam_system).value
           spam   = ::Comments::AntiSpam.validate(
             engine,
@@ -191,8 +191,8 @@ module Comments
           )
 
           # Is it spam?
-          if spam === false
-            if section.comment_moderate === true
+          if spam == false
+            if section.comment_moderate == true
               comment.comment_status_id = comment_statuses['closed']
             else
               comment.comment_status_id = comment_statuses['open']
