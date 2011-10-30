@@ -36,8 +36,7 @@ success:
 errors:
   save: 'De instellingen konden niet worden opgeslagen.'
 
-description       : 'Pakket voor het beheren van instellingen.'
-plugin_description: 'Plugin voor het ophalen en aanpassen van instellingen.'
+description: 'Pakket voor het beheren van instellingen.'
 
 permissions:
   show: 'Instelling weergeven'

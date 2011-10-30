@@ -47,7 +47,7 @@ verwijderen.'
   comments_require_account: 'Je moet ingelogd zijn om reacties te kunnen \
 plaatsen.'
 
-  invalid_comment         : 'De opgegeven reactie is ongeldig.'
+  invalid_comment: 'De opgegeven reactie is ongeldig.'
 
 buttons:
   delete: 'Geselecteerde reacties verwijderen'
@@ -59,7 +59,3 @@ permissions:
   delete: 'Reactie verwijderen'
 
 description: 'Reacties beheren.'
-
-plugin:
-  comments : 'Plugin voor het ophalen van reacties.'
-  anti_spam: 'Plugin die kijkt of een reactie spam of geen spam is.'

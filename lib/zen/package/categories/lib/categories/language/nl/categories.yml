@@ -44,7 +44,3 @@ permissions:
   edit  : 'Categorie aanpassen'
   new   : 'Categorie aanmaken'
   delete: 'Categorie verwijderen'
-
-
-plugin_description: 'Plugin voor het ophalen van categoriën en categorie \
-groepen.'

@@ -1,36 +1,36 @@
 ---
 titles:
-  index  : 'Menus'
-  edit   : 'Edit Menu'
-  new    : 'Add Menu'
+  index: 'Menus'
+  edit : 'Edit Menu'
+  new  : 'Add Menu'
 
 labels:
-  id            : '#'
-  name          : 'Name'
-  slug          : 'Slug'
-  description   : 'Description'
-  html_class    : 'HTML class'
-  html_id       : 'HTML ID'
-  manage_items  : 'Manage menu items'
+  id          : '#'
+  name        : 'Name'
+  slug        : 'Slug'
+  description : 'Description'
+  html_class  : 'HTML class'
+  html_id     : 'HTML ID'
+  manage_items: 'Manage menu items'
 
 placeholders:
-  name       : 'Specify the name of the menu.'
-  slug       : 'Specify the URL friendly name of the menu.'
-  html_class : 'A number of classes to apply to the menu.'
-  html_id    : 'An ID to apply to the menu.'
+  name      : 'Specify the name of the menu.'
+  slug      : 'Specify the URL friendly name of the menu.'
+  html_class: 'A number of classes to apply to the menu.'
+  html_id   : 'An ID to apply to the menu.'
 
 messages:
   no_menus: 'No menus have been added yet.'
 
 buttons:
-  new     : 'Add menu'
-  save    : 'Save menu'
-  delete  : 'Delete selected menus'
+  new   : 'Add menu'
+  save  : 'Save menu'
+  delete: 'Delete selected menus'
 
 success:
-  new     : 'The menu has been created.'
-  save    : 'The menu has been modified.'
-  delete  : 'The selected menus have been deleted.'
+  new   : 'The menu has been created.'
+  save  : 'The menu has been modified.'
+  delete: 'The selected menus have been deleted.'
 
 errors:
   new         : 'The menu could not be created.'
@@ -39,8 +39,7 @@ errors:
   no_delete   : 'You need to specify at least one menu to delete.'
   invalid_menu: 'The specified menu is invalid.'
 
-description       : 'Manage menus and menu items.'
-plugin_description: 'Plugin for retrieving and rendering menus.'
+description: 'Manage menus and menu items.'
 
 permissions:
   show  : 'Show menu'

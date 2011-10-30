@@ -63,14 +63,14 @@ module Zen
         raise('You need to specify a valid root directory in Zen.root')
       end
 
-      require __DIR__('zen/model/init')
-      require __DIR__('zen/model/methods')
+      require 'zen/model/init'
+      require 'zen/model/methods'
 
       # Set up Ramaze::Asset
       setup_assets
 
       # Load all packages
-      require __DIR__('zen/package/all')
+      require 'zen/package/all'
 
       # Load the global stylesheet and Javascript file if they're located in
       # ROOT/public/css/admin/global.css and ROOT/public/js/admin/global.js
@@ -137,7 +137,7 @@ module Zen
       )
 
       # Add all the asset groups.
-      require __DIR__('zen/asset_groups')
+      require 'zen/asset_groups'
     end
 
     ##

@@ -19,7 +19,7 @@ module Zen
       # default error will be shown.
       #
       # @since  0.1
-      # @param  [Array] uri Array containing all arguments (thus the URI).
+      # @param  [Array] uri Array containing all arguments.
       #
       def index(*uri)
         @request_uri = []

@@ -54,7 +54,3 @@ permissions:
   edit  : 'Sectie aanpassen'
   new   : 'Sectie aanmaken'
   delete: 'Sectie verwijderen'
-
-plugins:
-  sections       : 'Plugin voor het ophalen van secties.'
-  section_entries: 'Plugin die gebruikt kan worden om sectie items op te halen.'

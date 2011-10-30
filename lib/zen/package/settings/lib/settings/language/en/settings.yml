@@ -3,24 +3,24 @@ titles:
   index: 'Settings'
 
 labels:
-  website_name         : 'Website name'
-  website_description  : 'Website description'
-  language             : 'Language'
-  frontend_language    : 'Frontend language'
-  default_section      : 'Default section'
-  theme                : 'Theme'
-  enable_antispam      : 'Enable anti-spam'
-  date_format          : 'Date format'
+  website_name       : 'Website name'
+  website_description: 'Website description'
+  language           : 'Language'
+  frontend_language  : 'Frontend language'
+  default_section    : 'Default section'
+  theme              : 'Theme'
+  enable_antispam    : 'Enable anti-spam'
+  date_format        : 'Date format'
 
 placeholders:
-  website_name        : 'The name of the website.'
-  website_description : 'The description of the website.'
-  language            : 'The language to use for the system.'
-  default_section     : 'The default section to use on the homepage.'
-  theme               : 'The frontend theme to use.'
-  enable_antispam     : 'Whether or not anti-spam protection should be used for comments'
-  frontend_language   : 'The language to use for the frontend of the website.'
-  date_format         : 'A custom format used for all the dates displayed in the backend.'
+  website_name       : 'The name of the website.'
+  website_description: 'The description of the website.'
+  language           : 'The language to use for the system.'
+  default_section    : 'The default section to use on the homepage.'
+  theme              : 'The frontend theme to use.'
+  enable_antispam    : 'Whether or not anti-spam protection should be used for comments'
+  frontend_language  : 'The language to use for the frontend of the website.'
+  date_format        : 'A custom format used for all the dates displayed in the backend.'
 
 tabs:
   general : 'General'
@@ -35,8 +35,7 @@ success:
 errors:
   save: 'The settings could not be saved.'
 
-description       : 'Package for managing settings.'
-plugin_description: 'Plugin for retrieving and updating settings.'
+description: 'Package for managing settings.'
 
 permissions:
   show: 'Show setting'

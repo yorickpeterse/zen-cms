@@ -39,9 +39,7 @@ errors:
   no_delete   : 'U moet ten minste 1 menu specificeren om te verwijderen.'
   invalid_menu: 'Het opgegeven menu is ongeldig.'
 
-description       : "Beheer menu's."
-plugin_description: "Plugin voor het ophalen en weergeven van menu's."
-
+description: "Beheren van menu's en menu items."
 permissions:
   show  : 'Menu weergeven'
   edit  : 'Menu aanpassen'

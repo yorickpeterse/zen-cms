@@ -1,9 +1,9 @@
 ---
 titles:
-  index  : 'Users'
-  edit   : 'Edit User'
-  new    : 'Add User'
-  login  : 'Login'
+  index: 'Users'
+  edit : 'Edit User'
+  new  : 'Add User'
+  login: 'Login'
 
 labels:
   id               : '#'
@@ -26,34 +26,34 @@ placeholders:
 
 special:
   status_hash:
-    open   : 'Open'
-    closed : 'Closed'
+    open  : 'Open'
+    closed: 'Closed'
 
 messages:
-  no_users : 'No users have been added yet.'
+  no_users: 'No users have been added yet.'
 
 errors:
-  new               : 'Failed to create the new user.'
-  save              : 'Failed to save the user.'
-  delete            : 'Failed to delete the user with ID #%s.'
-  no_delete         : 'You have to specify at least one user to delete.'
-  no_password_match : 'The specified passwords did not match.'
-  login             : 'Failed to log in with the specified details.'
-  logout            : 'Failed to log out, perhaps you are already logged out.'
-  invalid_user      : 'The specified user is invalid.'
+  new              : 'Failed to create the new user.'
+  save             : 'Failed to save the user.'
+  delete           : 'Failed to delete the user with ID #%s.'
+  no_delete        : 'You have to specify at least one user to delete.'
+  no_password_match: 'The specified passwords did not match.'
+  login            : 'Failed to log in with the specified details.'
+  logout           : 'Failed to log out, perhaps you are already logged out.'
+  invalid_user     : 'The specified user is invalid.'
 
 success:
-  new    : 'The new user has been created.'
-  save   : 'The user has been modified.'
-  delete : 'All selected users have been deleted.'
-  login  : 'You have been successfully logged in.'
-  logout : 'You have been successfully logged out.'
+  new   : 'The new user has been created.'
+  save  : 'The user has been modified.'
+  delete: 'All selected users have been deleted.'
+  login : 'You have been successfully logged in.'
+  logout: 'You have been successfully logged out.'
 
 buttons:
-  login  : 'Login'
-  new    : 'Add user'
-  delete : 'Delete selected users'
-  save   : 'Save user'
+  login : 'Login'
+  new   : 'Add user'
+  delete: 'Delete selected users'
+  save  : 'Save user'
 
 description: 'Manage users, user groups and permissions.'
 

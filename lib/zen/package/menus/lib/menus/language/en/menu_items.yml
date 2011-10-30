@@ -1,44 +1,44 @@
 ---
 titles:
-  index  : 'Menu Items'
-  edit   : 'Edit Menu Item'
-  new    : 'Create Menu Item'
+  index: 'Menu Items'
+  edit : 'Edit Menu Item'
+  new  : 'Create Menu Item'
 
 labels:
-  id         : '#'
-  parent_id  : 'Parent'
-  name       : 'Name'
-  url        : 'URL'
-  order      : 'Order'
-  html_class : 'HTML class'
-  html_id    : 'HTML ID'
+  id        : '#'
+  parent_id : 'Parent'
+  name      : 'Name'
+  url       : 'URL'
+  order     : 'Order'
+  html_class: 'HTML class'
+  html_id   : 'HTML ID'
 
 placeholders:
-  name       : 'The text that will be displayed in the link.'
-  url        : 'The location to which the link will point.'
-  order      : 'A number that indicates the sort order.'
-  html_class : 'Specify a class name (or multiple names) to apply to this item.'
-  html_id    : 'Specify an ID to apply to this item.'
+  name      : 'The text that will be displayed in the link.'
+  url       : 'The location to which the link will point.'
+  order     : 'A number that indicates the sort order.'
+  html_class: 'Specify a class name (or multiple names) to apply to this item.'
+  html_id   : 'Specify an ID to apply to this item.'
 
 messages:
-  no_items : 'No menu items have been added yet.'
+  no_items: 'No menu items have been added yet.'
 
 buttons:
-  new     : 'Add menu item'
-  save    : 'Save menu item'
-  delete  : 'Delete selected menu items'
+  new   : 'Add menu item'
+  save  : 'Save menu item'
+  delete: 'Delete selected menu items'
 
 success:
-  new     : 'The menu item has been created.'
-  save    : 'The menu item has been modified.'
-  delete  : 'The selected menu items have been deleted.'
+  new   : 'The menu item has been created.'
+  save  : 'The menu item has been modified.'
+  delete: 'The selected menu items have been deleted.'
 
 errors:
-  new           : 'The menu item could not be created.'
-  save          : 'The menu item could not be modified.'
-  delete        : 'The menu item with ID #%s could not be deleted.'
-  no_delete     : 'You need to specify at least one item to delete.'
-  invalid_item  : 'The specified menu item is invalid.'
+  new         : 'The menu item could not be created.'
+  save        : 'The menu item could not be modified.'
+  delete      : 'The menu item with ID #%s could not be deleted.'
+  no_delete   : 'You need to specify at least one item to delete.'
+  invalid_item: 'The specified menu item is invalid.'
 
 permissions:
   show  : 'Show menu item'

@@ -1,25 +1,25 @@
 ---
 titles:
-  index : 'Category Groups'
-  edit  : 'Edit Category Group'
-  new   : 'Add Category Group'
+  index: 'Category Groups'
+  edit : 'Edit Category Group'
+  new  : 'Add Category Group'
 
 labels:
-  id          : '#'
-  name        : 'Name'
-  description : 'Description'
-  manage      : 'Manage Categories'
+  id         : '#'
+  name       : 'Name'
+  description: 'Description'
+  manage     : 'Manage Categories'
 
 placeholders:
-  name : 'The name of the category group'
+  name: 'The name of the category group'
 
 messages:
-  no_groups : 'No category groups have been created yet.'
+  no_groups: 'No category groups have been created yet.'
 
 success:
-  new    : 'The category group has been created.'
-  save   : 'The category group has been modified.'
-  delete : 'The category group has been deleted.'
+  new   : 'The category group has been created.'
+  save  : 'The category group has been modified.'
+  delete: 'The category group has been deleted.'
 
 errors:
   new          : 'Failed to add a new category group.'
@@ -29,9 +29,9 @@ errors:
   invalid_group: 'The specified category group is invalid.'
 
 buttons:
-  new    : 'Add group'
-  save   : 'Save group'
-  delete : 'Delete selected groups'
+  new   : 'Add group'
+  save  : 'Save group'
+  delete: 'Delete selected groups'
 
 permissions:
   show  : 'Show group'

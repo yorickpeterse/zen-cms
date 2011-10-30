@@ -1,27 +1,27 @@
 ---
 titles:
-  index : 'Categories'
-  edit  : 'Edit Category'
-  new   : 'Add Category'
+  index: 'Categories'
+  edit : 'Edit Category'
+  new  : 'Add Category'
 
 labels:
-  id          : '#'
-  name        : 'Name'
-  description : 'Description'
-  parent      : 'Parent'
-  slug        : 'Slug'
+  id         : '#'
+  name       : 'Name'
+  description: 'Description'
+  parent     : 'Parent'
+  slug       : 'Slug'
 
 placeholders:
-  name : 'The name of the category.'
-  slug : 'A URL friendly name of the category.'
+  name: 'The name of the category.'
+  slug: 'A URL friendly name of the category.'
 
 messages:
-  no_categories : 'No categories have been created yet.'
+  no_categories: 'No categories have been created yet.'
 
 success:
-  new    : 'The category has been created.'
-  save   : 'The category has been modified.'
-  delete : 'The selected categories have been deleted.'
+  new   : 'The category has been created.'
+  save  : 'The category has been modified.'
+  delete: 'The selected categories have been deleted.'
 
 errors:
   new             : 'Failed to add a new category.'
@@ -31,14 +31,12 @@ errors:
   invalid_category: 'The specified category is invalid.'
 
 buttons:
-  new    : 'Add Category'
-  save   : 'Save Category'
-  delete : 'Delete selected categories'
+  new   : 'Add Category'
+  save  : 'Save Category'
+  delete: 'Delete selected categories'
 
 permissions:
   show  : 'Show category'
   edit  : 'Edit category'
   new   : 'Add category'
   delete: 'Delete category'
-
-plugin_description: 'Plugin used for retrieving categories and category groups.'
