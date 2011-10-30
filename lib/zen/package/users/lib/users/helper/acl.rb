@@ -20,7 +20,6 @@ module Ramaze
     #       end
     #     end
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     module ACL
@@ -39,7 +38,6 @@ module Ramaze
       #    # ...
       #  end
       #
-      # @author Yorick Peterse
       # @since  0.1
       # @param  [Array] *required An array of permissions that are required.
       # @return [TrueClass|FalseClass]
@@ -66,7 +64,6 @@ module Ramaze
       # @example
       #  authorize_user!(:edit_user)
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Array] *args An array of permissions that are required.
       #
@@ -82,7 +79,6 @@ module Ramaze
       # Retrieves all the permissions of the currently logged in user and stores
       # them in the session.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @return [Array] An array where the first item is a TrueClass or
       #  FalseClass that indicates if the user is member of a super group or

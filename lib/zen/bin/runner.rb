@@ -9,7 +9,6 @@ module Zen
     # Module used to set various global options for the command line utility and
     # run a command based on the specified parameters.
     #
-    # @author Yorick Peterse
     # @since  0.2.8
     #
     module Runner
@@ -33,7 +32,6 @@ Example:
       # Runs a command based on the command line arguments or a specified array
       # to use instead of ARGV.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Array] argv An array containing command line arguments.
       #
@@ -85,7 +83,6 @@ Example:
       #
       # This method has been ported from Ramaze.
       #
-      # @author Yorick Peterse
       # @since  23-07-2011
       # @return [Array]
       #

@@ -4,7 +4,6 @@ module CustomFields
     ##
     # Model for managing custom field types.
     #
-    # @author Yorick Peterse
     # @since  0.2.8
     #
     class CustomFieldType < Sequel::Model
@@ -16,7 +15,6 @@ module CustomFields
       ##
       # Searches for a set of custom field types.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -31,7 +29,6 @@ module CustomFields
       # the values the full language strings based on the value of the column
       # "language_string".
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @return [Hash]
       #
@@ -48,7 +45,6 @@ module CustomFields
       ##
       # Validates the model before inserting/updating the database record.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       #
       def validate

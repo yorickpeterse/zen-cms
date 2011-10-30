@@ -52,7 +52,6 @@ module Menus
     #    end
     #  end
     #
-    # @author Yorick Peterse
     # @since  0.2a
     # @map    /admin/menu-items
     # @event  before_new_menu_item
@@ -72,7 +71,6 @@ module Menus
       ##
       # Shows an overview of all the menu items for a menu group.
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @param      [Fixnum] menu_id The ID of the current navigation menu.
       # @permission show_menu_item
@@ -99,7 +97,6 @@ module Menus
       ##
       # Allow the user to create a new menu item for the current menu.
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @param      [Fixnum] menu_id The ID of the current navigation menu.
       # @permission new_menu_item
@@ -129,7 +126,6 @@ module Menus
       ##
       # Allow the user to edit an existing navigation item.
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @param      [Fixnum] menu_id The ID of the current navigation menu.
       # @param      [Fixnum] id The ID of the menu item to edit.
@@ -161,7 +157,6 @@ module Menus
       # Saves an existing menu iten or creates a new one using the supplied
       # POST data.
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @permission edit_menu_item (when editing an item)
       # @permission new_menu_item (when creating an item)
@@ -236,7 +231,6 @@ module Menus
       # Delete all specified menu items based on the values in the POST array
       # "menu_item_ids".
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @permission delete_menu_item
       # @event      before_delete_menu_item

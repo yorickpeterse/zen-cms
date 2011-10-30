@@ -52,7 +52,6 @@ module Users
     # ``after_delete_user_group`` will receive a user group that has already
     # been destroyed using ``#destroy()``.
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/user-groups
     # @event  before_new_user_group
@@ -84,7 +83,6 @@ module Users
       # Show an overview of all user groups and allow the current user
       # to manage these groups
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission show_user_group
       #
@@ -104,7 +102,6 @@ module Users
       ##
       # Edit an existing user group.
       #
-      # @author     Yorick Peterse
       # @param      [Fixnum] id The ID of the user group to edit.
       # @since      0.1
       # @permission edit_user_group
@@ -126,7 +123,6 @@ module Users
       ##
       # Create a new user group.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission new_user_group
       #
@@ -147,7 +143,6 @@ module Users
       # Saves or creates a new user group based on the POST data and a field
       # named 'id'.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission new_user_group (when creating a new group)
       # @permission edit_user_group (when editing a group)
@@ -213,7 +208,6 @@ module Users
       ##
       # Deletes all specified user groups.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_user_group
       # @event      before_delete_user_group

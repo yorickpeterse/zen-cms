@@ -7,7 +7,6 @@ module Zen
     ##
     # Command that can be used to create a new application prototype.
     #
-    # @author Yorick Peterse
     # @since  0.2.8
     #
     class Create
@@ -33,7 +32,6 @@ Example:
       ##
       # Creates a new instance of the class and specifies all the options.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       #
       def initialize
@@ -59,7 +57,6 @@ Example:
       ##
       # Executes the command based on the specified command line arguments.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Array] argv An array containing all the additional options that
       #  were specified in the command line.

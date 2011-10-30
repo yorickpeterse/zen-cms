@@ -4,7 +4,6 @@ module Categories
     ##
     # Model for managing and retrieving categories.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class Category < Sequel::Model
@@ -18,7 +17,6 @@ module Categories
       ##
       # Searches for a set of category groups using the specified search query.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -30,7 +28,6 @@ module Categories
       ##
       # Validates the model.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def validate

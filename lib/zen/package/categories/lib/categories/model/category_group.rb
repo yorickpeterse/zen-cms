@@ -4,7 +4,6 @@ module Categories
     ##
     # Model that represents a single category group.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class CategoryGroup < Sequel::Model
@@ -16,7 +15,6 @@ module Categories
       ##
       # Searches for a set of category groups using the specified search query.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -28,7 +26,6 @@ module Categories
       ##
       # Validation rules for the model.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def validate

@@ -4,14 +4,12 @@ module Ramaze
     # The Search helper is a helper that can be used in controllers allowing the
     # user to search the content of those controllers and models.
     #
-    # @author Yorick Peterse
     # @since  16-10-2011
     #
     module Search
       ##
       # Renders a search form that points to the given URL.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [#to_s] url The URL to point the search form to.
       # @return [String]
@@ -35,7 +33,6 @@ module Ramaze
       #    Sections::Model::Section.search(query)
       #  end
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @return [NilClass|Mixed]
       #

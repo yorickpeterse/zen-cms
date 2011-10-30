@@ -88,7 +88,6 @@ module Menus
     #    end
     #  end
     #
-    # @author Yorick Peterse
     # @since  0.2a
     # @map    /admin/menus
     # @event  before_new_menu
@@ -109,7 +108,6 @@ module Menus
       # Shows an overview of all exisitng menus and a few properties of these
       # groups such as the name, slug and the amount of items in that group.
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @permission show_menu
       #
@@ -131,7 +129,6 @@ module Menus
       # group has been created users can start adding navigation items to the
       # group.
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @permission new_menu
       #
@@ -153,7 +150,6 @@ module Menus
       # and slug) of a menu group. This method can not be used to manage all
       # menu items for this group.
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @param      [Fixnum] id The ID of the menu to edit.
       # @permission edit_menu
@@ -178,7 +174,6 @@ module Menus
       ##
       # Saves any changes made to an existing menu or creates a new menu.
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @event      before_edit_menu
       # @event      after_edit_menu
@@ -246,7 +241,6 @@ module Menus
       # values. These primary values should be stored in a POST array called
       # "menu_ids".
       #
-      # @author     Yorick Peterse
       # @since      0.2a
       # @event      before_delete_menu
       # @event      after_delete_menu

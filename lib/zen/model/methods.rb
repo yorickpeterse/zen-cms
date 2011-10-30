@@ -11,7 +11,6 @@ module Sequel
     # @example
     #  Sections::Model::Section.pk_hash(:name) # => {1 => 'Blog', 2 => 'General'}
     #
-    # @author Yorick Peterse
     # @param  [Symbol] column The name of the optional column to select.
     # @return [Hash]
     #

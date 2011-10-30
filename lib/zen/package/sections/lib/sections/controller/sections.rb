@@ -93,7 +93,6 @@ module Sections
     #       section.add_section_entry(:title   => 'My Entry', :user_id => user.id)
     #     end
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin
     # @event  before_new_section
@@ -130,7 +129,6 @@ module Sections
       # Show an overview of all existing sections. Using this overview a user
       # can manage an existing section, delete it or create a new one.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission show_section
       #
@@ -150,7 +148,6 @@ module Sections
       ##
       # Show a form that lets the user edit an existing section.
       #
-      # @author     Yorick Peterse
       # @param      [Fixnum] id The ID of the section to edit.
       # @since      0.1
       # @permission edit_section
@@ -171,7 +168,6 @@ module Sections
       ##
       # Show a form that lets the user create a new section.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission new_section
       #
@@ -191,7 +187,6 @@ module Sections
       ##
       # Saves any changes made to an existing section or creates a new one.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @event      before_new_section
       # @event      after_new_section
@@ -268,7 +263,6 @@ module Sections
       # Deletes a number of sections and all the related data. These sections
       # should be specified in the POST array "section_ids[]".
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @event      before_delete_section
       # @event      after_delete_section

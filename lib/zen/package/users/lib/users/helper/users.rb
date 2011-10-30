@@ -7,14 +7,12 @@ module Ramaze
     # rather than "User" as otherwise Ramaze could get confused and load the
     # incorrect helper (as it already comes with a helper named "User").
     #
-    # @author Yorick Peterse
     # @since  0.2.8
     #
     module Users
       ##
       # Checks if a user group is valid and returns it if this is the case.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] user_group_id The ID of the user group to validate.
       # @return [Users::Model::UserGroup]
@@ -33,7 +31,6 @@ module Ramaze
       ##
       # Validates a user and returns the object if it's a valid user.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] user_id The ID of the user to validate.
       # @return [Users::Model::User]
@@ -55,7 +52,6 @@ module Ramaze
       # @example
       #  update_permissions(:user_id, 5, [:show_user], [:edit_user])
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [Symbol] column The name of the column to use in the permissions
       #  table. Can either be :user_id or :user_group_id.

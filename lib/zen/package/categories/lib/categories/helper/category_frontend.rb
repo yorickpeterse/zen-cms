@@ -4,7 +4,6 @@ module Ramaze
     # Helper that makes it easier to retrieve categories and category groups in
     # your templates.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     module CategoryFrontend
@@ -34,7 +33,6 @@ module Ramaze
       #  # Returns the navigation menu for the paginat5ed results.
       #  categories.navigation
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [String|Fixnum] group The ID or name of a category group for
       #  which to retrieve all categories.

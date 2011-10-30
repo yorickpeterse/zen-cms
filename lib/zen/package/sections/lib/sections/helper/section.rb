@@ -3,14 +3,12 @@ module Ramaze
     ##
     # Helper for the sections package.
     #
-    # @author Yorick Peterse
     # @since  0.2.8
     #
     module Section
       ##
       # Validates the section ID and returns the section if it's valid.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] section_id The ID of the section to validate.
       # @return [Sections::Model::Section]
@@ -30,7 +28,6 @@ module Ramaze
       # Validates a section entry and returns it if it's valid.
       #
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] section_entry_id The ID of the section entry to
       #  validate.

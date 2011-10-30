@@ -23,7 +23,6 @@ module Zen
     # status code will be 200 whenever the data was converted and or 400 in case
     # of an error (e.g. an incorrect markup engine was specified).
     #
-    # @author Yorick Peterse
     # @since  0.2.6
     #
     class Preview < Zen::Controller::AdminController
@@ -32,7 +31,6 @@ module Zen
       ##
       # Converts the markup set in the POST data and returns the HTML.
       #
-      # @author Yorick Peterse
       # @since  0.2.6
       #
       def index

@@ -22,7 +22,6 @@ end
 ##
 # Logs the user in using the spec user.
 #
-# @author Yorick Peterse
 # @since  0.2.8
 #
 def capybara_login
@@ -52,7 +51,6 @@ end
 #
 #  puts out # => {:stdout => "hello\n", :stderr => ""}
 #
-# @author Yorick Peterse
 # @since  0.2.8
 # @return [Hash]
 #
@@ -85,7 +83,6 @@ end
 #  obj = stub(:language => 'Ruby')
 #  puts obj.language # => "Ruby"
 #
-# @author Yorick Peterse
 # @since  0.2.8
 # @param  [Hash] attributes A hash containing all the attributes to set and
 # their values.
@@ -104,7 +101,6 @@ end
 ##
 # Returns a hash with a stubbed custom field and a stubbed custom field value.
 #
-# @author Yorick Peterse
 # @since  0.2.8
 # @param  [String] field_type_name The name of the field type.
 # @param  [Hash] options Additional options to pass to the stub() call for the

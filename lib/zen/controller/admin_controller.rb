@@ -16,7 +16,6 @@ module Zen
     # method for the Users controller, mapped to /admin/users/login. If a user
     # isn't logged in he/she will be redirected to the login page.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class AdminController < Zen::Controller::BaseController
@@ -29,7 +28,6 @@ module Zen
       # process several items before loading the controller(s) for the current
       # extension.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def initialize

@@ -61,7 +61,6 @@ module Sections
     # receives an instance of this model that has already been destroyed using
     # ``#destroy()``.
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/section-entries
     # @event  before_new_section_entry
@@ -82,7 +81,6 @@ module Sections
       ##
       # Show an overview of all entries for the current section.
       #
-      # @author     Yorick Peterse
       # @param      [Fixnum] section_id The ID of the current section.
       # @since      0.1
       # @permission show_section_entry
@@ -112,7 +110,6 @@ module Sections
       ##
       # Show a form that lets the user create a new section entry.
       #
-      # @author     Yorick Peterse
       # @param      [Fixnum] section_id The ID of the current section.
       # @since      0.1
       # @permission new_section_entry
@@ -151,7 +148,6 @@ module Sections
       ##
       # Show a form that lets the user edit an existing section entry.
       #
-      # @author     Yorick Peterse
       # @param      [Fixnum] section_id The ID of the current section.
       # @param      [Fixnum] entry_id The ID of the current section entry.
       # @since      0.1
@@ -189,7 +185,6 @@ module Sections
       # Saves any changes made to an existing entry and all the field values or
       # creates a new entry.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @event      before_new_section_entry
       # @event      after_new_section_entry
@@ -322,7 +317,6 @@ module Sections
       # Delete a set of section entries based on the supplied POST
       # field "section_entry_ids".
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_section_entry
       # @event      before_delete_section_entry

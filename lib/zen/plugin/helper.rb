@@ -4,7 +4,6 @@ module Zen
     ##
     # Module containing various methods that can be used for developing plugins.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     module Helper
@@ -17,7 +16,6 @@ module Zen
       #  username = 10
       #  validate_type(username, :username, [String]) # => TypeError
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Mixed] variable The variable to validate.
       # @param  [Symbol/String] name The name of the variable to validate.

@@ -4,7 +4,6 @@ module Ramaze
     # Helper that can be used to display various variables based on the user's
     # locale and settings.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     module Locale
@@ -12,7 +11,6 @@ module Ramaze
       # Returns the date format for the currently logged in user. If the user
       # has no date format set (or isn't logged in) the system format is used.
       #
-      # @author Yorick Peterse
       # @since  0.3
       #
       def date_format
@@ -28,7 +26,6 @@ module Ramaze
       ##
       # Formats a date according to Ramaze::Helper::Locale#date_format.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [#strftime] object An object that responds to #strftime().
       # @return [String]

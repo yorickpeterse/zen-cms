@@ -66,7 +66,6 @@ module Settings
     #    end
     #  end
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/settings
     # @event  after_edit_setting
@@ -81,7 +80,6 @@ module Settings
       ##
       # Show all settings and allow the user to change them.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission show_setting
       #
@@ -108,7 +106,6 @@ module Settings
       # Updates all the settings in both the database and the cache
       # (Ramaze::Cache.settings).
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission edit_setting
       # @event      after_edit_setting

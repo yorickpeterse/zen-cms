@@ -4,7 +4,6 @@ module Comments
     ##
     # Model used for managing the statuses of a comment.
     #
-    # @author Yorick Peterse
     # @since  0.2.8
     #
     class CommentStatus < Sequel::Model

@@ -7,7 +7,6 @@ module Zen
     # based on the current URI. If no section is specified the default section
     # will be retrieved from the settings table.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class MainController < Zen::Controller::FrontendController
@@ -19,7 +18,6 @@ module Zen
       # found a 404 template will be loaded. If that's not found either a
       # default error will be shown.
       #
-      # @author Yorick Peterse
       # @since  0.1
       # @param  [Array] uri Array containing all arguments (thus the URI).
       #

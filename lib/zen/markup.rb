@@ -71,7 +71,6 @@ module Zen
   #       end
   #     end
   #
-  # @author Yorick Peterse
   # @since  0.2.5
   #
   module Markup
@@ -93,7 +92,6 @@ module Zen
       # @example
       #  Zen::Markup.conver(:markdown, 'Hello **world**')
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [#to_s] engine The markup engine to use.
       # @param  [String] markup The markup to convert.
@@ -115,7 +113,6 @@ module Zen
       # @example
       #  Zen::Markup.markdown('Hello **world**')
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       # @param  [String] markup The Markdown string to convert to HTML.
       # @return [String] The HTML returned by RDiscount.
@@ -136,7 +133,6 @@ module Zen
       # @example
       #  Zen::Markup.textile('Hello *world*')
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       # @param  [String] markup The Textile markup to convert to HTML.
       # @return [String] The HTML returned by RedCloth.
@@ -154,7 +150,6 @@ module Zen
       ##
       # Escapes all HTML using Ramaze::Helper::CGI.
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       # @param  [String] markup The markup in which all HTML tags should be
       #  escaped.
@@ -167,7 +162,6 @@ module Zen
       ##
       # Ignores the markup and just returns it.
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       # @param  [String] markup The markup to return.
       # @return [String] String containing our markup.

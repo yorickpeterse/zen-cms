@@ -191,7 +191,6 @@ module Zen
   #     </p>
   # </div>
   #
-  # @author Yorick Peterse
   # @since  0.2.4
   #
   class Theme
@@ -225,7 +224,6 @@ module Zen
     # Hash containing all registered themes. The keys are the names of the
     # themes and the values instances of Zen::Theme::Base.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     Registered = {}
@@ -234,7 +232,6 @@ module Zen
     # Adds a new theme to Zen. Note that the theme won't be used unless it has
     # been set as the active theme in the settings package.
     #
-    # @author Yorick Peterse
     # @since  0.2.4
     #
     def self.add
@@ -250,7 +247,6 @@ module Zen
     ##
     # Retrieves a single theme for hte given identifier.
     #
-    # @author Yorick Peterse
     # @since  0.2.4
     # @param  [String/Symbol] name The name of the theme to retrieve.
     # @return [Zen::Theme::Base]
@@ -268,7 +264,6 @@ module Zen
     ##
     # Sets the name of the theme.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [#to_sym] name The name of the theme as a symbol.
     #
@@ -280,7 +275,6 @@ module Zen
     # Returns the description of the theme either in it's raw form or as a
     # translation.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @return [String]
     #
@@ -295,7 +289,6 @@ module Zen
     ##
     # Sets the public directory of the theme.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [String] dir The public directory.
     #
@@ -315,7 +308,6 @@ module Zen
     ##
     # Validates all attributes of this class.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     def validate

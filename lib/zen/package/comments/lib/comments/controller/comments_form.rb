@@ -75,7 +75,6 @@ module Comments
     #    )
     #  end
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /comments-form
     # @event  before_new_comment
@@ -91,7 +90,6 @@ module Comments
       # Creates a new comment for the section entry. Once the comment has been
       # saved the user will be redirected back to the previous page.
       #
-      # @author Yorick Peterse
       # @since  0.1
       # @event  before_new_comment
       # @event  after_new_comment

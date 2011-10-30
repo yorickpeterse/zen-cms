@@ -16,7 +16,6 @@
 # * {Categories::Model::CategoryGroup}
 # * {Categories::Model::Category}
 #
-# @author Yorick Peterse
 # @since  0.1
 #
 module Categories
@@ -93,7 +92,6 @@ module Categories
     #       end
     #     end
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/category-groups
     # @event  before_new_category_group
@@ -116,7 +114,6 @@ module Categories
       # Show an overview of all existing category groups and allow the user
       # to create new category groups or manage individual categories.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission show_category_group
       #
@@ -136,7 +133,6 @@ module Categories
       ##
       # Allows a user to edit an existing category group.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @param      [Fixnum] id The ID of the category group to edit.
       # @permission edit_category_group
@@ -157,7 +153,6 @@ module Categories
       ##
       # Allows the user to add a new category group.
       #
-      # @author Yorick Peterse
       # @since  0.1
       # @permission new_category_group
       #
@@ -183,7 +178,6 @@ module Categories
       # category ID is specified (in the POST key "id") that existing category
       # will be updated, otherwise a new one will be created.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission edit_category_group (when editing a group)
       # @permission new_category_group (when creating a group)
@@ -243,7 +237,6 @@ module Categories
       # Deletes a number of category groups. The IDs of these groups should be
       # specified in the POST array "category_group_ids".
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_category_group
       # @event      before_delete_category_group

@@ -22,14 +22,12 @@ module Ramaze
     #
     # This will create and return the HTML for all the messages.
     #
-    # @author Yorick Peterse
     # @since  26-05-2011
     #
     module Message
       ##
       # Adds a new message to the list for the given type.
       #
-      # @author Yorick Peterse
       # @since  26-05-2011
       # @param  [Symbol/String] type The type of message to store (e.g. "error").
       # @param  [String] message The message to display.
@@ -47,7 +45,6 @@ module Ramaze
       ##
       # Renders all the messages for the specified types.
       #
-      # @author Yorick Peterse
       # @since  26-05-2011
       # @param  [Array] types Array containing all the messages to render.
       #

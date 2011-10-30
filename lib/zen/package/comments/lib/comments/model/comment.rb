@@ -4,7 +4,6 @@ module Comments
     ##
     # Model for managing and retrieving comments.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class Comment < Sequel::Model
@@ -28,7 +27,6 @@ module Comments
       # * users.email
       # * users.name
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Array]
@@ -51,7 +49,6 @@ module Comments
       # @example
       #  Comments::Model::Comment.status_hash
       #
-      # @author Yorick Peterse
       # @since  0.2
       # @return [Hash]
       #
@@ -70,7 +67,6 @@ module Comments
       ##
       # Specify the validation rules for each comment.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def validate
@@ -86,7 +82,6 @@ module Comments
       ##
       # Hook run before saving an existing comment.
       #
-      # @author Yorick Peterse
       # @since  0.2.6
       #
       def before_save
@@ -115,7 +110,6 @@ module Comments
       # retrieved from the current comment row or from an associated user
       # object.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @return [String]
       #
@@ -130,7 +124,6 @@ module Comments
       ##
       # Gets the Email address of the author of the comment.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @return [String]
       #
@@ -146,7 +139,6 @@ module Comments
       # Gets the website of the author of the comment and optionally creates an
       # anchor tag for it.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [TrueClass|FalseClass] with_link When set to true the website
       #  will be returned as an ``<a>`` tag.
@@ -174,7 +166,6 @@ module Comments
       # Returns the first 15 characters of a comment, optionally wrapped in a
       # link that points to the form to edit the comment.
       #
-      # @author Yorick Peterse
       # @since  17-10-2011
       # @param  [TrueClass|FalseClass] with_link When set to true the comment
       #  will be wrapped in an ``<a>`` tag.
@@ -195,7 +186,6 @@ module Comments
       # Returns the text of the comment in HTML based on the markup engine used
       # by the section that the comment belongs to.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @return [String]
       #
@@ -209,7 +199,6 @@ module Comments
       ##
       # Returns the name of the comment status.
       #
-      # @author Yorick Peterse
       # @since  17-10-2011
       # @return [String]
       #

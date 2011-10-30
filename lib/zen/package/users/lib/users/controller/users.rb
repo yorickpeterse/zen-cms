@@ -96,7 +96,6 @@ module Users
     #    end
     #  end
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/users
     # @event  before_new_user
@@ -133,7 +132,6 @@ module Users
       # Show an overview of all users and allow the current user
       # to manage these users.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission show_user
       #
@@ -153,7 +151,6 @@ module Users
       ##
       # Edit an existing user based on the ID.
       #
-      # @author     Yorick Peterse
       # @param      [Fixnum] id The ID of the user to edit.
       # @since      0.1
       # @permission edit_user
@@ -176,7 +173,6 @@ module Users
       ##
       # Create a new user.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission new_user
       #
@@ -197,7 +193,6 @@ module Users
       ##
       # Show a form that allows a user to log in.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def login
@@ -217,7 +212,6 @@ module Users
       ##
       # Logout and destroy the user's session.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def logout
@@ -231,7 +225,6 @@ module Users
       ##
       # Saves or creates a new user based on the POST data.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission new_user (when creating a new user)
       # @permission edit_user (when editing a user)
@@ -318,7 +311,6 @@ module Users
       ##
       # Delete all specified users.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_user
       # @event      before_delete_user

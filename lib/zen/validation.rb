@@ -21,7 +21,6 @@ module Zen
   #       end
   #     end
   #
-  # @author Yorick Peterse
   # @since  0.2.5
   #
   module Validation
@@ -31,7 +30,6 @@ module Zen
     # @example
     #  validates_presence(:name)
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     # @param  [Array/Symbol/String] attributes Either a single or multiple
     #  attributes to validate.
@@ -57,7 +55,6 @@ module Zen
     # @example
     #  validates_length(:foobar, :min => 5, :max => 10)
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     # @param  [String/Symbol] attribute The attribute to validate.
     # @param  [Hash] options Hash containing the options to use for determining
@@ -99,7 +96,6 @@ module Zen
     #  validates_format(:name, /[\w\-]+/)
     #  validates_format(:name => /[\w\-]+/, :age => /[0-9]+/)
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     # @param  [Hash/Symbol] attribute The name of the attribute to validate or
     #  a hash containing all the attributes and their regular expressions.
@@ -133,7 +129,6 @@ module Zen
     # @example
     #  validates_filepath(:directory)
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     # @param [String/Symbol] attribute The attribute to validate.
     # @raise [ValidationError] Raised when one of the paths didn't exist.

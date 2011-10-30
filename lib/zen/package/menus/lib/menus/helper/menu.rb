@@ -5,7 +5,6 @@ module Ramaze
     # Small helper for the Menus package mainly used to reduce the amount of
     # code in controllers.
     #
-    # @author Yorick Peterse
     # @since  0.2a
     #
     module Menu
@@ -13,7 +12,6 @@ module Ramaze
       # Checks if there is a menu for the given ID. If this isn't the case the
       # user will be redirected back to the index page of the menus controller.
       #
-      # @author Yorick Peterse
       # @since  0.2a
       # @param  [Fixnum] menu_id The ID of the menu to validate.
       # @return [Menus::Model::Menu] The menu that was specified in case it's
@@ -33,7 +31,6 @@ module Ramaze
       ##
       # Validates a menu item and returns it if it's valid.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] menu_item_id The ID of the menu item to validate.
       # @param  [Fixnum] menu_id The ID of the menu the item belongs to, used
@@ -63,7 +60,6 @@ module Ramaze
       #      |
       #      |_ Sub 1
       #
-      # @author Yorick Peterse
       # @since  0.2a
       # @param  [Fixnum] menu_id The ID of the current menu group.
       # @return [Hash]
@@ -90,7 +86,6 @@ module Ramaze
       ##
       # Helper method for retrieving descendant navigation items.
       #
-      # @author Yorick Peterse
       # @since  0.2a
       # @param  [Menus::Model::MenuItem] item A MenuItem instance
       # @param  [Fixnum] spaces The amount of unbreakable spaces to use.

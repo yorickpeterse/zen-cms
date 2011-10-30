@@ -11,7 +11,6 @@ module Zen
     #
     # See the individual methods in this module for more information.
     #
-    # @author Yorick Peterse
     # @since  16-10-2011
     #
     module Helper
@@ -23,7 +22,6 @@ module Zen
       # Extends the including class with the methods in the {ClassMethods}
       # module.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       #
       def self.included(into)
@@ -49,7 +47,6 @@ module Zen
         # @example Using a DBMS that does not support the use of a regex
         #  search_column(:name, 'ruby \d+') # => #<Sequel::SQL::BooleanExpression ....>
         #
-        # @author Yorick Peterse
         # @since  16-10-2011
         # @param  [Symbol] column The column to use in the statement.
         # @param  [String] value The value for the statement.

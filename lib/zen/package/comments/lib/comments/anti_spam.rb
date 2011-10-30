@@ -54,7 +54,6 @@ module Comments
   #     end
   #
   #
-  # @author Yorick Peterse
   # @since  0.3
   #
   module AntiSpam
@@ -78,7 +77,6 @@ module Comments
       #    '.....'
       #  )
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [#to_sym] engine The name of the anti spam engine to use.
       # @param  [String] author The name of the author of the comment.
@@ -101,7 +99,6 @@ module Comments
       ##
       # Validates a comment using Defensio.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @see    Comments::AntiSpam.validate
       #

@@ -5,7 +5,6 @@ module Ramaze
     # Helper for the Categories package. Note that this helper requires the
     # helper Ramaze::Helper::Message to be loaded.
     #
-    # @author Yorick Peterse
     # @since   0.2.8
     #
     module Category
@@ -15,7 +14,6 @@ module Ramaze
       # returned, otherwise the user is redirected back to the overview of all
       # category groups and is informed about the group being invalid.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] category_group_id The ID of the category group to
       #  validate.
@@ -38,7 +36,6 @@ module Ramaze
       # is displayed and the user is redirected back to the overview of
       # categories.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] category_id The ID of the category.
       # @param  [Fixnum] category_group_id The ID of the category group, used
@@ -62,7 +59,6 @@ module Ramaze
       # Method that extracts all the possible parent categories for a given
       # category group ID.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum[ category_id The ID of the category, this one will be
       #  excluded from the hash.

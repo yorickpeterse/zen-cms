@@ -3,7 +3,6 @@ module Users
     ##
     # Model for managing permissions.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     class Permission < Sequel::Model
@@ -13,7 +12,6 @@ module Users
       ##
       # Validates the model's attributes before saving it.
       #
-      # @author Yorick Peterse
       # @since  0.3
       #
       def validate

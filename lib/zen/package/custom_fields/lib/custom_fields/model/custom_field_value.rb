@@ -4,7 +4,6 @@ module CustomFields
     ##
     # Model that represents a single custom field value.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class CustomFieldValue < Sequel::Model
@@ -16,7 +15,6 @@ module CustomFields
       ##
       # Sets the value and serializes it based on the field type.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Mixed] value The value to store.
       #
@@ -33,7 +31,6 @@ module CustomFields
       ##
       # Retrieves the value and optionally unserializes it.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @return [Mixed]
       #
@@ -52,7 +49,6 @@ module CustomFields
       # Retrieves the value of the custom field and converts it to the output
       # based on the markup engine specified in the custom field.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @return [String]
       #

@@ -74,7 +74,6 @@ module Categories
     #       end
     #     end
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/categories
     # @event  before_new_category
@@ -96,7 +95,6 @@ module Categories
       # Show an overview of all existing categories and allow the user
       # manage these categories.
       #
-      # @author Yorick Peterse
       # @param  [Fixnum] category_group_id The ID of the category group for
       #  which to retrieve all categories.
       # @since      0.1
@@ -130,7 +128,6 @@ module Categories
       ##
       # Allows the user to create a new category.
       #
-      # @author     Yorick Peterse
       # @param      [Fixnum] category_group_id The ID of the category group.
       # @since      0.1
       # @permission new_category
@@ -167,7 +164,6 @@ module Categories
       ##
       # Edit an existing category based on the ID specified in the URL.
       #
-      # @author     Yorick Peterse
       # @param      [Fixnum] category_group_id The category group ID.
       # @param      [Fixnum] id The ID of the category to edit.
       # @since      0.1
@@ -206,7 +202,6 @@ module Categories
       # Save the changes made to an existing category or create a new one based
       # on the current POST data.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission edit_category (when editing a category)
       # @permission new_category (when creating a category)
@@ -278,7 +273,6 @@ module Categories
       # is required. This array will contain all the primary values of each
       # group that has to be deleted.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_category
       # @event      before_delete_category

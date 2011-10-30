@@ -4,14 +4,12 @@ module Ramaze
     ##
     # Helper for the custom fields package.
     #
-    # @author Yorick Peterse
     # @since  0.2.8
     #
     module CustomField
       ##
       # Validates a custom field group and returns the object if it's valid.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] custom_field_group_id An ID of a custom field group
       #  that has to be validated.
@@ -32,7 +30,6 @@ module Ramaze
       # Similar to validate_custom_field_group() this method validates a single
       # custom field and returns it if it's valid.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] custom_field_id The ID of the custom field to validate.
       # @param  [Fixnum] custom_field_group_id The ID of the field group the
@@ -57,7 +54,6 @@ module Ramaze
       ##
       # Validates a custom field type and returns it if it's valid.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [Fixnum] custom_field_type_id The ID of the field type to
       #  validate.

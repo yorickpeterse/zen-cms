@@ -18,7 +18,6 @@ module Ramaze
     # This will generate the correct HTML and return it, all you have to do is
     # output it.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     module Breadcrumb
@@ -33,7 +32,6 @@ module Ramaze
       # Note that you'll have to manually specify anchor tags, this method won't
       # automatically generate URLs.
       #
-      # @author Yorick Peterse
       # @param  [Array] args Array of segments for the breadcrumbs.
       # @since  0.1
       #
@@ -51,7 +49,6 @@ module Ramaze
       # @example
       #  get_breadcrumbs ">" # => "Articles > Edit"
       #
-      # @author Yorick Peterse
       # @param  [String] separator The HTML character to use for separating each
       #  segment.
       # @return [String]

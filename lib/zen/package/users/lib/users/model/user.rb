@@ -5,7 +5,6 @@ module Users
     ##
     # Model that represents a single user.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class User < Sequel::Model
@@ -22,7 +21,6 @@ module Users
       ##
       # Searches for a set of users that match the given query.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -36,7 +34,6 @@ module Users
       ##
       # Try to authenticate the user based on the specified credentials..
       #
-      # @author Yorick Peterse
       # @since  0.1
       # @param  [Hash] creds The specified credentials
       # @return [Users::Model::User|FalseClass]
@@ -75,7 +72,6 @@ module Users
       # Generates a new BCrypt hash and saves it in the model. The hash is
       # *only* generated when the password isn't nil or empty.
       #
-      # @author Yorick Peterse
       # @since  0.1
       # @param  [String] password The raw password
       #
@@ -90,7 +86,6 @@ module Users
       ##
       # Returns the current password.
       #
-      # @author Yorick Peterse
       # @since  0.1
       # @return [BCrypt::Password|NilClass]
       #
@@ -103,7 +98,6 @@ module Users
       ##
       # Hook run before creating or updating an object.
       #
-      # @author Yorick Peterse
       # @since  0.3
       #
       def before_save
@@ -117,7 +111,6 @@ module Users
       ##
       # Specifies all validation rules
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def validate

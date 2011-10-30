@@ -67,7 +67,6 @@ module Settings
   # You don't have to specify an array of names, you can also specify the name
   # of a single setting to delete.
   #
-  # @author Yorick Peterse
   # @since  0.2.5
   #
   class Setting
@@ -76,7 +75,6 @@ module Settings
     ##
     # Array containing all possible setting types.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     Types = [
@@ -92,7 +90,6 @@ module Settings
     ##
     # Hash containing all registered settings.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     Registered = {}
@@ -131,7 +128,6 @@ module Settings
       #    setting.value   = ['yorick', 'chuck']
       #  end
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       #
       def add
@@ -148,7 +144,6 @@ module Settings
       # Inserts all settings into the database. This method will ignore the
       # settings that have already been inserted into the database.
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       #
       def migrate
@@ -184,7 +179,6 @@ module Settings
       # Removes the settings who's names match those specified in the array. The
       # values of these settings will also be removed from the database.
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Array] namese An array with setting names to remove.
       #
@@ -205,7 +199,6 @@ module Settings
     ##
     # Validates all attributes of this class.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     def validate
@@ -236,7 +229,6 @@ module Settings
     ##
     # Sets the name of the setting and converts it to a symbol.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [#to_sym] name The name of the setting.
     #
@@ -247,7 +239,6 @@ module Settings
     ##
     # Sets the name of the group this setting belongs to.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [#to_sym] group The name of the settings group.
     #
@@ -258,7 +249,6 @@ module Settings
     ##
     # Returns the title of the setting and tries to translate it.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @return [String]
     #
@@ -273,7 +263,6 @@ module Settings
     ##
     # Updates the value of a setting both in the cache and the SQL database.
     #
-    # @author Yorick Peterse
     # @since  0.2.6.1
     # @param  [String] value The value to set the setting to.
     #
@@ -289,7 +278,6 @@ module Settings
     # Retrieves the setting. If it exists in the cache the cache's value is
     # used, otherwise it will be retrieved from the SQL database and cached.
     #
-    # @author Yorick Peterse
     # @since  0.2.6.1
     #
     def value
@@ -317,7 +305,6 @@ module Settings
     # Lambda (or anything else that responds to call()) it will be called and
     # it's return value is used.
     #
-    # @author Yorick Peterse
     # @since  0.2.8
     # @return [Mixed]
     #

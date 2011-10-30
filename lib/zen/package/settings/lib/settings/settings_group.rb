@@ -2,7 +2,6 @@ module Settings
   ##
   # Base class used for setting groups.
   #
-  # @author Yorick Peterse
   # @since  0.2.5
   #
   class SettingsGroup
@@ -11,7 +10,6 @@ module Settings
     ##
     # Hash containing all registered setting groups.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     Registered = {}
@@ -31,7 +29,6 @@ module Settings
     #    group.title = 'Example group'
     #  end
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     def self.add
@@ -47,7 +44,6 @@ module Settings
     ##
     # Sets the name of the group and converts it to a symbol.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [#to_sym] name The name of the settings group.
     #
@@ -58,7 +54,6 @@ module Settings
     ##
     # Returns the title of the setting and tries to translate it.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @return [String]
     #
@@ -73,7 +68,6 @@ module Settings
     ##
     # Validates all attributes of this class.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     def validate

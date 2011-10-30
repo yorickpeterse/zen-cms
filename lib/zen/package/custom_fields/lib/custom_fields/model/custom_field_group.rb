@@ -4,7 +4,6 @@ module CustomFields
     ##
     # Model that represents a single custom field group.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class CustomFieldGroup < Sequel::Model
@@ -19,7 +18,6 @@ module CustomFields
       ##
       # Searches for a set of custom field groups.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -31,7 +29,6 @@ module CustomFields
       ##
       # Validates rules used whenever the model is created or saved.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def validate

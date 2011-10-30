@@ -69,7 +69,6 @@ module CustomFields
   # And there you have it, a very basic example of how to add custom parameters
   # allowing you to build your own HTML markup for your fields.
   #
-  # @author Yorick Peterse
   # @since  0.2.8
   #
   module BlueFormParameters
@@ -78,7 +77,6 @@ module CustomFields
       # Generates the required parameters for
       # Ramaze::Helper::BlueForm::Form#input_text.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @param  [CustomFields::Model::CustomField] field The custom field to use
       #  for filling in classes, values, etc.
@@ -120,7 +118,6 @@ module CustomFields
       # Generates the required parameters for
       # Ramaze::Helper::BlueForm::Form#input_password.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @see    CustomFields::BlueFormParameters.input_text
       #
@@ -137,7 +134,6 @@ module CustomFields
       # Generates the required parameters for
       # Ramaze::Helper::BlueForm::Form#textarea.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @see    CustomFields::BlueFormParameters.input_text
       #
@@ -162,7 +158,6 @@ module CustomFields
       # Generates the required parameters for
       # Ramaze::Helper::BlueForm::Form#input_radio.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @see    CustomFields::BlueFormParameters.input_text
       #
@@ -200,7 +195,6 @@ module CustomFields
       # Generates the required parameters for
       # Ramaze::Helper::BlueForm::Form#input_checkbox.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @see    CustomFields::BlueFormParameters.input_radio
       #
@@ -215,7 +209,6 @@ module CustomFields
       # Generates the required parameters for
       # Ramaze::Helper::BlueForm::Form#select.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @see    CustomFields::BlueFormParameters.input_text
       #
@@ -253,7 +246,6 @@ module CustomFields
       # Ramaze::Helper::BlueForm::Form#select but allows multiple values to be
       # selected.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @see    CustomFields::BlueFormParameters.select
       #

@@ -112,7 +112,6 @@ module Zen
   # path to a directory containing a group of timestamp based migrations such as
   # "1316770622_hello_world.rb".
   #
-  # @author Yorick Peterse
   # @since  0.1
   #
   class Package
@@ -122,7 +121,6 @@ module Zen
     # Hash containing all the registered packages. The keys of this hash are the
     # names of all packages and the values the instances of Zen::Package::Base.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     Registered = {}
@@ -153,7 +151,6 @@ module Zen
       #       ext.author = "Author"
       #     end
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def add
@@ -171,7 +168,6 @@ module Zen
       # @example
       #  Zen::Package[:users]
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def [](name)
@@ -194,7 +190,6 @@ module Zen
       # @example
       #  Zen::Package.build_menu('left', [:edit_user, :show_user, :show_setting])
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [String] html_class An HTML class to apply to the <ul> element.
       # @param  [Array] permissions An array of permissions for the current
@@ -223,7 +218,6 @@ module Zen
     # Sets the name of the package. The name of a package should be a short and
     # unique name. A human readable version can be set using title=().
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [#to_sym] name The name of the package.
     #
@@ -234,7 +228,6 @@ module Zen
     ##
     # Sets the title of the package.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [String] title The title or language key of the package.
     #
@@ -246,7 +239,6 @@ module Zen
     # Returns the title of the package. This method will try to translate it and
     # fall back to the original value in case the language key doesn't exist.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @return [String]
     #
@@ -261,7 +253,6 @@ module Zen
     ##
     # Sets the description of the package.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [String] about The description of the package.
     #
@@ -272,7 +263,6 @@ module Zen
     ##
     # Tries to translate the description and returns it.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @return [String]
     #
@@ -287,7 +277,6 @@ module Zen
     ##
     # Sets the root directory of the package.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [String] root The path to the root directory.
     #
@@ -318,7 +307,6 @@ module Zen
     #    end
     #  end
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @see    Zen::Package::Menu#initialize()
     # @return [Zen::Package::Menu] The current navigation menu if no new one is
@@ -341,7 +329,6 @@ module Zen
     #    p.permission :edit_user, 'users.titles.edit'
     #  end
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [#to_sym] permission The name of the permission.
     # @param  [String] title The title or language key of the permission, shown
@@ -356,7 +343,6 @@ module Zen
     # Returns the permissions for the current package. This method will
     # automatically try to translate the titles using the current language.
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @return [Hash]
     #
@@ -377,7 +363,6 @@ module Zen
     ##
     # Validates all the attributes.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     def validate

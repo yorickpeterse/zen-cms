@@ -89,7 +89,6 @@ module Zen
   #     lang('foobar.location.street')  # => "Street"
   #     lang('foobar.location.country') # => "Country"
   #
-  # @author Yorick Peterse
   # @since  0.2
   #
   module Language
@@ -126,7 +125,6 @@ module Zen
       # @example
       #  Zen::Language.load('user')
       #
-      # @author Yorick Peterse
       # @since  0.1
       # @param  [String] lang_name The name of the language file to load.
       #
@@ -174,7 +172,6 @@ module Zen
       ##
       # Returns the language code to use for either the frontend or backend.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @return [String]
       #
@@ -255,7 +252,6 @@ module Zen
       # The code for this method was mostly taken from a comment on Stack
       # Overflow. This comment can be found here: <http://bit.ly/dHTjVR>
       #
-      # @author Yorick Peterse
       # @since  0.2
       # @param  [Hash/Array] source The hash or array to conver to a dot-based
       #  hash.
@@ -314,7 +310,6 @@ module Zen
       # @example
       #  lang('username')
       #
-      # @author Yorick Peterse
       # @since  0.2
       # @param  [String] key The language key to select.
       # @param  [String] lang The language for which to retrieve the key,

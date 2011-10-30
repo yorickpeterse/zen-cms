@@ -20,7 +20,6 @@ require __DIR__('zen/version')
 # module. This module loads all required classes and is used for starting the
 # application.
 #
-# @author Yorick Peterse
 # @since  0.1
 #
 module Zen
@@ -34,7 +33,6 @@ module Zen
     ##
     # Returns the current root directory.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     def root
@@ -44,7 +42,6 @@ module Zen
     ##
     # Sets the root directory and adds the path to Ramaze.options.roots.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     def root=(path)
@@ -58,7 +55,6 @@ module Zen
     ##
     # Prepares Zen for the party of it's life.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     def start
@@ -98,7 +94,6 @@ module Zen
     ##
     # Configures Ramaze::Asset and loads all the global assets.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     def setup_assets
@@ -147,7 +142,6 @@ module Zen
     ##
     # Loads a global CSS and JS file.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     def load_global_assets

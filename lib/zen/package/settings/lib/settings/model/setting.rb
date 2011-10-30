@@ -4,7 +4,6 @@ module Settings
     ##
     # Model that represents a single setting.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class Setting < Sequel::Model

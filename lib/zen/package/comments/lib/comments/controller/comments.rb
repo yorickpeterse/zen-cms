@@ -20,7 +20,6 @@
 # * {Comments::Plugin::AntiSpam}
 # * {Comments::Plugin::Comments}
 #
-# @author Yorick Peterse
 # @since  0.1
 #
 module Comments
@@ -105,7 +104,6 @@ module Comments
     #      end
     #    end
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/comments
     # @event  before_edit_comment
@@ -124,7 +122,6 @@ module Comments
       # Shows an overview of all existing comments and allows the user to edit
       # or remove these comments.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission show_comment
       #
@@ -144,7 +141,6 @@ module Comments
       ##
       # Allows a user to edit an existing comment.
       #
-      # @author     Yorick Peterse
       # @param      [Fixnum] id The ID of the comment to edit.
       # @since      0.1
       # @permission edit_comment
@@ -165,7 +161,6 @@ module Comments
       ##
       # Saves the changes made to an existing comment.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission edit_comment
       # @event      before_edit_comment
@@ -215,7 +210,6 @@ module Comments
       # Deletes a number of comments. The IDs of these comments should be
       # specified in the POSt array "comment_ids".
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_comment
       # @event      before_delete_comment

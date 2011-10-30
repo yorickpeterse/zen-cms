@@ -4,7 +4,6 @@ module Sections
     ##
     # Model that represents a singe section entry.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class SectionEntry < Sequel::Model
@@ -40,7 +39,6 @@ module Sections
       # Searches for a set of section entries based on the specified search
       # query.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -52,7 +50,6 @@ module Sections
       ##
       # Specify our validation rules.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def validate
@@ -73,7 +70,6 @@ module Sections
       # Returns a hash containing all the entry statuses. The keys of this hash
       # are the IDs and the values the names.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @return [Hash]
       #
@@ -94,7 +90,6 @@ module Sections
       ##
       # Retrieves all custom fields for a section entry.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @return [Array]
       #
@@ -125,7 +120,6 @@ module Sections
       #  e = Sections::Model::SectionEntry[1]
       #  e.possible_categories # => {'Blog' => {1 => 'General', 2 => 'Code'}}
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @return [Hash]
       #
@@ -164,7 +158,6 @@ module Sections
       # values and returns them as a hash. This hash can be used in views to
       # build the HTML for all the fields.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       # @return [Hash]
       #
@@ -219,7 +212,6 @@ module Sections
       ##
       # Hook that is executed before saving an existing section entry.
       #
-      # @author Yorick Peterse
       # @since  0.2.8
       #
       def before_save

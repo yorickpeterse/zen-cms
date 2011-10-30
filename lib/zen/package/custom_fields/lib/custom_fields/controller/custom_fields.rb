@@ -66,7 +66,6 @@ module CustomFields
     # destroyed, thus you won't be able to make any changes to the object and
     # save them in the database.
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/custom-fields
     # @event  before_new_custom_field
@@ -96,7 +95,6 @@ module CustomFields
       # Show an overview of all existing custom fields. Using this overview a
       # user can manage an existing field, delete it or create a new one.
       #
-      # @author Yorick Peterse
       # @param  [Fixnum] custom_field_group_id The ID of the custom field group
       #  to which all fields belong.
       # @since      0.1
@@ -128,7 +126,6 @@ module CustomFields
       ##
       # Show a form that lets the user edit an existing custom field group.
       #
-      # @author Yorick Peterse
       # @param  [Fixnum] id The ID of the custom field
       #  group to which all fields belong.
       # @param  [Fixnum] id The ID of the custom field to retrieve so that we
@@ -168,7 +165,6 @@ module CustomFields
       ##
       # Show a form that lets the user create a new custom field group.
       #
-      # @author Yorick Peterse
       # @param  [Fixnum] custom_field_group_id The ID of the custom field group
       #  to which all fields belong.
       # @since      0.1
@@ -206,7 +202,6 @@ module CustomFields
       ##
       # Saves the changes made by {#edit} and {#new}.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @event      before_new_custom_field
       # @event      after_new_custom_field
@@ -290,7 +285,6 @@ module CustomFields
       # request that contains a field named 'custom_field_ids[]'. This field
       # should contain the primary values of each field that has to be deleted.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @event      before_delete_custom_field
       # @event      after_delete_custom_field

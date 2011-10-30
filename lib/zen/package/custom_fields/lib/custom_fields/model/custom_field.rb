@@ -4,7 +4,6 @@ module CustomFields
     ##
     # Model for managing retrieving custom fields.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class CustomField < Sequel::Model
@@ -22,7 +21,6 @@ module CustomFields
       ##
       # Searches for a set of custom fields.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -34,7 +32,6 @@ module CustomFields
       ##
       # Validates rules used whenever the model is created or saved.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def validate

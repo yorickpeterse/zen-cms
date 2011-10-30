@@ -7,7 +7,6 @@ module Zen
     # Class that represents a single navigation item that optionally contains a
     # number of sub elements.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     class Menu
@@ -24,7 +23,6 @@ module Zen
       # Creates a new instance of the class and optionally processes all sub
       # navigation items.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [String] title The title or language key of the navigation
       #  element.
@@ -46,7 +44,6 @@ module Zen
       ##
       # Adds a new child element to the navigation menu.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @see    Zen::Package::Menu#initialize()
       #
@@ -58,7 +55,6 @@ module Zen
       # Returns the title of the navigation item. If possible it will be
       # translated, otherwise the original value will be used.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @return [String]
       #
@@ -73,7 +69,6 @@ module Zen
       ##
       # Builds the HTML for the current navigation menu using Ramaze::Gestalt.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [Array] permissions An array of permissions for the current
       #  user.

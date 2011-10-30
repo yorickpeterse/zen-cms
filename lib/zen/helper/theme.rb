@@ -6,7 +6,6 @@ module Ramaze
     # Helper that provides a few methods that make certain tasks easier when
     # creating themes and templates.
     #
-    # @author Yorick Peterse
     # @since  0.2.5
     #
     module Theme
@@ -20,7 +19,6 @@ module Ramaze
       #  partial(:header) # => partials/header.xhtml
       #  partial(:header, :username => "YorickPeterse")
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Symbol] file The name of the partial to render.
       # @param  [Hash] variables A hash with variables that should be made
@@ -57,7 +55,6 @@ module Ramaze
       #  show_404
       #  show_404(:uri => @request_uri)
       #
-      # @author Yorick Peterse
       # @since  0.2.5
       # @param  [Hash] variables Hash with variables to pass to the 404 template.
       #

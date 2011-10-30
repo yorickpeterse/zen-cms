@@ -5,14 +5,12 @@ module Ramaze
     # added via this module are *only* loaded for the class that called the
     # method.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     module Asset
       ##
       # Extends the including class with the ClassMethods module.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [Class] klass The klass that included this module.
       #
@@ -24,7 +22,6 @@ module Ramaze
       # Module of which the methods will become available as class methods to
       # the class that included Ramaze::Helper::Asset.
       #
-      # @author Yorick Peterse
       # @since  0.3
       #
       module ClassMethods
@@ -32,7 +29,6 @@ module Ramaze
         # Provides a shortcut method to Zen.asset.serve() and automatically
         # loads all the given assets for the calling class.
         #
-        # @author Yorick Peterse
         # @since  0.3
         # @see    Ramaze::Asset::Environment#serve()
         #
@@ -48,7 +44,6 @@ module Ramaze
         #  load_asset_group(:datepicker)
         #  load_asset_group([:editor, :datepicker])
         #
-        # @author Yorick Peterse
         # @since  0.3
         # @see    Ramaze::Asset::Environment#load_asset_group()
         # @param  [Array] methods An array of methods to load the assets for.

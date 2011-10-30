@@ -5,7 +5,6 @@ module Users
     ##
     # Model that represents a single user group.
     #
-    # @author Yorick Peterse
     # @since  0.1
     #
     class UserGroup < Sequel::Model
@@ -21,7 +20,6 @@ module Users
       ##
       # Searches for a set of users that match the given query.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -34,7 +32,6 @@ module Users
       # Validation rules for each user group used when
       # creating or updating a group.
       #
-      # @author Yorick Peterse
       # @since  0.1
       #
       def validate

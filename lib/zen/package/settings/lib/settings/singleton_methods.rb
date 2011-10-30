@@ -4,7 +4,6 @@ module Settings
   # retrieve settings without having to use the full namespace of
   # {Settings::Setting::Registered}.
   #
-  # @author Yorick Peterse
   # @since  0.3
   #
   module SingletonMethods
@@ -14,7 +13,6 @@ module Settings
     # @example
     #  get_setting(:website_name)
     #
-    # @author Yorick Peterse
     # @since  0.3
     # @param  [#to_sym] name The name of the setting to retrieve.
     #

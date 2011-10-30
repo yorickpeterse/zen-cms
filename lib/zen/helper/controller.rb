@@ -4,7 +4,6 @@ module Ramaze
     # Helper that provides a few methods for commonly used code inside a
     # controller.
     #
-    # @author Yorick Peterse
     # @since  0.3
     #
     module Controller
@@ -12,7 +11,6 @@ module Ramaze
       # Extends the class that included this module with the ClassMethods
       # module.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [Class] into The class that included this module.
       #
@@ -23,7 +21,6 @@ module Ramaze
       ##
       # Methods that become available as class methods.
       #
-      # @author Yorick Peterse
       # @since  0.3
       #
       module ClassMethods
@@ -36,7 +33,6 @@ module Ramaze
         #    title 'foo.titles.%s'
         #  end
         #
-        # @author Yorick Peterse
         # @since  0.3
         # @param  [String] title The language key to use, a %s will be replaced
         #  with the name of the current action.
@@ -57,7 +53,6 @@ module Ramaze
         #    csrf_protection :save, :delete
         #  end
         #
-        # @author Yorick Peterse
         # @since  0.3
         # @param  [Array] *actions An array of action names to protect against
         #  CSRF attacks.

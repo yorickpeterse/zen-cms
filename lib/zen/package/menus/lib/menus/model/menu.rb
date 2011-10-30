@@ -4,7 +4,6 @@ module Menus
     ##
     # Model used for managing groups of menu items.
     #
-    # @author Yorick Peterse
     # @since  0.2a
     #
     class Menu < Sequel::Model
@@ -17,7 +16,6 @@ module Menus
       ##
       # Searches for a set of menus.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -33,7 +31,6 @@ module Menus
       ##
       # Specifies all validates rules used when creating or updating a menu.
       #
-      # @author Yorick Peterse
       # @since  0.2a
       #
       def validate

@@ -4,7 +4,6 @@ module Menus
     ##
     # Model used for managing individual menu items in a group.
     #
-    # @author Yorick Peterse
     # @since  0.2a
     #
     class MenuItem < Sequel::Model
@@ -18,7 +17,6 @@ module Menus
       ##
       # Searches for a set of menu items.
       #
-      # @author Yorick Peterse
       # @since  16-10-2011
       # @param  [String] query The search query.
       # @return [Mixed]
@@ -35,7 +33,6 @@ module Menus
       # Specifies all validation rules that will be used when creating or
       # updating a menu item.
       #
-      # @author Yorick Peterse
       # @since  0.2a
       #
       def validate
@@ -50,7 +47,6 @@ module Menus
       # Sets the ID of the parent navigation item but *only* if it's not empty
       # and not the same as the current ID.
       #
-      # @author Yorick Peterse
       # @since  0.3
       # @param  [Fixnum] parent_id The ID of the parent navigation item.
       #

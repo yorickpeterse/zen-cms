@@ -64,7 +64,6 @@ module CustomFields
     # been destroyed. This means that this event can not be used to make changes
     # to the object and save them.
     #
-    # @author Yorick Peterse
     # @since  0.2.8
     # @map    /admin/custom-field-types
     # @event  before_new_custom_field_type
@@ -95,7 +94,6 @@ module CustomFields
       # user to create new ones, edit existing ones or delete a group of field
       # types.
       #
-      # @author     Yorick Peterse
       # @since      0.2.8
       # @permission show_custom_field_type
       #
@@ -117,7 +115,6 @@ module CustomFields
       ##
       # Allows a user to edit an existing custom field type.
       #
-      # @author     Yorick Peterse
       # @since      0.2.8
       # @param      [Fixnum] id The ID of the custom field type to edit.
       # @permission edit_custom_field_type
@@ -140,7 +137,6 @@ module CustomFields
       ##
       # Allows a user to add a new custom field type.
       #
-      # @author     Yorick Peterse
       # @since      0.2.8
       # @permission new_custom_field_type
       #
@@ -170,7 +166,6 @@ module CustomFields
       # This method requires either create or update permissions based on the
       # supplied data.
       #
-      # @author     Yorick Peterse
       # @since      0.2.8
       # @event      before_edit_custom_field_type
       # @event      after_edit_custom_field_type
@@ -236,7 +231,6 @@ module CustomFields
       # Deletes a number of custom field types. These types should be specified
       # in the POST array "custom_field_type_ids".
       #
-      # @author     Yorick Peterse
       # @since      0.2.8
       # @event      before_delete_custom_field_type
       # @event      after_delete_custom_field_type

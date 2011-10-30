@@ -69,7 +69,6 @@ module CustomFields
     # ``after_delete_custom_field_group`` event will receive an instance of this
     # model that has already been destroyed.
     #
-    # @author Yorick Peterse
     # @since  0.1
     # @map    /admin/custom-field-groups
     # @event  before_new_custom_field_group
@@ -90,7 +89,6 @@ module CustomFields
       # Shows an overview that allows the user to manage existing field groups
       # and create new ones.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission show_custom_field_group
       #
@@ -110,7 +108,6 @@ module CustomFields
       ##
       # Show a form that lets the user edit an existing custom field group.
       #
-      # @author Yorick Peterse
       # @param  [Fixnum] id The ID of the custom field group to retrieve so
       #  that we can edit it.
       # @since      0.1
@@ -132,7 +129,6 @@ module CustomFields
       ##
       # Allows a user to create a new custom field group.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission new_custom_field_group
       #
@@ -158,7 +154,6 @@ module CustomFields
       # the POST key "id" an existing row will be updated instead of creating a
       # new one.
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission edit_custom_field_group (when editing a group)
       # @permission new_custom_field_group (when creating a group)
@@ -216,7 +211,6 @@ module CustomFields
       # Delete an existing custom field group. The IDs of the groups to remove
       # should be specified in a POST array called "custom_field_group_ids".
       #
-      # @author     Yorick Peterse
       # @since      0.1
       # @permission delete_custom_field_group
       # @event      before_delete_custom_field_group
