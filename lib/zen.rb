@@ -12,8 +12,9 @@ Ramaze.setup(:verbose => false) do
   gem 'ramaze-asset', ['= 0.2.3'], :lib => 'ramaze/asset'
 end
 
-require __DIR__('vendor/sequel_sluggable')
-require __DIR__('zen/version')
+unless $LOAD_PATH.include?(__DIR__)
+  $LOAD_PATH.unshift(__DIR__)
+end
 
 ##
 # Main module for Zen, all other modules and classes will be placed inside this
@@ -168,15 +169,18 @@ module Zen
   end # class << self
 end # Zen
 
+require __DIR__('vendor/sequel_sluggable')
+require 'zen/version'
+
 Ramaze::Cache.options.names.push(:settings)
 Ramaze::Cache.options.settings = Ramaze::Cache::LRU
 
 # Load all classes/modules provided by Zen itself.
-require __DIR__('zen/error')
-require __DIR__('zen/language')
-require __DIR__('zen/validation')
-require __DIR__('zen/event')
-require __DIR__('zen/model/helper')
+require 'zen/error'
+require 'zen/language'
+require 'zen/validation'
+require 'zen/event'
+require 'zen/model/helper'
 
 Ramaze::HelpersHelper.options.paths.push(__DIR__('zen'))
 Ramaze.options.roots.push(__DIR__('zen'))
@@ -186,15 +190,15 @@ Zen::Language.load('zen_general')
 
 include Zen::Language::SingletonMethods
 
-require __DIR__('zen/markup')
-require __DIR__('zen/package')
-require __DIR__('zen/theme')
-require __DIR__('zen/plugin/helper')
+require 'zen/markup'
+require 'zen/package'
+require 'zen/theme'
+require 'zen/plugin/helper'
 
 # Load all the base controllers
-require __DIR__('zen/controller/base_controller')
-require __DIR__('zen/controller/frontend_controller')
-require __DIR__('zen/controller/admin_controller')
-require __DIR__('zen/controller/main_controller')
-require __DIR__('zen/controller/preview')
-require __DIR__('zen/controller/translations')
+require 'zen/controller/base_controller'
+require 'zen/controller/frontend_controller'
+require 'zen/controller/admin_controller'
+require 'zen/controller/main_controller'
+require 'zen/controller/preview'
+require 'zen/controller/translations'

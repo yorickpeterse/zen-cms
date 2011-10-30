@@ -43,17 +43,14 @@ module Zen
           respond(lang('zen_general.errors.no_theme'))
         end
 
-        theme    = ::Zen::Theme[theme]
-        group    = @request_uri[0]
-        template = @request_uri[1]
-
-        # Create the group, template and partial paths
+        theme         = ::Zen::Theme[theme]
+        group         = @request_uri[0]
+        template      = @request_uri[1]
         theme_path    = theme.template_dir
-        group_path    = File.join(theme_path, group)
         template_path = File.join(theme_path, group, "#{template}.xhtml")
 
         # Check if the group exists
-        if File.directory?(group_path) and File.exists?(template_path)
+        if File.exists?(template_path)
           render_file(template_path)
         else
           not_found = File.join(theme_path, '404.xhtml')
