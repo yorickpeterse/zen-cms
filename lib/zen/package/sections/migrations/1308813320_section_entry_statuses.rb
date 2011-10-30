@@ -15,8 +15,8 @@ Sequel.migration do
 
     alter_table(:section_entries) do
       add_foreign_key(
-        :section_entry_status_id, 
-        :section_entry_statuses, 
+        :section_entry_status_id,
+        :section_entry_statuses,
         :on_delete => :cascade,
         :on_update => :cascade,
         :key       => :id
@@ -35,7 +35,7 @@ Sequel.migration do
       end
     end
   end
-  
+
   # Reverts the changes made in the up() block.
   down do
     statuses = {}
@@ -45,8 +45,14 @@ Sequel.migration do
       statuses[status[:id]] = status[:name]
     end
 
-    drop_column(:section_entries, :section_entry_status_id)
-    add_column(:section_entries, :status, String, :default => 'draft')
+    alter_table(:section_entries) do
+      if Zen.database.adapter_scheme.to_s.include?('mysql')
+        drop_constraint(:section_entries_ibfk_3, :type => :foreign_key)
+      end
+
+      drop_column(:section_entry_status_id)
+      add_column(:status, String, :default => 'draft')
+    end
 
     entries.each do |entry|
       Zen.database.filter(:id => entry[:id]) \

@@ -1,4 +1,4 @@
-script: "rake setup; rake test"
+script: "rake setup; rake test:default"
 rvm:
   - 1.9.2
   - 1.9.3
@@ -11,3 +11,12 @@ branches:
   only:
     - develop
     - master
+
+env:
+  - 'ADAPTER=sqlite'
+  - 'ADAPTER=mysql2 DATABASE=zen_dev'
+  - 'ADAPTER=postgres DATABASE=zen_dev USERNAME=postgres'
+
+before_script:
+  - "mysql -e 'CREATE DATABASE zen_dev;'"
+  - "psql -c  'CREATE DATABASE zen_dev;' -U postgres"

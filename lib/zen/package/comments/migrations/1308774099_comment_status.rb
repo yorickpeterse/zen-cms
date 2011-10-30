@@ -45,9 +45,17 @@ Sequel.migration do
       statuses[status[:id]] = status[:name]
     end
 
-    # Put the old columns back in place
-    drop_column(:comments, :comment_status_id)
-    add_column(:comments, :status, String, :default => 'closed')
+    alter_table(:comments) do
+      # MySQL doesn't automatically drop foreign keys, because of this the one
+      # for the comment status ID has to be removed manually. Luckily the name
+      # of the foreign key is rather easy to figure out.
+      if Zen.database.adapter_scheme.to_s.include?('mysql')
+        drop_constraint(:comments_ibfk_2, :type => :foreign_key)
+      end
+
+      drop_column(:comment_status_id)
+      add_column(:status, String, :default => 'closed')
+    end
 
     # Put the old statuses back in place
     comments.each do |comment|

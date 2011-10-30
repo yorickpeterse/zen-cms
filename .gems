@@ -17,3 +17,5 @@ defensio
 simplecov
 webmock
 RedCloth
+pg
+mysql2

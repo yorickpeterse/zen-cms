@@ -4,19 +4,16 @@ end
 
 require File.expand_path('../../lib/zen', __FILE__)
 
-Ramaze.setup(:verbose => false) do
-  gem 'sqlite3' , ['>= 1.3.4']
-  gem 'defensio', ['>= 0.9.1']
-end
-
 Ramaze::Log.level   = Logger::ERROR
 Ramaze.options.mode = :dev
 
 Zen::Fixtures = __DIR__('fixtures/zen')
 Zen.root      = __DIR__
 Zen.database  = Sequel.connect(
-  :adapter   => 'sqlite',
-  :database  => __DIR__('database.db'),
+  :adapter   => ENV['ADAPTER']  || 'sqlite',
+  :database  => ENV['DATABASE'] || __DIR__('database.db'),
+  :username  => ENV['USERNAME'],
+  :password  => ENV['PASSWORD'],
   :test      => true,
   :encoding  => 'utf8'
 )

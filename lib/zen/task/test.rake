@@ -1,9 +1,23 @@
-desc 'Runs all the Bacon specifications'
-task :test => ['clean:assets'] do
+namespace :test do
   spec_dir = File.expand_path('../../../../spec', __FILE__)
-  db_path  = File.join(spec_dir, 'database.db')
+  command  = 'rake db:delete; rake db:migrate; rake db:test_user; ' \
+    'ruby zen/all.rb'
 
-  File.unlink(db_path) if File.exist?(db_path)
+  desc 'Runs all specifications using SQLite3 or custom settings'
+  task :default => ['clean:assets'] do
+    Dir.chdir(spec_dir)
 
-  sh("cd #{spec_dir}; rake db:migrate; rake db:test_user; ruby zen/all.rb")
+    sh(command)
+  end
+
+  desc 'Runs all specifications using MySQL'
+  task :mysql => ['clean:assets'] do
+    Dir.chdir(spec_dir)
+
+    ENV['DATABASE'] = 'zen_dev'
+    ENV['ADAPTER']  = 'mysql2'
+    ENV['USERNAME'] = 'zen'
+
+    sh(command)
+  end
 end

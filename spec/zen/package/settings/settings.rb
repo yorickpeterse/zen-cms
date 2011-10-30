@@ -101,6 +101,15 @@ describe('Settings::Setting') do
     setting1.type.should == 'textbox'
   end
 
+  it('Update a setting') do
+    Ramaze.setup_dependencies
+
+    get_setting('spec').value = 'Setting value'
+
+    Settings::Model::Setting[:name => 'spec'].value.should == 'Setting value'
+    Ramaze::Cache.settings.fetch(:spec).should             == 'Setting value'
+  end
+
   it('Remove all settings') do
     Settings::Setting.remove('spec')
     Settings::Setting.remove(['spec_textbox'])
