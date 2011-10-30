@@ -117,10 +117,10 @@ module Users
 
       load_asset_group :tabs
 
-      set_layout :admin => [:index, :edit, :new]
-      set_layout :login => [:login]
+      set_layout :admin => [:index, :edit, :new], :login => [:login]
 
-      # Hook that's executed before Users#index(), Users#edit() and Users#new().
+      # # Hook that's executed before Users#index(), Users#edit() and
+      # Users#new().
       before(:index, :edit, :new) do
         @status_hash = {
           'open'   => lang('users.special.status_hash.open'),

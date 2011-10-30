@@ -1,11 +1,10 @@
-# Production dependencies, these require specific versions to ensure that new
-# releases of these gems don't break Zen.
-ramaze -v 2011.07.25
-sequel -v 3.28.0
-bcrypt-ruby -v 3.0.1
-loofah -v 1.2.0
-json -v 1.6.1
-ramaze-asset -v 0.2.3
+# Production dependencies.
+ramaze
+sequel
+bcrypt-ruby
+loofah
+json
+ramaze-asset
 
 # Development dependencies, no need for specific versions.
 rdiscount

@@ -19,13 +19,13 @@ Gem::Specification.new do |s|
   s.executables           = ['zen']
   s.required_ruby_version = '>= 1.9.2'
 
-  s.add_dependency('sequel'      , ['= 3.28.0'])
-  s.add_dependency('ramaze'      , ['= 2011.07.25'])
-  s.add_dependency('bcrypt-ruby' , ['= 3.0.1'])
-  s.add_dependency('rake'        , ['= 0.9.2'])
-  s.add_dependency('loofah'      , ['= 1.2.0'])
-  s.add_dependency('json'        , ['= 1.6.1'])
-  s.add_dependency('ramaze-asset', ['= 0.2.3'])
+  s.add_dependency('sequel'      , ['~> 3.28.0'])
+  s.add_dependency('ramaze'      , ['~> 2011.10.23'])
+  s.add_dependency('bcrypt-ruby' , ['~> 3.0.1'])
+  s.add_dependency('rake'        , ['~> 0.9.2'])
+  s.add_dependency('loofah'      , ['~> 1.2.0'])
+  s.add_dependency('json'        , ['~> 1.6.1'])
+  s.add_dependency('ramaze-asset', ['~> 0.2.3'])
 
   s.add_development_dependency('rdiscount', ['>= 1.6.8'])
   s.add_development_dependency('RedCloth' , ['>= 4.2.8'])

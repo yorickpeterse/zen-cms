@@ -29,5 +29,4 @@ describe "Zen::Controller::Preview" do
     response.body.strip.should == lang('zen_general.errors.invalid_request')
     response.status.should     == 400
   end
-
 end
