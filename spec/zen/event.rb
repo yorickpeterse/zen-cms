@@ -2,13 +2,13 @@ require File.expand_path('../../helper', __FILE__)
 
 describe('Zen::Event') do
   after do
-    Zen::Event::Registered.delete(:test)
+    Zen::Event::REGISTERED.delete(:test)
   end
 
   it('Register a event') do
     Zen::Event.listen(:test) {}
 
-    Zen::Event::Registered.key?(:test).should == true
+    Zen::Event::REGISTERED.key?(:test).should == true
   end
 
   it('Run a single event') do

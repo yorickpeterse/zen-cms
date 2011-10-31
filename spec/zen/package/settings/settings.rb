@@ -7,9 +7,9 @@ describe('Settings::Setting') do
       group.title = 'General Spec'
     end
 
-    Settings::SettingsGroup::Registered.key?(:general_spec).should == true
+    Settings::SettingsGroup::REGISTERED.key?(:general_spec).should == true
 
-    Settings::SettingsGroup::Registered[:general_spec] \
+    Settings::SettingsGroup::REGISTERED[:general_spec] \
       .title.should == 'General Spec'
   end
 
@@ -61,8 +61,8 @@ describe('Settings::Setting') do
       setting.type  = 'textbox'
     end
 
-    Settings::Setting::Registered.key?(:spec).should         == true
-    Settings::Setting::Registered.key?(:spec_textbox).should == true
+    Settings::Setting::REGISTERED.key?(:spec).should         == true
+    Settings::Setting::REGISTERED.key?(:spec_textbox).should == true
   end
 
   it('Register an already existing setting') do

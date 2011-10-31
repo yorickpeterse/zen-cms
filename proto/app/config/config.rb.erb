@@ -17,10 +17,10 @@ Ramaze.options.mode  = :dev
 # especially when a cache is shared among different Ramaze applications. If
 # these applications were to use the same name they might end up retrieving the
 # wrong data.
-Ramaze.options.app.name = :<%= ProjectSettings[:name] %>
+Ramaze.options.app.name = :<%= PROJECT_SETTINGS[:name] %>
 
 # The session identifier to use for cookies.
-Ramaze.options.session.key = '<%= ProjectSettings[:name] %>.sid'
+Ramaze.options.session.key = '<%= PROJECT_SETTINGS[:name] %>.sid'
 
 # Whether or not views should be cached after they've been read or pre-compiled.
 # It is recommended to turn this off when developing your application. By

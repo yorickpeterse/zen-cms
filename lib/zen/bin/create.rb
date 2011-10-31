@@ -19,17 +19,17 @@ module Zen
       o :f, :force, 'Overwrite existing directories when creating a project'
 
       # Path to the prototype application to use for new projects.
-      Prototype = __DIR__('../../../proto/app')
+      PROTOTYPE = __DIR__('../../../proto/app')
 
       # Hash containing various Rack servers and their default configuration
       # files to use.
-      ServerConfigs = {
+      SERVER_CONFIGS = {
         :unicorn => __DIR__('../../../proto/rack/unicorn.rb'),
         :thin    => __DIR__('../../../proto/rack/thin.yml')
       }
 
       # Hash containing the options to use for creating a new project.
-      ProjectSettings = {
+      PROJECT_SETTINGS = {
         :name      => 'zen_project',
         :database  => {
           :adapter  => 'sqlite',
@@ -95,10 +95,10 @@ module Zen
             'directory name as well as the session ID.'
         )
 
-        name = readline('Name of your project', ProjectSettings[:name])
+        name = readline('Name of your project', PROJECT_SETTINGS[:name])
         name = name.downcase.gsub(/\s+/, '_')
 
-        ProjectSettings[:name] = name unless name.empty?
+        PROJECT_SETTINGS[:name] = name unless name.empty?
       end
 
       ##
@@ -115,19 +115,19 @@ module Zen
           'the connection details such as the username and database name.'
         )
 
-        ProjectSettings[:database][:adapter] = readline(
+        PROJECT_SETTINGS[:database][:adapter] = readline(
           'Adapter',
-          ProjectSettings[:database][:adapter]
+          PROJECT_SETTINGS[:database][:adapter]
         )
 
-        ProjectSettings[:database][:database] = readline(
+        PROJECT_SETTINGS[:database][:database] = readline(
           'Database',
-          ProjectSettings[:database][:database],
+          PROJECT_SETTINGS[:database][:database],
           false
         )
 
-        ProjectSettings[:database][:username] = readline('Username', nil, false)
-        ProjectSettings[:database][:password] = readline('Password', nil, false)
+        PROJECT_SETTINGS[:database][:username] = readline('Username', nil, false)
+        PROJECT_SETTINGS[:database][:password] = readline('Password', nil, false)
       end
 
       ##
@@ -146,7 +146,7 @@ module Zen
 
         puts
 
-        ServerConfigs.each do |name, path|
+        SERVER_CONFIGS.each do |name, path|
           puts "* #{name}"
         end
 
@@ -159,11 +159,11 @@ module Zen
         server = readline('Default server configuration file', 'none').downcase
 
         if !server.empty? and server != 'none' \
-        and !ServerConfigs.keys.include?(server.to_sym)
+        and !SERVER_CONFIGS.keys.include?(server.to_sym)
           error('The specified configuration file is invalid')
         end
 
-        ProjectSettings[:server_config] = server.to_sym unless server == 'none'
+        PROJECT_SETTINGS[:server_config] = server.to_sym unless server == 'none'
       end
 
       ##
@@ -172,7 +172,7 @@ module Zen
       # @since 0.3
       #
       def create_project
-        destination = File.join(Dir.pwd, ProjectSettings[:name])
+        destination = File.join(Dir.pwd, PROJECT_SETTINGS[:name])
 
         # Copy the application
         if File.directory?(destination) and !option(:f)
@@ -181,15 +181,15 @@ module Zen
           puts 'Creating base files...'
 
           FileUtils.rm_rf(destination)
-          FileUtils.cp_r(Prototype, destination)
+          FileUtils.cp_r(PROTOTYPE, destination)
         end
 
         # Copy the default Rack configuration file.
-        if !ProjectSettings[:server_config].nil? \
-        and !ProjectSettings[:server_config].empty?
+        if !PROJECT_SETTINGS[:server_config].nil? \
+        and !PROJECT_SETTINGS[:server_config].empty?
           puts 'Creating server configuration file...'
 
-          config = ServerConfigs[ProjectSettings[:server_config]]
+          config = SERVER_CONFIGS[PROJECT_SETTINGS[:server_config]]
 
           FileUtils.cp(
             config,

@@ -54,7 +54,7 @@ module Zen
   module Event
     # Hash containing all the event names and a list of procs to execute for all
     # those events.
-    Registered = {}
+    REGISTERED = {}
 
     class << self
       ##
@@ -71,8 +71,8 @@ module Zen
       def call(event, *args)
         event = event.to_sym
 
-        if Registered.key?(event)
-          Registered[event].each do |event|
+        if REGISTERED.key?(event)
+          REGISTERED[event].each do |event|
             event.call(*args)
           end
         end
@@ -93,9 +93,9 @@ module Zen
       #
       def listen(event, &block)
         event               = event.to_sym
-        Registered[event] ||= []
+        REGISTERED[event] ||= []
 
-        Registered[event].push(block)
+        REGISTERED[event].push(block)
       end
 
       ##
@@ -110,7 +110,7 @@ module Zen
       #
       def delete(*names)
         names.each do |name|
-          Registered.delete(name.to_sym)
+          REGISTERED.delete(name.to_sym)
         end
       end
     end # class << self

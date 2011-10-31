@@ -4,7 +4,7 @@ path = File.expand_path('../', __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'zen'
-  s.version     = Zen::Version
+  s.version     = Zen::VERSION
   s.date        = '2011-08-03'
   s.authors     = ['Yorick Peterse']
   s.email       = 'info@yorickpeterse.com'

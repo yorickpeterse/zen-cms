@@ -2,7 +2,7 @@ module Settings
   ##
   # Module that's injected into the global namespace allowing developers to
   # retrieve settings without having to use the full namespace of
-  # {Settings::Setting::Registered}.
+  # {Settings::Setting::REGISTERED}.
   #
   # @since  0.3
   #
@@ -25,11 +25,11 @@ module Settings
     def get_setting(name)
       name = name.to_sym
 
-      if !Settings::Setting::Registered.key?(name)
+      if !Settings::Setting::REGISTERED.key?(name)
         raise(ArgumentError, "The setting \"#{name}\" doesn't exist.")
       end
 
-      return Settings::Setting::Registered[name]
+      return Settings::Setting::REGISTERED[name]
     end
   end # SingletonMethods
 end # Settings

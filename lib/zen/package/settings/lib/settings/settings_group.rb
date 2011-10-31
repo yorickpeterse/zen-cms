@@ -12,7 +12,7 @@ module Settings
     #
     # @since  0.3
     #
-    Registered = {}
+    REGISTERED = {}
 
     # The name of the group
     attr_reader :name
@@ -38,7 +38,7 @@ module Settings
 
       group.validate
 
-      Registered[group.name] = group
+      REGISTERED[group.name] = group
     end
 
     ##
@@ -73,7 +73,7 @@ module Settings
     def validate
       validates_presence([:name, :title])
 
-      if Registered.key?(name)
+      if REGISTERED.key?(name)
         raise(
           ::Zen::ValidationError,
           "The setting group \"#{name}\" has already been registered."

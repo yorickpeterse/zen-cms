@@ -3,7 +3,7 @@ namespace :package do
   task :list do
     require File.expand_path('../../../zen', __FILE__)
 
-    Zen::Package::Registered.each do |name, pkg|
+    Zen::Package::REGISTERED.each do |name, pkg|
       if pkg.about.nil? or pkg.about.empty?
         puts "* #{name}"
       else
@@ -29,11 +29,11 @@ namespace :package do
     end
 
     # Validate the package name
-    if !Zen::Package::Registered[name]
+    if !Zen::Package::REGISTERED[name]
       abort "The package name \"#{name}\" is invalid."
     end
 
-    package = Zen::Package::Registered[name]
+    package = Zen::Package::REGISTERED[name]
 
     # Get the migrations directory
     if package.respond_to?(:migrations) and !package.migrations.nil?

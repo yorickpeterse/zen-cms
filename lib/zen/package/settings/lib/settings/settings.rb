@@ -22,7 +22,7 @@ Settings::Setting.add do |setting|
   setting.group       = 'general'
   setting.default     = 'en'
   setting.type        = 'select'
-  setting.values      = Zen::Language::Languages
+  setting.values      = Zen::Language::LANGUAGES
 end
 
 Settings::Setting.add do |setting|
@@ -32,7 +32,7 @@ Settings::Setting.add do |setting|
   setting.group       = 'general'
   setting.default     = 'en'
   setting.type        = 'select'
-  setting.values      = Zen::Language::Languages
+  setting.values      = Zen::Language::LANGUAGES
 end
 
 Settings::Setting.add do |setting|
@@ -45,7 +45,7 @@ Settings::Setting.add do |setting|
   setting.values      = lambda do
     theme_hash = {}
 
-    Zen::Theme::Registered.each do |name, theme|
+    Zen::Theme::REGISTERED.each do |name, theme|
       name             = name.to_s
       theme_hash[name] = name
     end

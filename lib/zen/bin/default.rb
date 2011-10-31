@@ -43,7 +43,7 @@ module Zen
       # @since 0.3
       #
       def version
-        puts Zen::Version
+        puts Zen::VERSION
         exit
       end
 

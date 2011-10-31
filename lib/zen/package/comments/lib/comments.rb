@@ -35,7 +35,7 @@ Settings::Setting.add do |setting|
   setting.group       = 'security'
   setting.type        = 'select'
   setting.default     = 'defensio'
-  setting.values      = lambda { Comments::AntiSpam::Registered }
+  setting.values      = lambda { Comments::AntiSpam::REGISTERED }
 end
 
 Settings::Setting.add do |setting|

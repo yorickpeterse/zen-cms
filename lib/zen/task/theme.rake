@@ -3,7 +3,7 @@ namespace :theme do
   task :list do
     require File.expand_path('../../../zen', __FILE__)
 
-    Zen::Theme::Registered.each do |name, pkg|
+    Zen::Theme::REGISTERED.each do |name, pkg|
       if pkg.about.nil? or pkg.about.empty?
         puts "* #{name}"
       else
@@ -29,11 +29,11 @@ namespace :theme do
 
     name = args[:name].to_sym
 
-    if !Zen::Theme::Registered[name]
+    if !Zen::Theme::REGISTERED[name]
       abort 'The specified theme does not exist.'
     end
 
-    theme = Zen::Theme::Registered[name]
+    theme = Zen::Theme::REGISTERED[name]
     table = 'migrations_theme_' + theme.name.to_s
 
     # Fetch the migrations directory

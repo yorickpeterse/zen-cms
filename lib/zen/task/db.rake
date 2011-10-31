@@ -3,12 +3,12 @@ namespace :db do
   task :migrate do
     require File.expand_path('../../../zen', __FILE__)
 
-    if Zen::Package::Registered.empty?
+    if Zen::Package::REGISTERED.empty?
       abort "No packages have been registered."
     end
 
     # Get the details required to run a migration
-    Zen::Package::Registered.each do |name, pkg|
+    Zen::Package::REGISTERED.each do |name, pkg|
       # Get the migration directory
       if pkg.respond_to?(:migrations) and !pkg.migrations.nil?
         dir = pkg.migrations
@@ -35,11 +35,11 @@ namespace :db do
   task :delete do
     require File.expand_path('../../../zen', __FILE__)
 
-    if Zen::Package::Registered.empty?
+    if Zen::Package::REGISTERED.empty?
       abort "No packages have been registered."
     end
 
-    packages = Zen::Package::Registered.map { |name, pkg| [name, pkg] }.reverse
+    packages = Zen::Package::REGISTERED.map { |name, pkg| [name, pkg] }.reverse
 
     # Get the details required to run a migration
     packages.each do |name, pkg|

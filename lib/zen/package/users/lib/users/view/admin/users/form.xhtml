@@ -84,7 +84,7 @@
         f.select(
           lang('users.labels.language'),
           :language,
-          :values   => ::Zen::Language::Languages,
+          :values   => ::Zen::Language::LANGUAGES,
           :selected => @user.language,
           :size     => 1
         )
@@ -92,7 +92,7 @@
         f.select(
           lang('users.labels.frontend_language'),
           :frontend_language,
-          :values   => ::Zen::Language::Languages,
+          :values   => ::Zen::Language::LANGUAGES,
           :selected => @user.frontend_language,
           :size     => 1
         )

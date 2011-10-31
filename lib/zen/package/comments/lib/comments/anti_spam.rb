@@ -21,7 +21,7 @@ module Comments
   # ## Adding Systems
   #
   # Adding a new anti spam system is done in two steps. First you must add the
-  # name of the method to {Comments::AntiSpam::Registered} (the method should be
+  # name of the method to {Comments::AntiSpam::REGISTERED} (the method should be
   # a symbol). This constant is a hash of which the keys are the method names of
   # the engines to invoke and the values the labels to display in the admin
   # panel. Without this the {Comments::AntiSpam.validate} method will raise an
@@ -59,7 +59,7 @@ module Comments
   module AntiSpam
     # Array containing the method names of the various supported engines and
     # their labels to display in the admin interface.
-    Registered = {
+    REGISTERED = {
       :defensio => lang('comments.labels.defensio')
     }
 
@@ -89,7 +89,7 @@ module Comments
       def validate(engine, author, email, url, comment)
         engine = engine.to_sym
 
-        unless Registered.key?(engine)
+        unless REGISTERED.key?(engine)
           raise(ArgumentError, "The engine \"#{engine}\" is invalid")
         end
 

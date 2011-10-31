@@ -220,7 +220,7 @@ module Zen
     #
     # @since  0.2.5
     #
-    Registered = {}
+    REGISTERED = {}
 
     ##
     # Adds a new theme to Zen. Note that the theme won't be used unless it has
@@ -235,7 +235,7 @@ module Zen
 
       theme.validate
 
-      Registered[theme.name] = theme
+      REGISTERED[theme.name] = theme
     end
 
     ##
@@ -248,11 +248,11 @@ module Zen
     def self.[](name)
       name = name.to_sym if name.class != Symbol
 
-      if !Registered.key?(name)
+      if !REGISTERED.key?(name)
         raise(Zen::ThemeError, "The theme #{name} doesn't exist.")
       end
 
-      return Registered[name]
+      return REGISTERED[name]
     end
 
     ##
@@ -316,7 +316,7 @@ module Zen
       end
 
       # Check if the theme hasn't already been registered
-      if ::Zen::Theme::Registered.key?(name.to_sym)
+      if ::Zen::Theme::REGISTERED.key?(name.to_sym)
         raise(
           ::Zen::ValidationError,
           "The theme #{name} has already been registered."

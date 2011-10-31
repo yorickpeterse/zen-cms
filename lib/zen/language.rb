@@ -94,13 +94,13 @@ module Zen
     include Ramaze::Optioned
 
     # Hash containing all the translations.
-    Translations = {}
+    TRANSLATIONS = {}
 
     # Hash containing all the loaded language files for a language.
-    Loaded = {}
+    LOADED = {}
 
     # Hash containing all the available languages.
-    Languages = {
+    LANGUAGES = {
       'en' => 'English',
       'nl' => 'Nederlands'
     }
@@ -131,12 +131,12 @@ module Zen
         lang_name  = lang_name.to_s
         file_found = false
 
-        Languages.each do |language, label|
-          Loaded[language]       ||= []
-          Translations[language] ||= {}
+        LANGUAGES.each do |language, label|
+          LOADED[language]       ||= []
+          TRANSLATIONS[language] ||= {}
 
           # Abort of the file has already been loaded
-          if Loaded.key?(language) and Loaded[language].include?(lang_name)
+          if LOADED.key?(language) and LOADED[language].include?(lang_name)
             file_found = true
             break
           end
@@ -149,13 +149,13 @@ module Zen
               file_found  = true
               translation = YAML.load_file(path)
 
-              Loaded[language].push(lang_name)
+              LOADED[language].push(lang_name)
 
               # Conver the hash to a dot based hash. This means that
               # {:person => {:age => 18}} would result in {'person.age' => 18}.
               translation = to_dotted_hash({lang_name => translation})
 
-              Translations[language].merge!(translation)
+              TRANSLATIONS[language].merge!(translation)
             end
           end
         end
@@ -319,16 +319,16 @@ module Zen
         lang   = Zen::Language.current if lang.nil?
         groups = []
 
-        if !Zen::Language::Translations \
-        or !Zen::Language::Translations.key?(lang)
+        if !Zen::Language::TRANSLATIONS \
+        or !Zen::Language::TRANSLATIONS.key?(lang)
           raise(
             Zen::LanguageError,
             "No translation files have been added for the language code \"#{lang}\""
           )
         end
 
-        if Zen::Language::Translations[lang][key]
-          return Zen::Language::Translations[lang][key]
+        if Zen::Language::TRANSLATIONS[lang][key]
+          return Zen::Language::TRANSLATIONS[lang][key]
         end
 
         raise(

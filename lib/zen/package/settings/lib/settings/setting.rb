@@ -92,7 +92,7 @@ module Settings
     #
     # @since  0.2.5
     #
-    Registered = {}
+    REGISTERED = {}
 
     # The name of the setting
     attr_reader :name
@@ -137,7 +137,7 @@ module Settings
 
         setting.validate
 
-        Registered[setting.name] = setting
+        REGISTERED[setting.name] = setting
       end
 
       ##
@@ -149,7 +149,7 @@ module Settings
       def migrate
         settings = ::Settings::Model::Setting.all.map { |s| s.name }
 
-        Registered.each do |name, setting|
+        REGISTERED.each do |name, setting|
           name  = name.to_s
           group = setting.group.to_s
 
@@ -189,7 +189,7 @@ module Settings
 
         names.each_with_index do |v, k|
           names[k] = v.to_s
-          Registered.delete(v.to_sym)
+          REGISTERED.delete(v.to_sym)
         end
 
         ::Settings::Model::Setting.filter(:name => names).destroy
@@ -210,7 +210,7 @@ module Settings
       end
 
       # Check if the setting hasn't been registered yet
-      if Registered.key?(name)
+      if REGISTERED.key?(name)
         raise(
           ::Zen::ValidationError,
           "The setting #{name} has already been registered"
@@ -218,7 +218,7 @@ module Settings
       end
 
       # Validate the group
-      if !Settings::SettingsGroup::Registered.key?(group)
+      if !Settings::SettingsGroup::REGISTERED.key?(group)
         raise(
           ::Zen::ValidationError,
           "The settings group \"#{group}\" doesn't exist."

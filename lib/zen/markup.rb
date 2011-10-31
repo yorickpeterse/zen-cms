@@ -35,11 +35,11 @@ module Zen
   #
   # Adding a new engine is relatively easy and is done in two steps. First you
   # should add the name of your engine and it's label to
-  # {Zen::Markup::Registered}. The keys of this hash should be the methods to
+  # {Zen::Markup::REGISTERED}. The keys of this hash should be the methods to
   # call, teh values will be displayed in various ``<select>`` elements in the
   # administration interface.
   #
-  #     Zen::Markup::Registered['my_markup'] = 'My Markup'
+  #     Zen::Markup::REGISTERED['my_markup'] = 'My Markup'
   #
   # In this example the label is hardcoded but it's recommended to use
   # {Zen::Language.lang} instead.
@@ -76,7 +76,7 @@ module Zen
   module Markup
     # Hash containing all the markup engines and their names as they'll be
     # displayed in the backend.
-    Registered = {
+    REGISTERED = {
       'markdown' => lang('zen_general.markup.markdown'),
       'textile'  => lang('zen_general.markup.textile'),
       'plain'    => lang('zen_general.markup.plain'),
@@ -98,7 +98,7 @@ module Zen
       # @return [String]
       #
       def convert(engine, markup)
-        unless Registered.keys.include?(engine.to_s)
+        unless REGISTERED.keys.include?(engine.to_s)
           raise(ArgumentError, "The specified engine \"#{engine}\" is invalid")
         end
 

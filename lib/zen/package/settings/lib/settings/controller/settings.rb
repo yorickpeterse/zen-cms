@@ -91,11 +91,11 @@ module Settings
         set_breadcrumbs(lang('settings.titles.index'))
 
         @settings_ordered = {}
-        @groups           = ::Settings::SettingsGroup::Registered
+        @groups           = ::Settings::SettingsGroup::REGISTERED
 
         # Organize the settings so that each item is a child
         # item of it's group.
-        ::Settings::Setting::Registered.each do |name, setting|
+        ::Settings::Setting::REGISTERED.each do |name, setting|
           if !@settings_ordered.key?(setting.group)
             @settings_ordered[setting.group] = []
           end

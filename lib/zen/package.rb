@@ -122,7 +122,7 @@ module Zen
     #
     # @since  0.2.5
     #
-    Registered = {}
+    REGISTERED = {}
 
     # The name of the package.
     attr_reader :name
@@ -158,7 +158,7 @@ module Zen
         yield(package)
         package.validate
 
-        Registered[package.name] = package
+        REGISTERED[package.name] = package
       end
 
       ##
@@ -172,15 +172,15 @@ module Zen
       def [](name)
         name = name.to_sym
 
-        if Registered.empty?
+        if REGISTERED.empty?
           raise(PackageError, "No packages have been added yet.")
         end
 
-        if !Registered.key?(name)
+        if !REGISTERED.key?(name)
           raise(PackageError, "The package \"#{name}\" doesn't exist.")
         end
 
-        return Registered[name]
+        return REGISTERED[name]
       end
 
       ##
@@ -200,11 +200,11 @@ module Zen
 
         g.ul(:class => html_class) do
           # Sort the hash
-          keys = Registered.keys.sort
+          keys = REGISTERED.keys.sort
 
           keys.each do |key|
-            unless Registered[key].menu.nil?
-              g.out << Registered[key].menu.html(permissions)
+            unless REGISTERED[key].menu.nil?
+              g.out << REGISTERED[key].menu.html(permissions)
             end
           end
         end
@@ -371,7 +371,7 @@ module Zen
       validates_filepath(:migrations) unless migrations.nil?
 
       # Check if the package hasn't been registered yet
-      if Zen::Package::Registered.key?(name.to_sym)
+      if Zen::Package::REGISTERED.key?(name.to_sym)
         raise(Zen::ValidationError, "The package #{name} already exists.")
       end
     end
