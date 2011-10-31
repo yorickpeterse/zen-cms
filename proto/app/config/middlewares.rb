@@ -6,7 +6,7 @@
 # For development purposes we'll be loading various middlewares to make it
 # easier to detect errors, reloading the code and so on.
 #
-Ramaze.middleware! :dev do |m|
+Ramaze.middleware!(:dev) do |m|
   # Rack::Lint is used to validate all code according to the Rack specification.
   # It's not recommended to use this middleware in a production environment as
   # it will slow your application down a bit.

@@ -29,8 +29,14 @@ module Zen
         uri.each { |v| @request_uri.push(h(v)) }
 
         if !@request_uri[0] or @request_uri[0].empty?
-          section         = get_setting(:default_section).value
-          section         = ::Sections::Model::Section[section].slug
+          section = get_setting(:default_section).value
+
+          if !section.nil? and !section.empty?
+            section = ::Sections::Model::Section[section].slug
+          else
+            section = 'default'
+          end
+
           @request_uri[0] = section
         end
 

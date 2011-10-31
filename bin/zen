@@ -1,9 +1,16 @@
 #!/usr/bin/env ruby
-
 require 'ramaze'
-require 'optparse'
 
-require __DIR__('../lib/zen/version')
-require __DIR__('../lib/zen/bin/runner')
+Ramaze.setup(:verbose => false) do
+  gem 'shebang', ['~> 0.1']
+end
 
-Zen::Bin::Runner.run
+unless $LOAD_PATH.include?(__DIR__('../lib'))
+  $LOAD_PATH.unshift(__DIR__('../lib'))
+end
+
+require 'zen/version'
+require 'zen/bin/create'
+require 'zen/bin/default'
+
+Shebang.run

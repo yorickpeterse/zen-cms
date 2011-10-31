@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html lang="#{get_setting(:frontend_language).value}">
+    <head>
+        <meta charset="utf-8" />
+
+        <title>#{get_setting(:website_name).value}</title>
+    </head>
+    <body>
+        <h1>#{get_setting(:website_name).value}</h1>
+
+        <p>
+            Congratulations, you have successfully set up your Zen application.
+            For more information on how to create a website using Zen you should
+            take a look at the
+            <a href="http://zen-cms.com/documentation/index.html">
+                documentation
+            </a>.
+        </p>
+
+        <p>
+            If you want to log in instead you can do so by going to the
+            <a href="/admin/users/login">admin panel</a>.
+        </p>
+    </body>
+</html>

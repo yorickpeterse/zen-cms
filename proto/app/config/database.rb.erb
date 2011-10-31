@@ -1,6 +1,12 @@
-# It's recommended to create a separate database user for your Zen application
-# and prevent it from being able to access other databases. Zen is new and may
-# allow hackers to exploit the system.
+# Database configuration file for Zen.
+#
+# This configuration file should contain all the required details to make it
+# possible for Zen to connect to a SQL database.
+#
+# Keep in mind that it is recommended to add this file to your VCS' ignore list
+# and instead only keep track of a default configuration file (e.g.
+# database.default.rb). Doing this means your passwords and usernames don't end
+# up being tracked by your VCS.
 #
 # The following items can be set:
 #
@@ -16,21 +22,18 @@
 #
 # Fore more information see the Sequel documentation:
 # http://sequel.rubyforge.org/rdoc/files/doc/opening_databases_rdoc.html
+#
 Zen.database = Sequel.connect(
-  :adapter  => '',
-  :host     => 'localhost',
-  :username => '',
-  :password => '',
-  :database => '',
+  :adapter  => '<%= ProjectSettings[:database][:adapter] %>',
+  :username => '<%= ProjectSettings[:database][:username] %>',
+  :password => '<%= ProjectSettings[:database][:password] %>',
+  :database => '<%= ProjectSettings[:database][:database] %>',
   :test     => true,
-  :encoding => 'utf8',
-  :logger   => Ramaze::Logger::RotatingInformer.new(
-    __DIR__("../log/database/dev"), '%d-%m-%Y.log'
-  )
+  :encoding => 'utf8'
 )
 
-# IMPORTANT, when running MySQL the engine should be set to InnoDB in order for
-# foreign keys to work properly.
+# When running MySQL the engine should be set to InnoDB in order for foreign
+# keys to work properly.
 if Zen.database.adapter_scheme.to_s.include?('mysql')
   Sequel::MySQL.default_engine = 'InnoDB'
 end

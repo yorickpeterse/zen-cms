@@ -1,0 +1,41 @@
+---
+# Configuration file for Thin. Thin can be installed by running the following
+# shell command:
+#
+#     $ gem install thin
+#
+# Once installed you can use the thin shell command to start/stop your
+# application.
+
+# Listen to 0.0.0.0:7000 by default.
+port: 7000
+
+# If you want to use a Unix socket instead uncomment the line below and make
+# sure that the path points to a valid Unix socket.
+#
+# socket: 'path/to/socket'
+
+# When set to true Thin will detach itself from the terminal and run as a
+# daemon.
+daemonize: false
+
+# Path to the PID file to use for each Thin worker.
+pid: tmp/thin.pid
+
+# The user and group to use for each Thin process. It is recommended that you
+# run your application using its own user and group.
+#
+# user: 'username'
+# group: 'groupname'
+
+# The amount of worker processes to start. It's very important to remember that
+# setting this option above 1 requires you to use a Ramaze cache that stores
+# it's data outside of each process' memory. An example of such a cache is
+# Ramaze::Cache::MemCache. When doing so you should set the following caches:
+#
+# * Ramaze::Cache.options.session
+# * Ramaze::Cache.options.settings
+#
+# Without this data will not be synced between Unicorn workers causing all kind
+# of weird things to happen.
+servers: 1

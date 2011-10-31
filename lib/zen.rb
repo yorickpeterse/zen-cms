@@ -79,7 +79,7 @@ module Zen
       rescue => e
         Ramaze::Log.warn(
           'Failed to migrate the settings, make sure the database ' \
-            'table is up to date'
+            'table is up to date and that you executed rake db:migrate.'
         )
       end
 

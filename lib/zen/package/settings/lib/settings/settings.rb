@@ -41,6 +41,7 @@ Settings::Setting.add do |setting|
   setting.name        = 'theme'
   setting.group       = 'general'
   setting.type        = 'select'
+  setting.default     = 'default'
   setting.values      = lambda do
     theme_hash = {}
 

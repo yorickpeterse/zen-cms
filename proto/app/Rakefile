@@ -9,4 +9,3 @@ if File.directory?(task_dir)
     import task
   end
 end
-
