@@ -3,7 +3,7 @@ ramaze
 sequel
 bcrypt-ruby
 loofah
-json
+shebang
 ramaze-asset
 
 # Development dependencies, no need for specific versions.

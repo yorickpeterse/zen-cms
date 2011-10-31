@@ -1,11 +1,11 @@
 require 'ramaze'
 require 'yaml'
+require 'json'
 
 Ramaze.setup(:verbose => false) do
   gem 'sequel'      , ['~> 3.28.0']
   gem 'bcrypt-ruby' , ['~> 3.0.1'], :lib => 'bcrypt'
   gem 'loofah'      , ['~> 1.2.0']
-  gem 'json'        , ['~> 1.6.1']
   gem 'ramaze-asset', ['~> 0.2.3'], :lib => 'ramaze/asset'
 end
 
