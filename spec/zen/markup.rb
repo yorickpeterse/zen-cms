@@ -1,6 +1,8 @@
 require File.expand_path('../../helper', __FILE__)
 
 describe('Zen::Markup') do
+  WebMock.allow_net_connect!
+
   it('Convert Markdown to HTML') do
     html = Zen::Markup.convert(:markdown, 'hello **world**').strip
 
@@ -32,4 +34,6 @@ describe('Zen::Markup') do
       e.message.should == 'The specified engine "foobar" is invalid'
     end
   end
+
+  WebMock.disable_net_connect!
 end
