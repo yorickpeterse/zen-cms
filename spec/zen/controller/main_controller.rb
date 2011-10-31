@@ -34,7 +34,7 @@ describe('Zen::Controller::MainController') do
   end
 
   it('Request a page without a theme set') do
-    get_setting(:theme).value = nil
+    get_setting(:theme).value = ''
 
     visit('/')
 

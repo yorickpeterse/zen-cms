@@ -31,7 +31,7 @@ module Zen
         if !@request_uri[0] or @request_uri[0].empty?
           section = get_setting(:default_section).value
 
-          if !section.nil? and !section.empty?
+          if !section.nil?
             section = ::Sections::Model::Section[section].slug
           else
             section = 'default'
