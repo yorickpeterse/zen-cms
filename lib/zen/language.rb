@@ -1,4 +1,3 @@
-#:nodoc:
 module Zen
   ##
   # Zen comes with a system that allows developers to localize labels, field

@@ -1,4 +1,3 @@
-#:nodoc:
 module Zen
   ##
   # Zen::Event is a module that can be used to register and execute events.

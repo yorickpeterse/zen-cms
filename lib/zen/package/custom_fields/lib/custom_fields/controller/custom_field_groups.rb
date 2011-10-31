@@ -20,7 +20,7 @@
 # * {CustomFields::Model::CustomFieldMethod}
 # * {CustomFields::Model::CustomFieldValue}
 #
-# ## Other
+# ## Generic Modules & Classes
 #
 # * {CustomFields::BlueFormParameters}
 #

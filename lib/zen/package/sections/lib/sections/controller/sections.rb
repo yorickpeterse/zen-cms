@@ -9,17 +9,13 @@
 # ## Helpers
 #
 # * {Ramaze::Helper::Section}
+# * {Ramaze::Helper::SectionFrontend}
 #
 # ## Models
 #
 # * {Sections::Model::Section}
 # * {Sections::Model::SectionEntry}
 # * {Sections::Model::SectionEntryStatus}
-#
-# ## Plugins
-#
-# * {Sections::Plugin::Sections}
-# * {Sections::Plugin::SectionEntries}
 #
 module Sections
   #:nodoc:

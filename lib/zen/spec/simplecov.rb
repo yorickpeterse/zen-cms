@@ -10,7 +10,6 @@ SimpleCov.configure do
   project_name 'Zen'
 
   add_group 'Packages'   , 'zen/package'
-  add_group 'Plugins'    , 'zen/plugin'
   add_group 'Helpers'    , 'zen/helper'
   add_group 'Controllers', 'zen/controller'
 

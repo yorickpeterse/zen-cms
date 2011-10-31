@@ -31,7 +31,6 @@ require __DIR__('sections/controller/section_entries')
 
 Zen::Controller::FrontendController.helper(:section_frontend)
 
-# Register all the settings
 Settings::Setting.add do |setting|
   setting.title       = lang('settings.labels.default_section')
   setting.description = lang('settings.placeholders.default_section')
@@ -41,16 +40,10 @@ Settings::Setting.add do |setting|
   setting.values      = lambda do
     section_hash = {}
 
-    begin
-      Sections::Model::Section.select(:name, :id).each do |s|
-        section_hash[s.id] = s.name
-      end
-
-      return section_hash
-    rescue => e
-      Ramaze::Log.warn(
-        "The settings plugin failed to retrieve all sections: #{e.message}"
-      )
+    Sections::Model::Section.select(:name, :id).each do |s|
+      section_hash[s.id] = s.name
     end
+
+    return section_hash
   end
 end

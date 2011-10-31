@@ -1,4 +1,5 @@
 module Zen
+  #:nodoc:
   module Bin
     ##
     # The default command that is executed.

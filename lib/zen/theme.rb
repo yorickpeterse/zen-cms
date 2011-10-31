@@ -1,6 +1,5 @@
 require 'pathname'
 
-#:nodoc:
 module Zen
   ##
   # Zen allows you to create templates and package them as themes using the
@@ -145,16 +144,11 @@ module Zen
   #     </article>
   #     <?r end ?>
   #
-  # While models such as Sections::Model::Section will return instances of that
-  # model all core plugins will return a collection of hashes instead. This
-  # means that rather than doing ``x.title`` you'd do ``x[:title]``. Note that
-  # all the keys are symbols and not strings.
-  #
   # <div class="note deprecated">
   #     <p>
   #         <strong>Warning</strong>: Don't run custom SQL queries inside your
-  #         templates, create a plugin, class or module if you want to retrieve
-  #         custom data.
+  #         templates, create a helper, regular class or module if you want to
+  #         retrieve custom data.
   #     </p>
   # </div>
   #

@@ -47,12 +47,12 @@ small portion of what it can do.
 * {Categories Categories}
   * {Categories::Controller::CategoryGroups Managing Category Groups}
   * {Categories::Controller::Categories Managing Categories}
-  * {Categories::Plugin::Categories Categories Plugin}
+  * {Ramaze::Helper::CategoryFrontend#get_categories Categories & Templates}
 * {Comments Comments}
   * {Comments::Controller::Comments Managing Comments}
   * {Comments::Controller::CommentsForm Submitting Comments}
-  * {Comments::Plugin::AntiSpam Anti Spam Plugin}
-  * {Comments::Plugin::Comments Comments Plugin}
+  * {Comments::AntiSpam Validating Comments For Spam}
+  * {Ramaze::Helper::CommentFrontend#get_comments Comments & Templates}
 * {CustomFields Custom Fields}
   * {CustomFields::Controller::CustomFieldGroups Managing Groups}
   * {CustomFields::Controller::CustomFields Managing Fields}
@@ -61,20 +61,18 @@ small portion of what it can do.
 * {Menus Menus}
   * {Menus::Controller::Menus Menu Management}
   * {Menus::Controller::MenuItems Managing Menu Items}
-  * {Menus::Plugin::Menus Menus Plugin}
+  * {Ramaze::Helper::MenuFrontend#render_menu Menus & Templates}
 * {Sections Sections & Section Entries}
   * {Sections::Controller::Sections Managing Sections}
   * {Sections::Controller::SectionEntries Managing Section Entries}
-  * {Sections::Plugin::Sections Sections Plugin}
-  * {Sections::Plugin::SectionEntries Section Entries Plugin}
+  * {Ramaze::Helper::SectionFrontend#get_entries Section Entries & Templates}
 * {Settings}
   * {Settings::Controller::Settings Managing Settings}
-  * {Settings::Plugin::Settings Settings Plugin}
+  * {Settings::SingletonMethods#get_setting Retrieving Settings}
 * {Users Users, User Groups and Permissions}
   * {Users::Controller::Users Managing Users}
   * {Users::Controller::UserGroups Managing User Groups}
 * {Zen::Package Packages}
-* {Zen::Plugin Plugins}
 * {Zen::Theme Themes}
 * {Zen::Language Localization}
 * {Zen::Event Events}
@@ -85,8 +83,8 @@ small portion of what it can do.
 ## Requirements
 
 * Ruby >= 1.9.2 (Rubinius, jruby and others are not supported).
-* Ramaze 2011.07.25 or newer.
-* Any SQL database supported by Sequel. Zen has been tested and confirmed to
+* Ramaze 2011.10.23 or newer.
+* A SQL database supported by Sequel. Zen has been tested and confirmed to
   work on MySQL, SQLite3 and PostgreSQL. You'll also need the required gems for
   these DBMS' such as "mysql2" for MySQL and "pg" for PostgreSQL.
 * A Rack compatible server such as Thin or Unicorn.

@@ -3,6 +3,7 @@ require 'erb'
 require 'fileutils'
 
 module Zen
+  #:nodoc:
   module Bin
     ##
     # Command that can be used to create new Zen projects.

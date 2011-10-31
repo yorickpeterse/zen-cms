@@ -121,7 +121,7 @@ module Ramaze
       # Retrieves the details of a single section entry.
       #
       # @example Get a single entry
-      #  entry = get_entry('home', :comments => true)
+      #  entry = get_entry('home')
       #
       # @since  0.3
       # @param  [String|Fixnum] entry The ID or slug of an entry to retrieve.

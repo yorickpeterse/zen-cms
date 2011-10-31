@@ -1,7 +1,6 @@
 require 'ramaze/gestalt'
 require __DIR__('package/menu')
 
-#:nodoc:
 module Zen
   ##
   # Zen::Package allows developers to register so called "packages". Packages

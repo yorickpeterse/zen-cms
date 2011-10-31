@@ -9,16 +9,16 @@
 # ## Helpers
 #
 # * {Ramaze::Helper::Comment}
+# * {Ramaze::Helper::CommentFrontend}
 #
 # ## Models
 #
 # * {Comments::Model::Comment}
 # * {Comments::Model::CommentStatus}
 #
-# ## Plugins
+# ## Generic Modules & Classes
 #
-# * {Comments::Plugin::AntiSpam}
-# * {Comments::Plugin::Comments}
+# * {Comments::AntiSpam}
 #
 # @since  0.1
 #

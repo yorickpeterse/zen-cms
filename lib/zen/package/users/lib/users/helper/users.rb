@@ -1,6 +1,4 @@
-#:nodoc:
 module Ramaze
-  #:nodoc:
   module Helper
     ##
     # Helper for the users package. Note that this helper is called "Users"

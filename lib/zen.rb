@@ -15,8 +15,7 @@ end
 
 ##
 # Main module for Zen, all other modules and classes will be placed inside this
-# module. This module loads all required classes and is used for starting the
-# application.
+# module.
 #
 # @since  0.1
 #
@@ -190,7 +189,6 @@ include Zen::Language::SingletonMethods
 require 'zen/markup'
 require 'zen/package'
 require 'zen/theme'
-require 'zen/plugin/helper'
 
 # Load all the base controllers
 require 'zen/controller/base_controller'

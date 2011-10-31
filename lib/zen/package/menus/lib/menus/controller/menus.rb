@@ -9,15 +9,12 @@
 # ## Helpers
 #
 # * {Ramaze::Helper::Menu}
+# * {Ramaze::Helper::MenuFrontend}
 #
 # ## Models
 #
 # * {Menus::Model::Menu}
 # * {Menus::Model::MenuItem}
-#
-# ## Plugins
-#
-# * {Menus::Plugin::Menus}
 #
 module Menus
   #:nodoc:

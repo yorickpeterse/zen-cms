@@ -1,4 +1,3 @@
-#:nodoc:
 module Users
   #:nodoc:
   module Model

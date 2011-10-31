@@ -1,6 +1,4 @@
-#:nodoc:
 module Ramaze
-  #:nodoc:
   module Helper
     ##
     # The ACL helper makes it easy for developers to allow or deny access to

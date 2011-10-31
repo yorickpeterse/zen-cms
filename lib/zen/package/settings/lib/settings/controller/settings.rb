@@ -9,9 +9,11 @@
 #
 # * {Settings::Model::Setting}
 #
-# ## Plugins
+# ## Generic Modules & Classes
 #
-# * {Settings::Plugin::Settings}
+# * {Settings::Setting}
+# * {Settings::SettingsGroup}
+# * {Settings::SingletonMethods}
 #
 module Settings
   #:nodoc:

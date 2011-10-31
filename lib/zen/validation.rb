@@ -1,4 +1,3 @@
-#:nodoc:
 module Zen
   ##
   # The Validation module is a very basic validation framework that's used by
