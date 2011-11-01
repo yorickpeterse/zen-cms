@@ -141,7 +141,8 @@ module Zen
 
         puts wrap_string(
           'Zen comes with a few default configuration files that you can use ' \
-            'for your favorite Rack server. Zen supports the following servers:'
+            'for your favorite Rack server. Zen comes with default ' \
+            'configuration files for the following Rack servers:'
         )
 
         puts
