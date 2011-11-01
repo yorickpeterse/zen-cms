@@ -123,10 +123,10 @@ module Categories
         set_breadcrumbs(lang('category_groups.titles.index'))
 
         @category_groups = search do |query|
-          ::Categories::Model::CategoryGroup.search(query)
+          ::Categories::Model::CategoryGroup.search(query).order(:id.asc)
         end
 
-        @category_groups ||= ::Categories::Model::CategoryGroup
+        @category_groups ||= ::Categories::Model::CategoryGroup.order(:id.asc)
         @category_groups   = paginate(@category_groups)
       end
 

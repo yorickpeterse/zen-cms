@@ -97,12 +97,13 @@ module Sections
         @section_id = section_id
         @entries    = search do |query|
           ::Sections::Model::SectionEntry.search(query) \
-            .filter(:section_id => section_id)
+            .filter(:section_id => section_id) \
+            .order(:id.asc)
         end
 
-        @entries  ||= ::Sections::Model::SectionEntry.filter(
-          :section_id => section_id
-        )
+        @entries  ||= ::Sections::Model::SectionEntry \
+          .filter(:section_id => section_id) \
+          .order(:id.asc)
 
         @entries = paginate(@entries)
       end

@@ -92,10 +92,10 @@ module Users
         set_breadcrumbs(lang('user_groups.titles.index'))
 
         @user_groups = search do |query|
-          ::Users::Model::UserGroup.search(query)
+          ::Users::Model::UserGroup.search(query).order(:id.asc)
         end
 
-        @user_groups ||= ::Users::Model::UserGroup
+        @user_groups ||= ::Users::Model::UserGroup.order(:id.asc)
         @user_groups   = paginate(@user_groups)
       end
 

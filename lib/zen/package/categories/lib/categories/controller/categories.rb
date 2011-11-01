@@ -113,14 +113,15 @@ module Categories
         @category_group_id = category_group_id
 
         @categories = search do |query|
-          ::Categories::Model::Category.search(query).filter(
-            :category_group_id => category_group_id
-          )
+          ::Categories::Model::Category \
+            .search(query) \
+            .filter(:category_group_id => category_group_id) \
+            .order(:id.asc)
         end
 
-        @categories ||= ::Categories::Model::Category.filter(
-          :category_group_id => category_group_id
-        )
+        @categories ||= ::Categories::Model::Category \
+          .filter(:category_group_id => category_group_id) \
+          .order(:id.asc)
 
         @categories = paginate(@categories)
       end

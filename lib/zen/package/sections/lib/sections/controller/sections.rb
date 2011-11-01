@@ -134,10 +134,10 @@ module Sections
         set_breadcrumbs(lang('sections.titles.index'))
 
         @sections = search do |query|
-          ::Sections::Model::Section.search(query)
+          ::Sections::Model::Section.search(query).order(:id.asc)
         end
 
-        @sections ||= ::Sections::Model::Section
+        @sections ||= ::Sections::Model::Section.order(:id.asc)
         @sections   = paginate(@sections)
       end
 

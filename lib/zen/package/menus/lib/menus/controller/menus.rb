@@ -114,10 +114,10 @@ module Menus
         set_breadcrumbs(lang('menus.titles.index'))
 
         @menus = search do |query|
-          ::Menus::Model::Menu.search(query)
+          ::Menus::Model::Menu.search(query).order(:id.asc)
         end
 
-        @menus ||= ::Menus::Model::Menu
+        @menus ||= ::Menus::Model::Menu.order(:id.asc)
         @menus   = paginate(@menus)
       end
 

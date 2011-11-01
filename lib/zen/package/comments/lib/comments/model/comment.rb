@@ -32,7 +32,8 @@ module Comments
       # @return [Array]
       #
       def self.search(query)
-        return filter(
+        return select_all(:comments) \
+          .filter(
             search_column(:comment, query) |
             search_column(:users__email, query) |
             search_column(:comments__email, query) |

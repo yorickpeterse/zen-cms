@@ -131,11 +131,14 @@ module Comments
         set_breadcrumbs(lang('comments.titles.index'))
 
         @comments = search do |query|
-          ::Comments::Model::Comment.search(query)
+          ::Comments::Model::Comment.search(query).order(:comments__id.asc)
         end
 
-        @comments ||= ::Comments::Model::Comment.eager(:comment_status, :user)
-        @comments   = paginate(@comments)
+        @comments ||= ::Comments::Model::Comment \
+          .eager(:comment_status, :user) \
+          .order(:id.asc)
+
+        @comments = paginate(@comments)
       end
 
       ##

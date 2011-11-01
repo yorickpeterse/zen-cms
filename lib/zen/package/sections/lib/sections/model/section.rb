@@ -33,8 +33,6 @@ module Sections
       # @return [Mixed]
       #
       def self.search(query)
-        return [] if query.empty?
-
         return filter(
           search_column(:name, query) | search_column(:description, query)
         )

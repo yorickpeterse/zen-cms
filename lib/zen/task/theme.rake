@@ -50,10 +50,6 @@ namespace :theme do
     # Time to migrate the theme
     Ramaze::Log.info('Migrating package...')
 
-    Zen.database.transaction do
-      Sequel::Migrator.run(
-        Zen.database, dir, :table => table, :target => version
-      )
-    end
+    Sequel::Migrator.run(Zen.database, dir, :table => table, :target => version)
   end
 end

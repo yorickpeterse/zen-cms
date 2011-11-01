@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('RedCloth' , ['>= 4.2.8'])
   s.add_development_dependency('bacon'    , ['>= 1.1.0'])
   s.add_development_dependency('yard'     , ['>= 0.7.2'])
-  s.add_development_dependency('capybara' , ['>= 1.0.1'])
+  s.add_development_dependency('capybara' , ['>= 1.1.1'])
   s.add_development_dependency('sqlite3'  , ['>= 1.3.4'])
   s.add_development_dependency('defensio' , ['>= 0.9.1'])
   s.add_development_dependency('simplecov', ['>= 0.4.2'])

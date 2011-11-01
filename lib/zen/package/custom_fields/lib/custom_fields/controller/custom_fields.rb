@@ -113,12 +113,13 @@ module CustomFields
         @custom_fields         = search do |query|
           ::CustomFields::Model::CustomField \
             .search(query) \
-            .filter(:custom_field_group_id => custom_field_group_id)
+            .filter(:custom_field_group_id => custom_field_group_id) \
+            .order(:id.asc)
         end
 
-        @custom_fields ||= ::CustomFields::Model::CustomField.filter(
-          :custom_field_group_id => custom_field_group_id
-        )
+        @custom_fields ||= ::CustomFields::Model::CustomField \
+          .filter(:custom_field_group_id => custom_field_group_id) \
+          .order(:id.asc)
 
         @custom_fields = paginate(@custom_fields)
       end

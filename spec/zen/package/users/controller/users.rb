@@ -1,7 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Zen::Language.load('users')
-
 describe("Users::Controller::Users") do
   behaves_like :capybara
 

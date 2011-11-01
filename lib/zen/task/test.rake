@@ -20,4 +20,15 @@ namespace :test do
 
     sh(command)
   end
+
+  desc 'Runs all specifications using PostgreSQL'
+  task :postgres => ['clean:assets'] do
+    Dir.chdir(spec_dir)
+
+    ENV['DATABASE'] = 'zen_dev'
+    ENV['ADAPTER']  = 'postgres'
+    ENV['USERNAME'] = 'zen'
+
+    sh(command)
+  end
 end
