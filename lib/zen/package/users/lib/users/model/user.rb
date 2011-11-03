@@ -12,6 +12,7 @@ module Users
       many_to_many :user_groups, :class => 'Users::Model::UserGroup',
         :eager => [:permissions]
 
+      many_to_one :user_status, :class => 'Users::Model::UserStatus'
       one_to_many :permissions, :class => 'Users::Model::Permission'
 
       plugin :timestamps, :create => :created_at, :update => :updated_at
@@ -47,7 +48,8 @@ module Users
 
         user = self[:email => email]
 
-        if !user.nil? and user.password == password and user.status == 'open'
+        if !user.nil? and user.password == password \
+        and user.user_status.allow_login == true
           # Overwrite all the global settings with the user specific ones
           [:language, :frontend_language, :date_format].each do |setting|
             value = get_setting(setting).value
@@ -100,8 +102,8 @@ module Users
       # @since  0.3
       #
       def before_save
-        if self.status.nil? or self.status.empty?
-          self.status = 'open'
+        if self.user_status_id.nil?
+          self.user_status_id = Users::Model::UserStatus[:name => 'closed'].id
         end
 
         super
@@ -118,6 +120,39 @@ module Users
         validates_presence(:password) if new?
         validates_max_length(255, [:email, :name, :website])
         validates_format(/^\S+@\S+\.\w{2,}/, :email)
+      end
+
+      ##
+      # Gets the name of the user's status and returns it in the current
+      # language.
+      #
+      # @since  03-11-2011
+      # @return [String]
+      #
+      def user_status_name
+        return lang("users.special.status_hash.#{user_status.name}")
+      end
+
+      ##
+      # Activates the user.
+      #
+      # @since 03-11-2011
+      #
+      def activate!
+        update(
+          :user_status_id => Users::Model::UserStatus[:name => 'active'].id
+        )
+      end
+
+      ##
+      # Closes the user account.
+      #
+      # @since 03-11-2011
+      #
+      def close!
+        update(
+          :user_status_id => Users::Model::UserStatus[:name => 'closed'].id
+        )
       end
     end # User
   end # Model

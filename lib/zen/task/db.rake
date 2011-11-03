@@ -90,10 +90,10 @@ namespace :db do
     user = Users::Model::User.create(
       :email    => 'admin@website.tld',
       :name     => 'Administrator',
-      :password => password,
-      :status   => 'open'
+      :password => password
     )
 
+    user.activate!
     user.user_group_pks = [group.id]
 
     puts "Default administrator account has been created.

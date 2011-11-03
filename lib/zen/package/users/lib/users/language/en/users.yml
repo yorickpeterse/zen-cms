@@ -26,8 +26,9 @@ placeholders:
 
 special:
   status_hash:
-    open  : 'Open'
-    closed: 'Closed'
+    active     : 'Active'
+    closed     : 'Closed'
+    unconfirmed: 'Unconfirmed'
 
 messages:
   no_users: 'No users have been added yet.'

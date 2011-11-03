@@ -119,15 +119,6 @@ module Users
 
       set_layout :admin => [:index, :edit, :new], :login => [:login]
 
-      # # Hook that's executed before Users#index(), Users#edit() and
-      # Users#new().
-      before(:index, :edit, :new) do
-        @status_hash = {
-          'open'   => lang('users.special.status_hash.open'),
-          'closed' => lang('users.special.status_hash.closed')
-        }
-      end
-
       ##
       # Show an overview of all users and allow the current user
       # to manage these users.
@@ -145,6 +136,7 @@ module Users
         end
 
         @users ||= ::Users::Model::User.order(:id.asc)
+        @users   = @users.eager(:user_status)
         @users   = paginate(@users)
       end
 
@@ -241,7 +233,7 @@ module Users
           :website,
           :password,
           :confirm_password,
-          :status,
+          :user_status_id,
           :language,
           :frontend_language,
           :date_format,

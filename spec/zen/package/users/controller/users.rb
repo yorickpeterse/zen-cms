@@ -9,7 +9,7 @@ describe("Users::Controller::Users") do
   save_button   = lang('users.buttons.save')
   new_button    = lang('users.buttons.new')
   delete_button = lang('users.buttons.delete')
-  status        = lang('users.special.status_hash.open')
+  status        = lang('users.special.status_hash.active')
 
   it('Submit a form without a CSRF token') do
     response = page.driver.post(
@@ -61,10 +61,11 @@ describe("Users::Controller::Users") do
       fill_in('password'        , :with => 'spec')
       fill_in('confirm_password', :with => 'spec')
 
-      select(status, :from => 'status')
+      select(status, :from => 'user_status_id')
       click_on(save_button)
     end
 
+    page.has_selector?('span.error').should       == false
     page.find('input[name="name"]').value.should  == 'Spec user'
     page.find('input[name="email"]').value.should == 'spec@email.com'
   end

@@ -68,9 +68,9 @@
 
         f.select(
           lang('users.labels.status'),
-          :status,
-          :values   => @status_hash,
-          :selected => @user.status,
+          :user_status_id,
+          :values   => Users::Model::UserStatus.dropdown,
+          :selected => @user.user_status_id,
           :size     => 1
         )
 
