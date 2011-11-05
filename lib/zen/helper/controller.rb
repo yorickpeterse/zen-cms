@@ -38,7 +38,7 @@ module Ramaze
         #  with the name of the current action.
         #
         def title(title)
-          before_all do
+          stacked_before_all do
             @page_title = lang(title % action.method) rescue nil
           end
         end
@@ -58,10 +58,7 @@ module Ramaze
         #  CSRF attacks.
         #
         def csrf_protection(*actions)
-          # before_all() calls don't stack. Because CSRF protected methods are
-          # usually used for POST calls (and are separate methods) this works
-          # around it.
-          before(*actions) do
+          stacked_before_all do
             csrf_protection(*actions) do
               respond(lang('zen_general.errors.csrf'), 403)
             end

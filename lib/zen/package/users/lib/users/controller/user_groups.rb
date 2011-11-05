@@ -72,7 +72,7 @@ module Users
       serve :javascript, ['/admin/js/users/permissions'], :minify => false
       serve :css, ['/admin/css/users/permissions.css'], :minify => false
 
-      before(:index, :edit, :new) do
+      stacked_before(:index, :edit, :new) do
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')

@@ -10,8 +10,8 @@ module Zen
     # @since  0.1
     #
     class BaseController < Ramaze::Controller
-      helper :user, :csrf, :message, :cgi, :locale, :controller,
-        :blue_form, :paginate
+      helper :stacked_aspect, :user, :csrf, :message, :cgi, :locale,
+        :controller, :blue_form, :paginate
 
       # Configure the pagination helper
       trait :paginate => {
