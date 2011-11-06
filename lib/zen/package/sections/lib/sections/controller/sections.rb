@@ -108,7 +108,7 @@ module Sections
 
       # Hook that is executed before Sections#index(), Sections#new() and
       # Sections#edit().
-      stacked_before(:index, :new, :edit) do
+      before(:index, :new, :edit) do
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')

@@ -83,7 +83,7 @@ module CustomFields
       csrf_protection  :save; :delete
       load_asset_group :tabs, [:edit, :new]
 
-      stacked_before(:index, :edit, :new) do
+      before(:index, :edit, :new) do
         @custom_field_types = ::CustomFields::Model::CustomFieldType.type_hash
         @boolean_hash       = {
           true  => lang('zen_general.special.boolean_hash.true'),

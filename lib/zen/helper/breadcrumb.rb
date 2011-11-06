@@ -21,6 +21,8 @@ module Ramaze
     # @since  0.1
     #
     module Breadcrumb
+      @breadcrumbs = []
+
       ##
       # Appends each element to the list of breadcrumb segments.
       #
@@ -34,8 +36,7 @@ module Ramaze
       # @since  0.1
       #
       def set_breadcrumbs(*args)
-        @breadcrumbs ||= []
-        @breadcrumbs   = args
+        @breadcrumbs = args
       end
 
       ##
@@ -53,8 +54,6 @@ module Ramaze
       # @return [String]
       #
       def get_breadcrumbs(separator = "&raquo;")
-        @breadcrumbs ||= []
-
         if !@breadcrumbs or @breadcrumbs.empty?
           return
         end

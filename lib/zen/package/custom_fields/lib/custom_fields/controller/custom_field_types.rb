@@ -82,7 +82,7 @@ module CustomFields
 
       # Blck that's executed before CustomFieldTypes#edit() and
       # CustomFieldTypes#new().
-      stacked_before(:index, :edit, :new) do
+      before(:index, :edit, :new) do
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')
