@@ -7,7 +7,7 @@ require File.expand_path('../../lib/zen', __FILE__)
 Ramaze::Log.level   = Logger::ERROR
 Ramaze.options.mode = :dev
 
-Zen::Fixtures = __DIR__('fixtures/zen')
+Zen::FIXTURES = __DIR__('fixtures/zen')
 Zen.root      = __DIR__
 Zen.database  = Sequel.connect(
   :adapter   => ENV['ADAPTER']  || 'sqlite',

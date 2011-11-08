@@ -41,12 +41,14 @@ require __DIR__('users/model/user')
 require __DIR__('users/model/user_group')
 require __DIR__('users/model/permission')
 require __DIR__('users/model/user_status')
-require __DIR__('users/controller/users')
-require __DIR__('users/controller/user_groups')
 
 # The trait for the User helper has to be specified in the constructor as our
 # user model is loaded after this class is loaded (but before it's
 # initialized)
 Zen::Controller::BaseController.trait(:user_model => Users::Model::User)
 
-Zen::Controller::AdminController.helper(:acl)
+Zen::Controller::AdminController.helper(:acl, :access)
+
+# Load the controllers after the helpers have been loaded.
+require __DIR__('users/controller/users')
+require __DIR__('users/controller/user_groups')

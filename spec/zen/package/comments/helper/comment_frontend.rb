@@ -1,5 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
-require File.join(Zen::Fixtures, 'package/comments/helper/comment_frontend')
+require File.join(Zen::FIXTURES, 'package/comments/helper/comment_frontend')
 
 describe('Ramaze::Helper::CommentFrontend') do
   behaves_like :capybara

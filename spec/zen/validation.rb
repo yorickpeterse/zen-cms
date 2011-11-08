@@ -1,5 +1,5 @@
 require File.expand_path('../../helper', __FILE__)
-require File.join(Zen::Fixtures, 'validation')
+require File.join(Zen::FIXTURES, 'validation')
 require 'fileutils'
 
 describe('Zen::Validation') do

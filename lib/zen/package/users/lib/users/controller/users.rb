@@ -87,7 +87,7 @@ module Users
     # in again.
     #
     # @example Sending an Email for a new user
-    #  Zen::Event.listen(:new_user) do |user|
+    #  Zen::Event.listen(:after_new_user) do |user|
     #    Mail.deliver do
     #      from    'user@domain.tld'
     #      to      user.email
@@ -109,6 +109,7 @@ module Users
       helper :users, :layout
       map    '/admin/users'
       title  'users.titles.%s'
+      allow  [:login, :logout]
 
       csrf_protection :save, :delete
 

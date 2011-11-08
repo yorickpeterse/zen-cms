@@ -1,5 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
-require File.join(Zen::Fixtures, 'package/categories/helper/category_frontend')
+require File.join(Zen::FIXTURES, 'package/categories/helper/category_frontend')
 
 describe('Ramaze::Helper::CategoryFrontend') do
   behaves_like :capybara

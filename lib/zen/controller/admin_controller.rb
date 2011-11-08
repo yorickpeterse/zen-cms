@@ -22,26 +22,6 @@ module Zen
       layout :admin
       engine :etanni
       helper :breadcrumb, :asset, :search
-
-      ##
-      # The initialize method is called upon class initalization and is used to
-      # process several items before loading the controller(s) for the current
-      # extension.
-      #
-      # @since  0.1
-      #
-      def initialize
-        super
-
-        # Only allow users to access admin/users/login when they aren't logged
-        # in
-        if request.env['SCRIPT_NAME'] != 'admin/users/' \
-        and request.env['PATH_INFO']  != '/login' \
-        and !logged_in?
-          message(:error, lang('zen_general.errors.require_login'))
-          redirect('/admin/users/login')
-        end
-      end
     end # AdminController
   end # Controller
 end # Zen

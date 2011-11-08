@@ -1,5 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
-require File.join(Zen::Fixtures, 'package/comments/controller/comments_form')
+require File.join(Zen::FIXTURES, 'package/comments/controller/comments_form')
 
 describe("Comments::Controller::CommentsForm") do
   behaves_like :capybara

@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../helper', __FILE__)
 require File.join(
-  Zen::Fixtures,
+  Zen::FIXTURES,
   'package',
   'sections',
   'helper',
