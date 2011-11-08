@@ -30,6 +30,12 @@ describe("Users::Controller::Users") do
   end
 
   it('Log in') do
+    event_email = nil
+
+    Zen::Event.listen(:user_login) do |user|
+      event_email = user.email
+    end
+
     visit(login_url)
 
     within('#login_form') do
@@ -39,6 +45,7 @@ describe("Users::Controller::Users") do
     end
 
     current_path.should == dashboard_url
+    event_email.should  == 'spec@domain.tld'
   end
 
   it("A user should exist") do

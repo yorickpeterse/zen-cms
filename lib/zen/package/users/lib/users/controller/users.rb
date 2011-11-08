@@ -104,6 +104,7 @@ module Users
     # @event  after_edit_user
     # @event  before_delete_user
     # @event  after_delete_user
+    # @event  user_login
     #
     class Users < Zen::Controller::AdminController
       helper :users, :layout
@@ -187,6 +188,7 @@ module Users
       # Show a form that allows a user to log in.
       #
       # @since  0.1
+      # @event  user_login
       #
       def login
         if request.post?
@@ -194,6 +196,7 @@ module Users
           if user_login(request.subset(:email, :password))
             user.update(:last_login => Time.new)
 
+            Zen::Event.call(:user_login, user)
             message(:success, lang('users.success.login'))
             redirect(::Sections::Controller::Sections.r(:index))
           else
