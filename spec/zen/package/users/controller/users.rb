@@ -240,4 +240,36 @@ describe("Users::Controller::Users") do
 
     Zen::Event.delete(:before_delete_user, :after_delete_user)
   end
+
+  it('Register a new user') do
+    get_setting(:allow_registration).value = '1'
+
+    logout_path   = Users::Controller::Users.r(:logout).to_s
+    login_path    = Users::Controller::Users.r(:login).to_s
+    register_path = Users::Controller::Users.r(:register).to_s
+
+    visit(logout_path)
+    visit(register_path)
+
+    current_path.should == register_path
+
+    within('#register_form') do
+      fill_in('name', :with => 'New user')
+      fill_in('email', :with => 'test@test.com')
+      fill_in('password', :with => 'abc')
+      fill_in('confirm_password', :with => 'abc')
+      click_on(lang('users.buttons.register'))
+    end
+
+    page.has_selector?('span.error').should == false
+    current_path.should                     == login_path
+
+    user = Users::Model::User[:email => 'test@test.com']
+
+    user.nil?.should             == false
+    user.user_status.name.should == 'closed'
+  end
+
+  capybara_login
+  Users::Model::User[:email => 'test@test.com'].destroy
 end

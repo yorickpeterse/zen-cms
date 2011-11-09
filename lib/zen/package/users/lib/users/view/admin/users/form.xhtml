@@ -46,7 +46,7 @@
           :email,
           :required  => :required,
           :maxlength => 255,
-          :pattern   => '^\\\S+@\\\S+\\\.\\\w{2,}'
+          :pattenr   => Users::Model::User::EMAIL_REGEX
         )
 
         f.input_text(

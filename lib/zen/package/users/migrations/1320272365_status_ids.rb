@@ -23,8 +23,7 @@ Sequel.migration do
 
     Zen.database[:user_statuses].insert_multiple([
       {:name => 'active', :allow_login => true},
-      {:name => 'closed'},
-      {:name => 'unconfirmed'}
+      {:name => 'closed'}
     ])
 
     open   = Zen.database[:user_statuses].filter(:name => 'active').all[0]

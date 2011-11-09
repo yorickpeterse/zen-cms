@@ -105,12 +105,14 @@ module Users
     # @event  before_delete_user
     # @event  after_delete_user
     # @event  user_login
+    # @event  before_register_user
+    # @event  after_register_user
     #
     class Users < Zen::Controller::AdminController
       helper :users, :layout
       map    '/admin/users'
       title  'users.titles.%s'
-      allow  [:login, :logout]
+      allow  [:login, :logout, :register]
 
       csrf_protection :save, :delete
 
@@ -119,7 +121,8 @@ module Users
 
       load_asset_group :tabs
 
-      set_layout :admin => [:index, :edit, :new], :login => [:login]
+      set_layout :admin => [:index, :edit, :new],
+        :login => [:login, :register]
 
       ##
       # Show an overview of all users and allow the current user
@@ -202,6 +205,8 @@ module Users
           else
             message(:error, lang('users.errors.login'))
           end
+
+          redirect(r(:login))
         end
       end
 
@@ -215,7 +220,60 @@ module Users
         session.clear
 
         message(:success, lang('users.success.logout'))
-        redirect(Users.r(:login))
+        redirect(r(:login))
+      end
+
+      ##
+      # Allows non registered users to create an account as long as the setting
+      # "allow_registration" allows this. In case of errors this method will
+      # redirect to itself, this works around those rather annoying "Do you want
+      # to resubmit this form?" messages most browsers give you.
+      #
+      # The events ``before_register_user`` and ``after_register_user`` will
+      # receive an instance of {Users::Model::User} as well as the raw password
+      # specified by the user.
+      #
+      # @since 0.3
+      # @event before_register_user
+      # @event after_register_user
+      #
+      def register
+        redirect(::Sections::Controller::Sections.r(:index)) if logged_in?
+        redirect(r(:login)) if get_setting(:allow_registration).value == '0'
+
+        if request.post?
+          post = request.subset(:name, :email, :password)
+          user = Model::User.new(post)
+
+          # Check if the passwords match.
+          if post['password'] != request.params['confirm_password']
+            flash[:form_data] = user
+
+            message(:error, lang('users.errors.no_password_match'))
+            redirect(r(:register))
+          end
+
+          Zen::Event.call(:before_register_user, user, post['password'])
+
+          begin
+            user.save
+          rescue => e
+            Ramaze::Log.error(e.inspect)
+            message(:error, lang('users.errors.register'))
+
+            flash[:form_errors] = user.errors
+            flash[:form_data]   = user
+
+            redirect(r(:register))
+          end
+
+          Zen::Event.call(:after_register_user, user, post['password'])
+          message(:success, lang('users.success.register'))
+
+          redirect(r(:login))
+        end
+
+        @user = flash[:form_data] || Model::User.new
       end
 
       ##

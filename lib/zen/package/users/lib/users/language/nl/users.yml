@@ -4,6 +4,7 @@ titles:
   edit : 'Gebruiker aanpassen'
   new  : 'Gebruiker aanmaken'
   login: 'Inloggen'
+  register: 'Registreren'
 
 labels:
   id               : '#'
@@ -20,15 +21,17 @@ labels:
   language         : 'Taal'
   frontend_language: 'Bezoekers taal'
   date_format      : 'Datum formaat'
+  allow_registration: 'Registratie toegestaan'
 
 placeholders:
   date_format: 'Het formaat van de datums in het admin gedeelte.'
+  allow_registration: 'Sta niet geregistreerde gebruikers toe om een account \
+te registreren.'
 
 special:
   status_hash:
-    active     : 'Actief'
-    closed     : 'Gesloten'
-    unconfirmed: 'Niet bevestigd'
+    active: 'Actief'
+    closed: 'Gesloten'
 
 messages:
   no_users: 'Er zijn nog geen gebruikers aangemaakt.'
@@ -39,6 +42,7 @@ success:
   delete: 'Alle gespecificeerde gebruikers zijn verwijderd.'
   login : 'U bent nu ingelogd.'
   logout: 'U bent nu uitgelogd.'
+  success: 'De account is geregistreerd.'
 
 errors:
   new              : 'De gebruiker kon niet worden aangemaakt.'
@@ -49,12 +53,14 @@ errors:
   login            : 'U kon niet worden ingelogd.'
   logout           : 'U kon niet worden uitgelogd, misschien bent u al uitgelogd.'
   invalid_user     : 'De opgegeven gebruiker is ongeldig.'
+  register         : 'De account kon niet worden geregistreerd.'
 
 buttons:
   login : 'Inloggen'
   new   : 'Gebruiker toevoegen'
   save  : 'Gebruiker opslaan'
   delete: 'Geselecteerde gebruikers verwijderen'
+  register: 'Registreer'
 
 description: 'Beheer gebruikers, gebruikers groepen en rechten.'
 
@@ -63,3 +69,6 @@ permissions:
   edit  : 'Rechten aanpassen'
   new   : 'Rechten aanmaken'
   delete: 'Rechten verwijderen'
+
+tabs:
+  settings: 'Gebruikers instellingen'

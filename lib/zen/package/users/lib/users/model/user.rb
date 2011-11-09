@@ -7,6 +7,10 @@ module Users
     # @since  0.1
     #
     class User < Sequel::Model
+      # Regex to do some basic Email validation. Emails such as foo@bar,
+      # foo@bar.com and foo@bar.a.b are all valid but foo bar@bar.com isn't.
+      EMAIL_REGEX = '^[^@]\S+@\S+(\.[a-z]+)*[^.]$'
+
       include Zen::Model::Helper
 
       many_to_many :user_groups, :class => 'Users::Model::UserGroup',
@@ -117,9 +121,9 @@ module Users
       def validate
         validates_presence([:email, :name])
         validates_unique(:email)
+        validates_format(Regexp.new(EMAIL_REGEX), :email)
         validates_presence(:password) if new?
         validates_max_length(255, [:email, :name, :website])
-        validates_format(/^\S+@\S+\.\w{2,}/, :email)
       end
 
       ##

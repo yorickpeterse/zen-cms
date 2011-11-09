@@ -1,0 +1,53 @@
+<section>
+    <header>
+        <h1>#{@page_title}</h1>
+    </header>
+
+    #{form_for(
+      @user,
+      :method => :post,
+      :action => Users::Controller::Users.r(:register),
+      :id     => :register_form
+    ) do |f|
+      f.input_text(
+        lang('users.labels.name'),
+        :name,
+        :required  => :required,
+        :maxlength => 255,
+        :tabindex  => 1
+      )
+
+      f.input_text(
+        lang('users.labels.email'),
+        :email,
+        :required  => :required,
+        :maxlength => 255,
+        :pattern   => Users::Model::User::EMAIL_REGEX
+      )
+
+      f.input_password(
+        lang('users.labels.password'),
+        :password,
+        :required => :required,
+        :value    => ''
+      )
+
+      f.input_password(
+        lang('users.labels.confirm_password'),
+        :confirm_password,
+        :required => :required,
+        :value    => ''
+      )
+
+      f.g.div(:class => :button) do
+        f.g.input(:type => :submit, :value => lang('users.buttons.register'))
+      end
+
+      f.g.a(
+        :href  => Users::Controller::Users.r(:login),
+        :title => lang('users.titles.login')
+      ) do
+        lang('users.titles.login')
+      end
+    end}
+</section>

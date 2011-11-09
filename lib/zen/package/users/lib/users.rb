@@ -37,6 +37,7 @@ Zen::Language.load('users')
 Zen::Language.load('user_groups')
 Zen::Language.load('permissions')
 
+require __DIR__('users/settings')
 require __DIR__('users/model/user')
 require __DIR__('users/model/user_group')
 require __DIR__('users/model/permission')

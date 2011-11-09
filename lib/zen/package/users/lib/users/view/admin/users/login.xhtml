@@ -3,8 +3,7 @@
         <h1>#{@page_title}</h1>
     </header>
 
-    #{
-    form_for(
+    #{form_for(
       nil,
       :method => :post,
       :action => Users::Controller::Users.r(:login),
@@ -13,7 +12,8 @@
       f.input_text(
         lang('users.labels.email'),
         :email,
-        :tabindex => 1
+        :tabindex => 1,
+        :pattern  => Users::Model::User::EMAIL_REGEX
       )
 
       f.input_password(
@@ -25,6 +25,14 @@
       f.g.div(:class => 'button') do
         f.g.input(:type => :submit, :value => lang('users.buttons.login'))
       end
-    end
-    }
+
+      if get_setting(:allow_registration).value == '1'
+        f.g.a(
+          :href  => Users::Controller::Users.r(:register),
+          :title => lang('users.titles.login')
+        ) do
+          lang('users.titles.register')
+        end
+      end
+    end}
 </section>

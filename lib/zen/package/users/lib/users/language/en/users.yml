@@ -4,31 +4,33 @@ titles:
   edit : 'Edit User'
   new  : 'Add User'
   login: 'Login'
+  register: 'Register'
 
 labels:
-  id               : '#'
-  email            : 'Email'
-  name             : 'Name'
-  website          : 'Website'
-  password         : 'Password'
-  confirm_password : 'Confirm password'
-  status           : 'Status'
-  created_at       : 'Created'
-  updated_at       : 'Updated'
-  last_login       : 'Last login'
-  user_groups      : 'User groups'
-  language         : 'Language'
-  frontend_language: 'Frontend language'
-  date_format      : 'Date format'
+  id                : '#'
+  email             : 'Email'
+  name              : 'Name'
+  website           : 'Website'
+  password          : 'Password'
+  confirm_password  : 'Confirm password'
+  status            : 'Status'
+  created_at        : 'Created'
+  updated_at        : 'Updated'
+  last_login        : 'Last login'
+  user_groups       : 'User groups'
+  language          : 'Language'
+  frontend_language : 'Frontend language'
+  date_format       : 'Date format'
+  allow_registration: 'Allow registration'
 
 placeholders:
   date_format: 'A custom format to use for all dates displayed in the backend.'
+  allow_registration: 'Allow non registered users to register a new account.'
 
 special:
   status_hash:
-    active     : 'Active'
-    closed     : 'Closed'
-    unconfirmed: 'Unconfirmed'
+    active: 'Active'
+    closed: 'Closed'
 
 messages:
   no_users: 'No users have been added yet.'
@@ -42,6 +44,7 @@ errors:
   login            : 'Failed to log in with the specified details.'
   logout           : 'Failed to log out, perhaps you are already logged out.'
   invalid_user     : 'The specified user is invalid.'
+  register         : 'The account could not be registered.'
 
 success:
   new   : 'The new user has been created.'
@@ -49,12 +52,14 @@ success:
   delete: 'All selected users have been deleted.'
   login : 'You have been successfully logged in.'
   logout: 'You have been successfully logged out.'
+  register: 'The account has been registered.'
 
 buttons:
   login : 'Login'
   new   : 'Add user'
   delete: 'Delete selected users'
   save  : 'Save user'
+  register: 'Register'
 
 description: 'Manage users, user groups and permissions.'
 
@@ -63,3 +68,6 @@ permissions:
   edit  : 'Edit user'
   new   : 'Add user'
   delete: 'Delete user'
+
+tabs:
+  settings: 'User Settings'
