@@ -33,7 +33,7 @@ describe('Menus::Plugin::Menus') do
     :sort_order => 3
   )
 
-  it("Retrieve a menu with all items") do
+  should("retrieve a menu with all items") do
     menu = render_menu(nav_menu.slug).strip
 
     menu.include?('Spec').should                  == true
@@ -42,7 +42,7 @@ describe('Menus::Plugin::Menus') do
     menu.include?('<ul class="children">').should == true
   end
 
-  it('Retrieve a menu with all items by the menu id') do
+  should('retrieve a menu with all items by the menu id') do
     menu = render_menu(nav_menu.id).strip
 
     menu.include?('Spec').should                  == true
@@ -51,7 +51,7 @@ describe('Menus::Plugin::Menus') do
     menu.include?('<ul class="children">').should == true
   end
 
-  it("Retrieve a menu with only 1 item") do
+  should("retrieve a menu with only 1 item") do
     menu = render_menu(nav_menu.slug, :limit => 1).strip
 
     menu.include?('Spec').should                  == true
@@ -60,7 +60,7 @@ describe('Menus::Plugin::Menus') do
     menu.include?('<ul class="children">').should == false
   end
 
-  it("Retrieve a menu with only the root elemements") do
+  should("retrieve a menu with only the root elemements") do
     menu = render_menu(nav_menu.slug, :sub => false).strip
 
     menu.include?('Spec').should                  == true
@@ -69,7 +69,7 @@ describe('Menus::Plugin::Menus') do
     menu.include?('<ul class="children">').should == false
   end
 
-  it('Retrieve a set of items and sort them') do
+  should('retrieve a set of items and sort them') do
     menu     = render_menu(nav_menu.slug, :order => :desc, :sub => false)
     menu_asc = render_menu(nav_menu.slug, :order => :asc, :sub => false)
     menu     = Nokogiri::HTML.fragment(menu)
@@ -92,7 +92,7 @@ describe('Menus::Plugin::Menus') do
       .should == item_2.html_class
   end
 
-  it('No empty attributes should be set') do
+  should('not set empty attributes') do
     menu = render_menu(nav_menu.slug)
 
     menu.include?('id=""').should == false

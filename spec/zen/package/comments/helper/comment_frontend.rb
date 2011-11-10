@@ -38,7 +38,7 @@ describe('Ramaze::Helper::CommentFrontend') do
     :email             => user.email
   )
 
-  it('Retrieve all comments for an ID') do
+  should('retrieve all comments for an ID') do
     comments = get_comments(entry.slug).all
 
     comments.count.should                                 == 2
@@ -48,7 +48,7 @@ describe('Ramaze::Helper::CommentFrontend') do
     comments[1].user.name.should                          == 'Spec'
   end
 
-  it('Retrieve all comments for a slug') do
+  should('retrieve all comments for a slug') do
     comments = get_comments(entry.id).all
 
     comments.count.should                                 == 2
@@ -56,7 +56,7 @@ describe('Ramaze::Helper::CommentFrontend') do
     comments[1].comment.include?('Spec comment 1').should == true
   end
 
-  it('Retrieve all comments and check the markup') do
+  should('retrieve all comments and check the markup') do
     comments = get_comments(entry.id).all
 
     comments.count.should                 == 2
@@ -64,14 +64,14 @@ describe('Ramaze::Helper::CommentFrontend') do
     comments[1].html.strip.should == '<p>Spec comment 1</p>'
   end
 
-  it('Retrieve a single comment') do
+  should('retrieve a single comment') do
     comments = get_comments(entry.id, :limit => 1).all
 
     comments.count.should                               == 1
     comments[0].comment.include?('Spec comment').should == true
   end
 
-  it('Paginate a set of comments') do
+  should('paginate a set of comments') do
     visit('/spec-comment-frontend')
 
     page.has_selector?('p').should         == true

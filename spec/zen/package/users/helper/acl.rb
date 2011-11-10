@@ -16,20 +16,20 @@ Users::Model::UserGroup[:slug => 'administrators'].update(:super_group => false)
 describe('Ramaze::Helper::ACL') do
   behaves_like :capybara
 
-  it('Require a valid permission') do
+  should('require a valid permission') do
     visit('/admin/spec-acl-helper')
 
     page.has_content?('not allowed').should == false
     page.has_content?('allowed').should     == true
   end
 
-  it('Require an invalid permission') do
+  should('require an invalid permission') do
     visit('/admin/spec-acl-helper/invalid')
 
     page.has_content?('not allowed').should == true
   end
 
-  it('Respond for an invalid permission') do
+  should('respond for an invalid permission') do
     visit('/admin/spec-acl-helper/respond_message')
 
     page.has_content?(lang('zen_general.errors.not_authorized')).should == true

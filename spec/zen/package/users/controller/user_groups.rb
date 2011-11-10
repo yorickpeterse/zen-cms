@@ -10,7 +10,7 @@ describe('Users::Controller::UserGroups') do
   new_button    = lang('user_groups.buttons.new')
   delete_button = lang('user_groups.buttons.delete')
 
-  it('Submit a form without a CSRF token') do
+  should('submit a form without a CSRF token') do
     response = page.driver.post(
       Users::Controller::UserGroups.r(:save).to_s
     )
@@ -19,7 +19,7 @@ describe('Users::Controller::UserGroups') do
     response.status.should                                         == 403
   end
 
-  it('A single user group should exist') do
+  should('find a single user group') do
     message = lang('user_groups.messages.no_groups')
 
     visit(index_url)
@@ -29,7 +29,7 @@ describe('Users::Controller::UserGroups') do
     page.all('table tbody tr').count.should     == 1
   end
 
-  it('Create a new user group') do
+  should('create a new user group') do
     visit(index_url)
     click_link(new_button)
 
@@ -43,7 +43,7 @@ describe('Users::Controller::UserGroups') do
     page.find('#form_super_group_0').checked?.should == 'checked'
   end
 
-  it('Search for a user group') do
+  should('search for a user group') do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
@@ -66,7 +66,7 @@ describe('Users::Controller::UserGroups') do
     page.has_content?('Spec group').should == false
   end
 
-  it('Edit an existing user group') do
+  should('edit an existing user group') do
     group = Users::Model::UserGroup[:name => 'Spec group']
     path  = Users::Controller::UserGroups.r(:edit, group.id).to_s
 
@@ -88,7 +88,7 @@ describe('Users::Controller::UserGroups') do
     page.find('#permission_show_user').checked?.should == 'checked'
   end
 
-  it('Edit an existing user group with invalid data') do
+  should('edit an existing user group with invalid data') do
     visit(index_url)
     click_link('Spec group')
 
@@ -100,7 +100,7 @@ describe('Users::Controller::UserGroups') do
     page.has_selector?('label[for="form_name"] span.error').should == true
   end
 
-  it('Delete a group without an ID') do
+  should('delete a group without an ID') do
     visit(index_url)
     click_on(delete_button)
 
@@ -108,7 +108,7 @@ describe('Users::Controller::UserGroups') do
     page.all('table tbody tr').count.should                     == 2
   end
 
-  it('Delete an existing user group') do
+  should('delete an existing user group') do
     visit(index_url)
 
     within('table tbody tr:last-child') do
@@ -120,7 +120,7 @@ describe('Users::Controller::UserGroups') do
     page.all('table tbody tr').count.should == 1
   end
 
-  it('Call the event new_user_group (before and after)') do
+  should('call the event new_user_group (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_new_user_group) do |user_group|
@@ -147,7 +147,7 @@ describe('Users::Controller::UserGroups') do
     Zen::Event.delete(:before_new_user_group, :after_new_user_group)
   end
 
-  it('Call the event edit_user_group (before and after)') do
+  should('call the event edit_user_group (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_edit_user_group) do |user_group|
@@ -172,7 +172,7 @@ describe('Users::Controller::UserGroups') do
     Zen::Event.delete(:before_edit_user_group, :after_edit_user_group)
   end
 
-  it('Call the event delete_user_group (before and after)') do
+  should('call the event delete_user_group (before and after)') do
     event_name  = nil
     event_name2 = nil
 

@@ -4,7 +4,7 @@ require 'rdiscount'
 describe "Zen::Controller::Preview" do
   behaves_like :capybara
 
-  it('Convert Markdown to HTML') do
+  should('convert Markdown to HTML') do
     markdown = 'Hello, **world**'
     response = page.driver.post(
       '/admin/preview', :engine => 'markdown', :markup => markdown
@@ -14,7 +14,7 @@ describe "Zen::Controller::Preview" do
     response.status.should     == 200
   end
 
-  it('Convert an non existing markup type') do
+  should('convert an non existing markup type') do
     response = page.driver.post(
       '/admin/preview', :engine => 'foobar', :markup => 'foobar'
     )
@@ -23,7 +23,7 @@ describe "Zen::Controller::Preview" do
     response.status.should     == 400
   end
 
-  it('Call without any parameters') do
+  should('call without any parameters') do
     response = page.driver.post('/admin/preview')
 
     response.body.strip.should == lang('zen_general.errors.invalid_request')

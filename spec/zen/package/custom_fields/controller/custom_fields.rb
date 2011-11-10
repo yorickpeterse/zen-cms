@@ -13,7 +13,7 @@ describe('CustomFields::Controller::CustomFields') do
   save_button   = lang('custom_fields.buttons.save')
   delete_button = lang('custom_fields.buttons.delete')
 
-  it('Submit a form without a CSRF token') do
+  should('submit a form without a CSRF token') do
     response = page.driver.post(
       CustomFields::Controller::CustomFields.r(:save).to_s
     )
@@ -22,7 +22,7 @@ describe('CustomFields::Controller::CustomFields') do
     response.status.should                                         == 403
   end
 
-  it("No custom fields should exist") do
+  should('find no existing fields') do
     message = lang('custom_fields.messages.no_fields')
 
     visit(index_url)
@@ -31,7 +31,7 @@ describe('CustomFields::Controller::CustomFields') do
     page.has_content?(message).should           == true
   end
 
-  it("Create a new custom field") do
+  should("create a new custom field") do
     type_select   = lang('custom_fields.special.type_hash.textbox')
     format_select = lang('zen_general.special.format_hash.markdown')
     textbox_field = CustomFields::Model::CustomFieldType[:name => 'textbox']
@@ -72,7 +72,7 @@ describe('CustomFields::Controller::CustomFields') do
     page.find_field('form_sort_order').value.should      == '2'
   end
 
-  it('Search for a custom field') do
+  should('search for a custom field') do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
@@ -95,7 +95,7 @@ describe('CustomFields::Controller::CustomFields') do
     page.has_content?('Spec field').should == false
   end
 
-  it("Edit an existing custom field") do
+  should("edit an existing custom field") do
     type_select    = lang('custom_fields.special.type_hash.textarea')
     textarea_field = CustomFields::Model::CustomFieldType[:name => 'textarea']
 
@@ -126,7 +126,7 @@ describe('CustomFields::Controller::CustomFields') do
       .value.should == textarea_field.id.to_s
   end
 
-  it("Edit an existing custom field with invalid data") do
+  should("edit an existing custom field with invalid data") do
     visit(index_url)
     click_link('Spec field')
 
@@ -138,7 +138,7 @@ describe('CustomFields::Controller::CustomFields') do
     page.has_selector?('span.error').should == true
   end
 
-  it('Try to delete a field with no IDs specified') do
+  should('fail to delete a field without an ID') do
     message = lang('custom_fields.messages.no_fields')
 
     visit(index_url)
@@ -147,7 +147,7 @@ describe('CustomFields::Controller::CustomFields') do
     page.has_selector?('input[name="custom_field_ids[]"]').should == true
   end
 
-  it("Delete an existing custom field") do
+  should("delete an existing custom field") do
     message = lang('custom_fields.messages.no_fields')
 
     visit(index_url)
@@ -158,7 +158,7 @@ describe('CustomFields::Controller::CustomFields') do
     page.has_content?(message).should           == true
   end
 
-  it('Call the event new_custom_field (before and after)') do
+  should('call the event new_custom_field (before and after)') do
     event_name  = nil
     type_select = lang('custom_fields.special.type_hash.textarea')
 
@@ -186,7 +186,7 @@ describe('CustomFields::Controller::CustomFields') do
     Zen::Event.delete(:before_new_custom_field, :after_new_custom_field)
   end
 
-  it('Call the event edit_custom_field (before and after)') do
+  should('call the event edit_custom_field (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_edit_custom_field) do |field|
@@ -210,7 +210,7 @@ describe('CustomFields::Controller::CustomFields') do
     Zen::Event.delete(:before_edit_custom_field, :after_edit_custom_field)
   end
 
-  it('Call the event delete_custom_field (before and after)') do
+  should('call the event delete_custom_field (before and after)') do
     event_name  = nil
     event_name2 = nil
 

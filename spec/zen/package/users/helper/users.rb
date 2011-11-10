@@ -14,7 +14,7 @@ describe('Ramaze::Helper::Users') do
     :super_group => true
   )
 
-  it('Validate a valid user') do
+  should('validate a valid user') do
     url = Users::Controller::Users.r(:edit, user.id).to_s
 
     visit(url)
@@ -22,7 +22,7 @@ describe('Ramaze::Helper::Users') do
     current_path.should == url
   end
 
-  it('Validate an invalid user') do
+  should('validate an invalid user') do
     url   = Users::Controller::Users.r(:edit, user.id + 1).to_s
     index = Users::Controller::Users.r(:index).to_s
 
@@ -31,7 +31,7 @@ describe('Ramaze::Helper::Users') do
     current_path.should == index
   end
 
-  it('Validate a valid user group') do
+  should('validate a valid user group') do
     url = Users::Controller::UserGroups.r(:edit, group.id).to_s
 
     visit(url)
@@ -39,7 +39,7 @@ describe('Ramaze::Helper::Users') do
     current_path.should == url
   end
 
-  it('Validate an invalid user group') do
+  should('validate an invalid user group') do
     url   = Users::Controller::UserGroups.r(:edit, group.id + 1).to_s
     index = Users::Controller::UserGroups.r(:index).to_s
 

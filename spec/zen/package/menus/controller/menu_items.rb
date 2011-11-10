@@ -1,7 +1,5 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-Zen::Language.load('menu_items')
-
 describe("Menus::Controller::MenuItems") do
   behaves_like :capybara
 
@@ -12,7 +10,7 @@ describe("Menus::Controller::MenuItems") do
   save_button   = lang('menu_items.buttons.save')
   delete_button = lang('menu_items.buttons.delete')
 
-  it("No menu items should exist") do
+  should('find no existing menu items') do
     message = lang('menu_items.messages.no_items')
 
     visit(index_url)
@@ -21,7 +19,7 @@ describe("Menus::Controller::MenuItems") do
     page.has_selector?('table tbody tr').should == false
   end
 
-  it('Submit a form without a CSRF token') do
+  should('submit a form without a CSRF token') do
     response = page.driver.post(
       Menus::Controller::MenuItems.r(:save).to_s
     )
@@ -30,7 +28,7 @@ describe("Menus::Controller::MenuItems") do
     response.status.should                                         == 403
   end
 
-  it("Create a new menu item") do
+  should("create a new menu item") do
     visit(index_url)
     click_link(new_button)
 
@@ -44,7 +42,7 @@ describe("Menus::Controller::MenuItems") do
     current_path.should =~ /#{edit_url}\/[0-9]+/
   end
 
-  it('Search for a menu item') do
+  should('search for a menu item') do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
@@ -67,7 +65,7 @@ describe("Menus::Controller::MenuItems") do
     page.has_content?('Spec menu item').should == false
   end
 
-  it("Edit an existing menu item") do
+  should("edit an existing menu item") do
     visit(index_url)
     click_link('Spec menu item')
 
@@ -79,7 +77,7 @@ describe("Menus::Controller::MenuItems") do
     page.find('input[name="name"]').value.should == 'Spec menu item modified'
   end
 
-  it('Edit an existing menu item with invalid data') do
+  should('edit an existing menu item with invalid data') do
     visit(index_url)
     click_link('Spec menu item')
 
@@ -93,14 +91,14 @@ describe("Menus::Controller::MenuItems") do
     page.has_selector?('span.error').should      == true
   end
 
-  it('Try to delete a set of items without IDs') do
+  should('fail to delete a set of items without an ID') do
     visit(index_url)
     click_on(delete_button)
 
     page.has_selector?('input[name="menu_item_ids[]"]').should == true
   end
 
-  it("Delete an existing menu item") do
+  should("delete an existing menu item") do
     message = lang('menu_items.messages.no_items')
 
     visit(index_url)
@@ -111,7 +109,7 @@ describe("Menus::Controller::MenuItems") do
     page.has_content?(message).should           == true
   end
 
-  it('Call the event new_menu_item (before and after)') do
+  should('call the event new_menu_item (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_new_menu_item) do |menu|
@@ -137,7 +135,7 @@ describe("Menus::Controller::MenuItems") do
     Zen::Event.delete(:before_new_menu_item, :after_new_menu_item)
   end
 
-  it('Call the event edit_menu_item (before and after)') do
+  should('call the event edit_menu_item (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_edit_menu_item) do |menu|
@@ -162,7 +160,7 @@ describe("Menus::Controller::MenuItems") do
     Zen::Event.delete(:before_edit_menu_item, :after_edit_menu_item)
   end
 
-  it('Call the event delete_menu_item (before and after)') do
+  should('call the event delete_menu_item (before and after)') do
     event_name  = nil
     event_name2 = nil
     message     = lang('menu_items.messages.no_items')
@@ -188,4 +186,4 @@ describe("Menus::Controller::MenuItems") do
   end
 
   menu.destroy
-end # describe
+end

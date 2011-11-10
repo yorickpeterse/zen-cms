@@ -3,7 +3,7 @@ require File.expand_path('../../../../helper', __FILE__)
 describe('CustomFields::BlueFormParameters') do
   behaves_like :capybara
 
-  it('Generate the parameters for input_text()') do
+  should('generate the parameters for input_text()') do
     stubbed = stub_custom_field('textbox')
     params  = CustomFields::BlueFormParameters.input_text(
       stubbed[:custom_field],
@@ -21,7 +21,7 @@ describe('CustomFields::BlueFormParameters') do
     params[3].key?(:class).should    == false
   end
 
-  it('Generate the parameters for input_password()') do
+  should('generate the parameters for input_password()') do
     stubbed = stub_custom_field('password')
     params  = CustomFields::BlueFormParameters.input_password(
       stubbed[:custom_field],
@@ -36,7 +36,7 @@ describe('CustomFields::BlueFormParameters') do
     params[3].key?(:'data-format').should == false
   end
 
-  it('Generate the parameters for textarea()') do
+  should('generate the parameters for textarea()') do
     stubbed = stub_custom_field(
       'textarea',
       :text_editor   => true,
@@ -66,7 +66,7 @@ describe('CustomFields::BlueFormParameters') do
     params[3][:class].empty?.should == true
   end
 
-  it('Generate the parameters for input_radio()') do
+  should('generate the parameters for input_radio()') do
     stubbed = stub_custom_field(
       'radio',
       :possible_values => "ruby|Ruby\npython|Python"
@@ -101,7 +101,7 @@ describe('CustomFields::BlueFormParameters') do
     params[4][:values]['python'].should == 'python'
   end
 
-  it('Generate the parameters for input_checkbox()') do
+  should('generate the parameters for input_checkbox()') do
     stubbed = stub_custom_field(
       'checkbox',
       :possible_values => "ruby|Ruby\npython|Python"
@@ -123,7 +123,7 @@ describe('CustomFields::BlueFormParameters') do
     params[3].include?('Python').should == true
   end
 
-  it('Generate the parameters for select()') do
+  should('generate the parameters for select()') do
     stubbed = stub_custom_field(
       'select',
       :possible_values => "ruby|Ruby\npython|Python"
@@ -158,7 +158,7 @@ describe('CustomFields::BlueFormParameters') do
     params[3][:values]['python'].should == 'python'
   end
 
-  it('Generate the parameters for select_multiple()') do
+  should('generate the parameters for select_multiple()') do
     stubbed = stub_custom_field(
       'select_multiple',
       :possible_values => "ruby|Ruby\npython|Python"

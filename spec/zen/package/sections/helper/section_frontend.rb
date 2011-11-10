@@ -78,7 +78,7 @@ describe('Ramaze::Helper::SectionFrontend') do
     :value           => 'hello'
   )
 
-  it('Retrieve all section entries') do
+  should('retrieve all section entries') do
     entries = get_entries(
       section.slug,
       :comments   => true,
@@ -100,14 +100,14 @@ describe('Ramaze::Helper::SectionFrontend') do
     entries[0].fields[:'spec-field'].strip.should == '<p>hello</p>'
   end
 
-  it('Retrieve all section entries but sort descending') do
+  should('retrieve all section entries but sort descending') do
     entries = get_entries(section.slug, :comments => true, :categories => true)
 
     entries[0].title.should == 'Spec 1'
     entries[1].title.should == 'Spec'
   end
 
-  it('Retrieve all section entries for an ID') do
+  should('retrieve all section entries for an ID') do
     entries = get_entries(section.id, :order => :asc)
 
     entries.length.should   == 2
@@ -115,21 +115,21 @@ describe('Ramaze::Helper::SectionFrontend') do
     entries[1].title.should == 'Spec 1'
   end
 
-  it('Retrieve a single entry by it\'s slug') do
+  should('retrieve a single entry by it\'s slug') do
     entry = get_entry(entry_1.slug)
 
     entry.title.should == 'Spec'
     entry.id.should    == entry_1.id
   end
 
-  it('Retrieve a single entry by it\'s ID') do
+  should('retrieve a single entry by it\'s ID') do
     entry = get_entry(entry_1.id)
 
     entry.title.should == 'Spec'
     entry.id.should    == entry_1.id
   end
 
-  it('Paginate a set of entries') do
+  should('Paginate a set of entries') do
     visit('/spec-section-frontend')
 
     page.has_selector?('p').should         == true

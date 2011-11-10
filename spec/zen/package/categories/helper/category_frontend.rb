@@ -20,28 +20,28 @@ describe('Ramaze::Helper::CategoryFrontend') do
     :category_group_id => category_group.id
   )
 
-  it('Retrieve categories for a group ID') do
+  should('retrieve categories for a group ID') do
     categories = get_categories(category_group.id).all
 
     categories.length.should   == 2
     categories[0].name.should  == category1.name
   end
 
-  it('Retrieve categories for a group slug') do
+  should('retrieve categories for a group slug') do
     categories = get_categories(category_group.name).all
 
     categories.length.should   == 2
     categories[0].name.should  == category1.name
   end
 
-  it('Limit the amount of results') do
+  should('limit the amount of results') do
     categories = get_categories(category_group.id, :limit => 1).all
 
     categories.length.should  == 1
     categories[0].name.should == category1.name
   end
 
-  it('Retrieve and paginate two categories') do
+  should('retrieve and paginate two categories') do
     visit('/spec-category-frontend')
 
     page.has_selector?('p').should          == true

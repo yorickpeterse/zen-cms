@@ -6,7 +6,7 @@ describe("Settings::Controller::Settings") do
   index_url   = Settings::Controller::Settings.r(:index).to_s
   save_button = lang('settings.buttons.save')
 
-  it('Submit a form without a CSRF token') do
+  should('submit a form without a CSRF token') do
     response = page.driver.post(
       Settings::Controller::Settings.r(:save).to_s
     )
@@ -15,7 +15,7 @@ describe("Settings::Controller::Settings") do
     response.status.should                                         == 403
   end
 
-  it("Update a set of settings") do
+  should("update a set of settings") do
     visit(index_url)
 
     within('#setting_form') do
@@ -34,7 +34,7 @@ describe("Settings::Controller::Settings") do
     page.find('input[name="website_name"]').value.should == 'Zen'
   end
 
-  it('Call the event after_edit_setting') do
+  should('call the event after_edit_setting') do
     event_name = nil
 
     Zen::Event.listen(:after_edit_setting) do |setting|

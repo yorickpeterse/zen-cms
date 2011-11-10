@@ -20,7 +20,7 @@ describe('Ramaze::Helper::CustomField') do
   @group.name.should == 'Spec group'
   @field.name.should == 'Spec field'
 
-  it('Validate a valid custom field group') do
+  should('validate a valid custom field group') do
     url = CustomFields::Controller::CustomFieldGroups.r(:edit, @group.id).to_s
 
     visit(url)
@@ -28,7 +28,7 @@ describe('Ramaze::Helper::CustomField') do
     current_path.should == url
   end
 
-  it('Validate an invalid custom field group') do
+  should('validate an invalid custom field group') do
     url   = CustomFields::Controller::CustomFieldGroups \
       .r(:edit, @group.id + 1).to_s
 
@@ -40,7 +40,7 @@ describe('Ramaze::Helper::CustomField') do
     current_path.should == index
   end
 
-  it('Validate a valid custom field') do
+  should('validate a valid custom field') do
     url = CustomFields::Controller::CustomFields \
       .r(:edit, @group.id, @field.id).to_s
 
@@ -49,7 +49,7 @@ describe('Ramaze::Helper::CustomField') do
     current_path.should == url
   end
 
-  it('Validate an invalid custom field') do
+  should('validate an invalid custom field') do
     url = CustomFields::Controller::CustomFields \
       .r(:edit, @group.id, @field.id + 1).to_s
 
@@ -60,7 +60,7 @@ describe('Ramaze::Helper::CustomField') do
     current_path.should == index
   end
 
-  it('Validate a valid custom field type') do
+  should('validate a valid custom field type') do
     type = CustomFields::Model::CustomFieldType[:name => 'textbox']
     url  = CustomFields::Controller::CustomFieldTypes.r(:edit, type.id).to_s
 
@@ -69,7 +69,7 @@ describe('Ramaze::Helper::CustomField') do
     current_path.should == url
   end
 
-  it('Validate an invalid custom field type') do
+  should('validate an invalid custom field type') do
     type = CustomFields::Model::CustomFieldType[:name => 'textbox']
 
     visit(

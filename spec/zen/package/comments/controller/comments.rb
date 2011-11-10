@@ -30,7 +30,7 @@ describe('Comments::Controller::Comments') do
     )
   end
 
-  it('Submit a form without a CSRF token') do
+  should('submit a form without a CSRF token') do
     response = page.driver.post(
       Comments::Controller::Comments.r(:save).to_s
     )
@@ -39,7 +39,7 @@ describe('Comments::Controller::Comments') do
     response.status.should                                         == 403
   end
 
-  it('No comments should exist') do
+  should('find no existing comments') do
     message = lang('comments.messages.no_comments')
 
     visit(index_url)
@@ -48,7 +48,7 @@ describe('Comments::Controller::Comments') do
     page.has_selector?('table tbody tr').should == false
   end
 
-  it('Create a new comment') do
+  should('create a new comment') do
     comment = Comments::Model::Comment.create(
       :user_id          => 1,
       :section_entry_id => entry.id,
@@ -64,7 +64,7 @@ describe('Comments::Controller::Comments') do
     page.has_selector?('table tbody tr').should == true
   end
 
-  it('Search for a comment') do
+  should('search for a comment') do
     visit(index_url)
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
@@ -94,7 +94,7 @@ describe('Comments::Controller::Comments') do
     page.has_content?('Spec comment').should == false
   end
 
-  it('Edit an existing comment') do
+  should('edit an existing comment') do
     event_comment  = nil
     event_comment2 = nil
     comment        = 'Spec modified 123'
@@ -141,7 +141,7 @@ describe('Comments::Controller::Comments') do
       .value.should == 'Spec comment modified'
   end
 
-  it('Edit an existing comment with invalid data') do
+  should('edit an existing comment with invalid data') do
     visit(index_url)
     click_link('Spec comment')
 
@@ -155,7 +155,7 @@ describe('Comments::Controller::Comments') do
     page.has_selector?('span.error').should == true
   end
 
-  it('Try to delete a set of comments without IDs') do
+  should('fail to delete a set of comments without IDs') do
     delete_button = lang('comments.buttons.delete')
 
     visit(index_url)
@@ -164,7 +164,7 @@ describe('Comments::Controller::Comments') do
     page.has_selector?('input[name="comment_ids[]"]').should == true
   end
 
-  it('Delete an existing comment') do
+  should('delete an existing comment') do
     delete_button  = lang('comments.buttons.delete')
     message        = lang('comments.messages.no_comments')
     event_comment  = nil

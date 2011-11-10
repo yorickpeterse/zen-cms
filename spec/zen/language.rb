@@ -13,7 +13,7 @@ describe('Zen::Language') do
     )
   end
 
-  it('Change the current language') do
+  should('change the current language') do
     # Check if the frontend language is set properly.
     visit('/spec-language/frontend_dutch')
 
@@ -36,7 +36,7 @@ describe('Zen::Language') do
     page.body.include?('<p>en</p>').should == false
   end
 
-  it('Test an English language pack') do
+  should('load an English language pack') do
     Zen::Language.load('spec')
 
     lang('spec.name').should == 'Name'
@@ -45,36 +45,38 @@ describe('Zen::Language') do
     lang('spec.parent.sub').should == 'Sub item'
   end
 
-  it('Load an already loaded language file') do
+  should('load an already loaded language file') do
     Zen::Language.load('spec')
 
     lang('spec.name').should == 'Name'
   end
 
-  it('Load a non existing language file') do
+  should('fail to load a non existing language file') do
     should.raise?(Zen::LanguageError) do
       Zen::Language.load('does-not-exist')
     end
   end
 
-  it('Access a non existing language string') do
+  should('fail to access a non existing language string') do
     should.raise?(Zen::LanguageError) do
       lang('spec.does-not-exist')
     end
   end
 
-  it('Access a non existing language string for an empty language file') do
+  should(
+    'fail to access a non existing language string for an empty language file'
+  ) do
     should.raise?(Zen::LanguageError) do
       lang('foo.does-not-exist', 'foo')
     end
   end
 
-  it('Access an array using a language string') do
+  should('access an array using a language string') do
     lang('spec.array.0').should == 'first'
     lang('spec.array.1').should == 'second'
   end
 
-  it('Test a Dutch language pack') do
+  should('load a Dutch language pack') do
     get_setting(:language).value = 'nl'
 
     lang('spec.name').should       == 'Naam'
