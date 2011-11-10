@@ -2,7 +2,7 @@ require File.expand_path('../../helper', __FILE__)
 
 describe("Zen::Theme") do
 
-  should("No themes should exist") do
+  should('find no existing themes') do
     should.raise?(Zen::ThemeError) { Zen::Theme[:spec] }
   end
 
