@@ -117,7 +117,7 @@ module Settings
       #    setting.title   = 'Example setting'
       #    setting.group   = 'example'
       #    setting.type    = 'select'
-      #    setting.value   = ['yorick', 'chuck']
+      #    setting.values  = ['yorick', 'chuck']
       #  end
       #
       # @since  0.2.5
