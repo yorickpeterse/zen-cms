@@ -24,57 +24,13 @@
       @settings_ordered.each do |group, items|
         f.g.div(:id => "group_#{group}") do
           items.each do |s|
-            value = get_setting(s.name).value
-
-            case s.type
-              when 'textbox'
-                f.input_text(
-                  s.title,
-                  s.name,
-                  :value => value
-                )
-
-              when 'textarea'
-                f.textarea(
-                  s.title,
-                  s.name,
-                  :value => value,
-                  :rows  => 8
-                )
-
-              when 'radio'
-                f.input_radio(
-                  s.title,
-                  s.name,
-                  value,
-                  :values => s.values
-                )
-
-              when 'checkbox'
-                f.input_checkbox(
-                  s.title,
-                  s.name,
-                  value,
-                  :values => s.values
-                )
-
-              when 'select'
-                f.select(
-                  s.title,
-                  s.name,
-                  :values   => s.values,
-                  :size     => 1,
-                  :selected => value
-                )
-            end
+            f.send(*get_setting(s.name).form_parameters)
           end
         end
       end
 
-      f.g.div(:class => 'clearfix') do
-        f.g.div(:class => 'button') do
-          f.g.input(:type => 'submit', :value => lang('settings.buttons.save'))
-        end
+      f.g.div(:class => 'button') do
+        f.g.input(:type => 'submit', :value => lang('settings.buttons.save'))
       end
     end}
 </section>

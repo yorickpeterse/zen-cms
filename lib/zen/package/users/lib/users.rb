@@ -47,8 +47,11 @@ require __DIR__('users/model/user_status')
 # user model is loaded after this class is loaded (but before it's
 # initialized)
 Zen::Controller::BaseController.trait(:user_model => Users::Model::User)
-
 Zen::Controller::AdminController.helper(:acl, :access)
+
+# The settings controller is already loaded so that one has to be updated as
+# well.
+Ramaze::Helper::Access.add_block(Settings::Controller::Settings)
 
 # Load the controllers after the helpers have been loaded.
 require __DIR__('users/controller/users')

@@ -26,7 +26,7 @@
         f.g.input(:type => :submit, :value => lang('users.buttons.login'))
       end
 
-      if get_setting(:allow_registration).value == '1'
+      if get_setting(:allow_registration).true?
         f.g.a(
           :href  => Users::Controller::Users.r(:register),
           :title => lang('users.titles.login')

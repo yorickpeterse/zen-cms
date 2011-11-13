@@ -91,23 +91,22 @@ describe('Settings::Setting') do
     setting.description.should == 'An example of a setting with a select box.'
   end
 
-  should('Migrate all settings') do
+  should('migrate all settings') do
     Settings::Setting.migrate
 
-    setting  = Settings::Model::Setting[:name => 'spec']
-    setting1 = Settings::Model::Setting[:name => 'spec_textbox']
-
-    setting.type.should  == 'select'
-    setting1.type.should == 'textbox'
+    Settings::Model::Setting[:name => 'spec'].nil?.should         == false
+    Settings::Model::Setting[:name => 'spec_textbox'].nil?.should == false
   end
 
-  should('Update a setting') do
+  should('update a setting') do
     Ramaze.setup_dependencies
 
-    get_setting('spec').value = 'Setting value'
+    get_setting(:spec).value = 'Setting value'
 
-    Settings::Model::Setting[:name => 'spec'].value.should == 'Setting value'
-    Ramaze::Cache.settings.fetch(:spec).should             == 'Setting value'
+    get_setting(:spec).value.should == 'Setting value'
+
+    Settings::Model::Setting[:name => 'spec'].value.should \
+      == Ramaze::Cache.settings.fetch(:spec)
   end
 
   should('remove all settings') do

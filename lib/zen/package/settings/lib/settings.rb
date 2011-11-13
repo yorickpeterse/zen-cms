@@ -24,6 +24,7 @@ require __DIR__('settings/controller/settings')
 require __DIR__('settings/settings_group')
 require __DIR__('settings/setting')
 require __DIR__('settings/singleton_methods')
+require __DIR__('settings/blue_form_parameters')
 
 # Load all the setting groups and settings.
 require __DIR__('settings/setting_groups')

@@ -239,7 +239,7 @@ module Users
       #
       def register
         redirect(::Sections::Controller::Sections.r(:index)) if logged_in?
-        redirect(r(:login)) if get_setting(:allow_registration).value == '0'
+        redirect(r(:login)) unless get_setting(:allow_registration).true?
 
         if request.post?
           post = request.subset(:name, :email, :password)

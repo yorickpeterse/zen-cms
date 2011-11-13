@@ -14,7 +14,7 @@ module Ramaze
     #       end
     #     end
     #
-    # @since 05-11-2011
+    # @since 0.3
     #
     module Access
       # Hash containing various controllers and methods that the user can access
@@ -24,16 +24,44 @@ module Ramaze
       ##
       # Called whenever this module is included into a controller.
       #
-      # @since 05-11-2011
+      # @since 0.3
       #
       def self.included(into)
         into.extend(ClassMethods)
       end
 
       ##
+      # Adds the stacked block to a given class.
+      #
+      # since  0.3
+      # @param [Class] klass The class to add the block to.
+      #
+      def self.add_block(klass)
+        klass.stacked_before_all(:validate_user_login) do
+          deny   = true
+          klass  = self.class
+          method = action.method
+
+          if method
+            method = method.to_sym
+
+            if PUBLIC_ACTIONS.key?(klass) \
+            and PUBLIC_ACTIONS[klass].include?(method)
+              deny = false
+            end
+
+            if deny == true and logged_in? == false
+              message(:error, lang('zen_general.errors.require_login'))
+              redirect(::Users::Controller::Users.r(:login))
+            end
+          end
+        end
+      end
+
+      ##
       # Module that contains various class methods for the including controller.
       #
-      # @since 05-11-2011
+      # @since 0.3
       #
       module ClassMethods
         ##
@@ -43,25 +71,7 @@ module Ramaze
         # @param [Class] by The class that extended the current class.
         #
         def inherited(by)
-          by.stacked_before_all(:validate_user_login) do
-            deny   = true
-            klass  = self.class
-            method = action.method
-
-            if method
-              method = method.to_sym
-
-              if PUBLIC_ACTIONS.key?(klass) \
-              and PUBLIC_ACTIONS[klass].include?(method)
-                deny = false
-              end
-
-              if deny == true and logged_in? == false
-                message(:error, lang('zen_general.errors.require_login'))
-                redirect(::Users::Controller::Users.r(:login))
-              end
-            end
-          end
+          Ramaze::Helper::Access.add_block(by)
         end
 
         ##
@@ -77,7 +87,7 @@ module Ramaze
         #    end
         #  end
         #
-        # @since 05-11-2011
+        # @since 0.3
         # @param [Array] actions An array of action names that users can access.
         #
         def allow(actions)

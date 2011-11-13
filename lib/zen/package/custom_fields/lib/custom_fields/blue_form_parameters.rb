@@ -13,7 +13,7 @@ module CustomFields
   # {CustomFields::Model::CustomFieldValue}. The return value should be an
   # array containing all the parameters that will be passed to BlueForm.
   #
-  # Let's start with the basic skeleton of such a method:
+  # Lets start with the basic skeleton of such a method:
   #
   #     module CustomFields
   #       module BlueFormParameters

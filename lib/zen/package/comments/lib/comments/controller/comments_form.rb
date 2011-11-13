@@ -178,7 +178,7 @@ module Comments
         end
 
         # Require anti-spam validation?
-        if get_setting(:enable_antispam).value == '1'
+        if get_setting(:enable_antispam).true?
           engine = get_setting(:anti_spam_system).value
           spam   = ::Comments::AntiSpam.validate(
             engine,

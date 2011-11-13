@@ -72,11 +72,7 @@ module Settings
   class Setting
     include ::Zen::Validation
 
-    ##
     # Array containing all possible setting types.
-    #
-    # @since  0.2.5
-    #
     Types = [
       'textbox',
       'textarea',
@@ -87,11 +83,7 @@ module Settings
       'select_multiple'
     ]
 
-    ##
     # Hash containing all registered settings.
-    #
-    # @since  0.2.5
-    #
     REGISTERED = {}
 
     # The name of the setting
@@ -150,27 +142,10 @@ module Settings
         settings = ::Settings::Model::Setting.all.map { |s| s.name }
 
         REGISTERED.each do |name, setting|
-          name  = name.to_s
-          group = setting.group.to_s
+          name = name.to_s
 
           if !settings.include?(name)
-            # For some reason using the Settings model generates nil errors
-            # when this method is called from a migration so we'll insert them
-            # the non-model way.
-            Zen.database[:settings].insert(
-              :name    => name,
-              :group   => group,
-              :default => setting.default,
-              :type    => setting.type
-            )
-
-          # Update everything but the value
-          else
-            Zen.database[:settings].filter[:name => name].update(
-              :group   => group,
-              :default => setting.default,
-              :type    => setting.type
-            )
+            Zen.database[:settings].insert(:name => name)
           end
         end
       end
@@ -267,6 +242,8 @@ module Settings
     # @param  [String] value The value to set the setting to.
     #
     def value=(value)
+      value = serialize(value)
+
       # First we'll update the SQL database
       ::Settings::Model::Setting[:name => name.to_s].update(:value => value)
 
@@ -289,7 +266,7 @@ module Settings
 
         # If the value is also nil we'll use the default value
         if setting.value.nil? or setting.value.empty?
-          val = setting.default
+          val = default
         else
           val = setting.value
         end
@@ -297,7 +274,7 @@ module Settings
         ::Ramaze::Cache.settings.store(name, val)
       end
 
-      return val
+      return unserialize(val)
     end
 
     ##
@@ -313,6 +290,75 @@ module Settings
         return @values.call
       else
         return @values
+      end
+    end
+
+    ##
+    # Returns the parameters for the BlueForm helper.
+    #
+    # @since  0.3
+    # @return [Array]
+    #
+    def form_parameters
+      return BlueFormParameters.send(type, self)
+    end
+
+    ##
+    # Small helper method that makes it a bit easier to check if a certain
+    # setting is set to true or false. Because settings are stored as strings
+    # with values of "1" or "0" you'd normally have to do the following:
+    #
+    #     get_setting(:allow_registration).value == '1'
+    #
+    # This method allows you to do the following instead:
+    #
+    #     get_setting(:allow_registration).true?
+    #
+    # @since  12-11-2011
+    # @return [TrueClass|FalseClass]
+    #
+    def true?
+      val = value
+
+      return val.is_a?(String) && val == '1'
+    end
+
+    private
+
+    ##
+    # Serializes a value using Marshal and packs it so that it can be stored in
+    # the database.
+    #
+    # @since  13-11-2011
+    # @param  [Mixed] value The value to serialize.
+    # @return [String]
+    #
+    def serialize(value)
+      return [Marshal.dump(value)].pack('m')
+    end
+
+    ##
+    # Unserializes a value that was serialized using
+    # {Settings::Setting#serialize}.
+    #
+    # @since  13-11-2011
+    # @param  [String] value The value to unserialize.
+    # @return [Mixed]
+    #
+    def unserialize(value)
+      begin
+        return Marshal.load(value.unpack('m')[0])
+      rescue
+        begin
+          return Marshal.load(value)
+        rescue
+          Ramaze::Log.warn(
+            'Failed to unpack the setting using Marshal, using the ' \
+              'raw value instead'
+          )
+
+          return value
+        end
       end
     end
   end # Setting
