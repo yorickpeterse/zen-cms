@@ -12,7 +12,7 @@ labels:
   enable_antispam    : 'Enable anti-spam'
   date_format        : 'Date format'
 
-placeholders:
+descriptions:
   website_name       : 'The name of the website.'
   website_description: 'The description of the website.'
   language           : 'The language to use for the system.'

@@ -12,7 +12,7 @@ labels:
   enable_antispam    : 'Anti-spam inschakelen'
   date_format        : 'Datum formaat'
 
-placeholders:
+descriptions:
   website_name       : 'De naam van de website.'
   website_description: 'De beschrijving van de website.'
   language           : 'De taal die gebruikt moet worden voor het admin gedeelte.'

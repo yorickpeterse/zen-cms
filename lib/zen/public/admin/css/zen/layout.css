@@ -1,18 +1,16 @@
-@charset "UTF-8";
+.container
+{
+    min-width:  960px;
+}
 
-/**
- * Main stylesheet used for the layout of the admin panel.
- *
- * @author Yorick Peterse
- * @since  0.1a
- */
 #login
 {
     margin-top: 50px;
 }
 
 /**
- * Top part of the admin panel that contains the user bar along with the main navigation menu.
+ * Top part of the admin panel that contains the user bar along with the main
+ * navigation menu.
  */
 #top
 {
@@ -104,8 +102,9 @@
 
 #login #container, #login #main_footer
 {
-    margin: 20px auto;
-    width:  500px;
+    margin:    20px auto;
+    min-width: 500px;
+    width:     500px;
 }
 
 /**

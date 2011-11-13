@@ -1,12 +1,3 @@
-@charset "UTF-8";
-
-/**
- * CSS rules for the datepicker that ships with Zen. The datepicker plugin can
- * be found here: https://github.com/arian/mootools-datepicker/
- *
- * @author Yorick Peterse
- * @since    0.2
- */
 .datepicker
 {
     background:    #fff;

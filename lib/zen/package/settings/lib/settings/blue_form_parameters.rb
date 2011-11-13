@@ -39,7 +39,8 @@ module Settings
           :input_text,
           setting.title,
           setting.name,
-          :value => setting.value
+          :value => setting.value,
+          :title => setting.description
         ]
       end
 
@@ -57,7 +58,8 @@ module Settings
           setting.title,
           setting.name,
           :value => setting.value,
-          :rows  => 8
+          :rows  => 8,
+          :title => setting.description
         ]
       end
 
@@ -75,7 +77,8 @@ module Settings
           setting.title,
           setting.name,
           setting.value,
-          :values => setting.values
+          :values => setting.values,
+          :title  => setting.description
         ]
       end
 
@@ -93,7 +96,8 @@ module Settings
           setting.title,
           setting.name,
           setting.value,
-          :values => setting.values
+          :values => setting.values,
+          :title  => setting.description
         ]
       end
 
@@ -112,7 +116,8 @@ module Settings
           setting.name,
           :values   => setting.values,
           :size     => 1,
-          :selected => setting.value
+          :selected => setting.value,
+          :title    => setting.description
         ]
       end
 

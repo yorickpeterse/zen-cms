@@ -32,8 +32,8 @@ require __DIR__('sections/controller/section_entries')
 Zen::Controller::FrontendController.helper(:section_frontend)
 
 Settings::Setting.add do |setting|
-  setting.title       = lang('settings.labels.default_section')
-  setting.description = lang('settings.placeholders.default_section')
+  setting.title       = 'settings.labels.default_section'
+  setting.description = 'settings.descriptions.default_section'
   setting.name        = 'default_section'
   setting.group       = 'general'
   setting.type        = 'select'

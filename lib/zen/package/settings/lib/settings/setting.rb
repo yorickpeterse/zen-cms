@@ -93,7 +93,7 @@ module Settings
     attr_writer :title
 
     # A small description about the setting
-    attr_accessor :description
+    attr_writer :description
 
     # The name of the settings group this setting belongs to
     attr_reader :group
@@ -232,6 +232,20 @@ module Settings
         return lang(@title)
       rescue
         return @title
+      end
+    end
+
+    ##
+    # Returns the description of the setting and translates it.
+    #
+    # @since  13-11-2011
+    # @return [String]
+    #
+    def description
+      begin
+        return lang(@description)
+      rescue
+        return @description
       end
     end
 

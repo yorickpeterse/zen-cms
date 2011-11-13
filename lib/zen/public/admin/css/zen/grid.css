@@ -1,26 +1,7 @@
-@charset "UTF-8";
-
-/**
- * Modified version of the CSS grid (aka 1140 CSS) that can be found at http://cssgrid.net
- * 
- * This modified version has some extra enhancements to make it a bit easier to work with
- * the grid. Along with these minor fixes I also renamed all grid classes to the names
- * used by the 960 grid system as I find "grid_6" easier to write than "sixcol".
- *
- * @author Yorick Peterse
- * @since  0.1a
- */
-
-/**
- * Main container element in which all grid elements should be placed.
- * This container stretches across the entire screen but has a padding of 20 pixels on both
- * the left and the right side.
- */
 .container
 {
-    margin:    0 2%;
+    margin:    0 30px;
     overflow:  hidden;
-    width:     96%;
 }
 /* Clear the floats so background colors and other properties can be used properly */
 .container:after, .clearfix:after

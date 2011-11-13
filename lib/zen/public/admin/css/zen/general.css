@@ -1,16 +1,8 @@
-@charset "UTF-8";
-
-/**
- * Stylesheet used for styling general elements such as tables and forms.
- *
- * @author Yorick Peterse
- * @since  0.1a
- */
-
 body
 {
     background:  #eee;
-    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, sans-serif;
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial,
+        sans-serif;
     font-size:   13px;
     line-height: 1.6;
 }
@@ -104,3 +96,14 @@ pre
 .icon_error  { background: url("../images/zen/icons/error.png") no-repeat center left;   }
 .icon_info   { background: url("../images/zen/icons/info.png") no-repeat center left;    }
 .icon_view   { background: url("../images/zen/icons/view.png") no-repeat center left;    }
+
+.floating_tooltip
+{
+    background: #000;
+    padding:    5px 10px;
+    color:      #fff;
+
+    border-radius:         5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius:    5px;
+}

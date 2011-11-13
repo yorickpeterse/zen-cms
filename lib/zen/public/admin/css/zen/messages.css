@@ -1,11 +1,3 @@
-@charset "UTF-8";
-
-/**
- * Stylesheet used for the messages (such as errors) in the backend.
- *
- * @author Yorick Peterse
- * @since  0.2.6
- */
 #message_container
 {
     margin-top: 20px;
@@ -13,8 +5,9 @@
 
 #login #message_container
 {
-    margin: 20px auto;
-    width:  510px;
+    margin:    20px auto;
+    min-width: 510px;
+    width:     510px;
 }
 
     #message_container .message

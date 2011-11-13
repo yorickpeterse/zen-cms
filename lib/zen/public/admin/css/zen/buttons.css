@@ -1,11 +1,3 @@
-@charset "UTF-8";
-
-/**
- * Buttons (such as those used for saving forms).
- *
- * @author Yorick Peterse
- * @since  0.1
- */
 .button
 {
     border:       1px solid #bbb;

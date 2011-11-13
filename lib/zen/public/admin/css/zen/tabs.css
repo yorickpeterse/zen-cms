@@ -1,11 +1,3 @@
-@charset "UTF-8";
-
-/**
- * Tab navigation.
- *
- * @author Yorick Peterse
- * @since    0.1
- */
 .tabs
 {
     border:        1px solid #aaa;
@@ -14,7 +6,7 @@
 }
     .tabs ul
     {
-        background:      #ddd -webkit-gradient(linear, left bottom, left top, 
+        background:      #ddd -webkit-gradient(linear, left bottom, left top,
             from(#ddd), to(#eee));
         background:      #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
         border-top:      1px solid #fff;
@@ -38,7 +30,7 @@
         }
         .tabs ul li.active a
         {
-            background:        #eee -webkit-gradient(linear, left bottom, 
+            background:        #eee -webkit-gradient(linear, left bottom,
                 left top, from(#eee), to(#ddd));
             background:        #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
             border-bottom:     1px solid #aaa;
