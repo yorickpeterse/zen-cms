@@ -16,7 +16,7 @@ incorrect.'
   require_login : 'You need to be logged in in order to view that page.'
   invalid_search: 'The specified search query is invalid.'
 
-placeholders:
+descriptions:
   search: 'Search keywords'
 
 buttons:

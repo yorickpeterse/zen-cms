@@ -23,7 +23,7 @@ labels:
 messages:
   no_comments: 'No comments have been added yet.'
 
-placeholders:
+descriptions:
   anti_spam_system: 'The anti-spam system to use for validating comments.'
   defensio_key    : 'The API key for the Defensio anti-spam system.'
 

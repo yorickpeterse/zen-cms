@@ -13,7 +13,7 @@ labels:
   allow_markup          : 'Opmaak toegestaan'
   custom_field_method_id: 'Veld methode'
 
-placeholders:
+descriptions:
   language_string: 'De volledige naam van de vertaling voor dit veld.'
   html_class     : 'Een set aan HTML klasses voor alle velden van dit type.'
   serialize      : 'De waarde wel of niet serialiseren.'

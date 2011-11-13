@@ -10,7 +10,7 @@ labels:
   description: 'Description'
   manage     : 'Manage Categories'
 
-placeholders:
+descriptions:
   name: 'The name of the category group'
 
 messages:

@@ -13,7 +13,7 @@ labels:
   html_class: 'HTML class'
   html_id   : 'HTML ID'
 
-placeholders:
+descriptions:
   name      : 'The text that will be displayed in the link.'
   url       : 'The location to which the link will point.'
   order     : 'A number that indicates the sort order.'

@@ -11,7 +11,7 @@ labels:
   parent     : 'Parent'
   slug       : 'Slug'
 
-placeholders:
+descriptions:
   name: 'The name of the category.'
   slug: 'A URL friendly name of the category.'
 

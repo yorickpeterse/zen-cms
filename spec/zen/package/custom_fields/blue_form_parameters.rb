@@ -17,7 +17,7 @@ describe('CustomFields::BlueFormParameters') do
     params[3][:value].should         == stubbed[:custom_field_value].value
     params[3][:maxlength].should     == stubbed[:custom_field].text_limit
     params[3][:'data-format'].should == nil
-    params[3][:placeholder].should   == stubbed[:custom_field].description
+    params[3][:title].should   == stubbed[:custom_field].description
     params[3].key?(:class).should    == false
   end
 

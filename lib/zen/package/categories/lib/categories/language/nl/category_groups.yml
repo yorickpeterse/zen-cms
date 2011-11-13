@@ -10,7 +10,7 @@ labels:
   description: 'Beschrijving'
   manage     : 'Categoriën beheren'
 
-placeholders:
+descriptions:
   name: 'De naam van de groep.'
 
 messages:

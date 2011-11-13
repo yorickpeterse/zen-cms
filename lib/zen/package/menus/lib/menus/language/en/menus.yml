@@ -13,7 +13,7 @@ labels:
   html_id     : 'HTML ID'
   manage_items: 'Manage menu items'
 
-placeholders:
+descriptions:
   name      : 'Specify the name of the menu.'
   slug      : 'Specify the URL friendly name of the menu.'
   html_class: 'A number of classes to apply to the menu.'

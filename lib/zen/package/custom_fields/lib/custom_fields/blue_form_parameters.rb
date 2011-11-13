@@ -99,7 +99,7 @@ module CustomFields
         end
 
         if !field.description.nil?
-          params.last[:placeholder] = field.description
+          params.last[:title] = field.description
         end
 
         if !field.format.nil? and !field.format.empty? \

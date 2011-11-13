@@ -16,24 +16,24 @@
       f.input_text(
         lang('menu_items.labels.name'),
         :name,
-        :placeholder => lang('menu_items.placeholders.name'),
-        :required    => :required,
-        :maxlength   => 255
+        :title     => lang('menu_items.descriptions.name'),
+        :required  => :required,
+        :maxlength => 255
       )
 
       f.input_text(
         lang('menu_items.labels.url'),
         :url,
-        :placeholder => lang('menu_items.placeholders.url'),
-        :required    => :required,
-        :maxlength   => 255
+        :title     => lang('menu_items.descriptions.url'),
+        :required  => :required,
+        :maxlength => 255
       )
 
       f.input_text(
         lang('menu_items.labels.order'),
         :sort_order,
-        :placeholder => lang('menu_items.placeholders.order'),
-        :pattern     => '\\\d*'
+        :title   => lang('menu_items.descriptions.order'),
+        :pattern => '\\\d*'
       )
 
       f.select(
@@ -47,17 +47,17 @@
       f.input_text(
         lang('menu_items.labels.html_class'),
         :html_class,
-        :placeholder => lang('menu_items.placeholders.html_class'),
-        :maxlength   => 255,
-        :pattern     => '^[a-zA-Z\\\-_0-9\\\s]*$'
+        :title     => lang('menu_items.descriptions.html_class'),
+        :maxlength => 255,
+        :pattern   => '^[a-zA-Z\\\-_0-9\\\s]*$'
       )
 
       f.input_text(
         lang('menu_items.labels.html_id'),
         :html_id,
-        :placeholder => lang('menu_items.placeholders.html_id'),
-        :maxlength   => 255,
-        :pattern     => '^[a-zA-Z\\\-_0-9]*$'
+        :title     => lang('menu_items.descriptions.html_id'),
+        :maxlength => 255,
+        :pattern   => '^[a-zA-Z\\\-_0-9]*$'
       )
 
       f.g.div(:class => :button) do

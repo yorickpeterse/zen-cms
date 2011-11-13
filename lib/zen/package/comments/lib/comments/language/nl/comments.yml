@@ -23,7 +23,7 @@ labels:
 messages:
   no_comments: 'Er zijn nog geen reacties toegevoegd.'
 
-placeholders:
+descriptions:
   anti_spam_system: 'Het anti-spam systeem dat gebruikt moet worden voor \
 het verifiëren van reacties.'
   defensio_key: 'De API sleutel voor het Defensio anti-spam systeem.'

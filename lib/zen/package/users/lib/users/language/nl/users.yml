@@ -23,7 +23,7 @@ labels:
   date_format      : 'Datum formaat'
   allow_registration: 'Registratie toegestaan'
 
-placeholders:
+descriptions:
   date_format: 'Het formaat van de datums in het admin gedeelte.'
   allow_registration: 'Sta niet geregistreerde gebruikers toe om een account \
 te registreren.'

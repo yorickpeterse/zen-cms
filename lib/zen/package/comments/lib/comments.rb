@@ -30,7 +30,7 @@ Zen::Controller::FrontendController.helper(:comment_frontend)
 
 Settings::Setting.add do |setting|
   setting.title       = 'comments.labels.anti_spam_system'
-  setting.description = 'comments.placeholders.anti_spam_system'
+  setting.description = 'comments.descriptions.anti_spam_system'
   setting.name        = 'anti_spam_system'
   setting.group       = 'security'
   setting.type        = 'select'
@@ -40,7 +40,7 @@ end
 
 Settings::Setting.add do |setting|
   setting.title       = 'comments.labels.defensio_key'
-  setting.description = 'comments.placeholders.defensio_key'
+  setting.description = 'comments.descriptions.defensio_key'
   setting.name        = 'defensio_key'
   setting.group       = 'security'
   setting.type        = 'textbox'

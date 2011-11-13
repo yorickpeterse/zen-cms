@@ -23,7 +23,7 @@ labels:
   date_format       : 'Date format'
   allow_registration: 'Allow registration'
 
-placeholders:
+descriptions:
   date_format: 'A custom format to use for all dates displayed in the backend.'
   allow_registration: 'Allow non registered users to register a new account.'
 

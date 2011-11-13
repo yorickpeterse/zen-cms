@@ -13,7 +13,7 @@ labels:
   allow_markup          : 'Allow markup'
   custom_field_method_id: 'Custom field method'
 
-placeholders:
+descriptions:
   language_string: 'The full language string to use.'
   html_class     : 'A set of HTML classes to apply to all fields.'
   serialize      : 'Whether or not the value of a field has to be serialized.'

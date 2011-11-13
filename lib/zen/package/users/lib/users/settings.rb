@@ -5,7 +5,7 @@ end
 
 Settings::Setting.add do |setting|
   setting.title       = 'users.labels.allow_registration'
-  setting.description = 'users.placeholders.allow_registration'
+  setting.description = 'users.descriptions.allow_registration'
   setting.name        = :allow_registration
   setting.group       = :users
   setting.default     = '0'

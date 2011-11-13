@@ -13,7 +13,7 @@ labels:
   html_class: 'HTML klasse'
   html_id   : 'HTML ID'
 
-placeholders:
+descriptions:
   name      : 'De naam/label van het menu item.'
   url       : 'De URL van het menu item.'
   order     : 'De sorteer volgorde.'

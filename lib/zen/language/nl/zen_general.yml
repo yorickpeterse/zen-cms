@@ -15,7 +15,7 @@ errors:
 bekijken.'
   invalid_search : 'De opgegeven zoek actie is ongeldig.'
 
-placeholders:
+descriptions:
   search: 'Zoektermen'
 
 buttons:
