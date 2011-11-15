@@ -45,8 +45,7 @@
           lang('users.labels.email'),
           :email,
           :required  => :required,
-          :maxlength => 255,
-          :pattern   => Users::Model::User::EMAIL_REGEX
+          :maxlength => 255
         )
 
         f.input_text(
@@ -84,7 +83,7 @@
         f.select(
           lang('users.labels.language'),
           :language,
-          :values   => ::Zen::Language::LANGUAGES,
+          :values   => ::Zen::Language.to_hash,
           :selected => @user.language,
           :size     => 1
         )
@@ -92,7 +91,7 @@
         f.select(
           lang('users.labels.frontend_language'),
           :frontend_language,
-          :values   => ::Zen::Language::LANGUAGES,
+          :values   => ::Zen::Language.to_hash,
           :selected => @user.frontend_language,
           :size     => 1
         )

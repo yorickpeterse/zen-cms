@@ -27,14 +27,8 @@ module Zen
     # Instance of Ramaze::Asset::Environment to use for all backend assets.
     attr_accessor :asset
 
-    ##
-    # Returns the current root directory.
-    #
-    # @since  0.3
-    #
-    def root
-      @root
-    end
+    # The root directory of the application.
+    attr_reader :root
 
     ##
     # Sets the root directory and adds the path to Ramaze.options.roots.
@@ -173,14 +167,15 @@ Ramaze::Cache.options.settings = Ramaze::Cache::LRU
 
 # Load all classes/modules provided by Zen itself.
 require 'zen/error'
-require 'zen/language'
 require 'zen/validation'
+require 'zen/language'
 require 'zen/event'
 require 'zen/model/helper'
+require 'zen/languages'
 
 Ramaze::HelpersHelper.options.paths.push(__DIR__('zen'))
 Ramaze.options.roots.push(__DIR__('zen'))
-Zen::Language.options.paths.push(__DIR__('zen'))
+Zen::Language.options.paths.push(__DIR__('zen/language'))
 
 Zen::Language.load('zen_general')
 

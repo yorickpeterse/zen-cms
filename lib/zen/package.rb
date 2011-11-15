@@ -287,7 +287,7 @@ module Zen
       end
 
       if !Zen::Language.options.paths.include?(@root)
-        Zen::Language.options.paths << @root
+        Zen::Language.options.paths << File.join(@root, 'language')
       end
 
       if !Ramaze::HelpersHelper.options.paths.push.include?(@root)

@@ -15,7 +15,7 @@ module Zen
       # @since  0.3
       #
       def index
-        lang = JSON.dump(Zen::Language::TRANSLATIONS[Zen::Language.current])
+        lang = JSON.dump(Zen::Language.current.translations)
 
         respond(
           "Zen.translations = #{lang};",

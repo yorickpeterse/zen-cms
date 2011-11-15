@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Zen
   ##
   # Zen comes with a system that allows developers to localize labels, field
@@ -90,20 +92,12 @@ module Zen
   #
   # @since  0.2
   #
-  module Language
+  class Language
+    include Zen::Validation
     include Ramaze::Optioned
 
-    # Hash containing all the translations.
-    TRANSLATIONS = {}
-
-    # Hash containing all the loaded language files for a language.
-    LOADED = {}
-
     # Hash containing all the available languages.
-    LANGUAGES = {
-      'en' => 'English',
-      'nl' => 'Nederlands'
-    }
+    REGISTERED = {}
 
     options.dsl do
       o 'Fallback language to use when it can not be retrieved from the user',
@@ -113,7 +107,51 @@ module Zen
         :paths, []
     end
 
+    # The name of the language
+    attr_reader :name
+
+    # Whether or not the language reads from right to left.
+    attr_writer :rtl
+
+    # The title of the language (in that specific language).
+    attr_accessor :title
+
+    # Hash containing all the translations for a language
+    attr_accessor :translations
+
+    # Array containing all the loaded language files.
+    attr_accessor :loaded
+
     class << self
+      ##
+      # Adds a new language.
+      #
+      # @example
+      #  Zen::Language.add do |lang|
+      #    lang.name  = 'nl'
+      #    lang.title = 'Nederlands'
+      #  end
+      #
+      # @example Adding an RTL language (such as Japanese)
+      #  Zen::Language.add do |lang|
+      #    lang.name  = '...'
+      #    lang.title = '...'
+      #    lang.rtl   = true
+      #  end
+      #
+      # @since 14-11-2011
+      # @yield Zen::Language
+      #
+      def add
+        lang = new
+
+        yield(lang)
+
+        lang.validate
+
+        REGISTERED[lang.name] = lang
+      end
+
       ##
       # Tries to load a language file for the given name. If no language files
       # were found based on the name and the current language an exception will
@@ -128,39 +166,30 @@ module Zen
       # @param  [String] lang_name The name of the language file to load.
       #
       def load(lang_name)
-        lang_name  = lang_name.to_s
-        file_found = false
+        lang_name = lang_name.to_s unless lang_name.is_a?(String)
+        loaded    = false
 
-        LANGUAGES.each do |language, label|
-          LOADED[language]       ||= []
-          TRANSLATIONS[language] ||= {}
+        REGISTERED.each do |name, language|
+          return if language.loaded.include?(lang_name)
 
-          # Abort of the file has already been loaded
-          if LOADED.key?(language) and LOADED[language].include?(lang_name)
-            file_found = true
-            break
-          end
+          options.paths.each do |path|
+            path = File.join(path, name, "#{lang_name}.yml")
 
-          self.options.paths.each do |path|
-            path += "/language/#{language}/#{lang_name}.yml"
-
-            # Load the file and save it
+            # Load the language
             if File.exist?(path)
-              file_found  = true
-              translation = YAML.load_file(path)
+              loaded = true
+              language.loaded.push(lang_name)
 
-              LOADED[language].push(lang_name)
+              language.translations.merge!(
+                to_dotted_hash({lang_name => YAML.load_file(path)})
+              )
 
-              # Conver the hash to a dot based hash. This means that
-              # {:person => {:age => 18}} would result in {'person.age' => 18}.
-              translation = to_dotted_hash({lang_name => translation})
-
-              TRANSLATIONS[language].merge!(translation)
+              next
             end
           end
         end
 
-        if file_found == false
+        if loaded == false
           raise(
             Zen::LanguageError,
             "No language file could be found for \"#{lang_name}\""
@@ -169,7 +198,7 @@ module Zen
       end
 
       ##
-      # Returns the language code to use for either the frontend or backend.
+      # Returns an instance of {Zen::Language} for the current language.
       #
       # @since  0.3
       # @return [String]
@@ -211,7 +240,40 @@ module Zen
           end
         end
 
-        return lang
+        return REGISTERED[lang]
+      end
+
+      ##
+      # Returns a hash where the keys are the language codes and the values the
+      # titles.
+      #
+      # @since  14-11-2011
+      # @return [Hash]
+      #
+      def to_hash
+        hash = {}
+
+        REGISTERED.each { |lang, obj| hash[lang] = obj.title }
+
+        return hash
+      end
+
+      ##
+      # Builds an HTML opening tag with the lang and rtl attributes set for the
+      # currently used language.
+      #
+      # @since  14-11-2011
+      # @return [String]
+      #
+      def html_head
+        curr = Zen::Language.current
+        head = "<html lang=\"#{curr.name}\""
+
+        if curr.rtl == true
+          header += ' dir="rtl"'
+        end
+
+        return head + '>'
       end
 
       private
@@ -287,6 +349,50 @@ module Zen
       end
     end # class << self
 
+    ##
+    # Creates a new instance of the class.
+    #
+    # @since 14-11-2011
+    #
+    def initialize
+      @loaded       = []
+      @translations = {}
+    end
+
+    ##
+    # Sets the name of the language and converts it to a string.
+    #
+    # @since 14-11-2011
+    # @param [#to_s] name The name of the language.
+    #
+    def name=(name)
+      @name = name.is_a?(String) ? name : name.to_s
+    end
+
+    ##
+    # Returns a boolean that indicates whether or not the language reads from
+    # right to left.
+    #
+    # @since  14-11-2011
+    # @return [TrueClass|FalseClass]
+    #
+    def rtl
+      return @rtl.nil? ? false : @rtl
+    end
+
+    ##
+    # Validates the current instance using {Zen::Validation}.
+    #
+    # @since 14-11-2011
+    #
+    def validate
+      validates_presence([:name, :title])
+
+      if REGISTERED.key?(name)
+        raise(Zen::ValidationError, "The language #{name} already exists.")
+      end
+    end
+
     #:nodoc:
     module SingletonMethods
       ##
@@ -316,19 +422,20 @@ module Zen
       # @return [Mixed]
       #
       def lang(key, lang = nil)
-        lang   = Zen::Language.current if lang.nil?
-        groups = []
+        lang   = Zen::Language.current.name if lang.nil?
+        key    = key.to_s unless key.is_a?(String)
+        lang   = lang.to_s unless lang.is_a?(String)
 
-        if !Zen::Language::TRANSLATIONS \
-        or !Zen::Language::TRANSLATIONS.key?(lang)
+        unless Zen::Language::REGISTERED.key?(lang)
           raise(
             Zen::LanguageError,
-            "No translation files have been added for the language code \"#{lang}\""
+            "No translation files have been added for the language " \
+              "code \"#{lang}\""
           )
         end
 
-        if Zen::Language::TRANSLATIONS[lang][key]
-          return Zen::Language::TRANSLATIONS[lang][key]
+        if Zen::Language::REGISTERED[lang].translations[key]
+          return Zen::Language::REGISTERED[lang].translations[key]
         end
 
         raise(
@@ -336,6 +443,6 @@ module Zen
           "The specified language item \"#{key}\" does not exist"
         )
       end
-    end
+    end # SingletonMethods
   end # Language
 end # Zen

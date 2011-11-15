@@ -21,8 +21,7 @@
         lang('users.labels.email'),
         :email,
         :required  => :required,
-        :maxlength => 255,
-        :pattern   => Users::Model::User::EMAIL_REGEX
+        :maxlength => 255
       )
 
       f.input_password(

@@ -22,7 +22,7 @@ Settings::Setting.add do |setting|
   setting.group       = :general
   setting.default     = 'en'
   setting.type        = 'select'
-  setting.values      = Zen::Language::LANGUAGES
+  setting.values      = Zen::Language.to_hash
 end
 
 Settings::Setting.add do |setting|
@@ -32,7 +32,7 @@ Settings::Setting.add do |setting|
   setting.group       = :general
   setting.default     = 'en'
   setting.type        = 'select'
-  setting.values      = Zen::Language::LANGUAGES
+  setting.values      = Zen::Language.to_hash
 end
 
 Settings::Setting.add do |setting|

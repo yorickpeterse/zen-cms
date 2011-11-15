@@ -83,7 +83,7 @@
         f.select(
           lang('sections.labels.comment_format'),
           :comment_format,
-          :values   => Zen::Markup::REGISTERED,
+          :values   => Zen::Markup.to_hash,
           :selected => @section.comment_format,
           :size     => 1,
           :required => :required

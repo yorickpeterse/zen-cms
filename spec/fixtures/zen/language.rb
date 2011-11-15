@@ -4,13 +4,13 @@ class SpecLanguage < Zen::Controller::FrontendController
   def frontend_dutch
     user.update(:frontend_language => 'nl')
 
-    respond(Zen::Language.current, 200)
+    respond(Zen::Language.current.name, 200)
   end
 
   def frontend_english
     user.update(:frontend_language => 'en')
 
-    respond(Zen::Language.current, 200)
+    respond(Zen::Language.current.name, 200)
   end
 end
 
@@ -20,12 +20,12 @@ class SpecLanguageBackend < Zen::Controller::AdminController
   def backend_dutch
     user.update(:language => 'nl')
 
-    respond(Zen::Language.current, 200)
+    respond(Zen::Language.current.name, 200)
   end
 
   def backend_english
     user.update(:language => 'en')
 
-    respond(Zen::Language.current, 200)
+    respond(Zen::Language.current.name, 200)
   end
 end

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="#{get_setting(:language).value}">
+#{Zen::Language.html_head}
     <head>
         #{render_file(__DIR__('../view/head.xhtml'))}
     </head>

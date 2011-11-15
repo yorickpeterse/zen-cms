@@ -77,14 +77,29 @@ module Zen
     # Hash containing all the markup engines and their names as they'll be
     # displayed in the backend.
     REGISTERED = {
-      'markdown' => lang('zen_general.markup.markdown'),
-      'textile'  => lang('zen_general.markup.textile'),
-      'plain'    => lang('zen_general.markup.plain'),
-      'html'     => lang('zen_general.markup.html')
+      'markdown' => 'zen_general.markup.markdown',
+      'textile'  => 'zen_general.markup.textile',
+      'plain'    => 'zen_general.markup.plain',
+      'html'     => 'zen_general.markup.html'
     }
 
     class << self
       include ::Ramaze::Helper::CGI
+
+      ##
+      # Returns a hash containing the available markup engines and their labels
+      # for the current language.
+      #
+      # @since  15-11-2011
+      # @return [Hash]
+      #
+      def to_hash
+        hash = {}
+
+        REGISTERED.each { |k, v| hash[k] = lang(v) }
+
+        return hash
+      end
 
       ##
       # Converts markup using the specified markup engine.

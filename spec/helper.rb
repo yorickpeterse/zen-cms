@@ -18,7 +18,7 @@ Zen.database  = Sequel.connect(
   :encoding  => 'utf8'
 )
 
-Zen::Language.options.paths.push(__DIR__('fixtures/zen'))
+Zen::Language.options.paths.push(__DIR__('fixtures/zen/language'))
 
 Zen.start
 
