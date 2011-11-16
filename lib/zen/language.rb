@@ -1,94 +1,7 @@
-require 'yaml'
+require 'zen/language/translation'
 
 module Zen
   ##
-  # Zen comes with a system that allows developers to localize labels, field
-  # names, and so on.  This can be extremely useful when you're developing a
-  # package and want people to be able to use it even if they don't speak
-  # English. Zen comes with a fairly easy to use language system that's based on
-  # a collection of YAML files. Before you can use a language pack in your
-  # package you'll have to make sure that the "language" directory exists in
-  # your package directory. If so your structure should look something like the
-  # following:
-  #
-  #     .
-  #     |__ lib/
-  #        |
-  #        |__ my-package.rb
-  #        |__ my-package/
-  #           |
-  #           |__ language/
-  #
-  # Inside the language directory there should be a directory who's name matches
-  # the language key it represents. For example, a directory with translations
-  # for English would be called "en". Language files for Dutch would be called
-  # "nl" and so on. The name of the YAML files is also important and will be
-  # used as the main key when retrieving language files. For example, if the
-  # file is named "hello" it's content will be available under the hello
-  # "namespace" (more on this later).
-  #
-  # As mentioned before language files are stored as YAML files. It doesn't
-  # really matter what's in them but it's generally a good idea to format them
-  # as following:
-  #
-  #     ---
-  #     titles:
-  #       index: 'Overview'
-  #       edit:  'Edit Something'
-  #
-  # Retrieving language keys is done using the lang() method. This method takes
-  # a single parameter, a string that specifies which key should be retrieved.
-  # If we wanted to retrieve the key "edit" from the YAML file above you'd have
-  # to do the following (assuming the YAML file is named "hello"):
-  #
-  #     lang('hello.titles.edit')
-  #
-  # As you can see sub-levels are specified using a dot between the levels. A
-  # key B who's parent is A could be retrieved by doing ``lang('A.B')``.
-  #
-  # <div class="note todo">
-  #     <p>
-  #         <strong>Note</strong>: The lang() method is injected into the global
-  #         namespace, you don't have to include a module in order to be able to
-  #         use the method.
-  #     </p>
-  # </div>
-  #
-  # ## Loading Language Files
-  #
-  # In order to load a language file you'll need to do two things: add the
-  # language directory to the available paths if this hasn't been done yet and
-  # actually loading the file. The first can be done as following:
-  #
-  #     Zen::Language.options.paths.push('path/to/directory')
-  #
-  # This instructs the language system to look in the directory
-  # ``path/to/directory`` for a directory named "language" containing all the
-  # language files. Once this has been done you can load a language file using
-  # ``Zen::Language.load``. The parameter of this method is the name of the YAML
-  # file to load for the current language. Say there was a file
-  # ``path/to/directory/language/en/test.yml``
-  #
-  # ## Example
-  #
-  # Let's assume we have a file located at
-  # ``/home/yorickpeterse/foobar/language/en/foobar.yml`` with the following
-  # content:
-  #
-  #     ---
-  #     username: 'Username'
-  #     location:
-  #       street:  'Street'
-  #       country: 'Country'
-  #
-  # We can load these keys as following:
-  #
-  #     Zen::Language.options.paths.push('/home/yorickpeterse/foobar/')
-  #     Zen::Language.load('foobar')
-  #
-  #     lang('foobar.username')         # => "Username"
-  #     lang('foobar.location.street')  # => "Street"
-  #     lang('foobar.location.country') # => "Country"
   #
   # @since  0.2
   #
@@ -115,9 +28,6 @@ module Zen
 
     # The title of the language (in that specific language).
     attr_accessor :title
-
-    # Hash containing all the translations for a language
-    attr_accessor :translations
 
     # Array containing all the loaded language files.
     attr_accessor :loaded
@@ -164,37 +74,31 @@ module Zen
       #
       # @since  0.1
       # @param  [String] lang_name The name of the language file to load.
+      # @param  [String] lang The name of the language for which to load the
+      #  collection. Set to the current language by default.
       #
-      def load(lang_name)
+      def load(lang_name, lang = nil)
         lang_name = lang_name.to_s unless lang_name.is_a?(String)
-        loaded    = false
+        language  = REGISTERED[lang.to_s] || current
 
-        REGISTERED.each do |name, language|
-          return if language.loaded.include?(lang_name)
+        return if language.loaded.include?(lang_name)
 
-          options.paths.each do |path|
-            path = File.join(path, name, "#{lang_name}.yml")
+        options.paths.each do |path|
+          path = File.join(path, language.name, "#{lang_name}.rb")
 
-            # Load the language
-            if File.exist?(path)
-              loaded = true
-              language.loaded.push(lang_name)
+          # Load the language
+          if File.exist?(path)
+            require(path)
+            language.loaded.push(lang_name)
 
-              language.translations.merge!(
-                to_dotted_hash({lang_name => YAML.load_file(path)})
-              )
-
-              next
-            end
+            return
           end
         end
 
-        if loaded == false
-          raise(
-            Zen::LanguageError,
-            "No language file could be found for \"#{lang_name}\""
-          )
-        end
+        raise(
+          Zen::LanguageError,
+          "No language file could be found for \"#{lang_name}\""
+        )
       end
 
       ##
@@ -275,78 +179,6 @@ module Zen
 
         return head + '>'
       end
-
-      private
-
-      ##
-      # Method that takes a hash or an array and converts it to a dot-based hash.
-      # For example, the following hash:
-      #
-      #     {
-      #       :name     => 'Name',
-      #       :location => {
-      #         :street  => 'Street',
-      #         :address => 'Address'
-      #       }
-      #     }
-      #
-      # would result in the following:
-      #
-      #     {
-      #       'name'             => 'Name',
-      #       'location.street'  => 'Street',
-      #       'location.address' => 'Address'
-      #     }
-      #
-      # Using arrays would result in the following:
-      #
-      #     out = to_dotted_hash(["Hello", "World"])
-      #     puts out # => {'1' => 'Hello', '2' => 'World'}
-      #
-      # While it looks a bit goofy this allows you to do the following:
-      #
-      #     lang('1') # => 'Hello'
-      #
-      # @example
-      #  self.to_dotted_hash({:name => "Yorick"}) # => {'name' => 'Yorick'}
-      #
-      # The code for this method was mostly taken from a comment on Stack
-      # Overflow. This comment can be found here: <http://bit.ly/dHTjVR>
-      #
-      # @since  0.2
-      # @param  [Hash/Array] source The hash or array to conver to a dot-based
-      #  hash.
-      # @param  [Hash] target The hash to store the new key/values in.
-      # @param  [String] namespace The namespace for the key
-      #  (e.g. "user.location").
-      # @return [Hash] The converted hash where the keys are dot-based strings
-      #  instead of regular strings/symbols with sub hashes.
-      #
-      def to_dotted_hash(source, target = {}, namespace = nil)
-        if namespace and !namespace.nil?
-          prefix = "#{namespace}."
-        else
-          prefix = nil
-        end
-
-        if source.class == Hash
-          source.each do |k, v|
-            to_dotted_hash(v, target, "#{prefix}#{k}")
-          end
-        elsif source.class == Array
-          source.each_with_index do |v, i|
-            to_dotted_hash(v, target, "#{prefix}#{i}")
-          end
-        else
-          if !namespace.nil?
-            target[namespace] = source
-          else
-            target = source
-          end
-        end
-
-        return target
-      end
     end # class << self
 
     ##
@@ -355,8 +187,7 @@ module Zen
     # @since 14-11-2011
     #
     def initialize
-      @loaded       = []
-      @translations = {}
+      @loaded = []
     end
 
     ##
@@ -423,20 +254,28 @@ module Zen
       #
       def lang(key, lang = nil)
         lang   = Zen::Language.current.name if lang.nil?
-        key    = key.to_s unless key.is_a?(String)
+        key    = key.to_s  unless key.is_a?(String)
         lang   = lang.to_s unless lang.is_a?(String)
 
         unless Zen::Language::REGISTERED.key?(lang)
-          raise(
-            Zen::LanguageError,
-            "No translation files have been added for the language " \
-              "code \"#{lang}\""
-          )
+          raise(Zen::LanguageError, "The language \"#{lang}\" doesn't exist")
         end
 
-        if Zen::Language::REGISTERED[lang].translations[key]
-          return Zen::Language::REGISTERED[lang].translations[key]
+        group = key.split('.')[0]
+        got   = Ramaze::Cache.translations.fetch([lang, key].join('.'))
+
+        if !got.nil?
+          return got
         end
+
+        # It seems the language item couldn't be fetched. This can happen when
+        # the user change the language but hasn't loaded a specific language set
+        # yet. Lets load it and try again.
+        Zen::Language.load(group, lang)
+
+        got = Ramaze::Cache.translations.fetch([lang, key].join('.'))
+
+        return got unless got.nil?
 
         raise(
           Zen::LanguageError,

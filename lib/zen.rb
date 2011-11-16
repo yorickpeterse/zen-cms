@@ -1,5 +1,4 @@
 require 'ramaze'
-require 'yaml'
 require 'json'
 
 Ramaze.setup(:verbose => false) do
@@ -53,13 +52,17 @@ module Zen
         raise('You need to specify a valid root directory in Zen.root')
       end
 
+      # Set up Ramaze::Cache manually. This makes it possible for the langauge
+      # files to cache their data in the custom cache without having to wait for
+      # Ramaze to set it up.
+      Ramaze::Cache.setup
+      Ramaze.options.setup.delete(Ramaze::Cache)
+
       require 'zen/model/init'
       require 'zen/model/methods'
 
-      # Set up Ramaze::Asset
       setup_assets
 
-      # Load all packages
       require 'zen/package/all'
 
       # Load the global stylesheet and Javascript file if they're located in
@@ -126,7 +129,6 @@ module Zen
         :name => 'zen_core'
       )
 
-      # Add all the asset groups.
       require 'zen/asset_groups'
     end
 
@@ -162,8 +164,9 @@ end # Zen
 require __DIR__('vendor/sequel_sluggable')
 require 'zen/version'
 
-Ramaze::Cache.options.names.push(:settings)
-Ramaze::Cache.options.settings = Ramaze::Cache::LRU
+Ramaze::Cache.options.names.push(:settings, :translations)
+Ramaze::Cache.options.settings     = Ramaze::Cache::LRU
+Ramaze::Cache.options.translations = Ramaze::Cache::LRU
 
 # Load all classes/modules provided by Zen itself.
 require 'zen/error'
@@ -176,8 +179,6 @@ require 'zen/languages'
 Ramaze::HelpersHelper.options.paths.push(__DIR__('zen'))
 Ramaze.options.roots.push(__DIR__('zen'))
 Zen::Language.options.paths.push(__DIR__('zen/language'))
-
-Zen::Language.load('zen_general')
 
 include Zen::Language::SingletonMethods
 
