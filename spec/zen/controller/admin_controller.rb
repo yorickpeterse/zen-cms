@@ -1,7 +1,7 @@
 require File.expand_path('../../../helper', __FILE__)
 require 'rdiscount'
 
-describe('Zen::Controller::Preview') do
+describe('Zen::Controller::AdminController') do
   behaves_like :capybara
 
   should('access a non authorized URL') do

@@ -1,7 +1,0 @@
----
-name: 'Naam'
-age: 'Leeftijd'
-
-parent:
-  sub: 'Sub element'
-

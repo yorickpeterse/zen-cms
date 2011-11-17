@@ -30,7 +30,7 @@ describe("Sections::Controller::Sections") do
   end
 
   should("create a new section") do
-    select_plain = lang('zen_general.special.format_hash.plain')
+    select_plain = lang('zen_general.markup.plain')
 
     click_link(new_button)
 
@@ -147,7 +147,7 @@ describe("Sections::Controller::Sections") do
       choose('form_comment_moderate_0')
 
       select(
-        lang('zen_general.special.format_hash.plain'),
+        lang('zen_general.markup.plain'),
         :from => 'form_comment_format'
       )
 

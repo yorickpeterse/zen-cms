@@ -3,17 +3,17 @@ class SpecACLHelper < Zen::Controller::AdminController
 
   def index
     if user_authorized?(:spec_permission)
-      return 'allowed'
+      respond('allowed', 200)
     else
-      return 'now allowed'
+      respond('not allowed', 200)
     end
   end
 
   def invalid
     if user_authorized?(:invalid_permission)
-      return 'allowed'
+      respond('allowed', 200)
     else
-      return 'not allowed'
+      respond('not allowed', 200)
     end
   end
 

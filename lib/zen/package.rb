@@ -146,7 +146,7 @@ module Zen
       # following:
       #
       #     Zen::Package.add do |ext|
-      #       ext.name   = "name"
+      #       extrans.name   = "name"
       #       ext.author = "Author"
       #     end
       #

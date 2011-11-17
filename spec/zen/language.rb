@@ -63,17 +63,10 @@ describe('Zen::Language') do
     end
   end
 
-  should(
-    'fail to access a non existing language string for an empty language file'
-  ) do
+  should('fail to access a non existing language file') do
     should.raise?(Zen::LanguageError) do
       lang('foo.does-not-exist', 'foo')
     end
-  end
-
-  should('access an array using a language string') do
-    lang('spec.array.0').should == 'first'
-    lang('spec.array.1').should == 'second'
   end
 
   should('load a Dutch language pack') do

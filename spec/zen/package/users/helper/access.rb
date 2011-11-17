@@ -6,7 +6,7 @@ describe('Ramaze::Helper::Access') do
 
   visit(Users::Controller::Users.r(:logout).to_s)
 
-  should('Deny access to a method') do
+  should('deny access to a method') do
     visit('/admin/spec-access-helper/denied')
 
     current_path.should == Users::Controller::Users.r(:login).to_s

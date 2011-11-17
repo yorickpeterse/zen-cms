@@ -33,7 +33,7 @@ describe('CustomFields::Controller::CustomFields') do
 
   should("create a new custom field") do
     type_select   = lang('custom_fields.special.type_hash.textbox')
-    format_select = lang('zen_general.special.format_hash.markdown')
+    format_select = lang('zen_general.markup.markdown')
     textbox_field = CustomFields::Model::CustomFieldType[:name => 'textbox']
 
     visit(index_url)
