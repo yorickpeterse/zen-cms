@@ -4,7 +4,7 @@ Zen::Language::Translation.add do |t|
 
   t['labels.powered_by']   = 'Aangedreven door'
   t['labels.view_website'] = 'Bekijk website'
-  t['lables.logout']       = 'Log uit'
+  t['labels.logout']       = 'Log uit'
   t['labels.profile']      = 'Profiel'
 
   t['errors.csrf'] = 'De actie kon niet worden uitgevoerd zonder een geldige ' \
