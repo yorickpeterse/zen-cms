@@ -1,5 +1,4 @@
 require 'ramaze'
-require 'json'
 
 Ramaze.setup(:verbose => false) do
   gem 'sequel'      , ['~> 3.28.0']
@@ -122,7 +121,6 @@ module Zen
         [
           'admin/js/vendor/mootools/core',
           'admin/js/vendor/mootools/more',
-          'admin/js/zen/lib/language',
           'admin/js/zen/lib/html_table',
           'admin/js/zen/index'
         ],
@@ -144,8 +142,8 @@ module Zen
 
       publics.each do |p|
         p   = File.join(Zen.root, p)
-        css = File.join(p, 'admin/css/global.css')
-        js  = File.join(p, 'admin/js/global.js')
+        css = File.join(p, 'admin', 'css', 'global.css')
+        js  = File.join(p, 'admin', 'js', 'global.js')
 
         if File.exist?(css) and css_loaded == false
           Zen.asset.serve(:css, ['admin/css/global'])

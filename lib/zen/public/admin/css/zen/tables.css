@@ -80,6 +80,11 @@ table
         background: #f2f2f2;
     }
 
+    .datepicker tr:nth-child(even)
+    {
+        background: #fff;
+    }
+
     table tbody tr:hover
     {
         background: #f2f2f2;

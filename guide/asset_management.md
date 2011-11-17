@@ -101,5 +101,17 @@ Zen comes with the following asset groups that you can use:
 * window
 * editor
 
+## Global Assets
+
+When starting up Zen will check if it can find a global stylesheet and
+Javascript file. These files can be used to make changes to the admin panel
+without having to go through the process of creating packages or re-defining the
+entire layout. These files are called "global.css" and "global.js" and (in order
+to use them) should be placed in the following directories (where ROOT is the
+root directory of the application):
+
+* ROOT/admin/css/global.css
+* ROOT/admin/js/global.js
+
 [ramaze-asset]: https://github.com/yorickpeterse/ramaze-asset
 [ramaze-env]: https://github.com/YorickPeterse/ramaze-asset/blob/master/lib/ramaze/asset/environment.rb
