@@ -2,11 +2,11 @@ require File.expand_path('../../helper', __FILE__)
 
 describe("Zen::Theme") do
 
-  should('find no existing themes') do
+  it('Error when retrieving a theme when no themes exist') do
     should.raise?(Zen::ThemeError) { Zen::Theme[:spec] }
   end
 
-  should("add a new theme") do
+  it('Add a new theme') do
     Zen::Theme.add do |t|
       t.name         = 'spec'
       t.author       = 'Yorick Peterse'
@@ -18,7 +18,7 @@ describe("Zen::Theme") do
     should.not.raise?(Zen::ThemeError) { Zen::Theme[:spec] }
   end
 
-  should('add an existing theme') do
+  it('Add an already existing theme') do
     should.raise?(Zen::ValidationError) do
       Zen::Theme.add do |t|
         t.name         = 'spec'
@@ -29,13 +29,11 @@ describe("Zen::Theme") do
     end
   end
 
-  should("retrieve a theme") do
+  it('Retrieve a theme using Zen::Theme') do
     theme = Zen::Theme[:spec]
 
     theme.name.should         == :spec
     theme.author.should       == 'Yorick Peterse'
     theme.template_dir.should == __DIR__
   end
-
 end
-

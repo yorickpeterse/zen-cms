@@ -10,7 +10,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
   save_button   = lang('custom_field_types.buttons.save')
   delete_button = lang('custom_field_types.buttons.delete')
 
-  should('submit a form without a CSRF token') do
+  it('Submit a form without a CSRF token') do
     response = page.driver.post(
       CustomFields::Controller::CustomFieldTypes.r(:save).to_s
     )
@@ -19,7 +19,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     response.status.should                                         == 403
   end
 
-  should('find a number of field types') do
+  it('Find a number of field types') do
     message = lang('custom_field_types.messages.no_field_types')
     rows    = CustomFields::Model::CustomFieldType.count
 
@@ -31,7 +31,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.all('table tbody tr').count.should      == rows
   end
 
-  should('create a new custom field type') do
+  it('Create a new custom field type') do
     method_id = CustomFields::Model::CustomFieldMethod[
       :name => 'input_text'
     ].id.to_s
@@ -77,7 +77,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.find_field('form_custom_field_method_id').value.should == method_id
   end
 
-  should('search for a custom field type') do
+  it('Search for a custom field type') do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
@@ -100,7 +100,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.has_content?('Spec type').should == false
   end
 
-  should('edit a custom field type') do
+  it('Edit a custom field type') do
     method_id = CustomFields::Model::CustomFieldMethod[
       :name => 'textarea'
     ].id.to_s
@@ -137,7 +137,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.find_field('custom_field_method_id').value.should == method_id
   end
 
-  should('edit a custom field type with invalid data') do
+  it('Edit a custom field type with invalid data') do
     visit(index_url)
     click_link('Spec type')
 
@@ -151,7 +151,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.has_selector?('span.error').should == true
   end
 
-  should('fail to delete a field type without an ID') do
+  it('Fail to delete a field type without an ID') do
     type_id = CustomFields::Model::CustomFieldType[
       :name => 'Spec type modified'
     ].id
@@ -163,7 +163,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
       .should == true
   end
 
-  should('delete a custom field type') do
+  it('Delete a custom field type') do
     rows    = CustomFields::Model::CustomFieldType.count - 1
     type_id = CustomFields::Model::CustomFieldType[
       :name => 'Spec type modified'
@@ -180,7 +180,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     page.all('table tbody tr').count.should        == rows
   end
 
-  should('call the event new_custom_field_type (before and after)') do
+  it('Call the event new_custom_field_type (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_new_custom_field_type) do |type|
@@ -216,7 +216,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     )
   end
 
-  should('call the event edit_custom_field_type (before and after)') do
+  it('Call the event edit_custom_field_type (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_edit_custom_field_type) do |type|
@@ -243,7 +243,7 @@ describe('CustomFields::Controller::CustomFieldTypes') do
     )
   end
 
-  should('call the event delete_custom_field_type (before and after)') do
+  it('Call the event delete_custom_field_type (before and after)') do
     event_name  = nil
     event_name2 = nil
     type_id     = CustomFields::Model::CustomFieldType[

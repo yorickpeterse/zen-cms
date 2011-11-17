@@ -5,7 +5,7 @@ describe('Ramaze::Helper::Locale') do
   behaves_like :capybara
   extend       Ramaze::Helper::Locale
 
-  should('get the date format') do
+  it('Get the date format from the database') do
     visit('/admin/spec-locale-helper')
 
     format = get_setting(:date_format).value
@@ -16,7 +16,7 @@ describe('Ramaze::Helper::Locale') do
     page.body.include?(format).should == true
   end
 
-  should('format a date') do
+  it('Format a date using using the date_format setting') do
     format = get_setting(:date_format).value
     date   = Time.new
 

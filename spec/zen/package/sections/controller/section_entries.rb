@@ -50,7 +50,7 @@ describe("Sections::Controller::SectionEntries") do
   title_field   = lang('section_entries.labels.title')
   status_field  = lang('section_entries.special.status_hash.published')
 
-  should('submit a form without a CSRF token') do
+  it('Submit a form without a CSRF token') do
     response = page.driver.post(
       Sections::Controller::SectionEntries.r(:save).to_s
     )
@@ -59,7 +59,7 @@ describe("Sections::Controller::SectionEntries") do
     response.status.should                                         == 403
   end
 
-  should('find no existing entries') do
+  it('Find no existing entries') do
     message = lang('section_entries.messages.no_entries')
 
     visit(index_url)
@@ -68,7 +68,7 @@ describe("Sections::Controller::SectionEntries") do
     page.has_content?(message).should           == true
   end
 
-  should("create a new section entry") do
+  it("Create a new section entry") do
     visit(index_url)
     click_link(new_button)
 
@@ -93,7 +93,7 @@ describe("Sections::Controller::SectionEntries") do
     page.find_field('Spec field').value.should    == 'Spec field value'
   end
 
-  should('search for a section entry') do
+  it('Search for a section entry') do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
@@ -116,7 +116,7 @@ describe("Sections::Controller::SectionEntries") do
     page.has_content?('Spec entry').should == false
   end
 
-  should("edit an existing section entry") do
+  it("Edit an existing section entry") do
     visit(index_url)
     click_link('Spec entry')
 
@@ -137,7 +137,7 @@ describe("Sections::Controller::SectionEntries") do
       .value.should == 'chuck'
   end
 
-  should("edit an existing section entry with invalid data") do
+  it("Edit an existing section entry with invalid data") do
     visit(index_url)
     click_link('Spec entry')
 
@@ -154,14 +154,14 @@ describe("Sections::Controller::SectionEntries") do
     ).should == true
   end
 
-  should('fail to delete an entry without an ID') do
+  it('Fail to delete an entry without an ID') do
     visit(index_url)
     click_on(delete_button)
 
     page.has_selector?('input[name="section_entry_ids[]"]').should == true
   end
 
-  should("delete an existing section entry") do
+  it("Delete an existing section entry") do
     visit(index_url)
 
     # Mark the entry
@@ -171,7 +171,7 @@ describe("Sections::Controller::SectionEntries") do
     page.has_selector?('table tbody tr').should == false
   end
 
-  should('call the event new_section_entry (before and after)') do
+  it('Call the event new_section_entry (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_new_section_entry) do |entry|
@@ -200,7 +200,7 @@ describe("Sections::Controller::SectionEntries") do
     Zen::Event.delete(:before_new_section_entry, :after_new_section_entry)
   end
 
-  should('call the event edit_section_entry (before and after)') do
+  it('Call the event edit_section_entry (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_edit_section_entry) do |entry|
@@ -225,7 +225,7 @@ describe("Sections::Controller::SectionEntries") do
     Zen::Event.delete(:before_edit_section_entry, :after_edit_section_entry)
   end
 
-  should('call the event delete_section_entry (before and after)') do
+  it('Call the event delete_section_entry (before and after)') do
     event_name  = nil
     event_name2 = nil
     message     = lang('section_entries.messages.no_entries')

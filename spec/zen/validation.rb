@@ -4,7 +4,7 @@ require 'fileutils'
 
 describe('Zen::Validation') do
 
-  should('validate the presence of an attribute') do
+  it('Aalidate the presence of an attribute') do
     object = ValidationObject.new
 
     should.raise?(Zen::ValidationError) { object.presence }
@@ -15,7 +15,7 @@ describe('Zen::Validation') do
     should.not.raise?(Zen::ValidationError) { object.presence }
   end
 
-  should('validate the length of an attribute') do
+  it('Aalidate the length of an attribute') do
     object = ValidationObject.new
 
     should.raise?(Zen::ValidationError) { object.length }
@@ -36,7 +36,7 @@ describe('Zen::Validation') do
     should.not.raise?(Zen::ValidationError) { object.length }
   end
 
-  should('validate the format of an attribute') do
+  it('Aalidate the format of an attribute') do
     object      = ValidationObject.new
     object.name = 10
 
@@ -47,7 +47,7 @@ describe('Zen::Validation') do
     should.not.raise?(Zen::ValidationError) { object.format }
   end
 
-  should('validate a file') do
+  it('Aalidate a file') do
     object      = ValidationObject.new
     object.file = '/tmp/zen_validation'
 
@@ -59,5 +59,4 @@ describe('Zen::Validation') do
 
     File.unlink('/tmp/zen_validation')
   end
-
 end

@@ -7,7 +7,7 @@ describe("Settings::Controller::Settings") do
   index_url   = Settings::Controller::Settings.r(:index).to_s
   save_button = lang('settings.buttons.save')
 
-  should('submit a form without a CSRF token') do
+  it('Submit a form without a CSRF token') do
     response = page.driver.post(
       Settings::Controller::Settings.r(:save).to_s
     )
@@ -16,7 +16,7 @@ describe("Settings::Controller::Settings") do
     response.status.should                                         == 403
   end
 
-  should('update a set of settings') do
+  it('Update a set of settings') do
     visit(index_url)
 
     within('#setting_form') do
@@ -35,7 +35,7 @@ describe("Settings::Controller::Settings") do
     page.find('input[name="website_name"]').value.should == 'Zen'
   end
 
-  should('update a setting using checkboxes') do
+  it('Update a setting using checkboxes') do
     visit(index_url)
 
     page.has_selector?('input[type="checkbox"]').should                 == true
@@ -58,7 +58,7 @@ describe("Settings::Controller::Settings") do
     value.include?('value1').should == true
   end
 
-  should('update a setting using a select box with multiple values') do
+  it('Update a setting using a select box with multiple values') do
     visit(index_url)
 
     page.has_selector?('select[multiple="multiple"]').should == true
@@ -80,7 +80,7 @@ describe("Settings::Controller::Settings") do
     value.include?('value1').should == true
   end
 
-  should('call the event after_edit_setting') do
+  it('Call the event after_edit_setting') do
     event_name = nil
 
     Zen::Event.listen(:after_edit_setting) do |setting|

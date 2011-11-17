@@ -27,13 +27,13 @@ describe('Zen::Controller::MainController') do
   get_setting(:default_section).value = section.id
   get_setting(:theme).value           = 'spec_theme'
 
-  should('request the homepage') do
+  it('Visit the homepage') do
     visit('/')
 
     page.body.include?('This is the homepage.').should == true
   end
 
-  should('request a page without a theme set') do
+  it('Request a page without a theme set') do
     get_setting(:theme).value = ''
 
     visit('/')
@@ -43,7 +43,7 @@ describe('Zen::Controller::MainController') do
     get_setting(:theme).value = 'spec_theme'
   end
 
-  should('request a non existing template') do
+  it('Request a non existing template') do
     visit('/does-not-exist')
 
     page.body.include?('The requested page could not be found!') \
@@ -52,7 +52,7 @@ describe('Zen::Controller::MainController') do
     page.status_code.should == 404
   end
 
-  should('request a non existing template without a 404 template') do
+  it('Request a non existing template without a 404 template') do
     template = File.join(
       Zen::Theme[:spec_theme].template_dir,
       '404.xhtml'

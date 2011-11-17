@@ -26,7 +26,7 @@ describe('Ramaze::Helper::Menu') do
     :parent_id => child.id
   )
 
-  should('validate a valid menu') do
+  it('Validate a valid menu') do
     url = Menus::Controller::Menus.r(:edit, menu.id).to_s
 
     visit(url)
@@ -34,7 +34,7 @@ describe('Ramaze::Helper::Menu') do
     current_path.should == url
   end
 
-  should('validate an invalid menu') do
+  it('Validate an invalid menu') do
     url   = Menus::Controller::Menus.r(:edit, menu.id + 100).to_s
     index = Menus::Controller::Menus.r(:index).to_s
 
@@ -43,7 +43,7 @@ describe('Ramaze::Helper::Menu') do
     current_path.should == index
   end
 
-  should('validate a valid menu item') do
+  it('Validate a valid menu item') do
     url = Menus::Controller::MenuItems.r(:edit, menu.id, item.id).to_s
 
     visit(url)
@@ -51,7 +51,7 @@ describe('Ramaze::Helper::Menu') do
     current_path.should == url
   end
 
-  should('validate an invalid menu item') do
+  it('Validate an invalid menu item') do
     url   = Menus::Controller::MenuItems.r(:edit, menu.id, item.id + 100).to_s
     index = Menus::Controller::MenuItems.r(:index, menu.id).to_s
 
@@ -60,7 +60,7 @@ describe('Ramaze::Helper::Menu') do
     current_path.should == index
   end
 
-  should('generate a navigation tree') do
+  it('Generate a navigation tree') do
     tree = menu_item_tree(menu.id)
 
     tree[nil].should          == '--'

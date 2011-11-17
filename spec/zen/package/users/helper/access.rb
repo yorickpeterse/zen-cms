@@ -6,14 +6,14 @@ describe('Ramaze::Helper::Access') do
 
   visit(Users::Controller::Users.r(:logout).to_s)
 
-  should('deny access to a method') do
+  it('Deny access to a method') do
     visit('/admin/spec-access-helper/denied')
 
     current_path.should == Users::Controller::Users.r(:login).to_s
     page.body.include?('super secret page').should == false
   end
 
-  should('allow access to a list of methods') do
+  it('Allow access to a list of methods') do
     capybara_login
 
     visit('/admin/spec-access-helper/allowed')

@@ -15,20 +15,20 @@ describe('Ramaze::Helper::ACL') do
 
   capybara_login
 
-  should('allow for a permission') do
+  it('Allow for a permission') do
     visit('/admin/spec-acl-helper')
 
     page.has_content?('not allowed').should == false
     page.has_content?('allowed').should     == true
   end
 
-  should('deny for a missing permission') do
+  it('Deny for a missing permission') do
     visit('/admin/spec-acl-helper/invalid')
 
     page.has_content?('not allowed').should == true
   end
 
-  should('respond for a missing permission') do
+  it('Respond for a missing permission') do
     visit('/admin/spec-acl-helper/respond_message')
 
     page.has_content?(lang('zen_general.errors.not_authorized')).should == true

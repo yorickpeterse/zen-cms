@@ -23,20 +23,20 @@ describe('Comments::AntiSpam') do
     'http://api.defensio.com/2.0/users/test/documents.yaml'
   ).to_return(:body => yaml_response)
 
-  should('fail to use an invalid engine') do
+  it('Fail to use an invalid engine') do
     should.raise?(ArgumentError) do
       Comments::AntiSpam.validate(:foobar, nil, nil, nil, spam_comment)
     end
   end
 
-  should('validate a spam comment using Defensio') do
+  it('Validate a spam comment using Defensio') do
     get_setting(:defensio_key).value = 'test'
 
     Comments::AntiSpam.validate(:defensio, nil, nil, nil, spam_comment) \
       .should == true
   end
 
-  should('fail to validate using defensio without an API key') do
+  it('Fail to validate using defensio without an API key') do
     get_setting(:defensio_key).value = nil
 
     should.raise? do

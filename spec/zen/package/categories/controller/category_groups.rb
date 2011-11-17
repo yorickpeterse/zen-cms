@@ -22,7 +22,7 @@ describe("Categories::Controller::CategoryGroups") do
     )
   end
 
-  should('submit a form without a CSRF token') do
+  it('Submit a form without a CSRF token') do
     response = page.driver.post(
       Categories::Controller::CategoryGroups.r(:save).to_s
     )
@@ -31,7 +31,7 @@ describe("Categories::Controller::CategoryGroups") do
     response.status.should                                         == 403
   end
 
-  should('find no existing category groups') do
+  it('Find no existing category groups') do
     message = lang('category_groups.messages.no_groups')
 
     visit(index_url)
@@ -40,7 +40,7 @@ describe("Categories::Controller::CategoryGroups") do
     page.has_selector?('table tbody tr').should == false
   end
 
-  should("create a new category group") do
+  it("Create a new category group") do
     new_button  = lang('category_groups.buttons.new')
     name        = 'Spec category group'
     event_name  = nil
@@ -72,7 +72,7 @@ describe("Categories::Controller::CategoryGroups") do
     event_name2.should == event_name
   end
 
-  should('search for a category group') do
+  it('Search for a category group') do
     visit(index_url)
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
@@ -95,7 +95,7 @@ describe("Categories::Controller::CategoryGroups") do
     page.has_selector?('table tbody tr').should     == false
   end
 
-  should("edit an existing category group") do
+  it("Edit an existing category group") do
     event_name  = nil
     event_name2 = nil
     name        = 'Spec category group 123'
@@ -136,7 +136,7 @@ describe("Categories::Controller::CategoryGroups") do
       .value.should == 'Spec category group modified'
   end
 
-  should("edit an existing category group with invalid data") do
+  it("Edit an existing category group with invalid data") do
     visit(index_url)
     click_link('Spec category group')
 
@@ -150,14 +150,14 @@ describe("Categories::Controller::CategoryGroups") do
     page.has_selector?('span.error').should == true
   end
 
-  should('fail to delete a category group without an ID') do
+  it('Fail to delete a category group without an ID') do
     visit(index_url)
     click_on(delete_button)
 
     page.has_selector?('input[name="category_group_ids[]"]').should == true
   end
 
-  should("delete an existing category group") do
+  it("Delete an existing category group") do
     message     = lang('category_groups.messages.no_groups')
     event_name  = nil
     event_name2 = nil

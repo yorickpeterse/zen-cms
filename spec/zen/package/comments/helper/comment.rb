@@ -27,7 +27,7 @@ describe('Ramaze::Helper::Comment') do
     :section_entry_id => entry.id
   )
 
-  should('validate a valid comment') do
+  it('Validate a valid comment') do
     url = Comments::Controller::Comments.r(:edit, comment.id).to_s
 
     visit(url)
@@ -35,7 +35,7 @@ describe('Ramaze::Helper::Comment') do
     current_path.should == url
   end
 
-  should('validate an invalid comment') do
+  it('Validate an invalid comment') do
     visit(Comments::Controller::Comments.r(:edit, comment.id + 100).to_s)
 
     current_path.should == Comments::Controller::Comments.r(:index).to_s

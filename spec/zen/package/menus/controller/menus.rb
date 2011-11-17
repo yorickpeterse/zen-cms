@@ -12,7 +12,7 @@ describe("Menus::Controller::Menus") do
   save_button   = lang('menus.buttons.save')
   delete_button = lang('menus.buttons.delete')
 
-  should('find no existing menus') do
+  it('Find no existing menus') do
     message = lang('menus.messages.no_menus')
 
     visit(index_url)
@@ -21,7 +21,7 @@ describe("Menus::Controller::Menus") do
     page.has_selector?('table tbody tr').should == false
   end
 
-  should('submit a form without a CSRF token') do
+  it('Submit a form without a CSRF token') do
     response = page.driver.post(
       Menus::Controller::Menus.r(:save).to_s
     )
@@ -30,7 +30,7 @@ describe("Menus::Controller::Menus") do
     response.status.should                                         == 403
   end
 
-  should("create a new menu") do
+  it("Create a new menu") do
     visit(index_url)
     click_link(new_button)
 
@@ -49,7 +49,7 @@ describe("Menus::Controller::Menus") do
     page.find('input[name="html_id"]').value.should    == 'spec_id'
   end
 
-  should('search for a menu') do
+  it('Search for a menu') do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
@@ -72,7 +72,7 @@ describe("Menus::Controller::Menus") do
     page.has_content?('Spec menu').should == false
   end
 
-  should("edit an existing menu") do
+  it("Edit an existing menu") do
     visit(index_url)
     click_link('Spec menu')
 
@@ -86,7 +86,7 @@ describe("Menus::Controller::Menus") do
     page.find('input[name="name"]').value.should == 'Spec menu modified'
   end
 
-  should("edit an existing menu with invalid data") do
+  it("Edit an existing menu with invalid data") do
     visit(index_url)
     click_link('Spec menu')
 
@@ -101,14 +101,14 @@ describe("Menus::Controller::Menus") do
     page.has_selector?('span.error').should      == true
   end
 
-  should('fail to delete a set of menus without IDs') do
+  it('Fail to delete a set of menus without IDs') do
     visit(index_url)
     click_on(delete_button)
 
     page.has_selector?('input[name="menu_ids[]"]').should == true
   end
 
-  should("delete an existing menu") do
+  it("Delete an existing menu") do
     message = lang('menus.messages.no_menus')
 
     visit(index_url)
@@ -119,7 +119,7 @@ describe("Menus::Controller::Menus") do
     page.has_selector?('table tbody tr').should == false
   end
 
-  should('call the event new_menu (before and after)') do
+  it('Call the event new_menu (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_new_menu) do |menu|
@@ -145,7 +145,7 @@ describe("Menus::Controller::Menus") do
     Zen::Event.delete(:before_new_menu, :after_new_menu)
   end
 
-  should('call the event edit_menu (before and after)') do
+  it('Call the event edit_menu (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_edit_menu) do |menu|
@@ -170,7 +170,7 @@ describe("Menus::Controller::Menus") do
     Zen::Event.delete(:before_edit_menu, :after_edit_menu)
   end
 
-  should('call the event delete_menu (before and after)') do
+  it('Call the event delete_menu (before and after)') do
     event_name  = nil
     event_name2 = nil
     message     = lang('menus.messages.no_menus')

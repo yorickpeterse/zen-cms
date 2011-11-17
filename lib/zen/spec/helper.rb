@@ -9,9 +9,8 @@ end
 
 require 'capybara/dsl'
 require 'ramaze/spec/bacon'
-require __DIR__('bacon/color_output')
 
-Bacon.extend(Bacon::ColorOutput)
+Bacon.extend(Bacon::TapOutput)
 
 # Configure Capybara
 Capybara.configure do |config|

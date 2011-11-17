@@ -3,7 +3,7 @@ require File.expand_path('../../../helper', __FILE__)
 describe('Ramaze::Helper::Breadcrumb') do
   extend Ramaze::Helper::Breadcrumb
 
-  should('add and build a set of breadcrumbs') do
+  it('Build a set of breadcrumbs') do
     respond_to?('set_breadcrumbs').should == true
     respond_to?('get_breadcrumbs').should == true
 
@@ -17,7 +17,7 @@ describe('Ramaze::Helper::Breadcrumb') do
     breadcrumbs.include?('&raquo;').should == true
   end
 
-  should('use a custom separator') do
+  it('Build a set of breadcrumbs with a custom separator') do
     respond_to?('set_breadcrumbs').should == true
     respond_to?('get_breadcrumbs').should == true
 
@@ -31,7 +31,7 @@ describe('Ramaze::Helper::Breadcrumb') do
     breadcrumbs.include?('--').should == true
   end
 
-  should('return no breadcrumbs') do
+  it('Return nil when no breadcrumb parameters are specified') do
     get_breadcrumbs.nil?.should == true
   end
 end

@@ -5,13 +5,13 @@ describe('Zen::Event') do
     Zen::Event::REGISTERED.delete(:test)
   end
 
-  should('register a event') do
+  it('Register an event') do
     Zen::Event.listen(:test) {}
 
     Zen::Event::REGISTERED.key?(:test).should == true
   end
 
-  should('run a single event') do
+  it('Run a single event') do
     data = 0
 
     Zen::Event.listen(:test) do |number|
@@ -25,7 +25,7 @@ describe('Zen::Event') do
     data.should == 12
   end
 
-  should('run multiple events') do
+  it('Run multiple events') do
     data = 0
 
     Zen::Event.listen(:test) do |number|

@@ -20,7 +20,7 @@ describe("Categories::Controller::Categories") do
   save_button   = lang('categories.buttons.save')
   delete_button = lang('categories.buttons.delete')
 
-  should('submit a form without a CSRF token') do
+  it('Submit a form without a CSRF token') do
     response = page.driver.post(
       Categories::Controller::Categories.r(:save).to_s
     )
@@ -29,7 +29,7 @@ describe("Categories::Controller::Categories") do
     response.status.should                                         == 403
   end
 
-  should('find no existing categories') do
+  it('Find no existing categories') do
     message = lang('categories.messages.no_categories')
 
     visit(index_url)
@@ -39,7 +39,7 @@ describe("Categories::Controller::Categories") do
     current_path.should                         == index_url
   end
 
-  should("create a new category") do
+  it("Create a new category") do
     new_button  = lang('categories.buttons.new')
     event_name  = nil
     event_name2 = nil
@@ -65,7 +65,7 @@ describe("Categories::Controller::Categories") do
     event_name2.should  == event_name
   end
 
-  should('search for a category') do
+  it('Search for a category') do
     visit(index_url)
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
@@ -88,7 +88,7 @@ describe("Categories::Controller::Categories") do
     page.has_selector?('table tbody tr').should == false
   end
 
-  should("edit an existing category") do
+  it("Edit an existing category") do
     event_name  = nil
     event_name2 = nil
     name        = 'Spec category modified 123'
@@ -128,7 +128,7 @@ describe("Categories::Controller::Categories") do
     page.find('input[name="name"]').value.should == 'Spec category modified'
   end
 
-  should("edit an existing category with invalid data") do
+  it("Edit an existing category with invalid data") do
     visit(index_url)
     click_link('Spec category')
 
@@ -142,14 +142,14 @@ describe("Categories::Controller::Categories") do
     page.has_selector?('span.error').should == true
   end
 
-  should('fail to delete a category without an ID') do
+  it('Fail to delete a category without an ID') do
     visit(index_url)
     click_on(delete_button)
 
     page.has_selector?('input[name="category_ids[]"]').should == true
   end
 
-  should("delete an existing category") do
+  it("Delete an existing category") do
     message     = lang('categories.messages.no_categories')
     event_name  = nil
     event_name2 = nil

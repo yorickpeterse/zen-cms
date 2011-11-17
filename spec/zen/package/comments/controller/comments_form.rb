@@ -38,7 +38,7 @@ describe("Comments::Controller::CommentsForm") do
     :section_id              => section.id
   )
 
-  should('submit a comment without a CSRF token') do
+  it('Submit a comment without a CSRF token') do
     url      = Comments::Controller::CommentsForm.r(:save).to_s
     response = page.driver.post(url)
 
@@ -46,7 +46,7 @@ describe("Comments::Controller::CommentsForm") do
     response.status.should == 403
   end
 
-  should('submit a comment') do
+  it('Submit a comment') do
     visit(SpecCommentsForm.r(:index).to_s)
 
     # Submit the form
@@ -68,7 +68,7 @@ describe("Comments::Controller::CommentsForm") do
     comment.section_entry_id  == section_entry.id
   end
 
-  should('submit a comment with custom events') do
+  it('Submit a comment with custom events') do
     event_comment = nil
 
     Zen::Event.listen(:before_new_comment) do |comment|
@@ -102,7 +102,7 @@ describe("Comments::Controller::CommentsForm") do
     event_comment.should     == 'Spec comment event'
   end
 
-  should('fail to submit a comment with an invalid entry') do
+  it('Fail to submit a comment with an invalid entry') do
     url = SpecCommentsForm.r(:index).to_s
 
     visit(url)
@@ -123,7 +123,7 @@ describe("Comments::Controller::CommentsForm") do
     current_path.should == url
   end
 
-  should('should fail to submit a comment for an invalid section') do
+  it('Should fail to submit a comment for an invalid section') do
     old_id = section_entry.section_id
     url    = SpecCommentsForm.r(:index).to_s
 
@@ -149,7 +149,7 @@ describe("Comments::Controller::CommentsForm") do
     section_entry.update(:section_id => old_id)
   end
 
-  should('should fail to submit a comment when comments are not allowed') do
+  it('Should fail to submit a comment when comments are not allowed') do
     url = SpecCommentsForm.r(:index).to_s
 
     section.update(:comment_allow => false)
@@ -173,7 +173,7 @@ describe("Comments::Controller::CommentsForm") do
     section.update(:comment_allow => true)
   end
 
-  should('fail to submit a comment when not logged in') do
+  it('Fail to submit a comment when not logged in') do
     url = SpecCommentsForm.r(:index).to_s
 
     visit(Users::Controller::Users.r(:logout).to_s)
@@ -198,7 +198,7 @@ describe("Comments::Controller::CommentsForm") do
     capybara_login
   end
 
-  should('submit a comment with moderation turned on') do
+  it('Submit a comment with moderation turned on') do
     section.update(:comment_moderate => true)
 
     url           = SpecCommentsForm.r(:index).to_s
@@ -225,7 +225,7 @@ describe("Comments::Controller::CommentsForm") do
     section.update(:comment_moderate => false)
   end
 
-  should('submit a comment and mark it as ham') do
+  it('Submit a comment and mark it as ham') do
     yaml_response = <<-YAML.strip
     defensio-result:
       api-version: 2.0
@@ -270,7 +270,7 @@ describe("Comments::Controller::CommentsForm") do
     WebMock.reset!
   end
 
-  should('submit a comment and mark it as ham with moderation turned on') do
+  it('Submit a comment and mark it as ham with moderation turned on') do
     yaml_response = <<-YAML.strip
     defensio-result:
       api-version: 2.0
@@ -319,7 +319,7 @@ describe("Comments::Controller::CommentsForm") do
     section.update(:comment_moderate => false)
   end
 
-  should('submit a comment and mark it as spam') do
+  it('Submit a comment and mark it as spam') do
     yaml_response = <<-YAML.strip
     defensio-result:
       api-version: 2.0

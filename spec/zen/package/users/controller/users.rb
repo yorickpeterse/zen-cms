@@ -11,7 +11,7 @@ describe("Users::Controller::Users") do
   delete_button = lang('users.buttons.delete')
   status        = lang('users.special.status_hash.active')
 
-  should('submit a form without a CSRF token') do
+  it('Submit a form without a CSRF token') do
     response = page.driver.post(
       Users::Controller::Users.r(:save).to_s
     )
@@ -20,7 +20,7 @@ describe("Users::Controller::Users") do
     response.status.should                                         == 403
   end
 
-  should('show the login form') do
+  it('Show the login form') do
     visit(login_url)
 
     page.has_selector?('#login_form').should                         == true
@@ -29,7 +29,7 @@ describe("Users::Controller::Users") do
     page.has_content?('Password').should                             == true
   end
 
-  should('log in') do
+  it('Log in') do
     event_email = nil
 
     Zen::Event.listen(:user_login) do |user|
@@ -48,7 +48,7 @@ describe("Users::Controller::Users") do
     event_email.should  == 'spec@domain.tld'
   end
 
-  should('find an existing user') do
+  it('Find an existing user') do
     message = lang('users.messages.no_users')
 
     visit(index_url)
@@ -57,7 +57,7 @@ describe("Users::Controller::Users") do
     page.has_content?(message).should           == false
   end
 
-  should("create a new user") do
+  it("Create a new user") do
     visit(index_url)
     click_link(new_button)
 
@@ -77,7 +77,7 @@ describe("Users::Controller::Users") do
     page.find('input[name="email"]').value.should == 'spec@email.com'
   end
 
-  should('search for a user') do
+  it('Search for a user') do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
@@ -100,7 +100,7 @@ describe("Users::Controller::Users") do
     page.has_content?('Spec user').should == false
   end
 
-  should("edit an existing user") do
+  it("Edit an existing user") do
     visit(index_url)
     click_link('Spec user')
 
@@ -114,7 +114,7 @@ describe("Users::Controller::Users") do
     page.find_field('name').value.should               == 'Spec user modified'
   end
 
-  should('remove a permission from a user') do
+  it('Remove a permission from a user') do
     visit(index_url)
     click_link('Spec user')
 
@@ -126,7 +126,7 @@ describe("Users::Controller::Users") do
     page.find('#permission_show_user').checked?.should != 'checked'
   end
 
-  should("edit an existing user with invalid data") do
+  it("Edit an existing user with invalid data") do
     visit(index_url)
     click_link('Spec user')
 
@@ -139,14 +139,14 @@ describe("Users::Controller::Users") do
     page.has_selector?('label[for="form_name"] span.error').should == true
   end
 
-  should("delete an existing user without specifying an ID") do
+  it("Delete an existing user without specifying an ID") do
     visit(index_url)
     click_on(delete_button)
 
     page.has_selector?('input[name="user_ids[]"]').should == true
   end
 
-  should("delete an existing user") do
+  it("Delete an existing user") do
     visit(index_url)
 
     within('table tbody tr:last-child') do
@@ -158,7 +158,7 @@ describe("Users::Controller::Users") do
     page.has_content?('spec@email.com').should == false
   end
 
-  should('call the event new_user (before and after)') do
+  it('Call the event new_user (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_new_user) do |user|
@@ -189,7 +189,7 @@ describe("Users::Controller::Users") do
     Zen::Event.delete(:before_new_user, :after_new_user)
   end
 
-  should('call the event edit_user (before and after)') do
+  it('Call the event edit_user (before and after)') do
     event_name = nil
 
     Zen::Event.listen(:before_edit_user) do |user|
@@ -214,7 +214,7 @@ describe("Users::Controller::Users") do
     Zen::Event.delete(:before_edit_user, :after_edit_user)
   end
 
-  should('call the event delete_user (before and after)') do
+  it('Call the event delete_user (before and after)') do
     event_name  = nil
     event_name2 = nil
 
@@ -241,7 +241,7 @@ describe("Users::Controller::Users") do
     Zen::Event.delete(:before_delete_user, :after_delete_user)
   end
 
-  should('register a new user') do
+  it('Register a new user') do
     get_setting(:allow_registration).value = '1'
 
     logout_path   = Users::Controller::Users.r(:logout).to_s

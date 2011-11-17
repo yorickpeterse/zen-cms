@@ -12,7 +12,7 @@ describe('Ramaze::Helper::Category') do
     :category_group_id => category_group.id
   )
 
-  should('validate a valid category group') do
+  it('Validate a valid category group') do
     url = ::Categories::Controller::Categories.r(
       :index, category_group.id
     ).to_s
@@ -22,7 +22,7 @@ describe('Ramaze::Helper::Category') do
     current_path.should == "/admin/categories/index/#{category_group.id}"
   end
 
-  should('validate an invalid category group') do
+  it('Validate an invalid category group') do
     url = ::Categories::Controller::Categories.r(
       :index, category_group.id + 1
     ).to_s
@@ -32,7 +32,7 @@ describe('Ramaze::Helper::Category') do
     current_path.should == '/admin/category-groups/index'
   end
 
-  should('validate a valid category') do
+  it('Validate a valid category') do
     group_id = category_group.id
     cat_id   = category.id
 
@@ -45,7 +45,7 @@ describe('Ramaze::Helper::Category') do
     current_path.should == "/admin/categories/edit/#{group_id}/#{cat_id}"
   end
 
-  should('validate an invalid category') do
+  it('Validate an invalid category') do
     group_id = category_group.id
 
     url = ::Categories::Controller::Categories.r(

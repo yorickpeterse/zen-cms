@@ -4,14 +4,14 @@ require File.join(Zen::FIXTURES, 'helper', 'controller')
 describe('Ramaze::Helper::Controller') do
   behaves_like :capybara
 
-  should('set an action title') do
+  it('Set the title of a controller method') do
     visit('/admin/spec-controller-helper')
 
     page.body.include?('index method').should == true
     page.find('title').text.should            == lang('categories.titles.index')
   end
 
-  should('protect a method against a CSRF attack') do
+  it('Protect a controller method against CSRF attacks') do
     visit('/admin/spec-controller-helper/csrf')
 
     page.body.include?('csrf method').should                   == false
