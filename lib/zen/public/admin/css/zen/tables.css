@@ -64,11 +64,6 @@ table
             vertical-align: middle;
         }
 
-        table thead tr th:first-child, table tbody tr td:first-child
-        {
-            width: 15px;
-        }
-
         table thead tr th:first-child input[type="checkbox"],
         table tbody tr td:first-child input[type="checkbox"]
         {

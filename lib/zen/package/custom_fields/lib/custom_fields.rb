@@ -2,7 +2,7 @@ Zen::Package.add do |p|
   p.name       = :custom_fields
   p.title      = 'custom_fields.titles.index'
   p.author     = 'Yorick Peterse'
-  p.url        = 'http://yorickpeterse.com/'
+  p.url        = 'http://zen-cms.com/'
   p.about      = 'custom_fields.description'
   p.root       = __DIR__('custom_fields')
   p.migrations = __DIR__('../migrations')

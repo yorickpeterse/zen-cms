@@ -13,7 +13,7 @@ namespace :db do
       if pkg.respond_to?(:migrations) and !pkg.migrations.nil?
         dir = pkg.migrations
       else
-        puts "Skipping #{package.title} as it has no migrations directory"
+        puts "Skipping #{pkg.title} as it has no migrations directory"
         next
       end
 
@@ -45,7 +45,8 @@ namespace :db do
       if pkg.respond_to?(:migrations) and !pkg.migrations.nil?
         dir = pkg.migrations
       else
-        dir = pkg.root + '/../../migrations'
+        puts "Skipping #{pkg.title} as it has no migrations directory"
+        next
       end
 
       if !File.directory?(dir)

@@ -2,7 +2,7 @@ Zen::Package.add do |p|
   p.name       = :users
   p.title      = 'users.titles.index'
   p.author     = 'Yorick Peterse'
-  p.url        = 'http://yorickpeterse.com/'
+  p.url        = 'http://zen-cms.com/'
   p.about      = 'users.description'
   p.root       = __DIR__('users')
   p.migrations = __DIR__('../migrations')

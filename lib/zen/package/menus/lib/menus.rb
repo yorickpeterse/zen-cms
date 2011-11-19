@@ -2,7 +2,7 @@ Zen::Package.add do |p|
   p.name       = :menus
   p.title      = 'menus.titles.index'
   p.author     = 'Yorick Peterse'
-  p.url        = 'http://zen-cms.com/userguide/menus'
+  p.url        = 'http://zen-cms.com/'
   p.about      = 'menus.description'
   p.root       = __DIR__('menus')
   p.migrations = __DIR__('../migrations')

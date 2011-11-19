@@ -116,12 +116,8 @@ module Zen
   class Package
     include Zen::Validation
 
-    ##
     # Hash containing all the registered packages. The keys of this hash are the
     # names of all packages and the values the instances of Zen::Package::Base.
-    #
-    # @since  0.2.5
-    #
     REGISTERED = {}
 
     # The name of the package.
@@ -250,6 +246,21 @@ module Zen
     end
 
     ##
+    # Returns the title as either an ``<a>`` tag or plain text depending on
+    # whether or not the package has a URL set.
+    #
+    # @since  19-11-2011
+    # @return [String]
+    #
+    def formatted_title
+      if url
+        return '<a href="%s" title="%s">%s</a>' % [url, title, title]
+      else
+        return title
+      end
+    end
+
+    ##
     # Sets the description of the package.
     #
     # @since  0.3
@@ -280,14 +291,16 @@ module Zen
     # @param  [String] root The path to the root directory.
     #
     def root=(root)
-      @root = root
+      @root    = root
+      lang_dir = File.join(@root, 'language')
 
       if !Ramaze.options.roots.include?(@root)
         Ramaze.options.roots << @root
       end
 
-      if !Zen::Language.options.paths.include?(@root)
-        Zen::Language.options.paths << File.join(@root, 'language')
+      if !Zen::Language.options.paths.include?(@root) \
+      and File.directory?(lang_dir)
+        Zen::Language.options.paths << lang_dir
       end
 
       if !Ramaze::HelpersHelper.options.paths.push.include?(@root)

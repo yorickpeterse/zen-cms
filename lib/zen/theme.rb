@@ -266,6 +266,21 @@ module Zen
     end
 
     ##
+    # Returns the name of the theme as either plain text or an anchor tag if the
+    # url attribute is set.
+    #
+    # @since  19-11-2011
+    # @return [String]
+    #
+    def formatted_name
+      if url
+        return '<a href="%s" title="%s">%s</a>' % [url, name, name]
+      else
+        return name
+      end
+    end
+
+    ##
     # Returns the description of the theme either in it's raw form or as a
     # translation.
     #

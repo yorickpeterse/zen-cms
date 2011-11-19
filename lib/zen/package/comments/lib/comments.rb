@@ -2,7 +2,7 @@ Zen::Package.add do |p|
   p.name       = :comments
   p.title      = 'comments.titles.index'
   p.author     = 'Yorick Peterse'
-  p.url        = 'http://yorickpeterse.com/'
+  p.url        = 'http://zen-cms.com/'
   p.about      = 'comments.description'
   p.root       = __DIR__('comments')
   p.migrations = __DIR__('../migrations')
