@@ -214,6 +214,9 @@ module Zen
     # Path to the public directory containing assets and such.
     attr_reader :public
 
+    # The name of the default template group to use.
+    attr_writer :default_template_group
+
     ##
     # Hash containing all registered themes. The keys are the names of the
     # themes and the values instances of Zen::Theme::Base.
@@ -293,6 +296,17 @@ module Zen
       rescue
         return @about
       end
+    end
+
+    ##
+    # Returns the name of the default template group or "default" if no custom
+    # name is set.
+    #
+    # @since  22-11-2011
+    # @return [String]
+    #
+    def default_template_group
+      return @default_template_group || 'default'
     end
 
     ##

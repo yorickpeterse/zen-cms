@@ -7,21 +7,18 @@ Zen::Language::Translation.add do |trans|
   trans.translate do |t|
     t['titles.index'] = 'Instellingen'
 
-    t['labels.website_name']        = 'Website naam'
-    t['labels.website_description'] = 'Website beschrijving'
-    t['labels.language']            = 'Taal'
-    t['labels.frontend_langauge']   = 'Taal voor bezoekers'
-    t['labels.default_section']     = 'Standaard sectie'
-    t['labels.theme']               = 'Thema'
-    t['labels.enable_antispam']     = 'Anti-spam inschakelen'
-    t['labels.date_format']         = 'Datum formaat'
+    t['labels.website_name']           = 'Website naam'
+    t['labels.website_description']    = 'Website beschrijving'
+    t['labels.language']               = 'Taal'
+    t['labels.frontend_langauge']      = 'Taal voor bezoekers'
+    t['labels.theme']                  = 'Thema'
+    t['labels.enable_antispam']        = 'Anti-spam inschakelen'
+    t['labels.date_format']            = 'Datum formaat'
 
     t['descriptions.website_name']        = 'De naam van de website.'
     t['descriptions.website_description'] = 'De beschrijving van de website.'
     t['descriptions.language']            = 'De taal die gebruikt moet worden '\
       'voor het admin gedeelte.'
-    t['descriptions.default_section'] = 'De standaard sectie die moet worden ' \
-      'gebruikt.'
     t['descriptions.theme']           = 'Het thema dat bezoekers zullen zien.'
     t['descriptions.enable_antispam'] = 'Waarde die aangeeft of het anti-spam ' \
       'systeem moet worden gebruikt voor reacties.'

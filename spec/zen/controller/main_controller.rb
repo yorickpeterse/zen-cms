@@ -24,8 +24,7 @@ describe('Zen::Controller::MainController') do
     :comment_format          => 'plain'
   )
 
-  get_setting(:default_section).value = section.id
-  get_setting(:theme).value           = 'spec_theme'
+  get_setting(:theme).value = 'spec_theme'
 
   it('Visit the homepage') do
     visit('/')
@@ -72,6 +71,5 @@ describe('Zen::Controller::MainController') do
 
   Sections::Model::Section.destroy
 
-  get_setting(:default_section).value = nil
-  get_setting(:theme).value           = nil
+  get_setting(:theme).value = nil
 end

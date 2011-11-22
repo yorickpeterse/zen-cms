@@ -1,11 +1,8 @@
-#:nodoc:
 module Zen
-  #:nodoc:
   module Controller
     ##
     # The MainController controller is used to load the correct template files
-    # based on the current URI. If no section is specified the default section
-    # will be retrieved from the settings table.
+    # based on the current URI.
     #
     # @since  0.1
     #
@@ -13,53 +10,43 @@ module Zen
       map '/'
 
       ##
-      # The index method acts as a catch-all method. Based on the requested URI
-      # the correct template group/file will be loaded. If no templates are
-      # found a 404 template will be loaded. If that's not found either a
-      # default error will be shown.
+      # Determines what template group and template have to be rendered based on
+      # the requested URI. If the template does not exist a 404 template
+      # (404.xhtml) will be rendered. If that template doesn't exist either a
+      # plain text message will be displayed.
       #
       # @since  0.1
-      # @param  [Array] uri Array containing all arguments.
+      # @param  [Array] uri Array containing all the URI segments that were
+      #  specified (without any file extensions).
       #
       def index(*uri)
-        @request_uri = []
+        @request_uri = uri
         theme        = get_setting(:theme).value
 
-        # Clean the URI of nasty input
-        uri.each { |v| @request_uri.push(h(v)) }
+        if theme.nil? or theme.empty?
+          respond(lang('zen_general.errors.no_theme'))
+        end
+
+        theme = Zen::Theme[theme]
 
         if !@request_uri[0] or @request_uri[0].empty?
-          section = get_setting(:default_section).value
-
-          if !section.nil?
-            section = ::Sections::Model::Section[section].slug
-          else
-            section = 'default'
-          end
-
-          @request_uri[0] = section
+          @request_uri[0] = theme.default_template_group
         end
 
         if !@request_uri[1] or @request_uri[1].empty?
           @request_uri[1] = 'index'
         end
 
-        # A theme is always required
-        if theme.nil? or theme.empty?
-          respond(lang('zen_general.errors.no_theme'))
-        end
+        path  = File.join(
+          theme.templates,
+          @request_uri[0],
+          "#{@request_uri[1]}.xhtml"
+        )
 
-        theme         = ::Zen::Theme[theme]
-        group         = @request_uri[0]
-        template      = @request_uri[1]
-        theme_path    = theme.template_dir
-        template_path = File.join(theme_path, group, "#{template}.xhtml")
-
-        # Check if the group exists
-        if File.exists?(template_path)
-          render_file(template_path)
+        if File.exist?(path)
+          render_file(path)
         else
-          not_found = File.join(theme_path, '404.xhtml')
+          not_found = File.join(theme.templates, '404.xhtml')
 
           if File.exist?(not_found)
             respond(render_file(not_found), 404)

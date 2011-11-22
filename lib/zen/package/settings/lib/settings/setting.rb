@@ -366,7 +366,7 @@ module Settings
         begin
           return Marshal.load(value)
         rescue
-          Ramaze::Log.warn(
+          Ramaze::Log.info(
             'Failed to unpack the setting using Marshal, using the ' \
               'raw value instead'
           )
