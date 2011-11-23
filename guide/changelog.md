@@ -7,22 +7,38 @@
   a section entry.
 * Core packages no longer include certain modules just to so that they don't
   have to specify the full namespace to a class.
-* Added a hook system (Zen::Hook), see 8fc2f310a82b32d7cf75666cdb08046ada67a55b.
+* Added an event system (Zen::Event) and a bucket load of events.
 * Merged Zen.init and Zen.post_init into Zen.start.
 * Fixed various YARD formatting issues.
-* The section entries plugin now allows developers to sort the results.
 * Localized all of the Javascript.
 * All specs now pass on Ruby 1.9.3.
 * Made it easier to format dates and do other locale based actions using
   Ramaze::Helper::Locale.
 * Dropped Zen::Asset in favor of Ramaze::Asset.
 * Updated Mootools Core and Mootools More to version 1.4.
-* Fixed an issue related to creating users without passwords (see
-  887049616099d7e202b34be63f6cbff8e8ab33b0).
+* Fixed an issue related to creating users without passwords.
 * New API for Zen::Package.
 * ACL system has been re-written from scratch.
 * Merged Zen::Theme::Base with Zen::Theme and Zen::Plugin::Base with
   Zen::Plugin.
+* Sections are no longer directly related to template groups.
+* Added a package that displays the installed languages, packages and themes.
+* New API for Zen::Language.
+* Removed Zen::Plugin.
+* Improved settings API.
+* Visitors can now register an account (or not) based on a setting.
+* Vendorized Ramaze::Helper::StackedAspect from Ramaze Git.
+* Added a helper for allowing users to access admin URLs.
+* User statuses are now stored as IDs instead of plain text.
+* Full support for PostgreSQL.
+* Zen now requires Ramaze >= 2011.10.23.
+* Content in the admin panel can now be searched using regular expressions (not
+  supported in SQLite3) or LIKE statements (used in case of SQLite3).
+* New documentation based on YARD instead of Sphinx.
+* Vendorized the Sequel sluggable plugin.
+* Fixed an issue that would cause comments to be displayed regardless of their
+  status.
+* Lots of small fixes, improvements, etc.
 
 ## 0.2.8 - August 3, 2011
 
