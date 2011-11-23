@@ -4,15 +4,20 @@ module Zen
   ##
   # Zen allows you to create templates and package them as themes using the
   # tools you already know such as Ruby, HTML and CSS. Once a theme has been
-  # created it can be distributed using Rubygems or a different system, whatever
-  # suits your taste.
+  # created it can be distributed using Rubygems or by using an alternative
+  # method.
   #
-  # Themes consist out of a collection of templates. Templates are HTML files
-  # that can contain Ruby code and use the template engine "Etanni" which is
-  # provided by Ramaze itself. Etanni is a very simple (and very fast) template
-  # engine that provides two types of tags, ``<?r ?>`` for statements (such as
-  # if/else statements) and ``#{}`` for outputting data such as variables.
-  # Here's a quick example:
+  # Themes consist out of two elements: template groups and templates. Template
+  # groups are nothing more than directories of templates. Templates are files
+  # that can contain HTML and Ruby code required for the presentation layer of
+  # your application. These templates use Etanni, an engine that ships with
+  # Ramaze. Etanni is quite simple to use and only uses the following two tags:
+  #
+  # * ``<?r ?>``: used for code statements (if, while, etc).
+  # * ``#{}``: used for outputting the value of a variable, statement, method,
+  #   and so on.
+  #
+  # A simple example of how to use these tags is the following:
   #
   #     <?r if @username.nil? ?>
   #     <p>Hello #{@username}!</p>
@@ -20,13 +25,12 @@ module Zen
   #     <p>Hello unknown user!</p>
   #     <?r end ?>
   #
-  # Themes are typically installed as a Rubygem or are stored in the application
-  # directory depending on whether or not you want to make it possible to share
-  # the theme with other projects and/or users. While the process of creating
-  # templates remain the same the directory structure will be different. For
-  # Rubygems you should use the typical Rubygem directory structure. Assuming
-  # our theme is called "test" the directory structure would look like the
-  # following:
+  # ## Theme Structure
+  #
+  # A typical theme has a structure similar to the one used for organizing
+  # Rubygems. This structure makes it easy to install themes via Rubygems and
+  # load them just like any other gem by using ``require()``. An example of this
+  # is the following:
   #
   #     lib/
   #       |__ test.rb
@@ -37,8 +41,26 @@ module Zen
   #             |__ pages/
   #             |__ foobar/
   #
-  # On the other hand, if you're not planning on sharing the theme it's much
-  # easier to use the following structure:
+  # Lets assume the theme is called "test" and is available on Rubygems (under
+  # the same name). In that case you can install it as following:
+  #
+  #     $ gem install test
+  #
+  # Once installed all you have to do is put the following line in your app.rb
+  # file before calling ``Zen.start``:
+  #
+  #     require 'test'
+  #
+  # Once loaded you can go to the admin panel and set it as the active theme.
+  #
+  # While the Rubygems structure is great if you want to share a theme there are
+  # a lot of cases where you don't want to do this. For example, if you're
+  # creating a custom theme for a client you may not want to share it with
+  # others. In that case the structure used by Rubygems is a bit complicated,
+  # especially if there's only one theme for the website. A much more simplistic
+  # way of organizing a theme would be to create a ``theme/`` directory in your
+  # application root and put your theme in there. In this case you'd end up with
+  # a file structure that looks like the following:
   #
   #     ROOT/
   #       |__ public/
@@ -50,17 +72,56 @@ module Zen
   #          |__ partials/
   #          |__ test.rb
   #
-  # In the end it doesn't really matter what structure you use as long as the
-  # file "test.rb" contains the correct paths to the templates (more on that
-  # later).
+  # Because the theme is located in the application root, which isn't added to
+  # the load path, you'll have to load it in a slightly different way. Instead
+  # of ``require 'test'`` you'd have to put the following code in your app.rb
+  # file:
+  #
+  #     require File.expand_path('../theme/test', __FILE__) # All Rubies
+  #     require_relative('theme/test')                      # Ruby >= 1.9
+  #
+  # Do keep in mind that putting a theme directly in the ``theme/`` directory
+  # is only recommended if your application only has a single custom theme
+  # available. If there are multiple ones you should change it to the following
+  # instead:
+  #
+  #     ROOT/
+  #       |__ public/
+  #       |
+  #       |__ theme/
+  #          |__ test/
+  #             |__ partials/
+  #             |__ pages/
+  #             |__ foobar/
+  #             |__ partials/
+  #             |__ test.rb
+  #
+  # <div class="note deprecated">
+  #     <p>
+  #         <strong>Warning</strong>: Most likely your template will use files
+  #         such as CSS and Javascript files. It's important to store these
+  #         under their own namespace similar to assets used in the backend to
+  #         prevent any collisions.
+  #     </p>
+  # </div>
   #
   # ## Registering Themes
   #
-  # An important part of developing a theme is telling Zen where it's located,
-  # where the templates are and so on. This can be done by creating a Ruby file
-  # (typically named after the template) in which you call ``Zen::Theme.add``.
-  # This method takes a block that can be used to set various options. Currently
-  # the following options are available:
+  # In order to tell Zen about your themes, their templates, root directories
+  # and so on they have to be registered. Registering a theme is done using
+  # ``Zen::Theme.add``:
+  #
+  #     Zen::Theme.add do |t|
+  #
+  #     end
+  #
+  # This code should not go in files such as app.rb or configuration files,
+  # instead it should go in a theme specific file. It is recommended to give
+  # this file the same name as your theme as it makes it possible to load the
+  # theme using Rubygems. For example, if the theme is called "test" then the
+  # file would be called "test.rb".
+  #
+  # When registering a theme you can set the following setters:
   #
   # * name (required): the name of the theme (should be a symbol)
   # * author (required): the name of the person who developed the theme.
@@ -75,6 +136,8 @@ module Zen
   # * migrations: path to a directory containing all Sequel migrations for the
   #   theme. While not always needed this can be useful to automatically insert
   #   data into the database.
+  # * default_template_group: the name of the default template group to use in
+  #   case no custom one has been specified in the URI.
   #
   # An example call to ``Zen::Theme.add`` using these options:
   #
@@ -85,43 +148,34 @@ module Zen
   #       theme.templates = __DIR__('path/to/application/theme')
   #     end
   #
-  # ## Template Structure
+  # ## URL Mapping
   #
-  # Unlike other systems template directories and templates aren't bound to a
-  # certain entity in a database or somewhere else. While it's recommended to
-  # name your template directories the same as your sections you're free to use
-  # whatever you like as lon as you remember that the structure of your
-  # templates will affect your URLs (assuming you're not re-writing them using
-  # Ramaze::Route or something else). For example, if you have a template
-  # directory called "pages" and a template called "index.xhtml" the URL would
-  # be ``/pages`` and ``pages/index``.  The names of your templates also don't
-  # really matter although it's recommended to at least use the following
-  # setup:
+  # Template groups and templates are directly mapped to URIs. The first segment
+  # is the template group to use, the second the template name and all following
+  # parameters are ignored (but still available in your templates). This means
+  # that if a user requests the URI ``/pages/entry/10`` this will map to the
+  # template group "pages" and the template "entry.xhtml". If a specified
+  # template group/template doesn't exist Zen will render a special template
+  # called "404.xhtml" (this template should be located in the same directory as
+  # your template groups).
   #
-  # * index.xhtml: template used to show an overview of something (e.g. a list
-  #   of users), a homepage, etc.
-  # * entry.xhtml: template used to show a single entitiy such as a blog post or
-  #   a user.
+  # If only a template group is specified Zen will render the template
+  # "index.xhtml", therefor you should make sure this template always exists.
   #
-  # Again, you're free to use whatever you like as long as you make it clear
-  # what you're doing.
+  # Some examples:
   #
-  # <div class="note todo">
-  #     <p>
-  #         <strong>Note</strong>: that if a template directory is requested but
-  #         no template has been specified Zen will try to render the template
-  #         index.xhtml so it's important to always have this template in place.
-  #     </p>
-  # </div>
+  #     GET /pages/entry/hello-world => /pages/entry.xhtml
+  #     GET /pages/foobar            => /404.xhtml (if "foobar" doesn't exist)
+  #     GET /pages                   => /pages/index.xhtml
   #
-  # <div class="note deprecated">
-  #     <p>
-  #         <strong>Warning</strong>: Most likely your template will use files
-  #         such as CSS and Javascript files. It's important to store these
-  #         under their own namespace similar to assets used in the backend to
-  #         prevent any collisions.
-  #     </p>
-  # </div>
+  # Templates have access to the special instance variable ``@request_uri``.
+  # This variable is an array that contains the template group, the template and
+  # all additional parameters. In the case of the examples above you'd end up
+  # with the following values for this array:
+  #
+  #     GET /pages/entry/hello-world => ['pages', 'entry', 'hello-world']
+  #     GET /pages/foobar            => ['pages', 'foobar']
+  #     GET /pages                   => ['pages', 'index']
   #
   # ## Retrieving Data
   #
@@ -166,7 +220,7 @@ module Zen
   # rendered using the ``partial()`` method. This method has the following
   # syntax:
   #
-  #     partial(template[, variable => value])
+  #     partial(template[, :variable => value])
   #
   # The first parameter is simply the name of the partial to render, the second
   # parameter is a hash containing data to copy into the partial. This hash can
