@@ -38,4 +38,37 @@ namespace :build do
       end
     end
   end
+
+  desc 'Builds a list of changes since a given Git tag and outputs it'
+  task :changes, [:tag] do |t, args|
+    args.with_defaults(:tag => `git tag`.split(/\n/)[-1])
+
+    stop  = `git log -1 --pretty=oneline --color=never`.split(/\s+/)[0]
+    start = `git show #{args[:tag]} --pretty=oneline --color=never` \
+      .split(/\s+/)[0]
+
+    log = `git --no-pager log --color=never --pretty=oneline \
+      #{start}..#{stop}`.split(/\n/)
+
+    log.each do |line|
+      line    = line.split(/\s+/, 2)[1].strip
+      wrapped = '* '
+      chars   = 0
+
+      # Wrap the string
+      line.split(/\s+/).each do |chunk|
+        length = chunk.length
+
+        if ( chars + length ) <= ( 80 - length )
+          wrapped += "#{chunk} "
+          chars   += length
+        else
+          wrapped += "\n  #{chunk} "
+          chars    = 0
+        end
+      end
+
+      puts wrapped
+    end
+  end
 end
