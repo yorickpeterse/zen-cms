@@ -39,3 +39,10 @@ Ramaze::Cache.options.session  = Ramaze::Cache::LRU
 # Ramaze::Cache.options.session you should use an external cache in case you're
 # running a multi-process based setup.
 Ramaze::Cache.options.settings = Ramaze::Cache::LRU
+
+# The cache driver to use for storing translations. If no value is specified in
+# your application Ramaze::Cache::LRU is used.
+#
+# For this setting it is highly recommended to use an external cache such as
+# Redis or Memcached as it can greatly reduce the amount of used memory.
+Ramaze::Cache.options.translations = Ramaze::Cache::LRU
