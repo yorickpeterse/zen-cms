@@ -20,7 +20,7 @@ module Zen
       #  specified (without any file extensions).
       #
       def index(*uri)
-        @request_uri = uri
+        @request_uri = uri.map { |v| h(v) }
         theme        = get_setting(:theme).value
 
         if theme.nil? or theme.empty?
