@@ -29,6 +29,7 @@ module Settings
     #
     # ![General](../../_static/settings/overview_general.png)
     # ![Security](../../_static/settings/overview_security.png)
+    # ![User Settings](../../_static/settings/overview_user.png)
     #
     # Out of the box Zen ships with the following settings:
     #
@@ -39,13 +40,13 @@ module Settings
     #   your website.
     # * **Theme**: the theme to use for the frontend.
     # * **Date format**: the default date format to use in the backend.
-    # * **Default section**: the section to call when a visitor reaches your
-    #   homepage.
     # * **Enable anti-spam**: whether or not comments should be verified to see
     #   if they're spam or ham.
     # * **Anti-spam system**: the anti-spam system to use. Zen by default only
     #   comes with Defensio support.
     # * **Defensio key**: the API key for the Defensio anti-spam system.
+    # * **Allow Registration**: defines whether or not visitors are allowed to
+    #   register a user account.
     #
     # ## Used Permissions
     #
