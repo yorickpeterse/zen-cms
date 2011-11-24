@@ -145,7 +145,10 @@ module Settings
           name = name.to_s
 
           if !settings.include?(name)
-            Zen.database[:settings].insert(:name => name)
+            Zen.database[:settings].insert(
+              :name  => name,
+              :value => setting.serialize(setting.default)
+            )
           end
         end
       end
@@ -336,8 +339,6 @@ module Settings
 
       return val.is_a?(String) && val == '1'
     end
-
-    private
 
     ##
     # Serializes a value using Marshal and packs it so that it can be stored in
