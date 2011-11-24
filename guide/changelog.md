@@ -1,6 +1,10 @@
 # Changelog
 
-## Git Head
+## 0.3.b1 - November 24th, 2011
+
+* Added a markup option for retrieving entries.
+
+## 0.3.b - November 23rd, 2011
 
 * Started using checkboxes in favor of select boxes as they're easier to use.
 * Fixed a small issue that would make it impossible to add/update categories of
