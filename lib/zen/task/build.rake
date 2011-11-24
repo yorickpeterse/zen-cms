@@ -43,12 +43,9 @@ namespace :build do
   task :changes, [:tag] do |t, args|
     args.with_defaults(:tag => `git tag`.split(/\n/)[-1])
 
-    stop  = `git log -1 --pretty=oneline --color=never`.split(/\s+/)[0]
-    start = `git log #{args[:tag]} --pretty=oneline --color=never` \
-      .split(/\s+/)[0]
-
-    log = `git --no-pager log --color=never --pretty=oneline \
-      #{start}..#{stop}`.split(/\n/)
+    stop = `git log -1 --pretty=oneline --color=never`.split(/\s+/)[0]
+    log  = `git --no-pager log --color=never --pretty=oneline \
+      #{args[:tag]}..#{stop}`.split(/\n/)
 
     log.each do |line|
       line    = line.split(/\s+/, 2)[1].strip
