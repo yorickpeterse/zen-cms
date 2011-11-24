@@ -44,7 +44,7 @@ namespace :build do
     args.with_defaults(:tag => `git tag`.split(/\n/)[-1])
 
     stop  = `git log -1 --pretty=oneline --color=never`.split(/\s+/)[0]
-    start = `git show #{args[:tag]} --pretty=oneline --color=never` \
+    start = `git log #{args[:tag]} --pretty=oneline --color=never` \
       .split(/\s+/)[0]
 
     log = `git --no-pager log --color=never --pretty=oneline \
