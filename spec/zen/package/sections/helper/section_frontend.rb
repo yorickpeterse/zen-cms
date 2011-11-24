@@ -145,6 +145,18 @@ describe('Ramaze::Helper::SectionFrontend') do
     page.find('p:first-child').text.should == entry_1.title
   end
 
+  it('Retrieve a number of entries without their markup converted') do
+    entries = get_entries(section.slug, :markup => false)
+
+    entries[1].fields[:'spec-field'].should == 'hello'
+  end
+
+  it('Retrieve a single entry without processing the markup') do
+    entry = get_entry(entry_1.id, :markup => false)
+
+    entry.fields[:'spec-field'].should == 'hello'
+  end
+
   [
     field,
     group,

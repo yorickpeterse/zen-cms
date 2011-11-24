@@ -51,6 +51,9 @@ module Ramaze
       # @option options [TrueClass|FalseClass] :user Whether or not the user
       #  objects should be eager loaded for all entries. Set to ``false`` by
       #  default.
+      # @option options [TrueClass|FalseClass] :markup When set to true
+      #  (default) the values of custom fields are processed using
+      #  {Zen::Markup}}.
       # @return [Mixed]
       #
       def get_entries(section, options = {})
@@ -64,7 +67,8 @@ module Ramaze
           :order_by            => :id,
           :order               => :desc,
           :custom_field_values => true,
-          :user                => false
+          :user                => false,
+          :markup              => true
         }.merge(options)
 
         eager = [:section]
@@ -108,8 +112,13 @@ module Ramaze
           # Get the fields?
           if options[:custom_field_values] == true
             row.custom_field_values.each do |field_value|
-              name             = field_value.custom_field.slug.to_sym
-              row.fields[name] = field_value.html
+              name = field_value.custom_field.slug.to_sym
+
+              if options[:markup] == true
+                row.fields[name] = field_value.html
+              else
+                row.fields[name] = field_value.value
+              end
             end
           end
         end
@@ -125,18 +134,29 @@ module Ramaze
       #
       # @since  0.3
       # @param  [String|Fixnum] entry The ID or slug of an entry to retrieve.
+      # @param  [Hash] options A hash containing various options to customize
+      #  the return value.
+      # @option options [TrueClass|FalseClass] :markup When set to true
+      #  (default) the values of custom fields are processed using
+      #  {Zen::Markup}}.
       # @return [Mixed]
       #
-      def get_entry(entry)
-        row = Sections::Model::SectionEntry.find_by_pk_or_slug(entry)
+      def get_entry(entry, options = {})
+        options = {:markup => true}.merge(options)
+        row     = Sections::Model::SectionEntry.find_by_pk_or_slug(entry)
 
         return row if row.nil?
 
         row.fields ||= {}
 
         row.custom_field_values.each do |field_value|
-          name             = field_value.custom_field.slug.to_sym
-          row.fields[name] = field_value.html
+          name = field_value.custom_field.slug.to_sym
+
+          if options[:markup] == true
+            row.fields[name] = field_value.html
+          else
+            row.fields[name] = field_value.value
+          end
         end
 
         return row
