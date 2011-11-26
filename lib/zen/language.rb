@@ -235,9 +235,11 @@ module Zen
           # Load the language
           if File.exist?(path)
             require(path)
-            language.collections[lang_name].load
 
-            return
+            unless language.collections[lang_name].nil?
+              language.collections[lang_name].load
+              return
+            end
           end
         end
 
