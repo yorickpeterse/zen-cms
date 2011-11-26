@@ -13,7 +13,9 @@ namespace :db do
       if pkg.respond_to?(:migrations) and !pkg.migrations.nil?
         dir = pkg.migrations
       else
-        puts "Skipping #{pkg.title} as it has no migrations directory"
+        Ramaze::Log.info(
+          "Skipping #{pkg.title} as it has no migrations directory"
+        )
         next
       end
 
@@ -45,7 +47,9 @@ namespace :db do
       if pkg.respond_to?(:migrations) and !pkg.migrations.nil?
         dir = pkg.migrations
       else
-        puts "Skipping #{pkg.title} as it has no migrations directory"
+        Ramaze::Log.info(
+          "Skipping #{pkg.title} as it has no migrations directory"
+        )
         next
       end
 
