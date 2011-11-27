@@ -38,7 +38,7 @@ module Sequel
             # If a slug is an empty string or a nil value it's value should be
             # pulled from the source attribute.
             if value.nil? or (value.respond_to?(:empty?) and value.empty?)
-              slug = self.send(self.class.sluggable_options[:source])
+              slug = to_slug(self.send(self.class.sluggable_options[:source]))
             end
 
             slug ||= to_slug(value)

@@ -85,6 +85,7 @@ describe("Sections::Controller::SectionEntries") do
 
     current_path.should                           =~ /#{edit_url}\/[0-9]+/
     page.find('input[name="title"]').value.should == 'Spec entry'
+    page.find('input[name="slug"]').value.should  == 'spec-entry'
 
     page.find('select[name="section_entry_status_id"] option[selected]') \
       .text.should == status_field
