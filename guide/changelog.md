@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3 - November 27th, 2011
+
+* Fixed slug generation.
+* Don't load a language file if it is empty.
+* Log migration notices using Ramaze::Log.
+* Simplified the Rake task for the change list.
+* Fixed the rake task for building a change list
+* Serialize setting values upon migrating them.
+* Log Marshal notices as debug messages.
+
 ## 0.3.b1 - November 24th, 2011
 
 * Added a markup option for retrieving entries.

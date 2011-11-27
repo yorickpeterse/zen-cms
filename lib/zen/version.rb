@@ -1,4 +1,4 @@
 module Zen
   # :nodoc:
-  VERSION = '0.3b1'
+  VERSION = '0.3'
 end
