@@ -1,7 +1,7 @@
 module Ramaze
   module Helper
     ##
-    # StackedAspect is a helper similar to {Innate::Helper::Aspect} but allows
+    # StackedAspect is a helper similar to Innate::Helper::Aspect but allows
     # calls to methods such as ``before_all`` to stack on top of each other
     # instead of overwriting previously defined ones.
     #

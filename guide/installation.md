@@ -36,7 +36,13 @@ have a local copy there are two ways of using it:
 
 The latter is recommended as you don't have to build the Gem each time. In order
 to do this you simply need to replace all calls to require() that load data from
-the gem with a path to the local copy of Zen.
+the gem with a path to the local copy of Zen. This means that the following:
+
+    require 'zen'
+
+Should be converted to this:
+
+    require File.expand_path('../path/to/zen/lib/zen', __FILE__)
 
 For an overview of all available tasks that can be executed in your local copy
 of Zen execute the following command:
