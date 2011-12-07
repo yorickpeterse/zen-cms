@@ -81,8 +81,13 @@ module Zen
 
         g        = Ramaze::Gestalt.new
         children = []
+        attrs    = {}
 
-        g.li do
+        if respond_to?(:request) and url == request.env['SCRIPT_NAME']
+          attrs[:class] = 'current'
+        end
+
+        g.li(attrs) do
           g.a(title, :href => url, :title => title)
 
           unless @children.empty?

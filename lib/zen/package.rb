@@ -192,15 +192,20 @@ module Zen
       # @return [String]
       #
       def build_menu(html_class = 'navigation', permissions = [])
-        g = Ramaze::Gestalt.new
+        g     = Ramaze::Gestalt.new
+        attrs = {:class => html_class}
 
-        g.ul(:class => html_class) do
+        if html_class.nil? or html_class.empty?
+          attrs.delete(:class)
+        end
+
+        g.ul(attrs) do
           # Sort the hash
           keys = REGISTERED.keys.sort
 
           keys.each do |key|
             unless REGISTERED[key].menu.nil?
-              g.out << REGISTERED[key].menu.html(permissions)
+              REGISTERED[key].menu.each { |m| g.out << m.html(permissions) }
             end
           end
         end
@@ -326,10 +331,11 @@ module Zen
     #
     def menu(title = nil, url = nil, options = {}, &block)
       if title.nil? and url.nil? and !block_given?
-        return @menu
+        return @menus || []
       end
 
-      @menu = Zen::Package::Menu.new(title, url, options, &block)
+      @menus ||= []
+      @menus << Zen::Package::Menu.new(title, url, options, &block)
     end
 
     ##

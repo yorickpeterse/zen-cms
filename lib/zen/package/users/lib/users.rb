@@ -11,13 +11,13 @@ Zen::Package.add do |p|
     'users.titles.index',
     '/admin/users',
     :permission => :show_user
-  ) do |sub|
-    sub.menu(
-      'user_groups.titles.index',
-      '/admin/user-groups',
-      :permission => :show_user_group
-    )
-  end
+  )
+
+  p.menu(
+    'user_groups.titles.index',
+    '/admin/user-groups',
+    :permission => :show_user_group
+  )
 
   p.permission :show_user_group  , 'user_groups.permissions.show'
   p.permission :edit_user_group  , 'user_groups.permissions.edit'

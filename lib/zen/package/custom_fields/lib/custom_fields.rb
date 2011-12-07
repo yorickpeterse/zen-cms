@@ -11,13 +11,13 @@ Zen::Package.add do |p|
     'custom_fields.titles.index',
     '/admin/custom-field-groups',
     :permission => :show_custom_field_group
-  ) do |sub|
-    sub.menu(
-      'custom_field_types.titles.index',
-      '/admin/custom-field-types',
-      :permission => :show_custom_field
-    )
-  end
+  )
+
+  p.menu(
+    'custom_field_types.titles.index',
+    '/admin/custom-field-types',
+    :permission => :show_custom_field
+  )
 
   p.permission :show_custom_field_group, 'custom_field_groups.permissions.show'
   p.permission :edit_custom_field_group, 'custom_field_groups.permissions.edit'
