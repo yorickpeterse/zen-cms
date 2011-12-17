@@ -5,7 +5,7 @@
     border:        5px solid #ddd;
     cursor:        move;
     display:       block;
-    height:        295px;
+    height:        255px;
     margin-top:    5px;
     padding:       5px;
     position:      absolute;
@@ -19,14 +19,15 @@
     .datepicker .header
     {
         background:   #eee;
-        height:       40px;
+        height:       30px;
         position:     relative;
     }
+
         .datepicker .header .title
         {
             font-size:  14px;
             margin:     0px auto;
-            padding:    9px 0px 5px 0px;
+            padding:    5px 0px;
             text-align: center;
         }
 
@@ -43,7 +44,7 @@
             height:     10px;
             padding:    0px 5px 5px 3px;
             position:   absolute;
-            top:        -1px;
+            top:        -2px;
             width:      10px;
         }
 
