@@ -1,112 +1,108 @@
 <section>
-    #{render_search_form(
-      ::CustomFields::Controller::CustomFieldGroups.r(:index)
-    )}
-
-    <header>
+    <header class="with_search">
         <h1>#{get_breadcrumbs}</h1>
+
+        #{render_search_form(
+          CustomFields::Controller::CustomFieldGroups.r(:index)
+        )}
     </header>
 
-    <form method="post"
-    action="#{CustomFields::Controller::CustomFieldGroups.r(:delete)}">
-        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <div class="body">
+        <form method="post"
+        action="#{CustomFields::Controller::CustomFieldGroups.r(:delete)}">
+            <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
-        <?r if !@field_groups.empty? ?>
+            <?r if !@field_groups.empty? ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <?r if user_authorized?(:delete_custom_field_group) ?>
-                    <th class="no_sort">
-                        <input type="checkbox" />
-                    </th>
+            <table>
+                <thead>
+                    <tr>
+                        <?r if user_authorized?(:delete_custom_field_group) ?>
+                        <th class="no_sort">
+                            <input type="checkbox" />
+                        </th>
+                        <?r end ?>
+
+                        <th>#{lang('custom_field_groups.labels.id')}</th>
+                        <th>#{lang('custom_field_groups.labels.name')}</th>
+                        <th>#{lang('custom_field_groups.labels.sections')}</th>
+
+                        <?r if user_authorized?(:show_custom_field) ?>
+                        <th></th>
+                        <?r end ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r @field_groups.each do |group| ?>
+                    <tr>
+                        <?r if user_authorized?(:delete) ?>
+                        <td>
+                            <input type="checkbox" name="custom_field_group_ids[]"
+                            value="#{group.id}" />
+                        </td>
+                        <?r end ?>
+
+                        <td>#{group.id}</td>
+
+                        <td>
+                            #{if user_authorized?(:edit_custom_field_group)
+                              edit_link(
+                                CustomFields::Controller::CustomFieldGroups.r(
+                                  :edit,
+                                  group.id
+                                ),
+                                group.name
+                              )
+                            else
+                              group.name
+                            end}
+                        </td>
+
+                        <td>
+                            #{sections = group.sections.map { |s| s.name }
+
+                            if sections.empty?
+                              lang('custom_field_groups.labels.none')
+                            else
+                              sections.join(', ')
+                            end}
+                        </td>
+
+                        <?r if user_authorized?(:show_custom_field) ?>
+                        <td>
+                            #{manage_link(
+                              CustomFields::Controller::CustomFields.r(
+                                :index,
+                                group.id
+                              ),
+                              lang('custom_field_groups.labels.manage_fields')
+                            )}
+                        </td>
+                        <?r end ?>
+                    </tr>
                     <?r end ?>
+                </tbody>
+            </table>
 
-                    <th>#{lang('custom_field_groups.labels.id')}</th>
-                    <th>#{lang('custom_field_groups.labels.name')}</th>
-                    <th>#{lang('custom_field_groups.labels.sections')}</th>
+            #{render_pagination(@field_groups)}
 
-                    <?r if user_authorized?(:show_custom_field) ?>
-                    <th></th>
-                    <?r end ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?r @field_groups.each do |group| ?>
-                <tr>
-                    <?r if user_authorized?(:delete) ?>
-                    <td>
-                        <input type="checkbox" name="custom_field_group_ids[]"
-                        value="#{group.id}" />
-                    </td>
-                    <?r end ?>
+            <?r else ?>
 
-                    <td>#{group.id}</td>
+            <p>#{lang('custom_field_groups.messages.no_groups')}</p>
 
-                    <?r if user_authorized?(:edit_custom_field_group) ?>
+            <?r end ?>
 
-                    <td>
-                        #{CustomFields::Controller::CustomFieldGroups.a(
-                          group.name, :edit, group.id
-                        )}
-                    </td>
-
-                    <?r else ?>
-
-                    <td>#{group.name}</td>
-
-                    <?r end ?>
-
-                    <td>
-                        #{sections = group.sections.map { |s| s.name }
-
-                        if sections.empty?
-                          lang('custom_field_groups.labels.none')
-                        else
-                          sections.join(', ')
-                        end}
-                    </td>
-
-                    <?r if user_authorized?(:show_custom_field) ?>
-                    <td>
-                        #{CustomFields::Controller::CustomFields.a(
-                          lang('custom_field_groups.labels.manage_fields'),
-                          :index,
-                          group.id
-                        )}
-                    </td>
-                    <?r end ?>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
-
-        #{if @field_groups.respond_to?(:navigation) \
-        and @field_groups.page_count > 1
-          @field_groups.navigation
-        end}
-
-        <?r else ?>
-
-        <p>#{lang('custom_field_groups.messages.no_groups')}</p>
-
-        <?r end ?>
-
-        <?r if user_authorized?(:new_custom_field_group) ?>
-        <div class="button">
-            #{CustomFields::Controller::CustomFieldGroups.a(
-              lang('custom_field_groups.buttons.new'),
-              :new
+            <?r if user_authorized?(:new_custom_field_group) ?>
+            #{new_button(
+              CustomFields::Controller::CustomFieldGroups.r(:new),
+              lang('custom_field_groups.buttons.new')
             )}
-        </div>
-        <?r end ?>
+            <?r end ?>
 
-        <?r if user_authorized?(:delete_custom_field_group) \
-        and !@field_groups.empty? ?>
-        <div class="button">
-            <input type="submit"
-            value="#{lang('custom_field_groups.buttons.delete')}" />
-        </div>
-        <?r end ?>
-    </form>
+            <?r if user_authorized?(:delete_custom_field_group) \
+            and !@field_groups.empty? ?>
+            #{delete_button(lang('custom_field_groups.buttons.delete'))}
+            <?r end ?>
+        </form>
+    </div>
 </section>

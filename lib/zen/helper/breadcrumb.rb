@@ -21,8 +21,6 @@ module Ramaze
     # @since  0.1
     #
     module Breadcrumb
-      @breadcrumbs = []
-
       ##
       # Appends each element to the list of breadcrumb segments.
       #
@@ -53,21 +51,15 @@ module Ramaze
       #  segment.
       # @return [String]
       #
-      def get_breadcrumbs(separator = "&raquo;")
+      def get_breadcrumbs(separator = '/')
         if !@breadcrumbs or @breadcrumbs.empty?
           return
         end
 
-        html      = ''
-        separator = " #{separator} "
+        items     = @breadcrumbs.dup
+        items[-1] = '<span class="current">%s</span>' % items[-1]
 
-        @breadcrumbs.each do |segment|
-          html += segment + separator
-        end
-
-        @breadcrumbs = nil
-
-        return html.chomp(separator)
+        return items.join(' %s ' % separator)
       end
     end # Breadcrumb
   end # Helper

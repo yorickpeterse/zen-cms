@@ -1,85 +1,78 @@
 <section>
-    #{render_search_form(Users::Controller::UserGroups.r(:index))}
-
-    <header>
+    <header class="with_search">
         <h1>#{get_breadcrumbs}</h1>
+
+        #{render_search_form(Users::Controller::UserGroups.r(:index))}
     </header>
 
-    <form method="post" action="#{Users::Controller::UserGroups.r(:delete)}">
-        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <div class="body">
+        <form method="post" action="#{Users::Controller::UserGroups.r(:delete)}">
+            <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
-        <?r if !@user_groups.empty? ?>
+            <?r if !@user_groups.empty? ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <?r if user_authorized?(:delete_user_group) ?>
-                    <th class="no_sort">
-                        <input type="checkbox" />
-                    </th>
+            <table>
+                <thead>
+                    <tr>
+                        <?r if user_authorized?(:delete_user_group) ?>
+                        <th class="no_sort">
+                            <input type="checkbox" />
+                        </th>
+                        <?r end ?>
+
+                        <th>#{lang('user_groups.labels.id')}</th>
+                        <th>#{lang('user_groups.labels.name')}</th>
+                        <th>#{lang('user_groups.labels.slug')}</th>
+                        <th>#{lang('user_groups.labels.super_group')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r @user_groups.each do |group| ?>
+                    <tr>
+                        <?r if user_authorized?(:delete_user_group) ?>
+                        <td>
+                            <input type="checkbox" name="user_group_ids[]"
+                            value="#{group.id}" />
+                        </td>
+                        <?r end ?>
+
+                        <td>#{group.id}</td>
+                        <td>
+                            #{if user_authorized?(:edit_user_group)
+                              edit_link(
+                                Users::Controller::UserGroups.r(:edit, group.id),
+                                group.name
+                              )
+                            else
+                              group.name
+                            end}
+                        </td>
+                        <td>#{group.slug}</td>
+                        <td>#{@boolean_hash[group.super_group]}</td>
+                    </tr>
                     <?r end ?>
+                </tbody>
+            </table>
 
-                    <th>#{lang('user_groups.labels.id')}</th>
-                    <th>#{lang('user_groups.labels.name')}</th>
-                    <th>#{lang('user_groups.labels.slug')}</th>
-                    <th>#{lang('user_groups.labels.super_group')}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?r @user_groups.each do |group| ?>
-                <tr>
-                    <?r if user_authorized?(:delete_user_group) ?>
-                    <td>
-                        <input type="checkbox" name="user_group_ids[]"
-                        value="#{group.id}" />
-                    </td>
-                    <?r end ?>
+            #{render_pagination(@user_groups)}
 
-                    <td>#{group.id}</td>
-                    <td>
-                        #{if user_authorized?(:edit_user_group)
-                          Users::Controller::UserGroups.a(
-                            group.name,
-                            :edit,
-                            group.id
-                          )
-                        else
-                          group.name
-                        end}
-                    </td>
-                    <td>#{group.slug}</td>
-                    <td>#{@boolean_hash[group.super_group]}</td>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
+            <?r else ?>
 
-        #{if @user_groups.respond_to?(:navigation) \
-        and @user_groups.page_count > 1
-          @user_groups.navigation
-        end}
+            <p>#{lang('user_groups.messages.no_groups')}</p>
 
-        <?r else ?>
+            <?r end ?>
 
-        <p>#{lang('user_groups.messages.no_groups')}</p>
-
-        <?r end ?>
-
-        <?r if user_authorized?(:new_user_group) ?>
-        <div class="button">
-            #{Users::Controller::UserGroups.a(
-              lang('user_groups.buttons.new'),
-              :new
+            <?r if user_authorized?(:new_user_group) ?>
+            #{new_button(
+              Users::Controller::UserGroups.r(:new),
+              lang('user_groups.buttons.new')
             )}
-        </div>
-        <?r end ?>
+            <?r end ?>
 
-        <?r if user_authorized?(:delete_user_group) \
-        and !@user_groups.empty? ?>
-        <div class="button">
-            <input type="submit"
-            value="#{lang('user_groups.buttons.delete')}" />
-        </div>
-        <?r end ?>
-    </form>
+            <?r if user_authorized?(:delete_user_group) \
+            and !@user_groups.empty? ?>
+            #{delete_button(lang('user_groups.buttons.delete'))}
+            <?r end ?>
+        </form>
+    </div>
 </section>

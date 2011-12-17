@@ -1,91 +1,90 @@
 <section>
-    #{render_search_form(
-      ::Categories::Controller::Categories.r(:index, @category_group_id)
-    )}
-
-    <header>
+    <header class="with_search">
         <h1>#{get_breadcrumbs}</h1>
+
+        #{render_search_form(
+          ::Categories::Controller::Categories.r(:index, @category_group_id)
+        )}
     </header>
 
-    <form method="post"
-    action="#{Categories::Controller::Categories.r(:delete)}">
-        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <div class="body">
+        <form method="post"
+        action="#{Categories::Controller::Categories.r(:delete)}">
+            <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
-        <?r if !@categories.empty? ?>
+            <?r if !@categories.empty? ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <?r if user_authorized?(:delete_category) ?>
-                    <th class="no_sort">
-                        <input type="checkbox" />
-                    </th>
+            <table>
+                <thead>
+                    <tr>
+                        <?r if user_authorized?(:delete_category) ?>
+                        <th class="no_sort">
+                            <input type="checkbox" />
+                        </th>
+                        <?r end ?>
+
+                        <th>#{lang('categories.labels.id')}</th>
+                        <th>#{lang('categories.labels.name')}</th>
+                        <th>#{lang('categories.labels.slug')}</th>
+                        <th>#{lang('categories.labels.parent')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r @categories.each do |category| ?>
+                    <tr>
+                        <?r if user_authorized?(:delete_category_group) ?>
+                        <td>
+                            <input type="checkbox" name="category_ids[]"
+                            value="#{category.id}" />
+                        </td>
+                        <?r end ?>
+
+                        <td>#{category.id}</td>
+                        <td>
+                            #{if user_authorized?(:edit_category_group)
+                              edit_link(
+                                Categories::Controller::Categories.r(
+                                  :edit,
+                                  @category_group_id,
+                                  category.id
+                                ),
+                                category.name
+                              )
+                            else
+                              category.name
+                            end}
+                        </td>
+                        <td>#{category.slug}</td>
+                        <td>
+                            #{category.parent.name \
+                            if category.parent.respond_to?(:name)}
+                        </td>
+                    </tr>
                     <?r end ?>
+                </tbody>
+            </table>
 
-                    <th>#{lang('categories.labels.id')}</th>
-                    <th>#{lang('categories.labels.name')}</th>
-                    <th>#{lang('categories.labels.slug')}</th>
-                    <th>#{lang('categories.labels.parent')}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?r @categories.each do |category| ?>
-                <tr>
-                    <?r if user_authorized?(:delete_category_group) ?>
-                    <td>
-                        <input type="checkbox" name="category_ids[]"
-                        value="#{category.id}" />
-                    </td>
-                    <?r end ?>
+            #{render_pagination(@categories)}
 
-                    <td>#{category.id}</td>
-                    <td>
-                        #{if user_authorized?(:edit_category_group)
-                          Categories::Controller::Categories.a(
-                            category.name,
-                            :edit,
-                            @category_group_id,
-                            category.id
-                          )
-                        else
-                          category.name
-                        end}
-                    </td>
-                    <td>#{category.slug}</td>
-                    <td>
-                        #{category.parent.name \
-                        if category.parent.respond_to?(:name)}
-                    </td>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
+            <?r else ?>
 
-        #{if @categories.respond_to?(:navigation) and @categories.page_count > 1
-          @categories.navigation
-        end}
+            <p>#{lang('categories.messages.no_categories')}</p>
 
-        <?r else ?>
+            <?r end ?>
 
-        <p>#{lang('categories.messages.no_categories')}</p>
-
-        <?r end ?>
-
-        <?r if user_authorized?(:new_category) ?>
-        <div class="button">
-            #{Categories::Controller::Categories.a(
-              lang('categories.buttons.new'),
-              :new,
-              @category_group_id
+            <?r if user_authorized?(:new_category) ?>
+            #{new_button(
+              Categories::Controller::Categories.r(
+                :new,
+                @category_group_id
+              ),
+              lang('categories.buttons.new')
             )}
-        </div>
-        <?r end ?>
+            <?r end ?>
 
-        <?r if user_authorized?(:delete_category) and !@categories.empty? ?>
-        <div class="button">
-            <input type="submit"
-            value="#{lang('categories.buttons.delete')}" />
-        </div>
-        <?r end ?>
-    </form>
+            <?r if user_authorized?(:delete_category) and !@categories.empty? ?>
+            #{delete_button(lang('categories.buttons.delete'))}
+            <?r end ?>
+        </form>
+    </div>
 </section>

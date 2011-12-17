@@ -1,54 +1,34 @@
-#message_container
-{
-    margin-top: 20px;
-}
-
-#login #message_container
-{
-    margin:    20px auto;
-    min-width: 510px;
-    width:     510px;
-}
-
-    #message_container .message
-    {
-        text-align: center;
-    }
-
-        #message_container .message p
-        {
-            margin-bottom: 10px;
-        }
-
-        #message_container .message p:last-child
-        {
-            margin-bottom: 0px;
-        }
-
 .message
 {
-    padding: 5px 10px;
+    border-bottom: 1px solid #000;
+    color:         #fff;
+    padding:       8px 10px 10px 10px;
+    text-align:    center;
+    text-shadow:   1px 1px #000;
 }
+
+    .message p
+    {
+        margin-bottom: 10px;
+    }
+
+    .message p:last-child
+    {
+        margin-bottom: 0px;
+    }
 
 .message.error
 {
-    background:  #BD132A;
-    border:      1px solid #910F20;
-    color:       #fff;
-    text-shadow: 1px 1px #910F20;
+    background: #BD132A;
 }
 
 .message.success
 {
-    background:  #ABCC6A;
-    border:      1px solid #758C46;
-    color:       #fff;
-    text-shadow: 1px 1px #758C46;
+    background: #ABCC6A;
 }
 
 .message.info
 {
-    background:  #F7D76D;
-    border:      1px solid #F7BB6D;
-    color:       #000;
+    background: #F7D76D;
+    color:      #000;
 }

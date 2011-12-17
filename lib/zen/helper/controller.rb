@@ -1,8 +1,7 @@
 module Ramaze
   module Helper
     ##
-    # Helper that provides a few methods for commonly used code inside a
-    # controller.
+    # General helper for methods that don't really belong into separate helpers.
     #
     # @since  0.3
     #
@@ -16,6 +15,68 @@ module Ramaze
       #
       def self.included(into)
         into.extend(Ramaze::Helper::Controller::ClassMethods)
+      end
+
+      ##
+      # Returns an anchor tag that points towards the URL that allows users to
+      # manage collections of data.
+      #
+      # @since  17-12-2011
+      # @see    Ramaze::Helper::Controller#edit_link
+      # @return [String]
+      #
+      def manage_link(url, text)
+        return '<a href="%s" class="icon pages">%s</a>' % [url, text]
+      end
+
+      ##
+      # Returns an anchor tag that should point to a form that allows users to
+      # edit certain resources.
+      #
+      # @since  17-12-2011
+      # @param  [#to_s] url The URL for the link.
+      # @param  [#to_s] text The text to display in the link tag.
+      # @return [String]
+      #
+      def edit_link(url, text)
+        return '<a href="%s" class="icon edit">%s</a>' % [url, text]
+      end
+
+      ##
+      # Returns a button that should point to a form that allows users to create
+      # new resources.
+      #
+      # @since 17-12-2011
+      # @see   Ramaze::Helper::Controller#edit_link
+      #
+      def new_button(url, text)
+        return '<a href="%s" class="button">%s</a>' % [url, text]
+      end
+
+      ##
+      # Returns a button that when clicked should delete a set of resources.
+      #
+      # @since  17-12-2011
+      # @param  [String] text The text to display on the button.
+      # @return [String]
+      #
+      def delete_button(text)
+        return '<input type="submit" value="%s" class="button danger" />' \
+          % text
+      end
+
+      ##
+      # Checks if a given object can be paginated and the page count is greater
+      # than 1. If this is the case then the pagination links are displayed.
+      #
+      # @since  17-12-2011
+      # @param  [Mixed] object
+      # @return [String]
+      #
+      def render_pagination(object)
+        if object.respond_to?(:navigation) and object.page_count > 1
+          return object.navigation
+        end
       end
 
       ##

@@ -1,97 +1,96 @@
 <section>
-    #{render_search_form(Sections::Controller::Sections.r(:index))}
-
-    <header>
+    <header class="with_search">
         <h1>#{get_breadcrumbs}</h1>
+
+        #{render_search_form(Sections::Controller::Sections.r(:index))}
     </header>
 
-    <form method="post" action="#{Sections::Controller::Sections.r(:delete)}">
-        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <div class="body">
+        <form method="post"
+        action="#{Sections::Controller::Sections.r(:delete)}">
+            <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
-        <?r if !@sections.empty? ?>
+            <?r if !@sections.empty? ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <?r if user_authorized?(:delete_section) ?>
-                    <th class="no_sort">
-                        <input type="checkbox" />
-                    </th>
+            <table>
+                <thead>
+                    <tr>
+                        <?r if user_authorized?(:delete_section) ?>
+                        <th class="no_sort">
+                            <input type="checkbox" />
+                        </th>
+                        <?r end ?>
+
+                        <th>#{lang('sections.labels.id')}</th>
+                        <th>#{lang('sections.labels.name')}</th>
+                        <th>#{lang('sections.labels.slug')}</th>
+                        <th>#{lang('sections.labels.comment_allow')}</th>
+
+                        <?r if user_authorized?(:show_section_entry) ?>
+                        <th></th>
+                        <?r end ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r @sections.each do |section| ?>
+                    <tr>
+                        <?r if user_authorized?(:delete_section) ?>
+                        <td>
+                            <input type="checkbox" name="section_ids[]"
+                            value="#{section.id}" />
+                        </td>
+                        <?r end ?>
+
+                        <td>#{section.id}</td>
+
+                        <td>
+                            <?r if user_authorized?(:edit_section) ?>
+                            #{edit_link(
+                              Sections::Controller::Sections.r(:edit, section.id),
+                              section.name
+                            )}
+                            <?r else ?>
+                            #{section.name}
+                            <?r end ?>
+                        </td>
+
+                        <td>#{section.slug}</td>
+                        <td>#{@boolean_hash[section.comment_allow]}</td>
+
+                        <?r if user_authorized?(:show_section_entry) ?>
+                        <td>
+                            #{manage_link(
+                              Sections::Controller::SectionEntries.r(
+                                :index,
+                                section.id
+                              ),
+                              lang('sections.labels.manage_entries')
+                            )}
+                        </td>
+                        <?r end ?>
+                    </tr>
                     <?r end ?>
+                </tbody>
+            </table>
 
-                    <th>#{lang('sections.labels.id')}</th>
-                    <th>#{lang('sections.labels.name')}</th>
-                    <th>#{lang('sections.labels.slug')}</th>
-                    <th>#{lang('sections.labels.comment_allow')}</th>
+            #{render_pagination(@sections)}
 
-                    <?r if user_authorized?(:show_section_entry) ?>
-                    <th></th>
-                    <?r end ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?r @sections.each do |section| ?>
-                <tr>
-                    <?r if user_authorized?(:delete_section) ?>
-                    <td>
-                        <input type="checkbox" name="section_ids[]"
-                        value="#{section.id}" />
-                    </td>
-                    <?r end ?>
+            <?r else ?>
 
-                    <td>#{section.id}</td>
+            <p>#{lang('sections.messages.no_sections')}</p>
 
-                    <td>
-                        #{if user_authorized?(:edit_section)
-                          Sections::Controller::Sections.a(
-                            section.name,
-                            :edit,
-                            section.id
-                          )
-                        else
-                          section.name
-                        end}
-                    </td>
+            <?r end ?>
 
-                    <td>#{section.slug}</td>
-                    <td>#{@boolean_hash[section.comment_allow]}</td>
-
-                    <?r if user_authorized?(:show_section_entry) ?>
-                    <td>
-                        #{Sections::Controller::SectionEntries.a(
-                          lang('sections.labels.manage_entries'),
-                          :index,
-                          section.id
-                        )}
-                    </td>
-                    <?r end ?>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
-
-        #{if @sections.respond_to?(:navigation) and @sections.page_count > 1
-          @sections.navigation
-        end}
-
-        <?r else ?>
-
-        <p>#{lang('sections.messages.no_sections')}</p>
-
-        <?r end ?>
-
-        <?r if user_authorized?(:new_section) ?>
-        <div class="button">
-            #{Sections::Controller::Sections.a(
-              lang('sections.buttons.new'), :new
+            <?r if user_authorized?(:new_section) ?>
+            #{new_button(
+              Sections::Controller::Sections.r(:new),
+              lang('sections.buttons.new')
             )}
-        </div>
-        <?r end ?>
+            <?r end ?>
 
-        <?r if user_authorized?(:delete_section) and !@sections.empty? ?>
-        <div class="button">
-            <input type="submit" value="#{lang('sections.buttons.delete')}" />
-        </div>
-        <?r end ?>
-    </form>
+            <?r if user_authorized?(:delete_section) and !@sections.empty? ?>
+            #{delete_button(lang('sections.buttons.delete'))}
+            <?r end ?>
+        </form>
+    </div>
 </section>

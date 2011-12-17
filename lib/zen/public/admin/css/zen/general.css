@@ -1,109 +1,171 @@
 body
 {
-    background:  #eee;
-    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial,
-        sans-serif;
-    font-size:   13px;
-    line-height: 1.6;
+    background:  #272727;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size:   14px;
 }
 
-/* Headings */
 h1
 {
-    font-size:25px;
+    font-size: 26px;
 }
 
 h2
 {
-    font-size:23px;
+    font-size: 22px;
 }
 
 h3
 {
-    font-size:21px;
+    font-size: 18px;
 }
 
-h4
-{
-    font-size:19px;
-}
-
-h5
-{
-    font-size:17px;
-}
-
-h6
-{
-    font-size:15px;
-}
-
-h1, h2, h3, h4, h5, h6
+h1, h2, h3, h4
 {
     margin-bottom: 10px;
 }
 
-/* General */
+h2, h3, h4
+{
+    border-bottom:  1px solid #ccc;
+    padding-bottom: 5px;
+}
+
 p, dl, hr, ol, ul, pre, table, address, fieldset
 {
     margin-bottom: 20px;
 }
 
-hr
+a
 {
-    border:           0 #ccc solid;
-    border-top-width: 1px;
-    clear:            both;
-    height:           0;
-}
-
-.hidden
-{
-    display: none;
-}
-
-a, a:active, a:visited
-{
-    color: #607890;
+    color:           #0069D6;
+    text-decoration: none;
 }
 
 a:hover
 {
-    color: #036;
+    color:           #00438A;
+    text-decoration: underline;
 }
 
-/* Code blocks */
-pre
+ul, ol
 {
-    background: #444;
-    color:      #fff;
-    overflow:   auto;
-    padding:    10px;
+    margin-left: 15px;
 }
 
-/* Icons and other re-usable images. */
-.icon_edit, .icon_delete, .icon_add, .icon_success, .icon_error, .icon_info,
-.icon_view
+ul li
 {
-    margin-right: 10px;
-    padding:      5px 3px 5px 25px;
+    list-style-type: disc;
 }
 
-.icon_edit   { background: url("../images/zen/icons/edit.png") no-repeat center left;    }
-.icon_delete { background: url("../images/zen/icons/delete.png") no-repeat center left;  }
-.icon_add    { background: url("../images/zen/icons/add.png") no-repeat center left;     }
-.icon_success{ background: url("../images/zen/icons/success.png") no-repeat center left; }
-.icon_error  { background: url("../images/zen/icons/error.png") no-repeat center left;   }
-.icon_info   { background: url("../images/zen/icons/info.png") no-repeat center left;    }
-.icon_view   { background: url("../images/zen/icons/view.png") no-repeat center left;    }
-
-.floating_tooltip
+ol li
 {
-    background: #000;
-    padding:    5px 10px;
-    color:      #fff;
+    list-style-type: decimal;
+}
+
+.clearfix:after
+{
+    clear:      both;
+    content:    '.';
+    display:    block;
+    height:     0;
+    visibility: hidden;
+}
+
+.icon
+{
+    background-repeat:   no-repeat;
+    background-position: center left;
+    display:             inline-block;
+    padding-left:        23px;
+}
+
+.icon.edit
+{
+    background-image: url('/admin/images/zen/icons/edit.png');
+}
+
+.icon.pages
+{
+    background-image: url('/admin/images/zen/icons/pages.png');
+}
+
+.icon.external
+{
+    background-image: url('/admin/images/zen/icons/external.png');
+}
+
+.icon.box
+{
+    background-image: url('/admin/images/zen/icons/box.png');
+}
+
+.icon.globe
+{
+    background-image: url('/admin/images/zen/icons/globe.png');
+}
+
+.icon.template
+{
+    background-image: url('/admin/images/zen/icons/template.png');
+}
+
+.icon.user
+{
+    background-image: url('/admin/images/zen/icons/user.png');
+}
+
+.icon.user_group
+{
+    background-image: url('/admin/images/zen/icons/user_group.png');
+}
+
+.icon.lock
+{
+    background-image: url('/admin/images/zen/icons/lock.png');
+}
+
+.icon.comment
+{
+    background-image: url('/admin/images/zen/icons/comment.png');
+}
+
+.icon.relation
+{
+    background-image: url('/admin/images/zen/icons/relation.png');
+}
+
+.icon.settings
+{
+    background-image: url('/admin/images/zen/icons/settings.png');
+}
+
+.icon.categories
+{
+    background-image: url('/admin/images/zen/icons/categories.png');
+}
+
+.label
+{
+    color:   #fff;
+    padding: 3px 8px;
 
     border-radius:         5px;
     -webkit-border-radius: 5px;
     -moz-border-radius:    5px;
+}
+
+.label.red
+{
+    background: #BD132A;
+}
+
+.label.green
+{
+    background: #ABCC6A;
+}
+
+.label.yellow
+{
+    background: #f7c052;
 }

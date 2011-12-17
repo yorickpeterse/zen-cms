@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-#{Zen::Language.html_head}
+<html #{Zen::Language.html_text_direction} id="login">
     <head>
         #{render_file(__DIR__('../view/head.xhtml'))}
     </head>
 
     <body id="login">
-        #{render_file(__DIR__('../view/main.xhtml'))}
+        #{display_messages}
+
+        <div id="main" role="main">
+            #{@content}
+        </div>
+
         #{render_file(__DIR__('../view/bottom.xhtml'))}
     </body>
 </html>

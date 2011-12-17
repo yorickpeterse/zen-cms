@@ -105,7 +105,6 @@ module Zen
         :css,
         [
           'admin/css/zen/reset',
-          'admin/css/zen/grid',
           'admin/css/zen/layout',
           'admin/css/zen/general',
           'admin/css/zen/forms',

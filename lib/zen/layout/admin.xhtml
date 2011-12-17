@@ -1,37 +1,53 @@
 <!DOCTYPE html>
-#{Zen::Language.html_head}
+<html #{Zen::Language.html_text_direction} id="admin">
     <head>
         #{render_file(__DIR__('../view/head.xhtml'))}
     </head>
 
     <body id="admin">
-        <div id="top">
-            <header class="container">
-                <nav id="main_nav" class="grid_12">
-                    #{Zen::Package.build_menu('left', session[:permissions])}
+        #{display_messages}
 
-                    <ul class="right clearfix">
-                        <li>
-                            <a href="/admin/users/logout">
-                                #{lang('zen_general.labels.logout')}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/admin/users/edit/#{user.id}">
-                                #{lang('zen_general.labels.profile')}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/">
-                                #{lang('zen_general.labels.view_website')}
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+        <aside id="sidebar" role="complementary">
+            <header>
+                <h1>
+                    <a href="/admin">
+                        #{get_setting(:website_name).value || 'Zen'}
+                    </a>
+                </h1>
             </header>
+
+            <nav id="user_navigation" role="navigation">
+                <ul>
+                    <li>
+                        <a href="/">
+                            #{lang('zen_general.labels.view_website')}
+                        </a>
+                    </li>
+                    <li>
+                        #{Users::Controller::Users.a(
+                          lang('zen_general.labels.profile'),
+                          :edit,
+                          user.id
+                        )}
+                    </li>
+                    <li>
+                        #{Users::Controller::Users.a(
+                          lang('zen_general.labels.logout'),
+                          :logout
+                        )}
+                    </li>
+                </ul>
+            </nav>
+
+            <nav id="admin_navigation" role="navigation">
+                #{Zen::Package.build_menu(nil, session[:permissions])}
+            </nav>
+        </aside>
+
+        <div id="main" role="main">
+            #{@content}
         </div>
 
-        #{render_file(__DIR__('../view/main.xhtml'))}
         #{render_file(__DIR__('../view/bottom.xhtml'))}
     </body>
 </html>

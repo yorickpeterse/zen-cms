@@ -6,12 +6,13 @@
     <div class="tabs">
         <ul>
             <li>
-                <a href="#basic" title="#{lang('section_entries.tabs.basic')}">
+                <a href="#basic" class="icon edit"
+                title="#{lang('section_entries.tabs.basic')}">
                     #{lang('section_entries.tabs.basic')}
                 </a>
             </li>
             <li>
-                <a href="#categories"
+                <a href="#categories" class="icon categories"
                 title="#{lang('section_entries.tabs.categories')}">
                     #{lang('section_entries.tabs.categories')}
                 </a>
@@ -27,85 +28,86 @@
         </ul>
     </div>
 
-    #{form_for(
-        @entry,
-        :method => :post,
-        :action => Sections::Controller::SectionEntries.r(:save),
-        :id     => :section_entry_form
-      ) do |f|
-        f.input_hidden(:csrf_token, get_csrf_token)
-        f.input_hidden(:section_id, @section_id)
-        f.input_hidden(:id        , @entry.id)
+    <div class="body">
+        #{form_for(
+            @entry,
+            :method => :post,
+            :action => Sections::Controller::SectionEntries.r(:save),
+            :id     => :section_entry_form
+        ) do |f|
+          f.input_hidden(:csrf_token, get_csrf_token)
+          f.input_hidden(:section_id, @section_id)
+          f.input_hidden(:id        , @entry.id)
 
-        f.g.div(:id => :basic) do
-          f.input_text(
-            lang('section_entries.labels.title'),
-            :title,
-            :required  => :required,
-            :maxlength => 255
-          )
-
-          f.input_text(
-            lang('section_entries.labels.slug'),
-            :slug,
-            :maxlength => 255
-          )
-
-          # Only show the date field when modifying an existing entry
-          if !@entry.nil?
+          f.g.div(:id => :basic) do
             f.input_text(
-              lang('section_entries.labels.created_at'),
-              :created_at,
-              :class => 'date'
+              lang('section_entries.labels.title'),
+              :title,
+              :required  => :required,
+              :maxlength => 255
+            )
+
+            f.input_text(
+              lang('section_entries.labels.slug'),
+              :slug,
+              :maxlength => 255
+            )
+
+            # Only show the date field when modifying an existing entry
+            if !@entry.nil?
+              f.input_text(
+                lang('section_entries.labels.created_at'),
+                :created_at,
+                :class => 'date'
+              )
+            end
+
+            f.select(
+              lang('section_entries.labels.author'),
+              :user_id,
+              :values   => ::Users::Model::User.pk_hash(:name),
+              :size     => 1,
+              :required => :required
+            )
+
+            f.select(
+              lang('section_entries.labels.status'),
+              :section_entry_status_id,
+              :values   => ::Sections::Model::SectionEntry.status_hash,
+              :selected => @entry.section_entry_status_id,
+              :size     => 1
             )
           end
 
-          f.select(
-            lang('section_entries.labels.author'),
-            :user_id,
-            :values   => ::Users::Model::User.pk_hash(:name),
-            :size     => 1,
-            :required => :required
-          )
-
-          f.select(
-            lang('section_entries.labels.status'),
-            :section_entry_status_id,
-            :values   => ::Sections::Model::SectionEntry.status_hash,
-            :selected => @entry.section_entry_status_id,
-            :size     => 1
-          )
-        end
-
-        f.g.div(:id => :categories) do
-          if !@possible_categories.empty?
-            @possible_categories.each do |group, categories|
-              f.input_checkbox(
-                group,
-                :category_pks,
-                @entry.category_pks,
-                :values => categories.invert,
-              )
-            end
-          else
-            f.g.p(lang('section_entries.messages.no_categories'))
-          end
-        end
-
-        # Display all the custom fields for this entry
-        @custom_fields_hash.each do |id, group|
-          f.g.div(:id => "group_#{id}") do
-            group[:fields].each do |field|
-              f.send(*field)
+          f.g.div(:id => :categories) do
+            if !@possible_categories.empty?
+              @possible_categories.each do |group, categories|
+                f.input_checkbox(
+                  group,
+                  :category_pks,
+                  @entry.category_pks,
+                  :values => categories.invert,
+                )
+              end
+            else
+              f.g.p(lang('section_entries.messages.no_categories'))
             end
           end
-        end
 
-        f.g.div(:class => 'button') do
+          # Display all the custom fields for this entry
+          @custom_fields_hash.each do |id, group|
+            f.g.div(:id => "group_#{id}") do
+              group[:fields].each do |field|
+                f.send(*field)
+              end
+            end
+          end
+
           f.g.input(
             :type  => 'submit',
-            :value => lang('section_entries.buttons.save')
+            :value => lang('section_entries.buttons.save'),
+            :class => 'button'
           )
-        end
-      end}
+        end}
+    </div>
 </section>

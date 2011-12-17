@@ -27,7 +27,6 @@ module Ramaze
       ##
       # Validates a section entry and returns it if it's valid.
       #
-      #
       # @since  0.2.8
       # @param  [Fixnum] section_entry_id The ID of the section entry to
       #  validate.

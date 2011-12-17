@@ -49,10 +49,6 @@ blockquote:before, blockquote:after, q:before, q:after
 
 table
 {
-    /**
-     * Instead of "collapse" I'm using "separate" as that allows me to give table cells
-     * a border without having to go through a lot of trouble
-     */
     border-collapse: separate;
     border-spacing:  0;
     width:           100%;
@@ -69,11 +65,10 @@ pre, code
     font-family: monospace;
 }
 
-/**
- * These form elements usually don't trigger any special cursor and thus can confuse
- * users when these elements have custom styles (e.g. a background image).
- */
-input[type="submit"], input[type="button"], input[type="checkbox"], input[type="radio"],
+input[type="submit"],
+input[type="button"],
+input[type="checkbox"],
+input[type="radio"],
 button, select
 {
     cursor: pointer;

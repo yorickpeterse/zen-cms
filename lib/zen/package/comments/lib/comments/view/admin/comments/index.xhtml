@@ -1,75 +1,69 @@
 <section>
-    #{render_search_form(::Comments::Controller::Comments.r(:index))}
-
-    <header>
+    <header class="with_search">
         <h1>#{get_breadcrumbs}</h1>
+
+        #{render_search_form(::Comments::Controller::Comments.r(:index))}
     </header>
 
-    <form method="post" action="#{Comments::Controller::Comments.r(:delete)}">
-        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <div class="body">
+        <form method="post" action="#{Comments::Controller::Comments.r(:delete)}">
+            <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
-        <?r if !@comments.empty? ?>
+            <?r if !@comments.empty? ?>
 
-        <table>
-            <thead>
-                <?r if user_authorized?(:delete_comment) ?>
-                <th class="no_sort">
-                    <input type="checkbox" />
-                </th>
-                <?r end ?>
-
-                <th>#{lang('comments.labels.id')}</th>
-                <th>#{lang('comments.labels.comment')}</th>
-                <th>#{lang('comments.labels.entry')}</th>
-                <th>#{lang('comments.labels.status')}</th>
-                <th>#{lang('comments.labels.name')}</th>
-                <th>#{lang('comments.labels.email')}</th>
-                <th>#{lang('comments.labels.website')}</th>
-                <th>#{lang('comments.labels.created_at')}</th>
-             </thead>
-            <tbody>
-                <?r @comments.each do |comment| ?>
-                <tr>
+            <table>
+                <thead>
                     <?r if user_authorized?(:delete_comment) ?>
-                    <td>
-                        <input type="checkbox" name="comment_ids[]"
-                        value="#{comment.id}" />
-                    </td>
+                    <th class="no_sort">
+                        <input type="checkbox" />
+                    </th>
                     <?r end ?>
 
-                    <td>#{comment.id}</td>
-                    <td>
-                        #{if user_authorized?(:edit_comment)
-                          comment.summary(true)
-                        else
-                          comment.summary
-                        end}
-                    </td>
-                    <td>#{comment.section_entry.title}</td>
-                    <td>#{comment.status_name}</td>
-                    <td>#{comment.user_name}</td>
-                    <td>#{comment.user_email}</td>
-                    <td>#{comment.user_website(true)}</td>
-                    <td>#{format_date(comment.created_at)}</td>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
+                    <th>#{lang('comments.labels.id')}</th>
+                    <th>#{lang('comments.labels.comment')}</th>
+                    <th>#{lang('comments.labels.entry')}</th>
+                    <th>#{lang('comments.labels.status')}</th>
+                    <th>#{lang('comments.labels.name')}</th>
+                    <th>#{lang('comments.labels.email')}</th>
+                    <th>#{lang('comments.labels.website')}</th>
+                    <th>#{lang('comments.labels.created_at')}</th>
+                </thead>
+                <tbody>
+                    <?r @comments.each do |comment| ?>
+                    <tr>
+                        <?r if user_authorized?(:delete_comment) ?>
+                        <td>
+                            <input type="checkbox" name="comment_ids[]"
+                            value="#{comment.id}" />
+                        </td>
+                        <?r end ?>
 
-        #{if @comments.respond_to?(:navigation) and @comments.page_count > 1
-          @comments.navigation
-        end}
+                        <td>#{comment.id}</td>
+                        <td>
+                            #{comment.summary(user_authorized?(:edit_comment))}
+                        </td>
+                        <td>#{comment.section_entry.title}</td>
+                        <td>#{comment.status_name}</td>
+                        <td>#{comment.user_name}</td>
+                        <td>#{comment.user_email}</td>
+                        <td>#{comment.user_website(true)}</td>
+                        <td>#{format_date(comment.created_at)}</td>
+                    </tr>
+                    <?r end ?>
+                </tbody>
+            </table>
 
-        <?r else ?>
+            #{render_pagination(@comments)}
 
-        <p>#{lang('comments.messages.no_comments')}</p>
+            <?r else ?>
 
-        <?r end ?>
+            <p>#{lang('comments.messages.no_comments')}</p>
 
-        <?r if user_authorized?(:delete_comment) and !@comments.empty? ?>
-        <div class="button">
-            <input type="submit" value="#{lang('comments.buttons.delete')}" />
-        </div>
-        <?r end ?>
-    </form>
+            <?r end ?>
+
+            <?r if user_authorized?(:delete_comment) and !@comments.empty? ?>
+            #{delete_button(lang('comments.buttons.delete'))}
+            <?r end ?>
+        </form>
+    </div>
 </section>

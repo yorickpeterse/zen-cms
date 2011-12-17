@@ -59,7 +59,7 @@ Zen::Language::Translation.add do |trans|
     t['buttons.new']      = 'Add user'
     t['buttons.delete']   = 'Delete selected users'
     t['buttons.save']     = 'Save user'
-    t['buttons.register'] = 'Register'
+    t['buttons.register'] = 'Confirm registration'
 
     t['description'] = 'Manage users, user groups and permissions.'
 

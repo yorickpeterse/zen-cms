@@ -210,6 +210,19 @@ module Sections
       end
 
       ##
+      # Returns a string containing the name of the entry's status in the
+      # currently used language.
+      #
+      # @since  17-12-2011
+      # @return [String]
+      #
+      def status_name
+        return lang(
+          'section_entries.special.status_hash.%s' % section_entry_status.name
+        )
+      end
+
+      ##
       # Hook that is executed before saving an existing section entry.
       #
       # @since  0.2.8

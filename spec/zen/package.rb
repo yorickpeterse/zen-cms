@@ -29,18 +29,18 @@ describe('Zen::Package') do
     pkg.root.should       == __DIR__
     pkg.migrations.should == pkg.root
 
-    pkg.menu.title.should == 'Spec'
-    pkg.menu.url.should   == '/admin/spec'
+    pkg.menu[0].title.should == 'Spec'
+    pkg.menu[0].url.should   == '/admin/spec'
 
-    pkg.menu.children[0].title.should == 'Sub spec'
-    pkg.menu.children[0].url.should   == '/admin/spec/sub'
+    pkg.menu[0].children[0].title.should == 'Sub spec'
+    pkg.menu[0].children[0].url.should   == '/admin/spec/sub'
 
     pkg.permissions[:foobar].should   == 'Foobar'
   end
 
   it('Build a package\'s navigation items') do
     pkg  = Zen::Package[:spec]
-    menu = pkg.menu.html
+    menu = pkg.menu[0].html
     html = '<li><a href="/admin/spec" title="Spec">Spec</a>' \
       '<ul><li><a href="/admin/spec/sub" title="Sub spec">Sub spec</a></li>' \
       '</ul></li>'

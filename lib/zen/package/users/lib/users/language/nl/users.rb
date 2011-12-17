@@ -60,7 +60,7 @@ Zen::Language::Translation.add do |trans|
     t['buttons.new']      = 'Gebruiker toevoegen'
     t['buttons.save']     = 'Gebruiker opslaan'
     t['buttons.delete']   = 'Geselecteerde gebruikers verwijderen'
-    t['buttons.register'] = 'Registreer'
+    t['buttons.register'] = 'Bevestig registratie'
 
     t['description'] = 'Beheer gebruikers, gebruikers groepen en rechten.'
 

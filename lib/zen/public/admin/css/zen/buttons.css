@@ -1,46 +1,81 @@
 .button
 {
-    border:       1px solid #bbb;
-    display:      inline-block;
-    margin-right: 10px;
+    background:      #fff;
+    border:          1px solid #ccc;
+    color:           #000;
+    display:         inline-block;
+    font-family:     'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size:       13px;
+    min-height:      30px;
+    min-width:       70px;
+    margin:          0px 5px 0px 0px;
+    padding:         3px 8px;
+    text-shadow:     0px -1px 0px #fff;
+    text-align:      center;
+    text-decoration: none;
+    vertical-align:  top;
+
+    border-radius:         3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius:    3px;
+
+    background: linear-gradient(#fff, #E6E6E6);
+    background: -webkit-linear-gradient(#fff, #E6E6E6);
+    background: -moz-linear-gradient(#fff, #E6E6E6);
+
+    box-shadow:         0px 1px 1px #ddd;
+    -webkit-box-shadow: 0px 1px 1px #ddd;
+    -moz-box-shadow:    0px 1px 1px #ddd;
 }
 
-    .button a, .button input, .button button
-    {
-        background: #ddd;
-        background: #ddd -webkit-gradient(linear, left bottom, left top,
-            from(#ddd), to(#eee));
+.button:hover
+{
+    border-color:    #aaa;
+    color:           #000;
+    text-decoration: none;
 
-        background:      #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
-        border:          none;
-        border-top:      1px solid #fff;
-        color:           #000;
-        cursor:          pointer;
-        display:         block;
-        font-size:       13px;
-        font-family:     'Helvetica Neue', Helvetica, Arial, sans-serif;
-        margin:          0px;
-        min-width:       80px;
-        padding:         3px;
-        text-decoration: none;
-        text-shadow:     1px 1px #fff;
-        text-align:      center;
-    }
+    box-shadow:         0px 1px 2px #bbb;
+    -webkit-box-shadow: 0px 1px 2px #bbb;
+    -moz-box-shadow:    0px 1px 2px #bbb;
+}
 
-    .button a
-    {
-        padding: 3px 5px;
-    }
+.button:active
+{
+    background: linear-gradient(bottom, #fff, #E6E6E6);
+    background: -webkit-linear-gradient(bottom, #fff, #E6E6E6);
+    background: -moz-linear-gradient(bottom, #fff, #E6E6E6);
+}
 
-    .button input
-    {
-        padding: 5px 6px 6px 6px;
-    }
+a.button
+{
+    min-height:  19px;
+    padding-top: 6px;
+}
 
-    .button a:active, .button input:active, .button button:active
-    {
-        background: #eee -webkit-gradient(linear, left bottom, left top,
-            from(#eee), to(#ddd));
+.button.danger
+{
+    background:   #c42a24;
+    border-color: #882A25;
+    color:        #fff;
+    text-shadow:  0px -1px 0px #000;
 
-        background: #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
-    }
+    background: linear-gradient(#f0332b, #c42a24);
+    background: -webkit-linear-gradient(#f0332b, #c42a24);
+    background: -moz-linear-gradient(#f0332b, #c42a24);
+}
+
+.button.danger:hover
+{
+    border-color: #68211d;
+
+    box-shadow:         0px 1px 2px #aaa;
+    -webkit-box-shadow: 0px 1px 2px #aaa;
+    -moz-box-shadow:    0px 1px 2px #aaa;
+}
+
+.button.danger:active
+{
+    background: linear-gradient(bottom, #f0332b, #c42a24);
+    background: -webkit-linear-gradient(bottom, #f0332b, #c42a24);
+    background: -moz-linear-gradient(bottom, #f0332b, #c42a24);
+}

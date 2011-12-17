@@ -259,7 +259,11 @@ module Zen
     #
     def formatted_title
       if url
-        return '<a href="%s" title="%s">%s</a>' % [url, title, title]
+        return '<a href="%s" title="%s" class="icon external">%s</a>' % [
+          url,
+          title,
+          title
+        ]
       else
         return title
       end

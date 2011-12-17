@@ -6,7 +6,7 @@
     <div class="tabs">
         <ul>
             <li>
-                <a href="#user_group_tab"
+                <a href="#user_group_tab" class="icon user_group"
                 title="#{lang('user_groups.titles.edit')}">
                     #{lang('user_groups.titles.edit')}
                 </a>
@@ -14,7 +14,7 @@
 
             <?r if user_authorized?(:show_permission) ?>
             <li>
-                <a href="#permissions"
+                <a href="#permissions" class="icon lock"
                 title="#{lang('permissions.titles.index')}">
                     #{lang('permissions.titles.index')}
                 </a>
@@ -23,55 +23,56 @@
         </ul>
     </div>
 
-    #{form_for(
-      @user_group,
-      :method => :post,
-      :action => Users::Controller::UserGroups.r(:save),
-      :id     => :user_group_form
-    ) do |f|
-      f.input_hidden(:id, @user_group.id)
-      f.input_hidden(:csrf_token, get_csrf_token)
+    <div class="body">
+        #{form_for(
+          @user_group,
+          :method => :post,
+          :action => Users::Controller::UserGroups.r(:save),
+          :id     => :user_group_form
+        ) do |f|
+          f.input_hidden(:id, @user_group.id)
+          f.input_hidden(:csrf_token, get_csrf_token)
 
-      f.g.div(:id => 'user_group_tab') do
-        f.input_text(
-          lang('user_groups.labels.name'),
-          :name,
-          :required  => :required,
-          :maxlength => 255
-        )
+          f.g.div(:id => 'user_group_tab') do
+            f.input_text(
+              lang('user_groups.labels.name'),
+              :name,
+              :required  => :required,
+              :maxlength => 255
+            )
 
-        f.input_text(
-          lang('user_groups.labels.slug'),
-          :slug,
-          :maxlength => 255
-        )
+            f.input_text(
+              lang('user_groups.labels.slug'),
+              :slug,
+              :maxlength => 255
+            )
 
-        f.input_radio(
-          lang('user_groups.labels.super_group'),
-          :super_group,
-          @user_group.super_group,
-          :values   => @boolean_hash.invert,
-          :required => :required
-        )
+            f.input_radio(
+              lang('user_groups.labels.super_group'),
+              :super_group,
+              @user_group.super_group,
+              :values   => @boolean_hash.invert,
+              :required => :required
+            )
 
-        f.textarea(
-          lang('user_groups.labels.description'),
-          :description,
-          :rows => 10
-        )
-      end
+            f.textarea(
+              lang('user_groups.labels.description'),
+              :description,
+              :rows => 10
+            )
+          end
 
-      if user_authorized?(:show_permission)
-        f.g.div(:id => 'permissions') do
-          render_file(__DIR__('../users/permissions.xhtml'))
-        end
-      end
+          if user_authorized?(:show_permission)
+            f.g.div(:id => 'permissions') do
+              render_file(__DIR__('../users/permissions.xhtml'))
+            end
+          end
 
-      f.g.div(:class => 'button') do
-        f.g.input(
-          :type  => 'submit',
-          :value => lang('user_groups.buttons.save')
-        )
-      end
-    end}
+          f.g.input(
+            :type  => 'submit',
+            :value => lang('user_groups.buttons.save'),
+            :class => 'button'
+          )
+        end}
+    </div>
 </section>

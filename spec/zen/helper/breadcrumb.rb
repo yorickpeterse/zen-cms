@@ -14,7 +14,7 @@ describe('Ramaze::Helper::Breadcrumb') do
     breadcrumbs.include?('foo').should == true
     breadcrumbs.include?('bar').should == true
     breadcrumbs.include?('baz').should == true
-    breadcrumbs.include?('&raquo;').should == true
+    breadcrumbs.include?('/').should == true
   end
 
   it('Build a set of breadcrumbs with a custom separator') do

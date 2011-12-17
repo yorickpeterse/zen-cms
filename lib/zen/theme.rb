@@ -331,7 +331,11 @@ module Zen
     #
     def formatted_name
       if url
-        return '<a href="%s" title="%s">%s</a>' % [url, name, name]
+        return '<a href="%s" title="%s" class="icon external">%s</a>' % [
+          url,
+          name,
+          name
+        ]
       else
         return name
       end

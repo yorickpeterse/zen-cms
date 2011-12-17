@@ -14,19 +14,17 @@
         end ?>
 
         <li>
-        <input name="permissions[]" value="#{name}" id="permission_#{name}"
+            <input name="permissions[]" value="#{name}" id="permission_#{name}"
             type="checkbox" #{checked} /> #{title}
         </li>
         <?r end ?>
     </ul>
 
-    <div class="button allow">
-        <input type="button" value="#{lang('permissions.buttons.allow_all')}" />
-    </div>
+    <input type="button" class="button allow"
+    value="#{lang('permissions.buttons.allow_all')}" />
 
-    <div class="button deny">
-        <input type="button" value="#{lang('permissions.buttons.deny_all')}" />
-    </div>
+    <input type="button" class="button deny"
+    value="#{lang('permissions.buttons.deny_all')}" />
 </fieldset>
 
 <?r end ?>

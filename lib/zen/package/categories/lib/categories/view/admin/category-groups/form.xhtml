@@ -3,34 +3,35 @@
         <h1>#{get_breadcrumbs}</h1>
     </header>
 
-    #{form_for(
-      @category_group,
-      :method => :post,
-      :action => Categories::Controller::CategoryGroups.r(:save),
-      :id     => :category_group_form
-    ) do |f|
-      f.input_hidden(:id        , @category_group.id)
-      f.input_hidden(:csrf_token, get_csrf_token)
+    <div class="body">
+        #{form_for(
+          @category_group,
+          :method => :post,
+          :action => Categories::Controller::CategoryGroups.r(:save),
+          :id     => :category_group_form
+        ) do |f|
+          f.input_hidden(:id        , @category_group.id)
+          f.input_hidden(:csrf_token, get_csrf_token)
 
-      f.input_text(
-        lang('category_groups.labels.name'),
-        :name,
-        :title     => lang('category_groups.descriptions.name'),
-        :required  => :required,
-        :maxlength => 255
-      )
+          f.input_text(
+            lang('category_groups.labels.name'),
+            :name,
+            :title     => lang('category_groups.descriptions.name'),
+            :required  => :required,
+            :maxlength => 255
+          )
 
-      f.textarea(
-        lang('category_groups.labels.description'),
-        :description,
-        :rows => 8
-      )
+          f.textarea(
+            lang('category_groups.labels.description'),
+            :description,
+            :rows => 8
+          )
 
-      f.g.div(:class => 'button') do
         f.g.input(
           :type  => 'submit',
-          :value => lang('category_groups.buttons.save')
+          :value => lang('category_groups.buttons.save'),
+          :class => 'button'
         )
-      end
-    end}
+        end}
+    </div>
 </section>

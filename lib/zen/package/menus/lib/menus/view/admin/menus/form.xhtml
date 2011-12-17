@@ -3,54 +3,58 @@
         <h1>#{get_breadcrumbs}</h1>
     </header>
 
-    #{form_for(
-      @menu,
-      :method => :post,
-      :action => Menus::Controller::Menus.r(:save),
-      :id     => :menu_form
-    ) do |f|
-      f.input_hidden(:csrf_token, get_csrf_token)
-      f.input_hidden(:id        , @menu.id)
+    <div class="body">
+        #{form_for(
+          @menu,
+          :method => :post,
+          :action => Menus::Controller::Menus.r(:save),
+          :id     => :menu_form
+        ) do |f|
+          f.input_hidden(:csrf_token, get_csrf_token)
+          f.input_hidden(:id        , @menu.id)
 
-      f.input_text(
-        lang('menus.labels.name'),
-        :name,
-        :title     => lang('menus.descriptions.name'),
-        :required  => :required,
-        :maxlength => 255
-      )
+          f.input_text(
+            lang('menus.labels.name'),
+            :name,
+            :title     => lang('menus.descriptions.name'),
+            :required  => :required,
+            :maxlength => 255
+          )
 
-      f.input_text(
-        lang('menus.labels.slug'),
-        :slug,
-        :title     => lang('menus.descriptions.slug'),
-        :maxlength => 255
-      )
+          f.input_text(
+            lang('menus.labels.slug'),
+            :slug,
+            :title     => lang('menus.descriptions.slug'),
+            :maxlength => 255
+          )
 
-      f.input_text(
-        lang('menus.labels.html_class'),
-        :html_class,
-        :title     => lang('menus.descriptions.html_class'),
-        :maxlength => 255,
-        :pattern   => '^[a-zA-Z\\\-_0-9\\\s]*$'
-      )
+          f.input_text(
+            lang('menus.labels.html_class'),
+            :html_class,
+            :title     => lang('menus.descriptions.html_class'),
+            :maxlength => 255,
+            :pattern   => '^[a-zA-Z\\\-_0-9\\\s]*$'
+          )
 
-      f.input_text(
-        lang('menus.labels.html_id'),
-        :html_id,
-        :title     => lang('menus.descriptions.html_id'),
-        :maxlength => 255,
-        :pattern   => '^[a-zA-Z\\\-_0-9]*$'
-      )
+          f.input_text(
+            lang('menus.labels.html_id'),
+            :html_id,
+            :title     => lang('menus.descriptions.html_id'),
+            :maxlength => 255,
+            :pattern   => '^[a-zA-Z\\\-_0-9]*$'
+          )
 
-      f.textarea(
-        lang('menus.labels.description'),
-        :description,
-        :rows => 8
-      )
+          f.textarea(
+            lang('menus.labels.description'),
+            :description,
+            :rows => 8
+          )
 
-      f.g.div(:class => "button") do
-        f.g.input(:type => :submit, :value => lang('menus.buttons.save'))
-      end
-    end}
+          f.g.input(
+            :type  => :submit,
+            :value => lang('menus.buttons.save'),
+            :class => 'button'
+          )
+        end}
+    </div>
 </section>

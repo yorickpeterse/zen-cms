@@ -1,98 +1,98 @@
 <section>
-    #{render_search_form(
-      ::CustomFields::Controller::CustomFieldTypes.r(:index)
-    )}
-
-    <header>
+    <header class="with_search">
         <h1>#{get_breadcrumbs}</h1>
+
+        #{render_search_form(
+          ::CustomFields::Controller::CustomFieldTypes.r(:index)
+        )}
     </header>
 
-    <form action="#{CustomFields::Controller::CustomFieldTypes.r(:delete)}"
-    method="post">
-        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <div class="body">
+        <form action="#{CustomFields::Controller::CustomFieldTypes.r(:delete)}"
+        method="post">
+            <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
-        <?r if !@field_types.empty? ?>
+            <?r if !@field_types.empty? ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <?r if user_authorized?(:delete_custom_field_type) ?>
-                    <th class="no_sort">
-                        <input type="checkbox" />
-                    </th>
+            <table>
+                <thead>
+                    <tr>
+                        <?r if user_authorized?(:delete_custom_field_type) ?>
+                        <th class="no_sort">
+                            <input type="checkbox" />
+                        </th>
+                        <?r end ?>
+
+                        <th>#{lang('custom_field_types.labels.id')}</th>
+                        <th>#{lang('custom_field_types.labels.name')}</th>
+                        <th>
+                            #{lang('custom_field_types.labels.language_string')}
+                        </th>
+                        <th>#{lang('custom_field_types.labels.html_class')}</th>
+                        <th>#{lang('custom_field_types.labels.serialize')}</th>
+                        <th>
+                            #{lang('custom_field_types.labels.allow_markup')}
+                        </th>
+                        <th>
+                            #{lang(
+                              'custom_field_types.labels.custom_field_method_id'
+                            )}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r @field_types.each do |type| ?>
+                    <tr>
+                        <?r if user_authorized?(:delete_custom_field_type) ?>
+                        <td>
+                            <input type="checkbox" name="custom_field_type_ids[]"
+                            id="custom_field_type_#{type.id}" value="#{type.id}" />
+                        </td>
+                        <?r end ?>
+
+                        <td>#{type.id}</td>
+                        <td>
+                            #{if user_authorized?(:edit_custom_field_type)
+                              edit_link(
+                                CustomFields::Controller::CustomFieldTypes.r(
+                                  :edit,
+                                  type.id
+                                ),
+                                type.name
+                              )
+                            else
+                              type.name
+                            end}
+                        </td>
+                        <td>#{type.language_string}</td>
+                        <td>#{type.html_class}</td>
+                        <td>#{@boolean_hash[type.serialize]}</td>
+                        <td>#{@boolean_hash[type.allow_markup]}</td>
+                        <td>#{type.custom_field_method.name}</td>
+                    </tr>
                     <?r end ?>
+                </tbody>
+            </table>
 
-                    <th>#{lang('custom_field_types.labels.id')}</th>
-                    <th>#{lang('custom_field_types.labels.name')}</th>
-                    <th>#{lang('custom_field_types.labels.language_string')}</th>
-                    <th>#{lang('custom_field_types.labels.html_class')}</th>
-                    <th>#{lang('custom_field_types.labels.serialize')}</th>
-                    <th>#{lang('custom_field_types.labels.allow_markup')}</th>
-                    <th>
-                        #{lang(
-                          'custom_field_types.labels.custom_field_method_id'
-                        )}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <?r @field_types.each do |type| ?>
-                <tr>
-                    <?r if user_authorized?(:delete_custom_field_type) ?>
-                    <td>
-                        <input type="checkbox" name="custom_field_type_ids[]"
-                        id="custom_field_type_#{type.id}" value="#{type.id}" />
-                    </td>
-                    <?r end ?>
+            #{render_pagination(@field_types)}
 
-                    <td>#{type.id}</td>
-                    <td>
-                        #{if user_authorized?(:edit_custom_field_type)
-                          CustomFields::Controller::CustomFieldTypes.a(
-                            type.name,
-                            :edit,
-                            type.id
-                          )
-                        else
-                          type.name
-                        end}
-                    </td>
-                    <td>#{type.language_string}</td>
-                    <td>#{type.html_class}</td>
-                    <td>#{@boolean_hash[type.serialize]}</td>
-                    <td>#{@boolean_hash[type.allow_markup]}</td>
-                    <td>#{type.custom_field_method.name}</td>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
+            <?r else ?>
 
-        #{if @field_types.respond_to?(:navigation) \
-        and @field_types.page_count > 1
-          @field_types.navigation
-        end}
+            <p>#{lang('custom_field_types.messages.no_field_types')}</p>
 
-        <?r else ?>
+            <?r end ?>
 
-        <p>#{lang('custom_field_types.messages.no_field_types')}</p>
-
-        <?r end ?>
-
-        <?r if user_authorized?(:new_custom_field_type) ?>
-        <div class="button">
-            #{CustomFields::Controller::CustomFieldTypes.a(
-              lang('custom_field_types.buttons.new'),
-              :new
+            <?r if user_authorized?(:new_custom_field_type) ?>
+            #{new_button(
+              CustomFields::Controller::CustomFieldTypes.r(:new),
+              lang('custom_field_types.buttons.new')
             )}
-        </div>
-        <?r end ?>
+            <?r end ?>
 
-        <?r if user_authorized?(:delete_custom_field_type) \
-        and !@field_types.empty? ?>
-        <div class="button">
-            <input type="submit"
-            value="#{lang('custom_field_types.buttons.delete')}" />
-        </div>
-        <?r end ?>
-    </form>
+            <?r if user_authorized?(:delete_custom_field_type) \
+            and !@field_types.empty? ?>
+            #{delete_button(lang('custom_field_types.buttons.delete'))}
+            <?r end ?>
+        </form>
+    </div>
 </section>

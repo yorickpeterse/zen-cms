@@ -18,34 +18,22 @@ label
 input[type="text"], input[type="password"], textarea, input[type="email"]
 {
     border:      1px solid #ccc;
-    font-family: 'Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
     font-size:   14px;
     line-height: 1.4;
-    padding:     5px;
+    padding:     5px 5px 4px 5px;
     min-width:   400px;
-}
-
-/* Radios and checkboxes */
-input[type="radio"], input[type="checkbox"]
-{
-    cursor:      pointer;
-    margin:      0px 5px 5px 0px;
-}
-
-.radio_wrap, .checkbox_wrap
-{
-    margin-right:  10px;
-}
-
-/* Text fields and password fields */
-input[type="text"], input[type="password"]
-{
-    padding: 5px;
 }
 
 textarea
 {
-    width: 600px;
+    resize: both;
+}
+
+input[type="radio"], input[type="checkbox"]
+{
+    cursor: pointer;
+    margin: 0px 5px 5px 0px;
 }
 
 select
@@ -54,17 +42,6 @@ select
     font-size: 12px;
     min-width: 100px;
     width:     auto;
-}
-
-.input_wrapper
-{
-    margin-right: 10px;
-}
-
-*[disabled], *[disabled="disabled"]
-{
-    background: #f2f2f2;
-    cursor:     not-allowed;
 }
 
 fieldset
@@ -78,3 +55,24 @@ fieldset
         font-size:   14px;
         font-weight: bold;
     }
+
+*[disabled]
+{
+    background: #f4f4f4;
+    cursor:     not-allowed;
+}
+
+.radio_wrap, .checkbox_wrap
+{
+    margin-right:  10px;
+}
+
+.input_wrapper
+{
+    margin-right: 10px;
+}
+
+form .large
+{
+    min-width: 600px;
+}

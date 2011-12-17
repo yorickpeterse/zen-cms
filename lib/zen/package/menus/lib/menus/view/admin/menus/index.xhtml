@@ -1,93 +1,91 @@
 <section>
-    #{render_search_form(::Menus::Controller::Menus.r(:index))}
-
-    <header>
+    <header class="with_search">
         <h1>#{get_breadcrumbs}</h1>
+
+        #{render_search_form(Menus::Controller::Menus.r(:index))}
     </header>
 
-    <form action="#{Menus::Controller::Menus.r(:delete)}" method="post">
-        <input name="csrf_token" type="hidden" value="#{get_csrf_token}" />
+    <div class="body">
+        <form action="#{Menus::Controller::Menus.r(:delete)}" method="post">
+            <input name="csrf_token" type="hidden" value="#{get_csrf_token}" />
 
-        <?r if !@menus.empty? ?>
+            <?r if !@menus.empty? ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <?r if user_authorized?(:delete_menu) ?>
-                    <th class="no_sort">
-                        <input type="checkbox" />
-                    </th>
+            <table>
+                <thead>
+                    <tr>
+                        <?r if user_authorized?(:delete_menu) ?>
+                        <th class="no_sort">
+                            <input type="checkbox" />
+                        </th>
+                        <?r end ?>
+
+                        <th>#{lang('menus.labels.id')}</th>
+                        <th>#{lang('menus.labels.name')}</th>
+                        <th>#{lang('menus.labels.slug')}</th>
+                        <th>#{lang('menus.labels.html_class')}</th>
+                        <th>#{lang('menus.labels.html_id')}</th>
+
+                        <?r if user_authorized?(:show_menu_item) ?>
+                        <th></th>
+                        <?r end ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r @menus.each do |menu| ?>
+                    <tr>
+                        <?r if user_authorized?(:delete_menu) ?>
+                        <td>
+                            <input type="checkbox" name="menu_ids[]"
+                            value="#{menu.id}" />
+                        </td>
+                        <?r end ?>
+
+                        <td>#{menu.id}</td>
+
+                        <td>
+                            #{if user_authorized?(:edit_menu)
+                              edit_link(
+                                Menus::Controller::Menus.r(:edit, menu.id),
+                                menu.name
+                              )
+                            else
+                              menu.name
+                            end}
+                        </td>
+
+                        <td>#{menu.slug}</td>
+                        <td>#{menu.html_class}</td>
+                        <td>#{menu.html_id}</td>
+
+                        <?r if user_authorized?(:show_menu_item) ?>
+                        <td>
+                            #{manage_link(
+                              Menus::Controller::MenuItems.r(:index, menu.id),
+                              lang('menus.labels.manage_items')
+                            )}
+                        </td>
+                        <?r end ?>
+                    </tr>
                     <?r end ?>
+                </tbody>
+            </table>
 
-                    <th>#{lang('menus.labels.id')}</th>
-                    <th>#{lang('menus.labels.name')}</th>
-                    <th>#{lang('menus.labels.slug')}</th>
-                    <th>#{lang('menus.labels.html_class')}</th>
-                    <th>#{lang('menus.labels.html_id')}</th>
+            #{render_pagination(@menus)}
 
-                    <?r if user_authorized?(:show_menu_item) ?>
-                    <th></th>
-                    <?r end ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?r @menus.each do |menu| ?>
-                <tr>
-                    <?r if user_authorized?(:delete_menu) ?>
-                    <td>
-                        <input type="checkbox" name="menu_ids[]"
-                        value="#{menu.id}" />
-                    </td>
-                    <?r end ?>
+            <?r else ?>
 
-                    <td>#{menu.id}</td>
+            <p>#{lang('menus.messages.no_menus')}</p>
 
-                    <td>
-                        #{if user_authorized?(:edit_menu)
-                          Menus::Controller::Menus.a(menu.name, :edit, menu.id)
-                        else
-                          menu.name
-                        end}
-                    </td>
+            <?r end ?>
 
-                    <td>#{menu.slug}</td>
-                    <td>#{menu.html_class}</td>
-                    <td>#{menu.html_id}</td>
+            <?r if user_authorized?(:new_menu) ?>
+            #{new_button(Menus::Controller::Menus.r(:new), lang('menus.buttons.new'))}
+            <?r end ?>
 
-                    <?r if user_authorized?(:show_menu_item) ?>
-                    <td>
-                        #{Menus::Controller::MenuItems.a(
-                          lang('menus.labels.manage_items'), :index, menu.id
-                        )}
-                    </td>
-                    <?r end ?>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
-
-        #{if @menus.respond_to?(:navigation) and @menus.page_count > 1
-          @menus.navigation
-        end}
-
-        <?r else ?>
-
-        <p>#{lang('menus.messages.no_menus')}</p>
-
-        <?r end ?>
-
-        <?r if user_authorized?(:new_menu) ?>
-        <div class="button">
-            #{Menus::Controller::Menus.a(
-              lang('menus.buttons.new'), :new
-            )}
-        </div>
-        <?r end ?>
-
-        <?r if user_authorized?(:delete_menu) and !@menus.empty? ?>
-        <div class="button">
-            <input type="submit" value="#{lang('menus.buttons.delete')}" />
-        </div>
-        <?r end ?>
-    </form>
+            <?r if user_authorized?(:delete_menu) and !@menus.empty? ?>
+            #{delete_button(lang('menus.buttons.delete'))}
+            <?r end ?>
+        </form>
+    </div>
 </section>

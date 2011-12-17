@@ -1,97 +1,55 @@
 table
 {
-    border:          1px solid #aaa;
-    border-collapse: separate;
-    width:           100%;
-    text-align:      left;
+    width:      100%;
+    text-align: left;
 }
 
-    table thead
+    table thead tr th:not(.no_sort):hover
     {
-        background: #ddd;
+        cursor: pointer;
     }
 
-        table thead tr th
-        {
-            background: #ddd -webkit-gradient(
-                linear, left bottom, left top,from(#ddd), to(#eee)
-            );
-
-            background:    #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
-            border-top:    1px solid #fff;
-            border-right:  1px solid #aaa;
-            border-bottom: 1px solid #aaa;
-            text-shadow:   1px 1px #fff;
-        }
-
-        table thead tr th:last-child, table tbody tr td:last-child
-        {
-            border-right:  none;
-        }
-
-        /* Styles used to indicate the sort order of a column */
-        table thead tr th div
-        {
-            background:   url('/admin/images/zen/icons/asc.png')
-                no-repeat center right;
-
-            cursor:        pointer;
-            margin-right:  -5px;
-            padding-right: 30px;
-
-            /* VENDOR PREFIXES, AWESOME! */
-            user-select:         none;
-            -webkit-user-select: none;
-            -khtml-user-select:  none;
-            -moz-user-select:    none;
-            -o-user-select:      none;
-        }
-
-        table thead tr th.desc
-        {
-            background: #ddd;
-        }
-
-            table thead tr th.desc div
-            {
-                background:   url('/admin/images/zen/icons/desc.png')
-                    no-repeat center right!important;
-            }
-
-        table thead tr th, table tbody tr td
-        {
-            padding:        2px 10px;
-            vertical-align: middle;
-        }
-
-        table thead tr th:first-child input[type="checkbox"],
-        table tbody tr td:first-child input[type="checkbox"]
-        {
-            margin-top: 3px;
-        }
-
-    table tr:nth-child(even)
+    table thead tr th div
     {
-        background: #f2f2f2;
+        background:   url('/admin/images/zen/icons/asc.png')
+            no-repeat right center;
+
+        user-select:         none;
+        -webkit-user-select: none;
+        -khtml-user-select:  none;
+        -moz-user-select:    none;
+        -o-user-select:      none;
     }
 
-    .datepicker tr:nth-child(even)
+    table thead tr th.desc div
     {
-        background: #fff;
+        background: url('/admin/images/zen/icons/desc.png')
+            no-repeat center right;
     }
 
-    table tbody tr:hover
+    table thead tr th.no_sort:first-child
     {
-        background: #f2f2f2;
+        width: 25px;
     }
 
-        table tbody tr td
-        {
-            border-right:  1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-        }
+    table thead tr th, table tbody tr td
+    {
+        border-bottom: 1px solid #ccc;
+        min-width:     15px;
+        padding:       8px 3px;
+    }
 
-        table tbody tr:last-child td
-        {
-            border-bottom: none;
-        }
+    table tbody tr:last-child td
+    {
+        border-bottom: none;
+    }
+
+    table tr:nth-child(odd) td
+    {
+        background: #f9f9f9;
+    }
+
+.datepicker tr:nth-child(odd) td
+{
+    background: #fff;
+}

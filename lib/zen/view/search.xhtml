@@ -1,9 +1,7 @@
-<form action="#{@url}"
-method="get" id="search_form">
+<form action="#{@url}" method="get" id="search_form">
     <input name="query" type="text" value="#{request.params['query']}"
     placeholder="#{lang('zen_general.descriptions.search')}" />
 
-    <div class="button">
-        <input type="submit" value="#{lang('zen_general.buttons.search')}" />
-    </div>
+    <input type="submit" value="#{lang('zen_general.buttons.search')}"
+    class="button" />
 </form>

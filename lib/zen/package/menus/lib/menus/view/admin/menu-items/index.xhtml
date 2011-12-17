@@ -1,95 +1,94 @@
 <section>
-    #{render_search_form(::Menus::Controller::MenuItems.r(:index, @menu_id))}
-
-    <header>
+    <header class="with_search">
         <h1>#{get_breadcrumbs}</h1>
+
+        #{render_search_form(Menus::Controller::MenuItems.r(:index, @menu_id))}
     </header>
 
-    <form method="post" action="#{Menus::Controller::MenuItems.r(:delete)}">
-        <input name="csrf_token" type="hidden" value="#{get_csrf_token}" />
+    <div class="body">
+        <form method="post" action="#{Menus::Controller::MenuItems.r(:delete)}">
+            <input name="csrf_token" type="hidden" value="#{get_csrf_token}" />
 
-        <?r if !@menu_items.empty? ?>
+            <?r if !@menu_items.empty? ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <?r if user_authorized?(:delete_menu_item) ?>
-                    <th class="no_sort">
-                        <input type="checkbox" />
-                    </th>
+            <table>
+                <thead>
+                    <tr>
+                        <?r if user_authorized?(:delete_menu_item) ?>
+                        <th class="no_sort">
+                            <input type="checkbox" />
+                        </th>
+                        <?r end ?>
+
+                        <th>#{lang('menu_items.labels.id')}</th>
+                        <th>#{lang('menu_items.labels.name')}</th>
+                        <th>#{lang('menu_items.labels.url')}</th>
+                        <th>#{lang('menu_items.labels.parent_id')}</th>
+                        <th>#{lang('menu_items.labels.order')}</th>
+                        <th>#{lang('menu_items.labels.html_class')}</th>
+                        <th>#{lang('menu_items.labels.html_id')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?r @menu_items.each do |item| ?>
+                    <tr>
+                        <?r if user_authorized?(:delete_menu_item) ?>
+                        <td>
+                            <input name="menu_item_ids[]" type="checkbox"
+                            value="#{item.id}" />
+                        </td>
+                        <?r end ?>
+
+                        <td>#{item.id}</td>
+
+                        <td>
+                            #{if user_authorized?(:edit_menu_item)
+                              edit_link(
+                                Menus::Controller::MenuItems.r(
+                                  :edit,
+                                  @menu_id,
+                                  item.id
+                                ),
+                                item.name
+                              )
+                            else
+                              item.name
+                            end}
+                        </td>
+
+                        <td>
+                            <a href="#{item.url}" class="icon external">
+                                #{item.url}
+                            </a>
+                        </td>
+                        <td>#{item.ancestors.map { |a| a.name }.join(', ')}</td>
+                        <td>#{item.sort_order}</td>
+                        <td>#{item.html_class}</td>
+                        <td>#{item.html_id}</td>
+                    </tr>
                     <?r end ?>
+                </tbody>
+            </table>
 
-                    <th>#{lang('menu_items.labels.id')}</th>
-                    <th>#{lang('menu_items.labels.name')}</th>
-                    <th>#{lang('menu_items.labels.url')}</th>
-                    <th>#{lang('menu_items.labels.parent_id')}</th>
-                    <th>#{lang('menu_items.labels.order')}</th>
-                    <th>#{lang('menu_items.labels.html_class')}</th>
-                    <th>#{lang('menu_items.labels.html_id')}</th>
-                </tr>
-            </thead>
-            <tbody>
+            #{render_pagination(@menu_items)}
 
-                <?r @menu_items.each do |item| ?>
-                <tr>
-                    <?r if user_authorized?(:delete_menu_item) ?>
-                    <td>
-                        <input name="menu_item_ids[]" type="checkbox"
-                        value="#{item.id}" />
-                    </td>
-                    <?r end ?>
+            <?r else ?>
 
-                    <td>#{item.id}</td>
+            <p>#{lang('menu_items.messages.no_items')}</p>
 
-                    <td>
-                        #{if user_authorized?(:edit_menu_item)
-                          Menus::Controller::MenuItems.a(
-                            item.name,
-                            :edit,
-                            @menu_id,
-                            item.id
-                          )
-                        else
-                          item.name
-                        end}
-                    </td>
+            <?r end ?>
 
-                    <td>
-                        <a href="#{item.url}">#{item.url}</a>
-                    </td>
-
-                    <td>#{item.ancestors.map { |a| a.name }.join(', ')}</td>
-                    <td>#{item.sort_order}</td>
-                    <td>#{item.html_class}</td>
-                    <td>#{item.html_id}</td>
-                </tr>
-                <?r end ?>
-
-            </tbody>
-        </table>
-
-        #{if @menu_items.respond_to?(:navigation) and @menu_items.page_count > 1
-          @menu_items.navigation
-        end}
-
-        <?r else ?>
-
-        <p>#{lang('menu_items.messages.no_items')}</p>
-
-        <?r end ?>
-
-        <?r if user_authorized?(:new_menu_item) ?>
-        <div class="button">
-            #{Menus::Controller::MenuItems.a(
-              lang('menu_items.buttons.new'), :new, @menu_id
+            <?r if user_authorized?(:new_menu_item) ?>
+            #{new_button(
+              Menus::Controller::MenuItems.r(:new, @menu_id),
+              lang('menu_items.buttons.new')
             )}
-        </div>
-        <?r end ?>
+            <?r end ?>
 
-        <?r if user_authorized?(:delete_menu_item) and !@menu_items.empty? ?>
-        <div class="button">
-            <input type="submit" value="#{lang('menu_items.buttons.delete')}" />
-        </div>
-        <?r end ?>
-    </form>
+            <?r if user_authorized?(:delete_menu_item) and !@menu_items.empty? ?>
+            #{delete_button(lang('menu_items.buttons.delete'))}
+            <?r end ?>
+        </form>
+    </div>
 </section>

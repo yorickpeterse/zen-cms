@@ -1,82 +1,84 @@
 <section>
-    #{render_search_form(Users::Controller::Users.r(:index))}
-
-    <header>
+    <header class="with_search">
         <h1>#{get_breadcrumbs}</h1>
+
+        #{render_search_form(Users::Controller::Users.r(:index))}
     </header>
 
-    <form method="post" action="#{Users::Controller::Users.r(:delete)}">
-        <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
+    <div class="body">
+        <form method="post" action="#{Users::Controller::Users.r(:delete)}">
+            <input type="hidden" name="csrf_token" value="#{get_csrf_token}" />
 
-        <?r if !@users.empty? ?>
+            <?r if !@users.empty? ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <?r if user_authorized?(:delete_user) ?>
-                    <th class="no_sort">
-                        <input type="checkbox" />
-                    </th>
+            <table>
+                <thead>
+                    <tr>
+                        <?r if user_authorized?(:delete_user) ?>
+                        <th class="no_sort">
+                            <input type="checkbox" />
+                        </th>
+                        <?r end ?>
+
+                        <th>#{lang('users.labels.id')}</th>
+                        <th>#{lang('users.labels.name')}</th>
+                        <th>#{lang('users.labels.email')}</th>
+                        <th>#{lang('users.labels.status')}</th>
+                        <th>#{lang('users.labels.created_at')}</th>
+                        <th>#{lang('users.labels.updated_at')}</th>
+                        <th>#{lang('users.labels.last_login')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r @users.each do |user| ?>
+                    <tr>
+                        <?r if user_authorized?(:delete_user) ?>
+                        <td>
+                            <input type="checkbox" name="user_ids[]"
+                            value="#{user.id}" />
+                        </td>
+                        <?r end ?>
+
+                        <td>#{user.id}</td>
+
+                        <td>
+                            #{if user_authorized?(:edit_user)
+                              edit_link(
+                                Users::Controller::Users.r(:edit, user.id),
+                                user.name
+                              )
+                            else
+                              user.name
+                            end}
+                        </td>
+                        <td>#{user.email}</td>
+                        <td>#{user.user_status_name}</td>
+                        <td>#{format_date(user.created_at)}</td>
+                        <td>#{format_date(user.updated_at)}</td>
+                        <td>#{format_date(user.last_login)}</td>
+                    </tr>
                     <?r end ?>
+                </tbody>
+            </table>
 
-                    <th>#{lang('users.labels.id')}</th>
-                    <th>#{lang('users.labels.name')}</th>
-                    <th>#{lang('users.labels.email')}</th>
-                    <th>#{lang('users.labels.status')}</th>
-                    <th>#{lang('users.labels.created_at')}</th>
-                    <th>#{lang('users.labels.updated_at')}</th>
-                    <th>#{lang('users.labels.last_login')}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?r @users.each do |user| ?>
-                <tr>
-                    <?r if user_authorized?(:delete_user) ?>
-                    <td>
-                        <input type="checkbox" name="user_ids[]"
-                        value="#{user.id}" />
-                    </td>
-                    <?r end ?>
+            #{render_pagination(@users)}
 
-                    <td>#{user.id}</td>
+            <?r else ?>
 
-                    <td>
-                        #{if user_authorized?(:edit_user)
-                          Users::Controller::Users.a(user.name, :edit, user.id)
-                        else
-                          user.name
-                        end}
-                    </td>
-                    <td>#{user.email}</td>
-                    <td>#{user.user_status_name}</td>
-                    <td>#{format_date(user.created_at)}</td>
-                    <td>#{format_date(user.updated_at)}</td>
-                    <td>#{format_date(user.last_login)}</td>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
+            <p>#{lang('users.messages.no_users')}</p>
 
-        #{if @users.respond_to?(:navigation) and @users.page_count > 1
-          @users.navigation
-        end}
+            <?r end ?>
 
-        <?r else ?>
+            <?r if user_authorized?(:new_user) ?>
+            #{new_button(
+              Users::Controller::Users.r(:new),
+              lang('users.buttons.new')
+            )}
+            <?r end ?>
 
-        <p>#{lang('users.messages.no_users')}</p>
-
-        <?r end ?>
-
-        <?r if user_authorized?(:new_user) ?>
-        <div class="button">
-            #{Users::Controller::Users.a(lang('users.buttons.new'), :new)}
-        </div>
-        <?r end ?>
-
-        <?r if user_authorized?(:delete_user) and !@users.empty? ?>
-        <div class="button">
-            <input type="submit" value="#{lang('users.buttons.delete')}" />
-        </div>
-        <?r end ?>
-    </form>
+            <?r if user_authorized?(:delete_user) and !@users.empty? ?>
+            #{delete_button(lang('users.buttons.delete'))}
+            <?r end ?>
+        </form>
+    </div>
 </section>

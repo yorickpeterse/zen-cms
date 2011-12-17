@@ -6,81 +6,86 @@
     <div class="tabs">
         <ul>
             <li>
-                <a href="#packages">#{lang('extensions.labels.packages')}</a>
+                <a class="icon box"
+                href="#packages">#{lang('extensions.labels.packages')}</a>
             </li>
             <li>
-                <a href="#themes">#{lang('extensions.labels.themes')}</a>
+                <a class="icon template"
+                href="#themes">#{lang('extensions.labels.themes')}</a>
             </li>
             <li>
-                <a href="#languages">#{lang('extensions.labels.languages')}</a>
+                <a class="icon globe"
+                href="#languages">#{lang('extensions.labels.languages')}</a>
             </li>
         </ul>
     </div>
 
-    <div id="packages">
-        <table class="no_sort">
-            <thead>
-                <tr>
-                    <th>#{lang('extensions.labels.package')}</th>
-                    <th>#{lang('extensions.labels.author')}</th>
-                    <th>#{lang('extensions.labels.description')}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?r Zen::Package::REGISTERED.each do |name, package| ?>
-                <tr>
-                    <td>#{package.formatted_title}</td>
-                    <td>#{package.author}</td>
-                    <td>#{package.about}</td>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
-    </div>
+    <div class="body">
+        <div id="packages">
+            <table class="no_sort">
+                <thead>
+                    <tr>
+                        <th>#{lang('extensions.labels.package')}</th>
+                        <th>#{lang('extensions.labels.author')}</th>
+                        <th>#{lang('extensions.labels.description')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r Zen::Package::REGISTERED.each do |name, package| ?>
+                    <tr>
+                        <td>#{package.formatted_title}</td>
+                        <td>#{package.author}</td>
+                        <td>#{package.about}</td>
+                    </tr>
+                    <?r end ?>
+                </tbody>
+            </table>
+        </div>
 
-    <div id="themes">
-        <table class="no_sort">
-            <thead>
-                <tr>
-                    <th>#{lang('extensions.labels.theme')}</th>
-                    <th>#{lang('extensions.labels.author')}</th>
-                    <th>#{lang('extensions.labels.description')}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?r Zen::Theme::REGISTERED.each do |name, theme| ?>
-                <tr>
-                    <td>#{theme.formatted_name}</td>
-                    <td>#{theme.author}</td>
-                    <td>#{theme.about}</td>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
-    </div>
+        <div id="themes">
+            <table class="no_sort">
+                <thead>
+                    <tr>
+                        <th>#{lang('extensions.labels.theme')}</th>
+                        <th>#{lang('extensions.labels.author')}</th>
+                        <th>#{lang('extensions.labels.description')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r Zen::Theme::REGISTERED.each do |name, theme| ?>
+                    <tr>
+                        <td>#{theme.formatted_name}</td>
+                        <td>#{theme.author}</td>
+                        <td>#{theme.about}</td>
+                    </tr>
+                    <?r end ?>
+                </tbody>
+            </table>
+        </div>
 
-    <div id="languages">
-        <table class="no_sort">
-            <thead>
-                <tr>
-                    <th>#{lang('extensions.labels.language')}</th>
-                    <th>#{lang('extensions.labels.rtl')}</th>
-                    <th>#{lang('extensions.labels.loaded_translations')}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?r Zen::Language::REGISTERED.each do |name, lang| ?>
-                <tr>
-                    <td>#{lang.title}</td>
-                    <td>
-                        #{lang(
-                          "zen_general.special.boolean_hash.#{lang.rtl}"
-                        )}
-                    </td>
-                    <td>#{lang.collections.keys.length}</td>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
-    </div>
+        <div id="languages">
+            <table class="no_sort">
+                <thead>
+                    <tr>
+                        <th>#{lang('extensions.labels.language')}</th>
+                        <th>#{lang('extensions.labels.rtl')}</th>
+                        <th>#{lang('extensions.labels.loaded_translations')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r Zen::Language::REGISTERED.each do |name, lang| ?>
+                    <tr>
+                        <td>#{lang.title}</td>
+                        <td>
+                            #{lang(
+                              "zen_general.special.boolean_hash.#{lang.rtl}"
+                            )}
+                        </td>
+                        <td>#{lang.collections.keys.length}</td>
+                    </tr>
+                    <?r end ?>
+                </tbody>
+            </table>
+        </div>
+</div>
 </section>

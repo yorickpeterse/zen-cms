@@ -309,21 +309,16 @@ module Zen
       end
 
       ##
-      # Builds an HTML opening tag with the lang and rtl attributes set for the
-      # currently used language.
+      # Returns a string containing the text direction if the current language
+      # is an rtl language.
       #
       # @since  14-11-2011
       # @return [String]
       #
-      def html_head
-        curr = Zen::Language.current
-        head = "<html lang=\"#{curr.name}\""
-
-        if curr.rtl == true
-          header += ' dir="rtl"'
+      def html_text_direction
+        if Zen::Language.current.rtl == true
+          return 'dir="rtl"'
         end
-
-        return head + '>'
       end
     end # class << self
 

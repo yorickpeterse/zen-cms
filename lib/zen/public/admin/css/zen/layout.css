@@ -1,184 +1,185 @@
-.container
+/* General layout elements. */
+#admin
 {
-    min-width:  960px;
+    height: 100%;
 }
 
-#login
+section header
 {
-    margin-top: 50px;
+    background:    #eee;
+    border-bottom: 1px solid #ccc;
+    border-top:    1px solid #fff;
+    min-height:    35px;
+    padding:       5px 15px 8px 15px;
+
+    box-shadow:         0px 0px 2px #ccc;
+    -webkit-box-shadow: 0px 0px 2px #ccc;
+    -moz-box-shadow:    0px 0px 2px #ccc;
 }
 
-/**
- * Top part of the admin panel that contains the user bar along with the main
- * navigation menu.
- */
-#top
-{
-  background:    #212121;
-  border-bottom: 1px solid #fff;
-  height:        30px;
-  width:         100%;
-}
-
-    #top #main_nav .left, #top #main_nav .left li
+    section header h1
     {
-        float:   left;
+        font-weight: normal;
+        font-size:   22px;
+        margin:      4px 0px 0px 0px;
     }
 
-    #top #main_nav .right li
-    {
-        float:   right;
-    }
-
-    #top #main_nav ul li a
-    {
-        color:            #fff;
-        display:          block;
-        margin:           1px 10px;
-        padding:          3px 3px 5px 3px;
-        text-decoration:  none;
-        text-align:       center;
-    }
-
-    #top #main_nav ul li:hover, #top #main_nav ul li a:hover
-    {
-        background:    #555;
-        text-shadow:   1px 1px #000;
-    }
-
-        /* Sub menus */
-        #top #main_nav ul li ul
+        section header h1 .current
         {
-            background: #555;
-            left:       -10000px;
-            margin-top: -4px;
-            position:   absolute;
-            padding:    7px;
+            font-weight: bold;
         }
 
-        #top #main_nav ul li:hover ul
-        {
-            left: auto;
-        }
+    section header.with_search h1
+    {
+        float: left;
+    }
 
-            #top #main_nav ul li ul li
-            {
-                float:      none!important;
-            }
-
-                #top #main_nav ul li ul li a
-                {
-                    background:    none;
-                    margin:        0px;
-                    padding:       5px;
-                    text-align:    left;
-                }
-
-                #top #main_nav ul li ul li a:hover
-                {
-                    background:    #666;
-                }
-
-/**
- * Main area of the admin panel. The content stretches across the entire screen
- * and there are no silly sidebars.
- */
-#container
-{
-    background:    #fff;
-    border-radius: 5px;
-    border:        5px solid #ddd;
-    margin-top:    20px;
-    min-height:    100px;
-
-    -webkit-border-radius: 5px;
-    -moz-border-radius:    5px;
-}
-
-    #container section
+    section .body
     {
         padding: 15px;
     }
 
-#login #container, #login #main_footer
+/* Left part */
+#sidebar
 {
-    margin:    20px auto;
-    min-width: 500px;
-    width:     500px;
+    color: #fff;
+    float: left;
+    width: 200px;
 }
 
-/**
- * Bottom part of the admin panel containing the footer
- */
-#main_footer
+    #sidebar header h1
+    {
+        margin:      15px 0px 10px 0px;
+        text-align:  center;
+        text-shadow: 1px 1px #000;
+    }
+
+        #sidebar header h1 a
+        {
+            color:           #fff;
+            text-decoration: none;
+        }
+
+        #sidebar header h1 a:hover
+        {
+            text-decoration: underline;
+        }
+
+    #sidebar nav
+    {
+        margin-bottom: 20px;
+    }
+
+#user_navigation ul, #admin_navigation ul
 {
-    font-size:  12px;
-    margin-top: 10px;
+    margin: 0px;
+}
+
+#user_navigation ul li, #admin_navigation ul li
+{
+    list-style-type: none;
+}
+
+#user_navigation
+{
+    padding:    0px 10px;
     text-align: center;
 }
 
-    #main_footer p
+    #user_navigation ul li
     {
-        text-align: center;
+        display:      inline-block;
+        margin-right: 5px;
     }
 
-/* CSS rules for the pagination system */
-.pager
+        #user_navigation ul li a
+        {
+            color:           #fff;
+            font-size:       12px;
+            text-decoration: none;
+        }
+
+        #user_navigation ul li a:hover
+        {
+            text-decoration: underline;
+        }
+
+#admin_navigation ul li a
 {
-    float: right;
+    border-top:      1px solid #494949;
+    border-bottom:   1px solid #000;
+    color:           #fff;
+    display:         block;
+    font-size:       12px;
+    padding:         8px 10px;
+    text-decoration: none;
+    text-shadow:     1px 1px #000;
+
+    background: linear-gradient(#343434, #272727);
+    background: -moz-linear-gradient(#343434, #272727);
+    background: -webkit-linear-gradient(#343434, #272727);
 }
 
-    .pager a
-    {
-        background: #ddd;
-        background: #ddd -webkit-gradient(linear, left bottom, left top,
-            from(#ddd), to(#eee));
+#admin_navigation ul li a:hover
+{
+    border-right: 3px solid #e3c91e;
+    background:   linear-gradient(#3e3e3e, #303030);
+    background:   -moz-linear-gradient(#3e3e3e, #303030);
+    background:   -webkit-linear-gradient(#3e3e3e, #303030);
+}
 
-        background:      #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
-        border:          1px solid #bbb;
-        color:           #000!important;
-        display:         inline-block!important;
-        font-size:       13px;
-        font-family:     'Helvetica Neue', Helvetica, Arial, sans-serif;
-        margin-left:     10px;
-        min-width:       20px;
-        padding:         3px 5px;
-        text-decoration: none;
-        text-shadow:     1px 1px #fff;
-        text-align:      center;
-    }
+#admin_navigation ul li.current a,
+#admin_navigation ul li a:active
+{
+    border-right: 3px solid #e3c91e;
+    background:   linear-gradient(bottom, #3e3e3e, #303030);
+    background:   -moz-linear-gradient(bottom, #3e3e3e, #303030);
+    background:   -webkit-linear-gradient(bottom, #3e3e3e, #303030)
+}
 
-    .pager a.current
-    {
-        font-weight: bold;
-        padding:     2px 5px 4px 5px;
-    }
+#admin_navigation ul li ul li a
+{
+    padding-left: 20px;
+}
 
-    .pager a:active
-    {
-        background: #eee -webkit-gradient(linear, left bottom, left top,
-            from(#eee), to(#ddd));
+/* Right part (main content area) of the application. */
+#main
+{
+    background:  #fff;
+    margin-left: 200px;
+    min-height:  100%;
+}
 
-        background: #eee -moz-linear-gradient(bottom, top, #eee, #ddd);
-    }
+#login #main
+{
+    margin:     20px auto;
+    min-height: 0px;
+    width:      500px;
+}
 
-    .pager span
-    {
-        display: none;
-    }
-
-/* Styles for the search form */
 #search_form
 {
-    float: right;
+    float:      right;
+    margin-top: 1px;
 }
 
     #search_form input[type="text"]
     {
-        min-width: 250px;
+        display:      inline-block;
+        min-width:    250px;
+        margin-right: -5px;
+        width:        250px;
     }
 
     #search_form .button
     {
-        margin-right: 0px;
+        margin: 2px 0px 0px 0px;
+
+        border-radius:         0px 5px 5px 0px;
+        -webkit-border-radius: 0px 5px 5px 0px;
+        -moz-border-radius:    0px 5px 5px 0px;
+
+        box-shadow:         0px 0px 1px #ddd;
+        -webkit-box-shadow: 0px 0px 1px #ddd;
+        -moz-box-shadow:    0px 0px 1px #ddd;
     }

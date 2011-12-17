@@ -153,7 +153,7 @@ module Comments
         end
 
         if !website.nil? and !website.empty? and with_link == true
-          website = '<a href="%s" title="%s">%s</a>' % [
+          website = '<a href="%s" title="%s" class="icon external">%s</a>' % [
             website,
             website,
             website
@@ -177,7 +177,10 @@ module Comments
         _comment = _comment[0, 15] + '...'
 
         if with_link == true
-          return ::Comments::Controller::Comments.a(_comment, :edit, id)
+          return '<a href="%s" class="icon edit">%s</a>' % [
+            Comments::Controller::Comments.r(:edit, id),
+            _comment
+          ]
         else
           return _comment
         end

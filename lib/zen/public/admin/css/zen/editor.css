@@ -3,13 +3,12 @@
     background: #eee;
     border:     1px solid #aaa;
     padding:    5px;
-    width:      98%;
 }
 
 .editor_container .editor_toolbar
 {
     height:        30px;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
 }
 
     .editor_container .editor_toolbar:after
@@ -24,65 +23,47 @@
         width:       0;
     }
 
-        .editor_container .editor_toolbar ul
-        {
-            margin:  0px;
-            padding: 0px;
-        }
+    .editor_container .editor_toolbar .button_icon
+    {
+        background-repeat: none;
+        display:           inline-block;
+        height:            16px;
+        margin:            0px 5px 0px 0px;
+        vertical-align:    top;
+        width:             16px;
+    }
 
-        .editor_container .editor_toolbar ul li
-        {
-            border:          1px solid #ccc;
-            cursor:          pointer;
-            display:         block;
-            float:           left;
-            list-style-type: none;
-            height:          22px;
-            margin:          0px 5px 0px 0px;
-            padding:         3px 15px 3px 15px;
-            text-indent:     -10000px;
-            white-space:     nowrap;
-        }
+    .editor_container .editor_toolbar .bold .button_icon
+    {
+        background-image: url("/admin/images/zen/icons/bold.png");
+    }
 
-        /* Individual toolbar buttons */
-        .editor_container .editor_toolbar ul li.bold
-        {
-            background: url("/admin/images/zen/icons/bold.png") no-repeat 6px 5px;
-        }
+    .editor_container .editor_toolbar .italic .button_icon
+    {
+        background-image: url("/admin/images/zen/icons/italic.png");
+    }
 
-        .editor_container .editor_toolbar ul li.italic
-        {
-            background: url("/admin/images/zen/icons/italic.png") no-repeat 6px 5px;
-        }
+    .editor_container .editor_toolbar .link .button_icon
+    {
+        background-image: url("/admin/images/zen/icons/link.png");
+    }
 
-        .editor_container .editor_toolbar ul li.link
-        {
-            background: url("/admin/images/zen/icons/link.png") no-repeat 7px 5px;
-        }
+    .editor_container .editor_toolbar .ul .button_icon
+    {
+        background-image: url("/admin/images/zen/icons/ul.png");
+    }
 
-        .editor_container .editor_toolbar ul li.ul
-        {
-            background: url("/admin/images/zen/icons/ul.png") no-repeat 6px 5px;
-        }
+    .editor_container .editor_toolbar .ol .button_icon
+    {
+        background-image: url("/admin/images/zen/icons/ol.png");
+    }
 
-        .editor_container .editor_toolbar ul li.ol
-        {
-            background: url("/admin/images/zen/icons/ol.png") no-repeat 6px 5px;
-        }
-
-        .editor_container .editor_toolbar ul li.preview
-        {
-            background: url('/admin/images/zen/icons/preview.png') no-repeat 7px 6px;
-        }
-
-        .editor_container .editor_toolbar ul li:hover
-        {
-            background-color: #ddd;
-        }
+    .editor_container .editor_toolbar .preview .button_icon
+    {
+        background-image: url('/admin/images/zen/icons/preview.png');
+    }
 
 .editor_container textarea
 {
-    border: 1px solid #ccc;
-    resize: both;
-    width:  99%;
+    width: 99%;
 }
