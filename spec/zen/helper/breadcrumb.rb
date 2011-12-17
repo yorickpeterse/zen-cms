@@ -14,7 +14,7 @@ describe('Ramaze::Helper::Breadcrumb') do
     breadcrumbs.include?('foo').should == true
     breadcrumbs.include?('bar').should == true
     breadcrumbs.include?('baz').should == true
-    breadcrumbs.include?('/').should == true
+    breadcrumbs.include?('/').should   == true
   end
 
   it('Build a set of breadcrumbs with a custom separator') do
@@ -29,9 +29,5 @@ describe('Ramaze::Helper::Breadcrumb') do
     breadcrumbs.include?('bar').should == true
     breadcrumbs.include?('baz').should == true
     breadcrumbs.include?('--').should == true
-  end
-
-  it('Return nil when no breadcrumb parameters are specified') do
-    get_breadcrumbs.nil?.should == true
   end
 end
