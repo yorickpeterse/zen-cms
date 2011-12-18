@@ -167,13 +167,15 @@ section header
     {
         display:      inline-block;
         min-width:    250px;
-        margin-right: -5px;
+        margin:       2px -5px 0px 0px;
         width:        250px;
     }
 
     #search_form .button
     {
-        margin: 2px 0px 0px 0px;
+        height:     31px;
+        min-height: 31px;
+        margin:     2px 0px 0px 0px;
 
         border-radius:         0px 5px 5px 0px;
         -webkit-border-radius: 0px 5px 5px 0px;
