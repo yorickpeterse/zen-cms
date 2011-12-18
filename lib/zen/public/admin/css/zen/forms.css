@@ -21,13 +21,13 @@ input[type="text"], input[type="password"], textarea, input[type="email"]
     font-family: 'Helvetica Neue', Helvetica, Verdana, Arial, sans-serif;
     font-size:   14px;
     line-height: 1.4;
-    padding:     5px 5px 4px 5px;
+    padding:     5px;
     min-width:   400px;
 }
 
 textarea
 {
-    resize: both;
+    resize:  both;
 }
 
 input[type="radio"], input[type="checkbox"]

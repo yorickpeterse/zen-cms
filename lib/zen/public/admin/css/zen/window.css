@@ -1,12 +1,29 @@
 .window
 {
-    background:  #fff;
-    border:      1px solid #aaa;
-    left:        50%;
-    min-width:   350px;
-    min-height:  100px;
-    position:    absolute;
-    top:         80px;
+    background:    #fff;
+    border:        1px solid #aaa;
+    left:          50%;
+    min-width:     350px;
+    min-height:    100px;
+    position:      absolute;
+    top:           30px;
+    z-index:       2;
+
+    box-shadow:         0px 5px 30px #444;
+    -webkit-box-shadow: 0px 5px 30px #444;
+    -moz-box-shadow:    0px 5px 30px #444;
+}
+
+.window_overlay
+{
+    background: #000;
+    height:     100%;
+    left:       0px;
+    opacity:    0.5;
+    position:   fixed;
+    top:        0px;
+    width:      100%;
+    z-index:    1;
 }
 
 .window.move
@@ -19,55 +36,39 @@
     cursor: nwse-resize;
 }
 
-.window, .window header
+.window .header
 {
-    border-radius:         5px 5px 0px 0px;
-    -webkit-border-radius: 5px 5px 0px 0px;
-    -moz-border-radius:    5px 5px 0px 0px;
+    background:    #eee;
+    border-bottom: 1px solid #ccc;
+    border-top:    1px solid #fff;
+    min-height:    15px;
+    padding:       5px 15px 8px 15px;
+
+    box-shadow:         0px 0px 2px #ccc;
+    -webkit-box-shadow: 0px 0px 2px #ccc;
+    -moz-box-shadow:    0px 0px 2px #ccc
 }
 
-    .window header
+    .window .header h2
     {
-        background:    #ddd -webkit-gradient(linear, left bottom, left top,
-            from(#ddd), to(#eee));
-        background:    #ddd -moz-linear-gradient(bottom, top, #ddd, #eee);
-        border-top:    1px solid #fff;
-        border-bottom: 1px solid #aaa;
-        padding:       3px;
+        border:      none;
+        font-size:   16px;
+        font-weight: normal;
+        margin:      0px;
+        padding:     0px;
+        text-align:  center;
     }
 
-        .window header h1
-        {
-            font-size:   13px;
-            font-weight: normal;
-            float:       right;
-            margin:      0px;
-            padding:     0px;
-            text-shadow: 0px 1px #fff;
-            text-align:  center;
-            width:       97%;
-        }
-
-        .window header .close
-        {
-            background: url('/admin/images/zen/icons/close.png') no-repeat center left;
-            cursor:     pointer;
-            float:      left;
-            height:     16px;
-            width:      16px;
-        }
-
-    .window .body, .window .buttons
+    .window .body
     {
-        padding: 20px;
+        max-height: 800px;
+        padding:    20px;
+        overflow:   auto;
     }
 
     .window .buttons
     {
-        float: right;
+        background: #eee;
+        border-top: 1px solid #ccc;
+        padding:    10px 20px;
     }
-
-        .window .buttons .button:last-child
-        {
-            margin-right: 0px;
-        }

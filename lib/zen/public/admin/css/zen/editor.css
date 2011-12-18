@@ -2,7 +2,7 @@
 {
     background: #eee;
     border:     1px solid #aaa;
-    padding:    5px;
+    padding:    5px 18px 5px 5px;
 }
 
 .editor_container .editor_toolbar
@@ -65,5 +65,5 @@
 
 .editor_container textarea
 {
-    width: 99%;
+    width: 100%;
 }
