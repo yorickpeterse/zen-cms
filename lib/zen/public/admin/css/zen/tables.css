@@ -34,9 +34,10 @@ table
 
     table thead tr th, table tbody tr td
     {
-        border-bottom: 1px solid #ccc;
-        min-width:     15px;
-        padding:       8px 3px;
+        border-bottom:  1px solid #ccc;
+        min-width:      20px;
+        padding:        8px 3px;
+        vertical-align: top;
     }
 
     table tbody tr:last-child td
