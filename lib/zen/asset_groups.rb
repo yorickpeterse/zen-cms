@@ -1,7 +1,7 @@
 Zen.asset.register_asset_group(:tabs) do |asset, controller, methods|
   asset.serve(
     :javascript,
-    ['admin/js/zen/lib/tabs'],
+    ['admin/js/zen/lib/tabs', 'admin/js/zen/lib/hash'],
     :name       => 'zen_tabs',
     :controller => controller,
     :minify     => true,

@@ -67,6 +67,7 @@ Out of the box the following classes are available:
 
 * Zen.Window
 * Zen.Tabs
+* Zen.Hash
 * Zen.Editor
 * Zen.Editor.Markdown
 * Zen.Editor.Textile
@@ -159,32 +160,62 @@ The following options can be used to customize the tabs:
 
 * default: a selector used to indicate what tab element should be selected by
   default. Set to ``li:first-child`` by default.
-* ajax: when set to true the content to display for each tab will be retrieved
-  using an Ajax call rather than retrieving it from the current page.
 
-When you're *not* using an Ajax based tab system you'll have to make sure your
-markup is correct. The links of the tabs should point to an ID of an element
-with a class of "tab_content":
+For the tabs system to work properly you'll need to use the right markup for
+your fields. Luckily this is as simple as creating a ``<div>`` (or another type
+of element) and setting an ID for that element:
 
-    <div id="some_id" class="tab_content">
-
-    </div>
-
-In order to display this field the corresponding tab URL should be ``#some_id``.
-A full example of the required markup, including the markup for the tab menu,
-looks like the following:
-
+    <!-- The markup for your tabs -->
     <div class="tabs">
         <ul>
             <li>
-                <a href="#my_tab">This is my tab</a>
+                <a href="#some_id">Some ID</a>
             </li>
         </ul>
     </div>
 
-    <div id="my_tab" class="tab_content">
+    <!-- The field to show/hide -->
+    <div id="some_id">
 
     </div>
+
+Keep in mind that for the tab system to work properly the URLs for each tab
+should start with a hash sign.
+
+### Zen.Hash
+
+Zen.Hash is a class that can be used to parse and generate shebang/hash bang
+URLs. Parsing is done using ``Zen.Hash#parse`` and generating URLs using
+``Zen.Hash#getHash``.
+
+Parsing a URL is relatively simple and the end output is similar to how you'd
+parse URLs with query string parameters. First create a new instance of this
+class:
+
+    var hash = new Zen.Hash('#!/users/active?limit=10');
+
+The supplied string will be parsed straight away and the result can be
+retrieved from two attributes:
+
+* segments
+* params
+
+The first attribute contains an array with all the URL segments, the second
+one is an object containing all the query string parameters. In case of the
+above example that would lead to the following data being stored in these
+attributes:
+
+    console.log(hash.segments); // => ["users", "active"]
+    console.log(hash.params);   // => {limit: '10'}
+
+Keep in mind that calling ``Zen.Hash#parse`` will overwrite existing segments
+and parameters.
+
+Generating a full shebang URL is pretty straight forward as well and can be done
+by calling ``getHash()``. This method returns a string containing the shebang
+URL including the prefix:
+
+    hash.getHash(); // => "#!/users/active?limit=10"
 
 ### Zen.Editor
 
@@ -328,7 +359,7 @@ Example:
         </tbody>
     </table>
 
-If you want to create a table that should be ignored by Zen.Html table simply
+If you want to create a table that should be ignored by Zen.HtmlTable simply
 give the ``<table>`` element a class of ``no_sort``:
 
     <table class="no_sort">
