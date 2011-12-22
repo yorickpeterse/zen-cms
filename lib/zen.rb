@@ -120,6 +120,7 @@ module Zen
         [
           'admin/js/vendor/mootools/core',
           'admin/js/vendor/mootools/more',
+          'admin/js/zen/lib/base',
           'admin/js/zen/lib/html_table',
           'admin/js/zen/index'
         ],
