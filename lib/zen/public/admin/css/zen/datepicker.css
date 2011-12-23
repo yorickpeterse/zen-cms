@@ -1,26 +1,25 @@
 .datepicker
 {
-    background:    #fff;
-    border-radius: 5px;
-    border:        5px solid #ddd;
-    cursor:        move;
-    display:       block;
-    height:        255px;
-    margin-top:    5px;
-    padding:       5px;
-    position:      absolute;
-    width:         290px;
+    background: #fff;
+    border:     1px solid #aaa;
+    display:    block;
+    height:     265px;
+    margin-top: 5px;
+    position:   absolute;
+    width:      300px;
 
-    -webkit-border-radius: 5px;
-    -moz-border-radius:    5px;
+    box-shadow:         0px 2px 5px #ccc;
+    -webkit-box-shadow: 0px 2px 5px #ccc;
+    -moz-box-shadow:    0px 2px 5px #ccc;
 }
 
-    /* The datepicker's header */
     .datepicker .header
     {
-        background:   #eee;
-        height:       30px;
-        position:     relative;
+        background:    #eee;
+        border-bottom: 1px solid #ccc;
+        border-top:    1px solid #fff;
+        height:        30px;
+        position:      relative;
     }
 
         .datepicker .header .title
@@ -65,10 +64,16 @@
 
     .datepicker .body
     {
-        height:    255px;
-        overflow:  hidden;
-        position:  relative;
+        height:   225px;
+        overflow: hidden;
+        position: relative;
     }
+
+        .datepicker .body .slider
+        {
+            height: 225px;
+            margin: 5px 5px 5px 10px;
+        }
 
         .datepicker .body .titles .day
         {
@@ -76,7 +81,8 @@
         }
 
         /* Grid showing all available days for the current month */
-        .datepicker .body .days .day, .datepicker .body .months .month,
+        .datepicker .body .days .day,
+        .datepicker .body .months .month,
         .datepicker .body .years .year
         {
             cursor:     pointer;
@@ -100,11 +106,12 @@
 
         .datepicker .body .days .selected
         {
-            border:     1px solid #ccc;
-            margin:     1px;
+            border: 1px solid #ccc;
+            margin: 1px;
         }
 
-        .datepicker .body .days .day:hover, .datepicker .body .months .month:hover,
+        .datepicker .body .days .day:hover,
+        .datepicker .body .months .month:hover,
         .datepicker .body .years .year:hover
         {
             text-decoration: underline;
@@ -115,9 +122,10 @@
             color: #ccc;
         }
 
-        /* Field containing the form elements to edit the hours/minutes for a date */
-        .datepicker .body .time .hour, .datepicker .body .time .minutes,
-        .datepicker .body .time .separator, .datepicker .body .time .ok
+        .datepicker .body .time .hour,
+        .datepicker .body .time .minutes,
+        .datepicker .body .time .separator,
+        .datepicker .body .time .ok
         {
             min-width:  100px;
             position:   absolute;
