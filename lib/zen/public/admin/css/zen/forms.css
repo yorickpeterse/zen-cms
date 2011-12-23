@@ -27,7 +27,7 @@ input[type="text"], input[type="password"], textarea, input[type="email"]
 
 textarea
 {
-    resize:  both;
+    resize: both;
 }
 
 input[type="radio"], input[type="checkbox"]

@@ -1,7 +1,7 @@
 table
 {
-    width:      100%;
     text-align: left;
+    width:      100%;
 }
 
     table thead tr th:not(.no_sort):hover
@@ -37,6 +37,7 @@ table
         border-bottom:  1px solid #ccc;
         min-width:      20px;
         padding:        8px 3px;
+        text-align:     left;
         vertical-align: top;
     }
 

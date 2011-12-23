@@ -80,6 +80,46 @@ module Ramaze
       end
 
       ##
+      # Returns a string containing the name of the browser. The following
+      # values can be returned:
+      #
+      # * firefox
+      # * internet_explorer
+      # * chrome
+      # * safari
+      # * other
+      #
+      # Note that this method does a very simple check and thus should not be
+      # relied on for anything mission critical.
+      #
+      # @since  23-12-2011
+      # @return [String]
+      #
+      def browser_name
+        agent = request.env['HTTP_USER_AGENT']
+
+        if agent.nil? or agent.empty?
+          return 'other'
+        end
+
+        case agent.downcase
+        when /chrome/
+          return 'chrome'
+
+        when /safari/
+          return 'safari'
+
+        when /msie/
+          return 'internet_explorer'
+
+        when /firefox/
+          return 'firefox'
+        end
+
+        return 'other'
+      end
+
+      ##
       # Methods that become available as class methods.
       #
       # @since  0.3

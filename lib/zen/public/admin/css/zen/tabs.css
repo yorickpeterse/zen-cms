@@ -16,21 +16,26 @@
 
     .tabs ul li
     {
-        background:   #ddd;
-        border-top:   1px solid #bbb;
-        border-right: 1px solid #bbb;
-        border-left:  1px solid #bbb;
-        color:        #000;
-        display:      inline-block;
-        margin:       5px 3px 0px 0px;
+        background-color: #ddd;
+        border-top:       1px solid #bbb;
+        border-right:     1px solid #bbb;
+        border-left:      1px solid #bbb;
+        color:            #000;
+        display:          inline-block;
+        margin:           5px 3px 0px 0px;
 
         border-radius:         3px 3px 0px 0px;
         -webkit-border-radius: 3px 3px 0px 0px;
         -moz-border-radius:    3px 3px 0px 0px;
 
-        background: linear-gradient(#fff, #eee);
-        background: -webkit-linear-gradient(#fff, #eee);
-        background: -moz-linear-gradient(#fff, #eee);
+        background-image: linear-gradient(#fff, #eee);
+        background-image: -webkit-linear-gradient(#fff, #eee);
+        background-image: -moz-linear-gradient(#fff, #eee);
+
+        filter: progid:DXImageTransform.Microsoft.gradient(
+            startColorStr='#ffffff',
+            EndColorStr='#eeeeee'
+        );
     }
 
         .tabs ul li a
@@ -56,13 +61,20 @@
         background:    #fff;
         border-bottom: 1px solid #fff;
         margin-bottom: -1px;
+
+        filter: none;
     }
 
     .tabs ul li:hover
     {
-        background: linear-gradient(#fff, #f2f2f2);
-        background: -webkit-linear-gradient(#fff, #f2f2f2);
-        background: -moz-linear-gradient(#fff, #f2f2f2);
+        background-image: linear-gradient(#fff, #f2f2f2);
+        background-image: -webkit-linear-gradient(#fff, #f2f2f2);
+        background-image: -moz-linear-gradient(#fff, #f2f2f2);
+
+        filter: progid:DXImageTransform.Microsoft.gradient(
+            startColorStr='#ffffff',
+            EndColorStr='#f2f2f2'
+        );
     }
 
     .tabs ul li.active:hover

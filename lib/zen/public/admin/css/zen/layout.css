@@ -115,26 +115,43 @@ section header
     text-decoration: none;
     text-shadow:     1px 1px #000;
 
-    background: linear-gradient(#343434, #272727);
-    background: -moz-linear-gradient(#343434, #272727);
-    background: -webkit-linear-gradient(#343434, #272727);
+    background-image: linear-gradient(#343434, #272727);
+    background-image: -moz-linear-gradient(#343434, #272727);
+    background-image: -webkit-linear-gradient(#343434, #272727);
+
+    filter: progid:DXImageTransform.Microsoft.gradient(
+        startColorStr='#343434',
+        EndColorStr='#272727'
+    );
 }
 
 #admin_navigation ul li a:hover
 {
     border-right: 3px solid #e3c91e;
-    background:   linear-gradient(#3e3e3e, #303030);
-    background:   -moz-linear-gradient(#3e3e3e, #303030);
-    background:   -webkit-linear-gradient(#3e3e3e, #303030);
+
+    background-image: linear-gradient(#3e3e3e, #303030);
+    background-image: -moz-linear-gradient(#3e3e3e, #303030);
+    background-image: -webkit-linear-gradient(#3e3e3e, #303030);
+
+    filter: progid:DXImageTransform.Microsoft.gradient(
+        startColorStr='#3e3e3e',
+        EndColorStr='#303030'
+    );
 }
 
 #admin_navigation ul li.current a,
 #admin_navigation ul li a:active
 {
     border-right: 3px solid #e3c91e;
-    background:   linear-gradient(bottom, #3e3e3e, #303030);
-    background:   -moz-linear-gradient(bottom, #3e3e3e, #303030);
-    background:   -webkit-linear-gradient(bottom, #3e3e3e, #303030)
+
+    background-image: linear-gradient(bottom, #3e3e3e, #303030);
+    background-image: -moz-linear-gradient(bottom, #3e3e3e, #303030);
+    background-image: -webkit-linear-gradient(bottom, #3e3e3e, #303030)
+
+    filter: progid:DXImageTransform.Microsoft.gradient(
+        startColorStr='#303030',
+        EndColorStr='#3e3e3e'
+    );
 }
 
 #admin_navigation ul li ul li a
@@ -161,6 +178,7 @@ section header
 {
     float:      right;
     margin-top: 1px;
+    width:      331px;
 }
 
     #search_form input[type="text"]
@@ -184,4 +202,16 @@ section header
         box-shadow:         0px 0px 1px #ddd;
         -webkit-box-shadow: 0px 0px 1px #ddd;
         -moz-box-shadow:    0px 0px 1px #ddd;
+    }
+
+    .internet_explorer #search_form .button
+    {
+        height:     28px;
+        min-height: 28px;
+    }
+
+    .firefox #search_form .button
+    {
+        height:     29px;
+        min-height: 29px;
     }
