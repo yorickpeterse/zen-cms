@@ -93,10 +93,12 @@ module Ramaze
       # relied on for anything mission critical.
       #
       # @since  23-12-2011
+      # @param  [String] agent String containing the user agent to check, set to
+      #  ``request.env['HTTP_USER_AGENT']`` if no custom agent is specified.
       # @return [String]
       #
-      def browser_name
-        agent = request.env['HTTP_USER_AGENT']
+      def browser_name(agent = nil)
+        agent ||= request.env['HTTP_USER_AGENT']
 
         if agent.nil? or agent.empty?
           return 'other'
