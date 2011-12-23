@@ -54,7 +54,7 @@
             )
 
             # Only show the date field when modifying an existing entry
-            if !@entry.nil?
+            if @entry.exists?
               f.input_text(
                 lang('section_entries.labels.created_at'),
                 :created_at,
