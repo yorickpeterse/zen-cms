@@ -39,7 +39,7 @@ module Zen
   #          |__ templates/
   #             |__ partials/
   #             |__ pages/
-  #             |__ foobar/
+  #             |__ example/
   #
   # Lets assume the theme is called "test" and is available on Rubygems (under
   # the same name). In that case you can install it as following:
@@ -68,8 +68,7 @@ module Zen
   #       |__ theme/
   #          |__ partials/
   #          |__ pages/
-  #          |__ foobar/
-  #          |__ partials/
+  #          |__ example/
   #          |__ test.rb
   #
   # Because the theme is located in the application root, which isn't added to
@@ -92,8 +91,7 @@ module Zen
   #          |__ test/
   #             |__ partials/
   #             |__ pages/
-  #             |__ foobar/
-  #             |__ partials/
+  #             |__ example/
   #             |__ test.rb
   #
   # <div class="note deprecated">
@@ -165,7 +163,7 @@ module Zen
   # Some examples:
   #
   #     GET /pages/entry/hello-world => /pages/entry.xhtml
-  #     GET /pages/foobar            => /404.xhtml (if "foobar" doesn't exist)
+  #     GET /pages/example            => /404.xhtml (if "example" doesn't exist)
   #     GET /pages                   => /pages/index.xhtml
   #
   # Templates have access to the special instance variable ``@request_uri``.
@@ -174,7 +172,7 @@ module Zen
   # with the following values for this array:
   #
   #     GET /pages/entry/hello-world => ['pages', 'entry', 'hello-world']
-  #     GET /pages/foobar            => ['pages', 'foobar']
+  #     GET /pages/example            => ['pages', 'example']
   #     GET /pages                   => ['pages', 'index']
   #
   # ## Retrieving Data
