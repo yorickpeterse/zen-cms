@@ -13,9 +13,7 @@ describe("Sections::Controller::SectionEntries") do
     :comment_format          => 'plain'
   )
 
-  group = CustomFields::Model::CustomFieldGroup.create(
-    :name => 'Spec fields'
-  )
+  group = CustomFields::Model::CustomFieldGroup.create(:name => 'Spec fields')
 
   field = CustomFields::Model::CustomField.create(
     :name                  => 'Spec field',

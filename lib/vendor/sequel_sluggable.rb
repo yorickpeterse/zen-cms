@@ -121,7 +121,7 @@ module Sequel
         # @param [String] String to be slugged
         # @return [String]
         def to_slug(value)
-          value.chomp.downcase.gsub(/[^a-z0-9]+/,'-')
+          value.chomp.downcase.gsub(/[^a-z0-9_]+/, '-')
         end
 
         # Sets target column with source column which
