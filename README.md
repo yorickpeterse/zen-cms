@@ -109,6 +109,7 @@ in any of the following channels on Freenode:
 * http://yorickpeterse.com/
 * http://ramaze.net/
 * http://zen-cms.com/
+* http://aplusm.me/
 
 If you've built a website using Zen and you'd like to have it listed here sent
 an Email to me (yorickpeterse [at] gmail [dot] com) or send an Email to the
