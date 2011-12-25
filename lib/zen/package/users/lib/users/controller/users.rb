@@ -153,7 +153,7 @@ module Users
       # @permission edit_user
       #
       def edit(id)
-        authorize_user!(:edit_user)
+        authorize_user!(:edit_user) unless user.id == id.to_i
 
         set_breadcrumbs(
           Users.a(lang('users.titles.index'), :index),
@@ -303,7 +303,7 @@ module Users
         )
 
         if post['id'] and !post['id'].empty?
-          authorize_user!(:edit_user)
+          authorize_user!(:edit_user) unless post['id'].to_i == user.id
 
           user         = validate_user(post['id'])
           save_action  = :save
@@ -327,15 +327,26 @@ module Users
         post.delete('id')
 
         post['user_group_pks'] ||= []
-        success            = lang("users.success.#{save_action}")
-        error              = lang("users.errors.#{save_action}")
+        success                  = lang("users.success.#{save_action}")
+        error                    = lang("users.errors.#{save_action}")
+
+        unless user_authorized?(:assign_user_group)
+          post.delete('user_group_pks')
+        end
+
+        unless user_authorized?(:edit_user_status)
+          post.delete('user_status_id')
+        end
 
         begin
           post.each { |k, v| user.send("#{k}=", v) }
           Zen::Event.call(before_event, user)
 
           user.save
-          user.user_group_pks = post['user_group_pks'] if save_action == :new
+
+          if save_action == :new and post['user_group_pks']
+            user.user_group_pks = post['user_group_pks']
+          end
         rescue => e
           Ramaze::Log.error(e.inspect)
           message(:error, error)

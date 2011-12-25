@@ -67,6 +67,7 @@ Zen::Language::Translation.add do |trans|
     t['permissions.edit']   = 'Edit user'
     t['permissions.new']    = 'Add user'
     t['permissions.delete'] = 'Delete user'
+    t['permissions.status'] = 'Change user status'
 
     t['tabs.settings'] = 'User Settings'
   end

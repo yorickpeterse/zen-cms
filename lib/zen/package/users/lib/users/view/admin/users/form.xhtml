@@ -67,20 +67,24 @@
               :confirm_password
             )
 
-            f.select(
-              lang('users.labels.status'),
-              :user_status_id,
-              :values   => Users::Model::UserStatus.dropdown,
-              :selected => @user.user_status_id,
-              :size     => 1
-            )
+            if user_authorized?(:edit_user_status)
+              f.select(
+                lang('users.labels.status'),
+                :user_status_id,
+                :values   => Users::Model::UserStatus.dropdown,
+                :selected => @user.user_status_id,
+                :size     => 1
+              )
+            end
 
-            f.input_checkbox(
-              lang('users.labels.user_groups'),
-              :user_group_pks,
-              @user.user_group_pks,
-              :values => @user_group_pks,
-            )
+            if user_authorized?(:assign_user_group)
+              f.input_checkbox(
+                lang('users.labels.user_groups'),
+                :user_group_pks,
+                @user.user_group_pks,
+                :values => @user_group_pks,
+              )
+            end
 
             f.select(
               lang('users.labels.language'),

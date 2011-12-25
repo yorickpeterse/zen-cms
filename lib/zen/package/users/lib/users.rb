@@ -23,11 +23,13 @@ Zen::Package.add do |p|
   p.permission :edit_user_group  , 'user_groups.permissions.edit'
   p.permission :new_user_group   , 'user_groups.permissions.new'
   p.permission :delete_user_group, 'user_groups.permissions.delete'
+  p.permission :assign_user_group, 'user_groups.permissions.assign'
 
   p.permission :show_user  , 'users.permissions.show'
   p.permission :edit_user  , 'users.permissions.edit'
   p.permission :new_user   , 'users.permissions.new'
   p.permission :delete_user, 'users.permissions.delete'
+  p.permission :edit_user_status, 'users.permissions.status'
 
   p.permission :show_permission, 'permissions.permissions.show'
   p.permission :edit_permission, 'permissions.permissions.edit'

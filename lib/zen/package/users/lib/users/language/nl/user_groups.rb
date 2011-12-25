@@ -37,5 +37,6 @@ Zen::Language::Translation.add do |trans|
     t['permissions.edit']   = 'Groep aanpassen'
     t['permissions.new']    = 'Groep aanmaken'
     t['permissions.delete'] = 'Groep verwijderen'
+    t['permissions.assign'] = 'Groep toekennen'
   end
 end

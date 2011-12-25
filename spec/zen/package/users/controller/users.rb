@@ -107,11 +107,18 @@ describe("Users::Controller::Users") do
     within('#user_form') do
       fill_in('name', :with => 'Spec user modified')
       check('permission_show_user')
+      check('form_user_group_pks_0')
       click_on(save_button)
     end
 
-    page.find('#permission_show_user').checked?.should == 'checked'
-    page.find_field('name').value.should               == 'Spec user modified'
+    page.find('#permission_show_user').checked?.should  == 'checked'
+    page.find('#form_user_group_pks_0').checked?.should == 'checked'
+    page.find_field('name').value.should                == 'Spec user modified'
+
+    user  = Users::Model::User[:email => 'spec@email.com']
+    group = Users::Model::UserGroup[:slug => 'administrators']
+
+    user.user_group_pks.include?(group.id).should == true
   end
 
   it('Remove a permission from a user') do
@@ -268,6 +275,46 @@ describe("Users::Controller::Users") do
 
     user.nil?.should             == false
     user.user_status.name.should == 'closed'
+  end
+
+  it('Allow users to edit their own account') do
+    user       = Users::Model::User[:email => 'test@test.com']
+    edit_url   = Users::Controller::Users.r(:edit, user.id).to_s
+    logout_url = Users::Controller::Users.r(:logout).to_s
+
+    user.activate!
+
+    visit(logout_url)
+    visit(Users::Controller::Users.r(:login).to_s)
+
+    # Log in as the user created in the previous tests.
+    within('#login_form') do
+      fill_in('Email', :with => 'test@test.com')
+      fill_in('Password', :with => 'abc')
+      click_button('Login')
+    end
+
+    visit(edit_url)
+
+    current_path.should == edit_url
+
+    within('#user_form') do
+      fill_in('name', :with => 'Modified user')
+      click_on(save_button)
+    end
+
+    user.reload
+
+    current_path.should                                         == edit_url
+    page.has_selector?('span.error').should                     == false
+    page.has_selector?('select[name="user_status_id"]').should  == false
+    page.has_selector?('input[name="user_group_pks[]"]').should == false
+
+    page.find('input[name="name"]').value.should == 'Modified user'
+    user.name.should                             == 'Modified user'
+    user.user_group_pks.empty?.should            == true
+
+    visit(logout_url)
   end
 
   capybara_login

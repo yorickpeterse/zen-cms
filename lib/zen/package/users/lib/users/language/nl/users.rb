@@ -68,6 +68,7 @@ Zen::Language::Translation.add do |trans|
     t['permissions.edit']   = 'Rechten aanpassen'
     t['permissions.new']    = 'Rechten aanmaken'
     t['permissions.delete'] = 'Rechten verwijderen'
+    t['permissions.status'] = 'Gebruikers status aanpassen'
 
     t['tabs.settings'] = 'Gebruikers instellingen'
   end
