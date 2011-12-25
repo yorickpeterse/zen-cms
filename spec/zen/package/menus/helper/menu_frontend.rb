@@ -92,7 +92,7 @@ describe('Menus::Plugin::Menus') do
       .should == item_2.html_class
   end
 
-  it('Not set empty attributes') do
+  it('Do not set empty attributes') do
     menu = render_menu(nav_menu.slug)
 
     menu.include?('id=""').should == false
