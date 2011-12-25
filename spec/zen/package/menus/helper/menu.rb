@@ -61,15 +61,14 @@ describe('Ramaze::Helper::Menu') do
   end
 
   it('Generate a navigation tree') do
-    tree = menu_item_tree(menu.id)
+    tree = menu_item_tree(menu.id, sub_child.id)
 
-    tree[nil].should          == '--'
-    tree[child.id].should     == "&nbsp;&nbsp;#{child.name}"
-    tree[sub_child.id].should == "&nbsp;&nbsp;&nbsp;&nbsp;#{sub_child.name}"
+    tree[nil].should      == '--'
+    tree[child.id].should == "&nbsp;&nbsp;#{child.name}"
   end
 
   sub_child.destroy
   child.destroy
   item.destroy
   menu.destroy
-end # describe
+end

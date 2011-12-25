@@ -182,10 +182,6 @@ module Menus
           :menu_id
         )
 
-        if post['parent_id'].empty? or post['parent_id'] == post['id']
-          post['parent_id'] = nil
-        end
-
         # Determine if we're saving changes made to an existing menu item or
         # if we're going to create a new one.
         if post.key?('id') and !post['id'].empty?

@@ -51,10 +51,8 @@ module Menus
       # @param  [Fixnum] parent_id The ID of the parent navigation item.
       #
       def parent_id=(parent_id)
-        if !(parent_id.respond_to?(:empty?) and !parent_id.empty?) \
-        and parent_id != self.id
-          super(parent_id)
-        end
+        return if parent_id == id
+        return super(parent_id)
       end
     end # MenuItem
   end # Model

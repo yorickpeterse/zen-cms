@@ -62,12 +62,13 @@ module Ramaze
       #
       # @since  0.2a
       # @param  [Fixnum] menu_id The ID of the current menu group.
+      # @param  [Fixnum] menu_item_id The ID of the menu item to exclude from
+      #  the tree.
       # @return [Hash]
       #
-      def menu_item_tree(menu_id)
+      def menu_item_tree(menu_id, menu_item_id)
         menu_items = ::Menus::Model::MenuItem.filter(
-          :menu_id   => menu_id,
-          :parent_id => nil
+          {:menu_id => menu_id, :parent_id => nil} & ~{:id => menu_item_id}
         )
 
         @menu_items_hash = {nil => '--'}
@@ -76,7 +77,7 @@ module Ramaze
           @menu_items_hash[item.id] = item.name
 
           item.descendants.each do |i|
-            descendant_items(i, 2)
+            descendant_items(i, 2, menu_item_id)
           end
         end
 
@@ -89,9 +90,11 @@ module Ramaze
       # @since  0.2a
       # @param  [Menus::Model::MenuItem] item A MenuItem instance
       # @param  [Fixnum] spaces The amount of unbreakable spaces to use.
+      # @param  [Fixnum] menu_item_id The ID of the menu item to exclude.
       #
-      def descendant_items(item, spaces)
+      def descendant_items(item, spaces, menu_item_id)
         return if @menu_items_hash.key?(item.id)
+        return if item.id == menu_item_id
 
         nbsps = ''
         spaces.times { nbsps += "&nbsp;" }
@@ -100,7 +103,7 @@ module Ramaze
 
         if !descendants.empty?
           descendants.each do |i|
-            self.descendant_items(i, spaces + 2)
+            self.descendant_items(i, spaces + 2, menu_item_id)
           end
         end
       end
