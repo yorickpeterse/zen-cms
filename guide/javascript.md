@@ -14,6 +14,48 @@ it's community has to offer.
     </p>
 </div>
 
+## Datepickers
+
+Zen comes with a version of [Mootools Datepicker][mootools datepicker]. To load
+this datepicker you must load the asset group ``:datepicker`` in your
+controller:
+
+    class Posts < Zen::Controller::AdminController
+      map '/admin/posts'
+
+      load_asset_group [:datepicker], [:new, :edit]
+
+      def new
+
+      end
+
+      def edit(id)
+
+      end
+    end
+
+For more information on loading assets see {file:asset_management.md Asset
+Management}.
+
+In order to use the datepicker you'll have to add the class "date" to your input
+elements:
+
+    <input type="text" name="my_date" class="date" />
+
+In order to customize the datepicker you can set the following attributes:
+
+* data-date-format: a custom date format to use for input and output
+  values. Set to the format as defined in ``Zen.date_format`` by default.
+* data-date-time: when set to "1" or "true" users can also select a time. Set to
+  false by default.
+* data-date-min: string containing the minimum date.
+* data-date-max: string containing the maximum date.
+
+An example of using these attributes is the following:
+
+    <input type="text" name="my_date" class="date" data-date-format="%d-%m-%Y"
+    data-date-min="01-01-2012" data-date-max="01-01-2013" />
+
 ## Creating Classes
 
 Mootools has a wonderful system that allows you to easily create classes. The
@@ -23,8 +65,7 @@ classes created by other developers.
 
 Creating a class (including a namespace) works like the following:
 
-    // This would be your namespace
-    var Foobar = {};
+    namespace('Foobar');
 
     Foobar.ClassName = new Class(
     {
@@ -39,8 +80,7 @@ This allows you to access your class as following:
     var instance = new Foobar.ClassName();
 
 The namespace you're using doesn't really matter as long as you **do not** use
-the "Zen" namespace, it's reserved for all the official classes that are
-included in Zen.
+the "Zen" namespace, it's reserved for all the classes that ship with Zen.
 
 It's also important to remember that there's no guarantee Javascript (and CSS)
 files are loaded in a particular order. Because of that you should always wrap
@@ -53,13 +93,6 @@ your code (except for class declarations and such) in the following code:
 
 This function will be executed once the DOM (and thus all the resources) are
 fully loaded.
-
-<div class="note deprecated">
-    <p>
-        <strong>Warning</strong>: Do not put class declarations inside this
-        block as it may lead to unexpected behavior.
-    </p>
-</div>
 
 ## Available Classes
 
@@ -381,3 +414,4 @@ This class can also be applied to ``<th>`` elements to ignore just that column
 rather than the entire table.
 
 [mootools]: http://mootools.net/
+[mootools datepicker]: https://github.com/arian/mootools-datepicker

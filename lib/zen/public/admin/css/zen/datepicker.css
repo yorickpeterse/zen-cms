@@ -117,9 +117,15 @@
             text-decoration: underline;
         }
 
-        .datepicker .body .days .day.otherMonth
+        .datepicker .body .days .day.otherMonth, .datepicker .body .unavailable
         {
             color: #ccc;
+        }
+
+        .datepicker .body .unavailable:hover
+        {
+            cursor:          not-allowed;
+            text-decoration: none;
         }
 
         .datepicker .body .time .hour,
