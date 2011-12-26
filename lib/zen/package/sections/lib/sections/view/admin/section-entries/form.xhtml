@@ -30,10 +30,10 @@
 
     <div class="body">
         #{form_for(
-            @entry,
-            :method => :post,
-            :action => Sections::Controller::SectionEntries.r(:save),
-            :id     => :section_entry_form
+          @entry,
+          :method => :post,
+          :action => Sections::Controller::SectionEntries.r(:save),
+          :id     => :section_entry_form
         ) do |f|
           f.input_hidden(:csrf_token, get_csrf_token)
           f.input_hidden(:section_id, @section_id)
@@ -55,11 +55,15 @@
 
             # Only show the date field when modifying an existing entry
             if @entry.exists?
+              format = Sections::Model::SectionEntry::DATE_FORMAT
+
               f.input_text(
                 lang('section_entries.labels.created_at'),
                 :created_at,
                 :class => 'date',
-                :value => @entry.created_at.strftime('%Y-%m-%d %H:%M:%S')
+                :value => @entry.created_at.strftime(format),
+                :'data-date-format' => format,
+                :'data-date-time'   => true,
               )
             end
 

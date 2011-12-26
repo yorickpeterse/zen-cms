@@ -1,3 +1,5 @@
+require 'time'
+
 module Sections
   #:nodoc:
   module Controller
@@ -206,10 +208,6 @@ module Sections
           save_action  = :save
           before_event = :before_edit_section_entry
           after_event  = :after_edit_section_entry
-
-          # Section entries aren't considered to be updated whenever a custom
-          # field value is modified, this solves that problem
-          request.params['updated_at'] = Time.new
         else
           authorize_user!(:new_section_entry)
 
@@ -237,7 +235,6 @@ module Sections
             post_data = request.subset(
               :title,
               :created_at,
-              :updated_at,
               :section_id,
               :user_id,
               :slug,
@@ -249,14 +246,7 @@ module Sections
             if post_data[:created_at]
               post_data[:created_at] = Time.strptime(
                 post_data[:created_at],
-                date_format
-              )
-            end
-
-            if post_data[:updated_at]
-              post_data[:updated_at] = Time.strptime(
-                post_data[:updated_at],
-                date_format
+                Model::SectionEntry::DATE_FORMAT
               )
             end
 
@@ -280,10 +270,8 @@ module Sections
                   raise
                 end
 
-                # Update it
                 if field_values.key?(field.id)
                   field_values[field.id].update(:value => request.params[key])
-                # Add it
                 else
                   entry.add_custom_field_value(
                     :custom_field_id => field.id,

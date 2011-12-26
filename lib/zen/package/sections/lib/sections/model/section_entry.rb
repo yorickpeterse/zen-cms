@@ -29,7 +29,11 @@ module Sections
         :class => 'Sections::Model::SectionEntryStatus'
 
       plugin :sluggable , :source => :title     , :freeze => false
-      plugin :timestamps, :create => :created_at, :update => false
+      plugin :timestamps, :create => :created_at, :update => :updated_at
+
+      # String containing the date format to use for the created_at field when
+      # rendering the form.
+      DATE_FORMAT = '%Y-%m-%d %H:%M'
 
       # A hash that will contain all the custom fields and the values of these
       # fields for a single entry.
