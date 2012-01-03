@@ -50,7 +50,7 @@ describe('Comments::Controller::Comments') do
 
   it('Create a new comment') do
     comment = Comments::Model::Comment.create(
-      :user_id          => 1,
+      :user_id          => user_id,
       :section_entry_id => entry.id,
       :email            => 'spec@domain.tld',
       :comment          => 'Spec comment'
@@ -60,6 +60,7 @@ describe('Comments::Controller::Comments') do
 
     visit(index_url)
 
+    comment.exists?.should                      == true
     page.has_content?(message).should           == false
     page.has_selector?('table tbody tr').should == true
   end
@@ -187,6 +188,43 @@ describe('Comments::Controller::Comments') do
 
     event_comment.should  == 'Spec comment modified'
     event_comment2.should == event_comment
+  end
+
+  it('Comments should not be able to use Etanni tags') do
+    comment = Comments::Model::Comment.create(
+      :user_id          => user_id,
+      :section_entry_id => entry.id,
+      :email            => 'spec@domain.tld',
+      :comment          => '<?r puts "hello" ?>'
+    )
+
+    comment.exists?.should == true
+
+    # Loofah completely strips the <?r ?> tags so all that remains are two
+    # backslashes.
+    comment.comment.should == '\\'
+
+    # Lets try #{}
+    comment.comment = 'hello #{name}'
+    comment.save
+
+    comment.comment.should == 'hello \#\{name\}'
+
+    comment.destroy
+  end
+
+  it('Comments should not contain evil HTML elements') do
+    comment = Comments::Model::Comment.create(
+      :user_id          => user_id,
+      :section_entry_id => entry.id,
+      :email            => 'spec@domain.tld',
+      :comment          => '<script src="foobar.js"></script>'
+    )
+
+    comment.exists?.should        == true
+    comment.comment.empty?.should == true
+
+    comment.destroy
   end
 
   entry.destroy

@@ -89,11 +89,7 @@ module Comments
         [:name, :website, :email, :comment].each do |field|
           got = send(field)
 
-          if !got.nil?
-            send("#{field}=", Loofah.fragment(got) \
-              .scrub!(:whitewash) \
-              .scrub!(:nofollow).to_s)
-          end
+          send("#{field}=", Zen.sanitize(got, true)) unless got.nil?
         end
 
         # Get the default status of a comment
