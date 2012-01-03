@@ -32,6 +32,17 @@ module Categories
         validates_presence(:name)
         validates_max_length(255, :name)
       end
+
+      ##
+      # Hook that is run before creating or saving an object.
+      #
+      # @since 03-01-2012
+      #
+      def before_save
+        sanitize_fields([:name, :description])
+
+        super
+      end
     end # CategoryGroup
   end # Model
 end # Categories

@@ -40,6 +40,8 @@ module Zen
     # @return [String] The sanitized string.
     #
     def sanitize(input, clean_html = false)
+      return input unless input.is_a?(String)
+
       # Cheap way of escaping the template tags.
       input = input.gsub('<?r', '\<\?r') \
         .gsub('?>', '\?\>') \

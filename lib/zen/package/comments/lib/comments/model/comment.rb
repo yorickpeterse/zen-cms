@@ -86,11 +86,7 @@ module Comments
       # @since  0.2.6
       #
       def before_save
-        [:name, :website, :email, :comment].each do |field|
-          got = send(field)
-
-          send("#{field}=", Zen.sanitize(got, true)) unless got.nil?
-        end
+        sanitize_fields([:name, :website, :email, :comment], true)
 
         # Get the default status of a comment
         if self.comment_status_id.nil?

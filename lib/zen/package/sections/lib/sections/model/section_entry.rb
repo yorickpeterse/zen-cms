@@ -232,6 +232,8 @@ module Sections
       # @since  0.2.8
       #
       def before_save
+        sanitize_fields([:title, :slug])
+
         if self.section_entry_status_id.nil?
           self.section_entry_status_id = ::Sections::Model::SectionEntryStatus[
             :name => 'draft'

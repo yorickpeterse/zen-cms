@@ -35,6 +35,17 @@ module Categories
         validates_max_length(255, [:name, :slug])
         validates_unique(:slug)
       end
+
+      ##
+      # Hook that is executed before creating or saving an object.
+      #
+      # @since 03-01-2012
+      #
+      def before_save
+        sanitize_fields([:name, :slug, :description])
+
+        super
+      end
     end # Category
   end # Model
 end # Categories

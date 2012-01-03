@@ -28,6 +28,25 @@ module Zen
         into.extend(ClassMethods)
       end
 
+      ##
+      # Sanitizes the given fields.
+      #
+      # @example
+      #  sanitize_fields([:name, :description])
+      #
+      # @since 03-01-2012
+      # @param [Array] fields An array containing all the fields to sanitize.
+      # @param [TrueClass|FalseClass] clean_html When set to true Loofah will be
+      #  used to get rid of nasty HTML.
+      #
+      def sanitize_fields(fields, clean_html = false)
+        fields.each do |field|
+          got = send(field)
+
+          send("#{field}=", Zen.sanitize(got, clean_html)) unless got.nil?
+        end
+      end
+
       # The methods in this module will be added as class methods to the
       # including class.
       module ClassMethods

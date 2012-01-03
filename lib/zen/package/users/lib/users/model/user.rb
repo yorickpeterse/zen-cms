@@ -83,7 +83,7 @@ module Users
       def password=(password)
         return if password.nil? or password.empty?
 
-        password = BCrypt::Password.create(password, :cost => 10)
+        password = BCrypt::Password.create(Zen.sanitize(password), :cost => 10)
 
         super(password)
       end
@@ -106,6 +106,11 @@ module Users
       # @since  0.3
       #
       def before_save
+        # Password is sanitized in password=.
+        sanitize_fields([
+          :email, :name, :website, :language, :frontend_language, :date_format
+        ])
+
         if self.user_status_id.nil?
           self.user_status_id = Users::Model::UserStatus[:name => 'closed'].id
         end

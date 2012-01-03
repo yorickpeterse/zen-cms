@@ -56,6 +56,17 @@ module CustomFields
         validates_presence(:slug) unless new?
         validates_unique(:slug)
       end
+
+      ##
+      # Hook that is executed before creating or saving an object.
+      #
+      # @since 03-01-2012
+      #
+      def before_save
+        sanitize_fields([:name, :slug, :description, :format])
+
+        super
+      end
     end # CustomField
   end # Model
 end # CustomFields

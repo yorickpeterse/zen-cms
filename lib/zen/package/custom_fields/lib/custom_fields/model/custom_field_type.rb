@@ -55,6 +55,17 @@ module CustomFields
 
         validates_max_length(255, [:name, :language_string, :html_class])
       end
+
+      ##
+      # Hook that is executed before creating or saving an object.
+      #
+      # @since 03-01-2012
+      #
+      def before_save
+        sanitize_fields([:name, :language_string, :html_class])
+
+        super
+      end
     end # CustomFieldType
   end # Model
 end # CustomFields

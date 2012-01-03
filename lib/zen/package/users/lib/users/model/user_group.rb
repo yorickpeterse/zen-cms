@@ -40,6 +40,17 @@ module Users
 
         validates_type(TrueClass, :super_group)
       end
+
+      ##
+      # Hook that is executed before creating or saving an object.
+      #
+      # @since 03-01-2012
+      #
+      def before_save
+        sanitize_fields([:name, :slug, :description])
+
+        super
+      end
     end # UserGroup
   end # Model
 end # Users

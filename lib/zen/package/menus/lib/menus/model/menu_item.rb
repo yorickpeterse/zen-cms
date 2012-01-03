@@ -54,6 +54,17 @@ module Menus
         return if parent_id == id
         return super(parent_id)
       end
+
+      ##
+      # Hook that is executed before creating or saving an object.
+      #
+      # @since 03-01-2012
+      #
+      def before_save
+        sanitize_fields([:name, :url, :html_class, :html_id])
+
+        super
+      end
     end # MenuItem
   end # Model
 end # Menus

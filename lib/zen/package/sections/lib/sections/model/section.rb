@@ -61,6 +61,17 @@ module Sections
 
         validates_unique(:slug)
       end
+
+      ##
+      # Hook that is executed before creating or saving an object.
+      #
+      # @since 03-01-2012
+      #
+      def before_save
+        sanitize_fields([:name, :slug, :description, :comment_format])
+
+        super
+      end
     end # Section
   end # Model
 end # Sections

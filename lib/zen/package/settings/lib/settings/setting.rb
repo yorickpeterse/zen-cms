@@ -259,7 +259,7 @@ module Settings
     # @param  [String] value The value to set the setting to.
     #
     def value=(value)
-      value = serialize(value)
+      value = serialize(Zen.sanitize(value))
 
       # First we'll update the SQL database
       ::Settings::Model::Setting[:name => name.to_s].update(:value => value)

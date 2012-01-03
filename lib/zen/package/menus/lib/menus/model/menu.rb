@@ -40,6 +40,17 @@ module Menus
         validates_format(/^[a-zA-Z\-_0-9\s]*$/, :html_class)
         validates_format(/^[a-zA-Z\-_0-9]*$/  , :html_id)
       end
+
+      ##
+      # Hook that is executed before creating or saving an object.
+      #
+      # @since 03-01-2012
+      #
+      def before_save
+        sanitize_fields([:name, :slug, :description, :html_class, :html_id])
+
+        super
+      end
     end # Menu
   end # Model
 end # Menus
