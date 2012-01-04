@@ -17,8 +17,6 @@ Zen::Package.add do |p|
   p.permission :edit_setting, 'settings.permissions.edit'
 end
 
-Zen::Language.load('settings')
-
 require __DIR__('settings/model/setting')
 require __DIR__('settings/controller/settings')
 require __DIR__('settings/settings_group')
@@ -31,3 +29,16 @@ require __DIR__('settings/setting_groups')
 require __DIR__('settings/settings')
 
 include Settings::SingletonMethods
+
+Zen::Event.listen(:post_start) do
+  Zen::Language.load('settings')
+
+  begin
+    Settings::Setting.migrate
+  rescue => e
+    Ramaze::Log.warn(
+      'Failed to migrate the settings, make sure the database ' \
+        'table is up to date and that you executed rake db:migrate.'
+    )
+  end
+end

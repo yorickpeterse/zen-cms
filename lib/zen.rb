@@ -56,29 +56,40 @@ module Zen
     end
 
     ##
-    # Sets the root directory and adds the path to Ramaze.options.roots.
+    # Sets the root directory and adds the path to Ramaze.options.roots. Once
+    # set this method sets up the global assets and loads all asset groups that
+    # ship with Zen.
     #
     # @since  0.3
     #
     def root=(path)
+      raise('You can only set Zen.root once') unless root.nil?
+
       @root = path
 
       if !Ramaze.options.roots.include?(@root)
         Ramaze.options.roots.push(@root)
       end
+
+      setup_assets
+      load_global_assets
     end
 
     ##
     # Prepares Zen for the party of it's life.
     #
-    # @since  0.3
+    # @since 0.3
+    # @event pre_start Event that is fired before starting Zen.
+    # @event post_start Event that is fired after all packages have been loaded,
+    #  the cache has been set up, etc. This event is called just before building
+    #  all the assets.
     #
     def start
-      if root.nil?
-        raise('You need to specify a valid root directory in Zen.root')
-      end
+      raise('No valid root directory specified in Zen.root') if root.nil?
 
-      # Set up Ramaze::Cache manually. This makes it possible for the langauge
+      Zen::Event.call(:pre_start)
+
+      # Set up Ramaze::Cache manually. This makes it possible for the language
       # files to cache their data in the custom cache without having to wait for
       # Ramaze to set it up.
       Ramaze::Cache.setup
@@ -86,24 +97,9 @@ module Zen
 
       require 'zen/model/init'
       require 'zen/model/methods'
-
-      setup_assets
-
       require 'zen/package/all'
 
-      # Load the global stylesheet and Javascript file if they're located in
-      # ROOT/public/css/admin/global.css and ROOT/public/js/admin/global.js
-      load_global_assets
-
-      # Migrate all settings
-      begin
-        Settings::Setting.migrate
-      rescue => e
-        Ramaze::Log.warn(
-          'Failed to migrate the settings, make sure the database ' \
-            'table is up to date and that you executed rake db:migrate.'
-        )
-      end
+      Zen::Event.call(:post_start)
 
       Zen.asset.build(:javascript)
       Zen.asset.build(:css)

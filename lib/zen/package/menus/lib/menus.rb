@@ -20,12 +20,14 @@ Zen::Package.add do |p|
   p.permission :delete_menu_item, 'menu_items.permissions.delete'
 end
 
-Zen::Language.load('menus')
-Zen::Language.load('menu_items')
-
 require __DIR__('menus/model/menu')
 require __DIR__('menus/model/menu_item')
 require __DIR__('menus/controller/menus')
 require __DIR__('menus/controller/menu_items')
 
 Zen::Controller::FrontendController.helper(:menu_frontend)
+
+Zen::Event.listen(:post_start) do
+  Zen::Language.load('menus')
+  Zen::Language.load('menu_items')
+end

@@ -24,12 +24,14 @@ Zen::Package.add do |p|
   p.permission :delete_category, 'categories.permissions.delete'
 end
 
-Zen::Language.load('categories')
-Zen::Language.load('category_groups')
-
 require __DIR__('categories/model/category_group')
 require __DIR__('categories/model/category')
 require __DIR__('categories/controller/category_groups')
 require __DIR__('categories/controller/categories')
 
 Zen::Controller::FrontendController.helper(:category_frontend)
+
+Zen::Event.listen(:post_start) do
+  Zen::Language.load('categories')
+  Zen::Language.load('category_groups')
+end

@@ -36,10 +36,6 @@ Zen::Package.add do |p|
   p.permission :delete_custom_field, 'custom_fields.permissions.delete'
 end
 
-Zen::Language.load('custom_fields')
-Zen::Language.load('custom_field_groups')
-Zen::Language.load('custom_field_types')
-
 require __DIR__('custom_fields/model/custom_field_method')
 require __DIR__('custom_fields/model/custom_field_type')
 require __DIR__('custom_fields/model/custom_field')
@@ -51,3 +47,9 @@ require __DIR__('custom_fields/controller/custom_fields')
 require __DIR__('custom_fields/controller/custom_field_types')
 
 require __DIR__('custom_fields/blue_form_parameters')
+
+Zen::Event.listen(:post_start) do
+  Zen::Language.load('custom_fields')
+  Zen::Language.load('custom_field_groups')
+  Zen::Language.load('custom_field_types')
+end

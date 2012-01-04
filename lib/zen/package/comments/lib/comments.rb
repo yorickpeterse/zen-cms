@@ -18,8 +18,6 @@ Zen::Package.add do |p|
   p.permission :delete_comment, 'comments.permissions.delete'
 end
 
-Zen::Language.load('comments')
-
 require __DIR__('comments/model/comment_status')
 require __DIR__('comments/model/comment')
 require __DIR__('comments/controller/comments')
@@ -44,4 +42,8 @@ Settings::Setting.add do |setting|
   setting.name        = 'defensio_key'
   setting.group       = 'security'
   setting.type        = 'textbox'
+end
+
+Zen::Event.listen(:post_start) do
+  Zen::Language.load('comments')
 end

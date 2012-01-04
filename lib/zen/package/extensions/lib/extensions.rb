@@ -15,6 +15,8 @@ Zen::Package.add do |p|
   p.permission :show_extension, 'extensions.permissions.show'
 end
 
-Zen::Language.load('extensions')
-
 require __DIR__('extensions/controller/extensions')
+
+Zen::Event.listen(:post_start) do
+  Zen::Language.load('extensions')
+end

@@ -35,10 +35,6 @@ Zen::Package.add do |p|
   p.permission :edit_permission, 'permissions.permissions.edit'
 end
 
-Zen::Language.load('users')
-Zen::Language.load('user_groups')
-Zen::Language.load('permissions')
-
 require __DIR__('users/settings')
 require __DIR__('users/model/user')
 require __DIR__('users/model/user_group')
@@ -46,8 +42,7 @@ require __DIR__('users/model/permission')
 require __DIR__('users/model/user_status')
 
 # The trait for the User helper has to be specified in the constructor as our
-# user model is loaded after this class is loaded (but before it's
-# initialized)
+# user model is loaded after this class is loaded (but before it's initialized)
 Zen::Controller::BaseController.trait(:user_model => Users::Model::User)
 Zen::Controller::AdminController.helper(:acl, :access)
 
@@ -58,3 +53,9 @@ Ramaze::Helper::Access.add_block(Settings::Controller::Settings)
 # Load the controllers after the helpers have been loaded.
 require __DIR__('users/controller/users')
 require __DIR__('users/controller/user_groups')
+
+Zen::Event.listen(:post_start) do
+  Zen::Language.load('users')
+  Zen::Language.load('user_groups')
+  Zen::Language.load('permissions')
+end

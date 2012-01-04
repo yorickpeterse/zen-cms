@@ -20,9 +20,6 @@ Zen::Package.add do |p|
   p.permission :delete_section_entry, 'section_entries.permissions.delete'
 end
 
-Zen::Language.load('sections')
-Zen::Language.load('section_entries')
-
 require __DIR__('sections/model/section')
 require __DIR__('sections/model/section_entry')
 require __DIR__('sections/model/section_entry_status')
@@ -30,3 +27,8 @@ require __DIR__('sections/controller/sections')
 require __DIR__('sections/controller/section_entries')
 
 Zen::Controller::FrontendController.helper(:section_frontend)
+
+Zen::Event.listen(:post_start) do
+  Zen::Language.load('sections')
+  Zen::Language.load('section_entries')
+end
