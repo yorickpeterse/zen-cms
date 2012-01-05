@@ -19,8 +19,8 @@ Gem::Specification.new do |s|
   s.executables           = ['zen']
   s.required_ruby_version = '>= 1.9.2'
 
-  s.add_dependency('sequel'      , ['~> 3.28.0'])
-  s.add_dependency('ramaze'      , ['~> 2011.10.23'])
+  s.add_dependency('sequel'      , ['~> 3.31.0'])
+  s.add_dependency('ramaze'      , ['~> 2011.12.28'])
   s.add_dependency('bcrypt-ruby' , ['~> 3.0.1'])
   s.add_dependency('rake'        , ['~> 0.9.2'])
   s.add_dependency('loofah'      , ['~> 1.2.0'])

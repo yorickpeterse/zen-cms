@@ -1,5 +1,5 @@
 module Zen
-  Zen::RakeTask = true
+  RakeTask = true
 end
 
 require File.expand_path('../helper', __FILE__)
@@ -24,7 +24,6 @@ namespace :db do
     )
 
     user.activate!
-
     user.user_group_pks = [group.id]
   end
 end

@@ -23,4 +23,4 @@ Zen::Language.options.paths.push(__DIR__('fixtures/zen/language'))
 Zen.start
 
 # Load Capybara?
-require __DIR__('../lib/zen/spec/helper') if !Zen.const_defined?(:RakeTask)
+require __DIR__('../lib/zen/spec/helper') unless Zen.const_defined?(:RakeTask)

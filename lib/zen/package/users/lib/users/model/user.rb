@@ -1,5 +1,4 @@
 module Users
-  #:nodoc:
   module Model
     ##
     # Model that represents a single user.

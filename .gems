@@ -1,12 +1,13 @@
-# Production dependencies.
+# Production.
 ramaze
 sequel
 bcrypt-ruby
 loofah
 shebang
 ramaze-asset
+rake
 
-# Development dependencies, no need for specific versions.
+# Development.
 rdiscount
 bacon
 yard
