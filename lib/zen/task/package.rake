@@ -49,9 +49,6 @@ namespace :package do
 
     table = 'migrations_package_' + package.name.to_s
 
-    Ramaze::Log.info('Migrating package...')
-
-    # Run all migrations
-    Sequel::Migrator.run(Zen.database, dir, :table => table, :target => version)
+    Zen::Migrator.run(package.name, dir, table, version)
   end
 end

@@ -47,9 +47,6 @@ namespace :theme do
       abort 'The theme\'s migration directory doesn\'t exist.'
     end
 
-    # Time to migrate the theme
-    Ramaze::Log.info('Migrating package...')
-
-    Sequel::Migrator.run(Zen.database, dir, :table => table, :target => version)
+    Zen::Migrator.run(theme.name, dir, table, version)
   end
 end

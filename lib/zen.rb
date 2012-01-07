@@ -180,6 +180,7 @@ require 'zen/markup'
 require 'zen/package'
 require 'zen/theme'
 require 'zen/security'
+require 'zen/migrator'
 
 # Load all the base controllers
 require 'zen/controller/base_controller'

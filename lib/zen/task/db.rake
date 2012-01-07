@@ -25,9 +25,7 @@ namespace :db do
 
       table = 'migrations_package_' + pkg.name.to_s
 
-      # Migration time
-      Sequel::Migrator.run(Zen.database, dir, :table => table)
-      Ramaze::Log.info("Successfully migrated \"#{pkg.name}\"")
+      Zen::Migrator.run(pkg.name, dir, table)
     end
   end
 
@@ -59,11 +57,7 @@ namespace :db do
 
       table = 'migrations_package_' + pkg.name.to_s
 
-      # Migration time
-      Sequel::Migrator.run(Zen.database, dir, :table => table, :target => 0)
-      Zen.database.drop_table(table)
-
-      Ramaze::Log.info("Successfully uninstalled \"#{pkg.name}\"")
+      Zen::Migrator.run(pkg.name, dir, table, 0)
     end
   end
 
