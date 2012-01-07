@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Zen::VERSION
   s.date        = '2011-11-27'
   s.authors     = ['Yorick Peterse']
-  s.email       = 'info@yorickpeterse.com'
+  s.email       = 'yorickpeterse@gmail.com'
   s.summary     = 'Zen is a modular CMS written using Ramaze.'
   s.homepage    = 'http://zen-cms.com/'
   s.description = 'Zen is a modular CMS written using Ramaze. ' \
