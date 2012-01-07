@@ -19,7 +19,7 @@ module CustomFields
       # @param  [Mixed] value The value to store.
       #
       def value=(val)
-        val  = Zen.sanitize(val)
+        val  = Zen::Security.sanitize(val)
         type = custom_field.custom_field_type
 
         if !type.nil? and type.serialize == true

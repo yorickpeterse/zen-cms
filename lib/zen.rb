@@ -29,33 +29,6 @@ module Zen
     attr_reader :root
 
     ##
-    # Sanitizes the string by escaping all Etanni template tags in it so that
-    # they aren't executed. Optionally this method can also remove all dangerous
-    # HTML using Loofah.
-    #
-    # @since  03-01-2012
-    # @param  [String] input The input string to sanitize.
-    # @param  [TrueClass|FalseClass] clean_html When set to true certain HTML
-    #  elements will be removed using Loofah.
-    # @return [String] The sanitized string.
-    #
-    def sanitize(input, clean_html = false)
-      return input unless input.is_a?(String)
-
-      # Cheap way of escaping the template tags.
-      input = input.gsub('<?r', '\<\?r') \
-        .gsub('?>', '\?\>') \
-        .gsub('#{', '\#\{') \
-        .gsub('}', '\}')
-
-      if clean_html == true
-        input = Loofah.fragment(input).scrub!(:whitewash).scrub!(:nofollow).to_s
-      end
-
-      return input
-    end
-
-    ##
     # Sets the root directory and adds the path to Ramaze.options.roots. Once
     # set this method sets up the global assets and loads all asset groups that
     # ship with Zen.
@@ -206,6 +179,7 @@ include Zen::Language::SingletonMethods
 require 'zen/markup'
 require 'zen/package'
 require 'zen/theme'
+require 'zen/security'
 
 # Load all the base controllers
 require 'zen/controller/base_controller'

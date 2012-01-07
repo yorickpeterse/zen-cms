@@ -43,7 +43,7 @@ module Zen
         fields.each do |field|
           got = send(field)
 
-          send("#{field}=", Zen.sanitize(got, clean_html)) unless got.nil?
+          send("#{field}=", Zen::Security.sanitize(got, clean_html)) unless got.nil?
         end
       end
 
