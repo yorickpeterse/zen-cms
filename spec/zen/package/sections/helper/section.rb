@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-describe('Ramaze::Helper::Section') do
+describe 'Ramaze::Helper::Section' do
   behaves_like :capybara
 
   status_id = Sections::Model::SectionEntryStatus[:name => 'published'].id
@@ -20,7 +20,7 @@ describe('Ramaze::Helper::Section') do
     :section_id              => section.id
   )
 
-  it('Validate a valid section') do
+  it 'Validate a valid section' do
     url = Sections::Controller::Sections.r(:edit, section.id).to_s
 
     visit(url)
@@ -28,7 +28,7 @@ describe('Ramaze::Helper::Section') do
     current_path.should == url
   end
 
-  it('Validate an invalid section') do
+  it 'Validate an invalid section' do
     url   = Sections::Controller::Sections.r(:edit, section.id + 1).to_s
     index = Sections::Controller::Sections.r(:index).to_s
 
@@ -37,7 +37,7 @@ describe('Ramaze::Helper::Section') do
     current_path.should == index
   end
 
-  it('Validate a valid section entry') do
+  it 'Validate a valid section entry' do
     url = Sections::Controller::SectionEntries.r(
       :edit, section.id, entry.id
     ).to_s
@@ -47,7 +47,7 @@ describe('Ramaze::Helper::Section') do
     current_path.should == url
   end
 
-  it('Validate an invalid section entry') do
+  it 'Validate an invalid section entry' do
     index = Sections::Controller::SectionEntries.r(:index, section.id).to_s
     url   = Sections::Controller::SectionEntries.r(
       :edit, section.id, entry.id + 1

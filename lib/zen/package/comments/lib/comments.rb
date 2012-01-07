@@ -7,11 +7,9 @@ Zen::Package.add do |p|
   p.root       = __DIR__('comments')
   p.migrations = __DIR__('../migrations')
 
-  p.menu(
-    'comments.titles.index',
+  p.menu 'comments.titles.index',
     '/admin/comments',
     :permission => :show_comment
-  )
 
   p.permission :show_comment  , 'comments.permissions.show'
   p.permission :edit_comment  , 'comments.permissions.edit'
@@ -44,6 +42,6 @@ Settings::Setting.add do |setting|
   setting.type        = 'textbox'
 end
 
-Zen::Event.listen(:post_start) do
+Zen::Event.listen :post_start do
   Zen::Language.load('comments')
 end

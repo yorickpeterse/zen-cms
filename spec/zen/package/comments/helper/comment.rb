@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-describe('Ramaze::Helper::Comment') do
+describe 'Ramaze::Helper::Comment' do
   behaves_like :capybara
 
   user_id   = Users::Model::User[:email => 'spec@domain.tld'].id
@@ -27,7 +27,7 @@ describe('Ramaze::Helper::Comment') do
     :section_entry_id => entry.id
   )
 
-  it('Validate a valid comment') do
+  it 'Validate a valid comment' do
     url = Comments::Controller::Comments.r(:edit, comment.id).to_s
 
     visit(url)
@@ -35,7 +35,7 @@ describe('Ramaze::Helper::Comment') do
     current_path.should == url
   end
 
-  it('Validate an invalid comment') do
+  it 'Validate an invalid comment' do
     visit(Comments::Controller::Comments.r(:edit, comment.id + 100).to_s)
 
     current_path.should == Comments::Controller::Comments.r(:index).to_s

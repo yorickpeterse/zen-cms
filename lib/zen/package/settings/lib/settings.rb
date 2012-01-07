@@ -7,11 +7,9 @@ Zen::Package.add do |p|
   p.root       = __DIR__('settings')
   p.migrations = __DIR__('../migrations')
 
-  p.menu(
-    'settings.titles.index',
+  p.menu 'settings.titles.index',
     '/admin/settings',
     :permission => :show_setting
-  )
 
   p.permission :show_setting, 'settings.permissions.show'
   p.permission :edit_setting, 'settings.permissions.edit'
@@ -30,7 +28,7 @@ require __DIR__('settings/settings')
 
 include Settings::SingletonMethods
 
-Zen::Event.listen(:post_start) do
+Zen::Event.listen :post_start do
   Zen::Language.load('settings')
 
   begin

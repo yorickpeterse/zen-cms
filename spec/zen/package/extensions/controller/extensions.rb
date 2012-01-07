@@ -1,12 +1,12 @@
 require File.expand_path('../../../../../helper', __FILE__)
 require File.join(Zen::FIXTURES, 'theme', 'theme')
 
-describe('Extensions::Controller::Extensions') do
+describe 'Extensions::Controller::Extensions' do
   behaves_like :capybara
 
   index_url = Extensions::Controller::Extensions.r(:index).to_s
 
-  it('Show a list of all the installed packages') do
+  it 'Show a list of all the installed packages' do
     visit(index_url)
 
     Zen::Package::REGISTERED.each do |name, package|
@@ -15,7 +15,7 @@ describe('Extensions::Controller::Extensions') do
     end
   end
 
-  it('Show a list of all the installed themes') do
+  it 'Show a list of all the installed themes' do
     visit(index_url)
 
     get_setting(:theme).value = 'spec_theme'
@@ -28,7 +28,7 @@ describe('Extensions::Controller::Extensions') do
     get_setting(:theme).value = ''
   end
 
-  it('Show a list of all the installed languages') do
+  it 'Show a list of all the installed languages' do
     visit(index_url)
 
     Zen::Language::REGISTERED.each do |name, lang|

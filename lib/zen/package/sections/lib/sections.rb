@@ -7,7 +7,7 @@ Zen::Package.add do |p|
   p.root       = __DIR__('sections')
   p.migrations = __DIR__('../migrations')
 
-  p.menu('sections.titles.index', '/admin', :permission => :show_section)
+  p.menu 'sections.titles.index', '/admin', :permission => :show_section
 
   p.permission :show_section  , 'sections.permissions.show'
   p.permission :edit_section  , 'sections.permissions.edit'
@@ -28,7 +28,7 @@ require __DIR__('sections/controller/section_entries')
 
 Zen::Controller::FrontendController.helper(:section_frontend)
 
-Zen::Event.listen(:post_start) do
+Zen::Event.listen :post_start do
   Zen::Language.load('sections')
   Zen::Language.load('section_entries')
 end

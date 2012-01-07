@@ -2,9 +2,9 @@ require File.expand_path('../../helper', __FILE__)
 require File.join(Zen::FIXTURES, 'validation')
 require 'fileutils'
 
-describe('Zen::Validation') do
+describe 'Zen::Validation' do
 
-  it('Validate the presence of an attribute') do
+  it 'Validate the presence of an attribute' do
     object = ValidationObject.new
 
     should.raise?(Zen::ValidationError) { object.presence }
@@ -15,7 +15,7 @@ describe('Zen::Validation') do
     should.not.raise?(Zen::ValidationError) { object.presence }
   end
 
-  it('Validate the length of an attribute') do
+  it 'Validate the length of an attribute' do
     object = ValidationObject.new
 
     should.raise?(Zen::ValidationError) { object.length }
@@ -36,7 +36,7 @@ describe('Zen::Validation') do
     should.not.raise?(Zen::ValidationError) { object.length }
   end
 
-  it('Validate the format of an attribute') do
+  it 'Validate the format of an attribute' do
     object      = ValidationObject.new
     object.name = 10
 
@@ -47,7 +47,7 @@ describe('Zen::Validation') do
     should.not.raise?(Zen::ValidationError) { object.format }
   end
 
-  it('Validate a file') do
+  it 'Validate a file' do
     object      = ValidationObject.new
     object.file = '/tmp/zen_validation'
 

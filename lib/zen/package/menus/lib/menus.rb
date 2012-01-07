@@ -7,7 +7,7 @@ Zen::Package.add do |p|
   p.root       = __DIR__('menus')
   p.migrations = __DIR__('../migrations')
 
-  p.menu('menus.titles.index', '/admin/menus', :permission => :show_menu)
+  p.menu 'menus.titles.index', '/admin/menus', :permission => :show_menu
 
   p.permission :show_menu  , 'menus.permissions.show'
   p.permission :edit_menu  , 'menus.permissions.edit'
@@ -27,7 +27,7 @@ require __DIR__('menus/controller/menu_items')
 
 Zen::Controller::FrontendController.helper(:menu_frontend)
 
-Zen::Event.listen(:post_start) do
+Zen::Event.listen :post_start do
   Zen::Language.load('menus')
   Zen::Language.load('menu_items')
 end

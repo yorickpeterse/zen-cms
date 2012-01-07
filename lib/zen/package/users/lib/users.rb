@@ -7,17 +7,13 @@ Zen::Package.add do |p|
   p.root       = __DIR__('users')
   p.migrations = __DIR__('../migrations')
 
-  p.menu(
-    'users.titles.index',
+  p.menu 'users.titles.index',
     '/admin/users',
     :permission => :show_user
-  )
 
-  p.menu(
-    'user_groups.titles.index',
+  p.menu 'user_groups.titles.index',
     '/admin/user-groups',
     :permission => :show_user_group
-  )
 
   p.permission :show_user_group  , 'user_groups.permissions.show'
   p.permission :edit_user_group  , 'user_groups.permissions.edit'
@@ -25,10 +21,10 @@ Zen::Package.add do |p|
   p.permission :delete_user_group, 'user_groups.permissions.delete'
   p.permission :assign_user_group, 'user_groups.permissions.assign'
 
-  p.permission :show_user  , 'users.permissions.show'
-  p.permission :edit_user  , 'users.permissions.edit'
-  p.permission :new_user   , 'users.permissions.new'
-  p.permission :delete_user, 'users.permissions.delete'
+  p.permission :show_user       , 'users.permissions.show'
+  p.permission :edit_user       , 'users.permissions.edit'
+  p.permission :new_user        , 'users.permissions.new'
+  p.permission :delete_user     , 'users.permissions.delete'
   p.permission :edit_user_status, 'users.permissions.status'
 
   p.permission :show_permission, 'permissions.permissions.show'
@@ -54,7 +50,7 @@ Ramaze::Helper::Access.add_block(Settings::Controller::Settings)
 require __DIR__('users/controller/users')
 require __DIR__('users/controller/user_groups')
 
-Zen::Event.listen(:post_start) do
+Zen::Event.listen :post_start do
   Zen::Language.load('users')
   Zen::Language.load('user_groups')
   Zen::Language.load('permissions')

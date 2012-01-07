@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-describe('CustomFields::Controller::CustomFieldGroups') do
+describe 'CustomFields::Controller::CustomFieldGroups' do
   behaves_like :capybara
 
   index_url     = CustomFields::Controller::CustomFieldGroups.r(:index).to_s
@@ -10,7 +10,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
   delete_button = lang('custom_field_groups.buttons.delete')
   new_button    = lang('custom_field_groups.buttons.new')
 
-  it('Submit a form without a CSRF token') do
+  it 'Submit a form without a CSRF token' do
     response = page.driver.post(
       CustomFields::Controller::CustomFieldGroups.r(:save).to_s
     )
@@ -19,7 +19,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     response.status.should                                         == 403
   end
 
-  it('Find no existing field groups') do
+  it 'Find no existing field groups' do
     message = lang('custom_field_groups.messages.no_groups')
 
     visit(index_url)
@@ -31,7 +31,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     page.has_content?(message).should           == true
   end
 
-  it('Create a new group') do
+  it 'Create a new group' do
     visit(index_url)
     click_link(new_button)
 
@@ -51,7 +51,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
       .value.should == 'Spec field group desc'
   end
 
-  it('Search for a custom field group') do
+  it 'Search for a custom field group' do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
@@ -74,7 +74,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     page.has_content?('Spec field group').should == false
   end
 
-  it("Edit an existing group") do
+  it "Edit an existing group" do
     visit(index_url)
     click_link('Spec field group')
 
@@ -89,7 +89,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     page.find('input[name="name"]').value.should == 'Spec field group modified'
   end
 
-  it("Fail to edit an existing group with invalid data") do
+  it "Fail to edit an existing group with invalid data" do
     visit(index_url)
     click_link('Spec field group')
 
@@ -104,7 +104,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     page.has_selector?('span.error').should == true
   end
 
-  it("Fail to delete a group without an ID") do
+  it "Fail to delete a group without an ID" do
     message = lang('custom_field_groups.messages.no_groups')
 
     visit(index_url)
@@ -113,7 +113,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     page.has_selector?('input[name="custom_field_group_ids[]"]') .should == true
   end
 
-  it("Delete an existing group") do
+  it "Delete an existing group" do
     message = lang('custom_field_groups.messages.no_groups')
 
     visit(index_url)
@@ -125,7 +125,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     page.has_content?(message).should           == true
   end
 
-  it('Call the event new_custom_field_group (before and after)') do
+  it 'Call the event new_custom_field_group (before and after)' do
     event_name = nil
 
     Zen::Event.listen(:before_new_custom_field_group) do |group|
@@ -154,7 +154,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     )
   end
 
-  it('Call the event edit_custom_field_group (before and after)') do
+  it 'Call the event edit_custom_field_group (before and after)' do
     event_name = nil
 
     Zen::Event.listen(:before_edit_custom_field_group) do |group|
@@ -182,7 +182,7 @@ describe('CustomFields::Controller::CustomFieldGroups') do
     )
   end
 
-  it('Call the event delete_custom_field_group (before and after)') do
+  it 'Call the event delete_custom_field_group (before and after)' do
     event_name  = nil
     event_name2 = nil
     message     = lang('custom_field_groups.messages.no_groups')

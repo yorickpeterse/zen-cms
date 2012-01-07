@@ -1,7 +1,7 @@
 require File.expand_path('../../../helper', __FILE__)
 require File.join(Zen::FIXTURES, 'theme', 'theme')
 
-describe('Ramaze::Helper::Theme') do
+describe 'Ramaze::Helper::Theme' do
   behaves_like :capybara
 
   before do
@@ -12,13 +12,13 @@ describe('Ramaze::Helper::Theme') do
     get_setting(:theme).value = nil
   end
 
-  it('Render a partial template') do
+  it 'Render a partial template' do
     visit('/helper/partial')
 
     page.body.include?('This is a partial.').should == true
   end
 
-  it('Show a 404 page in a template') do
+  it 'Show a 404 page in a template' do
     visit('/helper/404')
 
     page.body.include?('The requested page could not be found!') \
@@ -27,7 +27,7 @@ describe('Ramaze::Helper::Theme') do
     page.status_code.should == 404
   end
 
-  it('Error when no partials directory has been set') do
+  it 'Error when no partials directory has been set' do
     dir = Zen::Theme['spec_theme'].partial_dir
     Zen::Theme['spec_theme'].partial_dir = nil
 
@@ -40,7 +40,7 @@ describe('Ramaze::Helper::Theme') do
     Zen::Theme['spec_theme'].partial_dir = dir
   end
 
-  it('Error when loading a non existing partial') do
+  it 'Error when loading a non existing partial' do
     theme = File.join(
       Zen::Theme['spec_theme'].partial_dir,
       'wrong_partial.xhtml'

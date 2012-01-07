@@ -1,7 +1,7 @@
 require File.expand_path('../../../../helper', __FILE__)
 
-describe('Settings::Setting') do
-  it('Register a settings group') do
+describe 'Settings::Setting' do
+  it 'Register a settings group' do
     Settings::SettingsGroup.add do |group|
       group.name  = 'general_spec'
       group.title = 'General Spec'
@@ -13,7 +13,7 @@ describe('Settings::Setting') do
       .title.should == 'General Spec'
   end
 
-  it('Register an already existing settings group') do
+  it 'Register an already existing settings group' do
     should.raise?(Zen::ValidationError) do
       Settings::SettingsGroup.add do |group|
         group.name  = 'general_spec'
@@ -22,7 +22,7 @@ describe('Settings::Setting') do
     end
   end
 
-  it('Register a setting with an invalid type') do
+  it 'Register a setting with an invalid type' do
     should.raise?(Zen::ValidationError) do
       Settings::Setting.add do |setting|
         setting.name  = 'invalid'
@@ -33,7 +33,7 @@ describe('Settings::Setting') do
     end
   end
 
-  it('Register a setting with an invalid group') do
+  it 'Register a setting with an invalid group' do
     should.raise?(Zen::ValidationError) do
       Settings::Setting.add do |setting|
         setting.name  = 'invalid'
@@ -44,7 +44,7 @@ describe('Settings::Setting') do
     end
   end
 
-  it('Register two settings') do
+  it 'Register two settings' do
     Settings::Setting.add do |setting|
       setting.name        = 'spec'
       setting.title       = 'Spec'
@@ -65,7 +65,7 @@ describe('Settings::Setting') do
     Settings::Setting::REGISTERED.key?(:spec_textbox).should == true
   end
 
-  it('Register an already existing setting') do
+  it 'Register an already existing setting' do
     should.raise?(Zen::ValidationError) do
       Settings::Setting.add do |setting|
         setting.name   = 'spec'
@@ -76,13 +76,13 @@ describe('Settings::Setting') do
     end
   end
 
-  it('Retrieve a non existing setting') do
+  it 'Retrieve a non existing setting' do
     should.raise?(ArgumentError) do
       get_setting('invalid')
     end
   end
 
-  it('Retrieve a setting') do
+  it 'Retrieve a setting' do
     setting = get_setting('spec')
 
     setting.title.should       == 'Spec'
@@ -91,14 +91,14 @@ describe('Settings::Setting') do
     setting.description.should == 'An example of a setting with a select box.'
   end
 
-  it('Migrate all settings') do
+  it 'Migrate all settings' do
     Settings::Setting.migrate
 
     Settings::Model::Setting[:name => 'spec'].nil?.should         == false
     Settings::Model::Setting[:name => 'spec_textbox'].nil?.should == false
   end
 
-  it('Update a setting') do
+  it 'Update a setting' do
     Ramaze.setup_dependencies
 
     get_setting(:spec).value = 'Setting value'
@@ -109,7 +109,7 @@ describe('Settings::Setting') do
       == Ramaze::Cache.settings.fetch(:spec)
   end
 
-  it('Remove all settings') do
+  it 'Remove all settings' do
     Settings::Setting.remove('spec')
     Settings::Setting.remove(['spec_textbox'])
 

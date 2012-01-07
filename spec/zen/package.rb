@@ -1,10 +1,10 @@
 require File.expand_path('../../helper', __FILE__)
 require File.join(Zen::FIXTURES, 'package')
 
-describe('Zen::Package') do
+describe 'Zen::Package' do
   behaves_like :capybara
 
-  it('Add a new package') do
+  it 'Add a new package' do
     Zen::Package.add do |p|
       p.name       = :spec
       p.title      = 'Spec'
@@ -38,7 +38,7 @@ describe('Zen::Package') do
     pkg.permissions[:foobar].should   == 'Foobar'
   end
 
-  it('Build a package\'s navigation items') do
+  it 'Build a package\'s navigation items' do
     pkg  = Zen::Package[:spec]
     menu = pkg.menu[0].html
     html = '<li><a href="/admin/spec" title="Spec">Spec</a>' \
@@ -48,7 +48,7 @@ describe('Zen::Package') do
     menu.should == html
   end
 
-  it('Build the navigation menu for all packages') do
+  it 'Build the navigation menu for all packages' do
     menu = Zen::Package.build_menu
     html = '<li><a href="/admin/spec" title="Spec">Spec</a>' \
       '<ul><li><a href="/admin/spec/sub" title="Sub spec">Sub spec</a></li>' \

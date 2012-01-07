@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../helper', __FILE__)
 
-describe("Sections::Controller::Sections") do
+describe "Sections::Controller::Sections" do
   behaves_like :capybara
 
   index_url     = Sections::Controller::Sections.r(:index).to_s
@@ -10,7 +10,7 @@ describe("Sections::Controller::Sections") do
   save_button   = lang('sections.buttons.save')
   delete_button = lang('sections.buttons.delete')
 
-  it('Submit a form without a CSRF token') do
+  it 'Submit a form without a CSRF token' do
     response = page.driver.post(
       Sections::Controller::Sections.r(:save).to_s
     )
@@ -19,7 +19,7 @@ describe("Sections::Controller::Sections") do
     response.status.should                                         == 403
   end
 
-  it('Find no existing sections') do
+  it 'Find no existing sections' do
     message = lang('sections.messages.no_sections')
 
     visit(index_url)
@@ -29,7 +29,7 @@ describe("Sections::Controller::Sections") do
     page.has_content?(message).should == true
   end
 
-  it("Create a new section") do
+  it "Create a new section" do
     select_plain = lang('zen_general.markup.plain')
 
     click_link(new_button)
@@ -57,7 +57,7 @@ describe("Sections::Controller::Sections") do
     page.find('input[name="name"]').value.should == 'Spec section'
   end
 
-  it('Search for a section') do
+  it 'Search for a section' do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
@@ -80,7 +80,7 @@ describe("Sections::Controller::Sections") do
     page.has_content?('Spec section').should == false
   end
 
-  it("Edit an existing section") do
+  it "Edit an existing section" do
     visit(index_url)
     click_link('Spec section')
 
@@ -95,7 +95,7 @@ describe("Sections::Controller::Sections") do
     page.find('input[name="slug"]').value.should == 'spec-section'
   end
 
-  it("Edit an existing section with invalid data") do
+  it "Edit an existing section with invalid data" do
     visit(index_url)
     click_link('Spec section')
 
@@ -109,14 +109,14 @@ describe("Sections::Controller::Sections") do
     page.has_selector?('span.error').should == true
   end
 
-  it('Delete a section without an ID specified') do
+  it 'Delete a section without an ID specified' do
     visit(index_url)
     click_on(delete_button)
 
     page.has_selector?('input[name="section_ids[]"]').should == true
   end
 
-  it("Delete an existing section") do
+  it "Delete an existing section" do
     visit(index_url)
 
     check('section_ids[]')
@@ -125,7 +125,7 @@ describe("Sections::Controller::Sections") do
     page.has_selector?('table tbody tr').should == false
   end
 
-  it('Call the event new_section (before and after)') do
+  it 'Call the event new_section (before and after)' do
     event_name = nil
 
     Zen::Event.listen(:before_new_section) do |section|
@@ -161,7 +161,7 @@ describe("Sections::Controller::Sections") do
     Zen::Event.delete(:before_new_section, :after_new_section)
   end
 
-  it('Call the event edit_section (before and after)') do
+  it 'Call the event edit_section (before and after)' do
     event_name = nil
 
     Zen::Event.listen(:before_edit_section) do |section|
@@ -186,7 +186,7 @@ describe("Sections::Controller::Sections") do
     Zen::Event.delete(:before_edit_section, :after_edit_section)
   end
 
-  it('Call the event delete_section (before and after)') do
+  it 'Call the event delete_section (before and after)' do
     event_name  = nil
     event_name2 = nil
     message     = lang('sections.messages.no_sections')

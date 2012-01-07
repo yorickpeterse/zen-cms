@@ -7,17 +7,13 @@ Zen::Package.add do |p|
   p.root       = __DIR__('custom_fields')
   p.migrations = __DIR__('../migrations')
 
-  p.menu(
-    'custom_fields.titles.index',
+  p.menu 'custom_fields.titles.index',
     '/admin/custom-field-groups',
     :permission => :show_custom_field_group
-  )
 
-  p.menu(
-    'custom_field_types.titles.index',
+  p.menu 'custom_field_types.titles.index',
     '/admin/custom-field-types',
     :permission => :show_custom_field
-  )
 
   p.permission :show_custom_field_group, 'custom_field_groups.permissions.show'
   p.permission :edit_custom_field_group, 'custom_field_groups.permissions.edit'
@@ -48,7 +44,7 @@ require __DIR__('custom_fields/controller/custom_field_types')
 
 require __DIR__('custom_fields/blue_form_parameters')
 
-Zen::Event.listen(:post_start) do
+Zen::Event.listen :post_start do
   Zen::Language.load('custom_fields')
   Zen::Language.load('custom_field_groups')
   Zen::Language.load('custom_field_types')

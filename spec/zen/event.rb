@@ -1,17 +1,17 @@
 require File.expand_path('../../helper', __FILE__)
 
-describe('Zen::Event') do
+describe 'Zen::Event' do
   after do
     Zen::Event::REGISTERED.delete(:test)
   end
 
-  it('Register an event') do
+  it 'Register an event' do
     Zen::Event.listen(:test) {}
 
     Zen::Event::REGISTERED.key?(:test).should == true
   end
 
-  it('Run a single event') do
+  it 'Run a single event' do
     data = 0
 
     Zen::Event.listen(:test) do |number|
@@ -25,7 +25,7 @@ describe('Zen::Event') do
     data.should == 12
   end
 
-  it('Run multiple events') do
+  it 'Run multiple events' do
     data = 0
 
     Zen::Event.listen(:test) do |number|

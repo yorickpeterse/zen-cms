@@ -1,9 +1,9 @@
 require File.expand_path('../../../helper', __FILE__)
 
-describe('Ramaze::Helper::Breadcrumb') do
+describe 'Ramaze::Helper::Breadcrumb' do
   extend Ramaze::Helper::Breadcrumb
 
-  it('Build a set of breadcrumbs') do
+  it 'Build a set of breadcrumbs' do
     respond_to?('set_breadcrumbs').should == true
     respond_to?('get_breadcrumbs').should == true
 
@@ -17,7 +17,7 @@ describe('Ramaze::Helper::Breadcrumb') do
     breadcrumbs.include?('/').should   == true
   end
 
-  it('Build a set of breadcrumbs with a custom separator') do
+  it 'Build a set of breadcrumbs with a custom separator' do
     respond_to?('set_breadcrumbs').should == true
     respond_to?('get_breadcrumbs').should == true
 

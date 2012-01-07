@@ -1,7 +1,7 @@
 require File.expand_path('../../helper', __FILE__)
 require File.expand_path('../../fixtures/zen/language', __FILE__)
 
-describe('Zen::Language') do
+describe 'Zen::Language' do
   behaves_like :capybara
 
   # Ensure the user object is put back in the correct state after each
@@ -13,7 +13,7 @@ describe('Zen::Language') do
     )
   end
 
-  it('Change the current language') do
+  it 'Change the current language' do
     # Check if the frontend language is set properly.
     visit('/spec-language/frontend_dutch')
 
@@ -36,7 +36,7 @@ describe('Zen::Language') do
     page.body.include?('<p>en</p>').should == false
   end
 
-  it('Load an English language pack') do
+  it 'Load an English language pack' do
     Zen::Language.load('spec')
 
     lang('spec.name').should == 'Name'
@@ -45,31 +45,31 @@ describe('Zen::Language') do
     lang('spec.parent.sub').should == 'Sub item'
   end
 
-  it('Load an already loaded language file') do
+  it 'Load an already loaded language file' do
     Zen::Language.load('spec')
 
     lang('spec.name').should == 'Name'
   end
 
-  it('Fail to load a non existing language file') do
+  it 'Fail to load a non existing language file' do
     should.raise?(Zen::LanguageError) do
       Zen::Language.load('does-not-exist')
     end
   end
 
-  it('Fail to access a non existing language string') do
+  it 'Fail to access a non existing language string' do
     should.raise?(Zen::LanguageError) do
       lang('spec.does-not-exist')
     end
   end
 
-  it('Fail to access a non existing language file') do
+  it 'Fail to access a non existing language file' do
     should.raise?(Zen::LanguageError) do
       lang('foo.does-not-exist', 'foo')
     end
   end
 
-  it('Load a Dutch language pack') do
+  it 'Load a Dutch language pack' do
     get_setting(:language).value = 'nl'
 
     lang('spec.name').should       == 'Naam'

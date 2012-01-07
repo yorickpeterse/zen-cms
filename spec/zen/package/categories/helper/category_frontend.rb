@@ -1,7 +1,7 @@
 require File.expand_path('../../../../../helper', __FILE__)
 require File.join(Zen::FIXTURES, 'package/categories/helper/category_frontend')
 
-describe('Ramaze::Helper::CategoryFrontend') do
+describe 'Ramaze::Helper::CategoryFrontend' do
   behaves_like :capybara
 
   extend Ramaze::Helper::CategoryFrontend
@@ -20,28 +20,28 @@ describe('Ramaze::Helper::CategoryFrontend') do
     :category_group_id => category_group.id
   )
 
-  it('Retrieve categories for a group ID') do
+  it 'Retrieve categories for a group ID' do
     categories = get_categories(category_group.id).all
 
     categories.length.should   == 2
     categories[0].name.should  == category1.name
   end
 
-  it('Retrieve categories for a group slug') do
+  it 'Retrieve categories for a group slug' do
     categories = get_categories(category_group.name).all
 
     categories.length.should   == 2
     categories[0].name.should  == category1.name
   end
 
-  it('Limit the amount of results') do
+  it 'Limit the amount of results' do
     categories = get_categories(category_group.id, :limit => 1).all
 
     categories.length.should  == 1
     categories[0].name.should == category1.name
   end
 
-  it('Retrieve and paginate two categories') do
+  it 'Retrieve and paginate two categories' do
     visit('/spec-category-frontend')
 
     page.has_selector?('p').should          == true

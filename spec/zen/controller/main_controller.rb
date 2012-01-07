@@ -2,7 +2,7 @@ require File.expand_path('../../../helper', __FILE__)
 require __DIR__('../../fixtures/zen/theme/theme')
 require 'fileutils'
 
-describe('Zen::Controller::MainController') do
+describe 'Zen::Controller::MainController' do
   behaves_like :capybara
 
   after do
@@ -26,13 +26,13 @@ describe('Zen::Controller::MainController') do
 
   get_setting(:theme).value = 'spec_theme'
 
-  it('Visit the homepage') do
+  it 'Visit the homepage' do
     visit('/')
 
     page.body.include?('This is the homepage.').should == true
   end
 
-  it('Request a page without a theme set') do
+  it 'Request a page without a theme set' do
     get_setting(:theme).value = ''
 
     visit('/')
@@ -42,7 +42,7 @@ describe('Zen::Controller::MainController') do
     get_setting(:theme).value = 'spec_theme'
   end
 
-  it('Request a non existing template') do
+  it 'Request a non existing template' do
     visit('/does-not-exist')
 
     page.body.include?('The requested page could not be found!') \
@@ -51,7 +51,7 @@ describe('Zen::Controller::MainController') do
     page.status_code.should == 404
   end
 
-  it('Request a non existing template without a 404 template') do
+  it 'Request a non existing template without a 404 template' do
     template = File.join(
       Zen::Theme[:spec_theme].template_dir,
       '404.xhtml'

@@ -7,11 +7,9 @@ Zen::Package.add do |p|
   p.root       = __DIR__('categories')
   p.migrations = __DIR__('../migrations')
 
-  p.menu(
-    'categories.titles.index',
+  p.menu 'categories.titles.index',
     '/admin/category-groups',
     :permission => :show_category_group
-  )
 
   p.permission :show_category_group  , 'category_groups.permissions.show'
   p.permission :edit_category_group  , 'category_groups.permissions.edit'
@@ -31,7 +29,7 @@ require __DIR__('categories/controller/categories')
 
 Zen::Controller::FrontendController.helper(:category_frontend)
 
-Zen::Event.listen(:post_start) do
+Zen::Event.listen :post_start do
   Zen::Language.load('categories')
   Zen::Language.load('category_groups')
 end
