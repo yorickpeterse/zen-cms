@@ -1,0 +1,27 @@
+<section>
+    <header class="with_search">
+        <h1>Dashboard</h1>
+
+        <button class="button" id="toggle_options">Options</button>
+    </header>
+
+    <div id="widget_options">
+        <div id="widget_columns">
+            <label>Columns</label>
+
+            #{Dashboard::Widget.columns_html}
+        </div>
+
+        <div id="active_widgets">
+            <label>Active Widgets</label>
+
+            #{Dashboard::Widget.checkbox_html}
+        </div>
+    </div>
+
+    <div class="body">
+        <div id="widgets" class="columns_#{user.widget_columns}">
+            #{Dashboard::Widget.html}
+        </div>
+    </div>
+</section>

@@ -82,7 +82,10 @@ module Users
       def password=(password)
         return if password.nil? or password.empty?
 
-        password = BCrypt::Password.create(Zen::Security.sanitize(password), :cost => 10)
+        password = BCrypt::Password.create(
+          Zen::Security.sanitize(password),
+          :cost => 10
+        )
 
         super(password)
       end
