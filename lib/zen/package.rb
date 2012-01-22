@@ -371,6 +371,8 @@ module Zen
     def permissions
       perms = {}
 
+      return perms if @permissions.nil?
+
       @permissions.each do |perm, title|
         begin
           perms[perm] = lang(title)
