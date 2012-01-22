@@ -11,6 +11,14 @@ Sequel.migration do
     end
 
     add_column :users, :widget_columns, Integer, :default => 1
+
+    rows = []
+
+    Zen.database[:users].select(:id).each do |user|
+      rows << {:user_id => user[:id], :order => 0, :name => 'welcome'}
+    end
+
+    Zen.database[:widgets].multi_insert(rows)
   end
 
   down do

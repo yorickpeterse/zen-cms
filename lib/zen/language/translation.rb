@@ -23,7 +23,7 @@ module Zen
       include Zen::Validation
 
       # A regex that specifies the allowed format of language keys.
-      KEY_REGEX = /^[a-z_\.]+$/
+      KEY_REGEX = /^[0-9a-z_\.]+$/
 
       # The name of the language this set of translations belongs to.
       attr_reader :language

@@ -121,6 +121,21 @@ module Users
       end
 
       ##
+      # Hook that is executed after creating a new user.
+      #
+      # @since 22-01-2012
+      #
+      def after_create
+        Dashboard::Model::Widget.create(
+          :user_id => id,
+          :name    => 'welcome',
+          :order   => 0
+        )
+
+        super
+      end
+
+      ##
       # Specifies all validation rules
       #
       # @since  0.1

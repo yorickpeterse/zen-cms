@@ -3,11 +3,40 @@ module Dashboard
   class WidgetError < StandardError; end
 
   ##
+  # Widgets are small blocks of content displayed on a user's dashboard. These
+  # widgets can contain data such as recent entries, a help message or a graph
+  # showing the website's traffic.
+  #
+  # In order to create a new widget you should call {Dashboard::Widget.add} and
+  # pass a block to it. In this block you can set the following attributes:
+  #
+  # * name: the unique name of the widget.
+  # * title: the title of the widget, can either be a language string or a
+  #   regular one.
+  # * data: an object that responds to ``#call()`` and returns the content of
+  #   the widget. The first parameter will be the current Ramaze action.
+  #
+  # An example of adding a widget is the following:
+  #
+  #     Dashboard::Widget.add do |w|
+  #       w.name  = :example_widget
+  #       w.title = 'dashboard.titles.example_widget'
+  #       w.data  = lambda do |action|
+  #         return action.node.render_view(:example_view)
+  #       end
+  #     end
+  #
+  # Once a widget has been registered it can be retrieved using
+  # {Dashboard::Widget#[]}:
+  #
+  #     Dashboard::Widget[:example_widget] # => <Dashboard::Widget ...>
   #
   # @since 08-01-2012
   #
   class Widget
     include Zen::Validation
+    include Ramaze::Trinity
+    include Ramaze::Helper::ACL
 
     # Hash containing all the registered widgets.
     REGISTERED = {}
@@ -20,6 +49,9 @@ module Dashboard
 
     # The title of the widget (displayed on the dashboard).
     attr_writer :title
+
+    # A permission required to view a widget.
+    attr_accessor :permission
 
     # An object that responds to #call() and returns the content of the widget.
     # When called the first parameter is set to ``Ramaze::Current.action``
@@ -81,7 +113,8 @@ module Dashboard
           .order(:order.asc)
 
         widgets.each do |row|
-          html += Widget[row.name].html
+          name  = row.name
+          html += Widget[name].html if Widget[name].allowed?
         end
 
         return html
@@ -99,7 +132,12 @@ module Dashboard
         current = user.widget_columns
 
         COLUMNS.each do |c|
-          params = {:name => 'widget_columns', :type => 'radio', :value => c}
+          params = {
+            :name  => 'widget_columns',
+            :type  => 'radio',
+            :value => c,
+            :id    => 'widget_columns_%s' % c
+          }
 
           params[:checked] = 'checked' if c == current
 
@@ -127,10 +165,13 @@ module Dashboard
           .map { |r| r.name.to_sym }
 
         REGISTERED.each do |name, widget|
+          next unless widget.allowed?
+
           params = {
             :type  => 'checkbox',
             :name  => 'active_widgets[]',
-            :value => 'widget_' + name.to_s
+            :value => 'widget_%s' % name,
+            :id    => 'toggle_widget_%s' % name
           }
 
           params[:checked] = 'checked' if active.include?(name)
@@ -186,6 +227,17 @@ module Dashboard
     end
 
     ##
+    # Checks if the user is allowed to view the current widget.
+    #
+    # @since  16-01-2012
+    # @return [TrueClass|Falseclass]
+    #
+    def allowed?
+      return true if @permission.nil?
+      return user_authorized?(@permission)
+    end
+
+    ##
     # Validates the instance of the widget.
     #
     # @since 11-01-2012
@@ -225,7 +277,12 @@ module Dashboard
         end
 
         g.div(:class => 'body') do
-          data.call(_action)
+          # Don't pass any parameters if the object doesn't take any.
+          if data.respond_to?(:arity)
+            data.arity == 1 ? data.call(_action) : data.call
+          else
+            data.call(_action)
+          end
         end
       end
 

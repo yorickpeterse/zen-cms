@@ -3,6 +3,7 @@ require File.join(Zen::FIXTURES, 'package/comments/controller/comments_form')
 
 describe "Comments::Controller::CommentsForm" do
   behaves_like :capybara
+  WebMock.enable!
 
   before do
     get_setting(:defensio_key).value = 'test'
@@ -364,6 +365,7 @@ describe "Comments::Controller::CommentsForm" do
     WebMock.reset!
   end
 
+  WebMock.disable!
   section_entry.destroy
   section.destroy
 end

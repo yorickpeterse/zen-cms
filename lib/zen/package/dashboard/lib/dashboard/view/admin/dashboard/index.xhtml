@@ -1,19 +1,21 @@
 <section>
     <header class="with_search">
-        <h1>Dashboard</h1>
+        <h1>#{lang('dashboard.titles.index')}</h1>
 
-        <button class="button" id="toggle_options">Options</button>
+        <button class="button" id="toggle_options">
+            #{lang('dashboard.buttons.options')}
+        </button>
     </header>
 
     <div id="widget_options">
         <div id="widget_columns">
-            <label>Columns</label>
+            <label>#{lang('dashboard.labels.columns')}</label>
 
             #{Dashboard::Widget.columns_html}
         </div>
 
         <div id="active_widgets">
-            <label>Active Widgets</label>
+            <label>#{lang('dashboard.labels.active_widgets')}</label>
 
             #{Dashboard::Widget.checkbox_html}
         </div>
