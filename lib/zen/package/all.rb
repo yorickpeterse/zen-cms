@@ -3,10 +3,10 @@
 # foreign keys might not work.
 require __DIR__('settings/lib/settings')
 require __DIR__('users/lib/users')
+require __DIR__('dashboard/lib/dashboard')
 require __DIR__('sections/lib/sections')
 require __DIR__('comments/lib/comments')
 require __DIR__('categories/lib/categories')
 require __DIR__('custom_fields/lib/custom_fields')
 require __DIR__('menus/lib/menus')
 require __DIR__('extensions/lib/extensions')
-require __DIR__('dashboard/lib/dashboard')
