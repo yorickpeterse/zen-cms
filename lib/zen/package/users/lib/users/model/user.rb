@@ -17,6 +17,7 @@ module Users
 
       many_to_one :user_status, :class => 'Users::Model::UserStatus'
       one_to_many :permissions, :class => 'Users::Model::Permission'
+      one_to_many :widgets,     :class => 'Dashboard::Model::Widget'
 
       plugin :timestamps, :create => :created_at, :update => :updated_at
       plugin :association_dependencies, :permissions => :delete
