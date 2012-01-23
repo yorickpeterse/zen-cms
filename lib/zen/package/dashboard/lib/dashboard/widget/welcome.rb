@@ -4,6 +4,6 @@ Dashboard::Widget.add do |w|
   w.name  = :welcome
   w.title = 'dashboard.widgets.titles.welcome'
   w.data  = lambda do |instance|
-    return render_view(:widget__welcome)
+    return render_file(__DIR__('../view/admin/dashboard/widget/welcome.xhtml'))
   end
 end
