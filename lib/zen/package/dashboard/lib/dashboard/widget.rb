@@ -14,15 +14,20 @@ module Dashboard
   # * title: the title of the widget, can either be a language string or a
   #   regular one.
   # * data: an object that responds to ``#call()`` and returns the content of
-  #   the widget. The first parameter will be the current Ramaze action.
+  #   the widget. This object is evaluated in the context of the current
+  #   controller instance ({Dashboard::Controller::Dashboard}). If you're using
+  #   a lambda you *have to* specify a first parameter as ``#instance_eval``
+  #   will always pass the evaluated instance as a parameter. If you don't want
+  #   to do this you can use ``Proc.new { }`` or simply ``proc { }`` as an
+  #   alternative.
   #
   # An example of adding a widget is the following:
   #
   #     Dashboard::Widget.add do |w|
   #       w.name  = :example_widget
   #       w.title = 'dashboard.titles.example_widget'
-  #       w.data  = lambda do |action|
-  #         return action.instance.render_view(:example_view)
+  #       w.data  = lambda do |instance|
+  #         return render_view(:example_view)
   #       end
   #     end
   #
