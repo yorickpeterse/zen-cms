@@ -10,7 +10,7 @@ Ramaze.options.mode = :dev
 Zen::FIXTURES = __DIR__('fixtures/zen')
 Zen.root      = __DIR__
 
-if ENV['DSN']
+if !ENV['DSN'].nil? and !ENV['DSN'].empty?
   Zen.database = Sequel.connect(ENV['DSN'])
 else
   Zen.database  = Sequel.connect(
