@@ -22,7 +22,7 @@ module Zen
       # fixed by turning off foreign keys while running the migrations.
       #
       # See this pastie for an example of this issue: http://pastie.org/3140474
-      if Zen.database.adapter_scheme == :sqlite
+      if Zen.database.database_type == :sqlite
         Ramaze::Log.debug('Turning off foreign keys for SQLite3')
         Zen.database.execute('PRAGMA foreign_keys = OFF;')
       end
@@ -45,7 +45,7 @@ module Zen
         Zen.database.drop_table(table)
       end
 
-      if Zen.database.adapter_scheme == :sqlite
+      if Zen.database.database_type == :sqlite
         Ramaze::Log.debug('Turning foreign keys on again')
         Zen.database.execute('PRAGMA foreign_keys = ON;')
       end

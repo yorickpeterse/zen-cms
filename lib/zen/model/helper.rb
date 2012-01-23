@@ -72,7 +72,7 @@ module Zen
         # @return [Hash|Sequel::SQL::BooleanExpression]
         #
         def search_column(column, value)
-          if NoRegexpSupport.include?(Zen.database.adapter_scheme)
+          if NoRegexpSupport.include?(Zen.database.database_type)
             return column.like("%#{value}%")
           else
             return {column => /#{value}/i}

@@ -45,7 +45,7 @@ Sequel.migration do
     closed = Zen.database[:user_statuses].filter(:name => 'closed').all[0]
 
     alter_table(:users) do
-      if Zen.database.adapter_scheme.to_s.include?('mysql')
+      if Zen.database.database_type.to_s.include?('mysql')
         drop_constraint(:users_ibfk_1, :type => :foreign_key)
       end
 

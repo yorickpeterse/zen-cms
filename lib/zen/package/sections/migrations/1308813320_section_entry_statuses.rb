@@ -46,7 +46,7 @@ Sequel.migration do
     end
 
     alter_table(:section_entries) do
-      if Zen.database.adapter_scheme.to_s.include?('mysql')
+      if Zen.database.database_type.to_s.include?('mysql')
         drop_constraint(:section_entries_ibfk_3, :type => :foreign_key)
       end
 

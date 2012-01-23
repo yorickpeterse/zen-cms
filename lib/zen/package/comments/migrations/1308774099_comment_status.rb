@@ -49,7 +49,7 @@ Sequel.migration do
       # MySQL doesn't automatically drop foreign keys, because of this the one
       # for the comment status ID has to be removed manually. Luckily the name
       # of the foreign key is rather easy to figure out.
-      if Zen.database.adapter_scheme.to_s.include?('mysql')
+      if Zen.database.database_type.to_s.include?('mysql')
         drop_constraint(:comments_ibfk_2, :type => :foreign_key)
       end
 
