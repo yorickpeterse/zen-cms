@@ -3,7 +3,7 @@
 Dashboard::Widget.add do |w|
   w.name  = :welcome
   w.title = 'dashboard.widgets.titles.welcome'
-  w.data  = lambda do |action|
-    return action.node.render_view(:widget__welcome)
+  w.data  = lambda do |instance|
+    return render_view(:widget__welcome)
   end
 end

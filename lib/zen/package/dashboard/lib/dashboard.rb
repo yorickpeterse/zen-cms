@@ -13,7 +13,7 @@ end
 require __DIR__('dashboard/model/widget')
 require __DIR__('dashboard/controller/dashboard')
 require __DIR__('dashboard/widget')
-require __DIR__('dashboard/widgets')
+require __DIR__('dashboard/widget/welcome')
 
 Zen::Event.listen :post_start do
   Zen::Language.load('dashboard')

@@ -22,7 +22,7 @@ module Dashboard
   #       w.name  = :example_widget
   #       w.title = 'dashboard.titles.example_widget'
   #       w.data  = lambda do |action|
-  #         return action.node.render_view(:example_view)
+  #         return action.instance.render_view(:example_view)
   #       end
   #     end
   #
@@ -246,7 +246,7 @@ module Dashboard
       validates_presence([:name, :title, :data])
 
       if REGISTERED.key?(name)
-        raise(WidgetError, "The widget \"#{name}\" already exists")
+        raise(Zen::ValidationError, "The widget \"#{name}\" already exists")
       end
     end
 
@@ -268,8 +268,8 @@ module Dashboard
     # @return [String]
     #
     def html
-      g       = Ramaze::Gestalt.new
-      _action = Ramaze::Current.action
+      g      = Ramaze::Gestalt.new
+      action = Ramaze::Current.action
 
       g.section(:class => 'widget', :id => 'widget_' + name.to_s) do
         g.header do
@@ -277,12 +277,7 @@ module Dashboard
         end
 
         g.div(:class => 'body') do
-          # Don't pass any parameters if the object doesn't take any.
-          if data.respond_to?(:arity)
-            data.arity == 1 ? data.call(_action) : data.call
-          else
-            data.call(_action)
-          end
+          action.instance.instance_eval(&data)
         end
       end
 
