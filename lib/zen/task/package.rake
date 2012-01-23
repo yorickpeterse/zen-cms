@@ -12,7 +12,7 @@ namespace :package do
     end
   end
 
-  desc 'Migrates a package to a certain version'
+  desc 'Migrates a specific package'
   task :migrate, :name, :version do |task, args|
     require File.expand_path('../../../zen', __FILE__)
 

@@ -1,5 +1,5 @@
 namespace :db do
-  desc 'Migrates the database to the newest version'
+  desc 'Migrates the entire database'
   task :migrate do
     require File.expand_path('../../../zen', __FILE__)
 
@@ -61,7 +61,7 @@ namespace :db do
     end
   end
 
-  desc 'Creates a default administrator with a random password'
+  desc 'Creates a default admin user'
   task :user do
     require File.expand_path('../../../zen', __FILE__)
 

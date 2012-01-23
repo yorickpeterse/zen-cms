@@ -3,14 +3,14 @@ namespace :test do
   command  = 'rake db:delete; rake db:migrate; rake db:test_user; ' \
     'ruby zen/all.rb'
 
-  desc 'Runs all specifications using SQLite3 or custom settings'
+  desc 'Run specifications'
   task :default => ['clean:assets'] do
     Dir.chdir(spec_dir)
 
     sh(command)
   end
 
-  desc 'Runs all specifications using MySQL'
+  desc 'Runs specifications using MySQL'
   task :mysql => ['clean:assets'] do
     Dir.chdir(spec_dir)
 
@@ -21,7 +21,7 @@ namespace :test do
     sh(command)
   end
 
-  desc 'Runs all specifications using PostgreSQL'
+  desc 'Runs specifications using PostgreSQL'
   task :postgres => ['clean:assets'] do
     Dir.chdir(spec_dir)
 

@@ -12,7 +12,7 @@ namespace :theme do
     end
   end
 
-  desc 'Migrates a theme to the given version'
+  desc 'Migrates a specific theme'
   task :migrate, :name, :version do |task, args|
     require File.expand_path('../../../zen', __FILE__)
 

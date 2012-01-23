@@ -1,5 +1,5 @@
 namespace :clean do
-  desc 'Removes all the gems located in pkg/'
+  desc 'Removes all built gems'
   task :gem do
     glob_pattern = File.expand_path('../../../../pkg/*.gem', __FILE__)
 
@@ -18,7 +18,7 @@ namespace :clean do
     FileUtils.rm_rf("#{root}/.yardoc")
   end
 
-  desc 'Removes all the minified assets used for the specs'
+  desc 'Removes all spec assets'
   task :assets do
     path = File.expand_path('../../../../spec/public/minified/*', __FILE__)
 

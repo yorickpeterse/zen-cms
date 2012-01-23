@@ -1,5 +1,5 @@
 namespace :build do
-  desc 'Builds the documentation using YARD'
+  desc 'Build the YARD docs'
   task :doc => ['clean:yard'] do
     root = File.expand_path('../../../../', __FILE__)
     Dir.chdir(root)
@@ -21,7 +21,7 @@ namespace :build do
   end
 
   # Stolen from Ramaze
-  desc 'Builds a list of all the people that have contributed to Zen'
+  desc 'Build a list of contributors'
   task :authors do
     authors = Hash.new(0)
 
@@ -39,7 +39,7 @@ namespace :build do
     end
   end
 
-  desc 'Builds a list of changes since a given Git tag and outputs it'
+  desc 'Build a list of changes'
   task :changes, [:tag] do |t, args|
     args.with_defaults(:tag => `git tag`.split(/\n/)[-1])
 
