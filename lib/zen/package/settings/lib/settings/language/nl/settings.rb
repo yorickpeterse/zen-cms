@@ -10,7 +10,7 @@ Zen::Language::Translation.add do |trans|
     t['labels.website_name']           = 'Website naam'
     t['labels.website_description']    = 'Website beschrijving'
     t['labels.language']               = 'Taal'
-    t['labels.frontend_langauge']      = 'Taal voor bezoekers'
+    t['labels.frontend_language']      = 'Frontend taal'
     t['labels.theme']                  = 'Thema'
     t['labels.enable_antispam']        = 'Anti-spam inschakelen'
     t['labels.date_format']            = 'Datum formaat'
