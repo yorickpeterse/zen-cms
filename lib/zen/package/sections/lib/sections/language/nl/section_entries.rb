@@ -46,5 +46,7 @@ Zen::Language::Translation.add do |trans|
     t['permissions.edit']   = 'Sectie item aanpassen'
     t['permissions.new']    = 'Sectie item aanmaken'
     t['permissions.delete'] = 'Sectie item verwijderen'
+
+    t['widgets.titles.recent_entries'] = 'Recente sectie items'
   end
 end

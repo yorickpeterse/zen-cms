@@ -46,5 +46,7 @@ Zen::Language::Translation.add do |trans|
     t['permissions.edit']   = 'Edit section entry'
     t['permissions.new']    = 'Add section entry'
     t['permissions.delete'] = 'Delete section entry'
+
+    t['widgets.titles.recent_entries'] = 'Recent Entries'
   end
 end

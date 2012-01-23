@@ -1,0 +1,47 @@
+<?r if !@entries.empty? ?>
+
+<table>
+    <thead>
+        <tr>
+            <th>#{lang('section_entries.labels.id')}</th>
+            <th>#{lang('section_entries.labels.title')}</th>
+            <th>#{lang('section_entries.labels.slug')}</th>
+            <th>#{lang('section_entries.labels.status')}</th>
+            <th>#{lang('section_entries.labels.created_at')}</th>
+            <th>#{lang('section_entries.labels.updated_at')}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?r @entries.each do |entry| ?>
+        <tr>
+            <td>#{entry.id}</td>
+
+            <td>
+                #{if user_authorized?(:edit_section_entry)
+                  edit_link(
+                    Sections::Controller::SectionEntries.r(
+                      :edit,
+                      entry.section_id,
+                      entry.id
+                    ),
+                    entry.title
+                  )
+                else
+                  entry.title
+                end}
+            </td>
+
+            <td>#{entry.slug}</td>
+            <td>#{entry.status_name}</td>
+            <td>#{format_date(entry.created_at)}</td>
+            <td>#{format_date(entry.updated_at)}</td>
+        </tr>
+        <?r end ?>
+    </tbody>
+</table>
+
+<?r else ?>
+
+<p>#{lang('section_entries.messages.no_entries')}</p>
+
+<?r end ?>
