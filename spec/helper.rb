@@ -9,14 +9,19 @@ Ramaze.options.mode = :dev
 
 Zen::FIXTURES = __DIR__('fixtures/zen')
 Zen.root      = __DIR__
-Zen.database  = Sequel.connect(
-  :adapter   => ENV['ADAPTER']  || 'sqlite',
-  :database  => ENV['DATABASE'] || __DIR__('database.db'),
-  :username  => ENV['USERNAME'],
-  :password  => ENV['PASSWORD'],
-  :test      => true,
-  :encoding  => 'utf8'
-)
+
+if ENV['DSN']
+  Zen.database = Sequel.connect(ENV['DSN'])
+else
+  Zen.database  = Sequel.connect(
+    :adapter   => ENV['ADAPTER']  || 'sqlite',
+    :database  => ENV['DATABASE'] || __DIR__('database.db'),
+    :username  => ENV['USERNAME'],
+    :password  => ENV['PASSWORD'],
+    :test      => true,
+    :encoding  => 'utf8'
+  )
+end
 
 Zen::Language.options.paths.push(__DIR__('fixtures/zen/language'))
 
