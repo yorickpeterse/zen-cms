@@ -7,7 +7,7 @@ Zen::Package.add do |p|
   p.root       = __DIR__('dashboard')
   p.migrations = __DIR__('../migrations')
 
-  p.menu 'dashboard.titles.index', '/admin/dashboard'
+  p.menu 'dashboard.titles.index', '/admin'
 end
 
 require __DIR__('dashboard/model/widget')

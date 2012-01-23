@@ -7,7 +7,9 @@ Zen::Package.add do |p|
   p.root       = __DIR__('sections')
   p.migrations = __DIR__('../migrations')
 
-  p.menu 'sections.titles.index', '/admin', :permission => :show_section
+  p.menu 'sections.titles.index',
+    '/admin/sections',
+    :permission => :show_section
 
   p.permission :show_section  , 'sections.permissions.show'
   p.permission :edit_section  , 'sections.permissions.edit'

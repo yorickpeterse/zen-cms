@@ -4,7 +4,7 @@ describe "Users::Controller::Users" do
   behaves_like :capybara
 
   login_url     = Users::Controller::Users.r(:login).to_s
-  dashboard_url = Sections::Controller::Sections.r(:index).to_s
+  dashboard_url = Dashboard::Controller::Dashboard.r(:index).to_s
   index_url     = Users::Controller::Users.r(:index).to_s
   save_button   = lang('users.buttons.save')
   new_button    = lang('users.buttons.new')

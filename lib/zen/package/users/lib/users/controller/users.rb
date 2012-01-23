@@ -201,7 +201,7 @@ module Users
 
             Zen::Event.call(:user_login, user)
             message(:success, lang('users.success.login'))
-            redirect(::Sections::Controller::Sections.r(:index))
+            redirect(Dashboard::Controller::Dashboard.r(:index))
           else
             message(:error, lang('users.errors.login'))
           end
@@ -238,7 +238,7 @@ module Users
       # @event after_register_user
       #
       def register
-        redirect(::Sections::Controller::Sections.r(:index)) if logged_in?
+        redirect(Dashboard::Controller::Dashboard.r(:index)) if logged_in?
         redirect(r(:login)) unless get_setting(:allow_registration).true?
 
         if request.post?

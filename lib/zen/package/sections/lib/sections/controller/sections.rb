@@ -90,7 +90,7 @@ module Sections
     #     end
     #
     # @since  0.1
-    # @map    /admin
+    # @map    /admin/sections
     # @event  before_new_section
     # @event  after_new_section
     # @event  before_edit_section
@@ -99,7 +99,7 @@ module Sections
     # @event  after_delete_section
     #
     class Sections < Zen::Controller::AdminController
-      map    '/admin'
+      map    '/admin/sections'
       helper :section
       title  'sections.titles.%s'
 

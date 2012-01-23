@@ -44,9 +44,10 @@ module Dashboard
     # ![Widget Columns](../../_static/dashboard/columns.png)
     #
     # @since 08-01-2012
+    # @map   /admin
     #
     class Dashboard < Zen::Controller::AdminController
-      map   '/admin/dashboard'
+      map   '/admin'
       title 'dashboard.titles.%s'
 
       serve :css, ['admin/css/dashboard/dashboard'], :name => 'dashboard'

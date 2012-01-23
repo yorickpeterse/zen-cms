@@ -88,6 +88,7 @@ module Ramaze
           return [session[:super_group], session[:permissions]]
         end
 
+        user        = Ramaze::Current.action.instance.user
         super_group = false
         perms       = user.permissions.map { |p| p.permission.to_sym }
         group_ids   = []
