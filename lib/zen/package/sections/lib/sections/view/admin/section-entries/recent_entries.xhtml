@@ -8,7 +8,6 @@
             <th>#{lang('section_entries.labels.slug')}</th>
             <th>#{lang('section_entries.labels.status')}</th>
             <th>#{lang('section_entries.labels.created_at')}</th>
-            <th>#{lang('section_entries.labels.updated_at')}</th>
         </tr>
     </thead>
     <tbody>
@@ -34,7 +33,6 @@
             <td>#{entry.slug}</td>
             <td>#{entry.status_name}</td>
             <td>#{format_date(entry.created_at)}</td>
-            <td>#{format_date(entry.updated_at)}</td>
         </tr>
         <?r end ?>
     </tbody>
