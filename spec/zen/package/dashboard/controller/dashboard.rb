@@ -139,6 +139,7 @@ describe 'Dashboard::Controller::Dashboard' do
       .order.should == 0
   end
 
+  Dashboard::Model::Widget.filter(:name => 'spec').destroy
   Capybara.use_default_driver
   WebMock.enable!
 end
