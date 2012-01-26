@@ -135,9 +135,10 @@ module Comments
       # @since  16-10-2011
       # @param  [TrueClass|FalseClass] with_link When set to true the website
       #  will be returned as an ``<a>`` tag.
+      # @param  [String] text The alternative text to use for the link tag.
       # @return [String]
       #
-      def user_website(with_link = false)
+      def user_website(with_link = false, text = nil)
         if user.nil?
           website = website
         else
@@ -145,10 +146,11 @@ module Comments
         end
 
         if !website.nil? and !website.empty? and with_link == true
+          link_text = text || website
           website = '<a href="%s" title="%s" class="icon external">%s</a>' % [
             website,
             website,
-            website
+            link_text
           ]
         end
 

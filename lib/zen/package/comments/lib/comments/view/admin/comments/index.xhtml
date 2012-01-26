@@ -25,7 +25,6 @@
                     <th>#{lang('comments.labels.status')}</th>
                     <th>#{lang('comments.labels.name')}</th>
                     <th>#{lang('comments.labels.email')}</th>
-                    <th>#{lang('comments.labels.website')}</th>
                     <th>#{lang('comments.labels.created_at')}</th>
                 </thead>
                 <tbody>
@@ -44,9 +43,8 @@
                         </td>
                         <td>#{comment.section_entry.title}</td>
                         <td>#{comment.status_name}</td>
-                        <td>#{comment.user_name}</td>
+                        <td>#{comment.user_website(true, comment.user_name)}</td>
                         <td>#{comment.user_email}</td>
-                        <td>#{comment.user_website(true)}</td>
                         <td>#{format_date(comment.created_at)}</td>
                     </tr>
                     <?r end ?>
