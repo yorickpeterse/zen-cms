@@ -5,6 +5,12 @@ require File.join(Zen::FIXTURES, 'package/dashboard/controller/widget')
 describe 'Dashboard::Widget' do
   behaves_like :capybara
 
+  widget = Dashboard::Model::Widget.create(
+    :name    => 'spec',
+    :user_id => Users::Model::User[:email => 'spec@domain.tld'].id,
+    :order   => 0
+  )
+
   it 'Retrieve an existing widget' do
     Dashboard::Widget[:spec].title.should  == 'Spec'
     Dashboard::Widget['spec'].title.should == 'Spec'
@@ -45,4 +51,6 @@ describe 'Dashboard::Widget' do
     page.has_selector?('input[id="toggle_widget_spec"]').should    == true
     page.has_selector?('input[id="toggle_widget_welcome"]').should == true
   end
+
+  widget.destroy
 end
