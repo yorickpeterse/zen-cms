@@ -66,22 +66,6 @@ module Ramaze
       end
 
       ##
-      # Shows a warning to inform the developer that the aspect name is already
-      # in use.
-      #
-      # @since 06-11-2011
-      # @param [#to_s] name The name of the aspect.
-      #
-      def self.aspect_warn(name)
-        file, line = caller[1].split(':')
-
-        Ramaze::Log.warn(
-          "The aspect name \"#{name}\" is already in use, it was redefined " \
-            "in #{file} on line #{line}"
-        )
-      end
-
-      ##
       # Calls a certain AOP action for the specified position and method name.
       #
       # @since 06-11-2011
@@ -156,13 +140,7 @@ module Ramaze
         # @param [Proc] block The block to execute.
         #
         def stacked_before_all(name, &block)
-          name = name.to_sym
-
-          if !STACKED_AOP[self][:before_all].key?(name)
-            STACKED_AOP[self][:before_all][name] = block
-          else
-            StackedAspect.aspect_warn(name)
-          end
+          STACKED_AOP[self][:before_all][name.to_sym] = block
         end
 
         ##
@@ -185,13 +163,9 @@ module Ramaze
 
           methods.each do |m|
             m = m.to_sym
-            STACKED_AOP[self][:before][m] ||= {}
 
-            if !STACKED_AOP[self][:before][m].key?(name)
-              STACKED_AOP[self][:before][m][name] = block
-            else
-              StackedAspect.aspect_warn(name)
-            end
+            STACKED_AOP[self][:before][m]     ||= {}
+            STACKED_AOP[self][:before][m][name] = block
           end
         end
 
@@ -202,13 +176,7 @@ module Ramaze
         # @see   Ramaze::Helper::StackedAspect::ClassMethods#stacked_before_all
         #
         def stacked_after_all(name, &block)
-          name = name.to_sym
-
-          if !STACKED_AOP[self][:after_all].key?(name)
-            STACKED_AOP[self][:after_all][name] = block
-          else
-            StackedAspect.aspect_warn(name)
-          end
+          STACKED_AOP[self][:after_all][name.to_sym] = block
         end
 
         ##
@@ -222,13 +190,9 @@ module Ramaze
 
           methods.each do |m|
             m = m.to_sym
-            STACKED_AOP[self][:after][m] ||= {}
 
-            if !STACKED_AOP[self][:after][m].key?(name)
-              STACKED_AOP[self][:after][m][name] = block
-            else
-              StackedAspect.aspect_warn(name)
-            end
+            STACKED_AOP[self][:after][m]     ||= {}
+            STACKED_AOP[self][:after][m][name] = block
           end
         end
 
