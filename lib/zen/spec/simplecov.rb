@@ -17,6 +17,7 @@ SimpleCov.configure do
   add_filter 'lib/zen/model/settings'
   add_filter 'vendor'
   add_filter 'lib/zen/model/init'
+  add_filter 'lib/zen/migrator'
 end
 
 SimpleCov.start
