@@ -1,4 +1,4 @@
-if ENV.key?('COVERAGE') and ENV['COVERAGE'] == 'true'
+if ENV.key?('COVERAGE') and !ENV['COVERAGE'].empty?
   require File.expand_path('../../lib/zen/spec/simplecov', __FILE__)
 end
 
