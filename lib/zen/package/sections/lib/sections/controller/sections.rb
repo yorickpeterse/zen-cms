@@ -27,10 +27,10 @@ module Sections
     # the other data types (such as those mentioned earlier) together to form
     # the content displayed on your website.
     #
-    # Sections can be managed by going to ``/admin``. This page will show an
-    # overview of all existing sections as well as a few buttons and links that
-    # allow you to edit, create or delete sections as well as managing the
-    # entries for each existing section.
+    # Sections can be managed by going to ``/admin/sections``. This page will
+    # show an overview of all existing sections as well as a few buttons and
+    # links that allow you to edit, create or delete sections as well as
+    # managing the entries for each existing section.
     #
     # ![Sections](../../_static/sections/sections.png)
     #

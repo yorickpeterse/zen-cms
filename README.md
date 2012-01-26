@@ -44,6 +44,7 @@ small portion of what it can do.
 * {file:getting_started Getting Started}
 * {file:hacking Hacking/Contributing}
 * {file:changelog Changelog}
+* {Dashboard::Controller::Dashboard Dashboard}
 * {Categories Categories}
   * {Categories::Controller::CategoryGroups Managing Category Groups}
   * {Categories::Controller::Categories Managing Categories}

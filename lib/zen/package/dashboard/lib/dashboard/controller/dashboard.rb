@@ -38,10 +38,25 @@ module Dashboard
     #
     # ![Available Widgets](../../_static/dashboard/options.png)
     #
-    # This options menu also allows you to change the amount of widget columns
-    # per row, as shown in the image below.
+    # In this image two widgets are available, "Welcome" (activated by default
+    # for each new user) and the "Recent Entries" widget. In order to activate
+    # the "Recent Entries" widget all you have to do is check the checkbox. Once
+    # done it will be added to your dashboard as shown in the image below.
+    #
+    # ![Added Widget](../../_static/dashboard/added.png)
+    #
+    # The options menu also allows you to change the amount of columns for each
+    # row. You can choose between 1 and 4 columns.
     #
     # ![Widget Columns](../../_static/dashboard/columns.png)
+    #
+    # ## Available Widgets
+    #
+    # Zen comes with the following widgets:
+    #
+    # * Welcome: gives a short introduction to widgets and how to navigate
+    #   around the application.
+    # * Recent Entries: a widget that displays the 10 most recent entries.
     #
     # @since 08-01-2012
     # @map   /admin

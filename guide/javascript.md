@@ -162,14 +162,6 @@ which each object has the following format:
 * label: the text displayed in the button.
 * onClick: a function that will be called whenever the button is clicked.
 
-<div class="note todo">
-    <p>
-        <strong>Note</strong>: Currently the resize and move features are a bit
-        buggy, especially when they're both used. This will be fixed in one of
-        the next releases.
-    </p>
-</div>
-
 ### Zen.Tabs
 
 Zen.Tabs can be used to create a tab based navigation menu. Because Zen already
