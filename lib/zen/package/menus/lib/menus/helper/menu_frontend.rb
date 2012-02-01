@@ -40,13 +40,6 @@ module Ramaze
         }.merge(options)
 
         menu  = Menus::Model::Menu.find_by_pk_or_slug(menu)
-        items = Menus::Model::MenuItem \
-          .filter(:parent_id => nil, :menu_id => menu.id) \
-          .limit(options[:limit]) \
-          .order(:sort_order.send(options[:order])) \
-          .eager(:parent) \
-          .all
-
         g     = Ramaze::Gestalt.new
         attrs = {}
         tree  = {}
@@ -61,8 +54,8 @@ module Ramaze
 
         # Build the HTML
         g.ul(attrs) do
-          items.each do |item|
-            if item.parent_id.nil?
+          menu.menu_items_tree(options[:order], options[:limit]).each do |item|
+            if item[:node].parent_id.nil?
               render_menu_item(item, g, options)
             end
           end
@@ -77,14 +70,15 @@ module Ramaze
       # Generates the HTML for a single menu item.
       #
       # @since  0.3
-      # @param  [Menus::Model::MenuItem] item The menu item to render.
+      # @param  [Hash] node A single node containing a :node and :children key.
       # @param  [Ramaze::Gestalt] g An instance of ``Ramaze::Gestalt`` to use
       #  for building the HTML.
       # @param  [Hash] options A hash of options, see the options hash for
       #  {Ramaze::Helper::MenuFrontend#render_menu} for more information.
       #
-      def render_menu_item(item, g, options = {})
+      def render_menu_item(node, g, options = {})
         attrs = {}
+        item  = node[:node]
 
         if !item.html_class.nil? and !item.html_class.empty?
           attrs[:class] = item.html_class
@@ -99,9 +93,9 @@ module Ramaze
 
           # Render any sub menu items
           if options[:sub] == true
-            children = item.children
+            children = node[:children]
 
-            if !children.empty?
+            unless children.empty?
               g.ul(:class => :children) do
                 children.each { |child| render_menu_item(child, g, options) }
               end

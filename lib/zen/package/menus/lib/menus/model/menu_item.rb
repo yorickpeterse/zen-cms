@@ -30,6 +30,18 @@ module Menus
       end
 
       ##
+      # Sets the ID of the parent navigation item but *only* if it's not empty
+      # and not the same as the current ID.
+      #
+      # @since  0.3
+      # @param  [Fixnum] parent_id The ID of the parent navigation item.
+      #
+      def parent_id=(parent_id)
+        return if parent_id == id
+        return super(parent_id)
+      end
+
+      ##
       # Specifies all validation rules that will be used when creating or
       # updating a menu item.
       #
@@ -41,18 +53,6 @@ module Menus
         validates_integer([:sort_order, :parent_id])
         validates_format(/^[a-zA-Z\-_0-9\s]*$/, :html_class)
         validates_format(/^[a-zA-Z\-_0-9]*$/  , :html_id)
-      end
-
-      ##
-      # Sets the ID of the parent navigation item but *only* if it's not empty
-      # and not the same as the current ID.
-      #
-      # @since  0.3
-      # @param  [Fixnum] parent_id The ID of the parent navigation item.
-      #
-      def parent_id=(parent_id)
-        return if parent_id == id
-        return super(parent_id)
       end
 
       ##
