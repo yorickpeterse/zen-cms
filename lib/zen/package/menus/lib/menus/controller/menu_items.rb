@@ -213,7 +213,7 @@ module Menus
 
           menu_item.save
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_data]   = menu_item
@@ -256,7 +256,7 @@ module Menus
           begin
             menu.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('menu_items.errors.delete') % id)
 
             redirect_referrer

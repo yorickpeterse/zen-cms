@@ -253,7 +253,7 @@ module Categories
 
           category.save
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_errors] = category.errors
@@ -301,7 +301,7 @@ module Categories
           begin
             category.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('categories.errors.delete') % id)
 
             redirect_referrer

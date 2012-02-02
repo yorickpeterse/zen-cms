@@ -205,7 +205,7 @@ module Comments
           Zen::Event.call(:before_new_comment, comment)
           comment.save
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, lang('comments.errors.new'))
 
           flash[:form_data]   = comment

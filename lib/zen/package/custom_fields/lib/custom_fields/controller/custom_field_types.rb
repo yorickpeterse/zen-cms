@@ -213,7 +213,7 @@ module CustomFields
 
           field_type.save
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_data]   = field_type
@@ -255,7 +255,7 @@ module CustomFields
           begin
             type.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('custom_field_types.errors.delete') % id)
 
             redirect_referrer

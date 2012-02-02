@@ -194,7 +194,7 @@ module Comments
 
           comment.save
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, lang('comments.errors.save'))
 
           flash[:form_errors] = comment.errors
@@ -238,7 +238,7 @@ module Comments
           begin
             comment.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('comments.errors.delete') % id)
 
             redirect_referrer

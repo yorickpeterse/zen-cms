@@ -194,7 +194,7 @@ module CustomFields
 
           field_group.save
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_errors] = field_group.errors
@@ -236,7 +236,7 @@ module CustomFields
           begin
             group.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('custom_field_groups.errors.delete') % id)
 
             redirect_referrer

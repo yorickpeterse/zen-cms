@@ -240,7 +240,7 @@ module Sections
             section.category_group_pks     = post['category_group_pks']
           end
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_data]   = section
@@ -282,7 +282,7 @@ module Sections
           begin
             section.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('sections.errors.delete') % id)
 
             redirect_referrer

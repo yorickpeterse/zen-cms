@@ -181,7 +181,7 @@ module Users
 
           user_group.save
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_data]   = user_group
@@ -231,7 +231,7 @@ module Users
           begin
             group.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('user_groups.errors.delete') % id)
 
             redirect_referrer

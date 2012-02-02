@@ -130,7 +130,7 @@ module Settings
           begin
             setting.value = value
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, error)
 
             flash[:form_errors] = setting.errors

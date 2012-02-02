@@ -88,7 +88,7 @@ module Categories
     #       begin
     #         section.add_category_group(group)
     #       rescue => e
-    #         Ramaze::Log.error(e.inspect)
+    #         Ramaze::Log.error(e)
     #       end
     #     end
     #
@@ -219,7 +219,7 @@ module Categories
           category_group.save
         rescue => e
           message(:error, error)
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
 
           flash[:form_data]   = category_group
           flash[:form_errors] = category_group.errors
@@ -262,7 +262,7 @@ module Categories
           begin
             group.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('category_groups.errors.delete') % id)
 
             redirect_referrer

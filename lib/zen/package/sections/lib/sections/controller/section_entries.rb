@@ -287,7 +287,7 @@ module Sections
         # 2. Any custom field marked as required didn't have a value
         # 3. Something else went wrong, god knows what.
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_errors] = entry.errors.merge(field_errors)
@@ -329,7 +329,7 @@ module Sections
           begin
             entry.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error,lang('section_entries.errors.delete') % id)
 
             redirect_referrer

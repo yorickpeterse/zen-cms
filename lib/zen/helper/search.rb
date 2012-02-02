@@ -44,7 +44,7 @@ module Ramaze
         begin
           return yield(request.params['query'])
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, lang('zen_general.errors.invalid_search'))
           redirect_referrer(::Sections::Controller::Sections.r(:index))
         end

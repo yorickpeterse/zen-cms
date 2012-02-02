@@ -258,7 +258,7 @@ module Users
           begin
             user.save
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('users.errors.register'))
 
             flash[:form_errors] = user.errors
@@ -348,7 +348,7 @@ module Users
             user.user_group_pks = post['user_group_pks']
           end
         rescue => e
-          Ramaze::Log.error(e.inspect)
+          Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_data]   = user
@@ -399,7 +399,7 @@ module Users
             user.user_group_pks = []
             user.destroy
           rescue => e
-            Ramaze::Log.error(e.inspect)
+            Ramaze::Log.error(e)
             message(:error, lang('users.errors.delete') % id)
 
             redirect_referrer
