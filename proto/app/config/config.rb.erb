@@ -17,7 +17,7 @@ Ramaze.options.mode  = :dev
 # especially when a cache is shared among different Ramaze applications. If
 # these applications were to use the same name they might end up retrieving the
 # wrong data.
-Ramaze.options.app.name = :<%= PROJECT_SETTINGS[:name] %>
+Ramaze.options.app.name = <%= PROJECT_SETTINGS[:name].to_sym.inspect %>
 
 # The session identifier to use for cookies.
 Ramaze.options.session.key = '<%= PROJECT_SETTINGS[:name] %>.sid'
