@@ -38,28 +38,8 @@ module Menus
     # * edit_menu_item
     # * delete_menu_item
     #
-    # ## Events
-    #
-    # All events in this controller receive an instance of
-    # {Menus::Model::MenuItem}. Just like other packages the event
-    # ``delete_menu_item`` receives an instance that has already been destroyed.
-    #
-    # @example Automatically prefix URLs with http
-    #  Zen::Event.listen(:new_menu_item) do |item|
-    #    unless item.url =~ /^http/
-    #      item.url = 'http://' + item.url
-    #      item.save
-    #    end
-    #  end
-    #
     # @since  0.2a
     # @map    /admin/menu-items
-    # @event  before_new_menu_item
-    # @event  after_new_menu_item
-    # @event  before_edit_menu_item
-    # @event  after_edit_menu_item
-    # @event  before_delete_menu_item
-    # @event  after_delete_menu_item
     #
     class MenuItems <  Zen::Controller::AdminController
       map    '/admin/menu-items'
@@ -165,10 +145,6 @@ module Menus
       # @since      0.2a
       # @permission edit_menu_item (when editing an item)
       # @permission new_menu_item (when creating an item)
-      # @event      before_edit_menu_item
-      # @event      after_edit_menu_item
-      # @event      before_new_menu_item
-      # @event      after_new_menu_item
       #
       def save
         post = request.subset(
@@ -187,29 +163,22 @@ module Menus
         if post.key?('id') and !post['id'].empty?
           authorize_user!(:edit_menu_item)
 
-          menu_item    = validate_menu_item(post['id'], post['menu_id'])
-          save_action  = :save
-          before_event = :before_edit_menu_item
-          after_event  = :after_edit_menu_item
+          menu_item   = validate_menu_item(post['id'], post['menu_id'])
+          save_action = :save
         else
           authorize_user!(:new_menu_item)
 
-          menu_item    = ::Menus::Model::MenuItem.new
-          save_action  = :new
-          before_event = :before_new_menu_item
-          after_event  = :after_new_menu_item
+          menu_item   = ::Menus::Model::MenuItem.new
+          save_action = :new
         end
 
         post.delete('id')
 
-        # Set our notifications
         success = lang("menu_items.success.#{save_action}")
         error   = lang("menu_items.errors.#{save_action}")
 
-        # Time to save the data
         begin
           post.each { |k, v| menu_item.send("#{k}=", v) }
-          Zen::Event.call(before_event, menu_item)
 
           menu_item.save
         rescue => e
@@ -222,8 +191,6 @@ module Menus
           redirect_referrer
         end
 
-        Zen::Event.call(after_event, menu_item)
-
         message(:success, success)
         redirect(MenuItems.r(:edit, menu_item.menu_id, menu_item.id))
       end
@@ -234,8 +201,6 @@ module Menus
       #
       # @since      0.2a
       # @permission delete_menu_item
-      # @event      before_delete_menu_item
-      # @event      after_delete_menu_item
       #
       def delete
         authorize_user!(:delete_menu_item)
@@ -251,7 +216,6 @@ module Menus
           menu = ::Menus::Model::MenuItem[id]
 
           next if menu.nil?
-          Zen::Event.call(:before_delete_menu_item, menu)
 
           begin
             menu.destroy
@@ -261,8 +225,6 @@ module Menus
 
             redirect_referrer
           end
-
-          Zen::Event.call(:after_delete_menu_item, menu)
         end
 
         message(:success, lang('menu_items.success.delete'))

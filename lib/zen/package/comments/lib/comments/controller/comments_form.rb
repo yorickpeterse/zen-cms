@@ -63,22 +63,8 @@ module Comments
     #
     #     Zen::Controller::MainController.helper(:some_helper_name)
     #
-    # ## Events
-    #
-    # Just like {Comments::Controller::Comments} newly created comments are
-    # passed to an event called "new_comment".
-    #
-    # @example Logging whenever a new comment is created
-    #  Zen::Event.call(:new_comment) do |comment|
-    #    Ramaze::Log.info(
-    #      "A new comment has been created with ID ##{comment.id}"
-    #    )
-    #  end
-    #
-    # @since  0.1
-    # @map    /comments-form
-    # @event  before_new_comment
-    # @event  after_new_comment
+    # @since 0.1
+    # @map   /comments-form
     #
     class CommentsForm < Zen::Controller::FrontendController
       map    '/comments-form'
@@ -91,8 +77,6 @@ module Comments
       # saved the user will be redirected back to the previous page.
       #
       # @since  0.1
-      # @event  before_new_comment
-      # @event  after_new_comment
       #
       def save
         comment = ::Comments::Model::Comment.new
@@ -202,7 +186,6 @@ module Comments
 
         # Save the comment
         begin
-          Zen::Event.call(:before_new_comment, comment)
           comment.save
         rescue => e
           Ramaze::Log.error(e)
@@ -220,7 +203,6 @@ module Comments
           message(:success, lang('comments.success.new'))
         end
 
-        Zen::Event.call(:after_new_comment, comment)
         redirect_referrer
       end
     end # CommentsForm

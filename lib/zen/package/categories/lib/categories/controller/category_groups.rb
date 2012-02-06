@@ -66,40 +66,8 @@ module Categories
     # * new_category_group
     # * delete_category_group
     #
-    # ## Events
-    #
-    # All available events receive an instance of
-    # {Categories::Model::CategoyGroup}. However, the
-    # ``after_delete_category_group`` event will receive an instance that has
-    # already been removed from the database. This means that you can not make
-    # changes to the object and call ``#save()``.
-    #
-    # Example of logging when a new category group is created:
-    #
-    #     Zen::Event.listen(:after_new_category_group) do |group|
-    #       Ramaze::Log.info("New category: \"#{group.name}\"")
-    #     end
-    #
-    # Maybe you want to automatically add a category group to a section:
-    #
-    #     Zen::Event.listen(:after_new_category_group) do |group|
-    #       section = Sections::Model::Section[5]
-    #
-    #       begin
-    #         section.add_category_group(group)
-    #       rescue => e
-    #         Ramaze::Log.error(e)
-    #       end
-    #     end
-    #
     # @since  0.1
     # @map    /admin/category-groups
-    # @event  before_new_category_group
-    # @event  after_new_category_group
-    # @event  before_edit_category_group
-    # @event  after_edit_category_group
-    # @event  before_delete_category_group
-    # @event  after_delete_category_group
     #
     class CategoryGroups < Zen::Controller::AdminController
       helper :category
@@ -181,10 +149,6 @@ module Categories
       # @since      0.1
       # @permission edit_category_group (when editing a group)
       # @permission new_category_group (when creating a group)
-      # @event      before_new_category_group
-      # @event      after_new_category_group
-      # @event      before_edit_category_group
-      # @event      after_edit_category_group
       #
       def save
         post = request.subset(:id, :name, :description)
@@ -195,15 +159,11 @@ module Categories
 
           category_group = validate_category_group(post['id'])
           save_action    = :save
-          before_event   = :before_edit_category_group
-          after_event    = :after_edit_category_group
         else
           authorize_user!(:new_category_group)
 
           category_group = ::Categories::Model::CategoryGroup.new
           save_action    = :new
-          before_event   = :before_new_category_group
-          after_event    = :after_new_category_group
         end
 
         success = lang("category_groups.success.#{save_action}")
@@ -214,7 +174,6 @@ module Categories
         # Set the values, call the events and try to save the category group.
         begin
           post.each { |k, v| category_group.send("#{k}=", v) }
-          Zen::Event.call(before_event, category_group)
 
           category_group.save
         rescue => e
@@ -227,8 +186,6 @@ module Categories
           redirect_referrer
         end
 
-        Zen::Event.call(after_event, category_group)
-
         message(:success, success)
         redirect(CategoryGroups.r(:edit, category_group.id))
       end
@@ -239,8 +196,6 @@ module Categories
       #
       # @since      0.1
       # @permission delete_category_group
-      # @event      before_delete_category_group
-      # @event      after_delete_category_group
       #
       def delete
         authorize_user!(:delete_category_group)
@@ -257,8 +212,6 @@ module Categories
 
           next if group.nil?
 
-          Zen::Event.call(:before_delete_category_group, group)
-
           begin
             group.destroy
           rescue => e
@@ -267,8 +220,6 @@ module Categories
 
             redirect_referrer
           end
-
-          Zen::Event.call(:after_delete_category_group, group)
         end
 
         message(:success, lang('category_groups.success.delete'))

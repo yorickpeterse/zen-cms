@@ -4,7 +4,13 @@ module CustomFields
     ##
     # Model that represents a single custom field group.
     #
-    # @since  0.1
+    # @since 0.1
+    # @event before_new_custom_field_group
+    # @event after_new_custom_field_group
+    # @event before_edit_custom_field_group
+    # @event after_edit_custom_field_group
+    # @event before_delete_custom_field_group
+    # @event after_delete_custom_field_group
     #
     class CustomFieldGroup < Sequel::Model
       include Zen::Model::Helper
@@ -14,6 +20,14 @@ module CustomFields
         :order => :sort_order
 
       many_to_many :sections, :class => 'Sections::Model::Section'
+
+      plugin :events,
+        :before_create  => :before_new_custom_field_group,
+        :after_create   => :after_new_custom_field_group,
+        :before_update  => :before_edit_custom_field_group,
+        :after_update   => :after_edit_custom_field_group,
+        :before_destroy => :before_delete_custom_field_group,
+        :after_destroy  => :after_delete_custom_field_group
 
       ##
       # Searches for a set of custom field groups.

@@ -56,21 +56,8 @@ module Sections
     # * edit_section_entry
     # * delete_section_entry
     #
-    # ## Events
-    #
-    # All events in this controller receive an instance of
-    # {Sections::Model::SectionEntry}. The event ``after_delete_section_entry``
-    # receives an instance of this model that has already been destroyed using
-    # ``#destroy()``.
-    #
     # @since  0.1
     # @map    /admin/section-entries
-    # @event  before_new_section_entry
-    # @event  after_new_section_entry
-    # @event  before_edit_section_entry
-    # @event  after_edit_section_entry
-    # @event  before_delete_section_entry
-    # @event  after_delete_section_entry
     #
     class SectionEntries < Zen::Controller::AdminController
       map    '/admin/section-entries'
@@ -189,10 +176,6 @@ module Sections
       # creates a new entry.
       #
       # @since      0.1
-      # @event      before_new_section_entry
-      # @event      after_new_section_entry
-      # @event      before_edit_section_entry
-      # @event      after_edit_section_entry
       # @permission edit_section_entry (when editing an entry)
       # @permission new_section_entry (when creating a new entry)
       #
@@ -204,17 +187,13 @@ module Sections
         if request.params['id'] and !request.params['id'].empty?
           authorize_user!(:edit_section_entry)
 
-          entry        = ::Sections::Model::SectionEntry[request.params['id']]
-          save_action  = :save
-          before_event = :before_edit_section_entry
-          after_event  = :after_edit_section_entry
+          entry       = ::Sections::Model::SectionEntry[request.params['id']]
+          save_action = :save
         else
           authorize_user!(:new_section_entry)
 
           entry = ::Sections::Model::SectionEntry.new(:section_id => section_id)
-          before_event = :before_new_section_entry
-          after_event  = :after_new_section_entry
-          save_action  = :new
+          save_action = :new
         end
 
         request.params.delete('id')
@@ -251,7 +230,6 @@ module Sections
             end
 
             post_data.each { |k, v| entry.send("#{k}=", v) }
-            Zen::Event.call(before_event, entry)
 
             entry.save
 
@@ -296,8 +274,6 @@ module Sections
           redirect_referrer
         end
 
-        Zen::Event.call(after_event, entry)
-
         message(:success, success)
         redirect(SectionEntries.r(:edit, section_id, entry.id))
       end
@@ -308,8 +284,6 @@ module Sections
       #
       # @since      0.1
       # @permission delete_section_entry
-      # @event      before_delete_section_entry
-      # @event      after_delete_section_entry
       #
       def delete
         authorize_user!(:delete_section_entry)
@@ -324,7 +298,6 @@ module Sections
           entry = ::Sections::Model::SectionEntry[id]
 
           next if entry.nil?
-          Zen::Event.call(:before_delete_section_entry, entry)
 
           begin
             entry.destroy
@@ -334,8 +307,6 @@ module Sections
 
             redirect_referrer
           end
-
-          Zen::Event.call(:after_delete_section_entry, entry)
         end
 
         message(:success, lang('section_entries.success.delete'))

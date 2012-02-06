@@ -78,32 +78,8 @@ module Users
     # * edit_user
     # * delete_user
     #
-    # ## Events
-    #
-    # Events in this controller receive an instance of {Users::Model::User}, the
-    # ``after_delete_user`` event receives an instance that has already been
-    # destroyed. Keep in mind that changing the Email address or password of a
-    # user will cause their session to no longer be valid, requiring them to log
-    # in again.
-    #
-    # @example Sending an Email for a new user
-    #  Zen::Event.listen(:after_new_user) do |user|
-    #    Mail.deliver do
-    #      from    'user@domain.tld'
-    #      to      user.email
-    #      subject 'Your new account'
-    #      body    "Dear #{user.name}, your account has been created."
-    #    end
-    #  end
-    #
     # @since  0.1
     # @map    /admin/users
-    # @event  before_new_user
-    # @event  after_new_user
-    # @event  before_edit_user
-    # @event  after_edit_user
-    # @event  before_delete_user
-    # @event  after_delete_user
     # @event  user_login
     # @event  before_register_user
     # @event  after_register_user
@@ -282,10 +258,6 @@ module Users
       # @since      0.1
       # @permission new_user (when creating a new user)
       # @permission edit_user (when editing a user)
-      # @event      before_new_user
-      # @event      after_new_user
-      # @event      before_edit_user
-      # @event      after_edit_user
       #
       def save
         post = request.subset(
@@ -305,17 +277,13 @@ module Users
         if post['id'] and !post['id'].empty?
           authorize_user!(:edit_user) unless post['id'].to_i == user.id
 
-          user         = validate_user(post['id'])
-          save_action  = :save
-          before_event = :before_edit_user
-          after_event  = :after_edit_user
+          user        = validate_user(post['id'])
+          save_action = :save
         else
           authorize_user!(:new_user)
 
-          user         = ::Users::Model::User.new
-          save_action  = :new
-          before_event = :before_new_user
-          after_event  = :after_new_user
+          user        = ::Users::Model::User.new
+          save_action = :new
         end
 
         if post['password'] != post['confirm_password']
@@ -340,7 +308,6 @@ module Users
 
         begin
           post.each { |k, v| user.send("#{k}=", v) }
-          Zen::Event.call(before_event, user)
 
           user.save
 
@@ -367,8 +334,6 @@ module Users
           )
         end
 
-        Zen::Event.call(after_event, user)
-
         message(:success, success)
         redirect(Users.r(:edit, user.id))
       end
@@ -378,8 +343,6 @@ module Users
       #
       # @since      0.1
       # @permission delete_user
-      # @event      before_delete_user
-      # @event      after_delete_user
       #
       def delete
         authorize_user!(:delete_user)
@@ -393,7 +356,6 @@ module Users
           user = ::Users::Model::User[id]
 
           next if user.nil?
-          Zen::Event.call(:before_delete_user, user)
 
           begin
             user.user_group_pks = []
@@ -404,8 +366,6 @@ module Users
 
             redirect_referrer
           end
-
-          Zen::Event.call(:after_delete_user, user)
         end
 
         message(:success, lang('users.success.delete'))

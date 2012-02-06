@@ -4,7 +4,13 @@ module Sections
     ##
     # Model that represents a singe section entry.
     #
-    # @since  0.1
+    # @since 0.1
+    # @event before_new_section_entry
+    # @event after_new_section_entry
+    # @event before_edit_section_entry
+    # @event after_edit_section_entry
+    # @event before_delete_section_entry
+    # @event after_delete_section_entry
     #
     class SectionEntry < Sequel::Model
       include Zen::Model::Helper
@@ -30,6 +36,14 @@ module Sections
 
       plugin :sluggable , :source => :title     , :freeze => false
       plugin :timestamps, :create => :created_at, :update => :updated_at
+
+      plugin :events,
+        :before_create  => :before_new_section_entry,
+        :after_create   => :after_new_section_entry,
+        :before_update  => :before_edit_section_entry,
+        :after_update   => :after_edit_section_entry,
+        :before_destroy => :before_delete_section_entry,
+        :after_destroy  => :after_delete_section_entry
 
       # String containing the date format to use for the created_at field when
       # rendering the form.

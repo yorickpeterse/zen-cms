@@ -45,21 +45,8 @@ module Users
     # * new_user_group
     # * delete_user_group
     #
-    # ## Events
-    #
-    # All events in this controller receive an instance of
-    # {Users::Model::UserGroup}. Just like other controllers the event
-    # ``after_delete_user_group`` will receive a user group that has already
-    # been destroyed using ``#destroy()``.
-    #
     # @since  0.1
     # @map    /admin/user-groups
-    # @event  before_new_user_group
-    # @event  after_new_user_user
-    # @event  before_edit_user_group
-    # @event  after_edit_user_group
-    # @event  before_delete_user_group
-    # @event  after_delete_user_group
     #
     class UserGroups < Zen::Controller::AdminController
       helper :users
@@ -146,10 +133,6 @@ module Users
       # @since      0.1
       # @permission new_user_group (when creating a new group)
       # @permission edit_user_group (when editing a group)
-      # @event      before_new_user_group
-      # @event      after_new_user_group
-      # @event      before_edit_user_group
-      # @event      after_edit_user_group
       #
       def save
         post = request.subset(:id, :name, :slug, :description, :super_group)
@@ -157,17 +140,13 @@ module Users
         if post['id'] and !post['id'].empty?
           authorize_user!(:edit_user_group)
 
-          user_group   = validate_user_group(post['id'])
-          save_action  = :save
-          before_event = :before_edit_user_group
-          after_event  = :after_edit_user_group
+          user_group  = validate_user_group(post['id'])
+          save_action = :save
         else
           authorize_user!(:new_user_group)
 
-          user_group   = ::Users::Model::UserGroup.new
-          save_action  = :new
-          before_event = :before_new_user_group
-          after_event  = :after_new_user_group
+          user_group  = ::Users::Model::UserGroup.new
+          save_action = :new
         end
 
         post.delete('id')
@@ -177,7 +156,6 @@ module Users
 
         begin
           post.each { |k, v| user_group.send("#{k}=", v) }
-          Zen::Event.call(before_event, user_group)
 
           user_group.save
         rescue => e
@@ -199,8 +177,6 @@ module Users
           )
         end
 
-        Zen::Event.call(after_event, user_group)
-
         message(:success, success)
         redirect(UserGroups.r(:edit, user_group.id))
       end
@@ -210,8 +186,6 @@ module Users
       #
       # @since      0.1
       # @permission delete_user_group
-      # @event      before_delete_user_group
-      # @event      after_delete_user_group
       #
       def delete
         authorize_user!(:delete_user_group)
@@ -226,7 +200,6 @@ module Users
           group = ::Users::Model::UserGroup[id]
 
           next if group.nil?
-          Zen::Event.call(:before_delete_user_group, group)
 
           begin
             group.destroy
@@ -236,11 +209,9 @@ module Users
 
             redirect_referrer
           end
-
-          Zen::Event.call(:after_delete_user_group, group)
         end
 
-        message(:success,  lang('user_groups.success.delete'))
+        message(:success, lang('user_groups.success.delete'))
         redirect_referrer
       end
     end # UserGroups

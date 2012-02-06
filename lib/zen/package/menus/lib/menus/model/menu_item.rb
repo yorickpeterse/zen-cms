@@ -4,12 +4,34 @@ module Menus
     ##
     # Model used for managing individual menu items in a group.
     #
-    # @since  0.2a
+    # @example Automatically prefix URLs with http
+    #  Zen::Event.listen(:new_menu_item) do |item|
+    #    unless item.url =~ /^http/
+    #      item.url = 'http://' + item.url
+    #      item.save
+    #    end
+    #  end
+    #
+    # @since 0.2a
+    # @event before_new_menu_item
+    # @event after_new_menu_item
+    # @event before_edit_menu_item
+    # @event after_edit_menu_item
+    # @event before_delete_menu_item
+    # @event after_delete_menu_item
     #
     class MenuItem < Sequel::Model
       include Zen::Model::Helper
 
       plugin :tree, :order => :sort_order
+
+      plugin :events,
+        :before_create  => :before_new_menu_item,
+        :after_create   => :after_new_menu_item,
+        :before_update  => :before_edit_menu_item,
+        :after_update   => :after_edit_menu_item,
+        :before_destroy => :before_delete_menu_item,
+        :after_destroy  => :after_delete_menu_item
 
       many_to_one :menu  , :class => 'Menus::Model::Menu'
       many_to_one :parent, :class => self

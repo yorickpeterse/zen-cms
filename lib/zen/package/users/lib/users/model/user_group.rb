@@ -4,7 +4,13 @@ module Users
     ##
     # Model that represents a single user group.
     #
-    # @since  0.1
+    # @since 0.1
+    # @event before_new_user_group
+    # @event after_new_user_user
+    # @event before_edit_user_group
+    # @event after_edit_user_group
+    # @event before_delete_user_group
+    # @event after_delete_user_group
     #
     class UserGroup < Sequel::Model
       include Zen::Model::Helper
@@ -15,6 +21,14 @@ module Users
       plugin :sluggable, :source => :name, :freeze => false
       plugin :association_dependencies, :permissions => :delete,
         :users => :nullify
+
+      plugin :events,
+        :before_create  => :before_new_user_group,
+        :after_create   => :after_new_user_group,
+        :before_update  => :before_edit_user_group,
+        :after_update   => :after_edit_user_group,
+        :before_destroy => :before_delete_user_group,
+        :after_destroy  => :after_delete_user_group
 
       ##
       # Searches for a set of users that match the given query.

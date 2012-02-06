@@ -4,7 +4,13 @@ module Sections
     ##
     # Model that represents a single section.
     #
-    # @since  0.1
+    # @since 0.1
+    # @event before_new_section
+    # @event after_new_section
+    # @event before_edit_section
+    # @event after_edit_section
+    # @event before_delete_section
+    # @event after_delete_section
     #
     class Section < Sequel::Model
       include Zen::Model::Helper
@@ -20,6 +26,14 @@ module Sections
         :class => 'Categories::Model::CategoryGroup'
 
       plugin :sluggable, :source => :name, :freeze => false
+
+      plugin :events,
+        :before_create  => :before_new_section,
+        :after_create   => :after_new_section,
+        :before_update  => :before_edit_section,
+        :after_update   => :after_edit_section,
+        :before_destroy => :before_delete_section,
+        :after_destroy  => :after_delete_section
 
       ##
       # Searches for a number of sections of which the title or description

@@ -168,6 +168,7 @@ require 'zen/validation'
 require 'zen/language'
 require 'zen/event'
 require 'zen/model/helper'
+require 'zen/model/plugin/events'
 require 'zen/languages'
 
 Ramaze::HelpersHelper.options.paths.push(__DIR__('zen'))

@@ -4,12 +4,44 @@ module Menus
     ##
     # Model used for managing groups of menu items.
     #
-    # @since  0.2a
+    # @example Automatically add a menu item
+    #  Zen::Event.listen(:new_menu) do |menu|
+    #    menu.add_menu_item(:name => 'Home', :url => '/', :html_id => 'home')
+    #  end
+    #
+    # @example Remove duplicate menu items when editing a menu
+    #  Zen::Event.listen(:edit_menu) do |menu|
+    #    urls = []
+    #
+    #    menu.items.each do |item|
+    #      if urls.include?(item.url)
+    #        item.destroy
+    #      else
+    #        urls << item.url
+    #      end
+    #    end
+    #  end
+    #
+    # @since 0.2a
+    # @event before_new_menu
+    # @event after_new_menu
+    # @event before_edit_menu
+    # @event after_edit_menu
+    # @event before_delete_menu
+    # @event after_delete_menu
     #
     class Menu < Sequel::Model
       include Zen::Model::Helper
 
       plugin :sluggable, :source => :name, :freeze => false
+
+      plugin :events,
+        :before_create  => :before_new_menu,
+        :after_create   => :after_new_menu,
+        :before_update  => :before_edit_menu,
+        :after_update   => :after_edit_menu,
+        :before_destroy => :before_delete_menu,
+        :after_destroy  => :after_delete_menu
 
       one_to_many :menu_items, :class => 'Menus::Model::MenuItem'
 

@@ -58,22 +58,8 @@ module CustomFields
     # * edit_custom_field
     # * delete_custom_field
     #
-    # ## Events
-    #
-    # All events in this controller receive an instance of
-    # {CustomFields::Model::CustomField}. Just like other packages the event
-    # ``after_delete_custom_field`` receives an instance that has already been
-    # destroyed, thus you won't be able to make any changes to the object and
-    # save them in the database.
-    #
     # @since  0.1
     # @map    /admin/custom-fields
-    # @event  before_new_custom_field
-    # @event  after_new_custom_field
-    # @event  before_edit_custom_field
-    # @event  after_edit_custom_field
-    # @event  before_delete_custom_field
-    # @event  after_delete_custom_field
     #
     class CustomFields < Zen::Controller::AdminController
       helper :custom_field
@@ -204,10 +190,6 @@ module CustomFields
       # Saves the changes made by {#edit} and {#new}.
       #
       # @since      0.1
-      # @event      before_new_custom_field
-      # @event      after_new_custom_field
-      # @event      before_edit_custom_field
-      # @event      after_edit_custom_field
       # @permission edit_custom_field (when editing a field)
       # @permission new_custom_field (when creating a new field)
       #
@@ -240,15 +222,11 @@ module CustomFields
           )
 
           save_action  = :save
-          before_event = :before_edit_custom_field
-          after_event  = :after_edit_custom_field
         else
           authorize_user!(:new_custom_field)
 
           custom_field = ::CustomFields::Model::CustomField.new
           save_action  = :new
-          before_event = :before_new_custom_field
-          after_event  = :after_new_custom_field
         end
 
         post.delete('id')
@@ -258,7 +236,6 @@ module CustomFields
 
         begin
           post.each { |k, v| custom_field.send("#{k}=", v) }
-          Zen::Event.call(before_event, custom_field)
 
           custom_field.save
         rescue => e
@@ -270,8 +247,6 @@ module CustomFields
 
           redirect_referrer
         end
-
-        Zen::Event.call(after_event, custom_field)
 
         message(:success, success)
         redirect(
@@ -287,8 +262,6 @@ module CustomFields
       # should contain the primary values of each field that has to be deleted.
       #
       # @since      0.1
-      # @event      before_delete_custom_field
-      # @event      after_delete_custom_field
       # @permission delete_custom_field
       #
       def delete
@@ -305,7 +278,6 @@ module CustomFields
           custom_field = ::CustomFields::Model::CustomField[id]
 
           next if custom_field.nil?
-          Zen::Event.call(:before_delete_custom_field, custom_field)
 
           begin
             custom_field.destroy
@@ -315,8 +287,6 @@ module CustomFields
 
             redirect_referrer
           end
-
-          Zen::Event.call(:after_delete_custom_field, custom_field)
         end
 
         message(:success, lang('custom_fields.success.delete'))

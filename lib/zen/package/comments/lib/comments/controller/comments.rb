@@ -77,39 +77,8 @@ module Comments
     # * new_comment
     # * delete_comment
     #
-    # ## Events
-    #
-    # All events called in this controller receive an instance of
-    # {Comments::Model::Comment}. However, just like all other controllers the
-    # ``delete_comment`` receives an instance of this model that has already
-    # been destroyed.
-    #
-    # An example of using one of these events is to notify a user when his
-    # comment has been marked as spam:
-    #
-    #     require 'mail'
-    #
-    #     Zen::Event.call(:after_edit_comment) do |comment|
-    #       email = comment.user.email
-    #       spam  = Comments::Model::CommentStatus[:name => 'spam']
-    #
-    #       if comment.comment_status_id == spam.id
-    #         Mail.deliver do
-    #           from    'example@domain.tld'
-    #           to      email
-    #           subject 'Your comment has been marked as spam'
-    #           body    "Dear #{comment.user.name}, your comment has been " \
-    #             "marked as spam"
-    #        end
-    #      end
-    #    end
-    #
     # @since  0.1
     # @map    /admin/comments
-    # @event  before_edit_comment
-    # @event  after_edit_comment
-    # @event  beore_delete_comment
-    # @event  after_delete_comment
     #
     class Comments < Zen::Controller::AdminController
       map    '/admin/comments'
@@ -166,8 +135,6 @@ module Comments
       #
       # @since      0.1
       # @permission edit_comment
-      # @event      before_edit_comment
-      # @event      after_edit_comment
       #
       def save
         authorize_user!(:edit_comment)
@@ -190,7 +157,6 @@ module Comments
 
         begin
           post.each { |k, v| comment.send("#{k}=", v) }
-          Zen::Event.call(:before_edit_comment, comment)
 
           comment.save
         rescue => e
@@ -203,8 +169,6 @@ module Comments
           redirect_referrer
         end
 
-        Zen::Event.call(:after_edit_comment, comment)
-
         message(:success, lang('comments.success.save'))
         redirect(Comments.r(:edit, comment.id))
       end
@@ -215,8 +179,6 @@ module Comments
       #
       # @since      0.1
       # @permission delete_comment
-      # @event      before_delete_comment
-      # @event      after_delete_comment
       #
       def delete
         authorize_user!(:delete_comment)
@@ -233,7 +195,6 @@ module Comments
           comment = ::Comments::Model::Comment[id]
 
           next if comment.nil?
-          Zen::Event.call(:before_delete_comment, comment)
 
           begin
             comment.destroy
@@ -243,8 +204,6 @@ module Comments
 
             redirect_referrer
           end
-
-          Zen::Event.call(:after_delete_comment, comment)
         end
 
         message(:success, lang('comments.success.delete'))

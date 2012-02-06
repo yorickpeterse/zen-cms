@@ -4,7 +4,13 @@ module CustomFields
     ##
     # Model for managing retrieving custom fields.
     #
-    # @since  0.1
+    # @since 0.1
+    # @event before_new_custom_field
+    # @event after_new_custom_field
+    # @event before_edit_custom_field
+    # @event after_edit_custom_field
+    # @event before_delete_custom_field
+    # @event after_delete_custom_field
     #
     class CustomField < Sequel::Model
       include Zen::Model::Helper
@@ -17,6 +23,14 @@ module CustomFields
         :eager => [:custom_field_method]
 
       plugin :sluggable, :source => :name, :freeze => false
+
+      plugin :events,
+        :before_create  => :before_new_custom_field,
+        :after_create   => :after_new_custom_field,
+        :before_update  => :before_edit_custom_field,
+        :after_update   => :after_edit_custom_field,
+        :before_destroy => :before_delete_custom_field,
+        :after_destroy  => :after_delete_custom_field
 
       ##
       # Searches for a set of custom fields.

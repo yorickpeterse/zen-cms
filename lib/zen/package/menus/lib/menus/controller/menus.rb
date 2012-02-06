@@ -61,38 +61,8 @@ module Menus
     # * edit_menu
     # * delete_menu
     #
-    # ## Events
-    #
-    # All events in this controller receive an instance of {Menus::Model::Menu}.
-    # Just like other packages the event ``delete_menu`` receives an instance
-    # that has already been destroyed.
-    #
-    # @example Automatically add a menu item
-    #  Zen::Event.listen(:new_menu) do |menu|
-    #    menu.add_menu_item(:name => 'Home', :url => '/', :html_id => 'home')
-    #  end
-    #
-    # @example Remove duplicate menu items when editing a menu
-    #  Zen::Event.listen(:edit_menu) do |menu|
-    #    urls = []
-    #
-    #    menu.items.each do |item|
-    #      if urls.include?(item.url)
-    #        item.destroy
-    #      else
-    #        urls << item.url
-    #      end
-    #    end
-    #  end
-    #
     # @since  0.2a
     # @map    /admin/menus
-    # @event  before_new_menu
-    # @event  after_new_menu
-    # @event  before_edit_menu
-    # @event  after_edit_menu
-    # @event  before_delete_menu
-    # @event  after_delete_menu
     #
     class Menus < Zen::Controller::AdminController
       map    '/admin/menus'
@@ -172,10 +142,6 @@ module Menus
       # Saves any changes made to an existing menu or creates a new menu.
       #
       # @since      0.2a
-      # @event      before_edit_menu
-      # @event      after_edit_menu
-      # @event      before_new_menu
-      # @event      after_new_menu
       # @permission edit_menu (when editing an existing menu)
       # @permission new_menu (when creating a new menu)
       #
@@ -193,17 +159,13 @@ module Menus
         if post.key?('id') and !post['id'].empty?
           authorize_user!(:edit_menu)
 
-          menu         = validate_menu(post['id'])
-          save_action  = :save
-          before_event = :before_edit_menu
-          after_event  = :after_edit_menu
+          menu        = validate_menu(post['id'])
+          save_action = :save
         else
           authorize_user!(:new_menu)
 
-          menu         = ::Menus::Model::Menu.new
-          save_action  = :new
-          before_event = :before_new_menu
-          after_event  = :after_new_menu
+          menu        = ::Menus::Model::Menu.new
+          save_action = :new
         end
 
         post.delete('id')
@@ -214,7 +176,6 @@ module Menus
         # Let's see if we can insert/update the data
         begin
           post.each { |k, v| menu.send("#{k}=", v) }
-          Zen::Event.call(before_event, menu)
 
           menu.save
         rescue => e
@@ -227,8 +188,6 @@ module Menus
           redirect_referrer
         end
 
-        Zen::Event.call(after_event, menu)
-
         message(:success, success)
         redirect(Menus.r(:edit, menu.id))
       end
@@ -239,8 +198,6 @@ module Menus
       # "menu_ids".
       #
       # @since      0.2a
-      # @event      before_delete_menu
-      # @event      after_delete_menu
       # @permission delete_menu
       #
       def delete
@@ -258,7 +215,6 @@ module Menus
           menu = ::Menus::Model::Menu[id]
 
           next if menu.nil?
-          Zen::Event.call(:before_delete_menu, menu)
 
           begin
             menu.destroy
@@ -268,8 +224,6 @@ module Menus
 
             redirect_referrer
           end
-
-          Zen::Event.call(:after_delete_menu, menu)
         end
 
         message(:success, lang('menus.success.delete'))

@@ -3,7 +3,23 @@ module Users
     ##
     # Model that represents a single user.
     #
-    # @since  0.1
+    # @example Sending an Email for a new user
+    #  Zen::Event.listen(:after_new_user) do |user|
+    #    Mail.deliver do
+    #      from    'user@domain.tld'
+    #      to      user.email
+    #      subject 'Your new account'
+    #      body    "Dear #{user.name}, your account has been created."
+    #    end
+    #  end
+    #
+    # @since 0.1
+    # @event before_new_user
+    # @event after_new_user
+    # @event before_edit_user
+    # @event after_edit_user
+    # @event before_delete_user
+    # @event after_delete_user
     #
     class User < Sequel::Model
       # Regex to do some basic Email validation. Emails such as foo@bar,
@@ -21,6 +37,14 @@ module Users
 
       plugin :timestamps, :create => :created_at, :update => :updated_at
       plugin :association_dependencies, :permissions => :delete
+
+      plugin :events,
+        :before_create  => :before_new_user,
+        :after_create   => :after_new_user,
+        :before_update  => :before_edit_user,
+        :after_update   => :after_edit_user,
+        :before_destroy => :before_delete_user,
+        :after_destroy  => :after_delete_user
 
       ##
       # Searches for a set of users that match the given query.

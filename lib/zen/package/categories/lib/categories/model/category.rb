@@ -4,7 +4,38 @@ module Categories
     ##
     # Model for managing and retrieving categories.
     #
-    # @since  0.1
+    # ## Events
+    #
+    # All available events will receive an instance of
+    # {Categories::Model::Category}. Do note that the event
+    # ``after_delete_category`` will receive an instance of this model *after*
+    # ``#destroy()`` has been invoked on the instance. This means that you can
+    # not save any changes made to the object as the database no longer
+    # exists.
+    #
+    # Say you want to notify a user whenever a category is removed you could do
+    # the following:
+    #
+    #     # "mail" can be installed by running gem install mail.
+    #     require 'mail'
+    #
+    #     Zen::Event.listen(:delete_category) do |category|
+    #       user = Users::Model::User[:name => 'admin']
+    #       Mail.deliver do
+    #         from    'example@domain.com'
+    #         to      user.email
+    #         subject "Category \"#{category.name}\" has been removed"
+    #           "has been removed from the database."
+    #       end
+    #     end
+    #
+    # @since 0.1
+    # @event before_new_category
+    # @event after_new_category
+    # @event before_edit_category
+    # @event after_edit_category
+    # @event before_delete_category
+    # @event after_delete_category
     #
     class Category < Sequel::Model
       include Zen::Model::Helper
@@ -13,6 +44,14 @@ module Categories
       many_to_one :parent        , :class => self
 
       plugin :sluggable, :source => :name, :frozen => false
+
+      plugin :events,
+        :before_create  => :before_new_category,
+        :after_create   => :after_new_category,
+        :before_update  => :before_edit_category,
+        :after_update   => :after_edit_category,
+        :before_destroy => :before_delete_category,
+        :after_destroy  => :after_delete_category
 
       ##
       # Searches for a set of category groups using the specified search query.

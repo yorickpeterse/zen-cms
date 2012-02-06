@@ -4,7 +4,40 @@ module Comments
     ##
     # Model for managing and retrieving comments.
     #
-    # @since  0.1
+    # ## Events
+    #
+    # All events called in this model receive an instance of
+    # {Comments::Model::Comment}. However, just like all other models the
+    # ``delete_comment`` event receives an instance of this model that has
+    # already been destroyed.
+    #
+    # An example of using one of these events is to notify a user when his
+    # comment has been marked as spam:
+    #
+    #     require 'mail'
+    #
+    #     Zen::Event.call(:after_edit_comment) do |comment|
+    #       email = comment.user.email
+    #       spam  = Comments::Model::CommentStatus[:name => 'spam']
+    #
+    #       if comment.comment_status_id == spam.id
+    #         Mail.deliver do
+    #           from    'example@domain.tld'
+    #           to      email
+    #           subject 'Your comment has been marked as spam'
+    #           body    "Dear #{comment.user.name}, your comment has been " \
+    #             "marked as spam"
+    #        end
+    #      end
+    #    end
+    #
+    # @since 0.1
+    # @event before_new_comment
+    # @event after_new_comment
+    # @event before_edit_comment
+    # @event after_edit_comment
+    # @event beore_delete_comment
+    # @event after_delete_comment
     #
     class Comment < Sequel::Model
       include Zen::Model::Helper
@@ -12,10 +45,18 @@ module Comments
       many_to_one :section_entry, :class => 'Sections::Model::SectionEntry',
         :eager => [:section]
 
-      many_to_one :user          , :class => 'Users::Model::User'
+      many_to_one :user,           :class => 'Users::Model::User'
       many_to_one :comment_status, :class => 'Comments::Model::CommentStatus'
 
       plugin :timestamps, :create => :created_at, :update => :updated_at
+
+      plugin :events,
+        :before_create  => :before_new_comment,
+        :after_create   => :after_new_comment,
+        :before_update  => :before_edit_comment,
+        :after_update   => :after_edit_comment,
+        :before_destroy => :before_delete_comment,
+        :after_destroy  => :after_delete_comment
 
       ##
       # Searches for a number of comments based on the given search query. The
