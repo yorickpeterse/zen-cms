@@ -17,13 +17,4 @@ namespace :clean do
     FileUtils.rm_rf("#{root}/doc")
     FileUtils.rm_rf("#{root}/.yardoc")
   end
-
-  desc 'Removes all spec assets'
-  task :assets do
-    path = File.expand_path('../../../../spec/public/minified/*', __FILE__)
-
-    Dir.glob(path).each do |file|
-      File.unlink(file)
-    end
-  end
 end
