@@ -408,19 +408,5 @@ module Zen
         )
       end
     end
-
-    # Aliases to keep Zen backwards compatible. These aliases will be removed in
-    # Zen 0.3.
-    alias :template_dir  :templates
-    alias :template_dir= :templates=
-
-    alias :partial_dir   :partials
-    alias :partial_dir=  :partials=
-
-    alias :migration_dir  :migrations
-    alias :migration_dir= :migrations=
-
-    alias :public_dir  :public
-    alias :public_dir= :public=
   end # Theme
 end # Zen
