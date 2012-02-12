@@ -29,7 +29,7 @@
             :required  => :required,
             :maxlength => 255
           )
-
+=begin
           f.input_text(
             lang('menu_items.labels.order'),
             :sort_order,
@@ -44,6 +44,7 @@
             :selected => @menu_item.parent_id,
             :size     => 1
           )
+=end
 
           f.input_text(
             lang('menu_items.labels.html_class'),

@@ -48,6 +48,14 @@ module Menus
 
       csrf_protection :save, :delete
 
+      serve :css, ['/admin/css/menus/menus'], :name => 'menus',
+        :methods => [:index]
+
+      serve :javascript,
+        ['/admin/js/menus/lib/nested_sortables', '/admin/js/menus/menu_items'],
+        :name => 'menus',
+        :methods => [:index]
+
       ##
       # Shows an overview of all the menu items for a menu group.
       #
@@ -66,17 +74,7 @@ module Menus
         )
 
         @menu_id    = menu_id
-        @menu_items = search do |query|
-          ::Menus::Model::MenuItem.search(query) \
-            .filter(:menu_id => menu_id) \
-            .order(:id.asc)
-        end
-
-        @menu_items ||= ::Menus::Model::MenuItem \
-          .filter(:menu_id => menu_id) \
-          .order(:id.asc)
-
-        @menu_items = paginate(@menu_items)
+        @menu_items = Model::Menu[menu_id].menu_items_tree
       end
 
       ##
@@ -193,6 +191,23 @@ module Menus
 
         message(:success, success)
         redirect(MenuItems.r(:edit, menu_item.menu_id, menu_item.id))
+      end
+
+      ##
+      # Updates the sort order and parent IDs for the given menu items.
+      #
+      # @since      11-02-2012
+      # @permission edit_menu_item
+      #
+      def tree
+        authorize_user!(:edit_menu_item)
+
+        request.POST['menu_items'].each do |item|
+          Model::MenuItem[item[1]['id']].update(
+            :sort_order => item[0],
+            :parent_id  => item[1]['parent_id']
+          )
+        end
       end
 
       ##

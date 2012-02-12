@@ -42,29 +42,6 @@ describe "Menus::Controller::MenuItems" do
     current_path.should =~ /#{edit_url}\/[0-9]+/
   end
 
-  it 'Search for a menu item' do
-    search_button = lang('zen_general.buttons.search')
-    error         = lang('zen_general.errors.invalid_search')
-
-    visit(index_url)
-
-    within('#search_form') do
-      fill_in('query', :with => 'Spec menu item')
-      click_on(search_button)
-    end
-
-    page.has_content?(error).should            == false
-    page.has_content?('Spec menu item').should == true
-
-    within('#search_form') do
-      fill_in('query', :with => 'does not exist')
-      click_on(search_button)
-    end
-
-    page.has_content?(error).should            == false
-    page.has_content?('Spec menu item').should == false
-  end
-
   it "Edit an existing menu item" do
     visit(index_url)
     click_link('Spec menu item')
@@ -183,38 +160,6 @@ describe "Menus::Controller::MenuItems" do
     event_name2.should                          == event_name
 
     Zen::Event.delete(:before_delete_menu_item, :after_edit_menu_item)
-  end
-
-  it 'Select a parent menu item' do
-    item1 = Menus::Model::MenuItem.create(
-      :menu_id => menu.id,
-      :name    => 'item 1',
-      :url     => '/'
-    )
-
-    item2 = Menus::Model::MenuItem.create(
-      :menu_id => menu.id,
-      :name    => 'item 2',
-      :url     => '/'
-    )
-
-    visit(Menus::Controller::MenuItems.r(:edit, menu.id, item2.id).to_s)
-
-    within('#menu_item_form') do
-      select(item1.name, :from => 'parent_id')
-      click_on(save_button)
-    end
-
-    page.has_selector?('span.error').should == false
-
-    page.find('select[name="parent_id"] option[selected]').value.to_i \
-      .should == item1.id
-
-    item2.reload
-    item2.parent_id.should == item1.id
-
-    item2.destroy
-    item1.destroy
   end
 
   menu.destroy

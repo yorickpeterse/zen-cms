@@ -4,14 +4,14 @@ namespace :test do
     'ruby zen/all.rb'
 
   desc 'Run specifications'
-  task :default => ['clean:assets'] do
+  task :default do
     Dir.chdir(spec_dir)
 
     sh(command)
   end
 
   desc 'Runs specifications using MySQL'
-  task :mysql => ['clean:assets'] do
+  task :mysql do
     Dir.chdir(spec_dir)
 
     ENV['DATABASE'] = 'zen_dev'
@@ -22,7 +22,7 @@ namespace :test do
   end
 
   desc 'Runs specifications using PostgreSQL'
-  task :postgres => ['clean:assets'] do
+  task :postgres do
     Dir.chdir(spec_dir)
 
     ENV['DATABASE'] = 'zen_dev'

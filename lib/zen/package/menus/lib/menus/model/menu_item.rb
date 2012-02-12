@@ -70,7 +70,7 @@ module Menus
       # @since  0.2a
       #
       def validate
-        validates_presence([:name, :url])
+        validates_presence([:name, :url, :menu_id])
         validates_max_length(255, [:name, :url, :html_class, :html_id])
         validates_integer([:sort_order, :parent_id])
         validates_format(/^[a-zA-Z\-_0-9\s]*$/, :html_class)

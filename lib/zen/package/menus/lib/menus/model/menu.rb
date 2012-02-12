@@ -100,7 +100,9 @@ module Menus
       def menu_items_tree(order = :asc, limit = nil)
         nodes   = []
         indexes = {}
-        rows    =  MenuItem.filter(:menu_id => id).limit(limit)
+        rows    =  MenuItem.filter(:menu_id => id) \
+          .order(:parent_id.asc) \
+          .limit(limit)
 
         # Create the basic structure for each node and index said node.
         rows.each do |item|
@@ -108,6 +110,11 @@ module Menus
           nodes << node
 
           indexes[item.id] = nodes.rindex(node)
+        end
+
+        # Sort the nodes by their parent ID in descending order.
+        nodes.sort! do |left, right|
+          (right[:node].parent_id || 0) <=> (right[:node].parent_id || 0)
         end
 
         # Process the list of nodes in reverse order so that the child items can

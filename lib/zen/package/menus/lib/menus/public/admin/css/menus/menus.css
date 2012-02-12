@@ -1,0 +1,47 @@
+#menu_items
+{
+    margin-left: 0px;
+}
+
+    #menu_items li
+    {
+        list-style-type: none;
+    }
+
+        #menu_items li ul
+        {
+            margin-bottom: 0px;
+        }
+
+.menu_item
+{
+    background:      #eee;
+    border:          1px solid #ccc;
+    cursor:          move;
+    margin-bottom:   8px;
+    padding:         8px 15px;
+
+    background-image: linear-gradient(#f9f9f9, #eee);
+    background-image: -webkit-linear-gradient(#f9f9f9, #eee);
+    background-image: -moz-linear-gradient(#f9f9f9, #eee);
+
+    filter: progid:DXImageTransform.Microsoft.gradient(
+        startColorStr='#f9f9f9',
+        EndColorStr='#eeeeee'
+    );
+
+    box-shadow:         0px 1px 1px #ddd;
+    -webkit-box-shadow: 0px 1px 1px #ddd;
+    -moz-box-shadow:    0px 1px 1px #ddd;
+}
+
+    .menu_item input
+    {
+        margin-right: 10px;
+    }
+
+.ghost, .ghost li
+{
+    list-style-type: none;
+    opacity:         1!important;
+}

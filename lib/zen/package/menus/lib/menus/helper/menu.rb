@@ -49,61 +49,74 @@ module Ramaze
       end
 
       ##
-      # Builds a hierarchy of navigation items and all their sub items. The
-      # generated structure looks like the following:
+      # Builds the menu item tree that can be used by the user to edit the sort
+      # order, create the menu item tree and edit individual menu items.
       #
-      #     Root
-      #      |
-      #      |_ Sub
-      #      | |
-      #      | |_ Sub sub
-      #      |
-      #      |_ Sub 1
+      # @since  11-02-2012
+      # @param  [Array] tree The menu item tree to process. This array should be
+      #  in the format as returned by {Menus::Model::Menu#menu_items_tree}.
+      # @return [String]
       #
-      # @since  0.2a
-      # @param  [Fixnum] menu_id The ID of the current menu group.
-      # @param  [Fixnum] menu_item_id The ID of the menu item to exclude from
-      #  the tree.
-      # @return [Hash]
-      #
-      def menu_item_tree(menu_id, menu_item_id)
-        menu_items = ::Menus::Model::MenuItem.filter(
-          {:menu_id => menu_id, :parent_id => nil} & ~{:id => menu_item_id}
-        )
+      def menu_items_tree(tree)
+        gestalt = Ramaze::Gestalt.new
+        params  = {:id => 'menu_items'}
 
-        @menu_items_hash = {nil => '--'}
+        unless user_authorized?(:edit_menu_item)
+          params[:'data-editable'] = false
+        end
 
-        menu_items.each do |item|
-          @menu_items_hash[item.id] = item.name
-
-          item.descendants.each do |i|
-            descendant_items(i, 2, menu_item_id)
+        gestalt.ul(params) do
+          tree.each do |item|
+            menu_item(item, gestalt)
           end
         end
 
-        return @menu_items_hash
+        return gestalt.to_s
       end
 
+      private
+
       ##
-      # Helper method for retrieving descendant navigation items.
+      # Builds the HTML for a single menu item and recursively calls itself for
+      # any sub menu items.
       #
-      # @since  0.2a
-      # @param  [Menus::Model::MenuItem] item A MenuItem instance
-      # @param  [Fixnum] spaces The amount of unbreakable spaces to use.
-      # @param  [Fixnum] menu_item_id The ID of the menu item to exclude.
+      # @since 11-02-2012
+      # @param [Hash] item A single menu item to process.
+      # @param [Ramaze::Gestalt] gestalt An instance of Ramaze::Gestalt to use
+      #  for building the HTML.
       #
-      def descendant_items(item, spaces, menu_item_id)
-        return if @menu_items_hash.key?(item.id)
-        return if item.id == menu_item_id
+      def menu_item(item, gestalt)
+        gestalt.li(:id => "menu_item_#{item[:node].id}") do
+          gestalt.div(:class => 'menu_item') do
 
-        nbsps = ''
-        spaces.times { nbsps += "&nbsp;" }
-        @menu_items_hash[item.id] = nbsps + item.name
-        descendants               = item.descendants
+            if user_authorized?(:delete_menu_item)
+              gestalt.input(
+                :type  => 'checkbox',
+                :name  => 'menu_item_ids[]',
+                :value => item[:node].id
+              )
+            end
 
-        if !descendants.empty?
-          descendants.each do |i|
-            self.descendant_items(i, spaces + 2, menu_item_id)
+            if user_authorized?(:edit_menu_item)
+              edit_link(
+                Menus::Controller::MenuItems.r(
+                  :edit,
+                  item[:node].menu_id,
+                  item[:node].id
+                ),
+                item[:node].name
+              )
+            else
+              item[:node].name
+            end
+          end
+
+          unless item[:children].empty?
+            gestalt.ul do
+              item[:children].each do |child|
+                menu_item(child, gestalt)
+              end
+            end
           end
         end
       end
