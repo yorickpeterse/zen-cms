@@ -1,4 +1,5 @@
 require 'pathname'
+require 'ostruct'
 
 module Zen
   ##
@@ -136,6 +137,8 @@ module Zen
   #   data into the database.
   # * default_template_group: the name of the default template group to use in
   #   case no custom one has been specified in the URI.
+  # * env: an instance of ``OpenStruct`` that can be used to store custom data
+  #   such as an instance of ``Ramaze::Asset::Environment``.
   #
   # An example call to ``Zen::Theme.add`` using these options:
   #
@@ -269,6 +272,10 @@ module Zen
     # The name of the default template group to use.
     attr_writer :default_template_group
 
+    # Instance of OpenStruct that can be used for storing custom data such as an
+    # instance of ``Ramaze::Asset::Environment``.
+    attr_reader :env
+
     ##
     # Hash containing all registered themes. The keys are the names of the
     # themes and the values instances of Zen::Theme::Base.
@@ -308,6 +315,15 @@ module Zen
       end
 
       return REGISTERED[name]
+    end
+
+    ##
+    # Creates a new instance of the theme.
+    #
+    # @since 12-02-2012
+    #
+    def initialize
+      @env = OpenStruct.new
     end
 
     ##

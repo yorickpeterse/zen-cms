@@ -13,6 +13,7 @@ describe 'Zen::Package' do
       p.url        = 'http://zen-cms.com/'
       p.root       = __DIR__
       p.migrations = __DIR__
+      p.env.foo    = 'bar'
 
       p.menu('Spec', '/admin/spec', :permission => :show_menu) do |sub|
         sub.menu('Sub spec', '/admin/spec/sub')
@@ -28,6 +29,7 @@ describe 'Zen::Package' do
     pkg.author.should     == 'Yorick Peterse'
     pkg.root.should       == __DIR__
     pkg.migrations.should == pkg.root
+    pkg.env.foo.should    == 'bar'
 
     pkg.menu[0].title.should == 'Spec'
     pkg.menu[0].url.should   == '/admin/spec'

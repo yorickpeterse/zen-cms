@@ -1,4 +1,5 @@
 require 'ramaze/gestalt'
+require 'ostruct'
 require __DIR__('package/menu')
 
 module Zen
@@ -28,6 +29,7 @@ module Zen
   # * root: the root directory of the package, this path should point to the
   #   directory containing your ``helper/`` and ``language/`` directories as
   #   well as any ``public/`` directories.
+  # * An innstance of OpenStruct that can be used for storing custom data.
   #
   # Setting these (and other) attributes is very easy:
   #
@@ -135,6 +137,9 @@ module Zen
     # The directory to all migrations.
     attr_accessor :migrations
 
+    # Instance of OpenStruct that can be used for storing custom data.
+    attr_reader :env
+
     class << self
       ##
       # Adds a new package along with all it's details such as the name, author,
@@ -213,6 +218,15 @@ module Zen
         return g.to_s
       end
     end # class << self
+
+    ##
+    # Creates a new instance of the package.
+    #
+    # @since 12-02-2012
+    #
+    def initialize
+      @env = OpenStruct.new
+    end
 
     ##
     # Sets the name of the package. The name of a package should be a short and
