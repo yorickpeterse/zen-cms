@@ -48,12 +48,13 @@ module Menus
 
       csrf_protection :save, :delete
 
-      serve :css, ['/admin/css/menus/menus'], :name => 'menus',
+      serve :css, ['/admin/menus/css/menus'],
+        :name    => 'menus',
         :methods => [:index]
 
       serve :javascript,
-        ['/admin/js/menus/lib/nested_sortables', '/admin/js/menus/menu_items'],
-        :name => 'menus',
+        ['/admin/menus/js/lib/nested_sortables', '/admin/menus/js/menu_items'],
+        :name    => 'menus',
         :methods => [:index]
 
       ##

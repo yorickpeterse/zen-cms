@@ -90,12 +90,11 @@ module Users
       title  'users.titles.%s'
       allow  [:login, :logout, :register]
 
-      csrf_protection :save, :delete
-
-      serve :javascript, ['/admin/js/users/permissions'], :minify => false
-      serve :css, ['/admin/css/users/permissions'], :minify => false
-
+      csrf_protection  :save, :delete
       load_asset_group :tabs
+
+      serve :javascript, ['/admin/users/js/users'], :name => 'users'
+      serve :css, ['/admin/users/css/users.css'], :name => 'users'
 
       set_layout :admin => [:index, :edit, :new],
         :login => [:login, :register]

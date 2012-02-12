@@ -35,32 +35,32 @@
 
     .editor_container .editor_toolbar .bold .button_icon
     {
-        background-image: url("/admin/images/zen/icons/bold.png");
+        background-image: url("/admin/zen/images/icons/bold.png");
     }
 
     .editor_container .editor_toolbar .italic .button_icon
     {
-        background-image: url("/admin/images/zen/icons/italic.png");
+        background-image: url("/admin/zen/images/icons/italic.png");
     }
 
     .editor_container .editor_toolbar .link .button_icon
     {
-        background-image: url("/admin/images/zen/icons/link.png");
+        background-image: url("/admin/zen/images/icons/link.png");
     }
 
     .editor_container .editor_toolbar .ul .button_icon
     {
-        background-image: url("/admin/images/zen/icons/ul.png");
+        background-image: url("/admin/zen/images/icons/ul.png");
     }
 
     .editor_container .editor_toolbar .ol .button_icon
     {
-        background-image: url("/admin/images/zen/icons/ol.png");
+        background-image: url("/admin/zen/images/icons/ol.png");
     }
 
     .editor_container .editor_toolbar .preview .button_icon
     {
-        background-image: url('/admin/images/zen/icons/preview.png');
+        background-image: url('/admin/zen/images/icons/preview.png');
     }
 
 .editor_container textarea

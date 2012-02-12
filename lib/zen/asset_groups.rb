@@ -1,7 +1,7 @@
 Zen.asset.register_asset_group(:tabs) do |asset, controller, methods|
   asset.serve(
     :javascript,
-    ['admin/js/zen/lib/tabs', 'admin/js/zen/lib/hash'],
+    ['admin/zen/js/lib/tabs', 'admin/zen/js/lib/hash'],
     :name       => 'zen_tabs',
     :controller => controller,
     :minify     => true,
@@ -10,7 +10,7 @@ Zen.asset.register_asset_group(:tabs) do |asset, controller, methods|
 
   asset.serve(
     :css,
-    ['admin/css/zen/tabs'],
+    ['admin/zen/css/tabs'],
     :name       => 'zen_tabs',
     :controller => controller,
     :minify     => true,
@@ -21,7 +21,7 @@ end
 Zen.asset.register_asset_group(:datepicker) do |asset, controller, methods|
   asset.serve(
     :javascript,
-    ['admin/js/vendor/datepicker'],
+    ['admin/zen/js/lib/datepicker'],
     :name       => 'vendor_datepicker',
     :controller => controller,
     :minify     => true,
@@ -30,7 +30,7 @@ Zen.asset.register_asset_group(:datepicker) do |asset, controller, methods|
 
   asset.serve(
     :css,
-    ['admin/css/zen/datepicker'],
+    ['admin/zen/css/datepicker'],
     :name       => 'vendor_datepicker',
     :controller => controller,
     :minify     => true,
@@ -41,7 +41,7 @@ end
 Zen.asset.register_asset_group(:window) do |asset, controller, methods|
   asset.serve(
     :javascript,
-    ['admin/js/zen/lib/window'],
+    ['admin/zen/js/lib/window'],
     :name       => 'zen_window',
     :controller => controller,
     :minify     => true,
@@ -50,7 +50,7 @@ Zen.asset.register_asset_group(:window) do |asset, controller, methods|
 
   asset.serve(
     :css,
-    ['admin/css/zen/window'],
+    ['admin/zen/css/window'],
     :name       => 'zen_window',
     :controller => controller,
     :minify     => true,
@@ -64,9 +64,9 @@ Zen.asset.register_asset_group(:editor) do |asset, controller, methods|
   asset.serve(
     :javascript,
     [
-      'admin/js/zen/lib/editor',
-      'admin/js/zen/lib/editor/markdown',
-      'admin/js/zen/lib/editor/textile'
+      'admin/zen/js/lib/editor',
+      'admin/zen/js/lib/editor/markdown',
+      'admin/zen/js/lib/editor/textile'
     ],
     :name       => 'zen_editor',
     :controller => controller,
@@ -76,7 +76,7 @@ Zen.asset.register_asset_group(:editor) do |asset, controller, methods|
 
   asset.serve(
     :css,
-    ['admin/css/zen/editor'],
+    ['admin/zen/css/editor'],
     :name       => 'zen_editor',
     :controller => controller,
     :minify     => true,

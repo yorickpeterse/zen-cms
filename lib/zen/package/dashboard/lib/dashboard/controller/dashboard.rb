@@ -65,8 +65,8 @@ module Dashboard
       map   '/admin'
       title 'dashboard.titles.%s'
 
-      serve :css, ['admin/css/dashboard/dashboard'], :name => 'dashboard'
-      serve :javascript, ['admin/js/dashboard/dashboard'], :name => 'dashboard'
+      serve :css, ['admin/dashboard/css/dashboard'], :name => 'dashboard'
+      serve :javascript, ['admin/dashboard/js/dashboard'], :name => 'dashboard'
 
       set_layout nil => [:widget_state, :widget_order, :widget_columns],
         :admin => [:index]

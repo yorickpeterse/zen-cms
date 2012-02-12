@@ -56,8 +56,8 @@ module Users
       csrf_protection  :save, :delete
       load_asset_group :tabs
 
-      serve :javascript, ['/admin/js/users/permissions'], :minify => false
-      serve :css, ['/admin/css/users/permissions.css'], :minify => false
+      serve :javascript, ['/admin/users/js/users'], :name => 'users'
+      serve :css, ['/admin/users/css/users.css'], :name => 'users'
 
       before(:index, :edit, :new) do
         @boolean_hash = {

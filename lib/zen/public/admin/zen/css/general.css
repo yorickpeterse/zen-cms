@@ -94,67 +94,67 @@ pre
 
 .icon.edit
 {
-    background-image: url('/admin/images/zen/icons/edit.png');
+    background-image: url('/admin/zen/images/icons/edit.png');
 }
 
 .icon.pages
 {
-    background-image: url('/admin/images/zen/icons/pages.png');
+    background-image: url('/admin/zen/images/icons/pages.png');
 }
 
 .icon.external
 {
-    background-image: url('/admin/images/zen/icons/external.png');
+    background-image: url('/admin/zen/images/icons/external.png');
 }
 
 .icon.box
 {
-    background-image: url('/admin/images/zen/icons/box.png');
+    background-image: url('/admin/zen/images/icons/box.png');
 }
 
 .icon.globe
 {
-    background-image: url('/admin/images/zen/icons/globe.png');
+    background-image: url('/admin/zen/images/icons/globe.png');
 }
 
 .icon.template
 {
-    background-image: url('/admin/images/zen/icons/template.png');
+    background-image: url('/admin/zen/images/icons/template.png');
 }
 
 .icon.user
 {
-    background-image: url('/admin/images/zen/icons/user.png');
+    background-image: url('/admin/zen/images/icons/user.png');
 }
 
 .icon.user_group
 {
-    background-image: url('/admin/images/zen/icons/user_group.png');
+    background-image: url('/admin/zen/images/icons/user_group.png');
 }
 
 .icon.lock
 {
-    background-image: url('/admin/images/zen/icons/lock.png');
+    background-image: url('/admin/zen/images/icons/lock.png');
 }
 
 .icon.comment
 {
-    background-image: url('/admin/images/zen/icons/comment.png');
+    background-image: url('/admin/zen/images/icons/comment.png');
 }
 
 .icon.relation
 {
-    background-image: url('/admin/images/zen/icons/relation.png');
+    background-image: url('/admin/zen/images/icons/relation.png');
 }
 
 .icon.settings
 {
-    background-image: url('/admin/images/zen/icons/settings.png');
+    background-image: url('/admin/zen/images/icons/settings.png');
 }
 
 .icon.categories
 {
-    background-image: url('/admin/images/zen/icons/categories.png');
+    background-image: url('/admin/zen/images/icons/categories.png');
 }
 
 .label

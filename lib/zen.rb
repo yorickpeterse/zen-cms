@@ -100,13 +100,13 @@ module Zen
       Zen.asset.serve(
         :css,
         [
-          'admin/css/zen/reset',
-          'admin/css/zen/layout',
-          'admin/css/zen/general',
-          'admin/css/zen/forms',
-          'admin/css/zen/tables',
-          'admin/css/zen/buttons',
-          'admin/css/zen/messages'
+          'admin/zen/css/reset',
+          'admin/zen/css/layout',
+          'admin/zen/css/general',
+          'admin/zen/css/forms',
+          'admin/zen/css/tables',
+          'admin/zen/css/buttons',
+          'admin/zen/css/messages'
         ],
         :name => 'zen_core'
       )
@@ -114,11 +114,11 @@ module Zen
       Zen.asset.serve(
         :javascript,
         [
-          'admin/js/vendor/mootools/core',
-          'admin/js/vendor/mootools/more',
-          'admin/js/zen/lib/base',
-          'admin/js/zen/lib/html_table',
-          'admin/js/zen/index'
+          'admin/mootools/js/core',
+          'admin/mootools/js/more',
+          'admin/zen/js/lib/base',
+          'admin/zen/js/lib/html_table',
+          'admin/zen/js/index'
         ],
         :name => 'zen_core'
       )
