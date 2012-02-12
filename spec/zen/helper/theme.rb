@@ -28,8 +28,8 @@ describe 'Ramaze::Helper::Theme' do
   end
 
   it 'Error when no partials directory has been set' do
-    dir = Zen::Theme['spec_theme'].partial_dir
-    Zen::Theme['spec_theme'].partial_dir = nil
+    dir = Zen::Theme['spec_theme'].partials
+    Zen::Theme['spec_theme'].partials = nil
 
     begin
       visit('/helper/partial')
@@ -37,12 +37,12 @@ describe 'Ramaze::Helper::Theme' do
       e.message.should == 'The theme spec_theme has no partial directory set.'
     end
 
-    Zen::Theme['spec_theme'].partial_dir = dir
+    Zen::Theme['spec_theme'].partials = dir
   end
 
   it 'Error when loading a non existing partial' do
     theme = File.join(
-      Zen::Theme['spec_theme'].partial_dir,
+      Zen::Theme['spec_theme'].partials,
       'wrong_partial.xhtml'
     )
 

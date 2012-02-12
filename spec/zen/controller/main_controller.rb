@@ -7,7 +7,7 @@ describe 'Zen::Controller::MainController' do
 
   after do
     # Let's make sure the 404 template is back where it belongs.
-    template = File.join(Zen::Theme[:spec_theme].template_dir, '404.xhtml')
+    template = File.join(Zen::Theme[:spec_theme].templates, '404.xhtml')
     old      = template + '.old'
 
     if File.exist?(old) and !File.exist?(template)
@@ -53,7 +53,7 @@ describe 'Zen::Controller::MainController' do
 
   it 'Request a non existing template without a 404 template' do
     template = File.join(
-      Zen::Theme[:spec_theme].template_dir,
+      Zen::Theme[:spec_theme].templates,
       '404.xhtml'
     )
 

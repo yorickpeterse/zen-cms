@@ -28,14 +28,14 @@ module Ramaze
         theme = get_setting(:theme).value
         theme = Zen::Theme[theme]
 
-        if !theme.respond_to?(:partial_dir) or theme.partial_dir.nil?
+        if !theme.respond_to?(:partials) or theme.partials.nil?
           raise(
             ::Zen::ThemeError,
             "The theme #{theme.name} has no partial directory set."
           )
         end
 
-        template = File.join(theme.partial_dir, "#{file}.xhtml")
+        template = File.join(theme.partials, "#{file}.xhtml")
 
         if !File.exist?(template)
           raise(::Zen::ThemeError, "The template #{template} doesn't exist.")
@@ -60,7 +60,7 @@ module Ramaze
       #
       def show_404(variables = {})
         theme    = ::Zen::Theme[get_setting(:theme).value]
-        template = File.join(theme.template_dir, '404.xhtml')
+        template = File.join(theme.templates, '404.xhtml')
         template = render_file(template, variables)
 
         respond(template, 404)

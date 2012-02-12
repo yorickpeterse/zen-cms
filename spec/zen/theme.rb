@@ -11,8 +11,8 @@ describe "Zen::Theme" do
       t.name         = 'spec'
       t.author       = 'Yorick Peterse'
       t.about        = 'An example theme'
-      t.template_dir = __DIR__
-      t.public_dir   = __DIR__
+      t.templates = __DIR__
+      t.public   = __DIR__
     end
 
     should.not.raise?(Zen::ThemeError) { Zen::Theme[:spec] }
@@ -24,7 +24,7 @@ describe "Zen::Theme" do
         t.name         = 'spec'
         t.author       = 'Yorick Peterse'
         t.about        = 'An example theme'
-        t.template_dir = __DIR__
+        t.templates = __DIR__
       end
     end
   end
@@ -34,6 +34,6 @@ describe "Zen::Theme" do
 
     theme.name.should         == :spec
     theme.author.should       == 'Yorick Peterse'
-    theme.template_dir.should == __DIR__
+    theme.templates.should == __DIR__
   end
 end

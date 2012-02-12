@@ -5,7 +5,7 @@ Zen::Theme.add do |theme|
   theme.about  = 'A theme for all the tests'
 
   # Add all directories
-  theme.template_dir  = __DIR__
-  theme.partial_dir   = __DIR__('partials')
+  theme.templates = __DIR__
+  theme.partials  = __DIR__('partials')
 end
 
