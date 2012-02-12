@@ -138,16 +138,16 @@ module Zen
 
       publics.each do |p|
         p   = File.join(Zen.root, p)
-        css = File.join(p, 'admin', 'css', 'global.css')
-        js  = File.join(p, 'admin', 'js', 'global.js')
+        css = File.join(p, 'admin/zen/css/global.css')
+        js  = File.join(p, 'admin/zen/js/global.js')
 
         if File.exist?(css) and css_loaded == false
-          Zen.asset.serve(:css, ['admin/css/global'])
+          Zen.asset.serve(:css, ['admin/zen/css/global'])
           css_loaded = true
         end
 
         if File.exist?(js) and js_loaded == false
-          Zen.asset.serve(:javascript, ['admin/js/global'])
+          Zen.asset.serve(:javascript, ['admin/zen/js/global'])
           js_loaded = true
         end
       end

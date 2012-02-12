@@ -17,7 +17,7 @@ The asset helper is loaded in the admin controller and therefor available to all
 controllers that extend it. Loading assets using the first method works as
 following:
 
-    Zen.asset.serve(:javascript, ['admin/js/vendor/mootools/core'])
+    Zen.asset.serve(:javascript, ['admin/mootools/js/core'])
 
 The first parameter is the type of files to load. Out of the box you can use
 ``:javascript`` and ``:css``. The second parameter is an array of paths relative
@@ -34,7 +34,7 @@ following:
     class Posts < Zen::Controller::AdminController
       map '/admin/posts'
 
-      serve(:javascript, ['admin/js/vendor/mootools/core'])
+      serve(:javascript, ['admin/mootools/js/core'])
     end
 
 The ``serve()`` method has the same syntax as ``Zen.asset.serve()``, it just
@@ -45,7 +45,7 @@ package):
 
     serve(
       :javascript,
-      ['admin/js/users/lib/access_rules', 'admin/js/users/access_rules'],
+      ['admin/users/js/lib/access_rules', 'admin/users/js/access_rules'],
       :methods => [:edit, :new],
       :name    => 'users'
     )
@@ -73,7 +73,7 @@ asset groups to know for what controller they should be loaded:
     Zen.asset.register_asset_group(:my_asset_group) do |asset, controller|
       asset.serve(
         :javascript,
-        ['admin/js/vendor/mootools/core'],
+        ['admin/mootools/js/core'],
         :controller => controller
       )
     end
@@ -110,8 +110,8 @@ entire layout. These files are called "global.css" and "global.js" and (in order
 to use them) should be placed in the following directories (where ROOT is the
 root directory of the application):
 
-* ROOT/admin/css/global.css
-* ROOT/admin/js/global.js
+* ROOT/admin/zen/css/global.css
+* ROOT/admin/zen/js/global.js
 
 [ramaze-asset]: https://github.com/yorickpeterse/ramaze-asset
 [ramaze-env]: https://github.com/YorickPeterse/ramaze-asset/blob/master/lib/ramaze/asset/environment.rb
