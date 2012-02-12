@@ -1,5 +1,4 @@
 require File.expand_path('../../../../../helper', __FILE__)
-require 'ap'
 
 describe 'Menus::Model::Menu' do
   menu = Menus::Model::Menu.create(:name => 'Spec')
