@@ -54,8 +54,8 @@ module Zen
     # @since 0.3
     # @event pre_start Event that is fired before starting Zen.
     # @event post_start Event that is fired after all packages have been loaded,
-    #  the cache has been set up, etc. This event is called just before building
-    #  all the assets.
+    #  the cache has been set up, etc. This event is called at the very end of
+    #  the method.
     #
     def start
       raise('No valid root directory specified in Zen.root') if root.nil?
@@ -72,10 +72,10 @@ module Zen
       require 'zen/model/methods'
       require 'zen/package/all'
 
-      Zen::Event.call(:post_start)
-
       Zen.asset.build(:javascript)
       Zen.asset.build(:css)
+
+      Zen::Event.call(:post_start)
     end
 
     private
