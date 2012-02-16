@@ -122,6 +122,17 @@ module Ramaze
       end
 
       ##
+      # Writes a JSON response.
+      #
+      # @since 13-02-2012
+      # @param [Mixed] data The response data.
+      # @param [Fixnum] status The HTTP status code.
+      #
+      def respond_json(data, status = 200)
+        respond(JSON.dump(data), status, 'Content-Type' => 'application/json')
+      end
+
+      ##
       # Methods that become available as class methods.
       #
       # @since  0.3
@@ -167,6 +178,63 @@ module Ramaze
           stacked_before_all(:validate_csrf_token) do
             csrf_protection(*actions) do
               respond(lang('zen_general.errors.csrf'), 403)
+            end
+          end
+        end
+
+        ##
+        # Creates a method that can be used for automatically saving an existing
+        # object. This method requires you to supply the following:
+        #
+        # * A model that extends ``Sequel::Model``
+        # * An array of columns that can be specified
+        # * The message to display for invalid objects, a message for an object
+        #   that could not be saved and a message to use whenever an object was
+        #   saved successfully.
+        #
+        # @example
+        #  autosave Model::CategoryGroup,
+        #    [:name, :description],
+        #    'category_groups.success.save',
+        #    'category_groups.errors.save',
+        #    'category_groups.errors.invalid_group'
+        #
+        # @since 13-02-2012
+        # @param [Class] model The model to use for saving data.
+        # @param [Array] columns The columns that can be saved.
+        # @param [String] success The message to display whenever the object
+        #  was saved.
+        # @param [String] error The message to display whenever an object could
+        #  not be saved.
+        # @param [String] invalid The message to display when the given object
+        #  does not exist.
+        #
+        def autosave(model, columns, success, error, invalid)
+          self.instance_eval do
+            define_method :autosave do
+              post  = request.subset(*columns)
+              group = model[request.params['id']]
+
+              if group.nil?
+                respond_json({:message => lang(invalid)}, 404)
+              else
+                begin
+                  post.each { |k, v| group.send("#{k}=", v) }
+                  group.save
+
+                  respond_json(
+                    {:csrf_token => get_csrf_token, :message => success},
+                    200
+                  )
+                rescue => e
+                  Ramaze::Log.error(e)
+
+                  respond_json(
+                    {:errors  => group.errors, :message => error},
+                    400
+                  )
+                end
+              end
             end
           end
         end

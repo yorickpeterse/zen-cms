@@ -1,4 +1,5 @@
 require 'ramaze'
+require 'json'
 
 Ramaze.setup(:verbose => false) do
   gem 'sequel'      , ['~> 3.31.0']
@@ -118,6 +119,7 @@ module Zen
           'admin/mootools/js/more',
           'admin/zen/js/lib/base',
           'admin/zen/js/lib/html_table',
+          'admin/zen/js/lib/autosave',
           'admin/zen/js/index'
         ],
         :name => 'zen_core'
