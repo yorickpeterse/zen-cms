@@ -10,4 +10,5 @@
 --asset ./guide/css/common.css:css/common.css
 -
 ./guide/*.md
+./guide/javascript/*.md
 LICENSE
