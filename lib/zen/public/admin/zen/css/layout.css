@@ -217,3 +217,8 @@
     {
         padding: 15px;
     }
+
+    #main section .body.max_width
+    {
+        max-width: 960px;
+    }
