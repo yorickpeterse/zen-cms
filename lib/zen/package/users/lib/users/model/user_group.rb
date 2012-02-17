@@ -15,6 +15,13 @@ module Users
     class UserGroup < Sequel::Model
       include Zen::Model::Helper
 
+      ##
+      # Array containing the columns that can be set by the user.
+      #
+      # @since 17-02-2012
+      #
+      COLUMNS = [:name, :slug, :description, :super_group]
+
       many_to_many :users      , :class => 'Users::Model::User'
       one_to_many  :permissions, :class => 'Users::Model::Permission'
 

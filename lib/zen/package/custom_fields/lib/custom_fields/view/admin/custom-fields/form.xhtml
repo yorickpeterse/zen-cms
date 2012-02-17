@@ -25,7 +25,9 @@
           @custom_field,
           :method => :post,
           :action => CustomFields::Controller::CustomFields.r(:save),
-          :id     => :custom_field_form
+          :id     => :custom_field_form,
+          :'data-autosave-url' => CustomFields::Controller::CustomFields \
+            .r(:autosave)
         ) do |f|
           f.input_hidden(:id                   , @custom_field.id)
           f.input_hidden(:custom_field_group_id, @custom_field_group_id)

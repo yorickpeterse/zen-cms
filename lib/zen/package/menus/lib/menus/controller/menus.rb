@@ -69,6 +69,8 @@ module Menus
       helper :menu
       title  'menus.titles.%s'
 
+      autosave Model::Menu, Model::Menu::COLUMNS
+
       csrf_protection :save, :delete
 
       ##
@@ -146,20 +148,13 @@ module Menus
       # @permission new_menu (when creating a new menu)
       #
       def save
-        post = request.subset(
-          :name,
-          :slug,
-          :description,
-          :html_class,
-          :html_id,
-          :id
-        )
+        post = request.subset(*Model::Menu::COLUMNS)
+        id   = request.params['id']
 
-        # Determine if we're creating a new group or modifying an existing one.
-        if post.key?('id') and !post['id'].empty?
+        if id and !id.empty?
           authorize_user!(:edit_menu)
 
-          menu        = validate_menu(post['id'])
+          menu        = validate_menu(id)
           save_action = :save
         else
           authorize_user!(:new_menu)
@@ -168,12 +163,9 @@ module Menus
           save_action = :new
         end
 
-        post.delete('id')
-
         success = lang("menus.success.#{save_action}")
         error   = lang("menus.errors.#{save_action}")
 
-        # Let's see if we can insert/update the data
         begin
           post.each { |k, v| menu.send("#{k}=", v) }
 

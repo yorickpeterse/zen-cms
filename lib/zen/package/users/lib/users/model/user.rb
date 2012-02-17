@@ -22,9 +22,29 @@ module Users
     # @event after_delete_user
     #
     class User < Sequel::Model
+      ##
       # Regex to do some basic Email validation. Emails such as foo@bar,
       # foo@bar.com and foo@bar.a.b are all valid but foo bar@bar.com isn't.
+      #
       EMAIL_REGEX = '^[^@]\S+@\S+(\.[a-z]+)*[^.]$'
+
+      ##
+      # Array containing the columns that can be set by the user.
+      #
+      # @since 17-02-2012
+      #
+      COLUMNS = [
+        :email,
+        :name,
+        :website,
+        :password,
+        :confirm_password,
+        :user_status_id,
+        :language,
+        :frontend_language,
+        :date_format,
+        :user_group_pks
+      ]
 
       include Zen::Model::Helper
 

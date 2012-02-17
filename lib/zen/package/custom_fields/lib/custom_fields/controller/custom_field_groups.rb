@@ -70,11 +70,7 @@ module CustomFields
       map    '/admin/custom-field-groups'
       title  'custom_field_groups.titles.%s'
 
-      autosave Model::CustomFieldGroup,
-        Model::CustomFieldGroup::COLUMNS,
-        'custom_field_groups.success.save',
-        'custom_field_groups.errors.save',
-        'custom_field_groups.errors.invalid_group'
+      autosave Model::CustomFieldGroup, Model::CustomFieldGroup::COLUMNS
 
       csrf_protection :save, :delete
 

@@ -53,6 +53,8 @@ module Users
       map    '/admin/user-groups'
       title  'user_groups.titles.%s'
 
+      autosave Model::UserGroup, Model::UserGroup::COLUMNS
+
       csrf_protection  :save, :delete
       load_asset_group :tabs
 
@@ -135,21 +137,20 @@ module Users
       # @permission edit_user_group (when editing a group)
       #
       def save
-        post = request.subset(:id, :name, :slug, :description, :super_group)
+        post = request.subset(*Model::UserGroup::COLUMNS)
+        id   = request.params['id']
 
-        if post['id'] and !post['id'].empty?
+        if id and !id.empty?
           authorize_user!(:edit_user_group)
 
-          user_group  = validate_user_group(post['id'])
+          user_group  = validate_user_group(id)
           save_action = :save
         else
           authorize_user!(:new_user_group)
 
-          user_group  = ::Users::Model::UserGroup.new
+          user_group  = Model::UserGroup.new
           save_action = :new
         end
-
-        post.delete('id')
 
         success = lang("user_groups.success.#{save_action}")
         error   = lang("user_groups.errors.#{save_action}")

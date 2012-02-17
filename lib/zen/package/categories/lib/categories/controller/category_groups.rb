@@ -76,11 +76,7 @@ module Categories
 
       csrf_protection :save, :delete
 
-      autosave Model::CategoryGroup,
-        Model::CategoryGroup::COLUMNS,
-        'category_groups.success.save',
-        'category_groups.errors.save',
-        'category_groups.errors.invalid_group'
+      autosave Model::CategoryGroup, Model::CategoryGroup::COLUMNS
 
       ##
       # Show an overview of all existing category groups and allow the user

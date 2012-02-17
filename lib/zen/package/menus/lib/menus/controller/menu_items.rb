@@ -46,6 +46,8 @@ module Menus
       helper :menu
       title  'menu_items.titles.%s'
 
+      autosave Model::MenuItem, Model::MenuItem::COLUMNS
+
       csrf_protection :save, :delete
 
       serve :css, ['/admin/menus/css/menus'],
@@ -146,23 +148,13 @@ module Menus
       # @permission new_menu_item (when creating an item)
       #
       def save
-        post = request.subset(
-          :id,
-          :parent_id,
-          :name,
-          :url,
-          :sort_order,
-          :html_class,
-          :html_id,
-          :menu_id
-        )
+        post = request.subset(*Model::MenuItem::COLUMNS)
+        id   = request.params['id']
 
-        # Determine if we're saving changes made to an existing menu item or
-        # if we're going to create a new one.
-        if post.key?('id') and !post['id'].empty?
+        if id and !id.empty?
           authorize_user!(:edit_menu_item)
 
-          menu_item   = validate_menu_item(post['id'], post['menu_id'])
+          menu_item   = validate_menu_item(id, post['menu_id'])
           save_action = :save
         else
           authorize_user!(:new_menu_item)
@@ -170,8 +162,6 @@ module Menus
           menu_item   = ::Menus::Model::MenuItem.new
           save_action = :new
         end
-
-        post.delete('id')
 
         success = lang("menu_items.success.#{save_action}")
         error   = lang("menu_items.errors.#{save_action}")

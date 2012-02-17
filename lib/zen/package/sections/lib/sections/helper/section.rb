@@ -44,6 +44,49 @@ module Ramaze
           return entry
         end
       end
+
+      ##
+      # Creates or updates a set of custom fields for a given section entry.
+      #
+      # @since 17-02-2012
+      # @param [Sections::Model::SectionEntry] entry The entry for which to
+      #  create or update the fields.
+      # @return [Hash] Hash containing any errors for the custom fields.
+      #
+      def process_custom_fields(entry)
+        request.params.delete('id')
+
+        field_values = {}
+        field_errors = {}
+
+        entry.custom_field_values.each do |value|
+          field_values[value.custom_field_id] = value
+        end
+
+        entry.custom_fields.each do |field|
+          key = "custom_field_value_#{field.id}"
+
+          next unless request.params.key?(key)
+
+          if field.required and request.params[key].empty?
+            field_errors[:"custom_field_value_#{field.id}"] = \
+              lang('zen_models.presence')
+
+            next
+          end
+
+          if field_values.key?(field.id)
+            field_values[field.id].update(:value => request.params[key])
+          else
+            entry.add_custom_field_value(
+              :custom_field_id => field.id,
+              :value           => request.params[key]
+            )
+          end
+        end
+
+        return field_errors
+      end
     end # Section
   end # Helper
 end # Ramaze

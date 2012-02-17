@@ -65,7 +65,7 @@ module Sections
       title  'section_entries.titles.%s'
 
       load_asset_group [:tabs, :editor, :datepicker], [:edit, :new]
-      csrf_protection  :save, :delete
+      csrf_protection  :save, :delete, :autosave
 
       ##
       # Show an overview of all entries for the current section.
@@ -180,90 +180,41 @@ module Sections
       # @permission new_section_entry (when creating a new entry)
       #
       def save
+        post_data  = request.subset(*Model::SectionEntry::COLUMNS)
         section_id = request.params['section_id']
 
-        validate_section(section_id)
+        if post_data['created_at']
+          post_data['created_at'] = Time.strptime(
+            post_data['created_at'],
+            Model::SectionEntry::DATE_FORMAT
+          )
+        end
 
         if request.params['id'] and !request.params['id'].empty?
           authorize_user!(:edit_section_entry)
 
-          entry       = ::Sections::Model::SectionEntry[request.params['id']]
+          entry       = validate_section_entry(request.params['id'], section_id)
           save_action = :save
         else
           authorize_user!(:new_section_entry)
 
-          entry = ::Sections::Model::SectionEntry.new(:section_id => section_id)
+          entry       = Model::SectionEntry.new(:section_id => section_id)
           save_action = :new
         end
 
-        request.params.delete('id')
-
-        success       = lang("section_entries.success.#{save_action}")
-        error         = lang("section_entries.errors.#{save_action}")
-        custom_fields = entry.custom_fields
-        field_errors  = {}
-        field_values  = {}
-
-        entry.custom_field_values.each do |value|
-          field_values[value.custom_field_id] = value
-        end
+        success      = lang("section_entries.success.#{save_action}")
+        error        = lang("section_entries.errors.#{save_action}")
+        field_errors = {}
 
         begin
           Zen.database.transaction do
-            # Update the entry itself
-            post_data = request.subset(
-              :title,
-              :created_at,
-              :section_id,
-              :user_id,
-              :slug,
-              :section_entry_status_id,
-              :category_pks
-            )
-
-            # Transform the dates properly
-            if post_data[:created_at]
-              post_data[:created_at] = Time.strptime(
-                post_data[:created_at],
-                Model::SectionEntry::DATE_FORMAT
-              )
-            end
-
             post_data.each { |k, v| entry.send("#{k}=", v) }
-
             entry.save
 
-            # Update/add all the custom field values
-            custom_fields.each do |field|
-              key = "custom_field_value_#{field.id}"
+            field_errors = process_custom_fields(entry)
 
-              # The custom field has been submitted, let's see if we have to
-              # update it or add it.
-              if request.params.key?(key)
-                # Validate it
-                if field.required and request.params[key].empty?
-                  field_errors[:"custom_field_value_#{field.id}"] = \
-                    lang('zen_models.presence')
-
-                  raise
-                end
-
-                if field_values.key?(field.id)
-                  field_values[field.id].update(:value => request.params[key])
-                else
-                  entry.add_custom_field_value(
-                    :custom_field_id => field.id,
-                    :value           => request.params[key]
-                  )
-                end
-              end
-            end
+            raise unless field_errors.empty?
           end
-        # The rescue statement is called whenever the following happens:
-        #
-        # 1. The fields for the section entry (title, slug, etc) are invalid
-        # 2. Any custom field marked as required didn't have a value
-        # 3. Something else went wrong, god knows what.
         rescue => e
           Ramaze::Log.error(e)
           message(:error, error)
@@ -276,6 +227,49 @@ module Sections
 
         message(:success, success)
         redirect(SectionEntries.r(:edit, section_id, entry.id))
+      end
+
+      ##
+      # Automatically saves a section entry. This is needed to take care of the
+      # custom fields, something the helper method itself can not do.
+      #
+      # @since 17-02-2012
+      #
+      def autosave
+        entry        = Model::SectionEntry[request.params['id']]
+        post_data    = request.subset(*Model::SectionEntry::COLUMNS)
+        field_errors = {}
+
+        if post_data['created_at']
+          post_data['created_at'] = Time.strptime(
+            post_data['created_at'],
+            Model::SectionEntry::DATE_FORMAT
+          )
+        end
+
+        if entry.nil?
+          respond_json(
+            {:error => lang('zen_general.errors.invalid_request')},
+            404
+          )
+        end
+
+        begin
+          Zen.database.transaction do
+            post_data.each { |k, v| entry.send("#{k}=", v) }
+            entry.save
+
+            field_errors = process_custom_fields(entry)
+
+            raise unless field_errors.empty?
+          end
+        rescue => e
+          Ramaze::Log.error(e)
+
+          respond_json({:errors => entry.errors.merge(field_errors)}, 400)
+        end
+
+        respond_json({:csrf_token => get_csrf_token})
       end
 
       ##

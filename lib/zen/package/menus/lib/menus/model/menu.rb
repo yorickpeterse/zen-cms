@@ -33,6 +33,13 @@ module Menus
     class Menu < Sequel::Model
       include Zen::Model::Helper
 
+      ##
+      # Array containing all the columns that can be set by the user.
+      #
+      # @since 17-02-2012
+      #
+      COLUMNS = [:name, :slug, :description, :html_class, :html_id]
+
       plugin :sluggable, :source => :name, :freeze => false
 
       plugin :events,

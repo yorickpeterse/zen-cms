@@ -6,9 +6,10 @@
     <div class="body">
         #{form_for(
           @menu,
-          :method => :post,
-          :action => Menus::Controller::Menus.r(:save),
-          :id     => :menu_form
+          :method              => :post,
+          :action              => Menus::Controller::Menus.r(:save),
+          :id                  => :menu_form,
+          :'data-autosave-url' => Menus::Controller::Menus.r(:autosave)
         ) do |f|
           f.input_hidden(:csrf_token, get_csrf_token)
           f.input_hidden(:id        , @menu.id)

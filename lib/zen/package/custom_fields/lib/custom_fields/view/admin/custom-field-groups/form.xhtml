@@ -8,7 +8,9 @@
           @field_group,
           :method => :post,
           :action => CustomFields::Controller::CustomFieldGroups.r(:save),
-          :id     => :custom_field_group_form
+          :id     => :custom_field_group_form,
+          :'data-autosave-url' => CustomFields::Controller::CustomFieldGroups \
+            .r(:autosave)
         ) do |f|
           f.input_hidden(:id        , @field_group.id)
           f.input_hidden(:csrf_token, get_csrf_token)

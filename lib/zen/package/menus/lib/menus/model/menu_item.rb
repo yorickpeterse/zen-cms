@@ -23,6 +23,15 @@ module Menus
     class MenuItem < Sequel::Model
       include Zen::Model::Helper
 
+      ##
+      # Array containing the columns that can be set by the user.
+      #
+      # @since 17-02-2012
+      #
+      COLUMNS = [
+        :parent_id, :name, :url, :sort_order, :html_class, :html_id, :menu_id
+      ]
+
       plugin :tree, :order => :sort_order
 
       plugin :events,

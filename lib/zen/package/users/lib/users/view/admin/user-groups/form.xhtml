@@ -28,9 +28,10 @@
     <div class="body">
         #{form_for(
           @user_group,
-          :method => :post,
-          :action => Users::Controller::UserGroups.r(:save),
-          :id     => :user_group_form
+          :method              => :post,
+          :action              => Users::Controller::UserGroups.r(:save),
+          :id                  => :user_group_form,
+          :'data-autosave-url' => Users::Controller::UserGroups.r(:autosave)
         ) do |f|
           f.input_hidden(:id, @user_group.id)
           f.input_hidden(:csrf_token, get_csrf_token)

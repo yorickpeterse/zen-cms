@@ -6,9 +6,10 @@
     <div class="body">
         #{form_for(
           @menu_item,
-          :method => :post,
-          :action => Menus::Controller::MenuItems.r(:save),
-          :id     => :menu_item_form
+          :method              => :post,
+          :action              => Menus::Controller::MenuItems.r(:save),
+          :id                  => :menu_item_form,
+          :'data-autosave-url' => Menus::Controller::MenuItems.r(:autosave)
         ) do |f|
           f.input_hidden(:csrf_token, get_csrf_token)
           f.input_hidden(:id        , @menu_item.id)
@@ -29,22 +30,6 @@
             :required  => :required,
             :maxlength => 255
           )
-=begin
-          f.input_text(
-            lang('menu_items.labels.order'),
-            :sort_order,
-            :title   => lang('menu_items.descriptions.order'),
-            :pattern => '\\\d*'
-          )
-
-          f.select(
-            lang('menu_items.labels.parent_id'),
-            :parent_id,
-            :values   => menu_item_tree(@menu_id, @menu_item.id),
-            :selected => @menu_item.parent_id,
-            :size     => 1
-          )
-=end
 
           f.input_text(
             lang('menu_items.labels.html_class'),

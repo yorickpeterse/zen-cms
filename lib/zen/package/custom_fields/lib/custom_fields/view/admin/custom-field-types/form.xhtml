@@ -8,7 +8,9 @@
           @custom_field_type,
           :method => :post,
           :id     => :custom_field_type_form,
-          :action => CustomFields::Controller::CustomFieldTypes.r(:save)
+          :action => CustomFields::Controller::CustomFieldTypes.r(:save),
+          :'data-autosave-url' => CustomFields::Controller::CustomFieldTypes \
+            .r(:autosave)
         ) do |f|
           f.input_hidden(:csrf_token, get_csrf_token)
           f.input_hidden(:id        , @custom_field_type.id)

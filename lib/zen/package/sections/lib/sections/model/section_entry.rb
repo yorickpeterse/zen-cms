@@ -15,6 +15,21 @@ module Sections
     class SectionEntry < Sequel::Model
       include Zen::Model::Helper
 
+      ##
+      # Array containing all the columns that can be set by the user.
+      #
+      # @since 17-02-2012
+      #
+      COLUMNS = [
+        :title,
+        :created_at,
+        :section_id,
+        :user_id,
+        :slug,
+        :section_entry_status_id,
+        :category_pks
+      ]
+
       one_to_many :comments,
         :class => 'Comments::Model::Comment'
 

@@ -188,28 +188,15 @@ module Ramaze
         #
         # * A model that extends ``Sequel::Model``
         # * An array of columns that can be specified
-        # * The message to display for invalid objects, a message for an object
-        #   that could not be saved and a message to use whenever an object was
-        #   saved successfully.
         #
         # @example
-        #  autosave Model::CategoryGroup,
-        #    [:name, :description],
-        #    'category_groups.success.save',
-        #    'category_groups.errors.save',
-        #    'category_groups.errors.invalid_group'
+        #  autosave Model::CategoryGroup, [:name, :description]
         #
         # @since 13-02-2012
         # @param [Class] model The model to use for saving data.
         # @param [Array] columns The columns that can be saved.
-        # @param [String] success The message to display whenever the object
-        #  was saved.
-        # @param [String] error The message to display whenever an object could
-        #  not be saved.
-        # @param [String] invalid The message to display when the given object
-        #  does not exist.
         #
-        def autosave(model, columns, success, error, invalid)
+        def autosave(model, columns)
           self.instance_eval do
             define_method :autosave do
               csrf_protection(:autosave) do
@@ -220,23 +207,20 @@ module Ramaze
               group = model[request.params['id']]
 
               if group.nil?
-                respond_json({:message => lang(invalid)}, 404)
+                respond_json(
+                  {:error => lang('zen_general.errors.invalid_request')},
+                  404
+                )
               else
                 begin
                   post.each { |k, v| group.send("#{k}=", v) }
                   group.save
 
-                  respond_json(
-                    {:csrf_token => get_csrf_token, :message => success},
-                    200
-                  )
+                  respond_json({:csrf_token => get_csrf_token}, 200)
                 rescue => e
                   Ramaze::Log.error(e)
 
-                  respond_json(
-                    {:errors  => group.errors, :message => error},
-                    400
-                  )
+                  respond_json({:errors  => group.errors}, 400)
                 end
               end
             end

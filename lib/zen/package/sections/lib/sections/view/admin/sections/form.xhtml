@@ -29,9 +29,10 @@
     <div class="body">
         #{form_for(
           @section,
-          :method => 'post',
-          :action => Sections::Controller::Sections.r(:save),
-          :id     => :section_form
+          :method              => :post,
+          :action              => Sections::Controller::Sections.r(:save),
+          :id                  => :section_form,
+          :'data-autosave-url' => Sections::Controller::Sections.r(:autosave)
         ) do |f|
           f.input_hidden(:id        , @section.id)
           f.input_hidden(:csrf_token, get_csrf_token)

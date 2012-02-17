@@ -90,6 +90,8 @@ module Users
       title  'users.titles.%s'
       allow  [:login, :logout, :register]
 
+      autosave Model::User, Model::User::COLUMNS
+
       csrf_protection  :save, :delete
       load_asset_group :tabs
 
@@ -259,29 +261,18 @@ module Users
       # @permission edit_user (when editing a user)
       #
       def save
-        post = request.subset(
-          :id,
-          :email,
-          :name,
-          :website,
-          :password,
-          :confirm_password,
-          :user_status_id,
-          :language,
-          :frontend_language,
-          :date_format,
-          :user_group_pks
-        )
+        post = request.subset(*Model::User::COLUMNS)
+        id   = request.params['id']
 
-        if post['id'] and !post['id'].empty?
-          authorize_user!(:edit_user) unless post['id'].to_i == user.id
+        if id and !id.empty?
+          authorize_user!(:edit_user) unless id.to_i == user.id
 
-          user        = validate_user(post['id'])
+          user        = validate_user(id)
           save_action = :save
         else
           authorize_user!(:new_user)
 
-          user        = ::Users::Model::User.new
+          user        = Model::User.new
           save_action = :new
         end
 
@@ -291,7 +282,6 @@ module Users
         end
 
         post.delete('confirm_password')
-        post.delete('id')
 
         post['user_group_pks'] ||= []
         success                  = lang("users.success.#{save_action}")

@@ -59,11 +59,7 @@ module Categories
 
       csrf_protection :save, :delete
 
-      autosave Model::Category,
-        Model::Category::COLUMNS,
-        'categories.success.save',
-        'categories.errors.save',
-        'categories.errors.invalid_category'
+      autosave Model::Category, Model::Category::COLUMNS
 
       ##
       # Show an overview of all existing categories and allow the user

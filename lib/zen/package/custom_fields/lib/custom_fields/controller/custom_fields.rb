@@ -66,11 +66,7 @@ module CustomFields
       map    '/admin/custom-fields'
       title  'custom_fields.titles.%s'
 
-      autosave Model::CustomField,
-        Model::CustomField::COLUMNS,
-        'custom_fields.success.save',
-        'custom_fields.errors.save',
-        'custom_fields.errors.invalid_field'
+      autosave Model::CustomField, Model::CustomField::COLUMNS
 
       csrf_protection  :save; :delete
       load_asset_group :tabs, [:edit, :new]

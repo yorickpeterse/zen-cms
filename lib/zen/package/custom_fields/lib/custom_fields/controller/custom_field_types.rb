@@ -66,11 +66,7 @@ module CustomFields
 
       csrf_protection :save, :delete
 
-      autosave Model::CustomFieldType,
-        Model::CustomFieldType::COLUMNS,
-        'custom_field_types.success.save',
-        'custom_field_types.errors.save',
-        'custom_field_types.errors.invalid_type'
+      autosave Model::CustomFieldType, Model::CustomFieldType::COLUMNS
 
       before(:index, :edit, :new) do
         @boolean_hash = {

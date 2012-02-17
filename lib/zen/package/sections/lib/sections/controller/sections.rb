@@ -87,8 +87,8 @@ module Sections
       csrf_protection  :save, :delete
       load_asset_group :tabs, [:edit, :new]
 
-      # Hook that is executed before Sections#index(), Sections#new() and
-      # Sections#edit().
+      autosave Model::Section, Model::Section::COLUMNS
+
       before(:index, :new, :edit) do
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
@@ -169,23 +169,13 @@ module Sections
       # @permission edit_section (when editing a section)
       #
       def save
-        post = request.subset(
-          :id,
-          :name,
-          :slug,
-          :description,
-          :comment_allow,
-          :comment_require_account,
-          :comment_moderate,
-          :comment_format,
-          :custom_field_group_pks,
-          :category_group_pks
-        )
+        post = request.subset(*Model::Section::COLUMNS)
+        id   = request.params['id']
 
-        if post['id'] and !post['id'].empty?
+        if id and !id.empty?
           authorize_user!(:edit_section)
 
-          section     = validate_section(post['id'])
+          section     = validate_section(id)
           save_action = :save
         else
           authorize_user!(:new_section)
@@ -199,8 +189,6 @@ module Sections
 
         post['custom_field_group_pks'] ||= []
         post['category_group_pks']     ||= []
-
-        post.delete('id')
 
         begin
           post.each { |k, v| section.send("#{k}=", v) }
