@@ -66,8 +66,12 @@ module CustomFields
 
       csrf_protection :save, :delete
 
-      # Blck that's executed before CustomFieldTypes#edit() and
-      # CustomFieldTypes#new().
+      autosave Model::CustomFieldType,
+        Model::CustomFieldType::COLUMNS,
+        'custom_field_types.success.save',
+        'custom_field_types.errors.save',
+        'custom_field_types.errors.invalid_type'
+
       before(:index, :edit, :new) do
         @boolean_hash = {
           true  => lang('zen_general.special.boolean_hash.true'),
@@ -150,37 +154,25 @@ module CustomFields
       ##
       # Creates a new custom field type or edits an existing one.
       #
-      # This method requires either create or update permissions based on the
-      # supplied data.
-      #
       # @since      0.2.8
       # @permission edit_custom_field_type (when editing a field type)
       # @permission new_custom_field_type (when creating a field type)
       #
       def save
-        post = request.subset(
-          :id,
-          :name,
-          :language_string,
-          :html_class,
-          :serialize,
-          :allow_markup,
-          :custom_field_method_id
-        )
+        post = request.subset(*Model::CustomFieldType::COLUMNS)
+        id   = request.params['id']
 
-        if post['id'] and !post['id'].empty?
+        if id and !id.empty?
           authorize_user!(:edit_custom_field_type)
 
-          field_type   = validate_custom_field_type(post['id'])
-          save_action  = :save
+          field_type  = validate_custom_field_type(id)
+          save_action = :save
         else
           authorize_user!(:new_custom_field_type)
 
-          field_type   = ::CustomFields::Model::CustomFieldType.new
-          save_action  = :new
+          field_type  = ::CustomFields::Model::CustomFieldType.new
+          save_action = :new
         end
-
-        post.delete('id')
 
         success = lang("custom_field_types.success.#{save_action}")
         error   = lang("custom_field_types.errors.#{save_action}")

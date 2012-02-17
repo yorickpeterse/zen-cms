@@ -70,6 +70,12 @@ module CustomFields
       map    '/admin/custom-field-groups'
       title  'custom_field_groups.titles.%s'
 
+      autosave Model::CustomFieldGroup,
+        Model::CustomFieldGroup::COLUMNS,
+        'custom_field_groups.success.save',
+        'custom_field_groups.errors.save',
+        'custom_field_groups.errors.invalid_group'
+
       csrf_protection :save, :delete
 
       ##
@@ -148,12 +154,13 @@ module CustomFields
       # @permission new_custom_field_group (when creating a group)
       #
       def save
-        post = request.subset(:id, :name, :description)
+        post = request.subset(*Model::CustomFieldGroup::COLUMNS)
+        id   = request.params['id']
 
-        if post['id'] and !post['id'].empty?
+        if id and !id.empty?
           authorize_user!(:edit_custom_field_group)
 
-          field_group = validate_custom_field_group(post['id'])
+          field_group = validate_custom_field_group(id)
           save_action = :save
         else
           authorize_user!(:new_custom_field_group)
@@ -161,8 +168,6 @@ module CustomFields
           field_group = ::CustomFields::Model::CustomFieldGroup.new
           save_action = :new
         end
-
-        post.delete('id')
 
         success = lang("custom_field_groups.success.#{save_action}")
         error   = lang("custom_field_groups.errors.#{save_action}")

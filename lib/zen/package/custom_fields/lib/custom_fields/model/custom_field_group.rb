@@ -15,6 +15,13 @@ module CustomFields
     class CustomFieldGroup < Sequel::Model
       include Zen::Model::Helper
 
+      ##
+      # Array containing the columns that can be set by the user.
+      #
+      # @since 17-02-2012
+      #
+      COLUMNS = [:name, :description]
+
       one_to_many :custom_fields,
         :class => 'CustomFields::Model::CustomField',
         :order => :sort_order

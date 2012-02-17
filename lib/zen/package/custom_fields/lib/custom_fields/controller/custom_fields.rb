@@ -66,6 +66,12 @@ module CustomFields
       map    '/admin/custom-fields'
       title  'custom_fields.titles.%s'
 
+      autosave Model::CustomField,
+        Model::CustomField::COLUMNS,
+        'custom_fields.success.save',
+        'custom_fields.errors.save',
+        'custom_fields.errors.invalid_field'
+
       csrf_protection  :save; :delete
       load_asset_group :tabs, [:edit, :new]
 
@@ -194,33 +200,15 @@ module CustomFields
       # @permission new_custom_field (when creating a new field)
       #
       def save
-        post = request.subset(
-          :id,
-          :name,
-          :slug,
-          :description,
-          :sort_order,
-          :format,
-          :possible_values,
-          :required,
-          :text_editor,
-          :textarea_rows,
-          :text_limit,
-          :custom_field_group_id,
-          :custom_field_type_id
-        )
+        post = request.subset(*Model::CustomField::COLUMNS)
+        id   = request.params['id']
 
         validate_custom_field_group(post['custom_field_group_id'])
 
-        # Get or create a custom field group based on the ID from the hidden
-        # field.
-        if post['id'] and !post['id'].empty?
+        if id and !id.empty?
           authorize_user!(:edit_custom_field)
 
-          custom_field = validate_custom_field(
-            post['id'], post['custom_field_group_id']
-          )
-
+          custom_field = validate_custom_field(id, post['custom_field_group_id'])
           save_action  = :save
         else
           authorize_user!(:new_custom_field)
@@ -228,8 +216,6 @@ module CustomFields
           custom_field = ::CustomFields::Model::CustomField.new
           save_action  = :new
         end
-
-        post.delete('id')
 
         success = lang("custom_fields.success.#{save_action}")
         error   = lang("custom_fields.errors.#{save_action}")

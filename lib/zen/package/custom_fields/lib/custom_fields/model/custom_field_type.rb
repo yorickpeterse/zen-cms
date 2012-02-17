@@ -15,6 +15,16 @@ module CustomFields
     class CustomFieldType < Sequel::Model
       include Zen::Model::Helper
 
+      ##
+      # Array containing all the columns that can be set by the user.
+      #
+      # @since 17-02-2012
+      #
+      COLUMNS = [
+        :name, :language_string, :html_class, :serialize, :allow_markup,
+        :custom_field_method_id
+      ]
+
       many_to_one :custom_field_method,
         :class => 'CustomFields::Model::CustomFieldMethod'
 

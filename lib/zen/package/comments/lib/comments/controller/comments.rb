@@ -87,6 +87,12 @@ module Comments
 
       csrf_protection :save, :delete
 
+      autosave Model::Comment,
+        Model::Comment::COLUMNS,
+        'comments.success.save',
+        'comments.errors.save',
+        'comments.errors.invalid_comment'
+
       ##
       # Shows an overview of all existing comments and allows the user to edit
       # or remove these comments.
@@ -139,21 +145,8 @@ module Comments
       def save
         authorize_user!(:edit_comment)
 
-        # Copy the POST data so we can work with it without messing things up
-        post = request.subset(
-          :id,
-          :user_id,
-          :name,
-          :website,
-          :email,
-          :comment,
-          :comment_status_id,
-          :section_entry_id
-        )
-
-        comment = validate_comment(post['id'])
-
-        post.delete('id')
+        post    = request.subset(*Model::Comment::COLUMNS)
+        comment = validate_comment(request.params['id'])
 
         begin
           post.each { |k, v| comment.send("#{k}=", v) }

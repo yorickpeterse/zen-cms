@@ -8,7 +8,8 @@
             @comment,
             :method => :post,
             :action => Comments::Controller::Comments.r(:save),
-            :id     => :comment_form
+            :id     => :comment_form,
+            :'data-autosave-url' => Comments::Controller::Comments.r(:autosave)
           ) do |f|
             f.input_hidden(:csrf_token, get_csrf_token)
             f.input_hidden(:id        , @comment.id)

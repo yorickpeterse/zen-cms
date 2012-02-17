@@ -42,7 +42,18 @@ module Comments
     class Comment < Sequel::Model
       include Zen::Model::Helper
 
-      many_to_one :section_entry, :class => 'Sections::Model::SectionEntry',
+      ##
+      # Array containing all the columns that can be set by the user.
+      #
+      # @since 17-02-2012
+      #
+      COLUMNS = [
+        :user_id, :name, :website, :email, :comment, :comment_status_id,
+        :section_entry_id
+      ]
+
+      many_to_one :section_entry,
+        :class => 'Sections::Model::SectionEntry',
         :eager => [:section]
 
       many_to_one :user,           :class => 'Users::Model::User'
