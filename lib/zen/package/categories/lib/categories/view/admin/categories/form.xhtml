@@ -6,9 +6,11 @@
     <div class="body">
         #{form_for(
           @category,
-          :method => :post,
-          :action => Categories::Controller::Categories.r(:save),
-          :id     => :category_form
+          :method              => :post,
+          :action              => Categories::Controller::Categories.r(:save),
+          :id                  => :category_form,
+          :'data-autosave-url' => Categories::Controller::Categories \
+            .r(:autosave)
         ) do |f|
           f.input_hidden(:category_group_id, @category_group_id)
           f.input_hidden(:id               , @category.id)

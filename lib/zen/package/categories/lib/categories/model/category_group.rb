@@ -41,6 +41,13 @@ module Categories
     class CategoryGroup < Sequel::Model
       include Zen::Model::Helper
 
+      ##
+      # Array containing the column names that can be set by the user.
+      #
+      # @since 17-02-2012
+      #
+      COLUMNS = [:name, :description]
+
       one_to_many  :categories, :class => 'Categories::Model::Category'
       many_to_many :sections,   :class => 'Sections::Model::Section'
 

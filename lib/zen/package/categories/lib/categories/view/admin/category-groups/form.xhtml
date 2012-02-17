@@ -6,9 +6,11 @@
     <div class="body">
         #{form_for(
           @category_group,
-          :method => :post,
-          :action => Categories::Controller::CategoryGroups.r(:save),
-          :id     => :category_group_form
+          :method              => :post,
+          :action              => Categories::Controller::CategoryGroups.r(:save),
+          :id                  => :category_group_form,
+          :'data-autosave-url' => Categories::Controller::CategoryGroups \
+            .r(:autosave)
         ) do |f|
           f.input_hidden(:id        , @category_group.id)
           f.input_hidden(:csrf_token, get_csrf_token)

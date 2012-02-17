@@ -74,9 +74,13 @@ module Categories
       map    '/admin/category-groups'
       title  'category_groups.titles.%s'
 
-      # Protects CategoryGroups#save() and CategoryGroups#delete() against CSRF
-      # attacks.
       csrf_protection :save, :delete
+
+      autosave Model::CategoryGroup,
+        Model::CategoryGroup::COLUMNS,
+        'category_groups.success.save',
+        'category_groups.errors.save',
+        'category_groups.errors.invalid_group'
 
       ##
       # Show an overview of all existing category groups and allow the user
@@ -151,13 +155,14 @@ module Categories
       # @permission new_category_group (when creating a group)
       #
       def save
-        post = request.subset(:id, :name, :description)
+        post = request.subset(*Model::CategoryGroup::COLUMNS)
+        id   = request.params['id']
 
         # Get/create the group and set the event names.
-        if post['id'] and !post['id'].empty?
+        if id and !id.empty?
           authorize_user!(:edit_category_group)
 
-          category_group = validate_category_group(post['id'])
+          category_group = validate_category_group(id)
           save_action    = :save
         else
           authorize_user!(:new_category_group)
@@ -168,8 +173,6 @@ module Categories
 
         success = lang("category_groups.success.#{save_action}")
         error   = lang("category_groups.errors.#{save_action}")
-
-        post.delete('id')
 
         # Set the values, call the events and try to save the category group.
         begin

@@ -57,8 +57,13 @@ module Categories
       helper :category
       title  'categories.titles.%s'
 
-      # Protect Categories#save() and Categories#delete() against CSRF attacks.
       csrf_protection :save, :delete
+
+      autosave Model::Category,
+        Model::Category::COLUMNS,
+        'categories.success.save',
+        'categories.errors.save',
+        'categories.errors.invalid_category'
 
       ##
       # Show an overview of all existing categories and allow the user
@@ -177,32 +182,24 @@ module Categories
       # @permission new_category (when creating a category)
       #
       def save
-        post = request.subset(
-          :id,
-          :parent_id,
-          :name,
-          :description,
-          :slug,
-          :category_group_id
-        )
+        id   = request.params['id']
+        post = request.subset(*Model::Category::COLUMNS)
 
         validate_category_group(post['category_group_id'])
 
         # Retrieve the category and set the notifications based on if the ID has
         # been specified or not.
-        if post['id'] and !post['id'].empty?
+        if id and !id.empty?
           authorize_user!(:edit_category)
 
-          category     = validate_category(post['id'], post['category_group_id'])
-          save_action  = :save
+          category    = validate_category(id, post['category_group_id'])
+          save_action = :save
         else
           authorize_user!(:new_category)
 
-          category     = ::Categories::Model::Category.new
-          save_action  = :new
+          category    = ::Categories::Model::Category.new
+          save_action = :new
         end
-
-        post.delete('id')
 
         success = lang("categories.success.#{save_action}")
         error   = lang("categories.errors.#{save_action}")
