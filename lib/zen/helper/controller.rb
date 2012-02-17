@@ -212,6 +212,10 @@ module Ramaze
         def autosave(model, columns, success, error, invalid)
           self.instance_eval do
             define_method :autosave do
+              csrf_protection(:autosave) do
+                respond(lang('zen_general.errors.csrf'), 403)
+              end
+
               post  = request.subset(*columns)
               group = model[request.params['id']]
 
