@@ -10,12 +10,10 @@ require File.join(Zen::FIXTURES, 'package/dashboard/widget')
 # people from rapidly clicking the "Options" button.
 #
 describe 'Dashboard::Controller::Dashboard' do
-  WebMock.disable!
-
-  Capybara.current_driver = Capybara.javascript_driver
-  dashboard_url           = Dashboard::Controller::Dashboard.r(:index).to_s
+  dashboard_url = Dashboard::Controller::Dashboard.r(:index).to_s
 
   behaves_like :capybara
+  enable_javascript
 
   before do
     Dashboard::Model::Widget.filter(~{:name => 'welcome'}).destroy
@@ -140,6 +138,6 @@ describe 'Dashboard::Controller::Dashboard' do
   end
 
   Dashboard::Model::Widget.filter(:name => 'spec').destroy
-  Capybara.use_default_driver
-  WebMock.enable!
+
+  disable_javascript
 end

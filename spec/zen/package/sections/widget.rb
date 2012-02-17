@@ -1,9 +1,8 @@
 require File.expand_path('../../../../helper', __FILE__)
 
 describe 'Recent Entries widget' do
-  WebMock.disable!
-  Capybara.current_driver = Capybara.javascript_driver
   behaves_like :capybara
+  enable_javascript
 
   status_id = Sections::Model::SectionEntryStatus[:name => 'published'].id
   user_id   = Users::Model::User[:email => 'spec@domain.tld'].id
@@ -41,6 +40,5 @@ describe 'Recent Entries widget' do
   entries.reverse.each { |e| e.destroy }
   section.destroy
 
-  Capybara.use_default_driver
-  WebMock.enable!
+  disable_javascript
 end
