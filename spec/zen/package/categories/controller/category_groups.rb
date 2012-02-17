@@ -150,6 +150,46 @@ describe "Categories::Controller::CategoryGroups" do
     page.has_selector?('span.error').should == true
   end
 
+  enable_javascript
+
+  it 'Automatically save a category group' do
+    visit(index_url)
+    click_link('Spec category group')
+
+    within('#category_group_form') do
+      fill_in('name', :with => 'Spec category group autosave')
+    end
+
+    page.evaluate_script(
+      "new Zen.Autosave(
+        $('category_group_form'),
+        $('category_group_form').get('data-autosave-url'),
+        {interval: 3000}
+      );"
+    )
+
+    sleep(6)
+
+    page.has_selector?('span.error').should == false
+
+    # Check if the content was actually saved.
+    visit(index_url)
+
+    page.has_content?('Spec category group autosave').should == true
+
+    click_link('Spec category group autosave')
+
+    within('#category_group_form') do
+      fill_in('name', :with => 'Spec category group modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec category group modified'
+  end
+
+  disable_javascript
+
   it 'Fail to delete a category group without an ID' do
     visit(index_url)
     click_on(delete_button)
