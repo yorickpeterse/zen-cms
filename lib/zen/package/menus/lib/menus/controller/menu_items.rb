@@ -46,7 +46,7 @@ module Menus
       helper :menu
       title  'menu_items.titles.%s'
 
-      autosave Model::MenuItem, Model::MenuItem::COLUMNS
+      autosave Model::MenuItem, Model::MenuItem::COLUMNS, :edit_menu_item
 
       csrf_protection :save, :delete
 

@@ -87,7 +87,7 @@ module Comments
 
       csrf_protection :save, :delete
 
-      autosave Model::Comment, Model::Comment::COLUMNS
+      autosave Model::Comment, Model::Comment::COLUMNS, :edit_comment
 
       ##
       # Shows an overview of all existing comments and allows the user to edit

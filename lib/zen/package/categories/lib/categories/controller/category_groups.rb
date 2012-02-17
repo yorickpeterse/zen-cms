@@ -76,7 +76,9 @@ module Categories
 
       csrf_protection :save, :delete
 
-      autosave Model::CategoryGroup, Model::CategoryGroup::COLUMNS
+      autosave Model::CategoryGroup,
+        Model::CategoryGroup::COLUMNS,
+        :edit_category_group
 
       ##
       # Show an overview of all existing category groups and allow the user

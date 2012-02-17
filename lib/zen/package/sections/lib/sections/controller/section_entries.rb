@@ -247,7 +247,7 @@ module Sections
           )
         end
 
-        if entry.nil?
+        if entry.nil? or !user_authorized?(:edit_section_entry)
           respond_json(
             {:error => lang('zen_general.errors.invalid_request')},
             404

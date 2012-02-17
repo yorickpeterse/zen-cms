@@ -69,7 +69,7 @@ module Menus
       helper :menu
       title  'menus.titles.%s'
 
-      autosave Model::Menu, Model::Menu::COLUMNS
+      autosave Model::Menu, Model::Menu::COLUMNS, :edit_menu
 
       csrf_protection :save, :delete
 

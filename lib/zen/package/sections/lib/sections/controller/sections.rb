@@ -87,7 +87,7 @@ module Sections
       csrf_protection  :save, :delete
       load_asset_group :tabs, [:edit, :new]
 
-      autosave Model::Section, Model::Section::COLUMNS
+      autosave Model::Section, Model::Section::COLUMNS, :edit_section
 
       before(:index, :new, :edit) do
         @boolean_hash = {

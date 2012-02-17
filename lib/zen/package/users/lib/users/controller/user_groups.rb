@@ -53,7 +53,7 @@ module Users
       map    '/admin/user-groups'
       title  'user_groups.titles.%s'
 
-      autosave Model::UserGroup, Model::UserGroup::COLUMNS
+      autosave Model::UserGroup, Model::UserGroup::COLUMNS, :edit_user_group
 
       csrf_protection  :save, :delete
       load_asset_group :tabs

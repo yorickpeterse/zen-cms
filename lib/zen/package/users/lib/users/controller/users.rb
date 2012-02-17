@@ -90,7 +90,7 @@ module Users
       title  'users.titles.%s'
       allow  [:login, :logout, :register]
 
-      autosave Model::User, Model::User::COLUMNS
+      autosave Model::User, Model::User::COLUMNS, :edit_user
 
       csrf_protection  :save, :delete
       load_asset_group :tabs

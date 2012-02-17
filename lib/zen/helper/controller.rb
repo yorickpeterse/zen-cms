@@ -190,13 +190,17 @@ module Ramaze
         # * An array of columns that can be specified
         #
         # @example
-        #  autosave Model::CategoryGroup, [:name, :description]
+        #  autosave Model::CategoryGroup,
+        #  [:name, :description],
+        #  :edit_category_group
         #
         # @since 13-02-2012
         # @param [Class] model The model to use for saving data.
         # @param [Array] columns The columns that can be saved.
+        # @param [#to_sym] permission The permission required for saving
+        #  objects.
         #
-        def autosave(model, columns)
+        def autosave(model, columns, permission)
           self.instance_eval do
             define_method :autosave do
               csrf_protection(:autosave) do
@@ -206,7 +210,7 @@ module Ramaze
               post  = request.subset(*columns)
               group = model[request.params['id']]
 
-              if group.nil?
+              if group.nil? or !user_authorized?(permission)
                 respond_json(
                   {:error => lang('zen_general.errors.invalid_request')},
                   404
