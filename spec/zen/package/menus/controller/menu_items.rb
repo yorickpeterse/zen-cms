@@ -32,7 +32,7 @@ describe "Menus::Controller::MenuItems" do
     visit(index_url)
     click_link(new_button)
 
-    within('#menu_item_form') do
+    within '#menu_item_form' do
       fill_in('name'      , :with => 'Spec menu item')
       fill_in('url'       , :with => '/spec')
       fill_in('html_class', :with => 'spec_class')
@@ -46,7 +46,7 @@ describe "Menus::Controller::MenuItems" do
     visit(index_url)
     click_link('Spec menu item')
 
-    within('#menu_item_form') do
+    within '#menu_item_form' do
       fill_in('name', :with => 'Spec menu item modified')
       click_on(save_button)
     end
@@ -58,7 +58,7 @@ describe "Menus::Controller::MenuItems" do
     visit(index_url)
     click_link('Spec menu item')
 
-    within('#menu_item_form') do
+    within '#menu_item_form' do
       fill_in('name', :with => 'xxx')
       fill_in('url' , :with => '')
       click_on(save_button)
@@ -100,7 +100,7 @@ describe "Menus::Controller::MenuItems" do
     visit(index_url)
     click_on(new_button)
 
-    within('#menu_item_form') do
+    within '#menu_item_form' do
       fill_in('name', :with => 'Menu item')
       fill_in('url' , :with => '/')
       click_on(save_button)
@@ -126,7 +126,7 @@ describe "Menus::Controller::MenuItems" do
     visit(index_url)
     click_on('Menu item with event')
 
-    within('#menu_item_form') do
+    within '#menu_item_form' do
       click_on(save_button)
     end
 

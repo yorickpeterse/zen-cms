@@ -38,7 +38,7 @@ describe "Users::Controller::Users" do
 
     visit(login_url)
 
-    within('#login_form') do
+    within '#login_form' do
       fill_in 'Email'   , :with => 'spec@domain.tld'
       fill_in 'Password', :with => 'spec'
       click_button 'Login'
@@ -61,7 +61,7 @@ describe "Users::Controller::Users" do
     visit(index_url)
     click_link(new_button)
 
-    within('#user_form') do
+    within '#user_form' do
       fill_in('name'   , :with => 'Spec user')
       fill_in('email'  , :with => 'spec@email.com')
       fill_in('website', :with => 'spec.com')
@@ -83,7 +83,7 @@ describe "Users::Controller::Users" do
 
     visit(index_url)
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec user')
       click_on(search_button)
     end
@@ -91,7 +91,7 @@ describe "Users::Controller::Users" do
     page.has_content?(error).should       == false
     page.has_content?('Spec user').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -104,7 +104,7 @@ describe "Users::Controller::Users" do
     visit(index_url)
     click_link('Spec user')
 
-    within('#user_form') do
+    within '#user_form' do
       fill_in('name', :with => 'Spec user modified')
       check('permission_show_user')
       check('form_user_group_pks_0')
@@ -125,7 +125,7 @@ describe "Users::Controller::Users" do
     visit(index_url)
     click_link('Spec user')
 
-    within('#user_form') do
+    within '#user_form' do
       uncheck('permission_show_user')
       click_on(save_button)
     end
@@ -137,7 +137,7 @@ describe "Users::Controller::Users" do
     visit(index_url)
     click_link('Spec user')
 
-    within('#user_form') do
+    within '#user_form' do
       fill_in('form_name', :with => '')
       click_on(save_button)
     end
@@ -156,7 +156,7 @@ describe "Users::Controller::Users" do
   it "Delete an existing user" do
     visit(index_url)
 
-    within('table tbody tr:last-child') do
+    within 'table tbody tr:last-child' do
       check('user_ids[]')
     end
 
@@ -179,7 +179,7 @@ describe "Users::Controller::Users" do
     visit(index_url)
     click_on(new_button)
 
-    within('#user_form') do
+    within '#user_form' do
       fill_in('name'   , :with => 'User')
       fill_in('email'  , :with => 'spec@email.com')
       fill_in('website', :with => 'spec.com')
@@ -210,7 +210,7 @@ describe "Users::Controller::Users" do
     visit(index_url)
     click_on('User with event')
 
-    within('#user_form') do
+    within '#user_form' do
       click_on(save_button)
     end
 
@@ -235,7 +235,7 @@ describe "Users::Controller::Users" do
 
     visit(index_url)
 
-    within('table tbody tr:last-child') do
+    within 'table tbody tr:last-child' do
       check('user_ids[]')
     end
 
@@ -260,7 +260,7 @@ describe "Users::Controller::Users" do
 
     current_path.should == register_path
 
-    within('#register_form') do
+    within '#register_form' do
       fill_in('name', :with => 'New user')
       fill_in('email', :with => 'test@test.com')
       fill_in('password', :with => 'abc')
@@ -288,7 +288,7 @@ describe "Users::Controller::Users" do
     visit(Users::Controller::Users.r(:login).to_s)
 
     # Log in as the user created in the previous tests.
-    within('#login_form') do
+    within '#login_form' do
       fill_in('Email', :with => 'test@test.com')
       fill_in('Password', :with => 'abc')
       click_button('Login')
@@ -298,7 +298,7 @@ describe "Users::Controller::Users" do
 
     current_path.should == edit_url
 
-    within('#user_form') do
+    within '#user_form' do
       fill_in('name', :with => 'Modified user')
       click_on(save_button)
     end

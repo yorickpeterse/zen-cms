@@ -40,7 +40,7 @@ describe "Sections::Controller::Sections" do
     page.has_selector?('.tabs ul').should == true
 
     # Fill in the form
-    within('#section_form') do
+    within '#section_form' do
       fill_in('name'       , :with => 'Spec section')
       fill_in('description', :with => 'Spec section description.')
 
@@ -63,7 +63,7 @@ describe "Sections::Controller::Sections" do
 
     visit(index_url)
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec section')
       click_on(search_button)
     end
@@ -71,7 +71,7 @@ describe "Sections::Controller::Sections" do
     page.has_content?(error).should          == false
     page.has_content?('Spec section').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -86,7 +86,7 @@ describe "Sections::Controller::Sections" do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#section_form') do
+    within '#section_form' do
       fill_in('name', :with => 'Spec section modified')
       click_on(save_button)
     end
@@ -101,7 +101,7 @@ describe "Sections::Controller::Sections" do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#section_form') do
+    within '#section_form' do
       fill_in('name', :with => '')
       click_on(save_button)
     end
@@ -139,7 +139,7 @@ describe "Sections::Controller::Sections" do
     visit(index_url)
     click_on(new_button)
 
-    within('#section_form') do
+    within '#section_form' do
       fill_in('name', :with => 'Section')
 
       choose('form_comment_allow_0')
@@ -175,7 +175,7 @@ describe "Sections::Controller::Sections" do
     visit(index_url)
     click_on('Section with event')
 
-    within('#section_form') do
+    within '#section_form' do
       click_on(save_button)
     end
 

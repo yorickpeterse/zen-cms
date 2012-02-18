@@ -33,7 +33,7 @@ describe 'Users::Controller::UserGroups' do
     visit(index_url)
     click_link(new_button)
 
-    within('#user_group_form') do
+    within '#user_group_form' do
       fill_in('name', :with => 'Spec group')
       choose('form_super_group_0')
       click_on(save_button)
@@ -49,7 +49,7 @@ describe 'Users::Controller::UserGroups' do
 
     visit(index_url)
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec group')
       click_on(search_button)
     end
@@ -57,7 +57,7 @@ describe 'Users::Controller::UserGroups' do
     page.has_content?(error).should        == false
     page.has_content?('Spec group').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -75,7 +75,7 @@ describe 'Users::Controller::UserGroups' do
 
     current_path.should == path
 
-    within('#user_group_form') do
+    within '#user_group_form' do
       fill_in('name', :with => 'Spec group modified')
       check('permission_show_user')
       click_on(save_button)
@@ -92,7 +92,7 @@ describe 'Users::Controller::UserGroups' do
     visit(index_url)
     click_link('Spec group')
 
-    within('#user_group_form') do
+    within '#user_group_form' do
       fill_in('name', :with => '')
       click_on(save_button)
     end
@@ -111,7 +111,7 @@ describe 'Users::Controller::UserGroups' do
   it 'Delete an existing user group' do
     visit(index_url)
 
-    within('table tbody tr:last-child') do
+    within 'table tbody tr:last-child' do
       check('user_group_ids[]')
     end
 
@@ -134,7 +134,7 @@ describe 'Users::Controller::UserGroups' do
     visit(index_url)
     click_on(new_button)
 
-    within('#user_group_form') do
+    within '#user_group_form' do
       fill_in('name', :with => 'Group')
       choose('form_super_group_0')
       click_on(save_button)
@@ -161,7 +161,7 @@ describe 'Users::Controller::UserGroups' do
     visit(index_url)
     click_on('Group with event')
 
-    within('#user_group_form') do
+    within '#user_group_form' do
       click_on(save_button)
     end
 
@@ -186,7 +186,7 @@ describe 'Users::Controller::UserGroups' do
 
     visit(index_url)
 
-    within('table tbody tr:last-child') do
+    within 'table tbody tr:last-child' do
       check('user_group_ids[]')
     end
 

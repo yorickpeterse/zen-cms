@@ -73,7 +73,7 @@ describe "Sections::Controller::SectionEntries" do
     current_path.should                  == new_url
     page.has_field?('Spec field').should == true
 
-    within('#section_entry_form') do
+    within '#section_entry_form' do
       fill_in(title_field , :with => 'Spec entry')
       select(status_field , :from => 'form_section_entry_status_id')
       fill_in('Spec field', :with => 'Spec field value')
@@ -98,7 +98,7 @@ describe "Sections::Controller::SectionEntries" do
 
     visit(index_url)
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec entry')
       click_on(search_button)
     end
@@ -106,7 +106,7 @@ describe "Sections::Controller::SectionEntries" do
     page.has_content?(error).should        == false
     page.has_content?('Spec entry').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -122,7 +122,7 @@ describe "Sections::Controller::SectionEntries" do
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
     # Update the entry
-    within('#section_entry_form') do
+    within '#section_entry_form' do
       fill_in(title_field , :with => 'Spec entry modified')
       fill_in('Spec field', :with => 'Spec field value modified')
       check("form_custom_field_value_#{field_1.id}_1")
@@ -143,7 +143,7 @@ describe "Sections::Controller::SectionEntries" do
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
     # Update the entry
-    within('#section_entry_form') do
+    within '#section_entry_form' do
       fill_in(field.name , :with => '')
       click_on(save_button)
     end
@@ -184,7 +184,7 @@ describe "Sections::Controller::SectionEntries" do
     visit(index_url)
     click_on(new_button)
 
-    within('#section_entry_form') do
+    within '#section_entry_form' do
       fill_in(title_field , :with => 'Entry')
       select(status_field , :from => 'form_section_entry_status_id')
       fill_in('Spec field', :with => 'Spec field value')
@@ -213,7 +213,7 @@ describe "Sections::Controller::SectionEntries" do
     visit(index_url)
     click_on('Entry with event')
 
-    within('#section_entry_form') do
+    within '#section_entry_form' do
       click_on(save_button)
     end
 

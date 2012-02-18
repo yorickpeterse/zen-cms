@@ -19,7 +19,7 @@ describe "Settings::Controller::Settings" do
   it 'Update a set of settings' do
     visit(index_url)
 
-    within('#setting_form') do
+    within '#setting_form' do
       fill_in('website_name', :with => 'Zen spec')
 
       click_on(save_button)
@@ -27,7 +27,7 @@ describe "Settings::Controller::Settings" do
 
     page.find('input[name="website_name"]').value.should == 'Zen spec'
 
-    within('#setting_form') do
+    within '#setting_form' do
       fill_in('website_name', :with => 'Zen')
       click_on(save_button)
     end
@@ -42,7 +42,7 @@ describe "Settings::Controller::Settings" do
     page.has_selector?('input[type="checkbox"][value="value"]').should  == true
     page.has_selector?('input[type="checkbox"][value="value1"]').should == true
 
-    within('#setting_form') do
+    within '#setting_form' do
       check('form_checkbox_0')
       check('form_checkbox_1')
       click_on(save_button)
@@ -65,7 +65,7 @@ describe "Settings::Controller::Settings" do
     page.has_selector?('option[value="value"]').should       == true
     page.has_selector?('option[value="value1"]').should      == true
 
-    within('#setting_form') do
+    within '#setting_form' do
       select('Label', :from => 'form_select_multiple')
       select('Label 1', :from => 'form_select_multiple')
       click_on(save_button)
@@ -89,7 +89,7 @@ describe "Settings::Controller::Settings" do
 
     visit(index_url)
 
-    within('#setting_form') do
+    within '#setting_form' do
       click_on(save_button)
     end
 

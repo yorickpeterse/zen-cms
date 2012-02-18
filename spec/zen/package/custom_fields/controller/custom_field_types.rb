@@ -42,7 +42,7 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
     current_path.should == new_url
 
     # Submit the form
-    within('#custom_field_type_form') do
+    within '#custom_field_type_form' do
       # Fill in various text fields
       fill_in('form_name', :with => 'Spec type')
 
@@ -83,7 +83,7 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
 
     visit(index_url)
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec type')
       click_on(search_button)
     end
@@ -91,7 +91,7 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
     page.has_content?(error).should       == false
     page.has_content?('Spec type').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -111,7 +111,7 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
     current_path.should =~ /#{edit_url}\/\d+/
 
     # Update the form
-    within('#custom_field_type_form') do
+    within '#custom_field_type_form' do
       fill_in('form_name', :with => 'Spec type modified')
 
       fill_in(
@@ -143,7 +143,7 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
 
     current_path.should =~ /#{edit_url}\/\d+/
 
-    within('#custom_field_type_form') do
+    within '#custom_field_type_form' do
       fill_in('form_name', :with => '')
       click_on(save_button)
     end
@@ -194,7 +194,7 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
     visit(index_url)
     click_on(new_button)
 
-    within('#custom_field_type_form') do
+    within '#custom_field_type_form' do
       fill_in('form_name', :with => 'Field type')
 
       fill_in(
@@ -230,7 +230,7 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
     visit(index_url)
     click_on('Field type with event')
 
-    within('#custom_field_type_form') do
+    within '#custom_field_type_form' do
       click_on(save_button)
     end
 

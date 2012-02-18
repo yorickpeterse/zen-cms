@@ -51,7 +51,7 @@ describe "Comments::Controller::CommentsForm" do
     visit(SpecCommentsForm.r(:index).to_s)
 
     # Submit the form
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('user_id'      , :with => user_id)
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
@@ -83,7 +83,7 @@ describe "Comments::Controller::CommentsForm" do
     visit(SpecCommentsForm.r(:index).to_s)
 
     # Submit the form
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
@@ -108,7 +108,7 @@ describe "Comments::Controller::CommentsForm" do
 
     visit(url)
 
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('section_entry', :with => section_entry.id + 1)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
@@ -132,7 +132,7 @@ describe "Comments::Controller::CommentsForm" do
 
     visit(url)
 
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
@@ -156,7 +156,7 @@ describe "Comments::Controller::CommentsForm" do
     section.update(:comment_allow => false)
     visit(url)
 
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'S)ec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
@@ -180,7 +180,7 @@ describe "Comments::Controller::CommentsForm" do
     visit(Users::Controller::Users.r(:logout).to_s)
     visit(url)
 
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
@@ -207,7 +207,7 @@ describe "Comments::Controller::CommentsForm" do
 
     visit(url)
 
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec user')
       fill_in('website'      , :with => 'http://zen-cms.com/')
@@ -251,7 +251,7 @@ describe "Comments::Controller::CommentsForm" do
 
     visit(url)
 
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec alternative')
       fill_in('website'      , :with => 'http://zen-cms.com/')
@@ -298,7 +298,7 @@ describe "Comments::Controller::CommentsForm" do
 
     visit(url)
 
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec alternative')
       fill_in('website'      , :with => 'http://zen-cms.com/')
@@ -345,7 +345,7 @@ describe "Comments::Controller::CommentsForm" do
 
     visit(url)
 
-    within('#spec_comments_form') do
+    within '#spec_comments_form' do
       fill_in('section_entry', :with => section_entry.id)
       fill_in('name'         , :with => 'Spec alternative')
       fill_in('website'      , :with => 'http://zen-cms.com/')

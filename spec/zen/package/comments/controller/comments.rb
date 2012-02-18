@@ -70,7 +70,7 @@ describe 'Comments::Controller::Comments' do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec comment')
       click_on(search_button)
     end
@@ -78,7 +78,7 @@ describe 'Comments::Controller::Comments' do
     page.has_content?(error).should          == false
     page.has_content?('Spec comment').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'spec@domain.tld')
       click_on(search_button)
     end
@@ -86,7 +86,7 @@ describe 'Comments::Controller::Comments' do
     page.has_content?(error).should          == false
     page.has_content?('Spec comment').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -113,7 +113,7 @@ describe 'Comments::Controller::Comments' do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#comment_form') do
+    within '#comment_form' do
       fill_in('comment', :with => comment)
       select(lang('comments.labels.open'), :from => 'comment_status_id')
       click_on(save_button)
@@ -134,7 +134,7 @@ describe 'Comments::Controller::Comments' do
       comment.comment = 'Spec comment modified'
     end
 
-    within('#comment_form') do
+    within '#comment_form' do
       click_on(save_button)
     end
 
@@ -148,7 +148,7 @@ describe 'Comments::Controller::Comments' do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#comment_form') do
+    within '#comment_form' do
       fill_in('comment', :with => '')
       click_on(save_button)
     end

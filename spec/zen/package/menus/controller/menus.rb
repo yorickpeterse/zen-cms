@@ -36,7 +36,7 @@ describe "Menus::Controller::Menus" do
 
     current_path.should == new_url
 
-    within('#menu_form') do
+    within '#menu_form' do
       fill_in('name'     , :with => 'Spec menu')
       fill_in('html_class', :with => 'spec_class')
       fill_in('html_id'   , :with => 'spec_id')
@@ -55,7 +55,7 @@ describe "Menus::Controller::Menus" do
 
     visit(index_url)
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec menu')
       click_on(search_button)
     end
@@ -63,7 +63,7 @@ describe "Menus::Controller::Menus" do
     page.has_content?(error).should       == false
     page.has_content?('Spec menu').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -78,7 +78,7 @@ describe "Menus::Controller::Menus" do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#menu_form') do
+    within '#menu_form' do
       fill_in('name', :with => 'Spec menu modified')
       click_on(save_button)
     end
@@ -92,7 +92,7 @@ describe "Menus::Controller::Menus" do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#menu_form') do
+    within '#menu_form' do
       fill_in('name', :with => '')
       click_on(save_button)
     end
@@ -133,7 +133,7 @@ describe "Menus::Controller::Menus" do
     visit(index_url)
     click_on(new_button)
 
-    within('#menu_form') do
+    within '#menu_form' do
       fill_in('name', :with => 'Menu')
       click_on(save_button)
     end
@@ -159,7 +159,7 @@ describe "Menus::Controller::Menus" do
     visit(index_url)
     click_on('Menu with event')
 
-    within('#menu_form') do
+    within '#menu_form' do
       click_on(save_button)
     end
 

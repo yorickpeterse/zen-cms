@@ -37,7 +37,7 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
 
     current_path.should == new_url
 
-    within('#custom_field_group_form') do
+    within '#custom_field_group_form' do
       fill_in('name'       , :with => 'Spec field group')
       fill_in('description', :with => 'Spec field group desc')
       click_on(save_button)
@@ -57,7 +57,7 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
 
     visit(index_url)
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec field group')
       click_on(search_button)
     end
@@ -65,7 +65,7 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
     page.has_content?(error).should              == false
     page.has_content?('Spec field group').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -81,7 +81,7 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
     # Update the details
-    within('#custom_field_group_form') do
+    within '#custom_field_group_form' do
       fill_in('name', :with => 'Spec field group modified')
       click_on(save_button)
     end
@@ -96,7 +96,7 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
     # Update the details
-    within('#custom_field_group_form') do
+    within '#custom_field_group_form' do
       fill_in('name', :with => '')
       click_on(save_button)
     end
@@ -139,7 +139,7 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
     visit(index_url)
     click_on(new_button)
 
-    within('#custom_field_group_form') do
+    within '#custom_field_group_form' do
       fill_in('name', :with => 'Field group')
       click_on(save_button)
     end
@@ -168,7 +168,7 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
     visit(index_url)
     click_on('Field group with event')
 
-    within('#custom_field_group_form') do
+    within '#custom_field_group_form' do
       click_on(save_button)
     end
 

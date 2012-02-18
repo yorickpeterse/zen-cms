@@ -39,7 +39,7 @@ describe 'CustomFields::Controller::CustomFields' do
     visit(index_url)
     click_link(new_button)
 
-    within('#custom_field_form') do
+    within '#custom_field_form' do
       fill_in('form_name', :with => 'Spec field')
 
       # Set the type to a textbox
@@ -78,7 +78,7 @@ describe 'CustomFields::Controller::CustomFields' do
 
     visit(index_url)
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec field')
       click_on(search_button)
     end
@@ -86,7 +86,7 @@ describe 'CustomFields::Controller::CustomFields' do
     page.has_content?(error).should        == false
     page.has_content?('Spec field').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -103,7 +103,7 @@ describe 'CustomFields::Controller::CustomFields' do
     click_link('Spec field')
 
     # Update the form
-    within('#custom_field_form') do
+    within '#custom_field_form' do
       fill_in('form_name', :with => 'Spec field modified')
 
       # Change the field type to a textarea
@@ -130,7 +130,7 @@ describe 'CustomFields::Controller::CustomFields' do
     visit(index_url)
     click_link('Spec field')
 
-    within('#custom_field_form') do
+    within '#custom_field_form' do
       fill_in('form_name', :with => '')
       click_on(save_button)
     end
@@ -173,7 +173,7 @@ describe 'CustomFields::Controller::CustomFields' do
     visit(index_url)
     click_on(new_button)
 
-    within('#custom_field_form') do
+    within '#custom_field_form' do
       fill_in('form_name', :with => 'Custom field')
       select(type_select, :from => 'form_custom_field_type_id')
       click_on(save_button)
@@ -200,7 +200,7 @@ describe 'CustomFields::Controller::CustomFields' do
     visit(index_url)
     click_on('Custom field with event')
 
-    within('#custom_field_form') do
+    within '#custom_field_form' do
       click_on(save_button)
     end
 

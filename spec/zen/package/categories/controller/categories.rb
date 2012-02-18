@@ -55,7 +55,7 @@ describe "Categories::Controller::Categories" do
     visit(index_url)
     click_link(new_button)
 
-    within('#category_form') do
+    within '#category_form' do
       fill_in('name', :with => 'Spec category')
       click_on(save_button)
     end
@@ -70,7 +70,7 @@ describe "Categories::Controller::Categories" do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec')
       click_on(search_button)
     end
@@ -78,7 +78,7 @@ describe "Categories::Controller::Categories" do
     page.has_content?(error).should           == false
     page.has_content?('Spec category').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -106,7 +106,7 @@ describe "Categories::Controller::Categories" do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#category_form') do
+    within '#category_form' do
       fill_in('name', :with => name)
       click_on(save_button)
     end
@@ -121,7 +121,7 @@ describe "Categories::Controller::Categories" do
       category.name = 'Spec category modified'
     end
 
-    within('#category_form') do
+    within '#category_form' do
       click_on(save_button)
     end
 
@@ -134,7 +134,7 @@ describe "Categories::Controller::Categories" do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#category_form') do
+    within '#category_form' do
       fill_in('name', :with => '')
       click_on(save_button)
     end
@@ -148,7 +148,7 @@ describe "Categories::Controller::Categories" do
     visit(index_url)
     click_link('Spec category')
 
-    within('#category_form') do
+    within '#category_form' do
       fill_in('name', :with => 'Spec category autosave')
     end
 
@@ -160,7 +160,7 @@ describe "Categories::Controller::Categories" do
 
     click_link('Spec category autosave')
 
-    within('#category_form') do
+    within '#category_form' do
       fill_in('name', :with => 'Spec category modified')
       click_on(save_button)
     end

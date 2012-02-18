@@ -59,7 +59,7 @@ describe "Categories::Controller::CategoryGroups" do
 
     current_path.should == new_url
 
-    within('#category_group_form') do
+    within '#category_group_form' do
       fill_in('name', :with => name)
       click_on(save_button)
     end
@@ -77,7 +77,7 @@ describe "Categories::Controller::CategoryGroups" do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'Spec category group')
       click_on(search_button)
     end
@@ -85,7 +85,7 @@ describe "Categories::Controller::CategoryGroups" do
     page.has_content?(error).should                 == false
     page.has_content?('Spec category group').should == true
 
-    within('#search_form') do
+    within '#search_form' do
       fill_in('query', :with => 'does not exist')
       click_on(search_button)
     end
@@ -113,7 +113,7 @@ describe "Categories::Controller::CategoryGroups" do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#category_group_form') do
+    within '#category_group_form' do
       fill_in('name', :with => name)
       click_on(save_button)
     end
@@ -128,7 +128,7 @@ describe "Categories::Controller::CategoryGroups" do
       group.name = 'Spec category group modified'
     end
 
-    within('#category_group_form') do
+    within '#category_group_form' do
       click_on(save_button)
     end
 
@@ -142,7 +142,7 @@ describe "Categories::Controller::CategoryGroups" do
 
     current_path.should =~ /#{edit_url}\/[0-9]+/
 
-    within('#category_group_form') do
+    within '#category_group_form' do
       fill_in('name', :with => '')
       click_on(save_button)
     end
@@ -156,7 +156,7 @@ describe "Categories::Controller::CategoryGroups" do
     visit(index_url)
     click_link('Spec category group')
 
-    within('#category_group_form') do
+    within '#category_group_form' do
       fill_in('name', :with => 'Spec category group autosave')
     end
 
@@ -169,7 +169,7 @@ describe "Categories::Controller::CategoryGroups" do
 
     click_link('Spec category group autosave')
 
-    within('#category_group_form') do
+    within '#category_group_form' do
       fill_in('name', :with => 'Spec category group modified')
       click_on(save_button)
     end
