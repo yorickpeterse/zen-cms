@@ -142,6 +142,35 @@ describe "Categories::Controller::Categories" do
     page.has_selector?('span.error').should == true
   end
 
+  enable_javascript
+
+  it 'Automatically save a category' do
+    visit(index_url)
+    click_link('Spec category')
+
+    within('#category_form') do
+      fill_in('name', :with => 'Spec category autosave')
+    end
+
+    autosave_form('category_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec category autosave').should == true
+
+    click_link('Spec category autosave')
+
+    within('#category_form') do
+      fill_in('name', :with => 'Spec category modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec category modified'
+  end
+
+  disable_javascript
+
   it 'Fail to delete a category without an ID' do
     visit(index_url)
     click_on(delete_button)

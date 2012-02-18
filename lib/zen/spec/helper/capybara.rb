@@ -28,6 +28,26 @@ module Zen
         end
 
         ##
+        # Automatically saves a form with the given ID.
+        #
+        # @since 18-02-2012
+        # @param [String] id The ID of the form.
+        #
+        def autosave_form(id)
+          page.evaluate_script(
+            "new Zen.Autosave(
+              $('#{id}'),
+              $('#{id}').get('data-autosave-url'),
+              {interval: 1000}
+            );"
+          )
+
+          sleep(2.5)
+
+          page.has_selector?('span.error').should == false
+        end
+
+        ##
         # Switches Capybara's driver to the default Javascript driver.
         #
         # @since 18-02-2012

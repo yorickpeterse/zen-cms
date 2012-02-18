@@ -160,17 +160,7 @@ describe "Categories::Controller::CategoryGroups" do
       fill_in('name', :with => 'Spec category group autosave')
     end
 
-    page.evaluate_script(
-      "new Zen.Autosave(
-        $('category_group_form'),
-        $('category_group_form').get('data-autosave-url'),
-        {interval: 3000}
-      );"
-    )
-
-    sleep(6)
-
-    page.has_selector?('span.error').should == false
+    autosave_form('category_group_form')
 
     # Check if the content was actually saved.
     visit(index_url)
