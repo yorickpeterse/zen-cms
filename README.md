@@ -38,12 +38,22 @@ small portion of what it can do.
 * A well documented, tested and easy to understand API.
 * A database structure that doesn't make you cry.
 
-## Chapters
+## Requirements
+
+* Ruby (YARV) 1.9.2 or newer (Rubinius, jruby and others are not supported).
+* Ramaze 2011.10.23 or newer.
+* A SQL database supported by Sequel. Zen has been tested and confirmed to
+  work on MySQL, SQLite3 and PostgreSQL. You'll also need the required gems for
+  these DBMS' such as "mysql2" for MySQL and "pg" for PostgreSQL.
+* A Rack compatible server such as Thin or Unicorn.
+* A library to convert your markup of choice to HTML. Zen by default has support
+  for Textile using Redcloth and Markdown using RDiscount. RDiscount and
+  RedCloth are installed automatically when needed.
+
+## User Guide
 
 * {file:installation Installation}
 * {file:getting_started Getting Started}
-* {file:hacking Hacking/Contributing}
-* {file:changelog Changelog}
 * {Dashboard::Controller::Dashboard Dashboard}
 * {Categories Categories}
   * {Categories::Controller::CategoryGroups Managing Category Groups}
@@ -73,6 +83,11 @@ small portion of what it can do.
 * {Users Users, User Groups and Permissions}
   * {Users::Controller::Users Managing Users}
   * {Users::Controller::UserGroups Managing User Groups}
+
+## Developers Guide
+
+* {file:hacking Hacking/Contributing}
+* {file:changelog Changelog}
 * {Zen::Package Packages}
 * {Zen::Theme Themes}
 * {Zen::Language Localization}
@@ -80,18 +95,6 @@ small portion of what it can do.
 * {Zen::Validation Validating Objects}
 * {file:asset_management Asset Management}
 * {file:javascript Javascript API}
-
-## Requirements
-
-* Ruby >= 1.9.2 (Rubinius, jruby and others are not supported).
-* Ramaze 2011.10.23 or newer.
-* A SQL database supported by Sequel. Zen has been tested and confirmed to
-  work on MySQL, SQLite3 and PostgreSQL. You'll also need the required gems for
-  these DBMS' such as "mysql2" for MySQL and "pg" for PostgreSQL.
-* A Rack compatible server such as Thin or Unicorn.
-* A library to convert your markup of choice to HTML. Zen by default has support
-  for Textile using Redcloth and Markdown using RDiscount. RDiscount and
-  RedCloth are installed automatically when needed.
 
 ## Community
 
@@ -113,8 +116,7 @@ in any of the following channels on Freenode:
 * http://aplusm.me/
 
 If you've built a website using Zen and you'd like to have it listed here sent
-an Email to me (yorickpeterse [at] gmail [dot] com) or send an Email to the
-mailing list.
+an Email to me (yorickpeterse@gmail.com) or send an Email to the mailing list.
 
 ## Special Thanks
 
