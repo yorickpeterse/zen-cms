@@ -28,6 +28,10 @@ module CustomFields
       many_to_one :custom_field_method,
         :class => 'CustomFields::Model::CustomFieldMethod'
 
+      one_to_many :custom_fields, :class => 'CustomFields::Model::CustomField'
+
+      plugin :association_dependencies, :custom_fields => :delete
+
       plugin :events,
         :before_create  => :before_new_custom_field_type,
         :after_create   => :after_new_custom_field_type,

@@ -24,7 +24,8 @@ module Users
     class User < Sequel::Model
       ##
       # Regex to do some basic Email validation. Emails such as foo@bar,
-      # foo@bar.com and foo@bar.a.b are all valid but foo bar@bar.com isn't.
+      # "foo@bar.com" and "foo@bar.a.b" are all valid but "foo bar@bar.com"
+      # isn't.
       #
       EMAIL_REGEX = '^[^@]\S+@\S+(\.[a-z]+)*[^.]$'
 

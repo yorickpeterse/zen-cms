@@ -44,6 +44,11 @@ module Sections
 
       plugin :sluggable, :source => :name, :freeze => false
 
+      plugin :association_dependencies,
+        :section_entries     => :delete,
+        :custom_field_groups => :nullify,
+        :category_groups     => :nullify
+
       plugin :events,
         :before_create  => :before_new_section,
         :after_create   => :after_new_section,

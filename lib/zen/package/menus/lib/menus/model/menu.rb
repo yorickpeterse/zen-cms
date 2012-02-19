@@ -40,7 +40,11 @@ module Menus
       #
       COLUMNS = [:name, :slug, :description, :html_class, :html_id]
 
+      one_to_many :menu_items, :class => 'Menus::Model::MenuItem'
+
       plugin :sluggable, :source => :name, :freeze => false
+
+      plugin :association_dependencies, :menu_items => :delete
 
       plugin :events,
         :before_create  => :before_new_menu,
@@ -49,8 +53,6 @@ module Menus
         :after_update   => :after_edit_menu,
         :before_destroy => :before_delete_menu,
         :after_destroy  => :after_delete_menu
-
-      one_to_many :menu_items, :class => 'Menus::Model::MenuItem'
 
       ##
       # Searches for a set of menus.

@@ -42,6 +42,8 @@ module CustomFields
         :class => 'CustomFields::Model::CustomFieldType',
         :eager => [:custom_field_method]
 
+      plugin :association_dependencies, :custom_field_values => :delete
+
       plugin :sluggable, :source => :name, :freeze => false
 
       plugin :events,

@@ -52,6 +52,10 @@ module Sections
       plugin :sluggable , :source => :title     , :freeze => false
       plugin :timestamps, :create => :created_at, :update => :updated_at
 
+      plugin :association_dependencies,
+        :comments            => :delete,
+        :custom_field_values => :delete
+
       plugin :events,
         :before_create  => :before_new_section_entry,
         :after_create   => :after_new_section_entry,

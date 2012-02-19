@@ -51,6 +51,8 @@ module Categories
       one_to_many  :categories, :class => 'Categories::Model::Category'
       many_to_many :sections,   :class => 'Sections::Model::Section'
 
+      plugin :association_dependencies, :categories => :delete
+
       plugin :events,
         :before_create  => :before_new_category_group,
         :after_create   => :after_new_category_group,

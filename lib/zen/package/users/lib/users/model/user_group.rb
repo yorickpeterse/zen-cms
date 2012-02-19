@@ -26,8 +26,10 @@ module Users
       one_to_many  :permissions, :class => 'Users::Model::Permission'
 
       plugin :sluggable, :source => :name, :freeze => false
-      plugin :association_dependencies, :permissions => :delete,
-        :users => :nullify
+
+      plugin :association_dependencies,
+        :permissions => :delete,
+        :users       => :nullify
 
       plugin :events,
         :before_create  => :before_new_user_group,

@@ -28,6 +28,8 @@ module CustomFields
 
       many_to_many :sections, :class => 'Sections::Model::Section'
 
+      plugin :association_dependencies, :custom_fields => :delete
+
       plugin :events,
         :before_create  => :before_new_custom_field_group,
         :after_create   => :after_new_custom_field_group,
