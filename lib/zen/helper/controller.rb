@@ -147,6 +147,23 @@ module Ramaze
       end
 
       ##
+      # Returns a JSON string containing all the translations for the Javascript
+      # code.
+      #
+      # @since  19-02-2012
+      # @return [String]
+      #
+      def javascript_translations
+        hash = {}
+
+        Zen::JAVASCRIPT_TRANSLATIONS.each do |key|
+          hash[key] = lang(key)
+        end
+
+        return JSON.dump(hash)
+      end
+
+      ##
       # Methods that become available as class methods.
       #
       # @since  0.3

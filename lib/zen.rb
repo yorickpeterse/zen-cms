@@ -17,6 +17,28 @@ $:.unshift(__DIR__) unless $:.include?(__DIR__)
 # @since  0.1
 #
 module Zen
+  ##
+  # Array containing all the translations that should be made available to the
+  # Javascript code.
+  #
+  # @since 19-02-2012
+  #
+  JAVASCRIPT_TRANSLATIONS = [
+    'zen_general.buttons.bold',
+    'zen_general.buttons.italic',
+    'zen_general.buttons.link',
+    'zen_general.buttons.ul',
+    'zen_general.buttons.ol',
+    'zen_general.buttons.preview',
+    'zen_general.buttons.close',
+    'zen_general.datepicker.select_a_time',
+    'zen_general.datepicker.use_mouse_wheel',
+    'zen_general.datepicker.time_confirm_button',
+    'zen_general.datepicker.apply_range',
+    'zen_general.datepicker.cancel',
+    'zen_general.datepicker.week'
+  ]
+
   class << self
     # The database connection to use for Sequel.
     attr_accessor :database
@@ -189,4 +211,3 @@ require 'zen/controller/frontend_controller'
 require 'zen/controller/admin_controller'
 require 'zen/controller/main_controller'
 require 'zen/controller/preview'
-require 'zen/controller/translations'
