@@ -29,7 +29,7 @@ module Menus
     # this is the case). An example of such an overview can be seen in the image
     # below.
     #
-    # ![Menus Overview](../../_static/menus/menus.png)
+    # ![Menus Overview](../../images/menus/menus.png)
     #
     # This overview allows you to edit, create or remove menu groups as well as
     # managing the menu items of a group. Editing a group can be done by
@@ -37,7 +37,7 @@ module Menus
     # the button "Add menu". In both cases you'll end up with the form shown in
     # the image below.
     #
-    # ![Edit Menu](../../_static/menus/edit_menu.png)
+    # ![Edit Menu](../../images/menus/edit_menu.png)
     #
     # In this form you can use the following fields:
     #

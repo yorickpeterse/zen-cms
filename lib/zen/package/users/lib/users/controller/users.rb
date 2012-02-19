@@ -37,14 +37,14 @@ module Users
     # permissions) you should see a page that looks like the one shown in the
     # image below.
     #
-    # ![Users](../../_static/users/overview.png)
+    # ![Users](../../images/users/overview.png)
     #
     # This overview allows you to edit users (by clicking on their Email
     # addresses), create new ones or delete existing users. When editing or
     # creating a user you'll be presented a form as shown in the images below.
     #
-    # ![Edit User](../../_static/users/edit_user.png)
-    # ![Edit Permissions](../../_static/users/edit_user_permissions.png)
+    # ![Edit User](../../images/users/edit_user.png)
+    # ![Edit Permissions](../../images/users/edit_user_permissions.png)
     #
     # In this form the following fields can be filled:
     #

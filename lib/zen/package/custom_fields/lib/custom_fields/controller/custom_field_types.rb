@@ -15,7 +15,7 @@ module CustomFields
     # URL called "Custom field types". Clicking this URL will take you to an
     # overview of all existing field types.
     #
-    # ![Types](../../_static/custom_fields/custom_field_types.png)
+    # ![Types](../../images/custom_fields/custom_field_types.png)
     #
     # ## Adding/Editing Field Types
     #
@@ -24,7 +24,7 @@ module CustomFields
     # button. In both cases you'll end up at a form that looks like the image
     # below.
     #
-    # ![Edit Type](../../_static/custom_fields/edit_custom_field_type.png)
+    # ![Edit Type](../../images/custom_fields/edit_custom_field_type.png)
     #
     # In this form you can specify the following fields:
     #

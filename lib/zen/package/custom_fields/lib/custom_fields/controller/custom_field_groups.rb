@@ -34,7 +34,7 @@ module CustomFields
     # existing groups these will be displayed, otherwise a message telling you
     # that do don't have any groups will be displayed instead.
     #
-    # ![Groups](../../_static/custom_fields/custom_field_groups.png)
+    # ![Groups](../../images/custom_fields/custom_field_groups.png)
     #
     # Just like with other packages you can delete records by clicking the
     # checkboxes followed by the "Delete selected groups" button. Groups can be
@@ -43,7 +43,7 @@ module CustomFields
     #
     # ## Adding/Editing Groups
     #
-    # ![Edit Group](../../_static/custom_fields/edit_custom_field_group.png)
+    # ![Edit Group](../../images/custom_fields/edit_custom_field_group.png)
     #
     # When creating a new group or editing an existing group you can fill in the
     # following two fields:

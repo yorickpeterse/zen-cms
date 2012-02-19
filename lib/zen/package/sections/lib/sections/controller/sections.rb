@@ -32,7 +32,7 @@ module Sections
     # links that allow you to edit, create or delete sections as well as
     # managing the entries for each existing section.
     #
-    # ![Sections](../../_static/sections/sections.png)
+    # ![Sections](../../images/sections/sections.png)
     #
     # ## Creating/Editing Sections
     #
@@ -41,9 +41,9 @@ module Sections
     # both cases you'll end up with a form that looks like the one in the images
     # below.
     #
-    # ![General](../../_static/sections/edit_section_general.png)
-    # ![Comments](../../_static/sections/edit_section_comments.png)
-    # ![Groups](../../_static/sections/edit_section_groups.png)
+    # ![General](../../images/sections/edit_section_general.png)
+    # ![Comments](../../images/sections/edit_section_comments.png)
+    # ![Groups](../../images/sections/edit_section_groups.png)
     #
     # In this form you can specify the following fields:
     #

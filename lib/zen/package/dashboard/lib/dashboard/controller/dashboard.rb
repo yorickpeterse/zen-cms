@@ -28,7 +28,7 @@ module Dashboard
     # introduction to how widgets work and how to navigate around the
     # application.
     #
-    # ![Default Dashboard](../../_static/dashboard/dashboard.png)
+    # ![Default Dashboard](../../images/dashboard/dashboard.png)
     #
     # Of course the default widget isn't very useful after the first time you've
     # read it so you might want to turn it off and enable some other widgets
@@ -36,19 +36,19 @@ module Dashboard
     # the "Options" button and then choosing which widgets you'd like to be
     # displayed.
     #
-    # ![Available Widgets](../../_static/dashboard/options.png)
+    # ![Available Widgets](../../images/dashboard/options.png)
     #
     # In this image two widgets are available, "Welcome" (activated by default
     # for each new user) and the "Recent Entries" widget. In order to activate
     # the "Recent Entries" widget all you have to do is check the checkbox. Once
     # done it will be added to your dashboard as shown in the image below.
     #
-    # ![Added Widget](../../_static/dashboard/added.png)
+    # ![Added Widget](../../images/dashboard/added.png)
     #
     # The options menu also allows you to change the amount of columns for each
     # row. You can choose between 1 and 4 columns.
     #
-    # ![Widget Columns](../../_static/dashboard/columns.png)
+    # ![Widget Columns](../../images/dashboard/columns.png)
     #
     # ## Available Widgets
     #

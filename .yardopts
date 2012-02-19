@@ -6,7 +6,7 @@
 -e ./lib/yard/tags.rb
 --private
 --protected
---asset ./guide/_static:_static
+--asset ./guide/images:images
 --asset ./guide/css/common.css:css/common.css
 -
 ./guide/*.md

@@ -27,9 +27,9 @@ module Settings
     # groups where each group is placed under it's own tab. An example of this
     # overview can be seen in the image below.
     #
-    # ![General](../../_static/settings/overview_general.png)
-    # ![Security](../../_static/settings/overview_security.png)
-    # ![User Settings](../../_static/settings/overview_user.png)
+    # ![General](../../images/settings/overview_general.png)
+    # ![Security](../../images/settings/overview_security.png)
+    # ![User Settings](../../images/settings/overview_user.png)
     #
     # Out of the box Zen ships with the following settings:
     #

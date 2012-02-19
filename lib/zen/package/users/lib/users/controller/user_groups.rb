@@ -10,15 +10,15 @@ module Users
     # will show an overview of all existing groups or a message saying no groups
     # have been added yet.
     #
-    # ![User Groups](../../_static/users/user_groups_overview.png)
+    # ![User Groups](../../images/users/user_groups_overview.png)
     #
     # Editing a user group can be done by clicking on the name of the group,
     # creating a new one can be done by clicking the button "New group". When
     # creating or editing a group you'll be presented with the form shown in the
     # images below.
     #
-    # ![Edit Group](../../_static/users/edit_user_group.png)
-    # ![Group Permissions](../../_static/users/edit_user_group_permissions.png)
+    # ![Edit Group](../../images/users/edit_user_group.png)
+    # ![Group Permissions](../../images/users/edit_user_group_permissions.png)
     #
     # In this form you can fill in the following fields:
     #

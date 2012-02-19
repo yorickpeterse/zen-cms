@@ -12,17 +12,17 @@ module Sections
     # "Manage entries". This will bring you to an overview of all existing
     # entries that looks like the one in the image below.
     #
-    # ![Section Entries](../../_static/sections/entries.png)
+    # ![Section Entries](../../images/sections/entries.png)
     #
     # Editing an entry can be done by clicking on it's name, creating a new one
     # can be done by clicking on the "Add section entry" button. In both cases
     # you'll see a form that looks similar to the one displayed in the images
     # below.
     #
-    # ![Edit Entry](../../_static/sections/edit_entry.png)
-    # ![Categories](../../_static/sections/edit_entry_categories.png)
-    # ![General](../../_static/sections/edit_entry_general.png)
-    # ![Meta](../../_static/sections/edit_entry_meta.png)
+    # ![Edit Entry](../../images/sections/edit_entry.png)
+    # ![Categories](../../images/sections/edit_entry_categories.png)
+    # ![General](../../images/sections/edit_entry_general.png)
+    # ![Meta](../../images/sections/edit_entry_meta.png)
     #
     # In the images above there are four tabs displayed. "Basic", "Categories",
     # "General" and "Meta". The first two are always available, the last two

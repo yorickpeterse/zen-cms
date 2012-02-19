@@ -15,7 +15,7 @@ module Categories
     # you've reached the categories overview you'll be presented with an
     # overview that looks like the following image:
     #
-    # ![Categories Overview](../../_static/categories/categories.png)
+    # ![Categories Overview](../../images/categories/categories.png)
     #
     # ## Adding/Editing Categories
     #
@@ -23,7 +23,7 @@ module Categories
     # If you want to create a new category instead you should click the button
     # "Add category". In both cases you'll end up with the following form:
     #
-    # ![New Category](../../_static/categories/new_category.png)
+    # ![New Category](../../images/categories/new_category.png)
     #
     # In this form you can specify the following fields:
     #

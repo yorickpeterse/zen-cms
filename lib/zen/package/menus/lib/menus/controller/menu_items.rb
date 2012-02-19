@@ -9,7 +9,7 @@ module Menus
     # you've clicked this link you'll be presented with a page that looks
     # somewhat like the one shown in the image below.
     #
-    # ![Menu Items](../../_static/menus/menu_items.png)
+    # ![Menu Items](../../images/menus/menu_items.png)
     #
     # This overview allows you to sort and specify the hierarchy of menu items,
     # editing individual items can be done by clicking on the name.
@@ -20,13 +20,13 @@ module Menus
     # menu items. For example, in the image below the "User Guide" item has been
     # set to be a child item of the "Home" item.
     #
-    # ![Menu Item Hierarchy](../../_static/menus/menu_item_hierarchy.png)
+    # ![Menu Item Hierarchy](../../images/menus/menu_item_hierarchy.png)
     #
     # If you want to edit an individual menu item you can do so by clicking on
     # the name of the item, once done you'll be presented with the following
     # form:
     #
-    # ![Edit Menu Item](../../_static/menus/edit_menu_item.png)
+    # ![Edit Menu Item](../../images/menus/edit_menu_item.png)
     #
     # In this form you can specify the following fields:
     #
