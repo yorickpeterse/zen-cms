@@ -12,6 +12,10 @@ module Zen
       # they aren't executed. Optionally this method can also remove all
       # dangerous HTML using Loofah.
       #
+      # It is recommended to use this method whenever your code accepts used
+      # input. Since removing HTML isn't always needed (sometimes you actually
+      # want to allow certain HTML tags) this is turned off by default.
+      #
       # @example
       #  input = 'Hello #{puts 10}'
       #

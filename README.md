@@ -93,8 +93,10 @@ small portion of what it can do.
 * {Zen::Language Localization}
 * {Zen::Event Events}
 * {Zen::Validation Validating Objects}
+* {Zen::Security.sanitize Sanitizing User Input}
 * {file:autosaving_forms Automatically Saving Form Data}
 * {file:asset_management Asset Management}
+* {Zen::Markup Converting Markup}
 * {file:javascript Javascript API}
 
 ## Community
