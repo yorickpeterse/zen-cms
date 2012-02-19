@@ -121,6 +121,35 @@ describe "Users::Controller::Users" do
     user.user_group_pks.include?(group.id).should == true
   end
 
+  enable_javascript
+
+  it 'Automatically save a user' do
+    visit(index_url)
+    click_link('Spec user modified')
+
+    within '#user_form' do
+      fill_in('name', :with => 'Spec user autosave')
+    end
+
+    autosave_form('user_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec user autosave').should == true
+
+    click_link('Spec user autosave')
+
+    within '#user_form' do
+      fill_in('name', :with => 'Spec user modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec user modified'
+  end
+
+  disable_javascript
+
   it 'Remove a permission from a user' do
     visit(index_url)
     click_link('Spec user')

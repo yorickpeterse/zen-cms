@@ -88,6 +88,35 @@ describe 'Users::Controller::UserGroups' do
     page.find('#permission_show_user').checked?.should == 'checked'
   end
 
+  enable_javascript
+
+  it 'Automatically save a user group' do
+    visit(index_url)
+    click_link('Spec group modified')
+
+    within '#user_group_form' do
+      fill_in('name', :with => 'Spec group autosave')
+    end
+
+    autosave_form('user_group_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec group autosave')
+
+    click_link('Spec group autosave')
+
+    within '#user_group_form' do
+      fill_in('name', :with => 'Spec group modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec group modified'
+  end
+
+  disable_javascript
+
   it 'Edit an existing user group with invalid data' do
     visit(index_url)
     click_link('Spec group')

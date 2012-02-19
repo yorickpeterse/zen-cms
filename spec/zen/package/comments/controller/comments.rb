@@ -156,6 +156,36 @@ describe 'Comments::Controller::Comments' do
     page.has_selector?('span.error').should == true
   end
 
+  enable_javascript
+
+  it 'Automatically save a comment' do
+    visit(index_url)
+    click_link('Spec comment')
+
+    within '#comment_form' do
+      fill_in('comment', :with => 'Spec comment autosave')
+    end
+
+    autosave_form('comment_form')
+
+    visit(index_url)
+
+    # Comments are truncated in the index overview.
+    page.has_content?('Spec comment au...').should == true
+
+    click_link('Spec comment au...')
+
+    within '#comment_form' do
+      fill_in('comment', :with => 'Spec comment modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should            == false
+    page.find('textarea[name="comment"]').value.should == 'Spec comment modified'
+  end
+
+  disable_javascript
+
   it 'Fail to delete a set of comments without IDs' do
     delete_button = lang('comments.buttons.delete')
 

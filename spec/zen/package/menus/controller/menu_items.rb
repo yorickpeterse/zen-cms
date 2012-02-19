@@ -54,6 +54,35 @@ describe "Menus::Controller::MenuItems" do
     page.find('input[name="name"]').value.should == 'Spec menu item modified'
   end
 
+  enable_javascript
+
+  it 'Automatically save a menu item' do
+    visit(index_url)
+    click_link('Spec menu item modified')
+
+    within '#menu_item_form' do
+      fill_in('name', :with => 'Spec menu item autosave')
+    end
+
+    autosave_form('menu_item_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec menu item autosave').should == true
+
+    click_link('Spec menu item autosave')
+
+    within '#menu_item_form' do
+      fill_in('name', :with => 'Spec menu item modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec menu item modified'
+  end
+
+  disable_javascript
+
   it 'Edit an existing menu item with invalid data' do
     visit(index_url)
     click_link('Spec menu item')

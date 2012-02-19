@@ -95,6 +95,35 @@ describe "Sections::Controller::Sections" do
     page.find('input[name="slug"]').value.should == 'spec-section'
   end
 
+  enable_javascript
+
+  it 'Automatically save a section' do
+    visit(index_url)
+    click_link('Spec section modified')
+
+    within '#section_form' do
+      fill_in('name', :with => 'Spec section autosave')
+    end
+
+    autosave_form('section_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec section autosave').should == true
+
+    click_link('Spec section autosave')
+
+    within '#section_form' do
+      fill_in('name', :with => 'Spec section modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec section modified'
+  end
+
+  disable_javascript
+
   it "Edit an existing section with invalid data" do
     visit(index_url)
     click_link('Spec section')

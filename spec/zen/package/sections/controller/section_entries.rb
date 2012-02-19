@@ -136,6 +136,50 @@ describe "Sections::Controller::SectionEntries" do
       .value.should == 'chuck'
   end
 
+  enable_javascript
+
+  it 'Automatically save a section entry' do
+    visit(index_url)
+    click_link('Spec entry modified')
+
+    within '#section_entry_form' do
+      fill_in('title', :with => 'Spec entry autosave')
+    end
+
+    click_link('Spec fields')
+
+    within '#section_entry_form' do
+      fill_in('Spec field', :with => 'Spec field value autosave')
+    end
+
+    autosave_form('section_entry_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec entry autosave').should == true
+
+    click_link('Spec entry autosave')
+
+    page.find_field('Spec field').value.should == 'Spec field value autosave'
+
+    within '#section_entry_form' do
+      fill_in('title', :with => 'Spec entry modified')
+    end
+
+    click_link('Spec fields')
+
+    within '#section_entry_form' do
+      fill_in('Spec field', :with => 'Spec field value modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should       == false
+    page.find('input[name="title"]').value.should == 'Spec entry modified'
+    page.find_field('Spec field').value.should    == 'Spec field value modified'
+  end
+
+  disable_javascript
+
   it "Edit an existing section entry with invalid data" do
     visit(index_url)
     click_link('Spec entry')

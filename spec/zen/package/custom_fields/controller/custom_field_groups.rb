@@ -89,6 +89,35 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
     page.find('input[name="name"]').value.should == 'Spec field group modified'
   end
 
+  enable_javascript
+
+  it 'Automatically save a custom field group' do
+    visit(index_url)
+    click_link('Spec field group modified')
+
+    within '#custom_field_group_form' do
+      fill_in('name', :with => 'Spec field group autosave')
+    end
+
+    autosave_form('custom_field_group_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec field group autosave').should == true
+
+    click_link('Spec field group autosave')
+
+    within '#custom_field_group_form' do
+      fill_in('name', :with => 'Spec field group modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec field group modified'
+  end
+
+  disable_javascript
+
   it "Fail to edit an existing group with invalid data" do
     visit(index_url)
     click_link('Spec field group')

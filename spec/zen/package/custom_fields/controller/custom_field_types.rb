@@ -137,6 +137,34 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
     page.find_field('custom_field_method_id').value.should == method_id
   end
 
+  enable_javascript
+
+  it 'Automatically save a custom field type' do
+    visit(index_url)
+    click_link('Spec type modified')
+
+    within '#custom_field_type_form' do
+      fill_in('name', :with => 'Spec type autosave')
+    end
+
+    autosave_form('custom_field_type_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec type autosave').should == true
+    click_link('Spec type autosave')
+
+    within '#custom_field_type_form' do
+      fill_in('name', :with => 'Spec type modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec type modified'
+  end
+
+  disable_javascript
+
   it 'Edit a custom field type with invalid data' do
     visit(index_url)
     click_link('Spec type')

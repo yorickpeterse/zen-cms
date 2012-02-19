@@ -126,6 +126,34 @@ describe 'CustomFields::Controller::CustomFields' do
       .value.should == textarea_field.id.to_s
   end
 
+  enable_javascript
+
+  it 'Automatically save a custom field' do
+    visit(index_url)
+    click_link('Spec field modified')
+
+    within '#custom_field_form' do
+      fill_in('name', :with => 'Spec field autosave')
+    end
+
+    autosave_form('custom_field_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec field autosave')
+    click_link('Spec field autosave')
+
+    within '#custom_field_form' do
+      fill_in('name', :with => 'Spec field modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec field modified'
+  end
+
+  disable_javascript
+
   it "Edit an existing custom field with invalid data" do
     visit(index_url)
     click_link('Spec field')

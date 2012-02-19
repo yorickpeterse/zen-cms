@@ -207,24 +207,27 @@ module Ramaze
                 respond(lang('zen_general.errors.csrf'), 403)
               end
 
-              post  = request.subset(*columns)
-              group = model[request.params['id']]
+              post   = request.subset(*columns)
+              object = model[request.params['id']]
 
-              if group.nil? or !user_authorized?(permission)
+              if object.nil? or !user_authorized?(permission)
                 respond_json(
                   {:error => lang('zen_general.errors.invalid_request')},
                   404
                 )
               else
                 begin
-                  post.each { |k, v| group.send("#{k}=", v) }
-                  group.save
+                  post.each do |k, v|
+                    object.send("#{k}=", v) if object.respond_to?("#{k}=")
+                  end
+
+                  object.save
 
                   respond_json({:csrf_token => get_csrf_token}, 200)
                 rescue => e
                   Ramaze::Log.error(e)
 
-                  respond_json({:errors  => group.errors}, 400)
+                  respond_json({:errors  => object.errors}, 400)
                 end
               end
             end

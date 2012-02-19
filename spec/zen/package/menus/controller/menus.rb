@@ -86,6 +86,34 @@ describe "Menus::Controller::Menus" do
     page.find('input[name="name"]').value.should == 'Spec menu modified'
   end
 
+  enable_javascript
+
+  it 'Automatically save a menu' do
+    visit(index_url)
+    click_link('Spec menu modified')
+
+    within '#menu_form' do
+      fill_in('name', :with => 'Spec menu autosave')
+    end
+
+    autosave_form('menu_form')
+
+    visit(index_url)
+
+    page.has_content?('Spec menu autosave').should == true
+    click_link('Spec menu autosave')
+
+    within '#menu_form' do
+      fill_in('name', :with => 'Spec menu modified')
+      click_on(save_button)
+    end
+
+    page.has_selector?('span.error').should      == false
+    page.find('input[name="name"]').value.should == 'Spec menu modified'
+  end
+
+  disable_javascript
+
   it "Edit an existing menu with invalid data" do
     visit(index_url)
     click_link('Spec menu')
