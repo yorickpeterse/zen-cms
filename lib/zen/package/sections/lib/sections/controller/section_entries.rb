@@ -180,7 +180,7 @@ module Sections
       # @permission new_section_entry (when creating a new entry)
       #
       def save
-        post_data  = request.subset(*Model::SectionEntry::COLUMNS)
+        post_data  = post_fields(*Model::SectionEntry::COLUMNS)
         section_id = request.params['section_id']
 
         if post_data['created_at']
@@ -237,7 +237,7 @@ module Sections
       #
       def autosave
         entry        = Model::SectionEntry[request.params['id']]
-        post_data    = request.subset(*Model::SectionEntry::COLUMNS)
+        post_data    = post_fields(*Model::SectionEntry::COLUMNS)
         field_errors = {}
 
         if post_data['created_at']

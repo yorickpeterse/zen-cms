@@ -148,7 +148,7 @@ module Menus
       # @permission new_menu (when creating a new menu)
       #
       def save
-        post = request.subset(*Model::Menu::COLUMNS)
+        post = post_fields(*Model::Menu::COLUMNS)
         id   = request.params['id']
 
         if id and !id.empty?

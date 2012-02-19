@@ -153,7 +153,7 @@ module Categories
       # @permission new_category_group (when creating a group)
       #
       def save
-        post = request.subset(*Model::CategoryGroup::COLUMNS)
+        post = post_fields(*Model::CategoryGroup::COLUMNS)
         id   = request.params['id']
 
         # Get/create the group and set the event names.
@@ -201,7 +201,7 @@ module Categories
       def delete
         authorize_user!(:delete_category_group)
 
-        post = request.subset(:category_group_ids)
+        post = post_fields(:category_group_ids)
 
         if post['category_group_ids'].nil? or post['category_group_ids'].empty?
           message(:error, lang('category_groups.errors.no_delete'))

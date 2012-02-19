@@ -169,7 +169,7 @@ module Sections
       # @permission edit_section (when editing a section)
       #
       def save
-        post = request.subset(*Model::Section::COLUMNS)
+        post = post_fields(*Model::Section::COLUMNS)
         id   = request.params['id']
 
         if id and !id.empty?

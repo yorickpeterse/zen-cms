@@ -179,7 +179,7 @@ module Categories
       #
       def save
         id   = request.params['id']
-        post = request.subset(*Model::Category::COLUMNS)
+        post = post_fields(*Model::Category::COLUMNS)
 
         validate_category_group(post['category_group_id'])
 
@@ -231,7 +231,7 @@ module Categories
       def delete
         authorize_user!(:delete_category)
 
-        post = request.subset(:category_ids)
+        post = post_fields(:category_ids)
 
         # Obviously we'll require some IDs
         if post['category_ids'].nil? or post['category_ids'].empty?

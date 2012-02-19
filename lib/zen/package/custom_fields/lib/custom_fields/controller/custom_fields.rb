@@ -198,7 +198,7 @@ module CustomFields
       # @permission new_custom_field (when creating a new field)
       #
       def save
-        post = request.subset(*Model::CustomField::COLUMNS)
+        post = post_fields(*Model::CustomField::COLUMNS)
         id   = request.params['id']
 
         validate_custom_field_group(post['custom_field_group_id'])
@@ -251,7 +251,7 @@ module CustomFields
       def delete
         authorize_user!(:delete_custom_field)
 
-        post = request.subset(:custom_field_ids)
+        post = post_fields(:custom_field_ids)
 
         if post['custom_field_ids'].nil? or post['custom_field_ids'].empty?
           message(:error, lang('custom_fields.errors.no_delete'))

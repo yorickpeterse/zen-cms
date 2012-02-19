@@ -141,7 +141,7 @@ module Comments
       def save
         authorize_user!(:edit_comment)
 
-        post    = request.subset(*Model::Comment::COLUMNS)
+        post    = post_fields(*Model::Comment::COLUMNS)
         comment = validate_comment(request.params['id'])
 
         begin

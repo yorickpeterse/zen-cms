@@ -148,7 +148,7 @@ module Menus
       # @permission new_menu_item (when creating an item)
       #
       def save
-        post = request.subset(*Model::MenuItem::COLUMNS)
+        post = post_fields(*Model::MenuItem::COLUMNS)
         id   = request.params['id']
 
         if id and !id.empty?
@@ -211,7 +211,7 @@ module Menus
       def delete
         authorize_user!(:delete_menu_item)
 
-        post = request.subset(:menu_item_ids)
+        post = post_fields(:menu_item_ids)
 
         if !post['menu_item_ids'] or post['menu_item_ids'].empty?
           message(:error, lang('menu_items.errors.no_delete'))

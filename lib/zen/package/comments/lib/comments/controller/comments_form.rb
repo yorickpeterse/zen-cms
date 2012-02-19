@@ -80,7 +80,7 @@ module Comments
       #
       def save
         comment = ::Comments::Model::Comment.new
-        post    = request.subset(
+        post    = post_fields(
           :section_entry,
           :user_id,
           :comment,

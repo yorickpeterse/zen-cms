@@ -152,7 +152,7 @@ module CustomFields
       # @permission new_custom_field_group (when creating a group)
       #
       def save
-        post = request.subset(*Model::CustomFieldGroup::COLUMNS)
+        post = post_fields(*Model::CustomFieldGroup::COLUMNS)
         id   = request.params['id']
 
         if id and !id.empty?

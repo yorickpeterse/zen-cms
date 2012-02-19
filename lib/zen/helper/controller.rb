@@ -133,6 +133,20 @@ module Ramaze
       end
 
       ##
+      # Returns a hash containing all the given POST fields, similar to
+      # ``Innate::Request#subset``.
+      #
+      # @since  19-02-2012
+      # @param  [Array] *keys The POST keys to retrieve.
+      # @return [Hash]
+      #
+      def post_fields(*keys)
+        keys = keys.map { |k| k.to_s }
+
+        request.POST.reject { |k, v| not keys.include?(k) }
+      end
+
+      ##
       # Methods that become available as class methods.
       #
       # @since  0.3
@@ -207,7 +221,7 @@ module Ramaze
                 respond(lang('zen_general.errors.csrf'), 403)
               end
 
-              post   = request.subset(*columns)
+              post   = post_fields(*columns)
               object = model[request.params['id']]
 
               if object.nil? or !user_authorized?(permission)

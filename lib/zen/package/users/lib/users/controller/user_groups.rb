@@ -137,7 +137,7 @@ module Users
       # @permission edit_user_group (when editing a group)
       #
       def save
-        post = request.subset(*Model::UserGroup::COLUMNS)
+        post = post_fields(*Model::UserGroup::COLUMNS)
         id   = request.params['id']
 
         if id and !id.empty?

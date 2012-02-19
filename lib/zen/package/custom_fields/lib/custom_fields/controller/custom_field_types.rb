@@ -157,7 +157,7 @@ module CustomFields
       # @permission new_custom_field_type (when creating a field type)
       #
       def save
-        post = request.subset(*Model::CustomFieldType::COLUMNS)
+        post = post_fields(*Model::CustomFieldType::COLUMNS)
         id   = request.params['id']
 
         if id and !id.empty?

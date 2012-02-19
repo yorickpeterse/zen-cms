@@ -173,7 +173,7 @@ module Users
       def login
         if request.post?
           # Let's see if we can authenticate
-          if user_login(request.subset(:email, :password))
+          if user_login(post_fields(:email, :password))
             user.update(:last_login => Time.new)
 
             Zen::Event.call(:user_login, user)
@@ -219,7 +219,7 @@ module Users
         redirect(r(:login)) unless get_setting(:allow_registration).true?
 
         if request.post?
-          post = request.subset(:name, :email, :password)
+          post = post_fields(:name, :email, :password)
           user = Model::User.new(post)
 
           # Check if the passwords match.
@@ -261,7 +261,7 @@ module Users
       # @permission edit_user (when editing a user)
       #
       def save
-        post = request.subset(*Model::User::COLUMNS)
+        post = post_fields(*Model::User::COLUMNS)
         id   = request.params['id']
 
         if id and !id.empty?
