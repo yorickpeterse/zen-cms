@@ -15,6 +15,14 @@ require __DIR__('dashboard/controller/dashboard')
 require __DIR__('dashboard/widget')
 require __DIR__('dashboard/widget/welcome')
 
+Zen::Event.listen :after_new_user do |user|
+  Dashboard::Model::Widget.create(
+    :user_id => user.id,
+    :name    => 'welcome',
+    :order   => 0
+  )
+end
+
 Zen::Event.listen :post_start do
   Zen::Language.load('dashboard')
 end
