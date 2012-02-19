@@ -8,9 +8,7 @@ Ramaze.setup(:verbose => false) do
   gem 'ramaze-asset', ['~> 0.2.3'], :lib => 'ramaze/asset'
 end
 
-unless $LOAD_PATH.include?(__DIR__)
-  $LOAD_PATH.unshift(__DIR__)
-end
+$:.unshift(__DIR__) unless $:.include?(__DIR__)
 
 ##
 # Main module for Zen, all other modules and classes will be placed inside this
