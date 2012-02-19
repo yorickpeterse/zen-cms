@@ -2,17 +2,29 @@ module Menus
   #:nodoc:
   module Controller
     ##
-    # The MenuItems controller allows users to manage menu items of a menu
-    # group. In order to manage menu items you must first navigate to a menu
-    # group and click the link "Manage menu items" (see
-    # {Menus::Controller::Menus} for more information). Once you've reached this
-    # page you'll see an overview that looks like the image below.
+    # Managing menu items is divided into two separate parts: specifying the
+    # order and hierarchy and editing individual menu items such as their names
+    # and URLs. In order to manage a set of menu items you must navigate to the
+    # menu to which the items belong and then click on "Manage menu items". Once
+    # you've clicked this link you'll be presented with a page that looks
+    # somewhat like the one shown in the image below.
     #
     # ![Menu Items](../../_static/menus/menu_items.png)
     #
-    # Editing or creating a menu item can be done by either clicking the name of
-    # a menu item or by clicking the "Add menu item" button. In both cases
-    # you'll end up with a form looking like the one in the following image:
+    # This overview allows you to sort and specify the hierarchy of menu items,
+    # editing individual items can be done by clicking on the name.
+    #
+    # Both sorting and creating the hierarchy is done by dragging the menu
+    # items. By dragging them up or down you can change the order, by dragging
+    # them to the left or right you can specify the parent element of a set of
+    # menu items. For example, in the image below the "User Guide" item has been
+    # set to be a child item of the "Home" item.
+    #
+    # ![Menu Item Hierarchy](../../_static/menus/menu_item_hierarchy.png)
+    #
+    # If you want to edit an individual menu item you can do so by clicking on
+    # the name of the item, once done you'll be presented with the following
+    # form:
     #
     # ![Edit Menu Item](../../_static/menus/edit_menu_item.png)
     #
@@ -20,10 +32,6 @@ module Menus
     #
     # * **Name**: the name of the menu item.
     # * **URL**: the URL of the menu item.
-    # * **Order**: a number that indicates the sort order when the menu is
-    #   built.
-    # * **Parent**: a parent menu item. This allows you to easily create sub
-    #   menus.
     # * **HTML class**: a space separated list of classes to apply to the HTML
     #   element.
     # * **HTML ID**: a single ID to apply to the HTML element.
