@@ -93,6 +93,7 @@ small portion of what it can do.
 * {Zen::Language Localization}
 * {Zen::Event Events}
 * {Zen::Validation Validating Objects}
+* {file:autosaving_forms Automatically Saving Form Data}
 * {file:asset_management Asset Management}
 * {file:javascript Javascript API}
 
