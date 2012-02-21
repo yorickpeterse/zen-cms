@@ -1,25 +1,121 @@
-<!DOCTYPE HTML>
-<html lang="#{get_setting(:frontend_language).value}">
+<!DOCTYPE html>
+<html lang="#{get_setting(:frontend_language).value}" id="admin"
+class="#{browser_name}">
     <head>
-        <meta charset="utf-8" />
-
-        <title>#{get_setting(:website_name).value}</title>
+        #{partial(:head)}
     </head>
     <body>
-        <h1>#{get_setting(:website_name).value}</h1>
+        #{partial(:sidebar)}
 
-        <p>
-            Congratulations, you have successfully set up your Zen application.
-            For more information on how to create a website using Zen you should
-            take a look at the
-            <a href="http://zen-cms.com/documentation/index.html">
-                documentation
-            </a>.
-        </p>
+        <div id="main" role="main">
+            <section>
+                <header>
+                    <h1>Welcome to Zen</h1>
+                </header>
 
-        <p>
-            If you want to log in instead you can do so by going to the
-            <a href="/admin/users/login">admin panel</a>.
-        </p>
+                <div class="body max_width">
+                    <p>
+                        Congratulations, You have successfully created a new
+                        project using Zen.
+                    </p>
+
+                    <p>
+                        For more information on getting
+                        started and other useful information see the
+
+                        <a href="http://zen-cms.com/documentation"
+                        title="Documentation">
+                            documentation
+                        </a>.
+                    </p>
+
+                    <h2>Common commands</h2>
+
+                    <p>Starting a Zen application using Thin as the server:</p>
+
+                    <pre><code>$ ramaze start -s thin</code></pre>
+
+                    <p>Opening the Ramaze console:</p>
+
+                    <pre><code>$ ramaze console</code></pre>
+
+                    <p>Migrating your database:</p>
+
+                    <pre><code>$ rake db:migrate</code></pre>
+
+                    <h2>Zen and Multi Processing</h2>
+
+                    <p>
+                        Keep in mind that the default configuration that comes
+                        with Zen does not work very well for multi process based
+                        servers such as Unicorn.
+                    </p>
+
+                    <p>
+                        Out of the box Zen will store
+                        session data as well as translations in the memory of
+                        the current process. This means that users may be logged
+                        out whenever their requests are handled by a process
+                        that doesn't contain the session data.
+                    </p>
+
+                    <p>
+                        Luckily this is very easy to fix by updating your
+                        config.rb file so that it contains the following line of
+                        code (make sure that you remove the existing one):
+                    </p>
+
+                    <pre><code>Ramaze::Cache.options.session = Ramaze::Cache::MemCache</code></pre>
+
+                    <p>
+                        Note that the use of Memcached is not enforced, you are
+                        free to use a different external cache such as
+                        <code>Ramaze::Cache::Redis</code>
+                    </p>
+
+                    <p>
+                        For more information see the documentation in the file
+                        config/config.rb.
+                    </p>
+
+                    <h2>System Information</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ruby</td>
+                                <td>#{RUBY_DESCRIPTION}</td>
+                            </tr>
+                            <tr>
+                                <td>Database Adapter</td>
+                                <td>#{Zen.database.adapter_scheme}</td>
+                            </tr>
+                            <tr>
+                                <td>Sequel version</td>
+                                <td>#{Sequel::VERSION}</td>
+                            </tr>
+                            <tr>
+                                <td>Zen version</td>
+                                <td>#{Zen::VERSION}</td>
+                            </tr>
+                            <tr>
+                                <td>Ramaze version</td>
+                                <td>#{Ramaze::VERSION}</td>
+                            </tr>
+                            <tr>
+                                <td>Rack version</td>
+                                <td>#{Rack::VERSION.join('.')}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
     </body>
 </html>

@@ -16,4 +16,7 @@ Zen::Theme.add do |theme|
 
   # The directory containing all the templates (required).
   theme.templates = __DIR__
+
+  # The directory containing all template partials.
+  theme.partials = __DIR__('partials')
 end
