@@ -24,11 +24,23 @@ the mixing of logic and presentation. Wordpress doesn't take full advantage of
 the good parts of PHP such as classes and namespaces and instead mostly relies
 on the use of global functions.
 
-Zen on the other hand doesn't aim to be a blogging engine or another specific
-type of content management application. Instead it tries to make it possible for
-you to define your own setup by giving you an easy to use interface and an
-organized code base/API for developers to work with, the downside being that in
-general Zen is a bit harder to use.
+A good example of this is the file ``wp-admin/media.php``. This file contains a
+mixture of HTML for the presentation as well as plain PHP for the logic. There's
+logic for enqueing certain actions, displaying error messages as well as
+presentation code for various media files. Instead of separating this into
+controllers, models and views the developers decided to just chuck it all in a
+single file.
+
+Sure, Wordpress is pretty easy to use and has a decent looking interface but
+once you have to dive into the code base you'll most likely wish you never
+touched it alltogether.
+
+Zen doesn't aim to be a blogging engine or another specific type of content
+management application, not does it aim to be N times faster (I've simply never
+compared it with Wordpress in terms of performance). Instead Zen tries to be
+more right by giving you greater flexibility (without the need for installing
+third party plugins/hacks) as well as a solid code base that is far more
+pleasant to work with.
 
 ### Installation
 
