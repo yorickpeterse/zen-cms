@@ -218,9 +218,16 @@ module Zen
           )
         end
 
+        puts
         puts wrap_string(
-          "Your project has been created, you can find it in #{destination}"
+          "Your project has been created. Don't forget to migrate your " \
+            "database before starting Zen, this can be done using the " \
+            "following command:"
         )
+
+        puts
+        puts '    $ rake db:migrate'
+        puts
       end
 
       ##
