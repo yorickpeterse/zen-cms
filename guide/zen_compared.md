@@ -5,6 +5,8 @@ different/better compared to X?". One might wonder what the differences are
 between Zen and Wordpress or Zen and Radiant. This guide is meant to clear
 things up a bit.
 
+Do note that since I wrote Zen my opinion is more than likely biased.
+
 ## Zen vs Wordpress
 
 There are quite a few differences between Zen and Wordpress besides the language
