@@ -1,4 +1,4 @@
-# Comparing Zen With X
+# Comparing Zen With Others
 
 A common question people ask when looking into specific software is "How is this
 different/better compared to X?". One might wonder what the differences are
