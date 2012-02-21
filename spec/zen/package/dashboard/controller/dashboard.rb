@@ -119,6 +119,8 @@ describe 'Dashboard::Controller::Dashboard' do
     # Drag the second widget to the place of the first one.
     page.find('#widget_spec header').drag_to(page.find('#widget_welcome header'))
 
+    sleep(1)
+
     page.evaluate_script(script).should == 'widget_spec'
 
     Dashboard::Model::Widget[:name => 'spec', :user_id => user.id] \
@@ -129,6 +131,8 @@ describe 'Dashboard::Controller::Dashboard' do
 
     # Put the widget order back in place.
     page.find('#widget_welcome header').drag_to(page.find('#widget_spec header'))
+
+    sleep(1)
 
     Dashboard::Model::Widget[:name => 'spec', :user_id => user.id] \
       .order.should == 1
