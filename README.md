@@ -54,6 +54,7 @@ small portion of what it can do.
 
 * {file:installation Installation}
 * {file:getting_started Getting Started}
+* {file:zen_compared Comparing Zen with X}
 * {Dashboard::Controller::Dashboard Dashboard}
 * {Categories Categories}
   * {Categories::Controller::CategoryGroups Managing Category Groups}
