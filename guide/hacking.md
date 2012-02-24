@@ -5,16 +5,46 @@ Zen doesn't degrade developers should stick with the guidelines described in
 this document. Zen also follows the [Ramaze guidelines][ramaze guidelines] as
 much as possible.
 
-## General Standards
+## Coding Standards
 
-* 2 spaces per indentation level for Ruby code.
-* 4 spaces per indentation level for Javascript, CSS and HTML.
-* Document your code, that includes CSS (when dealing with complex selectors)
-  and Javascript files.
-* No tabs at all times.
-* Markdown is used for all markup.
-* The maximum width of each line should be no more than 80 characters, this
-  makes it easier to read code in terminals or when using split view modes.
+Zen follows a rather strict set of coding guidelines that developers should
+follow if they wish to contribute to Zen. Write your code like the next
+developer looking at it is a psychopath with an axe and knows where you live.
+
+### Indentation
+
+For Ruby 2 spaces per indentation level is used. The use of tabs is not
+allowed at all times and pull requests containing incorrectly indented code will
+not be accepted until the indentation has been fixed.
+
+For Javascript, CSS and HTML 4 spaces per indentation level is used instead of
+2 spaces. This is because I personally find 4 spaces to be far easier to read in
+these languages. Again no tabs are allowed.
+
+### Documentation
+
+The same rule about the psychopath with the axe applies to documentation. Proper
+documentation is very, *very* important. Documentation should be written
+following the YARD syntax and by using Markdown where needed. If you need any
+examples just look at the source code of {Zen::Package} or {Zen::Theme}.
+
+### Line Width
+
+The maximum amount of characters per line should be no greater than 80
+characters whenever possible. Sometimes it's simply not possible (e.g. when
+adding a URL) but try to stick to this as much as possible.
+
+Limiting the amount of characters per line to 80 ensures that everybody will be
+able to read it, whether they're using Vim with multiple split windows or
+reading a file in their terminal.
+
+### CSS
+
+When writing CSS the properties of a selector (background-image, color, etc)
+should be sorted alphabetically. There are a few exceptions to this. For
+example, the CSS file buttons.css contains a set of background-image properties
+that are grouped together for better readability. As long as it's readable I'm
+ok with it.
 
 ## Comitting
 
@@ -50,3 +80,4 @@ The test ouput is displayed using [TAP][tap protocol].
 [commit guidelines]: http://ramaze.net/documentation/file.contributing.html#Commit_Messages
 [bacon]: https://github.com/chneukirchen/bacon
 [tap protocol]: https://en.wikipedia.org/wiki/Test_Anything_Protocol
+[allman style]: https://en.wikipedia.org/wiki/Indent_style#Allman_style
