@@ -91,10 +91,10 @@ module CustomFields
         set_breadcrumbs(lang('custom_field_types.titles.index'))
 
         @field_types = search do |query|
-          ::CustomFields::Model::CustomFieldType.search(query).order(:id.asc)
+          Model::CustomFieldType.search(query).order(:id.asc)
         end
 
-        @field_types ||= ::CustomFields::Model::CustomFieldType \
+        @field_types ||= Model::CustomFieldType \
           .eager(:custom_field_method) \
           .order(:id.asc)
 
@@ -116,9 +116,10 @@ module CustomFields
           lang('custom_field_types.titles.edit')
         )
 
-        @custom_field_type = flash[:form_data] || validate_custom_field_type(id)
-        @custom_field_methods = ::CustomFields::Model::CustomFieldMethod \
-          .pk_hash(:name)
+        @custom_field_type    = validate_custom_field_type(id)
+        @custom_field_methods = Model::CustomFieldMethod.pk_hash(:name)
+
+        @custom_field_type.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -137,14 +138,10 @@ module CustomFields
           lang('custom_field_types.titles.new')
         )
 
-        @custom_field_methods = ::CustomFields::Model::CustomFieldMethod \
-          .pk_hash(:name)
+        @custom_field_methods = Model::CustomFieldMethod.pk_hash(:name)
+        @custom_field_type    = Model::CustomFieldType.new
 
-        if flash[:form_data]
-          @custom_field_type = flash[:form_data]
-        else
-          @custom_field_type = ::CustomFields::Model::CustomFieldType.new
-        end
+        @custom_field_type.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -168,7 +165,7 @@ module CustomFields
         else
           authorize_user!(:new_custom_field_type)
 
-          field_type  = ::CustomFields::Model::CustomFieldType.new
+          field_type  = Model::CustomFieldType.new
           save_action = :new
         end
 
@@ -176,14 +173,13 @@ module CustomFields
         error   = lang("custom_field_types.errors.#{save_action}")
 
         begin
-          post.each { |k, v| field_type.send("#{k}=", v) }
-
+          field_type.set(post)
           field_type.save
         rescue => e
           Ramaze::Log.error(e)
           message(:error, error)
 
-          flash[:form_data]   = field_type
+          flash[:form_data]   = post
           flash[:form_errors] = field_type.errors
 
           redirect_referrer
@@ -210,7 +206,7 @@ module CustomFields
         end
 
         request.params['custom_field_type_ids'].each do |id|
-          type = ::CustomFields::Model::CustomFieldType[id]
+          type = Model::CustomFieldType[id]
 
           next if type.nil?
 

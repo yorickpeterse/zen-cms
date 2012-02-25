@@ -106,13 +106,10 @@ module Menus
           lang('menu_items.titles.new')
         )
 
-        @menu_id = menu_id
+        @menu_id   = menu_id
+        @menu_item = Model::MenuItem.new
 
-        if flash[:form_data]
-          @menu_item = flash[:form_data]
-        else
-          @menu_item = ::Menus::Model::MenuItem.new
-        end
+        @menu_item.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -136,13 +133,10 @@ module Menus
           lang('menu_items.titles.edit')
         )
 
-        @menu_id = menu_id
+        @menu_id   = menu_id
+        @menu_item = validate_menu_item(id, menu_id)
 
-        if flash[:form_data]
-          @menu_item = flash[:form_data]
-        else
-          @menu_item = validate_menu_item(id, menu_id)
-        end
+        @menu_item.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -175,14 +169,13 @@ module Menus
         error   = lang("menu_items.errors.#{save_action}")
 
         begin
-          post.each { |k, v| menu_item.send("#{k}=", v) }
-
+          menu_item.set(post)
           menu_item.save
         rescue => e
           Ramaze::Log.error(e)
           message(:error, error)
 
-          flash[:form_data]   = menu_item
+          flash[:form_data]   = post
           flash[:form_errors] = menu_item.errors
 
           redirect_referrer

@@ -92,6 +92,22 @@ describe "Sections::Controller::SectionEntries" do
     page.find_field('Spec field').value.should    == 'Spec field value'
   end
 
+  it 'Try to create a new entry with invalid data' do
+    visit(index_url)
+    click_link(new_button)
+
+    within '#section_entry_form' do
+      fill_in(title_field, :with => 'Title')
+      click_on(save_button)
+    end
+
+    page.find('input[name="title"]').value.should == 'Title'
+
+    page.has_selector?(
+      "label[for=\"form_custom_field_value_#{field.id}\"] span.error"
+    ).should == true
+  end
+
   it 'Search for a section entry' do
     search_button = lang('zen_general.buttons.search')
     error         = lang('zen_general.errors.invalid_search')

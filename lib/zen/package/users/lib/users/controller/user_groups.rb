@@ -103,7 +103,8 @@ module Users
           lang('user_groups.titles.edit')
         )
 
-        @user_group  = flash[:form_data] || validate_user_group(id)
+        @user_group  = validate_user_group(id)
+        @user_group.set(flash[:form_data]) if flash[:form_data]
         @permissions = @user_group.permissions.map { |p| p.permission.to_sym }
 
         render_view(:form)
@@ -123,7 +124,8 @@ module Users
           lang('user_groups.titles.new')
         )
 
-        @user_group = flash[:form_data] || ::Users::Model::UserGroup.new
+        @user_group = Model::UserGroup.new
+        @user_group.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -156,14 +158,13 @@ module Users
         error   = lang("user_groups.errors.#{save_action}")
 
         begin
-          post.each { |k, v| user_group.send("#{k}=", v) }
-
+          user_group.set(post)
           user_group.save
         rescue => e
           Ramaze::Log.error(e)
           message(:error, error)
 
-          flash[:form_data]   = user_group
+          flash[:form_data]   = post
           flash[:form_errors] = user_group.errors
 
           redirect_referrer

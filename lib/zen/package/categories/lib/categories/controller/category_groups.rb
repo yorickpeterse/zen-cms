@@ -93,10 +93,10 @@ module Categories
         set_breadcrumbs(lang('category_groups.titles.index'))
 
         @category_groups = search do |query|
-          ::Categories::Model::CategoryGroup.search(query).order(:id.asc)
+          Model::CategoryGroup.search(query).order(:id.asc)
         end
 
-        @category_groups ||= ::Categories::Model::CategoryGroup.order(:id.asc)
+        @category_groups ||= Model::CategoryGroup.order(:id.asc)
         @category_groups   = paginate(@category_groups)
       end
 
@@ -115,7 +115,8 @@ module Categories
           lang('category_groups.titles.edit')
         )
 
-        @category_group = flash[:form_data] || validate_category_group(id)
+        @category_group = validate_category_group(id)
+        @category_group.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -134,11 +135,8 @@ module Categories
           lang('category_groups.titles.new')
         )
 
-        if flash[:form_data]
-          @category_group = flash[:form_data]
-        else
-          @category_group = ::Categories::Model::CategoryGroup.new
-        end
+        @category_group = Model::CategoryGroup.new
+        @category_group.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -165,7 +163,7 @@ module Categories
         else
           authorize_user!(:new_category_group)
 
-          category_group = ::Categories::Model::CategoryGroup.new
+          category_group = Model::CategoryGroup.new
           save_action    = :new
         end
 
@@ -174,14 +172,13 @@ module Categories
 
         # Set the values, call the events and try to save the category group.
         begin
-          post.each { |k, v| category_group.send("#{k}=", v) }
-
+          category_group.set(post)
           category_group.save
         rescue => e
           message(:error, error)
           Ramaze::Log.error(e)
 
-          flash[:form_data]   = category_group
+          flash[:form_data]   = post
           flash[:form_errors] = category_group.errors
 
           redirect_referrer
@@ -209,7 +206,7 @@ module Categories
         end
 
         post['category_group_ids'].each do |id|
-          group = ::Categories::Model::CategoryGroup[id]
+          group = Model::CategoryGroup[id]
 
           next if group.nil?
 

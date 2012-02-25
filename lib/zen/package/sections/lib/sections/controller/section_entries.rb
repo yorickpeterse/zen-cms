@@ -119,15 +119,10 @@ module Sections
 
         validate_section(section_id)
 
-        @section_id  = section_id
+        @section_id = section_id
+        @entry      = Model::SectionEntry.new(:section_id => section_id)
 
-        if flash[:form_data]
-          @entry = flash[:form_data]
-        else
-          @entry = ::Sections::Model::SectionEntry.new(
-            :section_id => section_id
-          )
-        end
+        @entry.set(flash[:form_data]) if flash[:form_data]
 
         @possible_categories = @entry.possible_categories
         @custom_fields_hash  = @entry.custom_fields_hash
@@ -158,11 +153,8 @@ module Sections
 
         validate_section(section_id)
 
-        if flash[:form_data]
-          @entry = flash[:form_data]
-        else
-          @entry = validate_section_entry(entry_id, section_id)
-        end
+        @entry = validate_section_entry(entry_id, section_id)
+        @entry.set(flash[:form_data]) if flash[:form_data]
 
         @section_id          = section_id
         @possible_categories = @entry.possible_categories
@@ -208,7 +200,7 @@ module Sections
 
         begin
           Zen.database.transaction do
-            post_data.each { |k, v| entry.send("#{k}=", v) }
+            entry.set(post_data)
             entry.save
 
             field_errors = process_custom_fields(entry)
@@ -220,7 +212,7 @@ module Sections
           message(:error, error)
 
           flash[:form_errors] = entry.errors.merge(field_errors)
-          flash[:form_data]   = entry
+          flash[:form_data]   = post_data
 
           redirect_referrer
         end
@@ -256,7 +248,7 @@ module Sections
 
         begin
           Zen.database.transaction do
-            post_data.each { |k, v| entry.send("#{k}=", v) }
+            entry.set(post_data)
             entry.save
 
             field_errors = process_custom_fields(entry)

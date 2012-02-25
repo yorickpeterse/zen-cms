@@ -23,6 +23,10 @@ else
   )
 end
 
+if ENV['LRU'] and !ENV['LRU'].empty?
+  Ramaze::Cache.options.session = Ramaze::Cache::LRU
+end
+
 Zen::Language.options.paths.push(__DIR__('fixtures/zen/language'))
 
 Zen.start

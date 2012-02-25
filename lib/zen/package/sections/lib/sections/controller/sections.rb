@@ -137,7 +137,8 @@ module Sections
           @page_title
         )
 
-        @section = flash[:form_data] || validate_section(id)
+        @section = validate_section(id)
+        @section.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -156,7 +157,8 @@ module Sections
           @page_title
         )
 
-        @section = flash[:form_data] || ::Sections::Model::Section.new
+        @section = Model::Section.new
+        @section.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -191,8 +193,7 @@ module Sections
         post['category_group_pks']     ||= []
 
         begin
-          post.each { |k, v| section.send("#{k}=", v) }
-
+          section.set(post)
           section.save
 
           if save_action == :new
@@ -203,7 +204,7 @@ module Sections
           Ramaze::Log.error(e)
           message(:error, error)
 
-          flash[:form_data]   = section
+          flash[:form_data]   = post
           flash[:form_errors] = section.errors
 
           redirect_referrer

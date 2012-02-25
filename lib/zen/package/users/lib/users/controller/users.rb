@@ -114,10 +114,10 @@ module Users
         set_breadcrumbs(lang('users.titles.index'))
 
         @users = search do |query|
-          ::Users::Model::User.search(query).order(:id.asc)
+          Model::User.search(query).order(:id.asc)
         end
 
-        @users ||= ::Users::Model::User.order(:id.asc)
+        @users ||= Model::User.order(:id.asc)
         @users   = @users.eager(:user_status)
         @users   = paginate(@users)
       end
@@ -137,8 +137,10 @@ module Users
           lang('users.titles.edit')
         )
 
-        @user           = flash[:form_data] || validate_user(id)
-        @user_group_pks = ::Users::Model::UserGroup.pk_hash(:name).invert
+        @user = validate_user(id)
+        @user.set(flash[:form_data]) if flash[:form_data]
+
+        @user_group_pks = Model::UserGroup.pk_hash(:name).invert
         @permissions    = @user.permissions.map { |p| p.permission.to_sym }
 
         render_view(:form)
@@ -158,8 +160,10 @@ module Users
           lang('users.titles.new')
         )
 
-        @user           = flash[:form_data] || ::Users::Model::User.new
-        @user_group_pks = ::Users::Model::UserGroup.pk_hash(:name).invert
+        @user           = Model::User.new
+        @user_group_pks = Model::UserGroup.pk_hash(:name).invert
+
+        @user.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -224,7 +228,8 @@ module Users
 
           # Check if the passwords match.
           if post['password'] != request.params['confirm_password']
-            flash[:form_data] = user
+            post.delete('password')
+            flash[:form_data] = post
 
             message(:error, lang('users.errors.no_password_match'))
             redirect(r(:register))
@@ -238,8 +243,10 @@ module Users
             Ramaze::Log.error(e)
             message(:error, lang('users.errors.register'))
 
+            post.delete('password')
+
             flash[:form_errors] = user.errors
-            flash[:form_data]   = user
+            flash[:form_data]   = post
 
             redirect(r(:register))
           end
@@ -250,7 +257,8 @@ module Users
           redirect(r(:login))
         end
 
-        @user = flash[:form_data] || Model::User.new
+        @user = Model::User.new
+        @uset.set(flash[:form_data]) if flash[:form_data]
       end
 
       ##
@@ -307,7 +315,7 @@ module Users
           Ramaze::Log.error(e)
           message(:error, error)
 
-          flash[:form_data]   = user
+          flash[:form_data]   = post
           flash[:form_errors] = user.errors
 
           redirect_referrer
@@ -342,7 +350,7 @@ module Users
         end
 
         request.params['user_ids'].each do |id|
-          user = ::Users::Model::User[id]
+          user = Model::User[id]
 
           next if user.nil?
 

@@ -123,11 +123,8 @@ module Categories
 
         @category_group_id = category_group_id
 
-        if flash[:form_data]
-          @category = flash[:form_data]
-        else
-          @category = ::Categories::Model::Category.new
-        end
+        @category = Model::Category.new
+        @category.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -159,12 +156,9 @@ module Categories
         validate_category_group(category_group_id)
 
         @category_group_id = category_group_id
+        @category          = validate_category(id, category_group_id)
 
-        if flash[:form_data]
-          @category = flash[:form_data]
-        else
-          @category = validate_category(id, category_group_id)
-        end
+        @category.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -200,17 +194,15 @@ module Categories
         success = lang("categories.success.#{save_action}")
         error   = lang("categories.errors.#{save_action}")
 
-        # Try to update the category
         begin
-          post.each { |k, v| category.send("#{k}=", v) }
-
+          category.set(post)
           category.save
         rescue => e
           Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_errors] = category.errors
-          flash[:form_data]   = category
+          flash[:form_data]   = post
 
           redirect_referrer
         end

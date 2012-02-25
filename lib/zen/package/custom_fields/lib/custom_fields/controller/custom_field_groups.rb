@@ -114,7 +114,8 @@ module CustomFields
           @page_title
         )
 
-        @field_group = flash[:form_data] || validate_custom_field_group(id)
+        @field_group = validate_custom_field_group(id)
+        @field_group.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -133,11 +134,8 @@ module CustomFields
           @page_title
         )
 
-        if flash[:form_data]
-          @field_group = flash[:form_data]
-        else
-          @field_group = ::CustomFields::Model::CustomFieldGroup.new
-        end
+        @field_group = Model::CustomFieldGroup.new
+        @field_group.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -171,15 +169,14 @@ module CustomFields
         error   = lang("custom_field_groups.errors.#{save_action}")
 
         begin
-          post.each { |k, v| field_group.send("#{k}=", v) }
-
+          field_group.set(post)
           field_group.save
         rescue => e
           Ramaze::Log.error(e)
           message(:error, error)
 
           flash[:form_errors] = field_group.errors
-          flash[:form_data]   = field_group
+          flash[:form_data]   = post
 
           redirect_referrer
         end

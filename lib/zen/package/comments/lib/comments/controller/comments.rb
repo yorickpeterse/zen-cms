@@ -127,7 +127,8 @@ module Comments
           @page_title
         )
 
-        @comment = flash[:form_data] || validate_comment(id)
+        @comment = validate_comment(id)
+        @comment.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -145,15 +146,14 @@ module Comments
         comment = validate_comment(request.params['id'])
 
         begin
-          post.each { |k, v| comment.send("#{k}=", v) }
-
+          comment.set(post)
           comment.save
         rescue => e
           Ramaze::Log.error(e)
           message(:error, lang('comments.errors.save'))
 
           flash[:form_errors] = comment.errors
-          flash[:form_data]   = comment
+          flash[:form_data]   = post
 
           redirect_referrer
         end

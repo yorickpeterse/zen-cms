@@ -74,7 +74,7 @@ module CustomFields
       load_asset_group :tabs, [:edit, :new]
 
       before(:index, :edit, :new) do
-        @custom_field_types = ::CustomFields::Model::CustomFieldType.type_hash
+        @custom_field_types = Model::CustomFieldType.type_hash
         @boolean_hash       = {
           true  => lang('zen_general.special.boolean_hash.true'),
           false => lang('zen_general.special.boolean_hash.false')
@@ -101,13 +101,13 @@ module CustomFields
         field_group = validate_custom_field_group(custom_field_group_id)
         @custom_field_group_id = custom_field_group_id
         @custom_fields         = search do |query|
-          ::CustomFields::Model::CustomField \
+          Model::CustomField \
             .search(query) \
             .filter(:custom_field_group_id => custom_field_group_id) \
             .order(:id.asc)
         end
 
-        @custom_fields ||= ::CustomFields::Model::CustomField \
+        @custom_fields ||= Model::CustomField \
           .filter(:custom_field_group_id => custom_field_group_id) \
           .order(:id.asc)
 
@@ -143,12 +143,9 @@ module CustomFields
         )
 
         @custom_field_group_id = custom_field_group_id
+        @custom_field          = validate_custom_field(id, custom_field_group_id)
 
-        if flash[:form_data]
-          @custom_field = flash[:form_data]
-        else
-          @custom_field = validate_custom_field(id, custom_field_group_id)
-        end
+        @custom_field.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -180,12 +177,9 @@ module CustomFields
         )
 
         @custom_field_group_id = custom_field_group_id
+        @custom_field          = Model::CustomField.new
 
-        if flash[:form_data]
-          @custom_field = flash[:form_data]
-        else
-          @custom_field = ::CustomFields::Model::CustomField.new
-        end
+        @custom_field.set(flash[:form_data]) if flash[:form_data]
 
         render_view(:form)
       end
@@ -211,7 +205,7 @@ module CustomFields
         else
           authorize_user!(:new_custom_field)
 
-          custom_field = ::CustomFields::Model::CustomField.new
+          custom_field = Model::CustomField.new
           save_action  = :new
         end
 
@@ -219,14 +213,13 @@ module CustomFields
         error   = lang("custom_fields.errors.#{save_action}")
 
         begin
-          post.each { |k, v| custom_field.send("#{k}=", v) }
-
+          custom_field.set(post)
           custom_field.save
         rescue => e
           Ramaze::Log.error(e)
           message(:error, error)
 
-          flash[:form_data]   = custom_field
+          flash[:form_data]   = post
           flash[:form_errors] = custom_field.errors
 
           redirect_referrer
@@ -259,7 +252,7 @@ module CustomFields
         end
 
         request.params['custom_field_ids'].each do |id|
-          custom_field = ::CustomFields::Model::CustomField[id]
+          custom_field = Model::CustomField[id]
 
           next if custom_field.nil?
 
