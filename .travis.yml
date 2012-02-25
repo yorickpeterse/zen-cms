@@ -16,6 +16,9 @@ env:
   - 'ADAPTER=sqlite'
   - 'ADAPTER=mysql2 DATABASE=zen_dev'
   - 'ADAPTER=postgres DATABASE=zen_dev USERNAME=postgres'
+  - 'LRU=1 ADAPTER=sqlite'
+  - 'LRU=1 ADAPTER=mysql2 DATABASE=zen_dev'
+  - 'LRU=1 ADAPTER=postgres DATABASE=zen_dev USERNAME=postgres'
 
 before_script:
   - "mysql -e 'CREATE DATABASE zen_dev;'"
