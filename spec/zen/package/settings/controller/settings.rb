@@ -7,13 +7,15 @@ describe "Settings::Controller::Settings" do
   index_url   = Settings::Controller::Settings.r(:index).to_s
   save_button = lang('settings.buttons.save')
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      Settings::Controller::Settings.r(:save).to_s
-    )
+  it 'Try to change settings without a valid CSRF token' do
+    visit(index_url)
 
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
+    within '#setting_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it 'Update a set of settings' do

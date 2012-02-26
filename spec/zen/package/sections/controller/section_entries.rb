@@ -48,15 +48,6 @@ describe "Sections::Controller::SectionEntries" do
   title_field   = lang('section_entries.labels.title')
   status_field  = lang('section_entries.special.status_hash.published')
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      Sections::Controller::SectionEntries.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
-
   it 'Find no existing entries' do
     message = lang('section_entries.messages.no_entries')
 
@@ -64,6 +55,18 @@ describe "Sections::Controller::SectionEntries" do
 
     page.has_selector?('table tbody tr').should == false
     page.has_content?(message).should           == true
+  end
+
+  it 'Try to create a new section entry with a missing CSRF token' do
+    visit(index_url)
+    click_link(new_button)
+
+    within '#section_entry_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it "Create a new section entry" do

@@ -10,15 +10,6 @@ describe 'Users::Controller::UserGroups' do
   new_button    = lang('user_groups.buttons.new')
   delete_button = lang('user_groups.buttons.delete')
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      Users::Controller::UserGroups.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
-
   it 'Find a single user group' do
     message = lang('user_groups.messages.no_groups')
 
@@ -27,6 +18,18 @@ describe 'Users::Controller::UserGroups' do
     page.has_content?(message).should           == false
     page.has_selector?('table tbody tr').should == true
     page.all('table tbody tr').count.should     == 1
+  end
+
+  it 'Try to create a new user group with a missing CSRF token' do
+    visit(index_url)
+    click_link(new_button)
+
+    within '#user_group_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it 'Create a new user group' do

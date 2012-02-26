@@ -10,15 +10,6 @@ describe "Sections::Controller::Sections" do
   save_button   = lang('sections.buttons.save')
   delete_button = lang('sections.buttons.delete')
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      Sections::Controller::Sections.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
-
   it 'Find no existing sections' do
     message = lang('sections.messages.no_sections')
 
@@ -29,9 +20,22 @@ describe "Sections::Controller::Sections" do
     page.has_content?(message).should == true
   end
 
+  it 'Try to create a new section with a missing CSRF token' do
+    visit(index_url)
+    click_link(new_button)
+
+    within '#section_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
+  end
+
   it "Create a new section" do
     select_plain = lang('zen_general.markup.plain')
 
+    visit(index_url)
     click_link(new_button)
 
     current_path.should == new_url

@@ -30,15 +30,6 @@ describe 'Comments::Controller::Comments' do
     )
   end
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      Comments::Controller::Comments.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
-
   it 'Find no existing comments' do
     message = lang('comments.messages.no_comments')
 
@@ -63,6 +54,18 @@ describe 'Comments::Controller::Comments' do
     comment.exists?.should                      == true
     page.has_content?(message).should           == false
     page.has_selector?('table tbody tr').should == true
+  end
+
+  it 'Try to edit an existing comment with a missing CSRF token' do
+    visit(index_url)
+    click_link('Spec comment')
+
+    within '#comment_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it 'Search for a comment' do

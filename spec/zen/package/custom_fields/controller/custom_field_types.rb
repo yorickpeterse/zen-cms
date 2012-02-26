@@ -10,15 +10,6 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
   save_button   = lang('custom_field_types.buttons.save')
   delete_button = lang('custom_field_types.buttons.delete')
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      CustomFields::Controller::CustomFieldTypes.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
-
   it 'Find a number of field types' do
     message = lang('custom_field_types.messages.no_field_types')
     rows    = CustomFields::Model::CustomFieldType.count
@@ -29,6 +20,17 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
     page.has_content?(message).should            == false
     page.has_selector?('table tbody tr').should  == true
     page.all('table tbody tr').count.should      == rows
+  end
+
+  it 'Try to create a new custom field type with a missing CSRF token' do
+    visit(new_url)
+
+    within '#custom_field_type_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it 'Create a new custom field type' do

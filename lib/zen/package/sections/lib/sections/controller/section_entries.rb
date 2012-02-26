@@ -212,9 +212,10 @@ module Sections
           Ramaze::Log.error(e)
           message(:error, error)
 
-          flash[:form_errors]         = entry.errors.merge(field_errors)
-          flash[:form_data]           = post_data
-          flash[:custom_field_values] = request.POST
+          request.POST.delete('id')
+
+          flash[:form_errors] = entry.errors.merge(field_errors)
+          flash[:form_data]   = request.POST
 
           redirect_referrer
         end

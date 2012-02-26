@@ -203,12 +203,18 @@ module Ramaze
         #  CSRF attacks.
         #
         def csrf_protection(*actions)
-          # before_all() calls don't stack. Because CSRF protected methods are
-          # usually used for POST calls (and are separate methods) this works
-          # around it.
           stacked_before_all(:validate_csrf_token) do
             csrf_protection(*actions) do
-              respond(lang('zen_general.errors.csrf'), 403)
+              message(:error, lang('zen_general.errors.csrf'))
+
+              unless request.POST.empty?
+                request.POST.delete('id')
+                request.POST.delete('csrf_token')
+
+                flash[:form_data] = request.POST
+              end
+
+              redirect_referrer(::Dashboard::Controller::Dashboard.r(:index))
             end
           end
         end

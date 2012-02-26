@@ -22,15 +22,6 @@ describe "Categories::Controller::CategoryGroups" do
     )
   end
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      Categories::Controller::CategoryGroups.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
-
   it 'Find no existing category groups' do
     message = lang('category_groups.messages.no_groups')
 
@@ -38,6 +29,17 @@ describe "Categories::Controller::CategoryGroups" do
 
     page.has_content?(message).should           == true
     page.has_selector?('table tbody tr').should == false
+  end
+
+  it 'Try to create a new category group with a missing CSRF token' do
+    visit(new_url)
+
+    within '#category_group_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it "Create a new category group" do

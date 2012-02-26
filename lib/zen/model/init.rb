@@ -1,5 +1,7 @@
 Zen::Language.load('zen_models')
 
+Sequel::Model.strict_param_setting = false
+
 Sequel::Model.plugin(:validation_helpers)
 Sequel::Model.plugin(:association_pks)
 

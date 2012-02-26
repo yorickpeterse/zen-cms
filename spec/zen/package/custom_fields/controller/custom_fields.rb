@@ -13,15 +13,6 @@ describe 'CustomFields::Controller::CustomFields' do
   save_button   = lang('custom_fields.buttons.save')
   delete_button = lang('custom_fields.buttons.delete')
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      CustomFields::Controller::CustomFields.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
-
   it 'Find no existing fields' do
     message = lang('custom_fields.messages.no_fields')
 
@@ -29,6 +20,18 @@ describe 'CustomFields::Controller::CustomFields' do
 
     page.has_selector?('table tbody tr').should == false
     page.has_content?(message).should           == true
+  end
+
+  it 'Try to create a new custom field with a missing CSRF token' do
+    visit(index_url)
+    click_link(new_button)
+
+    within '#custom_field_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it "Create a new custom field" do

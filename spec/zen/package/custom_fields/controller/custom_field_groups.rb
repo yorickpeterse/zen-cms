@@ -10,15 +10,6 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
   delete_button = lang('custom_field_groups.buttons.delete')
   new_button    = lang('custom_field_groups.buttons.new')
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      CustomFields::Controller::CustomFieldGroups.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
-
   it 'Find no existing field groups' do
     message = lang('custom_field_groups.messages.no_groups')
 
@@ -29,6 +20,17 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
     # If the page shows the message telling the user that there are no groups.
     page.has_selector?('table tbody tr').should == false
     page.has_content?(message).should           == true
+  end
+
+  it 'Try to create a new custom field group with a missing CSRF token' do
+    visit(new_url)
+
+    within '#custom_field_group_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it 'Create a new group' do

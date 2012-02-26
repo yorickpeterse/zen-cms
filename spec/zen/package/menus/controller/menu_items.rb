@@ -19,13 +19,16 @@ describe "Menus::Controller::MenuItems" do
     page.has_selector?('table tbody tr').should == false
   end
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      Menus::Controller::MenuItems.r(:save).to_s
-    )
+  it 'Try to create a new menu item with a missing CSRF token' do
+    visit(index_url)
+    click_link(new_button)
 
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
+    within '#menu_item_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it "Create a new menu item" do

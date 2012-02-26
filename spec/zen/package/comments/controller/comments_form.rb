@@ -39,12 +39,15 @@ describe "Comments::Controller::CommentsForm" do
     :section_id              => section.id
   )
 
-  it 'Submit a comment without a CSRF token' do
-    url      = Comments::Controller::CommentsForm.r(:save).to_s
-    response = page.driver.post(url)
+  it 'Try to submit a new comment with a missing CSRF token' do
+    visit(SpecCommentsForm.r(:index).to_s)
 
-    response.body.should   == lang('zen_general.errors.csrf')
-    response.status.should == 403
+    within '#spec_comments_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on('Submit')
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it 'Submit a comment' do

@@ -11,15 +11,6 @@ describe "Users::Controller::Users" do
   delete_button = lang('users.buttons.delete')
   status        = lang('users.special.status_hash.active')
 
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      Users::Controller::Users.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
-
   it 'Show the login form' do
     visit(login_url)
 
@@ -55,6 +46,18 @@ describe "Users::Controller::Users" do
 
     page.has_selector?('table tbody tr').should == true
     page.has_content?(message).should           == false
+  end
+
+  it 'Try to create a new user with a missing CSRF token' do
+    visit(index_url)
+    click_link(new_button)
+
+    within '#user_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it "Create a new user" do

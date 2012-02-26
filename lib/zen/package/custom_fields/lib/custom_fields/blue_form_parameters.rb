@@ -258,8 +258,8 @@ module CustomFields
 
       ##
       # Determines the value of a custom field. If a field's value is set in
-      # ``flash[:custom_field_values]`` it will be retrieved from this hash,
-      # otherwise the default value is used.
+      # ``flash[:form_data]`` it will be retrieved from this hash, otherwise the
+      # default value is used.
       #
       # @since  26-02-2012
       # @param  [String] name The name of the field.
@@ -268,9 +268,9 @@ module CustomFields
       #
       def get_value(name, value)
         if Ramaze::Current.session \
-        and Ramaze::Current.session.flash[:custom_field_values] \
-        and Ramaze::Current.session.flash[:custom_field_values].key?(name)
-          value = Ramaze::Current.session.flash[:custom_field_values][name]
+        and Ramaze::Current.session.flash[:form_data] \
+        and Ramaze::Current.session.flash[:form_data].key?(name)
+          value = Ramaze::Current.session.flash[:form_data][name]
         end
 
         return value

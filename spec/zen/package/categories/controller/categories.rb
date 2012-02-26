@@ -16,18 +16,10 @@ describe "Categories::Controller::Categories" do
 
   group         = Categories::Model::CategoryGroup.create(:name => 'Spec group')
   index_url     = Categories::Controller::Categories.r(:index, group.id).to_s
-  edit_url      = Categories::Controller::Categories.r(:edit , group.id).to_s
+  edit_url      = Categories::Controller::Categories.r(:edit, group.id).to_s
+  new_url       = Categories::Controller::Categories.r(:new, group.id).to_s
   save_button   = lang('categories.buttons.save')
   delete_button = lang('categories.buttons.delete')
-
-  it 'Submit a form without a CSRF token' do
-    response = page.driver.post(
-      Categories::Controller::Categories.r(:save).to_s
-    )
-
-    response.body.include?(lang('zen_general.errors.csrf')).should == true
-    response.status.should                                         == 403
-  end
 
   it 'Find no existing categories' do
     message = lang('categories.messages.no_categories')
@@ -37,6 +29,17 @@ describe "Categories::Controller::Categories" do
     page.has_content?(message).should           == true
     page.has_selector?('table tbody tr').should == false
     current_path.should                         == index_url
+  end
+
+  it 'Try to create a new category with a missing CSRF token' do
+    visit(new_url)
+
+    within '#category_form' do
+      find('input[name="csrf_token"]').set('')
+      click_on(save_button)
+    end
+
+    page.has_content?(lang('zen_general.errors.csrf')).should == true
   end
 
   it "Create a new category" do
