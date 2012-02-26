@@ -296,7 +296,6 @@ describe "Sections::Controller::SectionEntries" do
   it 'Call the event delete_section_entry (before and after)' do
     event_name  = nil
     event_name2 = nil
-    message     = lang('section_entries.messages.no_entries')
 
     Zen::Event.listen(:before_delete_section_entry) do |entry|
       event_name = entry.title
@@ -306,13 +305,10 @@ describe "Sections::Controller::SectionEntries" do
       event_name2 = entry.title
     end
 
-    visit(index_url)
-    check('section_entry_ids[]')
-    click_on(delete_button)
+    Sections::Model::SectionEntry[:slug => 'entry'].destroy
 
-    page.has_content?(message).should           == true
-    event_name.should                           == 'Entry modified'
-    event_name2.should                          == event_name
+    event_name.should  == 'Entry modified'
+    event_name2.should == event_name
 
     Zen::Event.delete(:before_delete_section_entry, :after_delete_section_entry)
   end
