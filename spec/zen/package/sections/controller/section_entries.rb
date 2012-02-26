@@ -310,7 +310,6 @@ describe "Sections::Controller::SectionEntries" do
     check('section_entry_ids[]')
     click_on(delete_button)
 
-    page.has_content?('Entry modified').should  == false
     page.has_content?(message).should           == true
     event_name.should                           == 'Entry modified'
     event_name2.should                          == event_name
