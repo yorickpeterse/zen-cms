@@ -233,9 +233,7 @@ module Sections
 
             begin
               result[group.id][:fields].push(
-                CustomFields::BlueFormParameters.send(
-                  m, field, values[field.id]
-                )
+                CustomFields::BlueFormParameters.send(m, field, values[field.id])
               )
             rescue => e
               Ramaze::Log.error(e)

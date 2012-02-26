@@ -87,11 +87,9 @@ module CustomFields
       def input_text(field, field_value)
         type   = field.custom_field_type
         value  = field_value.value rescue nil
+        name   = "custom_field_value_#{field.id}"
         params = [
-          :input_text,
-          field.name,
-          "custom_field_value_#{field.id}",
-          {:value => value}
+          :input_text, field.name, name, {:value => get_value(name, value)}
         ]
 
         if !field.text_limit.nil?
@@ -164,13 +162,8 @@ module CustomFields
       def input_radio(field, field_value)
         type   = field.custom_field_type
         value  = field_value.value rescue nil
-        params = [
-          :input_radio,
-          field.name,
-          "custom_field_value_#{field.id}",
-          value,
-          {}
-        ]
+        name   = "custom_field_value_#{field.id}"
+        params = [:input_radio, field.name, name, get_value(name, value), {}]
 
         # Convert the string containing the possible values to a hash.
         if !field.possible_values.nil? and !field.possible_values.empty?
@@ -215,11 +208,12 @@ module CustomFields
       def select(field, field_value)
         type   = field.custom_field_type
         value  = field_value.value rescue nil
+        name   = "custom_field_value_#{field.id}"
         params = [
           :select,
           field.name,
-          "custom_field_value_#{field.id}",
-          {:selected => value, :size => 1}
+          name,
+          {:selected => get_value(name, value), :size => 1}
         ]
 
         # Convert the string containing the possible values to a hash.
@@ -258,6 +252,28 @@ module CustomFields
         params.last.delete(:size)
 
         return params
+      end
+
+      private
+
+      ##
+      # Determines the value of a custom field. If a field's value is set in
+      # ``flash[:custom_field_values]`` it will be retrieved from this hash,
+      # otherwise the default value is used.
+      #
+      # @since  26-02-2012
+      # @param  [String] name The name of the field.
+      # @param  [Mixed] value The default value.
+      # @return [Mixed]
+      #
+      def get_value(name, value)
+        if Ramaze::Current.session \
+        and Ramaze::Current.session.flash[:custom_field_values] \
+        and Ramaze::Current.session.flash[:custom_field_values].key?(name)
+          value = Ramaze::Current.session.flash[:custom_field_values][name]
+        end
+
+        return value
       end
     end # class << self
   end # BlueFormParameters

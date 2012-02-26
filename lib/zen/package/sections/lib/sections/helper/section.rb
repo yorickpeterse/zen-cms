@@ -66,21 +66,22 @@ module Ramaze
         entry.custom_fields.each do |field|
           key = "custom_field_value_#{field.id}"
 
-          next unless request.params.key?(key)
-
-          if field.required and request.params[key].empty?
+          if field.required \
+          and (request.POST[key].nil? or request.POST[key].empty?)
             field_errors[:"custom_field_value_#{field.id}"] = \
               lang('zen_models.presence')
 
             next
           end
 
+          next unless request.POST.key?(key)
+
           if field_values.key?(field.id)
-            field_values[field.id].update(:value => request.params[key])
+            field_values[field.id].update(:value => request.POST[key])
           else
             entry.add_custom_field_value(
               :custom_field_id => field.id,
-              :value           => request.params[key]
+              :value           => request.POST[key]
             )
           end
         end

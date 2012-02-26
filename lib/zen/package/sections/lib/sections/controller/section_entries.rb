@@ -197,6 +197,7 @@ module Sections
         success      = lang("section_entries.success.#{save_action}")
         error        = lang("section_entries.errors.#{save_action}")
         field_errors = {}
+        field_values = {}
 
         begin
           Zen.database.transaction do
@@ -211,8 +212,9 @@ module Sections
           Ramaze::Log.error(e)
           message(:error, error)
 
-          flash[:form_errors] = entry.errors.merge(field_errors)
-          flash[:form_data]   = post_data
+          flash[:form_errors]         = entry.errors.merge(field_errors)
+          flash[:form_data]           = post_data
+          flash[:custom_field_values] = request.POST
 
           redirect_referrer
         end

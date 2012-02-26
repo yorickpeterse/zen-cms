@@ -106,6 +106,15 @@ describe "Sections::Controller::SectionEntries" do
     page.has_selector?(
       "label[for=\"form_custom_field_value_#{field.id}\"] span.error"
     ).should == true
+
+    within '#section_entry_form' do
+      fill_in(title_field, :with => '')
+      fill_in(field.name, :with => 'Custom value')
+      click_on(save_button)
+    end
+
+    page.has_selector?('label[for="form_title"] span.error').should == true
+    page.find_field(field.name).value.should == 'Custom value'
   end
 
   it 'Search for a section entry' do
