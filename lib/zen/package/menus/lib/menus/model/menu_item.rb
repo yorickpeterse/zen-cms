@@ -87,6 +87,29 @@ module Menus
       end
 
       ##
+      # Hook that is called before creating a new object.
+      #
+      # @since 28-02-2012
+      #
+      def before_create
+        # Set the sort order based on the order of the last item.
+        if self.sort_order.nil?
+          last = Zen.database[MenuItem.table_name] \
+            .select(:sort_order + 1 => :sort_order) \
+            .filter(:menu_id => self.menu_id) \
+            .order(:sort_order.desc) \
+            .limit(1) \
+            .first
+
+          unless last.nil?
+            self.sort_order = last[:sort_order]
+          end
+        end
+
+        super
+      end
+
+      ##
       # Hook that is executed before creating or saving an object.
       #
       # @since 03-01-2012
