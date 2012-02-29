@@ -13,13 +13,16 @@
           f.input_text(
             lang('users.labels.email'),
             :email,
-            :tabindex => 1
+            :tabindex  => 1,
+            :autofocus => :autofocus,
+            :required  => :required
           )
 
           f.input_password(
             lang('users.labels.password'),
             :password,
-            :tabindex => 2
+            :tabindex => 2,
+            :required => :required
           )
 
           f.g.input(
