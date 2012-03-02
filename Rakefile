@@ -4,6 +4,9 @@ Zen::Gemspec = Gem::Specification::load(
   File.expand_path('../zen.gemspec', __FILE__)
 )
 
-Dir.glob(File.expand_path('../lib/zen/task/*.rake', __FILE__)).each do |task|
-  import(task)
+task_path = File.expand_path('../lib/zen/task', __FILE__)
+tasks     = ['build', 'clean', 'proto', 'setup', 'test']
+
+tasks.each do |task|
+  import File.join(task_path, "#{task}.rake")
 end
