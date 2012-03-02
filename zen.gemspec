@@ -14,6 +14,29 @@ Gem::Specification.new do |s|
     'Zen gives you complete freedom to build whatever you want in whatever ' \
     'way you might want to build it.'
 
+  s.post_install_message = <<-TXT.strip
+Thank you for installing Zen. Creating a new project can be done by running
+the following command:
+
+    $ zen create
+
+This command will walk you through the steps required to create a new project
+using Zen. Once your project has been created you should not forget to migrate
+your database, this can be done as following:
+
+    $ rake db:migrate
+
+Keep in mind that depending on your database configuration (this can be found
+in config/database.rb) you might have to install separate Rubygems. For example,
+for SQLite3 you'll need to install the sqlite3 gem.
+
+After the database has been migrated you can start your application:
+
+    $ ramaze start
+
+For more information see the documentation: http://zen-cms.com/documentation
+  TXT
+
   s.files                 = `cd #{path}; git ls-files`.split("\n").sort
   s.has_rdoc              = 'yard'
   s.executables           = ['zen']
