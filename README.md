@@ -106,13 +106,7 @@ small portion of what it can do.
 
 * [Website][zen website]
 * [Mailing list][mailing list]
-
-Zen does not have it's own IRC channel at this time but you can usually find me
-in any of the following channels on Freenode:
-
-* \#forrst-chat
-* \#ramaze
-* \#ruby-lang
+* IRC channel: \#zen on Freenode
 
 ## Websites Using Zen
 
