@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.4 - March 8th, 2012
+
+* Packages can contain multiple menus.
+* New UI for the backend.
+* All Javascript code is executed in strict mode.
+* Added a new Javascript class for parsing hash fragments: Zen.Hash.
+* Active tabs "persist" by changing URL hash fragments.
+* Slugs are generated less aggressively, allowing the use of characters such as
+  hyphens.
+* Various documentation improvements and numerous bug fixes.
+* Datepickers can be customized using HTML attributes.
+* Etanni template tags are escaped when dealing with user input.
+* Added a new package: "Dashboard". This package shows various widgets and
+  replaces the "Sections" package as the landing page after logging in.
+* Performance improvements for ``Ramaze::Helper::MenuFrontend#render_menu()``.
+  These improvements mean that only two queries are needed to retrieve a menu
+  and build the hierarchy of menu items (regardless of the amount).
+* Fixed an issue that would incorrectly generate application names when creating
+  a new application using ``zen create``.
+* Full stack traces are logged in case of errors rather than just the message.
+* Model related events (e.g. before_new_section_entry) have been moved into
+  their corresponding models.
+* Menu item manager has been re-written so that menu items can be organized
+  using a drop and drag interface.
+* The various assets used by Zen have been re-organized.
+* Custom data can be stored in themes and packages in the ``env`` attribute.
+* Forms are automatically saved every 10 minutes. This only happens for forms
+  that contain data of existing objects.
+* The controller Zen::Controller::Translations has been removed. Instead of
+  using a controller translations are simply dumped as a JSON string in a view.
+* Fixed an issue that would cause Zen to crash when trying to store certain data
+  using Ramaze::Cache::LRU.
+* Custom fields are re-filled with their values whenever a user tries to
+  save/create a section entry with invalid/missing data.
+* CSRF errors no longer show a plain text message but instead redirect users
+  back to the previous page. In case of such an error forms will be re-filled to
+  prevent data loss.
+* The sort order of menu items increments automatically unless a custom order
+  has been specified.
+* Various dependencies have been updated.
+
 ## 0.3 - November 27th, 2011
 
 * Fixed slug generation.
