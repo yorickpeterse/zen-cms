@@ -106,7 +106,7 @@ small portion of what it can do.
 
 * [Website][zen website]
 * [Mailing list][mailing list]
-* IRC channel: \#zen on Freenode
+* IRC channel: \#zen-cms on Freenode
 
 ## Websites Using Zen
 
