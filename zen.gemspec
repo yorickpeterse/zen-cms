@@ -5,7 +5,7 @@ path = File.expand_path('../', __FILE__)
 Gem::Specification.new do |s|
   s.name        = 'zen'
   s.version     = Zen::VERSION
-  s.date        = '2011-11-27'
+  s.date        = '2012-03-07'
   s.authors     = ['Yorick Peterse']
   s.email       = 'yorickpeterse@gmail.com'
   s.summary     = 'Zen is a modular CMS written using Ramaze.'
@@ -43,7 +43,7 @@ For more information see the documentation: http://zen-cms.com/documentation
   s.required_ruby_version = '>= 1.9.2'
 
   s.add_dependency('sequel'      , ['~> 3.33.0'])
-  s.add_dependency('ramaze'      , ['~> 2011.12.28'])
+  s.add_dependency('ramaze'      , ['~> 2012.03.07'])
   s.add_dependency('bcrypt-ruby' , ['~> 3.0.1'])
   s.add_dependency('rake'        , ['~> 0.9.2'])
   s.add_dependency('loofah'      , ['~> 1.2.0'])

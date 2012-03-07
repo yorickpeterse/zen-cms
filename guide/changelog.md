@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4 - March 8th, 2012
+## 0.4 - March 7th, 2012
 
 * Packages can contain multiple menus.
 * New UI for the backend.
