@@ -5,13 +5,18 @@
 # Because this file is loaded using require() like any other file you're free to
 # add statements and custom code in this configuration file.
 
+# The application mode to use. Based on different modes your application might
+# behave differently. For example, when set to :dev assets will not be minified.
+#
+# One thing to keep in mind is that the Ramaze mode **must** be set before
+# defining Zen's root directory. Defining the mode after setting the root
+# directory will prevent the various assets being used for the backend from
+# being minified.
+Ramaze.options.mode  = :dev
+
 # The root directory of your application. This directory will be used for
 # various settings by Zen and is therefor required.
 Zen.root = __DIR__('../')
-
-# The application mode to use. Based on different modes your application might
-# behave differently. For example, when set to :dev assets will not be minified.
-Ramaze.options.mode  = :dev
 
 # The name of your application. Its very important that this name is unique,
 # especially when a cache is shared among different Ramaze applications. If
