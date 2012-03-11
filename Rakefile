@@ -1,6 +1,6 @@
 require 'rubygems'
 
-Zen::Gemspec = Gem::Specification::load(
+Zen::Gemspec = Gem::Specification.load(
   File.expand_path('../zen.gemspec', __FILE__)
 )
 
