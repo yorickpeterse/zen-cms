@@ -109,6 +109,10 @@ module CustomFields
           params.last[:class] = type.html_class
         end
 
+        if field.required
+          params.last[:required] = :required
+        end
+
         return params
       end
 
@@ -181,6 +185,10 @@ module CustomFields
           end
         end
 
+        if field.required
+          params.last[:required] = :required
+        end
+
         return params
       end
 
@@ -230,6 +238,10 @@ module CustomFields
 
             params.last[:values][key] = value
           end
+        end
+
+        if field.required
+          params.last[:required] = :required
         end
 
         return params

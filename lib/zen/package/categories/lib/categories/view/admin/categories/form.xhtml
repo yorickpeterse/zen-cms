@@ -9,43 +9,40 @@
           :method              => :post,
           :action              => Categories::Controller::Categories.r(:save),
           :id                  => :category_form,
-          :'data-autosave-url' => Categories::Controller::Categories \
-            .r(:autosave)
+          :'data-autosave-url' => Categories::Controller::Categories.r(:autosave)
         ) do |f|
           f.input_hidden(:category_group_id, @category_group_id)
           f.input_hidden(:id               , @category.id)
           f.input_hidden(:csrf_token       , get_csrf_token)
 
-          f.g.div(:id => 'general') do
-            f.input_text(
-              lang('categories.labels.name'),
-              :name,
-              :title => lang('categories.descriptions.name'),
-              :required    => :required,
-              :maxlength   => 255
-            )
+          f.input_text(
+            lang('categories.labels.name'),
+            :name,
+            :title => lang('categories.descriptions.name'),
+            :required    => :required,
+            :maxlength   => 255
+          )
 
-            f.input_text(
-              lang('categories.labels.slug'),
-              :slug,
-              :title => lang('categories.descriptions.slug'),
-              :maxlength   => 255
-            )
+          f.input_text(
+            lang('categories.labels.slug'),
+            :slug,
+            :title => lang('categories.descriptions.slug'),
+            :maxlength   => 255
+          )
 
-            f.select(
-              lang('categories.labels.parent'),
-              :parent_id,
-              :values   => parent_categories(@category.id, @category_group_id),
-              :size     => 1,
-              :selected => @category.parent_id
-            )
+          f.select(
+            lang('categories.labels.parent'),
+            :parent_id,
+            :values   => parent_categories(@category.id, @category_group_id),
+            :size     => 1,
+            :selected => @category.parent_id
+          )
 
-            f.textarea(
-              lang('categories.labels.description'),
-              :description,
-              :rows => 8
-            )
-          end
+          f.textarea(
+            lang('categories.labels.description'),
+            :description,
+            :rows => 8
+          )
 
           f.g.input(
             :type  => 'submit',

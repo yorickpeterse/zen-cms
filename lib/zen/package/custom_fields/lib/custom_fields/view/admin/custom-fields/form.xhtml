@@ -33,7 +33,7 @@
           f.input_hidden(:custom_field_group_id, @custom_field_group_id)
           f.input_hidden(:csrf_token           , get_csrf_token)
 
-          f.g.div(:id => 'general') do
+          f.g.div(:id => 'general', :class => :tab_field) do
             f.input_text(
               lang('custom_fields.labels.name'),
               :name,
@@ -77,7 +77,7 @@
             )
           end
 
-          f.g.div(:id => 'settings') do
+          f.g.div(:id => 'settings', :class => :tab_field) do
             f.input_radio(
               lang('custom_fields.labels.required'),
               :required,

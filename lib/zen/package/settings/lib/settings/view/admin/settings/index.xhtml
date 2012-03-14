@@ -23,7 +23,7 @@
           f.input_hidden(:csrf_token, get_csrf_token)
 
           @settings_ordered.each do |group, items|
-            f.g.div(:id => "group_#{group}") do
+            f.g.div(:id => "group_#{group}", :class => :tab_field) do
               items.each do |s|
                 f.send(*get_setting(s.name).form_parameters)
               end

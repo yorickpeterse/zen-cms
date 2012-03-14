@@ -36,7 +36,7 @@
           f.input_hidden(:id, @user_group.id)
           f.input_hidden(:csrf_token, get_csrf_token)
 
-          f.g.div(:id => 'user_group_tab') do
+          f.g.div(:id => 'user_group_tab', :class => :tab_field) do
             f.input_text(
               lang('user_groups.labels.name'),
               :name,
@@ -66,7 +66,7 @@
           end
 
           if user_authorized?(:show_permission) and @user_group.exists?
-            f.g.div(:id => 'permissions') do
+            f.g.div(:id => 'permissions', :class => :tab_field) do
               render_file(__DIR__('../users/permissions.xhtml'))
             end
           end

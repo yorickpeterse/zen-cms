@@ -157,6 +157,11 @@ pre
     background-image: url('/admin/zen/images/icons/categories.png');
 }
 
+.icon.error
+{
+    background-image: url('/admin/zen/images/icons/error.png');
+}
+
 .label
 {
     color:   #fff;

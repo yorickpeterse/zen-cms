@@ -37,7 +37,7 @@
           f.input_hidden(:id        , @section.id)
           f.input_hidden(:csrf_token, get_csrf_token)
 
-          f.g.div(:id => 'general') do
+          f.g.div(:id => 'general', :class => :tab_field) do
             f.input_text(
               lang('sections.labels.name'),
               :name,
@@ -58,7 +58,7 @@
             )
           end # f.g.div(:id => 'general')
 
-          f.g.div(:id => 'comments') do
+          f.g.div(:id => 'comments', :class => :tab_field) do
             f.input_radio(
               lang('sections.labels.comment_allow'),
               :comment_allow,
@@ -93,7 +93,7 @@
             )
           end # f.g.div(:id => 'comments')
 
-          f.g.div(:id => 'groups') do
+          f.g.div(:id => 'groups', :class => :tab_field) do
             f.input_checkbox(
               lang('sections.labels.custom_field_groups'),
               :custom_field_group_pks,

@@ -62,6 +62,7 @@ Out of the box the following classes are available:
 * {file:javascript/zen_editor Zen.Editor}
 * {file:javascript/zen_htmltable Zen.HtmlTable}
 * {file:javascript/zen_autosave Zen.Autosave}
+* {file:javascript/zen_form Zen.Form}
 
 The following third-party classes are also provided:
 

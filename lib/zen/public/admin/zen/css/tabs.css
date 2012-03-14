@@ -56,6 +56,14 @@
             padding-left: 23px;
         }
 
+        .tabs ul li .tab_error
+        {
+            height:   16px;
+            margin:   -5px 0px 0px -5px;
+            position: absolute;
+            width:    16px;
+        }
+
     .tabs ul li.active
     {
         background:    #fff;

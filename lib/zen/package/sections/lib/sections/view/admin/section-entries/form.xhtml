@@ -41,7 +41,7 @@
           f.input_hidden(:section_id, @section_id)
           f.input_hidden(:id        , @entry.id)
 
-          f.g.div(:id => :basic) do
+          f.g.div(:id => :basic, :class => :tab_field) do
             f.input_text(
               lang('section_entries.labels.title'),
               :title,
@@ -86,7 +86,7 @@
             )
           end
 
-          f.g.div(:id => :categories) do
+          f.g.div(:id => :categories, :class => :tab_field) do
             if !@possible_categories.empty?
               @possible_categories.each do |group, categories|
                 f.input_checkbox(
@@ -103,7 +103,7 @@
 
           # Display all the custom fields for this entry
           @custom_fields_hash.each do |id, group|
-            f.g.div(:id => "group_#{id}") do
+            f.g.div(:id => "group_#{id}", :class => :tab_field) do
               group[:fields].each do |field|
                 f.send(*field)
               end
