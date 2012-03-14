@@ -48,6 +48,10 @@ describe "Sections::Controller::SectionEntries" do
   title_field   = lang('section_entries.labels.title')
   status_field  = lang('section_entries.special.status_hash.published')
 
+  before do
+    Users::Model::User.filter(~{:email => 'spec@domain.tld'}).delete
+  end
+
   it 'Find no existing entries' do
     message = lang('section_entries.messages.no_entries')
 
@@ -223,6 +227,34 @@ describe "Sections::Controller::SectionEntries" do
     page.has_selector?(
       "label[for=\"form_custom_field_value_#{field.id}\"] span.error"
     ).should == true
+  end
+
+  it 'Ensure that author names are preserved' do
+    spec_user = Users::Model::User[:email => 'spec@domain.tld']
+    user      = Users::Model::User.create(
+      :email    => 'user@example.com',
+      :password => '123',
+      :name     => 'User'
+    )
+
+    user.activate!
+
+    visit(index_url)
+    click_link('Spec entry')
+
+    within '#section_entry_form' do
+      select(user.name, :from => 'user_id')
+      click_on(save_button)
+    end
+
+    page.find('select[name="user_id"]').value.should == user.id.to_s
+
+    within '#section_entry_form' do
+      select(spec_user.name, :from => 'user_id')
+      click_on(save_button)
+    end
+
+    page.find('select[name="user_id"]').value.should == spec_user.id.to_s
   end
 
   it 'Fail to delete an entry without an ID' do

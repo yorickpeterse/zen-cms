@@ -74,7 +74,8 @@
               :user_id,
               :values   => ::Users::Model::User.pk_hash(:name),
               :size     => 1,
-              :required => :required
+              :required => :required,
+              :selected => @entry.user_id
             )
 
             f.select(
