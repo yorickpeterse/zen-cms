@@ -55,3 +55,36 @@ table
 {
     background: #fff;
 }
+
+/* Styles for the pager. */
+.pager
+{
+    float:         right;
+    margin-bottom: 20px;
+}
+
+.pager .grey
+{
+    display: none;
+}
+
+.pager span, .pager a
+{
+    border:       1px solid #ccc;
+    color:        #000;
+    display:      inline-block;
+    min-width:    20px;
+    margin-right: 8px;
+    padding:      5px;
+    text-align:   center;
+
+    border-radius:         3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius:    3px;
+}
+
+.pager a:hover, .pager .current
+{
+    background:      #eee;
+    text-decoration: none;
+}
