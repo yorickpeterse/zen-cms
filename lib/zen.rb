@@ -138,8 +138,10 @@ module Zen
           'admin/mootools/js/core',
           'admin/mootools/js/more',
           'admin/zen/js/lib/base',
+          'admin/zen/js/lib/events',
           'admin/zen/js/lib/html_table',
           'admin/zen/js/lib/autosave',
+          'admin/zen/js/lib/form',
           'admin/zen/js/index'
         ],
         :name => 'zen_core'
