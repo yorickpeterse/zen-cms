@@ -59,7 +59,7 @@ Sequel.migration do
 
     # Put the old statuses back in place
     comments.each do |comment|
-      Zen.database.filter(:id => comment[:id]) \
+      Zen.database[:comments].filter(:id => comment[:id]) \
         .update(:status => statuses[comment[:comment_status_id]])
     end
 

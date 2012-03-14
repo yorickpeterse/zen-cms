@@ -55,7 +55,7 @@ Sequel.migration do
     end
 
     entries.each do |entry|
-      Zen.database.filter(:id => entry[:id]) \
+      Zen.database[:section_entries].filter(:id => entry[:id]) \
         .update(:status => statuses[entry[:section_entry_status_id]])
     end
 
