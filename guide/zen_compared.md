@@ -7,6 +7,110 @@ things up a bit.
 
 Do note that since I wrote Zen my opinion is more than likely biased.
 
+## Quick Overview
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Zen</th>
+            <th>Wordpress</th>
+            <th>Expression Engine</th>
+            <th>Radiant</th>
+            <th>Refinery</th>
+            <th>Locomotive</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <strong>Language</strong>
+            </td>
+            <td>Ruby</td>
+            <td>PHP</td>
+            <td>PHP</td>
+            <td>Ruby</td>
+            <td>Ruby</td>
+            <td>Ruby</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Framework</strong>
+            </td>
+            <td>Ramaze</td>
+            <td>None</td>
+            <td>Codeigniter</td>
+            <td>Rails</td>
+            <td>Rails</td>
+            <td>Rails</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Storage Engines</strong>
+            </td>
+            <td>MySQL, PostgreSQL, SQLite3 <sup>1</sup></td>
+            <td>MySQL</td>
+            <td>MySQL</td>
+            <td>MySQL, SQLite3 and probably PostgreSQL</td>
+            <td>MySQL, PostgreSQL, SQLite3</td>
+            <td>MongoDB</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>License</strong>
+            </td>
+            <td>MIT</td>
+            <td>GPLv2</td>
+            <td>Proprietary</td>
+            <td>MIT</td>
+            <td>MIT</td>
+            <td>MIT</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Flexible content management <sup>2</sup></strong>
+            </td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Limited</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Easy to install <sup>3</sup></strong>
+            </td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Markup <sup>4</sup></strong>
+            </td>
+            <td>plain text, Markdown, Textile, HTML</td>
+            <td>plain text, HTML</td>
+            <td>plain text, HTML</td>
+            <td>plain text, Markdown, Textile, SmartyPants</td>
+            <td>plain text, HTML</td>
+            <td>Unknown, probably plain text and HTML</td>
+        </tr>
+    </tbody>
+</table>
+
+1. Zen in theory supports all databases supported by Sequel but only the ones
+   listed above have been officially tested.
+2. Flexible content management without having to install various third-party
+   plugins.
+3. Easy to install without the need of having to execute multiple shell commands
+   or manually extracting archives.
+4. Support for different markup formats without installing third-party plugins
+   or writing them yourself.
+
 ## Zen vs Wordpress
 
 There are quite a few differences between Zen and Wordpress besides the language
