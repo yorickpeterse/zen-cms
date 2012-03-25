@@ -93,10 +93,10 @@ module Zen
       require 'zen/model/methods'
       require 'zen/package/all'
 
+      Zen::Event.call(:post_start)
+
       Zen.asset.build(:javascript)
       Zen.asset.build(:css)
-
-      Zen::Event.call(:post_start)
     end
 
     private
