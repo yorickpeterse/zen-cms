@@ -87,15 +87,12 @@ module Zen
     # Prepares Zen for the party of its life.
     #
     # @since 0.3
-    # @event pre_start Event that is fired before starting Zen.
     # @event post_start Event that is fired after all packages have been loaded,
     #  the cache has been set up, etc. This event is called at the very end of
     #  the method.
     #
     def start
       raise('No valid root directory specified in Zen.root') if root.nil?
-
-      Zen::Event.call(:pre_start)
 
       # Set up Ramaze::Cache manually. This makes it possible for the language
       # files to cache their data in the custom cache without having to wait for
