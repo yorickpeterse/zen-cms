@@ -1,5 +1,3 @@
-Zen::Language.load('zen_models')
-
 Sequel::Model.strict_param_setting = false
 
 Sequel::Model.plugin(:validation_helpers)
@@ -9,6 +7,13 @@ Sequel.extension(:migration)
 Sequel.extension(:pagination)
 Sequel.extension(:inflector)
 
+Zen::Event.listen :post_start do
+  Zen::Language.load('zen_models')
+end
+
+# Note that the values for the :message keys should always be wrapped in
+# lambdas. Doing so means the call to lang() won't be executed until it is
+# actually needed.
 Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
 {
   :exact_length => {
@@ -16,7 +21,7 @@ Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
   },
 
   :format => {
-    :message => lang('zen_models.format')
+    :message => lambda { lang('zen_models.format') }
   },
 
   :includes  => {
@@ -25,12 +30,12 @@ Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
   },
 
   :integer => {
-    :message   => lang('zen_models.integer'),
+    :message   => lambda { lang('zen_models.integer') },
     :allow_nil => true
   },
 
   :length_range => {
-    :message => lang('zen_models.length_range')
+    :message => lambda { lang('zen_models.length_range') }
   },
 
   :max_length => {
@@ -43,11 +48,11 @@ Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
   },
 
   :not_string => {
-    :message  => lang('zen_models.not_string')
+    :message  => lambda { lang('zen_models.not_string') }
   },
 
   :numeric   => {
-    :message => lang('zen_models.numeric')
+    :message => lambda { lang('zen_models.numeric') }
   },
 
   :type      => {
@@ -55,10 +60,10 @@ Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
   },
 
   :presence  => {
-    :message => lang('zen_models.presence')
+    :message => lambda { lang('zen_models.presence') }
   },
 
   :unique    => {
-    :message => lang('zen_models.unique')
+    :message => lambda { lang('zen_models.unique') }
   }
 })

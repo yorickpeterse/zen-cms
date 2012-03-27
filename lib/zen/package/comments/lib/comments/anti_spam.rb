@@ -60,7 +60,7 @@ module Comments
     # Array containing the method names of the various supported engines and
     # their labels to display in the admin interface.
     REGISTERED = {
-      :defensio => lang('comments.labels.defensio')
+      :defensio => 'comments.labels.defensio'
     }
 
     class << self

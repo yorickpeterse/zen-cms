@@ -41,7 +41,7 @@ module Zen
 
   class << self
     # The database connection to use for Sequel.
-    attr_accessor :database
+    attr_reader :database
 
     # Instance of Ramaze::Asset::Environment to use for all backend assets.
     attr_accessor :asset
@@ -70,7 +70,21 @@ module Zen
     end
 
     ##
-    # Prepares Zen for the party of it's life.
+    # Sets the database connection to use and loads the core packages provided
+    # by Zen.
+    #
+    # @since 27-03-2012
+    #
+    def database=(database)
+      @database = database
+
+      require 'zen/model/init'
+      require 'zen/model/methods'
+      require 'zen/package/all'
+    end
+
+    ##
+    # Prepares Zen for the party of its life.
     #
     # @since 0.3
     # @event pre_start Event that is fired before starting Zen.
@@ -88,10 +102,6 @@ module Zen
       # Ramaze to set it up.
       Ramaze::Cache.setup
       Ramaze.options.setup.delete(Ramaze::Cache)
-
-      require 'zen/model/init'
-      require 'zen/model/methods'
-      require 'zen/package/all'
 
       Zen::Event.call(:post_start)
 

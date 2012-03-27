@@ -31,7 +31,15 @@ Settings::Setting.add do |setting|
   setting.group       = 'security'
   setting.type        = 'select'
   setting.default     = 'defensio'
-  setting.values      = lambda { Comments::AntiSpam::REGISTERED }
+  setting.values      = lambda do
+    regged = {}
+
+    Comments::AntiSpam::REGISTERED.each do |name, translation|
+      regged[name] = lang(translation)
+    end
+
+    return regged
+  end
 end
 
 Settings::Setting.add do |setting|
