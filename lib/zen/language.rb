@@ -20,18 +20,55 @@ module Zen
   #
   # When adding a language you **must** set the following items:
   #
-  # * **name**: the language code as defined in [ISO 639][iso 639]. Examples of
-  #   these codes are "en-GB", "nl", etc. At the moment Zen does not have
-  #   different language files for British English and American English.
-  # * **title**: the name of the language in a human friendly form. This name
-  #   should be set in the specific language. For example, for Dutch the title
-  #   would be "Nederlands".
+  # <table class="table full">
+  #     <thead>
+  #         <tr>
+  #             <th>Attribute</th>
+  #             <th>Description</th>
+  #         </tr>
+  #     </thead>
+  #     <tbody>
+  #         <tr>
+  #             <td>name</td>
+  #             <td>
+  #                 The language code as defined in
+  #                 <a href="https://en.wikipedia.org/wiki/ISO_639">ISO 369</a>.
+  #                 Examples of these codes are "en-GB", "nl", etc.
+  #             </td>
+  #         </tr>
+  #         <tr>
+  #             <td>title</td>
+  #             <td>
+  #                 A human friendly version of the name of the language. This
+  #                 name should be set in the specific language. For example,
+  #                 for Dutch the title should be "Nederlands" instead of
+  #                 "Dutch".
+  #             </td>
+  #         </tr>
+  #     </tbody>
+  # </table>
   #
   # Optionally you can also set the following attributes:
   #
-  # * **rtl**: indicates that the language reads from right to left. When set to
-  #   true the ``<html>`` tag will have an extra ``dir`` attribute so that
-  #   browsers can properly display the text from right to left.
+  # <table class="table full">
+  #     <thead>
+  #         <tr>
+  #             <th>Attribute</th>
+  #             <th>Description</th>
+  #         </tr>
+  #     </thead>
+  #     <tbody>
+  #         <tr>
+  #             <td>rtl</td>
+  #             <td>
+  #                 indicates that the language reads from right to left. When
+  #                 set to true the html tag will have an extra "dir" attribute
+  #                 so that browsers can properly display the text from right to
+  #                 left.
+  #             </td>
+  #         </tr>
+  #     </tbody>
+  # </table>
   #
   # ## Adding Translations
   #

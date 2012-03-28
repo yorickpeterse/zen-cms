@@ -120,25 +120,81 @@ module Zen
   # theme using Rubygems. For example, if the theme is called "test" then the
   # file would be called "test.rb".
   #
-  # When registering a theme you can set the following setters:
+  # When registering a new theme you're required to set the following
+  # attributes:
   #
-  # * name (required): the name of the theme (should be a symbol)
-  # * author (required): the name of the person who developed the theme.
-  # * about (required): a short description of the theme.
-  # * templates (required): a path to the directory containing the templates for
-  #   all sections.
-  # * partials: a path to the directory containing all the partials that should
-  #   be rendered when calling ``partial()``.
-  # * public: a path to an extra public directory to use, useful when you're
-  #   distributing your theme using Rubygems and want to ship it with a few CSS
-  #   files.
-  # * migrations: path to a directory containing all Sequel migrations for the
-  #   theme. While not always needed this can be useful to automatically insert
-  #   data into the database.
-  # * default_template_group: the name of the default template group to use in
-  #   case no custom one has been specified in the URI.
-  # * env: an instance of ``OpenStruct`` that can be used to store custom data
-  #   such as an instance of ``Ramaze::Asset::Environment``.
+  # <table class="table full">
+  #     <thead>
+  #         <tr>
+  #             <th>Attribute</th>
+  #             <th>Description</th>
+  #         </tr>
+  #     </thead>
+  #     <tbody>
+  #         <tr>
+  #             <td>name</td>
+  #             <td>The name of the theme as a symbol.</td>
+  #         </tr>
+  #         <tr>
+  #             <td>auhtor</td>
+  #             <td>The name of the author of the theme.</td>
+  #         </tr>
+  #         <tr>
+  #             <td>about</td>
+  #             <td>A short description of the theme.</td>
+  #         </tr>
+  #         <tr>
+  #             <td>templates</td>
+  #             <td>
+  #                 Path to the directory containing the templates of the
+  #                 theme.
+  #             </td>
+  #         </tr>
+  #     </tbody>
+  # </table>
+  #
+  # Optionally you can also specify the following attributes:
+  #
+  # <table class="table full">
+  #     <thead>
+  #         <tr>
+  #             <th>Attribute</th>
+  #             <th>Description</th>
+  #         </tr>
+  #     </thead>
+  #     <tbody>
+  #         <tr>
+  #             <td>partials</td>
+  #             <td>Path to a directory containing template partials.</td>
+  #         </tr>
+  #         <tr>
+  #             <td>public</td>
+  #             <td>
+  #                 Path to the public directory of the theme. This attribute is
+  #                 useful when you're distributing CSS and Javascript files (or
+  #                 other static files) with your theme.
+  #             </td>
+  #         </tr>
+  #         <tr>
+  #             <td>migrations</td>
+  #             <td>Directory containing Sequel migrations for the theme.</td>
+  #         </tr>
+  #         <tr>
+  #             <td>default_template_group</td>
+  #             <td>
+  #                 The name of the default template group to use, set to
+  #                 "default" by default.
+  #             </td>
+  #         </tr>
+  #         <tr>
+  #             <td>env</td>
+  #             <td>
+  #                 An instance of OpenStruct that can be used for storing
+  #                 arbitrary data (such as an asset manager).
+  #             </td>
+  #         </tr>
+  #     </tbody>
+  # </table>
   #
   # An example call to ``Zen::Theme.add`` using these options:
   #
@@ -166,7 +222,7 @@ module Zen
   # Some examples:
   #
   #     GET /pages/entry/hello-world => /pages/entry.xhtml
-  #     GET /pages/example            => /404.xhtml (if "example" doesn't exist)
+  #     GET /pages/example           => /404.xhtml (if "example" doesn't exist)
   #     GET /pages                   => /pages/index.xhtml
   #
   # Templates have access to the special instance variable ``@request_uri``.
@@ -175,7 +231,7 @@ module Zen
   # with the following values for this array:
   #
   #     GET /pages/entry/hello-world => ['pages', 'entry', 'hello-world']
-  #     GET /pages/example            => ['pages', 'example']
+  #     GET /pages/example           => ['pages', 'example']
   #     GET /pages                   => ['pages', 'index']
   #
   # ## Retrieving Data
