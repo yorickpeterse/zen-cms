@@ -127,6 +127,25 @@ module Zen
   #
   #     Zen::Language.load('foobar')
   #
+  # Due to the way the language system works it's impossible to load these
+  # before {Zen.start} is called. The recommended way of loading a language file
+  # is by wrapping it in an event listener for the "post_start" event:
+  #
+  #     Zen::Event.listen :post_start do
+  #       Zen::Language.load('example')
+  #     end
+  #
+  # The reason for this requirement is that language files are stored in a cache
+  # (Ramaze::Cache::LRU by default) and this cache isn't set up until
+  # {Zen.start} is called.
+  #
+  # <div class="note todo">
+  #     <p>
+  #         This can't be stressed enough: always load language files using the
+  #         post_start event.
+  #     </p>
+  # </div>
+  #
   # ## Using Translations
   #
   # Once the entire process of adding and loading a language file has been
@@ -147,6 +166,15 @@ module Zen
   #
   #     lang('foobar')
   #     lang('foo bar')
+  #
+  # <div class="note todo">
+  #     <p>
+  #         Because language files aren't loaded until Zen.start is called you
+  #         should never use or rely on translations before the application has
+  #         started. Most of the core code works around this by loading
+  #         translations using blocks whenever they're needed.
+  #     </p>
+  # </div>
   #
   # [iso 639]: https://en.wikipedia.org/wiki/ISO_639
   #
