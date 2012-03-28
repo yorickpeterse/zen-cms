@@ -53,11 +53,32 @@ module Categories
     #
     # In this form you can set the following fields:
     #
-    # * **Name**: the name of the category group. It can be any name in any
-    #   format as long as it's not longer than 255 characters.
-    # * **Description**: the description of the category group. While not
-    #   required it can be used to make it easier to remember that purpose a
-    #   category group has.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th>Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>
+    #                 The name of the category group, the length of this name
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Description</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>A short description of the category group.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # ## Used Permissions
     #

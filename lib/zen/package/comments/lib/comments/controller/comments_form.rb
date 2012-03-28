@@ -7,16 +7,54 @@ module Comments
     # you and thus you'll have to do this yourself. When creating such a form
     # you must add the following fields to it:
     #
-    # * **section_entry** (required): an ID of a section entry where the
-    #   comments belong to.
-    # * **user_id**: the ID of the currently logged in user (if any). If this ID
-    #   isn't specified the "name" and "Email" fields are required.
-    # * **comment**: the text of the comment.
-    # * **name**: the name of the author, required when the "user_id" field is
-    #   empty.
-    # * **website**: the website of the user, if any.
-    # * **email**: the Email address of the user, required if the "user_id"
-    #   field is empty.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th>Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>section_entry</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>The ID of the section entry the comment belongs to.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>user_id</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>A short description of the category group.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>comment</td>
+    #             <td>Yes</td>
+    #             <td>Unlimited</td>
+    #             <td>The text of the comment.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>name</td>
+    #             <td>Only when the user isn't logged in.</td>
+    #             <td>255</td>
+    #             <td>The name of the comment author.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>website</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>The website of the comment author.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>email</td>
+    #             <td>Only when the user isn't logged in.</td>
+    #             <td>255</td>
+    #             <td>The Email address of the user.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # An example of such a form looks like the code below. Note that this block
     # of code should be wrapped in a ``#{}`` tag.

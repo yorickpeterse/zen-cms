@@ -53,20 +53,65 @@ module Comments
     #
     # When editing a comment you can specify/update the following fields:
     #
-    # * **Name**: the name of the author. This field can only be changed if the
-    #   comment was posted by somebody that wasn't logged in.
-    # * **Website**: the website of the author that posted the comment.
-    # * **Email**: the Email address of the author. If the comment was posted by
-    #   a user that wasn't logged in then this field is required.
-    # * **Status**: the status of a comment, can be "Open", "Closed" or "Spam".
-    #   If the status is something other than "Open" it will be hidden when the
-    #   comments plugin is used.
-    # * **Comment** (required): the actual comment. Based on a section's
-    #   settings these are formatted using Markdown, Textile or any of the other
-    #   available markup processors.
-    #
-    # Note that if a comment was posted by a user that was logged in you won't
-    # be able to change the name of the author.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th>Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>
+    #                 Only when the comment was submitted by a non logged in
+    #                 user.
+    #             </td>
+    #             <td>255</td>
+    #             <td>
+    #                 The name of the author of the comment. This field can only
+    #                 be edited if the comment was submitted by a user that
+    #                 wasn't logged in.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Website</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>The website of the comment author.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Email</td>
+    #             <td>
+    #                 Only if the comment was submitted by a user that wasn't
+    #                 logged in.
+    #             </td>
+    #             <td>255</td>
+    #             <td>
+    #                 The Email address of the comment author. Like the name
+    #                 field this field can only be edited if the comment was
+    #                 submitted by a user that wasn't logged in.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Status</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>
+    #                 The status of the comment. If a comment is created and no
+    #                 status is specified the status will be set to "closed".
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Comment</td>
+    #             <td>Yes</td>
+    #             <td>Unlimited</td>
+    #             <td>The actual comment.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # ## Used Permissions
     #

@@ -27,18 +27,45 @@ module Categories
     #
     # In this form you can specify the following fields:
     #
-    # * **Name** (required): the name of the category. This name can be anything
-    #   and there's no restriction to it's format. An example of such a name
-    #   would be "Code" or "Products".
-    # * **Slug**: a URL friendly version of a category name. If no slug is
-    #   specified one will be generated based on the category name.
-    # * **Parent**: the name of the parent category.
-    # * **Description**: a description of the category. While not required it
-    #   can help you remember what the category is meant for in case the name
-    #   doesn't already make this clear enough.
-    #
-    # Note that both the name of a category and it's slug can not be longer than
-    # 255 characters.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th>Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The name of the category.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Slug</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>
+    #                 A URL friendly version of the name. If no custom slug is
+    #                 given one will be generated automatically.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Parent</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>The parent category.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Description</td>
+    #             <td>No</td>
+    #             <td>Unlimited</td>
+    #             <td>A short description of the category.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # ## Used Permissions
     #
