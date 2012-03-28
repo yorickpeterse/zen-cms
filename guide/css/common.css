@@ -37,6 +37,11 @@ pre.code
     width: 100%;
 }
 
+    .table .field_name
+    {
+        min-width: 160px;
+    }
+
     .table thead tr th.no_sort:first-child
     {
         width: 25px;

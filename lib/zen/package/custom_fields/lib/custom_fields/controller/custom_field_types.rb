@@ -28,26 +28,74 @@ module CustomFields
     #
     # In this form you can specify the following fields:
     #
-    # * **Name** (required): the name of the custom field type. This name can be
-    #   anything you like.
-    # * **Language string** (required): a valid language string that will result
-    #   in a language specific block of text. This text will be used for the
-    #   label.
-    # * **HTML Class**: a space separated list of HTML classes to apply to the
-    #   field type. The format of this value has to match the regular expression
-    #   ``/^[a-zA-Z\-_0-9\s]*$/``.
-    # * **Serialize**: whether or not the value of a field using this type
-    #   should be serialized. Set this to "Yes" if a field takes multiple values
-    #   such as a checkbox or a select element with the attribute
-    #   ``multiple="multiple"``.
-    # * **Allow markup**: whether or not users can use markup, such as Markdown
-    #   in a field using this type.
-    # * **Custom field method** (required): the name of a method in
-    #   {CustomFields::BlueFormParameters}. This method will be used to generate
-    #   all the parameters for the BlueForm helper.
-    #
-    # Note that the name, language string and HTML class can not be longer than
-    # 255 characters.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th class="field_name">Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The name of the custom field type.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Language string</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>
+    #                 The language string to use when displaying the custom
+    #                 field type.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>HTML class</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>
+    #                 A space separated list of HTML classes to apply to custom
+    #                 fields of this type. The value of this field should match
+    #                 the pattern <code>/^[a-zA-Z\-_0-9\s]*$/</code>
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Serialize</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>
+    #                 When set the values of custom fields of this type will be
+    #                 serialized using Ruby's Marshal module. This setting is
+    #                 useful for fields that can have multiple values such as
+    #                 checkboxes.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Allow markup</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>
+    #                 When set custom fields of this type can contain markup
+    #                 other than plain text.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Custom field method</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>
+    #                 The name of the method in the module
+    #                 {CustomFields::BlueFormParameters}. This method will be
+    #                 used for generating the required markup for each field of
+    #                 this type.
+    #             </td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # ## Used Permissions
     #

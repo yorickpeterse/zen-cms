@@ -24,32 +24,112 @@ module CustomFields
     #
     # In this form you can specify the following fields:
     #
-    # * **Name** (required): the name of the custom field, can be anything you
-    #   like. Examples are "Body" and "Date picker".
-    # * **Slug**: a URL friendly version of the name. If none is specified one
-    #   will be generated automatically.
-    # * **Field type** (required): the type of custom field.
-    # * **Format** (required): the markup engine to use for the custom field. If
-    #   a custom field type doesn't allow the use of markup this setting will
-    #   be ignored.
-    # * **Description**: a description of the custom field.
-    # * **Possible values**: in case a custom field type allows you to specify
-    #   multiple values (such as a checkbox) you can specify a value on each
-    #   line. These values can be specified as following:
-    #
-    #       key|value
-    #
-    #   Example:
-    #
-    #       Yes!|yes
-    #
-    # * **Requires a value**: whether or not this field requires a value.
-    # * **Enable a text editor**: when set to "Yes" the user can use the markup
-    #   editor when adding/editing a value of a field.
-    # * **Textarea rows**: the amount of rows when the field type is a textarea.
-    # * **Character limit**: the maximum amount of characters a user can enter
-    #   in the field.
-    # * **Sort order**: a number that indicates the sort order of the field.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th class="field_name">Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The name of the custom field.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Slug</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>
+    #                 A URL friendly version of the name. If no value is
+    #                 specified the slug will be generated based on the custom
+    #                 field's name.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Field type</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>The custom field type to use.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Format</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>The markup format for values of this custom field.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Description</td>
+    #             <td>No</td>
+    #             <td>Unlimited</td>
+    #             <td>
+    #                 A description of the custom field, displayed when the user
+    #                 hovers over a custom field's form element.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Possible values</td>
+    #             <td>No</td>
+    #             <td>Unlimited</td>
+    #             <td>
+    #                 A newline separated list of values that can be specified
+    #                 for custom fields that allow multiple values to be
+    #                 selected (e.g.  checkboxes). These values can be specified
+    #                 by writing "key|value" (where "key" and "value" are the
+    #                 name and value of an item) on each line.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Requires a value</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>
+    #                 When set to "Yes" users are required to enter a value for
+    #                 the custom field.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Enable a text editor</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>
+    #                 When set to "Yes" the values of the custom field can be
+    #                 set using a markup editor.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Textarea rows</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>
+    #                 The amount of rows for a textarea field. This value only
+    #                 affects custom fields using the "Textarea" type.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Character limit</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>
+    #                 The maximum amount of characters that a user can enter in
+    #                 a field.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Sort order</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>
+    #                 The order in which to display the field when managing a
+    #                 section entry.
+    #             </td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # ## Used Permissions
     #

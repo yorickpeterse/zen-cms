@@ -30,7 +30,7 @@ module Categories
     # <table class="table full">
     #     <thead>
     #         <tr>
-    #             <th>Field</th>
+    #             <th class="field_name">Field</th>
     #             <th>Required</th>
     #             <th>Maximum Length</th>
     #             <th>Description</th>

@@ -48,12 +48,30 @@ module CustomFields
     # When creating a new group or editing an existing group you can fill in the
     # following two fields:
     #
-    # * **Name** (required): the name of the group, an example of such a name is
-    #   "General group" or "Meta fields".
-    # * **Description**: a description of the group.
-    #
-    # Note that the length of the group name can not be longer than 255
-    # characters.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th class="field_name">Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The name of the custom field group.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Description</td>
+    #             <td>No</td>
+    #             <td>Unlimited</td>
+    #             <td>A description of the custom field group.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # ## Used Permissions
     #
