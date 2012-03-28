@@ -9,7 +9,7 @@ Do note that since I wrote Zen my opinion is more than likely biased.
 
 ## Quick Overview
 
-<table>
+<table class="table">
     <thead>
         <tr>
             <th></th>

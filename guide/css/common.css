@@ -19,33 +19,45 @@ pre.code
     line-height: 1.4;
 }
 
-table
+/**
+ * YARD uses generic table styles, using a special class means those tables
+ * don't get messed up.
+ */
+.table
 {
+    border:          1px solid #ccc;
+    border-right:    none;
     border-collapse: separate;
     border-spacing:  0;
     text-align:      left;
 }
 
-    table thead tr th.no_sort:first-child
+.table.full
+{
+    width: 100%;
+}
+
+    .table thead tr th.no_sort:first-child
     {
         width: 25px;
     }
 
-    table thead tr th, table tbody tr td
+    .table thead tr th, .table tbody tr td
     {
         border-bottom:  1px solid #ccc;
+        border-right:   1px solid #ccc;
         min-width:      20px;
-        padding:        8px 3px;
+        padding:        8px 5px;
         text-align:     left;
         vertical-align: top;
     }
 
-    table tbody tr:last-child td
+    .table tbody tr:last-child td
     {
         border-bottom: none;
     }
 
-    table tr:nth-child(odd) td
+    .table tr:nth-child(odd) td
     {
         background: #f9f9f9;
     }
