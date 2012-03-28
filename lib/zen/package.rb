@@ -19,17 +19,55 @@ module Zen
   #
   # When adding a package you must **always** set the following attributes:
   #
-  # * name: the name of the package, should be a symbol
-  # * title: the title of the package. This should be a language key such as
-  #   "users.titles.index" as this allows users to view the package name in
-  #   their chosen language.
-  # * author: the name of the package's author.
-  # * about: a description of the package, just like the title attribute this
-  #   should be a language key, "users.description" is an example of such a key.
-  # * root: the root directory of the package, this path should point to the
-  #   directory containing your ``helper/`` and ``language/`` directories as
-  #   well as any ``public/`` directories.
-  # * An innstance of OpenStruct that can be used for storing custom data.
+  # <table class="table full">
+  #     <thead>
+  #         <tr>
+  #             <th>Attribute</th>
+  #             <th>Description</th>
+  #         </tr>
+  #     </thead>
+  #     <tbody>
+  #         <tr>
+  #             <td>name</td>
+  #             <td>The name of the package, should be a symbol.</td>
+  #         </tr>
+  #         <tr>
+  #             <td>title</td>
+  #             <td>
+  #                 The title of the package. This should be a language key such
+  #                 as "users.titles.index' as it allows users to view the
+  #                 package name in their chosen language.
+  #             </td>
+  #         </tr>
+  #         <tr>
+  #             <td>author</td>
+  #             <td>The name of the package's author.</td>
+  #         </tr>
+  #         <tr>
+  #             <td>about</td>
+  #             <td>
+  #                 A description of the package. Just like the title attribute
+  #                 this should be a language key.
+  #             </td>
+  #         </tr>
+  #         <tr>
+  #             <td>root</td>
+  #             <td>
+  #                 The root directory of the package. This path should point to
+  #                 the directory containing your helper, language and other
+  #                 directories.
+  #             </td>
+  #         </tr>
+  #         <tr>
+  #             <td>env</td>
+  #             <td>
+  #                 A special object (an instance of OpenStruct) that can be
+  #                 used for storing arbitrary data that might be needed by
+  #                 the package.
+  #             </td>
+  #         </tr>
+  #     </tbody>
+  # </table>
   #
   # Setting these (and other) attributes is very easy:
   #
@@ -43,8 +81,27 @@ module Zen
   # Besides the required attributes listed above you can also set the following
   # ones:
   #
-  # * url: a URL that points to the website of the package.
-  # * migrations: a directory containing all Sequel migrations.
+  # <table class="table full">
+  #     <thead>
+  #         <tr>
+  #             <th>Attribute</th>
+  #             <th>Description</th>
+  #         </tr>
+  #     </thead>
+  #     <tbody>
+  #         <tr>
+  #             <td>url</td>
+  #             <td>A URL that points to the website of the package author.</td>
+  #         </tr>
+  #         <tr>
+  #             <td>migrations</td>
+  #             <td>
+  #                 A directory containing the Sequel migrations for the
+  #                 package.
+  #             </td>
+  #         </tr>
+  #     </tbody>
+  # </table>
   #
   # ## Package Structure
   #
