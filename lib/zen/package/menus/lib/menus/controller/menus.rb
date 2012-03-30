@@ -41,18 +41,58 @@ module Menus
     #
     # In this form you can use the following fields:
     #
-    # * **Name** (required): the name of the menu.
-    # * **Slug**: a URL friendly version of the name. If none is specified it
-    #   will be generated automatically based on the name of the menu.
-    # * **HTML class**: a space separated list of classes to apply to the HTML
-    #   element. The format of this field should match the regular exresspion
-    #   ``^[a-zA-Z\-_0-9\s]*$``
-    # * **HTML ID**: an ID to apply to the HTML element. This value should match
-    #   the regular expression ``^[a-zA-Z\-_0-9]*$``.
-    # * **Description**: the description of the menu.
-    #
-    # Note that all fields except the description field have a maximum length of
-    # 255 characters.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th class="field_name">Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The name of the menu.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Slug</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>
+    #                 A URL friendly version of the name. If no slug is
+    #                 specified one will be generated based on the name.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>HTML class</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>
+    #                 A space separated string containing the class(es) to apply
+    #                 to the menu. This value should match the pattern
+    #                 <code>^[a-zA-Z\-_0-9\s]*$</code>.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>HTML ID</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>
+    #                 A single ID to apply to the menu. This value should match
+    #                 the pattern <code>^[a-zA-Z\-_0-9]*$</code>.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Description</td>
+    #             <td>No</td>
+    #             <td>Unlimited</td>
+    #             <td>A description of the menu.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # ## Used Permissions
     #
