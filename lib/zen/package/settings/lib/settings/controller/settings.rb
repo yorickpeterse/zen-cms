@@ -33,20 +33,65 @@ module Settings
     #
     # Out of the box Zen ships with the following settings:
     #
-    # * **Website name**: the name of the website.
-    # * **Website description**: a short description of the website.
-    # * **Language**: the default language to use for the admin interface.
-    # * **Frontend Language**: the default language to use for the frontend of
-    #   your website.
-    # * **Theme**: the theme to use for the frontend.
-    # * **Date format**: the default date format to use in the backend.
-    # * **Enable anti-spam**: whether or not comments should be verified to see
-    #   if they're spam or ham.
-    # * **Anti-spam system**: the anti-spam system to use. Zen by default only
-    #   comes with Defensio support.
-    # * **Defensio key**: the API key for the Defensio anti-spam system.
-    # * **Allow Registration**: defines whether or not visitors are allowed to
-    #   register a user account.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th class="field_name">Field</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Website name</td>
+    #             <td>The name of the website.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Website description</td>
+    #             <td>A description of the website.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Language</td>
+    #             <td>The language to use for the backend.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Frontend Language</td>
+    #             <td>The language to use for the frontend of the website.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Theme</td>
+    #             <td>The theme to use for the website.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Date format</td>
+    #             <td>
+    #                 The date format to use for dates displayed in the backend.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Enable anti-spam</td>
+    #             <td>
+    #                 When set comments will be validated before they're saved.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Anti-spam system</td>
+    #             <td>
+    #                 The system to use for validating comments. Out of the box
+    #                 Zen only supports Defensio.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Defensio key</td>
+    #             <td>The API key to use for the Defensio API.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Allow Registration</td>
+    #             <td>
+    #                 When set users are allowed to register user accounts.
+    #             </td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # ## Used Permissions
     #

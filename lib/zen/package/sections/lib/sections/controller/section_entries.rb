@@ -33,15 +33,54 @@ module Sections
     # Regardless of what field groups and categories you have assigned you can
     # always specify the following fields:
     #
-    # * **Title** (required): the title of your entry.
-    # * **Slug**: a URL friendly version of the title. If no slug is specified
-    #   one will be generated manually.
-    # * **Created at**: The date on which the entry was created. This field is
-    #   filled in automatically when an entry is created.
-    # * **Author** (required): the name of the person who wrote the entry.
-    # * **Status** (required): the status of an entry. If an entry has a status
-    #   other than "Published" it will not be displayed when using the
-    #   sectio_entries plugin.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th class="field_name">Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Title</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The title of the section entry.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Slug</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>
+    #                 A URL friendly version of the title. If no value is specified
+    #                 one will be generated automatically.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Creatd at</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>
+    #                 The date on which the article was created. If no date is
+    #                 specified one will be set automatically.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Author</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>The name of the author of the entry.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Status</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>The status of the section entry.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # Depending on whether or not you have category and field groups assigned
     # you can also use these fields. In the images above there's a "Body" field

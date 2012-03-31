@@ -47,27 +47,83 @@ module Sections
     #
     # In this form you can specify the following fields:
     #
-    # * **Name** (required): the name of the section.
-    # * **Slug**: a URL friendly version of the section name. If no slug is
-    #   specified one will be generated automatically.
-    # * **Description**: a description of the section to help clarify it's
-    #   purpose.
-    # * **Allow comments** (required): whether or not users can submit comments
-    #   for entries assigned to the section.
-    # * **Comments require an account** (required): when set to "Yes" a user has
-    #   to be logged in in order to post a comment.
-    # * **Moderate comments** (required): when enabled a comment first has to be
-    #   approved before it's displayed. This option is disabled by default.
-    # * **Comment format** (required): the format comments are posted in such as
-    #   Markdown or plain text.
-    # * **Custom field groups**: all the custom field groups to assign to the
-    #   section. These groups can then be used by all the entries in the
-    #   section.
-    # * **Category groups**: all the category groups that should be available to
-    #   the section entries of this section.
-    #
-    # Note that the name and the slug of a section can not be longer than 255
-    # characters.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th class="field_name">Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The name of the section.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Slug</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>
+    #                 A URL friendly version of the section name. If no value is
+    #                 specified one will be generated based on the section name.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Description</td>
+    #             <td>No</td>
+    #             <td>Unlimited</td>
+    #             <td>A description of the section.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Allow comments</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>
+    #                 Whether or not users can submit comments for this
+    #                 section's entries.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Comments require an account</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>
+    #                 When set users are required to be logged in in order to
+    #                 submit comments.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Moderate comments</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>
+    #                 Comments have to be approved before they'll be displayed.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Comment format</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>The markup format to use for comments.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Custom field groups</td>
+    #             <td></td>
+    #             <td></td>
+    #             <td>The custom field groups to assign to the section.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Category groups</td>
+    #             <td></td>
+    #             <td></td>
+    #             <td>The category groups to assign to the section.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # ## Used Permissions
     #

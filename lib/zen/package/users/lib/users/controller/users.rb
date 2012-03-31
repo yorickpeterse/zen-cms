@@ -48,22 +48,84 @@ module Users
     #
     # In this form the following fields can be filled:
     #
-    # * **Name** (required): the full name of the user.
-    # * **Email** (required): the Email address of the user, used for logging
-    #   in.
-    # * **Website**: the website of the user (if he/she has any).
-    # * **Password** (required for new users): the raw password the user will
-    #   use in order to log in.
-    # * **Confirm password** (required for new users): an extra field to confirm
-    #   that the specified password is the right one. This field should match
-    #   the password specified in the "Password" field.
-    # * **Status**: field that indicates if a user is active or not. If the
-    #   status is set to "Closed" the user will not be able to log in.
-    # * **User Groups**: all the user groups the user belongs to.
-    # * **Language**: the language to use for the admin interface.
-    # * **Frontend language**: the language to use for the frontend of the
-    #   application.
-    # * **Date format**: the date format to use in the admin interface.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th class="field_name">Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The full name of the user.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Email</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The Email address of the user.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Website</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>The website of the user.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Password</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>The password for the user.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Confirm Password</td>
+    #             <td>
+    #                 Only when a password has been specified in the "Password"
+    #                 field.
+    #             </td>
+    #             <td>255</td>
+    #             <td>
+    #                 Field used to confirm the password in case of setting a
+    #                 new one.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Status</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>The status of the user, set to closed by default.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>User groups</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>A selection of groups to add the user to.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Language</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>The language to use for the backend of the website.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Frontend Language</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>The language to use for the frontend of the website.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Date format</td>
+    #             <td>No</td>
+    #             <td></td>
+    #             <td>The date format to use for the backend.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # Besides these fields there's also the tab "Permissions". This tab contains
     # a collection of all installed packages and their permissions. This makes

@@ -22,13 +22,48 @@ module Users
     #
     # In this form you can fill in the following fields:
     #
-    # * **Name** (required): the name of the user group.
-    # * **Slug**: a URL friendly version of the name. If no name is specified
-    #   one will be generated automatically.
-    # * **Super group** (required): when set to "Yes" all users that are
-    #   assigned to this group will have access to *everything* regardless of
-    #   their individual settings.
-    # * **Description**: a description of the user group.
+    # <table class="table full">
+    #     <thead>
+    #         <tr>
+    #             <th class="field_name">Field</th>
+    #             <th>Required</th>
+    #             <th>Maximum Length</th>
+    #             <th>Description</th>
+    #         </tr>
+    #     </thead>
+    #     <tbody>
+    #         <tr>
+    #             <td>Name</td>
+    #             <td>Yes</td>
+    #             <td>255</td>
+    #             <td>The name of the user group.</td>
+    #         </tr>
+    #         <tr>
+    #             <td>Slug</td>
+    #             <td>No</td>
+    #             <td>255</td>
+    #             <td>
+    #                 A URL friendly version of the user group. If no value is
+    #                 specified one will be generated automatically based on the name
+    #                 of the user group.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Super group</td>
+    #             <td>Yes</td>
+    #             <td></td>
+    #             <td>
+    #                 When set users of this group have full access to the backend.
+    #             </td>
+    #         </tr>
+    #         <tr>
+    #             <td>Description</td>
+    #             <td>No</td>
+    #             <td>Unlimited</td>
+    #             <td>A description of the user group.</td>
+    #         </tr>
+    #     </tbody>
+    # </table>
     #
     # Besides these fields you can also specify all the permissions o the user
     # group similar to how they're managed for individual users. Note that user
