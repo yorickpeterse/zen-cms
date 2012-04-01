@@ -31,4 +31,23 @@ namespace :test do
 
     sh(command)
   end
+
+  # Task that ensures that the various Travis CI tests each use their own
+  # database based on the Ruby version.
+  desc 'Runs the tests for Travis CI'
+  task :travis do
+    suffix = '_' + RUBY_VERSION.gsub('.', '_')
+
+    if ENV['DATABASE']
+      if ENV['ADAPTER'] and ENV['ADAPTER'] == 'sqlite'
+        split = ENV['DATABASE'].split('.')
+
+        ENV['DATABASE'] = split[0] + suffix + '.' + split[1]
+      else
+        ENV['DATABASE'] += suffix
+      end
+    end
+
+    sh(command)
+  end
 end
