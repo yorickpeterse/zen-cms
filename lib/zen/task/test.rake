@@ -48,6 +48,8 @@ namespace :test do
       end
     end
 
+    Dir.chdir(spec_dir)
+
     sh(command)
   end
 end
