@@ -16,12 +16,14 @@ env:
   - 'ADAPTER=sqlite'
   - 'ADAPTER=mysql2 DATABASE=zen_dev'
   - 'ADAPTER=postgres DATABASE=zen_dev USERNAME=postgres'
-  - 'LRU=1 ADAPTER=sqlite'
-  - 'LRU=1 ADAPTER=mysql2 DATABASE=zen_dev'
-  - 'LRU=1 ADAPTER=postgres DATABASE=zen_dev USERNAME=postgres'
+  - 'LRU=1 ADAPTER=sqlite DATABASE=database_1.db'
+  - 'LRU=1 ADAPTER=mysql2 DATABASE=zen_dev_1'
+  - 'LRU=1 ADAPTER=postgres DATABASE=zen_dev_1 USERNAME=postgres'
 
 before_script:
   - "mysql -e 'CREATE DATABASE zen_dev;'"
+  - "mysql -e 'CREATE DATABASE zen_dev_1;'"
   - "psql -c  'CREATE DATABASE zen_dev;' -U postgres"
+  - "psql -c  'CREATE DATABASE zen_dev_1;' -U postgres"
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
