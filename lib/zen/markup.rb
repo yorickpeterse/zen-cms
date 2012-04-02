@@ -11,7 +11,7 @@ module Zen
   #     html = Zen::Markup.convert(:markdown, 'Hello **world**')
   #
   # When converting Markdown or Textile Zen will automatically install the
-  # required gems. For Markdown RDiscount is used, for Textile RedCloth is used.
+  # required gems. For Markdown Redcarpet is used, for Textile RedCloth is used.
   #
   # You may be tempted to call the various methods directly but it is not
   # recommended to do so. For example, you might have the following code:
@@ -83,6 +83,13 @@ module Zen
       'html'     => 'zen_general.markup.html'
     }
 
+    # Hash containing the configuration options to use for Redcarpet.
+    REDCARPET_OPTIONS = {
+      :tables             => true,
+      :fenced_code_blocks => true,
+      :strikethrough      => true
+    }
+
     class << self
       include ::Ramaze::Helper::CGI
 
@@ -123,23 +130,28 @@ module Zen
       private
 
       ##
-      # Converts the Markdown markup to HTML using RDiscount.
+      # Converts the Markdown markup to HTML using Redcarpet.
       #
       # @example
       #  Zen::Markup.markdown('Hello **world**')
       #
       # @since  0.2.5
       # @param  [String] markup The Markdown string to convert to HTML.
-      # @return [String] The HTML returned by RDiscount.
+      # @return [String] The HTML returned by Redcarpet.
       #
       def markdown(markup)
-        unless Kernel.const_defined?(:RDiscount)
+        unless Kernel.const_defined?(:Redcarpet)
           Ramaze.setup(:verbose => false) do
-            gem 'rdiscount'
+            gem 'redcarpet', ['>= 2.1.1']
           end
         end
 
-        return RDiscount.new(markup).to_html
+        @markdown ||= Redcarpet::Markdown.new(
+          Redcarpet::Render::HTML,
+          REDCARPET_OPTIONS,
+        )
+
+        return @markdown.render(markup)
       end
 
       ##
