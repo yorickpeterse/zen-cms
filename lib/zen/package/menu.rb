@@ -19,6 +19,9 @@ module Zen
       # All the child elements of the current navigation element.
       attr_reader :children
 
+      # Hash containing extra configuration options for the menu.
+      attr_reader :options
+
       ##
       # Creates a new instance of the class and optionally processes all sub
       # navigation items.
@@ -77,7 +80,9 @@ module Zen
       def html(permissions = [])
         # Skip the navigation menu and all it's child elements if the user isn't
         # allowed to view it.
-        return if !user_authorized?(@options[:permission])
+        if @options[:permission] and !user_authorized?(@options[:permissions])
+          return
+        end
 
         g        = Ramaze::Gestalt.new
         children = []

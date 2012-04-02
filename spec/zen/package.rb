@@ -4,6 +4,12 @@ require File.join(Zen::FIXTURES, 'package')
 describe 'Zen::Package' do
   behaves_like :capybara
 
+  after do
+    admins = Users::Model::UserGroup[:slug => 'administrators']
+
+    admins.update(:super_group => true) unless admins.super_group
+  end
+
   it 'Add a new package' do
     Zen::Package.add do |p|
       p.name       = :spec
@@ -58,5 +64,31 @@ describe 'Zen::Package' do
 
     menu.include?('<ul class="navigation">').should == true
     menu.include?(html).should                      == true
+  end
+
+  # https://github.com/zen-cms/Zen-Core/issues/65
+  it 'Menu items that do not need permissions should be displayed' do
+    permission = Zen::Package[:spec].menu[0].options[:permission]
+    admins     = Users::Model::UserGroup[:slug => 'administrators']
+    logout     = Users::Controller::Users.r(:logout).to_s
+
+    Zen::Package[:spec].menu[0].options[:permission] = nil
+
+    # Change the user to a regular user for this test.
+    visit(logout)
+
+    admins.update(:super_group => false)
+
+    capybara_login
+
+    visit(Dashboard::Controller::Dashboard.r(:index).to_s)
+
+    within '#admin_navigation' do
+      page.has_content?('Spec').should == true
+    end
+
+    visit(logout)
+
+    Zen::Package[:spec].menu[0].options[:permission] = permission
   end
 end
