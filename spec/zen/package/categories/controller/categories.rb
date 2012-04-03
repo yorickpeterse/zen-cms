@@ -145,6 +145,13 @@ describe "Categories::Controller::Categories" do
     page.has_selector?('span.error').should == true
   end
 
+  it 'Non numeric category IDs should be handled gracefully' do
+    visit(Categories::Controller::Categories.r(:edit, group.id, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
   enable_javascript
 
   it 'Automatically save a category' do

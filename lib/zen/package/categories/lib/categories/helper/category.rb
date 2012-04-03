@@ -20,11 +20,14 @@ module Ramaze
       # @return [Categories::Model::CategoryGroup]
       #
       def validate_category_group(category_group_id)
+        unless category_group_id =~ /\d+/
+          redirect_invalid_group
+        end
+
         group = ::Categories::Model::CategoryGroup[category_group_id]
 
         if group.nil?
-          message(:error, lang('category_groups.errors.invalid_group'))
-          redirect(::Categories::Controller::CategoryGroups.r(:index))
+          redirect_invalid_group
         else
           return group
         end
@@ -43,13 +46,14 @@ module Ramaze
       # @return [Categories::Model::Category]
       #
       def validate_category(category_id, category_group_id)
+        unless category_id =~ /\d+/
+          redirect_invalid_category(category_group_id)
+        end
+
         category = ::Categories::Model::Category[category_id]
 
         if category.nil?
-          message(:error, lang('categories.errors.invalid_category'))
-          redirect(
-            ::Categories::Controller::Categories.r(:index, category_group_id)
-          )
+          redirect_invalid_category(category_group_id)
         else
           return category
         end
@@ -77,6 +81,33 @@ module Ramaze
         parent_categories[nil] = '--'
 
         return parent_categories
+      end
+
+      ##
+      # Redirects the user to the category groups overview and shows a message
+      # about an invalid group being specified.
+      #
+      # @since 03-04-2012
+      #
+      def redirect_invalid_group
+        message(:error, lang('category_groups.errors.invalid_group'))
+        redirect(::Categories::Controller::CategoryGroups.r(:index))
+      end
+
+      ##
+      # Redirects the user to the overview of the categories of a given group
+      # and shows a message informing the user that the specified category was
+      # invalid.
+      #
+      # @since 03-04-2012
+      # @param [Fixnum] category_group_id The ID of the category group that the
+      #  category belongs to.
+      #
+      def redirect_invalid_category(category_group_id)
+        message(:error, lang('categories.errors.invalid_category'))
+        redirect(
+          ::Categories::Controller::Categories.r(:index, category_group_id)
+        )
       end
     end # Category
   end # Helper
