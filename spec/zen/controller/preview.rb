@@ -1,5 +1,4 @@
 require File.expand_path('../../../helper', __FILE__)
-require 'rdiscount'
 
 describe "Zen::Controller::Preview" do
   behaves_like :capybara
