@@ -129,6 +129,13 @@ describe 'CustomFields::Controller::CustomFields' do
       .value.should == textarea_field.id.to_s
   end
 
+  it 'Gracefully handle non numeric custom field IDs' do
+    visit(CustomFields::Controller::CustomFields.r(:edit, group.id, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
   enable_javascript
 
   it 'Automatically save a custom field' do

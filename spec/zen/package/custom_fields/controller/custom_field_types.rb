@@ -139,6 +139,13 @@ describe 'CustomFields::Controller::CustomFieldTypes' do
     page.find_field('custom_field_method_id').value.should == method_id
   end
 
+  it 'Gracefully handle non numeric custom field type IDs' do
+    visit(CustomFields::Controller::CustomFieldTypes.r(:edit, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
   enable_javascript
 
   it 'Automatically save a custom field type' do

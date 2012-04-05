@@ -91,6 +91,13 @@ describe 'CustomFields::Controller::CustomFieldGroups' do
     page.find('input[name="name"]').value.should == 'Spec field group modified'
   end
 
+  it 'Gracefully handle non numeric custom field group IDs' do
+    visit(CustomFields::Controller::CustomFieldGroups.r(:edit, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
   enable_javascript
 
   it 'Automatically save a custom field group' do
