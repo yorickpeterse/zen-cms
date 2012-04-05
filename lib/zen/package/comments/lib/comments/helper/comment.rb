@@ -18,14 +18,26 @@ module Ramaze
       # @return [Comments::Model::Comment]
       #
       def validate_comment(comment_id)
+        redirect_invalid_comment unless comment_id =~ /\d+/
+
         comment = ::Comments::Model::Comment[comment_id]
 
         if comment.nil?
-          message(:error, lang('comments.errors.invalid_comment'))
-          redirect(::Comments::Controller::Comments.r(:index))
+          redirect_invalid_comment
         else
           return comment
         end
+      end
+
+      ##
+      # Redirects the user to the comments overview and shows a message
+      # informing the user that the comment he/she tried to access was invalid.
+      #
+      # @since 05-04-2012
+      #
+      def redirect_invalid_comment
+        message(:error, lang('comments.errors.invalid_comment'))
+        redirect(::Comments::Controller::Comments.r(:index))
       end
     end # Comment
   end # Helper
