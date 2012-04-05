@@ -57,6 +57,13 @@ describe "Menus::Controller::MenuItems" do
     page.find('input[name="name"]').value.should == 'Spec menu item modified'
   end
 
+  it 'Gracefully handle non numeric menu item IDs' do
+    visit(Menus::Controller::MenuItems.r(:edit, menu.id, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
   enable_javascript
 
   it 'Automatically save a menu item' do

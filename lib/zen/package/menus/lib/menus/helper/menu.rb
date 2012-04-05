@@ -18,11 +18,12 @@ module Ramaze
       #  valid.
       #
       def validate_menu(menu_id)
+        redirect_invalid_menu unless menu_id =~ /\d+/
+
         menu = ::Menus::Model::Menu[menu_id]
 
         if menu.nil?
-          message(:error, lang('menus.errors.invalid_menu'))
-          redirect(::Menus::Controller::Menus.r(:index))
+          redirect_invalid_menu
         else
           return menu
         end
@@ -38,14 +39,39 @@ module Ramaze
       # @return [Menus::Model::MenuItem]
       #
       def validate_menu_item(menu_item_id, menu_id)
+        redirect_invalid_menu_item(menu_id) unless menu_item_id =~ /\d+/
+
         menu_item = ::Menus::Model::MenuItem[menu_item_id]
 
         if menu_item.nil?
-          message(:error, lang('menu_items.errors.invalid_item'))
-          redirect(::Menus::Controller::MenuItems.r(:index, menu_id))
+          redirect_invalid_menu_item(menu_id)
         else
           return menu_item
         end
+      end
+
+      ##
+      # Redirects the user to the menus overview and informs him/her that the
+      # menu he/she tried to access is invalid.
+      #
+      # @since 05-04-2012
+      #
+      def redirect_invalid_menu
+        message(:error, lang('menus.errors.invalid_menu'))
+        redirect(::Menus::Controller::Menus.r(:index))
+      end
+
+      ##
+      # Redirects the user back to the overview of menu items for a specific
+      # menu and informs the user that the menu item he/she tried to access is
+      # invalid.
+      #
+      # @since 05-04-2012
+      # @param [Fixnum] menu_id The ID of the menu.
+      #
+      def redirect_invalid_menu_item(menu_id)
+        message(:error, lang('menu_items.errors.invalid_item'))
+        redirect(::Menus::Controller::MenuItems.r(:index, menu_id))
       end
 
       ##
