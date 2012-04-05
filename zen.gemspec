@@ -50,7 +50,7 @@ For more information see the documentation: http://zen-cms.com/documentation
   s.add_dependency('ramaze-asset', ['~> 0.2.3'])
   s.add_dependency('shebang'     , ['~> 0.1'])
 
-  s.add_development_dependency('rdiscount', ['>= 1.6.8'])
+  s.add_development_dependency('redcarpet', ['>= 2.1.1'])
   s.add_development_dependency('RedCloth' , ['>= 4.2.8'])
   s.add_development_dependency('bacon'    , ['>= 1.1.0'])
   s.add_development_dependency('yard'     , ['>= 0.7.2'])
