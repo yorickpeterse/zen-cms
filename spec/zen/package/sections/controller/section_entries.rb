@@ -168,6 +168,13 @@ describe "Sections::Controller::SectionEntries" do
       .value.should == 'chuck'
   end
 
+  it 'Gracefully handle non numeric section entry IDs' do
+    visit(Sections::Controller::SectionEntries.r(:edit, section.id, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
   enable_javascript
 
   it 'Automatically save a section entry' do

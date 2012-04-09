@@ -99,6 +99,20 @@ describe "Sections::Controller::Sections" do
     page.find('input[name="slug"]').value.should == 'spec-section'
   end
 
+  it 'Gracefully handle non numeric section IDs' do
+    visit(Sections::Controller::Sections.r(:edit, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
+  it 'Gracefully handle non numeric section IDs' do
+    visit(Sections::Controller::Sections.r(:edit, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
   enable_javascript
 
   it 'Automatically save a section' do

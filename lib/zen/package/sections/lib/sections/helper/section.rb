@@ -14,11 +14,12 @@ module Ramaze
       # @return [Sections::Model::Section]
       #
       def validate_section(section_id)
+        redirect_invalid_section unless section_id =~ /\d+/
+
         section = Sections::Model::Section[section_id]
 
         if section.nil?
-          message(:error, lang('sections.errors.invalid_section'))
-          redirect(Sections::Controller::Sections.r(:index))
+          redirect_invalid_section
         else
           return section
         end
@@ -35,11 +36,14 @@ module Ramaze
       # @return [Sections::Model::SectionEntry]
       #
       def validate_section_entry(section_entry_id, section_id)
+        unless section_entry_id =~ /\d+/
+          redirect_invalid_section_entry(section_id)
+        end
+
         entry = Sections::Model::SectionEntry[section_entry_id]
 
         if entry.nil?
-          message(:error, lang('section_entries.errors.invalid_entry'))
-          redirect(Sections::Controller::SectionEntries.r(:index, section_id))
+          redirect_invalid_section_entry(section_id)
         else
           return entry
         end
@@ -87,6 +91,30 @@ module Ramaze
         end
 
         return field_errors
+      end
+
+      ##
+      # Redirects the user to the sections overview and shows a message
+      # informing the user that the section he/she tried to access is invalid.
+      #
+      # @since 09-04-2012
+      #
+      def redirect_invalid_section
+        message(:error, lang('sections.errors.invalid_section'))
+        redirect(Sections::Controller::Sections.r(:index))
+      end
+
+      ##
+      # Redirects the user to the overview of section entries for a given
+      # section and shows a message informing the user that the section entry
+      # he/she tried to access is invalid.
+      #
+      # @since 09-04-2012
+      # @param [Fixnum] section_id The ID of the section.
+      #
+      def redirect_invalid_section_entry(section_id)
+        message(:error, lang('section_entries.errors.invalid_entry'))
+        redirect(Sections::Controller::SectionEntries.r(:index, section_id))
       end
     end # Section
   end # Helper
