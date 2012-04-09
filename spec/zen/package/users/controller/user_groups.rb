@@ -91,6 +91,13 @@ describe 'Users::Controller::UserGroups' do
     page.find('#permission_show_user').checked?.should == 'checked'
   end
 
+  it 'Gracefully handle non numeric user group IDs' do
+    visit(Users::Controller::UserGroups.r(:edit, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
   enable_javascript
 
   it 'Automatically save a user group' do

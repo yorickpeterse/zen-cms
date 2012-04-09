@@ -16,11 +16,12 @@ module Ramaze
       # @return [Users::Model::UserGroup]
       #
       def validate_user_group(user_group_id)
+        redirect_invalid_user_group unless user_group_id =~ /\d+/
+
         group = ::Users::Model::UserGroup[user_group_id]
 
         if group.nil?
-          message(:error, lang('user_groups.errors.invalid_group'))
-          redirect(::Users::Controller::UserGroups.r(:index))
+          redirect_invalid_user_group
         else
           return group
         end
@@ -34,11 +35,12 @@ module Ramaze
       # @return [Users::Model::User]
       #
       def validate_user(user_id)
+        redirect_invalid_user unless user_id =~ /\d+/
+
         user = ::Users::Model::User[user_id]
 
         if user.nil?
-          message(:error, lang('users.errors.invalid_user'))
-          redirect(::Users::Controller::Users.r(:index))
+          redirect_invalid_user
         else
           return user
         end
@@ -83,6 +85,29 @@ module Ramaze
 
         session[:super_group] = nil
         session[:permissions] = nil
+      end
+
+      ##
+      # Redirects the user back to the users overview and shows a message
+      # informing the current user that the user he/she tried to access is
+      # invalid.
+      #
+      # @since 09-04-2012
+      #
+      def redirect_invalid_user
+        message(:error, lang('users.errors.invalid_user'))
+        redirect(::Users::Controller::Users.r(:index))
+      end
+
+      ##
+      # Redirects the user back to the user groups overview and informs the user
+      # that the group he/she tried to access is invalid.
+      #
+      # @since 09-04-2012
+      #
+      def redirect_invalid_user_group
+        message(:error, lang('user_groups.errors.invalid_group'))
+        redirect(::Users::Controller::UserGroups.r(:index))
       end
     end # Users
   end # Helper

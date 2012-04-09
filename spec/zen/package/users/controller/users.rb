@@ -124,6 +124,13 @@ describe "Users::Controller::Users" do
     user.user_group_pks.include?(group.id).should == true
   end
 
+  it 'Gracefully handle non numeric user IDs' do
+    visit(Users::Controller::Users.r(:edit, 'a').to_s)
+
+    page.current_path.should                    == index_url
+    page.has_selector?('.message.error').should == true
+  end
+
   enable_javascript
 
   it 'Automatically save a user' do
