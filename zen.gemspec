@@ -59,4 +59,5 @@ For more information see the documentation: http://zen-cms.com/documentation
   s.add_development_dependency('defensio' , ['>= 0.9.1'])
   s.add_development_dependency('simplecov', ['>= 0.4.2'])
   s.add_development_dependency('webmock'  , ['>= 1.6.4'])
+  s.add_development_dependency('raspell'  , ['>= 1.3'])
 end
