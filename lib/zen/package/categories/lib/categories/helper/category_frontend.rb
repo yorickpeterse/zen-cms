@@ -9,7 +9,7 @@ module Ramaze
     module CategoryFrontend
       ##
       # Gets a number of categories and optionally paginates them. Keep in mind
-      # that this method will either return a dataset or an instance of
+      # that this method will either return a data set or an instance of
       # ``Ramaze::Helper::Paginate::Paginator``.
       #
       # When paginating the results and no custom ``:var`` or ``:limit`` options
@@ -66,7 +66,7 @@ module Ramaze
           query = query.filter(:category_groups__id => group)
         end
 
-        # Paginate the results or return the dataset directly.
+        # Paginate the results or return the data set directly.
         if options[:paginate] == true and respond_to?(:paginate)
           return paginate(
             query,

@@ -155,7 +155,7 @@ module Zen
   #    namespace).
   #
   # In the last case missing language files will be loaded if possible. However,
-  # it is recommended that you pre-load your language files before starting the
+  # it is recommended that you load your language files before starting the
   # application. By doing this these translations don't have to be loaded during
   # an HTTP request which could potentially slow down the application.
   #

@@ -149,7 +149,7 @@ module Sections
 
       ##
       # Retrieves all the possible categories for an entry and returns these as
-      # a hash. This hash is a multi dimensional hash where the keys are the
+      # a hash. This hash is a multidimensional hash where the keys are the
       # names of all available category groups and the values hashes with the
       # IDs and names of all the categories for that group.
       #

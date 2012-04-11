@@ -38,7 +38,7 @@ module Ramaze
       end
 
       ##
-      # Retrieves all breacrumbs and separates them either by "&raquo;" or a
+      # Retrieves all breadcrumbs and separates them either by "&raquo;" or a
       # custom element set as the first argument of this method.
       #
       # @example

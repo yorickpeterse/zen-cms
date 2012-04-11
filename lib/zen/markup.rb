@@ -36,12 +36,12 @@ module Zen
   # Adding a new engine is relatively easy and is done in two steps. First you
   # should add the name of your engine and it's label to
   # {Zen::Markup::REGISTERED}. The keys of this hash should be the methods to
-  # call, teh values will be displayed in various ``<select>`` elements in the
+  # call, the values will be displayed in various ``<select>`` elements in the
   # administration interface.
   #
   #     Zen::Markup::REGISTERED['my_markup'] = 'My Markup'
   #
-  # In this example the label is hardcoded but it's recommended to use
+  # In this example the label is hard coded but it's recommended to use
   # {Zen::Language.lang} instead.
   #
   # Once the engine has been added to the list you'll have to add a

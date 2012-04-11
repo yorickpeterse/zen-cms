@@ -70,7 +70,7 @@ module Sequel
 
       ##
       # Module containing the methods and attributes to make available on
-      # instance leve.
+      # instance level.
       #
       # @since 06-02-2012
       #

@@ -177,7 +177,7 @@ module Menus
       end
 
       ##
-      # Saves an existing menu iten or creates a new one using the supplied
+      # Saves an existing menu item or creates a new one using the supplied
       # POST data.
       #
       # @since      0.2a

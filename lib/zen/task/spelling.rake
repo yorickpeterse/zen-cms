@@ -10,14 +10,15 @@ task :spelling do
   require 'ripper'
 
   speller = Aspell.new1(
-    'lang'     => 'en',
-    'personal' => File.expand_path('../../../../.aspell.en.pws', __FILE__)
+    'lang'        => 'en',
+    'personal'    => File.expand_path('../../../../.aspell.en.pws', __FILE__),
+    'ignore-case' => 'true'
   )
 
   base_dir         = File.expand_path('../../../..', __FILE__)
   files            = Dir['lib/zen/**/*.rb']
-  exclude_lines    = [/^#\s*@/, /^#\s{2,}/, /^#\s*!\[/]
-  exclude_patterns = [/\d+/, /_+/]
+  exclude_lines    = [/^#\s*@/, /^#\s{2,}/, /^#\s*!\[/, /^#\s*\[/]
+  exclude_patterns = [/\d+/, /_+/, /^`/]
 
   files.each do |file|
     file     = File.expand_path(file)

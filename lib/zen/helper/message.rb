@@ -5,10 +5,9 @@ module Ramaze
   #:nodoc:
   module Helper
     ##
-    # The Mesage helper is a Ruby implementation of the Codeigniter library 
-    # "Message" (located here: https://github.com/isset/codeigniter-message). 
-    # This helper was taken from another project of mine which can be found here:
-    # https://github.com/yorickpeterse/stumpert/
+    # Helper that wraps around Ramaze's flash helper and provides an easy way of
+    # setting messages (errors, informal messages, etc) as well as rendering the
+    # required HTML.
     #
     # ## Usage
     #
@@ -52,7 +51,7 @@ module Ramaze
         gestalt = ::Ramaze::Gestalt.new
 
         return if flash[:messages].nil?
-        
+
         gestalt.div(:id => 'message_container', :class => 'container') do
           # Render each individual group
           types.each do |type|

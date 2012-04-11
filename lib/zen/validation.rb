@@ -123,7 +123,7 @@ module Zen
     end
 
     ##
-    # Checks if the specified attribute contains a valid filepath.
+    # Checks if the specified attribute contains a valid file path.
     #
     # @example
     #  validates_filepath(:directory)

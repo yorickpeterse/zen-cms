@@ -1,5 +1,4 @@
 module Ramaze
-  #:nodocL
   module Helper
     ##
     # Helper for the custom fields package.

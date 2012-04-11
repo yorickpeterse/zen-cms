@@ -7,7 +7,7 @@ module Settings
   #
   # Similar to the custom fields module mentioned above adding methods to this
   # module is relatively easy (though you usually don't need to add your own
-  # methods). This can be done by simply re-opening the module and adding a
+  # methods). This can be done by simply reopening the module and adding a
   # class method to it:
   #
   #     module Settings
@@ -27,7 +27,7 @@ module Settings
   module BlueFormParameters
     class << self
       ##
-      # Generates the required parameters for a textbox (``input type="text"``).
+      # Generates the required parameters for a text box (``input type="text"``).
       #
       # @since 0.3
       # @param [Settings::Setting] setting The setting for which to generate the

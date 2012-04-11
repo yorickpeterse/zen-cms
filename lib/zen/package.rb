@@ -152,7 +152,7 @@ module Zen
   # Permissions allow you to restrict access to certain actions to specific
   # users/user groups. A permission can be added by calling ``permission()`` on
   # the object passed to the block. Again the title of the permission should be
-  # a langauge key so it can be displayed in a custom language:
+  # a language key so it can be displayed in a custom language:
   #
   #     Zen::Package.add do |p|
   #       p.permission(:show_some_package, 'packages.titles.index')

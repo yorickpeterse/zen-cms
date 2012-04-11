@@ -20,7 +20,7 @@ module Dashboard
   module Controller
     ##
     # Shows the dashboard for the currently logged in user. The dashboard shows
-    # a list of user specific widgets. These widgets can be re-arranged,
+    # a list of user specific widgets. These widgets can be rearranged,
     # disabled/enabled and the columns for these widgets can also be customized.
     #
     # When you open up the dashboard for the first time only one widget will be

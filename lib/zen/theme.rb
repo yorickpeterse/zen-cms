@@ -265,7 +265,7 @@ module Zen
   #
   # ## Template Partials
   #
-  # Often you'll need to re-use an existing template multiple times. For
+  # Often you'll need to reuse an existing template multiple times. For
   # example, almost all templates will have some data inside the ``<head>`` tag
   # that will have pretty much the same markup and/or content in different
   # templates. Zen makes it possible this easy by using "partials". Partials are
@@ -357,7 +357,7 @@ module Zen
     end
 
     ##
-    # Retrieves a single theme for hte given identifier.
+    # Retrieves a single theme for the given identifier.
     #
     # @since  0.2.4
     # @param  [String/Symbol] name The name of the theme to retrieve.
@@ -394,7 +394,7 @@ module Zen
 
     ##
     # Returns the name of the theme as either plain text or an anchor tag if the
-    # url attribute is set.
+    # URL attribute is set.
     #
     # @since  19-11-2011
     # @return [String]

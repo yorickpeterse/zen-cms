@@ -133,7 +133,7 @@ module Menus
         nodes.reverse.each do |node|
           # If there's a matching parent node the current node should be
           # assigned to that node and removed from the list. If there's no
-          # parent item then the node is un-modified.
+          # parent item then the node is unmodified.
           if indexes[node[:node].parent_id]
             index = indexes[node[:node].parent_id]
 

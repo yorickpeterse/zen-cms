@@ -20,7 +20,7 @@ module Settings
   module Controller
     ##
     # Controller for managing settings. Settings are used to store the name of
-    # the website, what anti-spam system to use and so on. These settings can be
+    # the website, what anti spam system to use and so on. These settings can be
     # managed via the admin interface rather than having to edit configuration
     # files. Settings can be managed by going to ``/admin/settings``. This page
     # shows an overview of all the available settings organized in a number of

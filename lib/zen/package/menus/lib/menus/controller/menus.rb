@@ -114,7 +114,7 @@ module Menus
       csrf_protection :save, :delete
 
       ##
-      # Shows an overview of all exisitng menus and a few properties of these
+      # Shows an overview of all existing menus and a few properties of these
       # groups such as the name, slug and the amount of items in that group.
       #
       # @since      0.2a
