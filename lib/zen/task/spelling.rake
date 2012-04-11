@@ -9,14 +9,15 @@ task :spelling do
   require 'raspell'
   require 'ripper'
 
-  speller                 = Aspell.new('en_US')
-  speller.suggestion_mode = Aspell::NORMAL
-  base_dir                = File.expand_path('../../../..', __FILE__)
-  files                   = Dir['lib/zen/**/*.rb']
-  exclude_lines           = [/^#\s*@/, /^#\s{2,}/, /^#\s*!\[/]
-  exclude_patterns        = [/\d+/, /_+/]
-  exclude_words           = File.expand_path('../../../../.spelling', __FILE__)
-  exclude_words           = File.read(exclude_words).split("\n")
+  speller = Aspell.new1(
+    'lang'     => 'en',
+    'personal' => File.expand_path('../../../../.aspell.en.pws', __FILE__)
+  )
+
+  base_dir         = File.expand_path('../../../..', __FILE__)
+  files            = Dir['lib/zen/**/*.rb']
+  exclude_lines    = [/^#\s*@/, /^#\s{2,}/, /^#\s*!\[/]
+  exclude_patterns = [/\d+/, /_+/]
 
   files.each do |file|
     file     = File.expand_path(file)
@@ -43,13 +44,6 @@ task :spelling do
       group[2].gsub(/[\w'-]+/).each do |word|
         skip = false
         word = word.gsub(/^'|'$/, '')
-
-        # Ignore the word (without doing expensive regular expression matches)
-        # if it's specified in the .spelling file.
-        #
-        # TODO: add a personal word list or similar to Aspell so that this can
-        # be handled by Aspell itself.
-        next if exclude_words.include?(word)
 
         # Determine if the word should be ignored based on a list of blacklisted
         # patterns.
