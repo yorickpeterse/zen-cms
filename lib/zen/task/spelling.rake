@@ -14,8 +14,8 @@ task :spelling do
   base_dir                = File.expand_path('../../../..', __FILE__)
   files                   = Dir['lib/zen/**/*.rb']
   exclude_lines           = [/^#\s*@/, /^#\s{2,}/, /^#\s*!\[/]
-  exclude_words           = File.expand_path('../../../../.spelling', __FILE__)
   exclude_patterns        = [/\d+/, /_+/]
+  exclude_words           = File.expand_path('../../../../.spelling', __FILE__)
   exclude_words           = File.read(exclude_words).split("\n")
 
   files.each do |file|
