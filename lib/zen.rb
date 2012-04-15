@@ -4,7 +4,7 @@ require 'json'
 Ramaze.setup(:verbose => false) do
   gem 'sequel'      , ['~> 3.34.1']
   gem 'bcrypt-ruby' , ['~> 3.0.1'], :lib => 'bcrypt'
-  gem 'loofah'      , ['~> 1.2.0']
+  gem 'loofah'      , ['~> 1.2.1']
   gem 'ramaze-asset', ['~> 0.2.3'], :lib => 'ramaze/asset'
 end
 
