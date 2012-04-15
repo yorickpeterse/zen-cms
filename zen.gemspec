@@ -42,7 +42,7 @@ For more information see the documentation: http://zen-cms.com/documentation
   s.executables           = ['zen']
   s.required_ruby_version = '>= 1.9.2'
 
-  s.add_dependency('sequel'      , ['~> 3.33.0'])
+  s.add_dependency('sequel'      , ['~> 3.34.1'])
   s.add_dependency('ramaze'      , ['~> 2012.03.07'])
   s.add_dependency('bcrypt-ruby' , ['~> 3.0.1'])
   s.add_dependency('rake'        , ['~> 0.9.2'])
