@@ -109,7 +109,9 @@ module Menus
       def menu_items_tree(order = :asc, limit = nil)
         nodes   = []
         indexes = {}
-        rows    =  MenuItem.filter(:menu_id => id).limit(limit).all
+        rows    =  MenuItem.filter(:menu_id => id) \
+          .order(:sort_order.send(order)) \
+          .limit(limit).all
 
         rows.sort! do |left, right|
           (left.parent_id || 0) <=> (right.parent_id || 0)
