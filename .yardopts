@@ -1,6 +1,6 @@
 ./lib/zen/**/*.rb ./lib/zen.rb
 -m markdown
--M rdiscount
+-M redcarpet
 -o ./doc
 -r ./README.md
 -e ./lib/yard/tags.rb
