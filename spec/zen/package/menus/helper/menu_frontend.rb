@@ -54,6 +54,15 @@ describe 'Menus::Plugin::Menus' do
   it "Retrieve a menu with only 1 item" do
     menu = render_menu(nav_menu.slug, :limit => 1, :order => :asc).strip
 
+    # TODO: remove this once I've figured out why Travis is being a little cunt.
+    puts '---- TRAVIS DEBUGGING, LIKE A BOSS ----'
+    puts menu
+    puts '----'
+    nav_menu.menu_items.each do |item|
+      puts item.name
+    end
+    puts '----'
+
     menu.include?('Spec').should                  == true
     menu.include?('Spec 2').should                == false
     menu.include?('Spec 3').should                == false
