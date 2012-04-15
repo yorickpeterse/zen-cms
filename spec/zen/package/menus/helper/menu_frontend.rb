@@ -52,7 +52,7 @@ describe 'Menus::Plugin::Menus' do
   end
 
   it "Retrieve a menu with only 1 item" do
-    menu = render_menu(nav_menu.slug, :limit => 1).strip
+    menu = render_menu(nav_menu.slug, :limit => 1, :order => :asc).strip
 
     menu.include?('Spec').should                  == true
     menu.include?('Spec 2').should                == false
