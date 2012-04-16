@@ -5,7 +5,7 @@ path = File.expand_path('../', __FILE__)
 Gem::Specification.new do |s|
   s.name        = 'zen'
   s.version     = Zen::VERSION
-  s.date        = '2012-03-07'
+  s.date        = '2012-04-16'
   s.authors     = ['Yorick Peterse']
   s.email       = 'yorickpeterse@gmail.com'
   s.summary     = 'Zen is a modular CMS written using Ramaze.'

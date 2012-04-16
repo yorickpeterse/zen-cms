@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.4.1 - April 16th, 2012
+
+* Updated various version requirements.
+* Menu items are sorted properly, in some cases the sort order would be broken
+  due to the dataset being sorted after it was retrieved.
+* Replaced RDiscount with Redcarpet.
+* Show menu items without permissions.
+* Documentation improvements and fixed various spelling errors.
+* Removed the `post_start` event.
+* Load core packages when connecting to a DB.
+* Call `:post_start` before building assets.
+* Hide messages by clicking on them.
+* Basic set of styles for the pagination buttons.
+* Preserve author IDs for section entries
+* Handle forms using the Mootools class Zen.Form.
+* Moved Mootools events into their own file.
+* Set Ramaze.options.mode before Zen.root.
+
 ## 0.4 - March 7th, 2012
 
 * Packages can contain multiple menus.
@@ -20,7 +38,7 @@
 * Fixed an issue that would incorrectly generate application names when creating
   a new application using ``zen create``.
 * Full stack traces are logged in case of errors rather than just the message.
-* Model related events (e.g. before_new_section_entry) have been moved into
+* Model related events (e.g. `before_new_section_entry`) have been moved into
   their corresponding models.
 * Menu item manager has been re-written so that menu items can be organized
   using a drop and drag interface.
@@ -63,7 +81,7 @@
 * Core packages no longer include certain modules just to so that they don't
   have to specify the full namespace to a class.
 * Added an event system (Zen::Event) and a bucket load of events.
-* Merged Zen.init and Zen.post_init into Zen.start.
+* Merged Zen.init and `Zen.post_init` into Zen.start.
 * Fixed various YARD formatting issues.
 * Localized all of the Javascript.
 * All specs now pass on Ruby 1.9.3.
@@ -103,7 +121,7 @@
   section entries plugin.
 * Statuses of comments and section entries are now stored in a separate table.
 * Plugins can be called as a singleton using Zen::Plugin.plugin.
-* The column menu_items.order has been renamed to menu_items.sort_order.
+* The column `menu_items.order` has been renamed to menu_items.sort_order.
 * The accessor method for settings that defines the possible values now accepts
   a Proc, this makes it possible for conditional possible values and such.
 * Various performance tweaks.
@@ -116,8 +134,8 @@
 * Users can now create their own custom field types.
 * Overview pages now paginate their results so they display a maximum of 20 rows
   per page.
-* All references to "css_class" and "css_id" have been replaced with
-  "html_class" and "html_id".
+* All references to "css\_class" and "css\_id" have been replaced with
+  "html\_class" and "html\_id".
 * Ramaze::Helper::Common has been removed.
 * Tables can now be sorted by clicking on the headers.
 * The required permissions for the #save() methods of all controllers have been
