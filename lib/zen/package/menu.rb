@@ -80,7 +80,7 @@ module Zen
       def html(permissions = [])
         # Skip the navigation menu and all it's child elements if the user isn't
         # allowed to view it.
-        if @options[:permission] and !user_authorized?(@options[:permissions])
+        if @options[:permission] and !user_authorized?(@options[:permission])
           return
         end
 
