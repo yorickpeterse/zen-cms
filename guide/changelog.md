@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2 - April 16th, 2012
+
+* Bugfix for rendering menu items in the backend. Due to a typo the menu items
+  in the backend would only be displayed if a user was a super user. Because
+  this is a rather annoying issue I decided to push another release.
+
 ## 0.4.1 - April 16th, 2012
 
 * Updated various version requirements.
