@@ -1,3 +1,4 @@
+# @title Getting Started
 # Getting Started
 
 Once installed (see {file:installation Installation}) you can use the ``zen``

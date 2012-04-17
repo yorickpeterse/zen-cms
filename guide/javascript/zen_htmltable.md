@@ -1,3 +1,4 @@
+# @title Zen.HtmlTable
 # Zen.HtmlTable
 
 The class Zen.HtmlTable was introduced in Zen 0.2.8 and makes it possible to

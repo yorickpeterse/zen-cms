@@ -1,3 +1,4 @@
+# @title Zen.Tabs
 # Zen.Tabs
 
 Zen.Tabs can be used to create a tab based navigation menu. Because Zen already

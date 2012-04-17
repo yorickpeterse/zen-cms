@@ -1,3 +1,4 @@
+# @title Zen.Window
 # Zen.Window
 
 The Window class can be used to display modal windows with (or without) a set of
