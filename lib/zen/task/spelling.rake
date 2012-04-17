@@ -16,7 +16,7 @@ task :spelling do
   )
 
   base_dir         = File.expand_path('../../../..', __FILE__)
-  files            = Dir['lib/zen/**/*.rb']
+  files            = Dir['lib/zen/**/*.rb'] + Dir['guide/**/*.md']
   exclude_lines    = [/^#\s*@/, /^#\s{2,}/, /^#\s*!\[/, /^#\s*\[/]
   exclude_patterns = [/\d+/, /_+/, /^`/]
 
