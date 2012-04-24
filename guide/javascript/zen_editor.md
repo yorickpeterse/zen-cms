@@ -1,3 +1,4 @@
+# @title Zen.Editor
 # Zen.Editor
 
 Zen.Editor is the main class used for the markup editor that can be used to more

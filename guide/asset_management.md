@@ -1,3 +1,4 @@
+# @title Asset Management
 # Asset Management
 
 Zen comes with an asset manager powered by [Ramaze::Asset][ramaze-asset]. Before

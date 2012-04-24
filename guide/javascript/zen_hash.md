@@ -1,3 +1,4 @@
+# @title Zen.Hash
 # Zen.Hash
 
 Zen.Hash is a class that can be used to parse and generate shebang/hash bang

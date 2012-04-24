@@ -1,3 +1,4 @@
+# @title Installation
 # Installation
 
 Zen can be installed in two different ways, either by using Rubygems or Git. The
@@ -11,7 +12,7 @@ your terminal:
 
     $ gem install zen
 
-If you want to install a specific version of Zen you can provide the ``-v``
+If you want to install a specific version of Zen you can provide the `-v`
 option:
 
     $ gem install zen -v [VERSION]
@@ -28,8 +29,8 @@ be done by a simply cloning the repository:
 
     $ git clone git://github.com/zen-cms/Zen-Core.git zen_core
 
-This command saves a local copy of Zen in the directory ./zen_core. Now that you
-have a local copy there are two ways of using it:
+This command saves a local copy of Zen in the directory `./zen_core`. Now that
+you have a local copy there are two ways of using it:
 
 1. Manually build the Gem each time you've made a change.
 2. Directly load the Zen installation from your application.
