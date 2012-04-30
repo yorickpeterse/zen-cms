@@ -186,3 +186,43 @@ pre
 {
     background: #f7c052;
 }
+
+/* Styles for diffs */
+.diff
+{
+    font-family: monospace;
+    font-size:   14px;
+}
+
+    .diff ul
+    {
+        margin:  0px;
+        padding: 0px;
+    }
+
+    .diff li
+    {
+        list-style-type: none;
+        min-height:      3px;
+        margin:          0px;
+        padding:         0px;
+        white-space:     pre;
+    }
+
+    .diff ins, .diff del
+    {
+        display:         block;
+        text-decoration: none;
+    }
+
+    .diff ins
+    {
+        background: #dfd;
+        color:      #080;
+    }
+
+    .diff del
+    {
+        background: #fee;
+        color:      #b00;
+    }

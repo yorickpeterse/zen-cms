@@ -1,0 +1,75 @@
+<section>
+    <header>
+        <h1>#{get_breadcrumbs}</h1>
+    </header>
+
+    <div class="body">
+        <?r if @diff and !@diff.empty? ?>
+
+        <h2>Difference</h2>
+
+        <table class="no_background">
+            <tbody>
+                <?r @diff.each do |name, diff| ?>
+                <tr>
+                    <td>#{name}</td>
+                    <td>#{diff}</td>
+                </tr>
+                <?r end ?>
+            </tbody>
+        </table>
+
+        <?r end ?>
+
+        <?r if @revisions and !@revisions.empty? ?>
+
+
+        <h2>Revisions</h2>
+
+
+        <form method="post" action="#{Sections::Controller::Revisions.r(
+          :index,
+          @entry.section_id,
+          @entry.id
+        )}">
+
+        <table data-sort-index="3">
+            <thead>
+                <tr>
+                    <th class="no_sort">Old</th>
+                    <th class="no_sort">New</th>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Created at</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?r @revisions.each do |rev| ?>
+                <tr>
+                    <td>
+                        <input name="old_revision_id" value="#{rev.id}"
+                        type="radio" />
+                    </td>
+                    <td>
+                        <input name="new_revision_id" value="#{rev.id}"
+                        type="radio" />
+                    </td>
+                    <td>#{rev.id}</td>
+                    <td>#{rev.user.name}</td>
+                    <td>#{format_date(rev.created_at)}</td>
+                </tr>
+                <?r end ?>
+            </tbody>
+        </table>
+
+        <input type="submit" class="button" value="Compare" />
+
+        </form>
+
+        <?r else ?>
+
+        <p>There are no revisions for this entry.</p>
+
+        <?r end ?>
+    </div>
+</section>

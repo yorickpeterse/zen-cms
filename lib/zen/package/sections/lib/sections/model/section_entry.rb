@@ -37,6 +37,11 @@ module Sections
         :class => 'CustomFields::Model::CustomFieldValue',
         :eager => [:custom_field]
 
+      one_to_many :revisions,
+        :class => 'Sections::Model::Revision',
+        :eager => [:user],
+        :order => :created_at.desc
+
       many_to_one :user,
         :class => 'Users::Model::User'
 
@@ -217,9 +222,11 @@ module Sections
         # Index the custom field values hash so that the keys are the IDs of the
         # custom fields and the values the instances of
         # CustomFields::Model::CustomFieldValue.
-        custom_field_values.each do |val|
-          values[val.custom_field_id] = val
-        end
+        CustomFields::Model::CustomFieldValue \
+          .filter(:section_entry_id => id, :revision_id => revision_id) \
+          .each do |val|
+            values[val.custom_field_id] = val
+          end
 
         # Build the hash containing all the details of each field
         groups.each do |group|
@@ -242,6 +249,34 @@ module Sections
         end
 
         return result
+      end
+
+      ##
+      # Returns a hash containing all custom fields and their values for a given
+      # revision. The keys of the has are the IDs of the custom fields, the
+      # values are hashes with two keys:
+      #
+      # * :name
+      # * :value
+      #
+      # @since  30-04-2012
+      # @param  [Fixnum] rev_id The ID of the revision for which to
+      #  retrieve the fields and values.
+      # @return [Array]
+      #
+      def custom_fields_and_values(rev_id = revision_id)
+        fields = {}
+        values = CustomFields::Model::CustomFieldValue \
+          .filter(:section_entry_id => id, :revision_id => rev_id) \
+          .eager(:custom_field) \
+          .all
+
+        values.each do |value|
+          field            = value.custom_field
+          fields[field.id] = {:name => field.name, :value => value.value}
+        end
+
+        return fields
       end
 
       ##

@@ -88,3 +88,8 @@ table
     background:      #eee;
     text-decoration: none;
 }
+
+table.no_background tbody td, table.no_background thead th
+{
+    background: none;
+}

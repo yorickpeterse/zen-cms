@@ -7,10 +7,15 @@ module CustomFields
     # @since  0.1
     #
     class CustomFieldValue < Sequel::Model
-      many_to_one :custom_field , :class => 'CustomFields::Model::CustomField',
+      many_to_one :custom_field ,
+        :class => 'CustomFields::Model::CustomField',
         :eager => [:custom_field_type]
 
-      many_to_one :section_entry, :class => 'Sections::Model::SectionEntry'
+      many_to_one :section_entry,
+        :class => 'Sections::Model::SectionEntry'
+
+      many_to_one :revision,
+        :class => 'Sections::Model::Revision'
 
       ##
       # Sets the value and serializes it based on the field type.

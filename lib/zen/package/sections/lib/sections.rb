@@ -23,10 +23,12 @@ Zen::Package.add do |p|
 end
 
 require __DIR__('sections/model/section')
+require __DIR__('sections/model/revision')
 require __DIR__('sections/model/section_entry')
 require __DIR__('sections/model/section_entry_status')
 require __DIR__('sections/controller/sections')
 require __DIR__('sections/controller/section_entries')
+require __DIR__('sections/controller/revisions')
 require __DIR__('sections/widget/recent_entries')
 
 Zen::Controller::FrontendController.helper(:section_frontend)

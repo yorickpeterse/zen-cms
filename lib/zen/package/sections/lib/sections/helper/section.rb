@@ -62,10 +62,9 @@ module Ramaze
 
         field_values = {}
         field_errors = {}
-
-        entry.custom_field_values.each do |value|
-          field_values[value.custom_field_id] = value
-        end
+        revision     = entry.add_revision(
+          :user_id => (user.id rescue entry.user_id)
+        )
 
         entry.custom_fields.each do |field|
           key = "custom_field_value_#{field.id}"
@@ -80,14 +79,17 @@ module Ramaze
 
           next unless request.POST.key?(key)
 
-          if field_values.key?(field.id)
-            field_values[field.id].update(:value => request.POST[key])
-          else
-            entry.add_custom_field_value(
-              :custom_field_id => field.id,
-              :value           => request.POST[key]
-            )
-          end
+          entry.add_custom_field_value(
+            :custom_field_id => field.id,
+            :value           => request.POST[key],
+            :revision_id     => revision.id
+          )
+        end
+
+        if field_errors.empty?
+          entry.update(:revision_id => revision.id)
+        else
+          revision.destroy
         end
 
         return field_errors
