@@ -49,6 +49,7 @@ For more information see the documentation: http://zen-cms.com/documentation
   s.add_dependency('loofah'      , ['~> 1.2.1'])
   s.add_dependency('ramaze-asset', ['~> 0.2.3'])
   s.add_dependency('shebang'     , ['~> 0.1'])
+  s.add_dependency('diff-lcs'    , ['~> 1.1.3'])
 
   s.add_development_dependency('redcarpet', ['>= 2.1.1'])
   s.add_development_dependency('RedCloth' , ['>= 4.2.8'])

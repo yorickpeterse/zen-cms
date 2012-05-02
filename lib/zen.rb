@@ -6,7 +6,7 @@ Ramaze.setup(:verbose => false) do
   gem 'bcrypt-ruby' , ['~> 3.0.1'], :lib => 'bcrypt'
   gem 'loofah'      , ['~> 1.2.1']
   gem 'ramaze-asset', ['~> 0.2.3'], :lib => 'ramaze/asset'
-  gem 'differ'      , ['~> 0.1.2']
+  gem 'diff-lcs'    , ['~> 1.1.3']
 end
 
 $:.unshift(__DIR__) unless $:.include?(__DIR__)
@@ -214,7 +214,7 @@ require 'zen/package'
 require 'zen/theme'
 require 'zen/security'
 require 'zen/migrator'
-require 'zen/differ/pretty_html'
+require 'zen/html_diff'
 
 # Load all the base controllers
 require 'zen/controller/base_controller'
