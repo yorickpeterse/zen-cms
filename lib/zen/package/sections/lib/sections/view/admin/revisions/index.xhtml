@@ -4,11 +4,13 @@
     </header>
 
     <div class="body">
-        <?r if @diff and !@diff.empty? ?>
+        <?r if @diff ?>
 
-        <h2>Difference</h2>
+        <h2>Differences</h2>
 
-        <table class="no_background">
+        <?r if !@diff.empty? ?>
+
+        <table class="no_sort no_background">
             <tbody>
                 <?r @diff.each do |name, diff| ?>
                 <tr>
@@ -19,13 +21,24 @@
             </tbody>
         </table>
 
+        <?r else ?>
+
+        <p>There are no differences between the two specified revisions.</p>
+
+        <?r end ?>
+
         <?r end ?>
 
         <?r if @revisions and !@revisions.empty? ?>
 
-
-        <h2>Revisions</h2>
-
+        <h2>
+            Revisions for #{Sections::Controller::SectionEntries.a(
+              @entry.title,
+              :edit,
+              @entry.section_id,
+              @entry.id
+            )}
+        </h2>
 
         <form method="post" action="#{Sections::Controller::Revisions.r(
           :index,
@@ -33,30 +46,36 @@
           @entry.id
         )}">
 
-        <table data-sort-index="3">
+        <table class="no_sort">
             <thead>
                 <tr>
-                    <th class="no_sort">Old</th>
-                    <th class="no_sort">New</th>
+                    <th class="narrow">Old</th>
+                    <th class="narrow">New</th>
                     <th>#</th>
                     <th>User</th>
                     <th>Created at</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <?r @revisions.each do |rev| ?>
                 <tr>
                     <td>
-                        <input name="old_revision_id" value="#{rev.id}"
-                        type="radio" />
+                        #{old_revision_radio(rev.id, @old_rev_id)}
                     </td>
                     <td>
-                        <input name="new_revision_id" value="#{rev.id}"
-                        type="radio" />
+                        #{new_revision_radio(rev.id, @new_rev_id)}
                     </td>
                     <td>#{rev.id}</td>
                     <td>#{rev.user.name}</td>
                     <td>#{format_date(rev.created_at)}</td>
+                    <td>
+                        #{Sections::Controller::Revisions.a(
+                          'Restore',
+                          :restore,
+                          rev.id
+                        )}
+                    </td>
                 </tr>
                 <?r end ?>
             </tbody>

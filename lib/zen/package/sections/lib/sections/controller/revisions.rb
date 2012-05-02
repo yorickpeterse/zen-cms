@@ -28,11 +28,9 @@ module Sections
 
         # Compare two revisions if both IDs are specified.
         if request.POST['old_revision_id'] and request.POST['new_revision_id']
-          @diff = revision_diff(
-            @entry,
-            request.POST['old_revision_id'],
-            request.POST['new_revision_id']
-          )
+          @old_rev_id = request.POST['old_revision_id']
+          @new_rev_id = request.POST['new_revision_id']
+          @diff       = revision_diff(@entry, @old_rev_id, @new_rev_id)
         end
 
         set_breadcrumbs(
@@ -44,12 +42,6 @@ module Sections
             lang('section_entries.titles.index'),
             :index,
             section_id
-          ),
-          SectionEntries.a(
-            revision_breadcrumb(@entry.title),
-            :edit,
-            section_id,
-            id
           ),
           'Revisions'
         )

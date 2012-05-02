@@ -51,6 +51,11 @@ table
         background: #f9f9f9;
     }
 
+    table .narrow
+    {
+        width: 25px!important;
+    }
+
 .datepicker tr:nth-child(odd) td
 {
     background: #fff;

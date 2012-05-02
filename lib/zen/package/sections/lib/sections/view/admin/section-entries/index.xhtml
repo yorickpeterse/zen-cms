@@ -29,6 +29,7 @@
                         <th>#{lang('section_entries.labels.status')}</th>
                         <th>#{lang('section_entries.labels.created_at')}</th>
                         <th>#{lang('section_entries.labels.updated_at')}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +63,17 @@
                         <td>#{entry.status_name}</td>
                         <td>#{format_date(entry.created_at)}</td>
                         <td>#{format_date(entry.updated_at)}</td>
+
+                        <?r if user_authorized?(:show_revision) ?>
+                        <td>
+                            #{Sections::Controller::Revisions.a(
+                              'Revisions',
+                              :index,
+                              entry.section_id,
+                              entry.id
+                            )}
+                        </td>
+                        <?r end ?>
                     </tr>
                     <?r end ?>
                 </tbody>
