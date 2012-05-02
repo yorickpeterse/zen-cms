@@ -21,7 +21,7 @@ Sequel.migration do
     alter_table :section_entries do
       add_foreign_key :revision_id, :revisions,
         :on_update => :cascade,
-        :on_delete => :cascade,
+        :on_delete => :set_null,
         :key       => :id
     end
 
