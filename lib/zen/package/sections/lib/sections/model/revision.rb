@@ -22,6 +22,27 @@ module Sections
         :custom_field_values => :delete
 
       ##
+      # Hook executed before inserting a new row. This hook is used to purge
+      # for a section entry if the amount of revisions for such an entry exceeds
+      # the maximum amount.
+      #
+      # @since 01-05-2012
+      #
+      def before_create
+        amount = Revision.filter(:section_entry_id => section_entry_id).count
+        max    = get_setting(:maximum_revisions).value.to_i
+
+        if amount >= max
+          Revision.filter(:section_entry_id => section_entry_id) \
+            .order(:id.asc) \
+            .first \
+            .delete
+        end
+
+        super
+      end
+
+      ##
       # Hook that is executed before deleting the revision. This hook is used to
       # prevent the last revision of an entry from being deleted.
       #

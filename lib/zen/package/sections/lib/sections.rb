@@ -37,3 +37,17 @@ Zen::Event.listen :post_start do
   Zen::Language.load('sections')
   Zen::Language.load('section_entries')
 end
+
+Settings::SettingsGroup.add do |group|
+  group.title = 'sections.tabs.content'
+  group.name  = :content
+end
+
+Settings::Setting.add do |setting|
+  setting.title       = 'revisions.labels.maximum_revisions'
+  setting.description = 'revisions.descriptions.maximum_revisions'
+  setting.name        = :maximum_revisions
+  setting.group       = :content
+  setting.type        = 'textbox'
+  setting.default     = 10
+end
