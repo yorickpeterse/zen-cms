@@ -162,6 +162,11 @@ pre
     background-image: url('/admin/zen/images/icons/error.png');
 }
 
+.icon.undo
+{
+    background-image: url('/admin/zen/images/icons/undo.png');
+}
+
 .label
 {
     color:   #fff;

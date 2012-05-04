@@ -27,6 +27,7 @@ Zen::Language::Translation.add do |trans|
     t['tabs.general']           = 'General'
     t['tabs.comment_settings']  = 'Comment Settings'
     t['tabs.group_assignments'] = 'Group Assignments'
+    t['tabs.content']           = 'Content'
 
     t['messages.no_sections'] = 'No sections have been created yet.'
 

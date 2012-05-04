@@ -20,6 +20,9 @@ Zen::Package.add do |p|
   p.permission :edit_section_entry  , 'section_entries.permissions.edit'
   p.permission :new_section_entry   , 'section_entries.permissions.new'
   p.permission :delete_section_entry, 'section_entries.permissions.delete'
+
+  p.permission :show_revision, 'revisions.permissions.show'
+  p.permission :restore_revision, 'revisions.permissions.restore'
 end
 
 require __DIR__('sections/model/section')
@@ -44,8 +47,8 @@ Settings::SettingsGroup.add do |group|
 end
 
 Settings::Setting.add do |setting|
-  setting.title       = 'revisions.labels.maximum_revisions'
-  setting.description = 'revisions.descriptions.maximum_revisions'
+  setting.title       = 'revisions.labels.maximum'
+  setting.description = 'revisions.descriptions.maximum'
   setting.name        = :maximum_revisions
   setting.group       = :content
   setting.type        = 'textbox'

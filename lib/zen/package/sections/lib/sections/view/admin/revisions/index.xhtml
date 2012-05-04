@@ -6,7 +6,7 @@
     <div class="body">
         <?r if @diff ?>
 
-        <h2>Differences</h2>
+        <h2>#{lang('revisions.titles.differences')}</h2>
 
         <?r if !@diff.empty? ?>
 
@@ -23,7 +23,7 @@
 
         <?r else ?>
 
-        <p>There are no differences between the two specified revisions.</p>
+        <p>#{lang('revisions.messages.no_differences')}</p>
 
         <?r end ?>
 
@@ -31,14 +31,7 @@
 
         <?r if @revisions and !@revisions.empty? ?>
 
-        <h2>
-            Revisions for #{Sections::Controller::SectionEntries.a(
-              @entry.title,
-              :edit,
-              @entry.section_id,
-              @entry.id
-            )}
-        </h2>
+        <h2>#{lang('revisions.titles.revisions_for') % @entry_url}</h2>
 
         <form method="post" action="#{Sections::Controller::Revisions.r(
           :index,
@@ -46,48 +39,50 @@
           @entry.id
         )}">
 
-        <table class="no_sort">
-            <thead>
-                <tr>
-                    <th class="narrow">Old</th>
-                    <th class="narrow">New</th>
-                    <th>#</th>
-                    <th>User</th>
-                    <th>Created at</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?r @revisions.each do |rev| ?>
-                <tr>
-                    <td>
-                        #{old_revision_radio(rev.id, @old_rev_id)}
-                    </td>
-                    <td>
-                        #{new_revision_radio(rev.id, @new_rev_id)}
-                    </td>
-                    <td>#{rev.id}</td>
-                    <td>#{rev.user.name}</td>
-                    <td>#{format_date(rev.created_at)}</td>
-                    <td>
-                        #{Sections::Controller::Revisions.a(
-                          'Restore',
-                          :restore,
-                          rev.id
-                        )}
-                    </td>
-                </tr>
-                <?r end ?>
-            </tbody>
-        </table>
+            <table class="no_sort">
+                <thead>
+                    <tr>
+                        <th class="narrow">#{lang('revisions.labels.old')}</th>
+                        <th class="narrow">#{lang('revisions.labels.new')}</th>
+                        <th>#{lang('revisions.labels.id')}</th>
+                        <th>#{lang('revisions.labels.user')}</th>
+                        <th>#{lang('revisions.labels.created_at')}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?r @revisions.each do |rev| ?>
+                    <tr>
+                        <td>
+                            #{old_revision_radio(rev.id, @old_rev_id)}
+                        </td>
+                        <td>
+                            #{new_revision_radio(rev.id, @new_rev_id)}
+                        </td>
+                        <td>#{rev.id}</td>
+                        <td>#{rev.user.name}</td>
+                        <td>#{format_date(rev.created_at)}</td>
+                        <td>
+                            <a href="#{Sections::Controller::Revisions.r(
+                              :restore,
+                              rev.id
+                            )}" class="icon undo">
+                                #{lang('revisions.labels.restore')}
+                            </a>
+                        </td>
+                    </tr>
+                    <?r end ?>
+                </tbody>
+            </table>
 
-        <input type="submit" class="button" value="Compare" />
+            <input type="submit" class="button"
+            value="#{lang('revisions.buttons.compare')}" />
 
         </form>
 
         <?r else ?>
 
-        <p>There are no revisions for this entry.</p>
+        <p>#{lang('revisions.messages.no_revisions')}</p>
 
         <?r end ?>
     </div>

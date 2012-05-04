@@ -23,8 +23,16 @@ module Sections
       def index(section_id, id)
         authorize_user!(:show_revision)
 
+        validate_section(section_id)
+
         @entry     = validate_section_entry(id, section_id)
         @revisions = @entry.revisions
+        @entry_url = SectionEntries.a(
+          @entry.title,
+          :edit,
+          @entry.section_id,
+          @entry.id
+        )
 
         # Compare two revisions if both IDs are specified.
         if request.POST['old_revision_id'] and request.POST['new_revision_id']
@@ -43,8 +51,49 @@ module Sections
             :index,
             section_id
           ),
-          'Revisions'
+          lang('revisions.titles.index')
         )
+      end
+
+      ##
+      # Sets the revision ID of a section entry to a specific revision, deleting
+      # newer revisions.
+      #
+      # @since 03-05-2012
+      # @param [Fixnum|String] revision_id The ID of the revision to restore.
+      # @permission restore_revision
+      #
+      def restore(revision_id)
+        authorize_user!(:restore_revision)
+
+        revision = validate_revision(revision_id)
+
+        if revision
+          entry = revision.section_entry
+
+          begin
+            entry.update(:revision_id => revision.id)
+          rescue => e
+            Ramaze::Log.error(e)
+
+            message(:error, lang('revisions.errors.restore'))
+            redirect_referer
+          end
+
+          begin
+            Model::Revision \
+              .filter(:section_entry_id => entry.id) { id > revision.id } \
+              .delete
+
+            message(:success, lang('revisions.success.restore'))
+          rescue => e
+            Ramaze::Log.error(e)
+
+            message(:error, lang('revisions.errors.restore'))
+          end
+
+          redirect_referer
+        end
       end
     end # Revisions
   end # Controller

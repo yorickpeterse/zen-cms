@@ -40,7 +40,7 @@ module Sections
       one_to_many :revisions,
         :class => 'Sections::Model::Revision',
         :eager => [:user],
-        :order => :created_at.desc
+        :order => :id.desc
 
       many_to_one :user,
         :class => 'Users::Model::User'

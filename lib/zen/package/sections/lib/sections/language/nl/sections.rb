@@ -27,6 +27,7 @@ Zen::Language::Translation.add do |trans|
     t['tabs.general']           = 'Algemeen'
     t['tabs.comment_settings']  = 'Reactie instellingen'
     t['tabs.group_assignments'] = 'Groepen'
+    t['tabs.content']           = 'Inhoud'
 
     t['messages.no_sections'] = 'Er konden geen secties worden gevonden.'
 

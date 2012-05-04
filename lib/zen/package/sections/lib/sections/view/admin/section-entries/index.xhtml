@@ -66,11 +66,13 @@
 
                         <?r if user_authorized?(:show_revision) ?>
                         <td>
-                            #{Sections::Controller::Revisions.a(
-                              'Revisions',
-                              :index,
-                              entry.section_id,
-                              entry.id
+                            #{manage_link(
+                              Sections::Controller::Revisions.r(
+                                :index,
+                                entry.section_id,
+                                entry.id
+                              ),
+                              lang('revisions.titles.index')
                             )}
                         </td>
                         <?r end ?>

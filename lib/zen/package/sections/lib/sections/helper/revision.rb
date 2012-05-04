@@ -7,6 +7,33 @@ module Ramaze
     #
     module Revision
       ##
+      # Validates a revision ID. If the ID is invalid the user will be
+      # redirected back to the previous page and a message will be displayed.
+      #
+      # If the revision ID resulted in a valid Revision object then that object
+      # is returned.
+      #
+      # @since  05-05-2012
+      # @param  [Fixnum|String] revision_id The ID of the revision.
+      # @return [Sections::Model::Revision]
+      #
+      def validate_revision(revision_id)
+        unless revision_id =~ /\d+/
+          message(:error, lang('revisions.errors.invalid'))
+          redirect_referer
+        end
+
+        revision = Sections::Model::Revision[revision_id]
+
+        if revision
+          return revision
+        else
+          message(:error, lang('revisions.errors.invalid'))
+          redirect_referer
+        end
+      end
+
+      ##
       # Returns a hash containing the difference between the values of two
       # section entries.
       #
@@ -18,6 +45,9 @@ module Ramaze
       # @return [Hash]
       #
       def revision_diff(entry, old_revision, new_revision)
+        validate_revision(old_revision)
+        validate_revision(new_revision)
+
         old_values = entry.custom_fields_and_values(old_revision)
         new_values = entry.custom_fields_and_values(new_revision)
         diff       = {}
@@ -46,13 +76,21 @@ module Ramaze
       # @return [String]
       #
       def old_revision_radio(rev_id, current_rev_id)
+        g     = Ramaze::Gestalt.new
+        attrs = {
+          :name  => 'old_revision_id',
+          :id    => "old_revision_id_#{rev_id}",
+          :type  => 'radio',
+          :value => rev_id
+        }
+
         if rev_id.to_i == current_rev_id.to_i
-          return '<input name="old_revision_id"' \
-            "value=\"#{rev_id}\" type=\"radio\" checked=\"checked\" />"
-        else
-          return '<input name="old_revision_id"' \
-            "value=\"#{rev_id}\" type=\"radio\" />"
+          attrs[:checked] = 'checked'
         end
+
+        g.input(attrs)
+
+        return g.to_s
       end
 
       ##
@@ -65,13 +103,21 @@ module Ramaze
       # @return [String]
       #
       def new_revision_radio(rev_id, current_rev_id)
+        g     = Ramaze::Gestalt.new
+        attrs = {
+          :name  => 'new_revision_id',
+          :id    => "new_revision_id_#{rev_id}",
+          :type  => 'radio',
+          :value => rev_id
+        }
+
         if rev_id.to_i == current_rev_id.to_i
-          return '<input name="new_revision_id"' \
-            "value=\"#{rev_id}\" type=\"radio\" checked=\"checked\" />"
-        else
-          return '<input name="new_revision_id"' \
-            "value=\"#{rev_id}\" type=\"radio\" />"
+          attrs[:checked] = 'checked'
         end
+
+        g.input(attrs)
+
+        return g.to_s
       end
     end # Revision
   end # Helper
