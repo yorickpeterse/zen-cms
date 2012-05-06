@@ -26,9 +26,12 @@ module Zen
     def self.diff(old, new)
       callback = Callback.new
 
+      old = old.join("\n") if old.is_a?(Array)
+      new = new.join("\n") if new.is_a?(Array)
+
       Diff::LCS.traverse_sequences(
-        old.split(/\r\n|\n/),
-        new.split(/\r\n|\n/),
+        old.to_s.split(/\r\n|\n/),
+        new.to_s.split(/\r\n|\n/),
         callback
       )
 

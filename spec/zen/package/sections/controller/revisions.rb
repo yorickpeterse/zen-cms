@@ -25,6 +25,17 @@ describe 'Sections::Controller::Revisions' do
     :custom_field_type_id  => textbox_id
   )
 
+  field_1 = CustomFields::Model::CustomField.create(
+    :name                  => 'Spec checkbox',
+    :sort_order            => 1,
+    :format                => 'plain',
+    :required              => true,
+    :text_editor           => false,
+    :custom_field_group_id => group.id,
+    :custom_field_type_id  => checkbox_id,
+    :possible_values       => "Yorick Peterse|yorick\nChuck Norris|chuck"
+  )
+
   section.custom_field_group_pks = [group.id]
 
   entries_url    = Sections::Controller::SectionEntries.r(:index, section.id).to_s
@@ -44,6 +55,7 @@ describe 'Sections::Controller::Revisions' do
     within '#section_entry_form' do
       fill_in(title_field, :with => 'Entry with revisions')
       fill_in(field.name, :with => 'Original value')
+      check("form_custom_field_value_#{field_1.id}_0")
 
       click_on(save_button)
     end
@@ -184,7 +196,40 @@ describe 'Sections::Controller::Revisions' do
     page.find_field(field.name).value.should == 'Modified 4'
   end
 
+  it 'Compare array based values of two revisions' do
+    visit(entries_url)
+
+    click_on('Entry with revisions')
+
+    within '#section_entry_form' do
+      check("form_custom_field_value_#{field_1.id}_1")
+      click_on(save_button)
+    end
+
+    page.has_selector?('.message.error').should == false
+
+    visit(entries_url)
+    click_on(revisions_url)
+
+    entry     = Sections::Model::SectionEntry[:title => 'Entry with revisions']
+    revisions = Sections::Model::Revision.filter(:section_entry_id => entry.id) \
+      .order(:id.asc) \
+      .all
+
+    choose("old_revision_id_#{revisions[-1].id}")
+    choose("new_revision_id_#{revisions[-2].id}")
+
+    click_on(compare_button)
+
+    page.has_selector?('.diff .ins').should == false
+    page.has_selector?('.diff .del').should == true
+
+    page.has_content?('yorick').should == true
+    page.has_content?('chuck').should  == true
+  end
+
   field.destroy
+  field_1.destroy
   group.destroy
   section.destroy
 end

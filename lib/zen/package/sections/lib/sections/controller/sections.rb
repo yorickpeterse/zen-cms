@@ -5,17 +5,20 @@
 #
 # * {Sections::Controller::Sections}
 # * {Sections::Controller::SectionEntries}
+# * {Sections::Controller::Revisions}
 #
 # ## Helpers
 #
 # * {Ramaze::Helper::Section}
 # * {Ramaze::Helper::SectionFrontend}
+# * {Ramaze::Helper::Revision}
 #
 # ## Models
 #
 # * {Sections::Model::Section}
 # * {Sections::Model::SectionEntry}
 # * {Sections::Model::SectionEntryStatus}
+# * {Sections::Model::Revision}
 #
 module Sections
   #:nodoc:
