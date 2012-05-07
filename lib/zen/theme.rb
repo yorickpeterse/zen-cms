@@ -97,7 +97,7 @@ module Zen
   #
   # <div class="note deprecated">
   #     <p>
-  #         <strong>Warning</strong>: Most likely your template will use files
+  #         <strong>Warning:</strong> Most likely your template will use files
   #         such as CSS and Javascript files. It's important to store these
   #         under their own namespace similar to assets used in the backend to
   #         prevent any collisions.
@@ -257,7 +257,7 @@ module Zen
   #
   # <div class="note deprecated">
   #     <p>
-  #         <strong>Warning</strong>: Don't run custom SQL queries inside your
+  #         <strong>Warning:</strong> Don't run custom SQL queries inside your
   #         templates, create a helper, regular class or module if you want to
   #         retrieve custom data.
   #     </p>
@@ -291,7 +291,7 @@ module Zen
   #
   # <div class="note todo">
   #     <p>
-  #         <strong>Note</strong>: The variables set in the partial method are
+  #         <strong>Note:</strong> The variables set in the partial method are
   #         available as instance variables, not regular variables.
   #     </p>
   # </div>

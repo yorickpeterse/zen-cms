@@ -178,6 +178,7 @@ module Zen
   #
   # <div class="note todo">
   #     <p>
+  #         <strong>Note:</strong>
   #         This can't be stressed enough: always load language files using the
   #         post_start event.
   #     </p>
@@ -206,6 +207,7 @@ module Zen
   #
   # <div class="note todo">
   #     <p>
+  #         <strong>Note:</strong>
   #         Because language files aren't loaded until Zen.start is called you
   #         should never use or rely on translations before the application has
   #         started. Most of the core code works around this by loading
