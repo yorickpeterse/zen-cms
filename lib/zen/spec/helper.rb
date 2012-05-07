@@ -1,5 +1,4 @@
 require 'ramaze'
-require 'stringio'
 
 Ramaze.setup(:verbose => false) do
   gem 'capybara', ['>= 1.1.1']
