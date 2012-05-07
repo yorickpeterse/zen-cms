@@ -1,40 +1,50 @@
 namespace :test do
-  spec_dir = File.expand_path('../../../../spec', __FILE__)
-  command  = 'rake db:delete; rake db:migrate; rake db:test_user; ' \
-    'ruby zen/all.rb'
-
-  desc 'Run specifications'
+  desc 'Run test using default settings'
   task :default do
-    Dir.chdir(spec_dir)
+    Dir.chdir(File.expand_path('../../../../spec', __FILE__))
 
-    sh(command)
+    sh('rake db:delete')
+    sh('rake db:migrate')
+    sh('rake db:test_user')
+
+    # Hack to prevent Simplecov from generating code coverage while migrating
+    # the database.
+    if ENV['_COVERAGE']
+      ENV['_COVERAGE'] = nil
+      ENV['COVERAGE']  = '1'
+    end
+
+    sh('ruby zen/all.rb')
   end
 
-  desc 'Runs specifications using MySQL'
+  desc 'Run tests using MySQL'
   task :mysql do
-    Dir.chdir(spec_dir)
-
     ENV['DATABASE'] = 'zen_dev'
     ENV['ADAPTER']  = 'mysql2'
     ENV['USERNAME'] = 'zen'
 
-    sh(command)
+    Rake::Task['test:default'].invoke
   end
 
-  desc 'Runs specifications using PostgreSQL'
+  desc 'Run tests using PostgreSQL'
   task :postgres do
-    Dir.chdir(spec_dir)
-
     ENV['DATABASE'] = 'zen_dev'
     ENV['ADAPTER']  = 'postgres'
     ENV['USERNAME'] = 'zen'
 
-    sh(command)
+    Rake::Task['test:default'].invoke
+  end
+
+  desc 'Generates code coverage'
+  task :coverage do
+    ENV['_COVERAGE'] = '1'
+
+    Rake::Task['test:default'].invoke
   end
 
   # Task that ensures that the various Travis CI tests each use their own
   # database based on the Ruby version.
-  desc 'Runs the tests for Travis CI'
+  desc 'Run tests for Travis CI'
   task :travis do
     suffix = '_' + RUBY_VERSION.gsub('.', '_')
 
@@ -48,8 +58,6 @@ namespace :test do
       end
     end
 
-    Dir.chdir(spec_dir)
-
-    sh(command)
+    Rake::Task['test:default'].invoke
   end
 end
