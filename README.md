@@ -78,6 +78,7 @@ small portion of what it can do.
 * {Sections Sections & Section Entries}
   * {Sections::Controller::Sections Managing Sections}
   * {Sections::Controller::SectionEntries Managing Section Entries}
+  * {Sections::Controller::Revisions Managing And Restoring Revisions}
   * {Ramaze::Helper::SectionFrontend#get_entries Section Entries & Templates}
 * {Settings}
   * {Settings::Controller::Settings Managing Settings}

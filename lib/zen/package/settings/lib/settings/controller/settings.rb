@@ -90,6 +90,14 @@ module Settings
     #                 When set users are allowed to register user accounts.
     #             </td>
     #         </tr>
+    #         <tr>
+    #             <td>Revision amount</td>
+    #             <td>
+    #                 The maximum amount of revisions to keep for each section
+    #                 entry. After this limit has been exceeded the oldest
+    #                 revision will be removed.
+    #             </td>
+    #         </tr>
     #     </tbody>
     # </table>
     #
