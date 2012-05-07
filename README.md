@@ -102,6 +102,7 @@ small portion of what it can do.
 * {file:asset_management Asset Management}
 * {Zen::Markup Converting Markup}
 * {file:javascript Javascript API}
+* {Zen::HTMLDiff Generating Diffs}
 
 ## Community
 
