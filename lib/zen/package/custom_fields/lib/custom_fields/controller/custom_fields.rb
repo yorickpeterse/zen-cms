@@ -133,10 +133,10 @@ module CustomFields
     #
     # ## Used Permissions
     #
-    # * show_custom_field
-    # * new_custom_field
-    # * edit_custom_field
-    # * delete_custom_field
+    # * show\_custom\_field
+    # * new\_custom\_field
+    # * edit\_custom\_field
+    # * delete\_custom\_field
     #
     # @since  0.1
     # @map    /admin/custom-fields

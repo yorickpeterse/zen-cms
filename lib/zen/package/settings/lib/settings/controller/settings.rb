@@ -105,8 +105,8 @@ module Settings
     #
     # This controller uses the following permissions:
     #
-    # * show_setting
-    # * edit_setting
+    # * show\_setting
+    # * edit\_setting
     #
     # ## Events
     #
@@ -124,7 +124,7 @@ module Settings
     #
     # @since  0.1
     # @map    /admin/settings
-    # @event  after_edit_setting
+    # @event  after\_edit\_setting
     #
     class Settings < Zen::Controller::AdminController
       map   '/admin/settings'
@@ -164,7 +164,7 @@ module Settings
       #
       # @since      0.1
       # @permission edit_setting
-      # @event      after_edit_setting
+      # @event      after\_edit\_setting
       #
       def save
         authorize_user!(:edit_setting)

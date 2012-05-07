@@ -130,10 +130,10 @@ module Sections
     #
     # ## Used Permissions
     #
-    # * show_section
-    # * new_section
-    # * edit_section
-    # * delete_section
+    # * show\_section
+    # * new\_section
+    # * edit\_section
+    # * delete\_section
     #
     # @since  0.1
     # @map    /admin/sections

@@ -46,7 +46,7 @@ module Settings
   # * checkbox
   # * date
   # * select
-  # * select_multiple
+  # * select\_multiple
   #
   # ## Migrating Settings
   #

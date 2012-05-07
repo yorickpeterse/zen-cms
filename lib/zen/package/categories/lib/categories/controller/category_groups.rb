@@ -82,10 +82,10 @@ module Categories
     #
     # ## Used Permissions
     #
-    # * show_category_group
-    # * edit_category_group
-    # * new_category_group
-    # * delete_category_group
+    # * show\_category\_group
+    # * edit\_category\_group
+    # * new\_category\_group
+    # * delete\_category\_group
     #
     # @since  0.1
     # @map    /admin/category-groups

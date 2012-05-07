@@ -5,12 +5,12 @@ module CustomFields
     # Model that represents a single custom field group.
     #
     # @since 0.1
-    # @event before_new_custom_field_group
-    # @event after_new_custom_field_group
-    # @event before_edit_custom_field_group
-    # @event after_edit_custom_field_group
-    # @event before_delete_custom_field_group
-    # @event after_delete_custom_field_group
+    # @event before\_new\_custom\_field\_group
+    # @event after\_new\_custom\_field\_group
+    # @event before\_edit\_custom\_field\_group
+    # @event after\_edit\_custom\_field\_group
+    # @event before\_delete\_custom\_field\_group
+    # @event after\_delete\_custom\_field\_group
     #
     class CustomFieldGroup < Sequel::Model
       include Zen::Model::Helper

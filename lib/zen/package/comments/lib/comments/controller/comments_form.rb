@@ -86,8 +86,8 @@ module Comments
     # two objects in the flash just like the backend controllers. These are the
     # following two items:
     #
-    # * **form_data**: an instance of {Comments::Model::Comment}
-    # * **form_errros**: a hash containing all errors, automatically used by
+    # * **form\_data**: an instance of {Comments::Model::Comment}
+    # * **form\_errros**: a hash containing all errors, automatically used by
     # ``Ramaze::Helper::BlueForm`` if the form was created using the
     # ``form_for()`` method.
     #

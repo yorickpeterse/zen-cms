@@ -117,10 +117,10 @@ module Comments
     #
     # This controller uses the following permissions:
     #
-    # * show_comment
-    # * edit_comment
-    # * new_comment
-    # * delete_comment
+    # * show\_comment
+    # * edit\_comment
+    # * new\_comment
+    # * delete\_comment
     #
     # @since  0.1
     # @map    /admin/comments

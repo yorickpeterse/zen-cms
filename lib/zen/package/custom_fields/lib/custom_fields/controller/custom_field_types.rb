@@ -99,10 +99,10 @@ module CustomFields
     #
     # ## Used Permissions
     #
-    # * show_custom_field_type
-    # * edit_custom_field_type
-    # * new_custom_field_type
-    # * delete_custom_field_type
+    # * show\_custom\_field\_type
+    # * edit\_custom\_field\_type
+    # * new\_custom\_field\_type
+    # * delete\_custom\_field\_type
     #
     # @since  0.2.8
     # @map    /admin/custom-field-types

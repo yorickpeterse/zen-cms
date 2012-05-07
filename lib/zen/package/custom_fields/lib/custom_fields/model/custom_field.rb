@@ -5,12 +5,12 @@ module CustomFields
     # Model for managing retrieving custom fields.
     #
     # @since 0.1
-    # @event before_new_custom_field
-    # @event after_new_custom_field
-    # @event before_edit_custom_field
-    # @event after_edit_custom_field
-    # @event before_delete_custom_field
-    # @event after_delete_custom_field
+    # @event before\_new\_custom\_field
+    # @event after\_new\_custom\_field
+    # @event before\_edit\_custom\_field
+    # @event after\_edit\_custom\_field
+    # @event before\_delete\_custom\_field
+    # @event after\_delete\_custom\_field
     #
     class CustomField < Sequel::Model
       include Zen::Model::Helper

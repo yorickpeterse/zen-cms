@@ -135,16 +135,16 @@ module Users
     #
     # This controller uses the following permissions:
     #
-    # * show_user
-    # * new_user
-    # * edit_user
-    # * delete_user
+    # * show\_user
+    # * new\_user
+    # * edit\_user
+    # * delete\_user
     #
     # @since  0.1
     # @map    /admin/users
-    # @event  user_login
-    # @event  before_register_user
-    # @event  after_register_user
+    # @event  user\_login
+    # @event  before\_register\_user
+    # @event  after\_register\_user
     #
     class Users < Zen::Controller::AdminController
       helper :users, :layout
@@ -234,7 +234,7 @@ module Users
       # Show a form that allows a user to log in.
       #
       # @since  0.1
-      # @event  user_login
+      # @event  user\_login
       #
       def login
         if request.post?
@@ -277,8 +277,8 @@ module Users
       # specified by the user.
       #
       # @since 0.3
-      # @event before_register_user
-      # @event after_register_user
+      # @event before\_register\_user
+      # @event after\_register\_user
       #
       def register
         redirect(Dashboard::Controller::Dashboard.r(:index)) if logged_in?

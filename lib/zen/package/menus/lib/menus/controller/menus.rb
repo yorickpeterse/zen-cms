@@ -96,10 +96,10 @@ module Menus
     #
     # ## Used Permissions
     #
-    # * show_menu
-    # * new_menu
-    # * edit_menu
-    # * delete_menu
+    # * show\_menu
+    # * new\_menu
+    # * edit\_menu
+    # * delete\_menu
     #
     # @since  0.2a
     # @map    /admin/menus

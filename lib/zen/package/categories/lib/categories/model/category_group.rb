@@ -31,12 +31,12 @@ module Categories
     #     end
     #
     # @since 0.1
-    # @event before_new_category_group
-    # @event after_new_category_group
-    # @event before_edit_category_group
-    # @event after_edit_category_group
-    # @event before_delete_category_group
-    # @event after_delete_category_group
+    # @event before\_new\_category\_group
+    # @event after\_new\_category\_group
+    # @event before\_edit\_category\_group
+    # @event after\_edit\_category\_group
+    # @event before\_delete\_category\_group
+    # @event after\_delete\_category\_group
     #
     class CategoryGroup < Sequel::Model
       include Zen::Model::Helper

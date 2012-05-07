@@ -75,10 +75,10 @@ module CustomFields
     #
     # ## Used Permissions
     #
-    # * show_custom_field_group
-    # * new_custom_field_group
-    # * edit_custom_field_group
-    # * delete_custom_field_group
+    # * show\_custom\_field\_group
+    # * new\_custom\_field\_group
+    # * edit\_custom\_field\_group
+    # * delete\_custom\_field\_group
     #
     # @since  0.1
     # @map    /admin/custom-field-groups

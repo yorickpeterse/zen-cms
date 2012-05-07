@@ -5,12 +5,12 @@ module Sections
     # Model that represents a singe section entry.
     #
     # @since 0.1
-    # @event before_new_section_entry
-    # @event after_new_section_entry
-    # @event before_edit_section_entry
-    # @event after_edit_section_entry
-    # @event before_delete_section_entry
-    # @event after_delete_section_entry
+    # @event before\_new\_section\_entry
+    # @event after\_new\_section\_entry
+    # @event before\_edit\_section\_entry
+    # @event after\_edit\_section\_entry
+    # @event before\_delete\_section\_entry
+    # @event after\_delete\_section\_entry
     #
     class SectionEntry < Sequel::Model
       include Zen::Model::Helper

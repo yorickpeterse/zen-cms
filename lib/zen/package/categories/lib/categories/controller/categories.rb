@@ -71,10 +71,10 @@ module Categories
     #
     # This controller uses the following permissions:
     #
-    # * show_category
-    # * edit_category
-    # * new_category
-    # * delete_category
+    # * show\_category
+    # * edit\_category
+    # * new\_category
+    # * delete\_category
     #
     # @since  0.1
     # @map    /admin/categories

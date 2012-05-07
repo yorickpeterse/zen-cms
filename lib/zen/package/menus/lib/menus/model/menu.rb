@@ -23,12 +23,12 @@ module Menus
     #  end
     #
     # @since 0.2a
-    # @event before_new_menu
-    # @event after_new_menu
-    # @event before_edit_menu
-    # @event after_edit_menu
-    # @event before_delete_menu
-    # @event after_delete_menu
+    # @event before\_new\_menu
+    # @event after\_new\_menu
+    # @event before\_edit\_menu
+    # @event after\_edit\_menu
+    # @event before\_delete\_menu
+    # @event after\_delete\_menu
     #
     class Menu < Sequel::Model
       include Zen::Model::Helper

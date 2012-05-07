@@ -76,10 +76,10 @@ module Menus
     #
     # ## Used Permissions
     #
-    # * show_menu_item
-    # * new_menu_item
-    # * edit_menu_item
-    # * delete_menu_item
+    # * show\_menu\_item
+    # * new\_menu\_item
+    # * edit\_menu\_item
+    # * delete\_menu\_item
     #
     # @since  0.2a
     # @map    /admin/menu-items

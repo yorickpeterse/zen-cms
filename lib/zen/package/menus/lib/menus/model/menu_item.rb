@@ -13,12 +13,12 @@ module Menus
     #  end
     #
     # @since 0.2a
-    # @event before_new_menu_item
-    # @event after_new_menu_item
-    # @event before_edit_menu_item
-    # @event after_edit_menu_item
-    # @event before_delete_menu_item
-    # @event after_delete_menu_item
+    # @event before\_new\_menu\_item
+    # @event after\_new\_menu\_item
+    # @event before\_edit\_menu\_item
+    # @event after\_edit\_menu\_item
+    # @event before\_delete\_menu\_item
+    # @event after\_delete\_menu\_item
     #
     class MenuItem < Sequel::Model
       include Zen::Model::Helper

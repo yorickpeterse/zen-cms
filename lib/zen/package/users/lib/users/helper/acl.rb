@@ -5,8 +5,8 @@ module Ramaze
     # certain resources based on the permissions of a user. This helper is
     # loaded by default and provides the following two methods:
     #
-    # * user_authorized?()
-    # * authorize_user!()
+    # * user\_authorized?()
+    # * authorize\_user!()
     #
     # ## Example
     #

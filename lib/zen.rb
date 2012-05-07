@@ -88,7 +88,7 @@ module Zen
     # Prepares Zen for the party of its life.
     #
     # @since 0.3
-    # @event post_start Event that is fired after all packages have been loaded,
+    # @event post\_start Event that is fired after all packages have been loaded,
     #  the cache has been set up, etc. This event is called at the very end of
     #  the method.
     #

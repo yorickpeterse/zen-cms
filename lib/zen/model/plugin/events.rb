@@ -5,12 +5,12 @@ module Sequel
     # fired by {Zen::Event}. Based on the specified options it creates events
     # for the following Sequel hooks:
     #
-    # * before_create
-    # * after_create
-    # * before_update
-    # * after_update
-    # * before_destroy
-    # * after_destroy
+    # * before\_create
+    # * after\_create
+    # * before\_update
+    # * after\_update
+    # * before\_destroy
+    # * after\_destroy
     #
     # For example, to add the Zen event "before_new_post" and have it called by
     # the Sequel hook "before_create" you'd do the following:

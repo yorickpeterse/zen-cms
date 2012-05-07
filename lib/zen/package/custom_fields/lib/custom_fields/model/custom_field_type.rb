@@ -5,12 +5,12 @@ module CustomFields
     # Model for managing custom field types.
     #
     # @since 0.2.8
-    # @event before_new_custom_field_type
-    # @event after_new_custom_field_type
-    # @event before_edit_custom_field_type
-    # @event after_edit_custom_field_type
-    # @event before_delete_custom_field_type
-    # @event after_delete_custom_field_type
+    # @event before\_new\_custom\_field\_type
+    # @event after\_new\_custom\_field\_type
+    # @event before\_edit\_custom\_field\_type
+    # @event after\_edit\_custom\_field\_type
+    # @event before\_delete\_custom\_field\_type
+    # @event after\_delete\_custom\_field\_type
     #
     class CustomFieldType < Sequel::Model
       include Zen::Model::Helper

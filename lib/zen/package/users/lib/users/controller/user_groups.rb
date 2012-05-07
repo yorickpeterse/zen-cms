@@ -75,10 +75,10 @@ module Users
     #
     # This controller uses the following permissions:
     #
-    # * show_user_group
-    # * edit_user_group
-    # * new_user_group
-    # * delete_user_group
+    # * show\_user\_group
+    # * edit\_user\_group
+    # * new\_user\_group
+    # * delete\_user\_group
     #
     # @since  0.1
     # @map    /admin/user-groups

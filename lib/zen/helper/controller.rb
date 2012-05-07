@@ -84,7 +84,7 @@ module Ramaze
       # values can be returned:
       #
       # * firefox
-      # * internet_explorer
+      # * internet\_explorer
       # * chrome
       # * safari
       # * other

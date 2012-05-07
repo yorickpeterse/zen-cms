@@ -90,10 +90,10 @@ module Sections
     #
     # This controller uses the following permissions:
     #
-    # * show_section_entry
-    # * new_section_entry
-    # * edit_section_entry
-    # * delete_section_entry
+    # * show\_section\_entry
+    # * new\_section\_entry
+    # * edit\_section\_entry
+    # * delete\_section\_entry
     #
     # @since  0.1
     # @map    /admin/section-entries

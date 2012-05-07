@@ -32,12 +32,12 @@ module Comments
     #    end
     #
     # @since 0.1
-    # @event before_new_comment
-    # @event after_new_comment
-    # @event before_edit_comment
-    # @event after_edit_comment
-    # @event beore_delete_comment
-    # @event after_delete_comment
+    # @event before\_new\_comment
+    # @event after\_new\_comment
+    # @event before\_edit\_comment
+    # @event after\_edit\_comment
+    # @event beore\_delete\_comment
+    # @event after\_delete\_comment
     #
     class Comment < Sequel::Model
       include Zen::Model::Helper

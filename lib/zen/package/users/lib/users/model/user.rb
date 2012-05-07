@@ -14,12 +14,12 @@ module Users
     #  end
     #
     # @since 0.1
-    # @event before_new_user
-    # @event after_new_user
-    # @event before_edit_user
-    # @event after_edit_user
-    # @event before_delete_user
-    # @event after_delete_user
+    # @event before\_new\_user
+    # @event after\_new\_user
+    # @event before\_edit\_user
+    # @event after\_edit\_user
+    # @event before\_delete\_user
+    # @event after\_delete\_user
     #
     class User < Sequel::Model
       ##

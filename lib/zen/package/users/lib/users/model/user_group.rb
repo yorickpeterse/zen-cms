@@ -5,12 +5,12 @@ module Users
     # Model that represents a single user group.
     #
     # @since 0.1
-    # @event before_new_user_group
-    # @event after_new_user_user
-    # @event before_edit_user_group
-    # @event after_edit_user_group
-    # @event before_delete_user_group
-    # @event after_delete_user_group
+    # @event before\_new\_user\_group
+    # @event after\_new\_user\_user
+    # @event before\_edit\_user\_group
+    # @event after\_edit\_user\_group
+    # @event before\_delete\_user\_group
+    # @event after\_delete\_user\_group
     #
     class UserGroup < Sequel::Model
       include Zen::Model::Helper
