@@ -77,8 +77,9 @@ namespace :db do
 
     if group.nil?
       group = Users::Model::UserGroup.new(
-        :name => 'Administrators',
-        :slug => 'administrators', :super_group => true
+        :name        => 'Administrators',
+        :slug        => 'administrators',
+        :super_group => true
       ).save
     end
 
