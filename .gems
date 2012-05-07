@@ -19,3 +19,4 @@ webmock
 RedCloth
 pg
 mysql2
+ffi-aspell

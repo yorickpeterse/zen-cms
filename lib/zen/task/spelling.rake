@@ -1,18 +1,18 @@
-# Task that checks the documentation for spelling errors using Raspell/Aspell.
-# This task requires Aspell to be installed along with an English dictionary. On
-# Arch Linux these can be installed as following:
+# Task that checks the documentation for spelling errors using Aspell.  This
+# task requires Aspell to be installed along with an English dictionary. On Arch
+# Linux these can be installed as following:
 #
 #     $ sudo pacman -S aspell aspell-en
 #
 desc 'Search docs for spelling errors'
 task :spelling do
-  require 'raspell'
+  require 'ffi/aspell'
   require 'ripper'
 
-  speller = Aspell.new1(
-    'lang'        => 'en',
+  speller = FFI::Aspell::Speller.new(
+    'en',
     'personal'    => File.expand_path('../../../../.aspell.en.pws', __FILE__),
-    'ignore-case' => 'true'
+    'ignore-case' => true
   )
 
   base_dir         = File.expand_path('../../../..', __FILE__)
@@ -68,8 +68,8 @@ task :spelling do
 
         next if skip == true
 
-        unless speller.check(word)
-          suggested = speller.suggest(word)[0]
+        unless speller.correct?(word)
+          suggested = speller.suggestions(word)[0]
 
           if suggested
             errors << {
