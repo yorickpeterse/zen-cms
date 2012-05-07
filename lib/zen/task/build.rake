@@ -9,8 +9,12 @@ namespace :build do
 
   desc 'Builds a new Gem'
   task :gem do
+    gemspec = Gem::Specification.load(
+      File.expand_path('../zen.gemspec', __FILE__)
+    )
+
     root = File.expand_path('../../../../', __FILE__)
-    name = "#{Zen::Gemspec.name}-#{Zen::Gemspec.version.version}.gem"
+    name = "#{gemspec.name}-#{gemspec.version.version}.gem"
     path = File.join(root, name)
     pkg  = File.join(root, 'pkg', name)
 
