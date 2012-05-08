@@ -59,7 +59,7 @@ module Sections
             .limit(1) \
             .first
 
-          if prev_revision and prev_revision
+          if prev_revision
             entry.update(:revision_id => prev_revision.id)
           else
             raise(
