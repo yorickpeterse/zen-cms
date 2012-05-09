@@ -46,7 +46,7 @@ module Ramaze
         rescue => e
           Ramaze::Log.error(e)
           message(:error, lang('zen_general.errors.invalid_search'))
-          redirect_referrer(::Sections::Controller::Sections.r(:index))
+          redirect_referrer(Dashboard::Controller::Dashboard.r(:index))
         end
       end
     end # Search
