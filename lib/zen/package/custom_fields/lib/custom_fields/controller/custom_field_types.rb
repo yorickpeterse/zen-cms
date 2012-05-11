@@ -165,7 +165,7 @@ module CustomFields
         )
 
         @custom_field_type    = validate_custom_field_type(id)
-        @custom_field_methods = Model::CustomFieldMethod.pk_hash(:name)
+        @custom_field_methods = Model::CustomFieldMethod.to_hash(:id, :name)
 
         @custom_field_type.set(flash[:form_data]) if flash[:form_data]
 
@@ -186,7 +186,7 @@ module CustomFields
           lang('custom_field_types.titles.new')
         )
 
-        @custom_field_methods = Model::CustomFieldMethod.pk_hash(:name)
+        @custom_field_methods = Model::CustomFieldMethod.to_hash(:id, :name)
         @custom_field_type    = Model::CustomFieldType.new
 
         @custom_field_type.set(flash[:form_data]) if flash[:form_data]

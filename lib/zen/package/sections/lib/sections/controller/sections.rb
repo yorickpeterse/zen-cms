@@ -155,10 +155,10 @@ module Sections
         }
 
         @custom_field_group_pk_hash = ::CustomFields::Model::CustomFieldGroup \
-          .pk_hash(:name).invert
+          .to_hash(:id, :name).invert
 
         @category_group_pk_hash = ::Categories::Model::CategoryGroup \
-          .pk_hash(:name).invert
+          .to_hash(:id, :name).invert
       end
 
       ##

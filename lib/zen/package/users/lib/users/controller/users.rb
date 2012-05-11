@@ -202,7 +202,7 @@ module Users
         @user = validate_user(id)
         @user.set(flash[:form_data]) if flash[:form_data]
 
-        @user_group_pks = Model::UserGroup.pk_hash(:name).invert
+        @user_group_pks = Model::UserGroup.to_hash(:id, :name).invert
         @permissions    = @user.permissions.map { |p| p.permission.to_sym }
 
         render_view(:form)
@@ -223,7 +223,7 @@ module Users
         )
 
         @user           = Model::User.new
-        @user_group_pks = Model::UserGroup.pk_hash(:name).invert
+        @user_group_pks = Model::UserGroup.to_hash(:id, :name).invert
 
         @user.set(flash[:form_data]) if flash[:form_data]
 

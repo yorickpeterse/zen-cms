@@ -80,7 +80,6 @@ module Zen
       @database = database
 
       require 'zen/model/init'
-      require 'zen/model/methods'
       require 'zen/package/all'
     end
 

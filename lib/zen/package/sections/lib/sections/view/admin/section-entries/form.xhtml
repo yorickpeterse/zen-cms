@@ -72,7 +72,7 @@
             f.select(
               lang('section_entries.labels.author'),
               :user_id,
-              :values   => ::Users::Model::User.pk_hash(:name),
+              :values   => ::Users::Model::User.to_hash(:id, :name),
               :size     => 1,
               :required => :required,
               :selected => @entry.user_id
