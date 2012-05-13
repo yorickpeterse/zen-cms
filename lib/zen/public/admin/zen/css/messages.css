@@ -25,11 +25,14 @@
 
 .message.success
 {
-    background: #ABCC6A;
+    background:  #ABCC6A;
+    color:       #000;
+    text-shadow: 1px 1px #D6F59A;
 }
 
 .message.info
 {
-    background: #F7D76D;
-    color:      #000;
+    background:  #F7D76D;
+    color:       #000;
+    text-shadow: 1px 1px #FAE9B1;
 }
