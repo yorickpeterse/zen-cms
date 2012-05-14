@@ -45,8 +45,8 @@ module Ramaze
       #  results should be paginated.
       # @option options [String] :var The name of the query string item that
       #  contains the current page number.
-      # @option options [TrueClass|FalseClass] :field_values Whether or not
-      #  custom fields and their values should be eager loaded. When set to
+      # @option options [TrueClass|FalseClass] :custom_field_values Whether or
+      #  not custom fields and their values should be eager loaded. When set to
       #  false the hash ``fields`` on each entry will **not** be filled.
       # @option options [TrueClass|FalseClass] :user Whether or not the user
       #  objects should be eager loaded for all entries. Set to ``false`` by
