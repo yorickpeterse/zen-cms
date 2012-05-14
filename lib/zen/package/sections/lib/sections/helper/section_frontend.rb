@@ -53,7 +53,7 @@ module Ramaze
       #  default.
       # @option options [TrueClass|FalseClass] :markup When set to true
       #  (default) the values of custom fields are processed using
-      #  {Zen::Markup}}.
+      #  {Zen::Markup}.
       # @return [Mixed]
       #
       def get_entries(section, options = {})
