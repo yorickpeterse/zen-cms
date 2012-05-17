@@ -45,7 +45,7 @@ module Comments
       ##
       # Array containing all the columns that can be set by the user.
       #
-      # @since 17-02-2012
+      # @since 2012-02-17
       #
       COLUMNS = [
         :user_id, :name, :website, :email, :comment, :comment_status_id,
@@ -79,7 +79,7 @@ module Comments
       # * users.email
       # * users.name
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @param  [String] query The search query.
       # @return [Array]
       #
@@ -155,7 +155,7 @@ module Comments
       # retrieved from the current comment row or from an associated user
       # object.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @return [String]
       #
       def user_name
@@ -169,7 +169,7 @@ module Comments
       ##
       # Gets the Email address of the author of the comment.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @return [String]
       #
       def user_email
@@ -184,7 +184,7 @@ module Comments
       # Gets the website of the author of the comment and optionally creates an
       # anchor tag for it.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @param  [TrueClass|FalseClass] with_link When set to true the website
       #  will be returned as an ``<a>`` tag.
       # @param  [String] text The alternative text to use for the link tag.
@@ -213,7 +213,7 @@ module Comments
       # Returns the first 15 characters of a comment, optionally wrapped in a
       # link that points to the form to edit the comment.
       #
-      # @since  17-10-2011
+      # @since  2011-10-17
       # @param  [TrueClass|FalseClass] with_link When set to true the comment
       #  will be wrapped in an ``<a>`` tag.
       # @return [String]
@@ -249,7 +249,7 @@ module Comments
       ##
       # Returns the name of the comment status.
       #
-      # @since  17-10-2011
+      # @since  2011-10-17
       # @return [String]
       #
       def status_name

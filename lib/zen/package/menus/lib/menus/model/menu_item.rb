@@ -26,7 +26,7 @@ module Menus
       ##
       # Array containing the columns that can be set by the user.
       #
-      # @since 17-02-2012
+      # @since 2012-02-17
       #
       COLUMNS = [
         :parent_id, :name, :url, :sort_order, :html_class, :html_id, :menu_id
@@ -48,7 +48,7 @@ module Menus
       ##
       # Searches for a set of menu items.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @param  [String] query The search query.
       # @return [Mixed]
       #
@@ -89,7 +89,7 @@ module Menus
       ##
       # Hook that is called before creating a new object.
       #
-      # @since 28-02-2012
+      # @since 2012-02-28
       #
       def before_create
         # Set the sort order based on the order of the last item.
@@ -112,7 +112,7 @@ module Menus
       ##
       # Hook that is executed before creating or saving an object.
       #
-      # @since 03-01-2012
+      # @since 2012-01-03
       #
       def before_save
         sanitize_fields([:name, :url, :html_class, :html_id])

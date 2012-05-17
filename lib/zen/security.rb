@@ -3,7 +3,7 @@ module Zen
   # Module for dealing with various security related actions such as sanitizing
   # user input/output.
   #
-  # @since 07-01-2012
+  # @since 2012-01-07
   #
   module Security
     class << self
@@ -21,7 +21,7 @@ module Zen
       #
       #  Zen::Input.sanitize(input) # => "Hello \#\{puts 10\}"
       #
-      # @since  03-01-2012
+      # @since  2012-01-03
       # @param  [String] input The input string to sanitize.
       # @param  [TrueClass|FalseClass] clean_html When set to true certain HTML
       #  elements will be removed using Loofah.

@@ -97,7 +97,7 @@ module Zen
       # Returns a hash containing the available markup engines and their labels
       # for the current language.
       #
-      # @since  15-11-2011
+      # @since  2011-11-15
       # @return [Hash]
       #
       def to_hash

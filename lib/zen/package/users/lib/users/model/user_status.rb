@@ -3,7 +3,7 @@ module Users
     ##
     # Model used for user statuses such as "Open" and "Unconfirmed".
     #
-    # @since 03-11-2011
+    # @since 2011-11-03
     #
     class UserStatus < Sequel::Model
       one_to_many :users, :class => 'Users::Model::User'
@@ -14,7 +14,7 @@ module Users
       # Returns a hash where the keys are the IDs of the various statuses and
       # the values the translations.
       #
-      # @since  03-11-2011
+      # @since  2011-11-03
       # @return [Hash]
       #
       def self.dropdown

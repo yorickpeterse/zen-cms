@@ -3,7 +3,7 @@ module Dashboard
     ##
     # Model for the table that contains the active widgets for a user.
     #
-    # @since 12-01-2012
+    # @since 2012-01-12
     #
     class Widget < Sequel::Model
       many_to_one :users, :class => 'Users::Model::User'
@@ -12,7 +12,7 @@ module Dashboard
       # Returns an integer containing the order of the last widget. If no
       # widgets were found 0 is returned.
       #
-      # @since  15-01-2012
+      # @since  2012-01-15
       # @param  [Fixnum] user_id The ID of the user for which to retrieve the
       #  widget order.
       # @return [Fixnum]
@@ -34,7 +34,7 @@ module Dashboard
       ##
       # Validates the model instance before saving it in the database.
       #
-      # @since 13-01-2012
+      # @since 2012-01-13
       #
       def validate
         validates_presence([:name, :order, :user_id])

@@ -376,7 +376,7 @@ module Zen
     ##
     # Creates a new instance of the theme.
     #
-    # @since 12-02-2012
+    # @since 2012-02-12
     #
     def initialize
       @env = OpenStruct.new
@@ -396,7 +396,7 @@ module Zen
     # Returns the name of the theme as either plain text or an anchor tag if the
     # URL attribute is set.
     #
-    # @since  19-11-2011
+    # @since  2011-11-19
     # @return [String]
     #
     def formatted_name
@@ -430,7 +430,7 @@ module Zen
     # Returns the name of the default template group or "default" if no custom
     # name is set.
     #
-    # @since  22-11-2011
+    # @since  2011-11-22
     # @return [String]
     #
     def default_template_group

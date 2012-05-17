@@ -44,7 +44,7 @@ module Categories
       ##
       # Array containing the column names that can be set by the user.
       #
-      # @since 17-02-2012
+      # @since 2012-02-17
       #
       COLUMNS = [:name, :description]
 
@@ -64,7 +64,7 @@ module Categories
       ##
       # Searches for a set of category groups using the specified search query.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @param  [String] query The search query.
       # @return [Mixed]
       #
@@ -85,7 +85,7 @@ module Categories
       ##
       # Hook that is run before creating or saving an object.
       #
-      # @since 03-01-2012
+      # @since 2012-01-03
       #
       def before_save
         sanitize_fields([:name, :description])

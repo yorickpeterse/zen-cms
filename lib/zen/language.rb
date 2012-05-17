@@ -265,7 +265,7 @@ module Zen
       #    lang.rtl   = true
       #  end
       #
-      # @since 14-11-2011
+      # @since 2011-11-14
       # @yield Zen::Language
       #
       def add
@@ -364,7 +364,7 @@ module Zen
       # Returns a hash where the keys are the language codes and the values the
       # titles.
       #
-      # @since  14-11-2011
+      # @since  2011-11-14
       # @return [Hash]
       #
       def to_hash
@@ -379,7 +379,7 @@ module Zen
       # Returns a string containing the text direction if the current language
       # is an rtl language.
       #
-      # @since  14-11-2011
+      # @since  2011-11-14
       # @return [String]
       #
       def html_text_direction
@@ -392,7 +392,7 @@ module Zen
     ##
     # Creates a new instance of the class.
     #
-    # @since 14-11-2011
+    # @since 2011-11-14
     #
     def initialize
       @loaded      = []
@@ -402,7 +402,7 @@ module Zen
     ##
     # Sets the name of the language and converts it to a string.
     #
-    # @since 14-11-2011
+    # @since 2011-11-14
     # @param [#to_s] name The name of the language.
     #
     def name=(name)
@@ -413,7 +413,7 @@ module Zen
     # Returns a boolean that indicates whether or not the language reads from
     # right to left.
     #
-    # @since  14-11-2011
+    # @since  2011-11-14
     # @return [TrueClass|FalseClass]
     #
     def rtl
@@ -423,7 +423,7 @@ module Zen
     ##
     # Validates the current instance using {Zen::Validation}.
     #
-    # @since 14-11-2011
+    # @since 2011-11-14
     #
     def validate
       validates_presence([:name, :title])

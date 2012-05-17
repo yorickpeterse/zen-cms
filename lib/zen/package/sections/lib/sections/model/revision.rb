@@ -4,7 +4,7 @@ module Sections
     # Model for storing section entry revisions and linking these to custom
     # field values.
     #
-    # @since 29-04-2012
+    # @since 2012-04-29
     #
     class Revision < Sequel::Model
       many_to_one :section_entry,
@@ -26,7 +26,7 @@ module Sections
       # for a section entry if the amount of revisions for such an entry exceeds
       # the maximum amount.
       #
-      # @since 01-05-2012
+      # @since 2012-05-01
       #
       def before_create
         amount = Revision.filter(:section_entry_id => section_entry_id).count
@@ -46,7 +46,7 @@ module Sections
       # Hook that is executed before deleting the revision. This hook is used to
       # prevent the last revision of an entry from being deleted.
       #
-      # @since 29-04-2012
+      # @since 2012-04-29
       #
       def before_destroy
         entry = section_entry

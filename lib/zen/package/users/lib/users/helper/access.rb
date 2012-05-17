@@ -67,7 +67,7 @@ module Ramaze
         ##
         # Called whenever the class that included this module is extended.
         #
-        # @since 07-11-2011
+        # @since 2011-11-07
         # @param [Class] by The class that extended the current class.
         #
         def inherited(by)

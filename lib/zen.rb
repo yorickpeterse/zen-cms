@@ -22,7 +22,7 @@ module Zen
   # Array containing all the translations that should be made available to the
   # Javascript code.
   #
-  # @since 19-02-2012
+  # @since 2012-02-19
   #
   JAVASCRIPT_TRANSLATIONS = [
     'zen_general.buttons.bold',
@@ -74,7 +74,7 @@ module Zen
     # Sets the database connection to use and loads the core packages provided
     # by Zen.
     #
-    # @since 27-03-2012
+    # @since 2012-03-27
     #
     def database=(database)
       @database = database

@@ -36,7 +36,7 @@ module Menus
       ##
       # Array containing all the columns that can be set by the user.
       #
-      # @since 17-02-2012
+      # @since 2012-02-17
       #
       COLUMNS = [:name, :slug, :description, :html_class, :html_id]
 
@@ -57,7 +57,7 @@ module Menus
       ##
       # Searches for a set of menus.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @param  [String] query The search query.
       # @return [Mixed]
       #
@@ -99,7 +99,7 @@ module Menus
       #
       #  loop_nodes(Menus::Model::Menu[1].menu_items_tree)
       #
-      # @since  30-01-2012
+      # @since  2012-01-30
       # @param  [Symbol] order The sort order to apply to menu items, set to
       #  :asc by default.
       # @param  [Fixnum|NilClass] limit The maximum amount of menu items to
@@ -162,7 +162,7 @@ module Menus
       ##
       # Hook that is executed before creating or saving an object.
       #
-      # @since 03-01-2012
+      # @since 2012-01-03
       #
       def before_save
         sanitize_fields([:name, :slug, :description, :html_class, :html_id])
@@ -176,7 +176,7 @@ module Menus
       # Sorts a set of sub nodes as returned by
       # {Menus::Model::Menu#menu_item_tree}.
       #
-      # @since  01-02-2012
+      # @since  2012-02-01
       # @param  [Array]  nodes An array of nodes to sort.
       # @param  [Symbol] order The sort order to apply.
       # @return [Array]

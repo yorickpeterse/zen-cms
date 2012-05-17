@@ -223,7 +223,7 @@ module Menus
       ##
       # Updates the sort order and parent IDs for the given menu items.
       #
-      # @since      11-02-2012
+      # @since      2012-02-11
       # @permission edit_menu_item
       #
       def tree

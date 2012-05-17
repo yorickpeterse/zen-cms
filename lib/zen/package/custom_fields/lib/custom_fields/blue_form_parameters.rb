@@ -273,7 +273,7 @@ module CustomFields
       # ``flash[:form_data]`` it will be retrieved from this hash, otherwise the
       # default value is used.
       #
-      # @since  26-02-2012
+      # @since  2012-02-26
       # @param  [String] name The name of the field.
       # @param  [Mixed] value The default value.
       # @return [Mixed]

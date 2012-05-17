@@ -17,7 +17,7 @@ module Zen
     #
     # For more general and expanded information see {Zen::Language}.
     #
-    # @since 16-11-2011
+    # @since 2011-11-16
     #
     class Translation
       include Zen::Validation
@@ -37,7 +37,7 @@ module Zen
       ##
       # Adds a new translation set.
       #
-      # @since 16-11-2011
+      # @since 2011-11-16
       # @yield Zen::Language::Translation
       #
       def self.add
@@ -53,7 +53,7 @@ module Zen
       ##
       # Sets the language for the collection of translations.
       #
-      # @since 16-11-2011
+      # @since 2011-11-16
       # @param [#to_s] language The language code.
       # @raise Zen::ValidationError Raised whenever a given language is invalid.
       #
@@ -65,7 +65,7 @@ module Zen
       # Stores the supplied block containing all translations in
       # ``@translations``.
       #
-      # @since 17-11-2011
+      # @since 2011-11-17
       # @param [Proc] block A block containing all calls to ``#[]=()``.
       #
       def translate(&block)
@@ -76,7 +76,7 @@ module Zen
       # Loads the translations by invoking the block that was set using
       # {#translate}.
       #
-      # @since 17-11-2011
+      # @since 2011-11-17
       #
       def load
         @translations.call(self)
@@ -85,7 +85,7 @@ module Zen
       ##
       # Sets the name of the collection of translations.
       #
-      # @since 16-11-2011
+      # @since 2011-11-16
       # @param [#to_s] name The name of the collection.
       #
       def name=(name)
@@ -96,7 +96,7 @@ module Zen
       # Adds a new translation by directly storing it in the cache
       # ``Ramaze::Cache.translations``.
       #
-      # @since 16-11-2011
+      # @since 2011-11-16
       # @param [#to_s] key The name of the language item, an example is
       #  "titles.index".
       # @param [#to_s] value The value of the language item.
@@ -115,7 +115,7 @@ module Zen
       ##
       # Validates the instance.
       #
-      # @since 17-11-2011
+      # @since 2011-11-17
       #
       def validate
         validates_presence([:name, :name, :translations])

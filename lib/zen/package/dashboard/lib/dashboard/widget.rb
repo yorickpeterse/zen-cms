@@ -36,7 +36,7 @@ module Dashboard
   #
   #     Dashboard::Widget[:example_widget] # => <Dashboard::Widget ...>
   #
-  # @since 08-01-2012
+  # @since 2012-01-08
   #
   class Widget
     include Zen::Validation
@@ -75,7 +75,7 @@ module Dashboard
       #       end
       #     end
       #
-      # @since 08-01-2012
+      # @since 2012-01-08
       #
       def add
         widget = self.new
@@ -92,7 +92,7 @@ module Dashboard
       # @example
       #  Dashboard::Widget[:recent_entries]
       #
-      # @since 08-01-2012
+      # @since 2012-01-08
       #
       def [](name)
         name = name.to_sym
@@ -108,7 +108,7 @@ module Dashboard
       # Generates the HTML for all active widgets and sorts them by the user's
       # sort order.
       #
-      # @since  14-01-2012
+      # @since  2012-01-14
       # @return [String]
       #
       def html
@@ -129,7 +129,7 @@ module Dashboard
       # Builds the HTML for the radio buttons that can be used to change the
       # amount of widget columns.
       #
-      # @since  15-01-2012
+      # @since  2012-01-15
       # @return [String]
       #
       def columns_html
@@ -160,7 +160,7 @@ module Dashboard
       # Generates a chunk of HTML that contains various checkboxes to toggle the
       # state of all widgets.
       #
-      # @since  14-01-2012
+      # @since  2012-01-14
       # @return [String]
       #
       def checkbox_html
@@ -196,7 +196,7 @@ module Dashboard
       ##
       # Returns the current user model.
       #
-      # @since  15-01-2012
+      # @since  2012-01-15
       # @return [Users::Model::User]
       def user
         return Ramaze::Current.action.node.request.env[
@@ -208,7 +208,7 @@ module Dashboard
     ##
     # Sets the name of the widget and converts it to a symbol.
     #
-    # @since 11-01-2012
+    # @since 2012-01-11
     # @param [#to_sym] name The name of the widget.
     #
     def name=(name)
@@ -220,7 +220,7 @@ module Dashboard
     # string the value of that string is returned, otherwise the raw title is
     # returned.
     #
-    # @since  11-01-2012
+    # @since  2012-01-11
     # @return [String]
     #
     def title
@@ -234,7 +234,7 @@ module Dashboard
     ##
     # Checks if the user is allowed to view the current widget.
     #
-    # @since  16-01-2012
+    # @since  2012-01-16
     # @return [TrueClass|Falseclass]
     #
     def allowed?
@@ -245,7 +245,7 @@ module Dashboard
     ##
     # Validates the instance of the widget.
     #
-    # @since 11-01-2012
+    # @since 2012-01-11
     #
     def validate
       validates_presence([:name, :title, :data])
@@ -269,7 +269,7 @@ module Dashboard
     #         </div>
     #     </section>
     #
-    # @since  12-01-2012
+    # @since  2012-01-12
     # @return [String]
     #
     def html

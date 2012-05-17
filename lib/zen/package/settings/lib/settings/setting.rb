@@ -241,7 +241,7 @@ module Settings
     ##
     # Returns the description of the setting and translates it.
     #
-    # @since  13-11-2011
+    # @since  2011-11-13
     # @return [String]
     #
     def description
@@ -331,7 +331,7 @@ module Settings
     #
     #     get_setting(:allow_registration).true?
     #
-    # @since  12-11-2011
+    # @since  2011-11-12
     # @return [TrueClass|FalseClass]
     #
     def true?
@@ -344,7 +344,7 @@ module Settings
     # Serializes a value using Marshal and packs it so that it can be stored in
     # the database.
     #
-    # @since  13-11-2011
+    # @since  2011-11-13
     # @param  [Mixed] value The value to serialize.
     # @return [String]
     #
@@ -356,7 +356,7 @@ module Settings
     # Unserializes a value that was serialized using
     # {Settings::Setting#serialize}.
     #
-    # @since  13-11-2011
+    # @since  2011-11-13
     # @param  [String] value The value to unserialize.
     # @return [Mixed]
     #

@@ -14,7 +14,7 @@
 # * {Dashboard::Widget}
 # * {Dashboard::WidgetError}
 #
-# @since 16-01-2012
+# @since 2012-01-16
 #
 module Dashboard
   module Controller
@@ -58,7 +58,7 @@ module Dashboard
     #   around the application.
     # * Recent Entries: a widget that displays the 10 most recent entries.
     #
-    # @since 08-01-2012
+    # @since 2012-01-08
     # @map   /admin
     #
     class Dashboard < Zen::Controller::AdminController
@@ -75,7 +75,7 @@ module Dashboard
       # Shows all the active widgets and allows the user to manage these widgets
       # or add new ones.
       #
-      # @since 08-01-2012
+      # @since 2012-01-08
       #
       def index; end
 
@@ -83,7 +83,7 @@ module Dashboard
       # Updates the sort order of all the widgets for the currently logged in
       # user.
       #
-      # @since 15-01-2012
+      # @since 2012-01-15
       #
       def widget_order
         ::Dashboard::Widget::REGISTERED.each do |name, widget|
@@ -105,7 +105,7 @@ module Dashboard
       ##
       # Enables or disables a widget for the currently logged in user.
       #
-      # @since 15-01-2012
+      # @since 2012-01-15
       #
       def widget_state
         widget  = request.POST['widget']
@@ -140,7 +140,7 @@ module Dashboard
       # Updates the amount of widget columns to use for the currently logged in
       # user.
       #
-      # @since 15-01-2012
+      # @since 2012-01-15
       #
       def widget_columns
         columns = request.POST['columns']

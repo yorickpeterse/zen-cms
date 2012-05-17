@@ -21,7 +21,7 @@ module Ramaze
       # Returns an anchor tag that points towards the URL that allows users to
       # manage collections of data.
       #
-      # @since  17-12-2011
+      # @since  2011-12-17
       # @see    Ramaze::Helper::Controller#edit_link
       # @return [String]
       #
@@ -33,7 +33,7 @@ module Ramaze
       # Returns an anchor tag that should point to a form that allows users to
       # edit certain resources.
       #
-      # @since  17-12-2011
+      # @since  2011-12-17
       # @param  [#to_s] url The URL for the link.
       # @param  [#to_s] text The text to display in the link tag.
       # @return [String]
@@ -46,7 +46,7 @@ module Ramaze
       # Returns a button that should point to a form that allows users to create
       # new resources.
       #
-      # @since 17-12-2011
+      # @since 2011-12-17
       # @see   Ramaze::Helper::Controller#edit_link
       #
       def new_button(url, text)
@@ -56,7 +56,7 @@ module Ramaze
       ##
       # Returns a button that when clicked should delete a set of resources.
       #
-      # @since  17-12-2011
+      # @since  2011-12-17
       # @param  [String] text The text to display on the button.
       # @return [String]
       #
@@ -69,7 +69,7 @@ module Ramaze
       # Checks if a given object can be paginated and the page count is greater
       # than 1. If this is the case then the pagination links are displayed.
       #
-      # @since  17-12-2011
+      # @since  2011-12-17
       # @param  [Mixed] object
       # @return [String]
       #
@@ -92,7 +92,7 @@ module Ramaze
       # Note that this method does a very simple check and thus should not be
       # relied on for anything mission critical.
       #
-      # @since  23-12-2011
+      # @since  2011-12-23
       # @param  [String] agent String containing the user agent to check, set to
       #  ``request.env['HTTP_USER_AGENT']`` if no custom agent is specified.
       # @return [String]
@@ -124,7 +124,7 @@ module Ramaze
       ##
       # Writes a JSON response.
       #
-      # @since 13-02-2012
+      # @since 2012-02-13
       # @param [Mixed] data The response data.
       # @param [Fixnum] status The HTTP status code.
       #
@@ -136,7 +136,7 @@ module Ramaze
       # Returns a hash containing all the given POST fields, similar to
       # ``Innate::Request#subset``.
       #
-      # @since  19-02-2012
+      # @since  2012-02-19
       # @param  [Array] *keys The POST keys to retrieve.
       # @return [Hash]
       #
@@ -150,7 +150,7 @@ module Ramaze
       # Returns a JSON string containing all the translations for the Javascript
       # code.
       #
-      # @since  19-02-2012
+      # @since  2012-02-19
       # @return [String]
       #
       def javascript_translations
@@ -231,7 +231,7 @@ module Ramaze
         #  [:name, :description],
         #  :edit_category_group
         #
-        # @since 13-02-2012
+        # @since 2012-02-13
         # @param [Class] model The model to use for saving data.
         # @param [Array] columns The columns that can be saved.
         # @param [#to_sym] permission The permission required for saving

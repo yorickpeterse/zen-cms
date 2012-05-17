@@ -18,7 +18,7 @@ module CustomFields
       ##
       # Array containing all the columns the user can set.
       #
-      # @since 17-02-2012
+      # @since 2012-02-17
       #
       COLUMNS = [
         :name,
@@ -57,7 +57,7 @@ module CustomFields
       ##
       # Searches for a set of custom fields.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @param  [String] query The search query.
       # @return [Mixed]
       #
@@ -96,7 +96,7 @@ module CustomFields
       ##
       # Hook that is executed before creating or saving an object.
       #
-      # @since 03-01-2012
+      # @since 2012-01-03
       #
       def before_save
         sanitize_fields([:name, :slug, :description, :format])

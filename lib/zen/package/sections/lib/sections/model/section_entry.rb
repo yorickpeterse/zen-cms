@@ -18,7 +18,7 @@ module Sections
       ##
       # Array containing all the columns that can be set by the user.
       #
-      # @since 17-02-2012
+      # @since 2012-02-17
       #
       COLUMNS = [
         :title,
@@ -81,7 +81,7 @@ module Sections
       # Searches for a set of section entries based on the specified search
       # query.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @param  [String] query The search query.
       # @return [Mixed]
       #
@@ -259,7 +259,7 @@ module Sections
       # * :name
       # * :value
       #
-      # @since  30-04-2012
+      # @since  2012-04-30
       # @param  [Fixnum] rev_id The ID of the revision for which to
       #  retrieve the fields and values.
       # @return [Array]
@@ -283,7 +283,7 @@ module Sections
       # Returns a string containing the name of the entry's status in the
       # currently used language.
       #
-      # @since  17-12-2011
+      # @since  2011-12-17
       # @return [String]
       #
       def status_name

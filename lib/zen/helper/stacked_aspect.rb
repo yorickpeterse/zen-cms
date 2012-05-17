@@ -37,7 +37,7 @@ module Ramaze
     # In this example both methods (``validate_ip`` and ``validate_user``) would
     # be executed before calling ``#index()``.
     #
-    # @since 06-11-2011
+    # @since 2011-11-06
     #
     module StackedAspect
       # Hash that will contain all the STACKED_AOP actions.
@@ -46,7 +46,7 @@ module Ramaze
       ##
       # Called whenever this module is included into a class.
       #
-      # @since 06-11-2011
+      # @since 2011-11-06
       # @param [Class] into The class that included this module.
       #
       def self.included(into)
@@ -68,7 +68,7 @@ module Ramaze
       ##
       # Calls a certain AOP action for the specified position and method name.
       #
-      # @since 06-11-2011
+      # @since 2011-11-06
       # @param [Symbol] position The position of the AOP action (e.g. :after).
       # @param [String] name The name of the method for which to call the
       #  action.
@@ -118,7 +118,7 @@ module Ramaze
       ##
       # Module who's methods become available as class methods.
       #
-      # @since 06-11-2011
+      # @since 2011-11-06
       #
       module ClassMethods
         include Traited
@@ -135,7 +135,7 @@ module Ramaze
         #    validate_username
         #  end
         #
-        # @since 06-11-2011
+        # @since 2011-11-06
         # @param [#to_sym] name The unique name of the block.
         # @param [Proc] block The block to execute.
         #
@@ -153,7 +153,7 @@ module Ramaze
         #    validate_ip
         #  end
         #
-        # @since 06-11-2011
+        # @since 2011-11-06
         # @param [#to_sym] name A unique name for the block.
         # @param [Array] methods An array of methods for which to run the block.
         # @param [Proc] block The block to run.
@@ -172,7 +172,7 @@ module Ramaze
         ##
         # Runs a block after all the actions in a controller.
         #
-        # @since 06-11-2011
+        # @since 2011-11-06
         # @see   Ramaze::Helper::StackedAspect::ClassMethods#stacked_before_all
         #
         def stacked_after_all(name, &block)
@@ -182,7 +182,7 @@ module Ramaze
         ##
         # Runs a block after a specific list of methods.
         #
-        # @since 06-11-2011
+        # @since 2011-11-06
         # @see   Ramaze::Helper::StackedAspect::ClassMethods#stacked_before
         #
         def stacked_after(name, names, &block)
@@ -199,7 +199,7 @@ module Ramaze
         ##
         # Wraps the block around the list of methods.
         #
-        # @since 06-11-2011
+        # @since 2011-11-06
         # @see   Ramaze::Helper::StackedAspect::ClassMethods#stacked_before
         # @see   Ramaze::Helper::StackedAspect::ClassMethods#stacked_after
         #

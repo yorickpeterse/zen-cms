@@ -4,7 +4,7 @@ module Zen
   # class. See {Zen::HTMLDiff.diff} and {Zen::HTMLDiff::Callback} for more
   # information on the usage and the returned HTML.
   #
-  # @since 02-05-2012
+  # @since 2012-05-02
   #
   module HTMLDiff
     ##
@@ -18,7 +18,7 @@ module Zen
     #
     #  puts diff # => "<div class=\"diff\">...</div>"
     #
-    # @since  02-05-2012
+    # @since  2012-05-02
     # @param  [String] old The old version of the string.
     # @param  [String] new The new version of the string.
     # @return [String]
@@ -69,13 +69,13 @@ module Zen
     #
     #     puts callback # => "<div class=...>"
     #
-    # @since 02-05-2012
+    # @since 2012-05-02
     #
     class Callback
       ##
       # Creates a new instance of the callback class.
       #
-      # @since 02-05-2012
+      # @since 2012-05-02
       #
       def initialize
         @output = ''
@@ -84,7 +84,7 @@ module Zen
       ##
       # Called when there's a line in A but not in B.
       #
-      # @since 02-05-2012
+      # @since 2012-05-02
       # @param [Diff::LCS::ContextChange] change
       #
       def discard_a(change)
@@ -100,7 +100,7 @@ module Zen
       ##
       # Called when there's a line in B but not in A.
       #
-      # @since 02-05-2012
+      # @since 2012-05-02
       # @param [Diff::LCS::ContextChange] change
       #
       def discard_b(change)
@@ -116,7 +116,7 @@ module Zen
       ##
       # Called when both lines are identical.
       #
-      # @since 02-05-2012
+      # @since 2012-05-02
       # @param [Diff::LCS::ContextChange] change
       #
       def match(change)
@@ -132,7 +132,7 @@ module Zen
       ##
       # Returns the full HTML for the diff.
       #
-      # @since  02-05-2012
+      # @since  2012-05-02
       # @return [String]
       #
       def to_s

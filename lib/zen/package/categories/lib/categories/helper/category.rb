@@ -87,7 +87,7 @@ module Ramaze
       # Redirects the user to the category groups overview and shows a message
       # about an invalid group being specified.
       #
-      # @since 03-04-2012
+      # @since 2012-04-03
       #
       def redirect_invalid_group
         message(:error, lang('category_groups.errors.invalid_group'))
@@ -99,7 +99,7 @@ module Ramaze
       # and shows a message informing the user that the specified category was
       # invalid.
       #
-      # @since 03-04-2012
+      # @since 2012-04-03
       # @param [Fixnum] category_group_id The ID of the category group that the
       #  category belongs to.
       #

@@ -279,7 +279,7 @@ module Zen
     ##
     # Creates a new instance of the package.
     #
-    # @since 12-02-2012
+    # @since 2012-02-12
     #
     def initialize
       @env = OpenStruct.new
@@ -325,7 +325,7 @@ module Zen
     # Returns the title as either an ``<a>`` tag or plain text depending on
     # whether or not the package has a URL set.
     #
-    # @since  19-11-2011
+    # @since  2011-11-19
     # @return [String]
     #
     def formatted_title

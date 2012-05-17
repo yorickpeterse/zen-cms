@@ -21,13 +21,13 @@ module Ramaze
     #
     # This will create and return the HTML for all the messages.
     #
-    # @since  26-05-2011
+    # @since  2011-05-26
     #
     module Message
       ##
       # Adds a new message to the list for the given type.
       #
-      # @since  26-05-2011
+      # @since  2011-05-26
       # @param  [Symbol/String] type The type of message to store (e.g. "error").
       # @param  [String] message The message to display.
       #
@@ -44,7 +44,7 @@ module Ramaze
       ##
       # Renders all the messages for the specified types.
       #
-      # @since  26-05-2011
+      # @since  2011-05-26
       # @param  [Array] types Array containing all the messages to render.
       #
       def display_messages(types = [:info, :error, :success])

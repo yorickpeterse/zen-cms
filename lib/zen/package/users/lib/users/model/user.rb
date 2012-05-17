@@ -32,7 +32,7 @@ module Users
       ##
       # Array containing the columns that can be set by the user.
       #
-      # @since 17-02-2012
+      # @since 2012-02-17
       #
       COLUMNS = [
         :email,
@@ -70,7 +70,7 @@ module Users
       ##
       # Searches for a set of users that match the given query.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       # @param  [String] query The search query.
       # @return [Mixed]
       #
@@ -183,7 +183,7 @@ module Users
       # Gets the name of the user's status and returns it in the current
       # language.
       #
-      # @since  03-11-2011
+      # @since  2011-11-03
       # @return [String]
       #
       def user_status_name
@@ -193,7 +193,7 @@ module Users
       ##
       # Activates the user.
       #
-      # @since 03-11-2011
+      # @since 2011-11-03
       #
       def activate!
         update(
@@ -204,7 +204,7 @@ module Users
       ##
       # Closes the user account.
       #
-      # @since 03-11-2011
+      # @since 2011-11-03
       #
       def close!
         update(

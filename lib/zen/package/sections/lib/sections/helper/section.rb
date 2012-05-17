@@ -52,7 +52,7 @@ module Ramaze
       ##
       # Creates or updates a set of custom fields for a given section entry.
       #
-      # @since 17-02-2012
+      # @since 2012-02-17
       # @param [Sections::Model::SectionEntry] entry The entry for which to
       #  create or update the fields.
       # @return [Hash] Hash containing any errors for the custom fields.
@@ -99,7 +99,7 @@ module Ramaze
       # Redirects the user to the sections overview and shows a message
       # informing the user that the section he/she tried to access is invalid.
       #
-      # @since 09-04-2012
+      # @since 2012-04-09
       #
       def redirect_invalid_section
         message(:error, lang('sections.errors.invalid_section'))
@@ -111,7 +111,7 @@ module Ramaze
       # section and shows a message informing the user that the section entry
       # he/she tried to access is invalid.
       #
-      # @since 09-04-2012
+      # @since 2012-04-09
       # @param [Fixnum] section_id The ID of the section.
       #
       def redirect_invalid_section_entry(section_id)

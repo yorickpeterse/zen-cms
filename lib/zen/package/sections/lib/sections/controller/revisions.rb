@@ -86,7 +86,7 @@ module Sections
     # settings manager. For more information about using the settings manager
     # refer to {Settings::Controller::Settings Managing Settings}.
     #
-    # @since 30-04-2012
+    # @since 2012-04-30
     # @map   /admin/revisions
     #
     class Revisions < Zen::Controller::AdminController
@@ -97,7 +97,7 @@ module Sections
       ##
       # Shows an overview of the revisions for a given section entry ID.
       #
-      # @since 30-04-2012
+      # @since 2012-04-30
       # @param [Fixnum|String] section_id The ID of the section the entry
       #  belongs to.
       # @param [Fixnum|String] id The ID of the section entry for which to show
@@ -143,7 +143,7 @@ module Sections
       # Sets the revision ID of a section entry to a specific revision, deleting
       # newer revisions.
       #
-      # @since 03-05-2012
+      # @since 2012-05-03
       # @param [Fixnum|String] revision_id The ID of the revision to restore.
       # @permission restore_revision
       #

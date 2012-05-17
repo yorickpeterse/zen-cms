@@ -267,7 +267,7 @@ module Sections
       # Automatically saves a section entry. This is needed to take care of the
       # custom fields, something the helper method itself can not do.
       #
-      # @since 17-02-2012
+      # @since 2012-02-17
       #
       def autosave
         entry        = Model::SectionEntry[request.params['id']]

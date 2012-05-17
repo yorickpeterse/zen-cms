@@ -92,7 +92,7 @@ module Ramaze
       # informing the current user that the user he/she tried to access is
       # invalid.
       #
-      # @since 09-04-2012
+      # @since 2012-04-09
       #
       def redirect_invalid_user
         message(:error, lang('users.errors.invalid_user'))
@@ -103,7 +103,7 @@ module Ramaze
       # Redirects the user back to the user groups overview and informs the user
       # that the group he/she tried to access is invalid.
       #
-      # @since 09-04-2012
+      # @since 2012-04-09
       #
       def redirect_invalid_user_group
         message(:error, lang('user_groups.errors.invalid_group'))

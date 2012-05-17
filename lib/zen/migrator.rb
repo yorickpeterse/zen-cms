@@ -3,13 +3,13 @@ module Zen
   # Small wrapper around Sequel::Migrator to fix various issues and make it a
   # bit easier to log data.
   #
-  # @since 07-01-2012
+  # @since 2012-01-07
   #
   module Migrator
     ##
     # Runs a set of migrations and logs the actions.
     #
-    # @since 07-01-2012
+    # @since 2012-01-07
     # @see   Sequel::Migrator.run
     # @param [String] name The name of the package/theme/etc to migrate.
     # @param [String] dir The directory containing the migrations.

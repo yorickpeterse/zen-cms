@@ -74,7 +74,7 @@ module Ramaze
       # Redirects the user back to the field groups overview and shows a message
       # informing the user that the group he/she tried to access was invalid.
       #
-      # @since 05-04-2012
+      # @since 2012-04-05
       #
       def redirect_invalid_field_group
         message(:error, lang('custom_field_groups.errors.invalid_group'))
@@ -85,7 +85,7 @@ module Ramaze
       # Redirects the user to the custom field types overview and informs
       # him/her that the type he/she tried to access was invalid.
       #
-      # @since 05-04-2012
+      # @since 2012-04-05
       #
       def redirect_invalid_field_type
         message(:error, lang('custom_field_types.errors.invalid_type'))
@@ -96,7 +96,7 @@ module Ramaze
       # Redirects the user to the overview of all custom fields of a given group
       # and informs the user that the field he/she tried to access is invalid.
       #
-      # @since 05-04-2012
+      # @since 2012-04-05
       # @param [Fixnum] custom_field_group_id The ID of the group to use for
       #  redirecting the user.
       #

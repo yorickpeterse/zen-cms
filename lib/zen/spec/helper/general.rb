@@ -4,7 +4,7 @@ module Zen
       ##
       # Module providing general spec helpers.
       #
-      # @since 18-02-2012
+      # @since 2012-02-18
       #
       module General
         ##

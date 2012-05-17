@@ -54,7 +54,7 @@ module Ramaze
       # Redirects the user to the menus overview and informs him/her that the
       # menu he/she tried to access is invalid.
       #
-      # @since 05-04-2012
+      # @since 2012-04-05
       #
       def redirect_invalid_menu
         message(:error, lang('menus.errors.invalid_menu'))
@@ -66,7 +66,7 @@ module Ramaze
       # menu and informs the user that the menu item he/she tried to access is
       # invalid.
       #
-      # @since 05-04-2012
+      # @since 2012-04-05
       # @param [Fixnum] menu_id The ID of the menu.
       #
       def redirect_invalid_menu_item(menu_id)
@@ -78,7 +78,7 @@ module Ramaze
       # Builds the menu item tree that can be used by the user to edit the sort
       # order, create the menu item tree and edit individual menu items.
       #
-      # @since  11-02-2012
+      # @since  2012-02-11
       # @param  [Array] tree The menu item tree to process. This array should be
       #  in the format as returned by {Menus::Model::Menu#menu_items_tree}.
       # @return [String]
@@ -106,7 +106,7 @@ module Ramaze
       # Builds the HTML for a single menu item and recursively calls itself for
       # any sub menu items.
       #
-      # @since 11-02-2012
+      # @since 2012-02-11
       # @param [Hash] item A single menu item to process.
       # @param [Ramaze::Gestalt] gestalt An instance of Ramaze::Gestalt to use
       #  for building the HTML.

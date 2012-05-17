@@ -29,7 +29,7 @@ module Users
       ##
       # Hook that is executed before creating or saving an object.
       #
-      # @since 03-01-2012
+      # @since 2012-01-03
       #
       def before_save
         sanitize_fields([:permission])

@@ -11,7 +11,7 @@ module Zen
     #
     # See the individual methods in this module for more information.
     #
-    # @since  16-10-2011
+    # @since  2011-10-16
     #
     module Helper
       # Array containing the database adapters that don't support regular
@@ -22,7 +22,7 @@ module Zen
       # Extends the including class with the methods in the {ClassMethods}
       # module.
       #
-      # @since  16-10-2011
+      # @since  2011-10-16
       #
       def self.included(into)
         into.extend(ClassMethods)
@@ -34,7 +34,7 @@ module Zen
       # @example
       #  sanitize_fields([:name, :description])
       #
-      # @since 03-01-2012
+      # @since 2012-01-03
       # @param [Array] fields An array containing all the fields to sanitize.
       # @param [TrueClass|FalseClass] clean_html When set to true Loofah will be
       #  used to get rid of nasty HTML.
@@ -66,7 +66,7 @@ module Zen
         # @example Using a DBMS that does not support the use of a regex
         #  search_column(:name, 'ruby \d+') # => #<Sequel::SQL::BooleanExpression ....>
         #
-        # @since  16-10-2011
+        # @since  2011-10-16
         # @param  [Symbol] column The column to use in the statement.
         # @param  [String] value The value for the statement.
         # @return [Hash|Sequel::SQL::BooleanExpression]

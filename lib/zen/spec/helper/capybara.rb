@@ -4,7 +4,7 @@ module Zen
       ##
       # Module providing various helper methods for Capybara based tests.
       #
-      # @since 18-02-2012
+      # @since 2012-02-18
       #
       module Capybara
         ##
@@ -30,7 +30,7 @@ module Zen
         ##
         # Automatically saves a form with the given ID.
         #
-        # @since 18-02-2012
+        # @since 2012-02-18
         # @param [String] id The ID of the form.
         #
         def autosave_form(id)
@@ -50,7 +50,7 @@ module Zen
         ##
         # Switches Capybara's driver to the default Javascript driver.
         #
-        # @since 18-02-2012
+        # @since 2012-02-18
         #
         def enable_javascript
           WebMock.disable!
@@ -63,7 +63,7 @@ module Zen
         ##
         # Switches Capybara's driver back to the default driver.
         #
-        # @since 18-02-2012
+        # @since 2012-02-18
         #
         def disable_javascript
           ::Capybara.use_default_driver

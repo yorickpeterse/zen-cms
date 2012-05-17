@@ -3,7 +3,7 @@ module Ramaze
     ##
     # Helper for the controller {Sections::Controller::Revisions}.
     #
-    # @since 30-04-2012
+    # @since 2012-04-30
     #
     module Revision
       ##
@@ -13,7 +13,7 @@ module Ramaze
       # If the revision ID resulted in a valid Revision object then that object
       # is returned.
       #
-      # @since  05-05-2012
+      # @since  2012-05-05
       # @param  [Fixnum|String] revision_id The ID of the revision.
       # @return [Sections::Model::Revision]
       #
@@ -37,7 +37,7 @@ module Ramaze
       # Returns a hash containing the difference between the values of two
       # section entries.
       #
-      # @since 30-04-2012
+      # @since 2012-04-30
       # @param  [Sections::Model::SectionEntry] entry The entry for which to
       #  generate the diff.
       # @param  [Fixnum|String] old_revision The old revision ID.
@@ -69,7 +69,7 @@ module Ramaze
       ##
       # Generates a radio button for an old revision ID.
       #
-      # @since  01-05-2012
+      # @since  2012-05-01
       # @param  [Fixnum|String] rev_id The revision ID.
       # @param  [Fixnum|String] current_rev_id The currently active old revision
       #  ID.
@@ -96,7 +96,7 @@ module Ramaze
       ##
       # Generates a radio button for a new revision ID.
       #
-      # @since  01-05-2012
+      # @since  2012-05-01
       # @param  [Fixnum|String] rev_id The revision ID.
       # @param  [Fixnum|String] current_rev_id The currently active new revision
       #  ID.

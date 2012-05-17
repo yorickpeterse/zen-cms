@@ -33,7 +33,7 @@ module Ramaze
       # Redirects the user to the comments overview and shows a message
       # informing the user that the comment he/she tried to access was invalid.
       #
-      # @since 05-04-2012
+      # @since 2012-04-05
       #
       def redirect_invalid_comment
         message(:error, lang('comments.errors.invalid_comment'))

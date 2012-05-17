@@ -8,14 +8,14 @@
 #
 # This package does not provide any helpers or models.
 #
-# @since 18-11-2011
+# @since 2011-11-18
 #
 module Extensions
   module Controller
     ##
     # Controller that displays all the installed extensions.
     #
-    # @since 18-11-2011
+    # @since 2011-11-18
     # @map   /admin/extensions
     #
     class Extensions < Zen::Controller::AdminController
@@ -28,7 +28,7 @@ module Extensions
       # Shows an overview of all the installed themes, packages, added
       # languages, etc.
       #
-      # @since 18-11-2011
+      # @since 2011-11-18
       # @permission show_extension
       #
       def index

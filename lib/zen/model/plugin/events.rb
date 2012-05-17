@@ -30,13 +30,13 @@ module Sequel
     # Events don't have to return the modified object as objects are assigned by
     # reference.
     #
-    # @since 05-02-2012
+    # @since 2012-02-05
     #
     module Events
       ##
       # Configures the plugin for a single model.
       #
-      # @since 06-02-2012
+      # @since 2012-02-06
       # @param [Class] model The model for which to enable the plugin.
       # @param [Hash] options A hash containing the Sequel hook names and the
       #  Zen events to fire.
@@ -61,7 +61,7 @@ module Sequel
       # Module containing the methods and attributes to make available on class
       # level.
       #
-      # @since 06-02-2012
+      # @since 2012-02-06
       #
       module ClassMethods
         # Hash containing all the Sequel hooks and the corresponding Zen events.
@@ -72,13 +72,13 @@ module Sequel
       # Module containing the methods and attributes to make available on
       # instance level.
       #
-      # @since 06-02-2012
+      # @since 2012-02-06
       #
       module InstanceMethods
         ##
         # Hook executed before creating a new object.
         #
-        # @since 06-02-2012
+        # @since 2012-02-06
         #
         def before_create
           if self.class.events and self.class.events.key?(:before_create)
@@ -91,7 +91,7 @@ module Sequel
         ##
         # Hook executed after creating a new object.
         #
-        # @since 06-02-2012
+        # @since 2012-02-06
         #
         def after_create
           super
@@ -104,7 +104,7 @@ module Sequel
         ##
         # Hook executed before updating an existing object.
         #
-        # @since 06-02-2012
+        # @since 2012-02-06
         #
         def before_update
           if self.class.events and self.class.events.key?(:before_update)
@@ -117,7 +117,7 @@ module Sequel
         ##
         # Hook executed after updating an existing object.
         #
-        # @since 06-02-2012
+        # @since 2012-02-06
         #
         def after_update
           super
@@ -130,7 +130,7 @@ module Sequel
         ##
         # Hook executed before removing an existing object.
         #
-        # @since 06-02-2012
+        # @since 2012-02-06
         #
         def before_destroy
           if self.class.events and self.class.events.key?(:before_destroy)
@@ -143,7 +143,7 @@ module Sequel
         ##
         # Hook executed after removing an existing object.
         #
-        # @since 06-02-2012
+        # @since 2012-02-06
         #
         def after_destroy
           super
