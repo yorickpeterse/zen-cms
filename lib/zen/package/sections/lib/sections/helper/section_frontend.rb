@@ -1,13 +1,101 @@
 module Ramaze
   module Helper
     ##
-    # Helper for retrieving section entries in your templates.
+    # Helper for retrieving section entries in your templates. See
+    # {Ramaze::Helper::SectionFrontend#get\_entries} and
+    # {Ramaze::Helper::SectionFrontend#get\_entry}.
     #
     # @since  0.3
     #
     module SectionFrontend
       ##
       # Retrieves a number of entries for a given section ID or section slug.
+      # The return value is a Sequel dataset or an empty array in case no rows
+      # were found.
+      #
+      # Each row returned by this method is an instance of
+      # {Sections::Model::SectionEntry}. The custom fields and their values of
+      # each row are stored as a hash (the keys are symbols) in the "fields"
+      # attribute. For example, if you want to access the value of the "body"
+      # custom field you can do so as following:
+      #
+      #     get_entries('pages').each do |page|
+      #       puts page.fields[:body]
+      #     end
+      #
+      # Because the returned value is a Sequel dataset paginating content is
+      # very easy. This can be done by setting the option `:paginate` to true
+      # and calling `#navigation()` on the result set to generate a list of
+      # pagination links:
+      #
+      #     pages = get_entries('pages', :paginate => true)
+      #
+      #     pages.each do |page|
+      #       # ...
+      #     end
+      #
+      #     pages.navigation
+      #
+      # ## Lazy Loading
+      #
+      # To increase performance this method does not automatically retrieve
+      # related data such as comments and categories until they are used.
+      # However, if you plan on using this data for each returned row it is
+      # recommended to eager load this data as you'll otherwise have to execute
+      # a number of extra queries for each row.
+      #
+      # For example, this code block would generate a query for every row in
+      # order to retrieve user data:
+      #
+      #     get_entries('pages').each do |page|
+      #       page.user.email
+      #     end
+      #
+      # To work around this problem you can set the option `:user` (or another
+      # option depending on the related data you plan on using) to `true`. Doing
+      # so will make it possible to retrieve all related rows in a single query:
+      #
+      #     get_entries('pages', :user => true).each do |page|
+      #       page.user.email
+      #     end
+      #
+      # The following options can be set to `true` to enable eager loading
+      # (these are set to `false` by default):
+      #
+      # * comments
+      # * categories
+      # * user
+      #
+      # ## Disabling Markup
+      #
+      # By default each row's markup will be converted to HTML. If you don't
+      # need the markup you can disable this to speed things up a bit. This can
+      # be done by setting `:markup` to `false`:
+      #
+      #     get_entries('pages', :markup => false).each do |page|
+      #       page.title
+      #     end
+      #
+      # ## Etanni Example
+      #
+      # Below is an example on how to use this method inside an Etanni template.
+      #
+      #     <?r entries = get_entries('blog', :user => true) ?>
+      #
+      #     <?r entries.each do |entry| ?>
+      #     <article>
+      #         <header>
+      #             <h1>#{entry.title}</h1>
+      #             <p>Written by #{entry.user.name}</p>
+      #         </header>
+      #
+      #         <div class="body">
+      #             #{entry.fields[:body]}
+      #         </div>
+      #     </article>
+      #     <?r end ?>
+      #
+      #     #{entries.navigation}
       #
       # @example Retrieving all entries by a section's ID
       #  get_entries(2)
@@ -127,12 +215,22 @@ module Ramaze
       end
 
       ##
-      # Retrieves the details of a single section entry.
+      # Retrieves the details of a single section entry. Due to the nature of
+      # this method all related data such as user details and categories are
+      # lazy loaded.
       #
-      # @example Get a single entry
+      # @example Get a single entry by the entry slug.
       #  entry = get_entry('home')
       #
+      #  puts entry.title
+      #
+      # @example Get an entry by its ID.
+      #  entry = get_entry(10)
+      #
+      #  puts entry.title
+      #
       # @since  0.3
+      # @see    Ramaze::Helper::SectionFrontend#get_entries()
       # @param  [String|Fixnum] entry The ID or slug of an entry to retrieve.
       # @param  [Hash] options A hash containing various options to customize
       #  the return value.
