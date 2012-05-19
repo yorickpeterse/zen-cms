@@ -1,11 +1,6 @@
-require 'ramaze'
-
-Ramaze.setup(:verbose => false) do
-  gem 'capybara', ['>= 1.1.1']
-  gem 'bacon'   , ['>= 1.1.0']
-  gem 'webmock' , ['>= 1.8.7']
-end
-
+require 'capybara'
+require 'bacon'
+require 'webmock'
 require 'capybara/dsl'
 require 'ramaze/spec/bacon'
 

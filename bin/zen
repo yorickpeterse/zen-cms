@@ -1,10 +1,6 @@
 #!/usr/bin/env ruby
-gem     'ramaze', '~> 2012.04.14'
 require 'ramaze'
-
-Ramaze.setup(:verbose => false) do
-  gem 'shebang', ['~> 0.1']
-end
+require 'shebang'
 
 $:.unshift(__DIR__('../lib')) unless $:.include?(__DIR__('../lib'))
 

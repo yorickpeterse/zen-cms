@@ -1,8 +1,4 @@
-require 'ramaze'
-
-Ramaze.setup(:verbose => false) do
-  gem 'simplecov', ['>= 0.6.4']
-end
+require 'simplecov'
 
 SimpleCov.configure do
   root         __DIR__('../../../')

@@ -1,15 +1,10 @@
 require 'json'
-
-gem     'ramaze', '~> 2012.04.14'
 require 'ramaze'
-
-Ramaze.setup(:verbose => false) do
-  gem 'sequel'      , ['~> 3.35.0']
-  gem 'bcrypt-ruby' , ['~> 3.0.1'], :lib => 'bcrypt'
-  gem 'loofah'      , ['~> 1.2.1']
-  gem 'ramaze-asset', ['~> 0.2.3'], :lib => 'ramaze/asset'
-  gem 'diff-lcs'    , ['~> 1.1.3']
-end
+require 'sequel'
+require 'bcrypt'
+require 'loofah'
+require 'ramaze/asset'
+require 'diff-lcs'
 
 $:.unshift(__DIR__) unless $:.include?(__DIR__)
 
