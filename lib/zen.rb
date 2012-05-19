@@ -1,5 +1,7 @@
-require 'ramaze'
 require 'json'
+
+gem     'ramaze', '~> 2012.04.14'
+require 'ramaze'
 
 Ramaze.setup(:verbose => false) do
   gem 'sequel'      , ['~> 3.35.0']
