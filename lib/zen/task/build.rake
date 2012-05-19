@@ -1,12 +1,4 @@
 namespace :build do
-  desc 'Build the YARD docs'
-  task :doc => ['clean:yard'] do
-    root = File.expand_path('../../../../', __FILE__)
-    Dir.chdir(root)
-
-    sh('yard doc')
-  end
-
   desc 'Build a list of changes'
   task :changes, [:tag] do |t, args|
     args.with_defaults(:tag => `git tag`.split(/\n/)[-1])
