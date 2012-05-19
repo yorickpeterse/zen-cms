@@ -9,7 +9,7 @@ spec/database.db
 
 # Ignore general files and directories
 doc
-pkg/*.gem
+pkg/
 
 # Keep the .gitkeep files.
 !.gitkeep
