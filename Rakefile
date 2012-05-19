@@ -1,7 +1,7 @@
 require 'rubygems/package_task'
 
 task_path = File.expand_path('../lib/zen/task', __FILE__)
-tasks     = ['build', 'clean', 'proto', 'test', 'spelling']
+tasks     = ['build', 'proto', 'test', 'spelling']
 GEMSPEC   = Gem::Specification.load('zen.gemspec')
 
 tasks.each do |task|
