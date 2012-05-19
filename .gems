@@ -6,6 +6,7 @@ loofah
 shebang
 ramaze-asset
 rake
+diff-lcs
 
 # Development.
 redcarpet
