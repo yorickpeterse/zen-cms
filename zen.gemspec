@@ -56,9 +56,11 @@ For more information see the documentation: http://zen-cms.com/documentation
   s.add_development_dependency('bacon',      ['>= 1.1.0'])
   s.add_development_dependency('yard',       ['>= 0.8.1'])
   s.add_development_dependency('capybara',   ['>= 1.1.1'])
-  s.add_development_dependency('sqlite3',    ['>= 1.3.4'])
   s.add_development_dependency('defensio',   ['>= 0.9.1'])
   s.add_development_dependency('simplecov',  ['>= 0.6.4'])
   s.add_development_dependency('webmock',    ['>= 1.8.7'])
   s.add_development_dependency('ffi-aspell', ['>= 0.0.2'])
+  s.add_development_dependency('sqlite3',    ['>= 1.3.4'])
+  s.add_development_dependency('pg',         ['>= 0.13.2'])
+  s.add_development_dependency('mysql2',     ['>= 0.3.11'])
 end
