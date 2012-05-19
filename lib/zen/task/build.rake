@@ -10,7 +10,7 @@ namespace :build do
   desc 'Builds a new Gem'
   task :gem do
     gemspec = Gem::Specification.load(
-      File.expand_path('../zen.gemspec', __FILE__)
+      File.expand_path('../../../../zen.gemspec', __FILE__)
     )
 
     root = File.expand_path('../../../../', __FILE__)
