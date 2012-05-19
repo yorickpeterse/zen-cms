@@ -64,7 +64,7 @@ module Ramaze
       # category group ID.
       #
       # @since  0.2.8
-      # @param  [Fixnum[ category_id The ID of the category, this one will be
+      # @param  [Fixnum] category_id The ID of the category, this one will be
       #  excluded from the hash.
       # @param  [Fixnum] category_group_id The ID of a category group for which
       #  to retrieve all the possible parent items.

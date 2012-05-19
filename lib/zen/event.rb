@@ -66,7 +66,7 @@ module Zen
       #
       # @since  0.3
       # @param  [#to_sym] event The name of the event to invoke.
-      # @param  [Array] *args An array of arguments to pass to each event.
+      # @param  [Array] args An array of arguments to pass to each event.
       #
       def call(event, *args)
         event = event.to_sym
@@ -105,7 +105,7 @@ module Zen
       #  Zen::Event.delete(:before_new_user, :after_new_user)
       #
       # @since  0.3
-      # @param  [Array] *names The names of the events to remove. Each name
+      # @param  [Array] names The names of the events to remove. Each name
       #  should be a symbol or something that responds to #to_sym().
       #
       def delete(*names)

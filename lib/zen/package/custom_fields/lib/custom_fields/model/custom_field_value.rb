@@ -21,7 +21,7 @@ module CustomFields
       # Sets the value and serializes it based on the field type.
       #
       # @since  0.2.8
-      # @param  [Mixed] value The value to store.
+      # @param  [Mixed] val The value to store.
       #
       def value=(val)
         val  = Zen::Security.sanitize(val)

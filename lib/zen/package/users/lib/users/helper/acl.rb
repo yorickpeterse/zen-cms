@@ -37,7 +37,7 @@ module Ramaze
       #  end
       #
       # @since  0.1
-      # @param  [Array] *required An array of permissions that are required.
+      # @param  [Array] required An array of permissions that are required.
       # @return [TrueClass|FalseClass]
       #
       def user_authorized?(*required)
@@ -63,7 +63,7 @@ module Ramaze
       #  authorize_user!(:edit_user)
       #
       # @since  0.2.8
-      # @param  [Array] *args An array of permissions that are required.
+      # @param  [Array] args An array of permissions that are required.
       #
       def authorize_user!(*args)
         if !user_authorized?(*args)

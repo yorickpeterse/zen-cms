@@ -197,7 +197,7 @@ module CustomFields
       ##
       # Show a form that lets the user edit an existing custom field group.
       #
-      # @param  [Fixnum] id The ID of the custom field
+      # @param  [Fixnum] custom_field_group_id The ID of the custom field
       #  group to which all fields belong.
       # @param  [Fixnum] id The ID of the custom field to retrieve so that we
       #  can edit it.

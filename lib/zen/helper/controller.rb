@@ -137,7 +137,7 @@ module Ramaze
       # ``Innate::Request#subset``.
       #
       # @since  2012-02-19
-      # @param  [Array] *keys The POST keys to retrieve.
+      # @param  [Array] keys The POST keys to retrieve.
       # @return [Hash]
       #
       def post_fields(*keys)
@@ -199,7 +199,7 @@ module Ramaze
         #  end
         #
         # @since  0.3
-        # @param  [Array] *actions An array of action names to protect against
+        # @param  [Array] actions An array of action names to protect against
         #  CSRF attacks.
         #
         def csrf_protection(*actions)

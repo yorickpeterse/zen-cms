@@ -158,7 +158,7 @@ module Settings
       # values of these settings will also be removed from the database.
       #
       # @since  0.2.5
-      # @param  [Array] namese An array with setting names to remove.
+      # @param  [Array] names An array with setting names to remove.
       #
       def remove(names)
         if names.class != Array
