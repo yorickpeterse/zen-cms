@@ -1,7 +1,5 @@
 require File.expand_path('../lib/zen/version', __FILE__)
 
-path = File.expand_path('../', __FILE__)
-
 Gem::Specification.new do |s|
   s.name        = 'zen'
   s.version     = Zen::VERSION
@@ -37,7 +35,8 @@ After the database has been migrated you can start your application:
 For more information see the documentation: http://zen-cms.com/documentation
   TXT
 
-  s.files                 = `cd #{path}; git ls-files`.split("\n").sort
+  s.files = File.read(File.expand_path('../MANIFEST', __FILE__)).split("\n")
+
   s.has_rdoc              = 'yard'
   s.executables           = ['zen']
   s.required_ruby_version = '>= 1.9.2'

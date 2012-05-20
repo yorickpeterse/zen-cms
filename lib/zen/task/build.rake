@@ -1,4 +1,13 @@
 namespace :build do
+  desc 'Generates the Manifest'
+  task :manifest do
+    files  = `git ls-files`.split("\n").sort
+    handle = File.open(File.expand_path('../../../../MANIFEST', __FILE__), 'w')
+
+    handle.write(files.join("\n"))
+    handle.close
+  end
+
   desc 'Generates a .gems file for RVM'
   task :gems do
     handle   = File.open(File.expand_path('../../../../.gems', __FILE__), 'w')
