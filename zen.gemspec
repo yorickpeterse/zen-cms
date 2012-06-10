@@ -3,7 +3,7 @@ require File.expand_path('../lib/zen/version', __FILE__)
 Gem::Specification.new do |s|
   s.name        = 'zen'
   s.version     = Zen::VERSION
-  s.date        = '2012-04-16'
+  s.date        = '2012-06-10'
   s.authors     = ['Yorick Peterse']
   s.email       = 'yorickpeterse@gmail.com'
   s.summary     = 'Zen is a modular CMS written using Ramaze.'

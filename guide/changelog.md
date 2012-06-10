@@ -1,6 +1,27 @@
 # @title Changelog
 # Changelog
 
+## 0.4.3 - June 10th, 2012
+
+* Fixed various YARD warnings.
+* Updated the version requirement of Rake.
+* Simplified the loading of Gems.
+* Added pg and mysql2 to the gemspec.
+* Fixed the task for building Gems.
+* Load specific Ramaze versions.
+* Updated various version requirements.
+* Expanded the documentation of `get_entries()`.
+* Changed `@since` date formats to Y-m-d.
+* Fixed a minor formatting issue for `get_entries()`.
+* `:field_values` was renamed to `:custom_field_values`.
+* Small style changes for messages.
+* Removed `Sequel::Model.pk_hash`.
+* Redirect to the dashboard for invalid searches.
+* Re-organized some parts of the developer guide.
+* Replaced Raspell with `FFI::Aspell`.
+* Ability to compare section entry revisions and restore specific revisions.
+* Escape underscores in Markdown text.
+
 ## 0.4.2 - April 16th, 2012
 
 * Bugfix for rendering menu items in the backend. Due to a typo the menu items
