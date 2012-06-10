@@ -6,6 +6,7 @@
 .travis.yml
 .yardopts
 LICENSE
+MANIFEST
 README.md
 Rakefile
 bin/zen
