@@ -1,10 +1,10 @@
 .aspell.en.pws
-.gems
 .gitignore
 .mailmap
-.rvmrc
+.ruby-version
 .travis.yml
 .yardopts
+Gemfile
 LICENSE
 MANIFEST
 README.md
